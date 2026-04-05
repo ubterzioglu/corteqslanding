@@ -3,3 +3,5 @@
 out
 .env*
 npm-debug.log*
+/video*.mp4
+

@@ -1,272 +1,296 @@
-﻿const topCities = ["Berlin", "Londra", "Dubai", "New York", "Paris", "Tokyo"];
+﻿const heroCities = ["Berlin", "Londra", "Dubai", "Paris", "Toronto", "New York"];
 
-const responsibilities = [
+const heroBadges = ["Danismanlar", "Etkinlikler", "Topluluklar", "Isletmeler"];
+
+const videos = [
+  { src: "/media/video1.mp4", label: "Diaspora Pulse", meta: "Global network energy" },
+  { src: "/media/video2.mp4", label: "City Signals", meta: "People, movement, discovery" },
+  { src: "/media/video3.mp4", label: "Next Layer", meta: "Culture, access, connection" },
+];
+
+const teaserCards = [
   {
-    title: "Yerel Ağ Oluşturma",
-    text: "Kullanıcı, danışman ve işletmelerin platforma katılımını sağla.",
+    title: "Danismanlar",
+    text: "Guvendigin uzmanlari sehir sehir kesfet, baglantiyi dogrudan kur.",
   },
   {
-    title: "Topluluk Yönetimi",
-    text: "WhatsApp grupları, etkinlikler ve onboarding süreçlerini yönet.",
+    title: "Kuruluslar",
+    text: "Dernekler, topluluklar ve kurumlar tek cati altinda gorunur olsun.",
   },
   {
-    title: "Platform Aktivasyonu",
-    text: "İlk işlemleri ve platform kullanımını aktif hale getir.",
+    title: "Isletmeler",
+    text: "Diasporaya dokunan isletmeler dogru kitleyle daha hizli bulussun.",
   },
   {
-    title: "Etkinlik Organizasyonu",
-    text: "Yerel buluşmalar ve networking etkinlikleri düzenle.",
+    title: "Etkinlikler",
+    text: "Sehrindeki bulusmalari, networking alanlarini ve yeni firsatlari kacirma.",
   },
   {
-    title: "Strateji ve Raporlama",
-    text: "Yerel içgörüleri ve gelişmeleri merkeze düzenli raporla.",
+    title: "Topluluklar",
+    text: "Ilgi alanina, sehrine ve hayat ritmine gore kendi cevreni kur.",
   },
   {
-    title: "İşbirlikleri Kurma",
-    text: "Yerel iş ortaklıkları ve sponsorluklar geliştir.",
+    title: "Sehir Rehberi",
+    text: "Yeni bir ulkede veya sehirde sifirdan baslamak zorunda kalma.",
   },
 ];
 
-const benefits = [
+const audiences = [
   {
-    title: "Gelir Paylaşımı",
-    text: "Platform aktivitesinden komisyon geliri.",
+    title: "Yeni tasinanlar",
+    text: "Nereden baslayacagini degil, kime baglanacagini bilen bir giris noktasi.",
   },
   {
-    title: "Yerel İş Ortaklıkları",
-    text: "İşletme ve kurumlarla doğrudan bağlantı.",
+    title: "Ogrenciler",
+    text: "Yasadigin sehirde aidiyet, firsat ve dogru insanlarla daha hizli bulus.",
   },
   {
-    title: "Kişisel Marka",
-    text: "Şehrinde tanınırlık ve liderlik pozisyonu.",
+    title: "Genc profesyoneller",
+    text: "Kariyer, sosyal cevre ve yerel kesif ayni akista birlessin.",
   },
   {
-    title: "Global Ağ",
-    text: "Merkez ve diğer elçilerle sürekli destek.",
+    title: "Isletmeler",
+    text: "Topluluga gercekten dokunan gorunurluk ve guven katmani olustur.",
+  },
+  {
+    title: "Dernekler",
+    text: "Etkinliklerini, agini ve etkini daha modern bir dille buyut.",
+  },
+  {
+    title: "Topluluk yoneticileri",
+    text: "Sehrindeki hareketi organize eden merkezlerden biri sen ol.",
   },
 ];
 
-const priorityCities = [
-  { country: "🇩🇪 Almanya", cities: ["Berlin", "Köln", "Frankfurt"] },
-  { country: "🇬🇧 İngiltere", cities: ["Londra"] },
-  { country: "🇺🇸 ABD", cities: ["New York", "Los Angeles", "Washington DC"] },
-  { country: "🇦🇺 Avustralya", cities: ["Melbourne", "Sydney"] },
-  { country: "🇦🇪 BAE", cities: ["Dubai"] },
-  { country: "🇫🇷 Fransa", cities: ["Paris"] },
-  { country: "🇦🇹 Avusturya", cities: ["Viyana", "Salzburg"] },
-  { country: "🇯🇵 Japonya", cities: ["Tokyo"] },
-  { country: "🇰🇿 Kazakistan", cities: ["Almatı"] },
-  { country: "🇧🇷 Güney Amerika", cities: ["São Paulo", "Buenos Aires", "Santiago"] },
+const launchMarkets = [
+  "Almanya",
+  "Ingiltere",
+  "BAE",
+  "Avustralya",
+  "Fransa",
+  "ABD",
+  "Kanada",
+  "Hollanda",
+  "Avusturya",
+  "Isvec",
+];
+
+const roadmap = [
+  {
+    phase: "01",
+    title: "Erken erisim",
+    text: "Ilk topluluk, ilk kullanicilar ve ilk sehir sinyalleri aciliyor.",
+  },
+  {
+    phase: "02",
+    title: "Topluluklar",
+    text: "Insanlari ilgi alani, sehir ve ihtiyac etrafinda bulusturan katman geliyor.",
+  },
+  {
+    phase: "03",
+    title: "Etkinlikler",
+    text: "Sehir bazli etkinlik kesfi ve yerel gorunurluk akisi aktive oluyor.",
+  },
+  {
+    phase: "04",
+    title: "Danisman agi",
+    text: "Uzmanlara erisim ve guven odakli profil yapisi devreye giriyor.",
+  },
+  {
+    phase: "05",
+    title: "Sehir kesfi",
+    text: "Diaspora hayatini kolaylastiran yerel rehberlik katmani buyuyor.",
+  },
 ];
 
 export default function HomePage() {
   return (
-    <main className="page-shell">
-      <div className="ambient ambient-a" />
-      <div className="ambient ambient-b" />
+    <main className="coming-shell">
+      <div className="mesh mesh-a" />
+      <div className="mesh mesh-b" />
+      <div className="grain-layer" />
 
-      <header className="hero section-card">
-        <p className="eyebrow">CorteQS Şehir Elçisi Programı</p>
-        <h1>
-          Şehrindeki Türk Global Ağını
-          <br />
-          <span>Sen Şekillendir</span>
-        </h1>
-        <p className="lead">
-          CorteQS Şehir Elçisi Programı'nı dünyanın önde gelen şehirlerinde başlatıyoruz. Güçlü bir
-          yerel ağın varsa, insanları bir araya getirmeyi seviyorsan ve şehrinde etki ve gelir
-          oluşturmak istiyorsan bu senin fırsatın.
-        </p>
+      <section className="topbar">
+        <div className="brand-mark">
+          <span className="brand-dot" />
+          <strong>CorteQS</strong>
+        </div>
+        <div className="status-pill">Coming Soon</div>
+      </section>
 
-        <div className="cta-row">
-          <a href="#apply" className="btn btn-primary">
-            Şehir Elçisi Başvurusu Yap
-          </a>
-          <a href="#priority-cities" className="btn btn-secondary">
-            Öncelikli Şehirleri Gör
-          </a>
-          <a href="#notify" className="btn btn-secondary">
-            Haberdar Ol
-          </a>
+      <header className="hero-panel">
+        <div className="hero-copy">
+          <p className="hero-kicker">Yeni nesil global Turk diasporasi agi</p>
+          <h1>
+            Dunyayin neresinde olursan ol,
+            <span>kendi agin burada basliyor.</span>
+          </h1>
+          <p className="hero-text">
+            CorteQS; yurtdisinda yasayan Turkleri, danismanlari, kuruluslari, isletmeleri,
+            etkinlikleri ve topluluklari tek bir dijital akista bulusturmak icin geliyor.
+          </p>
+
+          <div className="hero-actions">
+            <a href="#notify" className="button button-primary">
+              Ilk Haberdar Olanlardan Ol
+            </a>
+            <a href="#vision" className="button button-secondary">
+              Vizyonu Kesfet
+            </a>
+          </div>
+
+          <div className="city-ribbon">
+            {heroCities.map((city) => (
+              <span key={city} className="city-chip">
+                {city}
+              </span>
+            ))}
+          </div>
+
+          <div className="hero-notes">
+            {heroBadges.map((badge) => (
+              <span key={badge}>{badge}</span>
+            ))}
+          </div>
         </div>
 
-        <div className="city-cloud">
-          {topCities.map((city) => (
-            <span key={city} className="city-pill">
-              {city}
-            </span>
-          ))}
-        </div>
+        <div className="hero-stage">
+          <div className="hero-video-main frame-card">
+            <video autoPlay muted loop playsInline preload="metadata" src={videos[0].src} />
+            <div className="frame-copy">
+              <span>{videos[0].label}</span>
+              <small>{videos[0].meta}</small>
+            </div>
+          </div>
 
-        <p className="form-note">
-          Öncelikli şehirler belirlendi, ancak tüm şehirlerden başvuru kabul ediyoruz.
-        </p>
+          <div className="hero-video-stack">
+            {videos.slice(1).map((video) => (
+              <div key={video.src} className="frame-card frame-card-small">
+                <video autoPlay muted loop playsInline preload="metadata" src={video.src} />
+                <div className="frame-copy">
+                  <span>{video.label}</span>
+                  <small>{video.meta}</small>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="floating-card floating-card-a">
+            <span>Network Layer</span>
+            <strong>People x Cities x Opportunity</strong>
+          </div>
+          <div className="floating-card floating-card-b">
+            <span>Launch Mode</span>
+            <strong>Early signal is live</strong>
+          </div>
+        </div>
       </header>
 
-      <section className="section-card">
-        <p className="eyebrow">Video içerik yakında eklenecek</p>
-        <h2>Şehrinin Ağ Merkezini Sen Kur</h2>
-        <p className="lead">
-          Bu bir gönüllülük rolü değil. Bu, şehrindeki merkez düğüm olma fırsatın: insanların
-          bağlandığı, işletmelerin büyüdüğü ve fırsatların senden geçtiği bir pozisyon.
-        </p>
-        <p className="lead">
-          Kendi topluluğunu yönet, etkinlikler düzenle ve platform gelirinden pay al.
-        </p>
-      </section>
-
-      <section className="section-card">
-        <p className="eyebrow">Görevler</p>
-        <h2>Şehir Elçisi Olarak Görevlerin</h2>
-        <p className="lead">Şehrindeki CorteQS ekosisteminin lideri sen olacaksın.</p>
-        <div className="section-grid">
-          {responsibilities.map((item) => (
-            <article key={item.title} className="section-card persona">
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-card">
-        <p className="eyebrow">Kazanımlar</p>
-        <h2>Kazanımların ve Avantajların</h2>
-        <div className="section-grid">
-          {benefits.map((item) => (
-            <article key={item.title} className="section-card persona">
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
-        </div>
-        <p className="lead">Kazanç tavanı yok, büyümen gelirini belirler.</p>
-      </section>
-
-      <section id="priority-cities" className="section-card">
-        <p className="eyebrow">Öncelikli Şehirler</p>
-        <h2>Global genişleme şehirleri</h2>
-        <div className="country-grid">
-          {priorityCities.map((group) => (
-            <article key={group.country} className="country-block">
-              <h3>{group.country}</h3>
-              <ul>
-                {group.cities.map((city) => (
-                  <li key={city}>{city}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-        <p className="lead">Dünya genelindeki tüm şehirlerden başvuru kabul ediyoruz.</p>
-      </section>
-
-      <section id="notify" className="section-card notify-section">
-        <div>
-          <p className="eyebrow">Haberdar Ol</p>
-          <h2>Gelişmeleri ilk sen öğren</h2>
-          <p className="lead">
-            Lansman tarihi, şehir duyuruları ve yeni program güncellemeleri için e-postanı bırak.
-          </p>
-        </div>
-        <form className="notify-form" action="#" method="post">
-          <label>
-            E-posta adresin
-            <input type="email" name="notifyEmail" placeholder="ornek@mail.com" required />
-          </label>
-          <button type="submit" className="btn btn-primary">
-            Beni Haberdar Et
-          </button>
-        </form>
-      </section>
-
-      <section id="apply" className="section-card form-section">
-        <div>
-          <p className="eyebrow">Hemen Başvur</p>
-          <h2>Elçilik yolculuğuna ilk adımını at</h2>
+      <section id="vision" className="story-panel">
+        <div className="story-copy">
+          <p className="section-kicker">Ne geliyor?</p>
+          <h2>Bir rehber degil. Bir ag etkisi geliyor.</h2>
           <p>
-            Şehrinde etki oluşturmak, güçlü bağlantılar kurmak ve gelir paylaşımı modelinde yer
-            almak için başvuru formunu doldur.
+            CorteQS tek bir ihtiyaci cozmek icin tasarlanmadi. Yeni bir sehre tasinmaktan dogru
+            uzmani bulmaya, topluluga baglanmaktan yerel etkinlikleri kesfetmeye kadar daginik
+            hayatlari tek bir dijital ritimde toplamak icin geliyor.
+          </p>
+        </div>
+        <div className="story-mini-card">
+          <span>Coming Soon</span>
+          <strong>Belonging, connection, movement.</strong>
+          <p>Yeni nesil diaspora deneyimi daha sicak, daha hizli ve daha gorunur olacak.</p>
+        </div>
+      </section>
+
+      <section className="content-panel">
+        <div className="section-head">
+          <p className="section-kicker">Vitrin</p>
+          <h2>Ilk acilacak katmanlar</h2>
+        </div>
+        <div className="teaser-grid">
+          {teaserCards.map((item) => (
+            <article key={item.title} className="teaser-card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="content-panel">
+        <div className="section-head">
+          <p className="section-kicker">Kimler icin?</p>
+          <h2>Diaspora hayatinin farkli ritimleri icin tek merkez</h2>
+        </div>
+        <div className="audience-grid">
+          {audiences.map((item) => (
+            <article key={item.title} className="audience-card">
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="content-panel markets-panel">
+        <div className="section-head">
+          <p className="section-kicker">Launch Markets</p>
+          <h2>Ilk hareketin gelecegi pazarlar</h2>
+        </div>
+        <div className="market-marquee">
+          <div className="market-track">
+            {[...launchMarkets, ...launchMarkets].map((market, index) => (
+              <span key={`${market}-${index}`} className="market-chip">
+                {market}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="content-panel">
+        <div className="section-head">
+          <p className="section-kicker">Mini roadmap</p>
+          <h2>Yakinda neler aciliyor?</h2>
+        </div>
+        <div className="roadmap-grid">
+          {roadmap.map((item) => (
+            <article key={item.phase} className="roadmap-card">
+              <span>{item.phase}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="notify" className="cta-panel">
+        <div className="cta-copy">
+          <p className="section-kicker">Erken erisim</p>
+          <h2>Listeye katil. Acildiginda ilk sen duy.</h2>
+          <p>
+            Bu ilk dalga merak edenler icin degil; erken gormek, erken baglanmak ve erken konum
+            almak isteyenler icin.
           </p>
         </div>
 
-        <form className="waitlist-form" action="#" method="post">
-          <div className="input-row">
-            <label>
-              Ad Soyad *
-              <input type="text" name="fullName" placeholder="Adınız Soyadınız" required />
-            </label>
-            <label>
-              E-posta *
-              <input type="email" name="email" placeholder="ornek@mail.com" required />
-            </label>
-          </div>
-
-          <div className="input-row">
-            <label>
-              Telefon (WhatsApp) *
-              <input type="tel" name="phone" placeholder="+49..." required />
-            </label>
-            <label>
-              Şehir *
-              <input type="text" name="city" placeholder="Berlin" required />
-            </label>
-          </div>
-
-          <div className="input-row">
-            <label>
-              Ülke *
-              <input type="text" name="country" placeholder="Almanya" required />
-            </label>
-            <label>
-              Doğrudan kaç kişiye ulaşabilirsiniz?
-              <input type="number" name="reachCount" placeholder="Sayı" min="0" />
-            </label>
-          </div>
-
-          <label>
-            Ulaşım açıklaması
-            <textarea
-              name="reachDetails"
-              rows="3"
-              placeholder="Arkadaş çevresi, iş ağı, topluluk bağlantıları..."
-            />
-          </label>
-
-          <label>
-            Son 3 ayda etkinlik düzenlediniz mi?
-            <textarea name="eventsLast3Months" rows="3" placeholder="Evet ise detay verin..." />
-          </label>
-
-          <label>
-            Kişisel olarak tanıdığınız 3-5 danışman veya profesyonel
-            <textarea name="knownProfessionals" rows="3" placeholder="İsim ve uzmanlık alanı..." />
-          </label>
-
-          <label>
-            İlk 7 gününüzde ne yaparsınız?
-            <textarea name="first7DaysPlan" rows="3" placeholder="Aksiyon planını özetleyin..." />
-          </label>
-
-          <div className="input-row">
-            <label>
-              Haftada kaç saat ayırabilirsiniz?
-              <input type="text" name="weeklyHours" placeholder="Ör: 10-15 saat" />
-            </label>
-            <label>
-              Bu rol sizin için neden önemli?
-              <input type="text" name="motivationShort" placeholder="Kısa yanıt" />
-            </label>
-          </div>
-
-          <button type="submit" className="btn btn-primary full">
-            Elçilik Yolculuğuma Başla
+        <form className="notify-form" action="#" method="post">
+          <label htmlFor="notifyEmail">E-posta adresin</label>
+          <input id="notifyEmail" type="email" name="notifyEmail" placeholder="ornek@mail.com" required />
+          <button type="submit" className="button button-primary button-full">
+            Listeye Katil
           </button>
-
-          <p className="form-note">Başvurular Supabase üzerinden güvenli biçimde toplanacak.</p>
+          <a href="/d" className="button button-ghost button-full">
+            Dokumani Incele
+          </a>
         </form>
       </section>
+
+      <footer className="footer-bar">
+        <strong>CorteQS</strong>
+        <p>Global Turk diasporasi icin yeni nesil baglanti, kesif ve topluluk katmani.</p>
+      </footer>
     </main>
   );
 }
-
