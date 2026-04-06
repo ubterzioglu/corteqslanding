@@ -1,0 +1,21 @@
+// Active cities per country
+export const countryCities: Record<string, string[]> = {
+  "Almanya": ["Berlin", "Münih", "Frankfurt", "Hamburg", "Düsseldorf", "Köln"],
+  "İngiltere": ["Londra", "Manchester", "Birmingham", "Edinburgh"],
+  "Hollanda": ["Amsterdam", "Rotterdam", "Den Haag", "Utrecht"],
+  "BAE": ["Dubai", "Abu Dhabi", "Sharjah"],
+  "ABD": ["New York", "Los Angeles", "Chicago", "Houston", "Washington"],
+  "Fransa": ["Paris", "Lyon", "Marsilya", "Strasbourg"],
+  "Avusturya": ["Viyana", "Graz", "Salzburg"],
+  "İsviçre": ["Zürih", "Cenevre", "Basel", "Bern"],
+  "Kanada": ["Toronto", "Vancouver", "Montreal", "Ottawa", "Calgary"],
+  "Avustralya": ["Sydney", "Melbourne", "Brisbane", "Perth"],
+  "Katar": ["Doha"],
+  "İspanya": ["Madrid", "Barcelona", "Valencia", "Sevilla"],
+  "Yunanistan": ["Atina", "Selanik", "Girit"],
+  "İtalya": ["Roma", "Milano", "Napoli", "Floransa", "Torino"],
+  "İsveç": ["Stockholm", "Göteborg", "Malmö"],
+  "Belçika": ["Brüksel", "Antwerp", "Gent"],
+  "Danimarka": ["Kopenhag", "Aarhus"],
+  "Portekiz": ["Lisbon", "Porto"],
+};
