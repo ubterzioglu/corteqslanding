@@ -10,411 +10,88 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.4"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
-      city_ambassador_applications: {
+      submissions: {
         Row: {
+          business: string | null
+          category: string | null
           city: string
+          consent: boolean
+          contest_interest: boolean | null
           country: string
           created_at: string
+          description: string | null
           email: string
-          first_week_plan: string | null
-          full_name: string
+          facebook: string | null
+          field: string
+          form_type: string
+          fullname: string
           id: string
-          known_professionals: string | null
-          motivation: string | null
-          organized_events: string | null
+          instagram: string | null
+          linkedin: string | null
           phone: string
-          reach_count: number | null
-          reach_description: string | null
-          status: string
-          updated_at: string
-          user_id: string
-          weekly_hours: string | null
+          tiktok: string | null
+          twitter: string | null
+          website: string | null
         }
         Insert: {
+          business?: string | null
+          category?: string | null
           city: string
+          consent?: boolean
+          contest_interest?: boolean | null
           country: string
           created_at?: string
+          description?: string | null
           email: string
-          first_week_plan?: string | null
-          full_name: string
+          facebook?: string | null
+          field: string
+          form_type?: string
+          fullname: string
           id?: string
-          known_professionals?: string | null
-          motivation?: string | null
-          organized_events?: string | null
+          instagram?: string | null
+          linkedin?: string | null
           phone: string
-          reach_count?: number | null
-          reach_description?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-          weekly_hours?: string | null
+          tiktok?: string | null
+          twitter?: string | null
+          website?: string | null
         }
         Update: {
+          business?: string | null
+          category?: string | null
           city?: string
+          consent?: boolean
+          contest_interest?: boolean | null
           country?: string
           created_at?: string
+          description?: string | null
           email?: string
-          first_week_plan?: string | null
-          full_name?: string
+          facebook?: string | null
+          field?: string
+          form_type?: string
+          fullname?: string
           id?: string
-          known_professionals?: string | null
-          motivation?: string | null
-          organized_events?: string | null
+          instagram?: string | null
+          linkedin?: string | null
           phone?: string
-          reach_count?: number | null
-          reach_description?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-          weekly_hours?: string | null
+          tiktok?: string | null
+          twitter?: string | null
+          website?: string | null
         }
         Relationships: []
-      }
-      consultant_categories: {
-        Row: {
-          category: string
-          created_at: string
-          id: string
-          user_id: string
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          id?: string
-          user_id: string
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      notifications: {
-        Row: {
-          created_at: string
-          id: string
-          is_read: boolean | null
-          message: string
-          related_id: string | null
-          title: string
-          type: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          is_read?: boolean | null
-          message: string
-          related_id?: string | null
-          title: string
-          type: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          is_read?: boolean | null
-          message?: string
-          related_id?: string | null
-          title?: string
-          type?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          account_type: string | null
-          avatar_url: string | null
-          created_at: string
-          full_name: string | null
-          id: string
-          onboarding_completed: boolean
-          phone: string | null
-          updated_at: string
-        }
-        Insert: {
-          account_type?: string | null
-          avatar_url?: string | null
-          created_at?: string
-          full_name?: string | null
-          id: string
-          onboarding_completed?: boolean
-          phone?: string | null
-          updated_at?: string
-        }
-        Update: {
-          account_type?: string | null
-          avatar_url?: string | null
-          created_at?: string
-          full_name?: string | null
-          id?: string
-          onboarding_completed?: boolean
-          phone?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      service_proposals: {
-        Row: {
-          consultant_id: string
-          created_at: string
-          estimated_duration: string | null
-          id: string
-          message: string
-          payment_terms: string | null
-          price: number | null
-          request_id: string
-          scope: string | null
-          status: string | null
-        }
-        Insert: {
-          consultant_id: string
-          created_at?: string
-          estimated_duration?: string | null
-          id?: string
-          message: string
-          payment_terms?: string | null
-          price?: number | null
-          request_id: string
-          scope?: string | null
-          status?: string | null
-        }
-        Update: {
-          consultant_id?: string
-          created_at?: string
-          estimated_duration?: string | null
-          id?: string
-          message?: string
-          payment_terms?: string | null
-          price?: number | null
-          request_id?: string
-          scope?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "service_proposals_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "service_requests"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      service_requests: {
-        Row: {
-          attachment_urls: string[] | null
-          budget_max: number | null
-          budget_min: number | null
-          category: string
-          city: string | null
-          country: string | null
-          created_at: string
-          description: string
-          id: string
-          preferred_time: string | null
-          status: string | null
-          subcategory: string | null
-          title: string
-          updated_at: string
-          urgency: string | null
-          user_id: string
-        }
-        Insert: {
-          attachment_urls?: string[] | null
-          budget_max?: number | null
-          budget_min?: number | null
-          category: string
-          city?: string | null
-          country?: string | null
-          created_at?: string
-          description: string
-          id?: string
-          preferred_time?: string | null
-          status?: string | null
-          subcategory?: string | null
-          title: string
-          updated_at?: string
-          urgency?: string | null
-          user_id: string
-        }
-        Update: {
-          attachment_urls?: string[] | null
-          budget_max?: number | null
-          budget_min?: number | null
-          category?: string
-          city?: string | null
-          country?: string | null
-          created_at?: string
-          description?: string
-          id?: string
-          preferred_time?: string | null
-          status?: string | null
-          subcategory?: string | null
-          title?: string
-          updated_at?: string
-          urgency?: string | null
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_roles: {
-        Row: {
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
-      welcome_pack_orders: {
-        Row: {
-          adults: number
-          arrival_date: string
-          children: number
-          city: string
-          country: string
-          created_at: string
-          has_pet: boolean
-          id: string
-          mentor_type: string | null
-          needs_airport_transfer: boolean
-          needs_baby_seat: boolean
-          needs_car_rental: boolean
-          needs_flight_discount: boolean
-          needs_mentor: boolean
-          notes: string | null
-          pet_details: string | null
-          status: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          adults?: number
-          arrival_date: string
-          children?: number
-          city: string
-          country: string
-          created_at?: string
-          has_pet?: boolean
-          id?: string
-          mentor_type?: string | null
-          needs_airport_transfer?: boolean
-          needs_baby_seat?: boolean
-          needs_car_rental?: boolean
-          needs_flight_discount?: boolean
-          needs_mentor?: boolean
-          notes?: string | null
-          pet_details?: string | null
-          status?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          adults?: number
-          arrival_date?: string
-          children?: number
-          city?: string
-          country?: string
-          created_at?: string
-          has_pet?: boolean
-          id?: string
-          mentor_type?: string | null
-          needs_airport_transfer?: boolean
-          needs_baby_seat?: boolean
-          needs_car_rental?: boolean
-          needs_flight_discount?: boolean
-          needs_mentor?: boolean
-          notes?: string | null
-          pet_details?: string | null
-          status?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      welcome_pack_proposals: {
-        Row: {
-          category: string
-          created_at: string
-          details: string | null
-          id: string
-          message: string
-          order_id: string
-          price: number | null
-          provider_id: string
-          status: string
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          details?: string | null
-          id?: string
-          message: string
-          order_id: string
-          price?: number | null
-          provider_id: string
-          status?: string
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          details?: string | null
-          id?: string
-          message?: string
-          order_id?: string
-          price?: number | null
-          provider_id?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "welcome_pack_proposals_order_id_fkey"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "welcome_pack_orders"
-            referencedColumns: ["id"]
-          },
-        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
-      app_role:
-        | "user"
-        | "consultant"
-        | "association"
-        | "blogger"
-        | "admin"
-        | "business"
-        | "ambassador"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -541,16 +218,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      app_role: [
-        "user",
-        "consultant",
-        "association",
-        "blogger",
-        "admin",
-        "business",
-        "ambassador",
-      ],
-    },
+    Enums: {},
   },
 } as const

@@ -306,9 +306,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -334,16 +332,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -363,11 +354,7 @@
       "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       "bounce": "bounce 1s infinite",
       "accordion-down": "accordion-down 0.2s ease-out",
-      "accordion-up": "accordion-up 0.2s ease-out",
-      "fade-in-up": "fade-in-up 0.6s ease-out forwards",
-      "fade-in": "fade-in 0.4s ease-out forwards",
-      "slide-in-right": "slide-in-right 0.5s ease-out forwards",
-      "pulse-glow": "pulse-glow 2s infinite"
+      "accordion-up": "accordion-up 0.2s ease-out"
     },
     "aria": {
       "busy": "busy=\"true\"",
@@ -767,9 +754,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -795,16 +780,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -1176,9 +1154,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -1204,16 +1180,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -1613,9 +1582,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -1641,16 +1608,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -1974,9 +1934,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -2002,16 +1960,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -2322,9 +2273,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -2350,16 +2299,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -2748,9 +2690,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -2776,16 +2716,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -3149,9 +3082,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -3177,16 +3108,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -3279,7 +3203,8 @@
     },
     "fontFamily": {
       "sans": [
-        "Plus Jakarta Sans",
+        "Inter",
+        "system-ui",
         "sans-serif"
       ],
       "serif": [
@@ -3299,10 +3224,6 @@
         "\"Liberation Mono\"",
         "\"Courier New\"",
         "monospace"
-      ],
-      "body": [
-        "Inter",
-        "sans-serif"
       ]
     },
     "fontSize": {
@@ -3732,9 +3653,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -3760,16 +3679,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -4119,42 +4031,6 @@
         },
         "to": {
           "height": "0"
-        }
-      },
-      "fade-in-up": {
-        "0%": {
-          "opacity": "0",
-          "transform": "translateY(20px)"
-        },
-        "100%": {
-          "opacity": "1",
-          "transform": "translateY(0)"
-        }
-      },
-      "fade-in": {
-        "0%": {
-          "opacity": "0"
-        },
-        "100%": {
-          "opacity": "1"
-        }
-      },
-      "slide-in-right": {
-        "0%": {
-          "opacity": "0",
-          "transform": "translateX(20px)"
-        },
-        "100%": {
-          "opacity": "1",
-          "transform": "translateX(0)"
-        }
-      },
-      "pulse-glow": {
-        "0%, 100%": {
-          "boxShadow": "0 0 0 0 hsl(14 85% 55% / 0.4)"
-        },
-        "50%": {
-          "boxShadow": "0 0 0 12px hsl(14 85% 55% / 0)"
         }
       }
     },
@@ -4777,9 +4653,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -4805,16 +4679,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -5176,9 +5043,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -5204,16 +5069,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -5548,9 +5406,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -5576,16 +5432,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -5896,9 +5745,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -5924,16 +5771,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -6481,9 +6321,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -6509,16 +6347,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -6836,9 +6667,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -6864,16 +6693,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",
@@ -7184,9 +7006,7 @@
       "foreground": "hsl(var(--foreground))",
       "primary": {
         "DEFAULT": "hsl(var(--primary))",
-        "foreground": "hsl(var(--primary-foreground))",
-        "glow": "hsl(var(--primary-glow))",
-        "deep": "hsl(var(--primary-deep))"
+        "foreground": "hsl(var(--primary-foreground))"
       },
       "secondary": {
         "DEFAULT": "hsl(var(--secondary))",
@@ -7212,16 +7032,9 @@
         "DEFAULT": "hsl(var(--card))",
         "foreground": "hsl(var(--card-foreground))"
       },
-      "navy": {
-        "DEFAULT": "hsl(var(--navy))",
-        "light": "hsl(var(--navy-light))"
-      },
-      "success": "hsl(var(--success))",
-      "gold": "hsl(var(--gold))",
-      "turquoise": {
-        "DEFAULT": "hsl(var(--turquoise))",
-        "light": "hsl(var(--turquoise-light))"
-      },
+      "section-warm": "hsl(var(--section-warm))",
+      "glow-teal": "hsl(var(--glow-teal))",
+      "glow-orange": "hsl(var(--glow-orange))",
       "sidebar": {
         "DEFAULT": "hsl(var(--sidebar-background))",
         "foreground": "hsl(var(--sidebar-foreground))",

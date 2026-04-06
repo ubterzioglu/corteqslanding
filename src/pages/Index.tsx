@@ -1,25 +1,21 @@
-import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
-import DiasporaSearchBar from "@/components/DiasporaSearchBar";
-import ConsultantCategories from "@/components/ConsultantCategories";
-import FeaturedConsultants from "@/components/FeaturedConsultants";
-import FeaturedEvents from "@/components/FeaturedEvents";
-import AssociationsSection from "@/components/AssociationsSection";
-import BusinessesSection from "@/components/BusinessesSection";
-import Footer from "@/components/Footer";
+import AboutSection from "@/components/AboutSection";
+import CategoriesSection from "@/components/CategoriesSection";
+import AmbassadorSection from "@/components/AmbassadorSection";
+import BloggerSection from "@/components/BloggerSection";
+import SupportSection from "@/components/SupportSection";
+import FooterSection from "@/components/FooterSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <div className="min-h-screen">
       <HeroSection />
-      <DiasporaSearchBar />
-      <ConsultantCategories />
-      <FeaturedConsultants />
-      <AssociationsSection />
-      <BusinessesSection />
-      <FeaturedEvents />
-      <Footer />
+      <AboutSection />
+      <CategoriesSection />
+      <AmbassadorSection />
+      <BloggerSection />
+      <SupportSection />
+      <FooterSection />
     </div>
   );
 };
