@@ -41,6 +41,20 @@ supabase secrets set MAIL_SEND_CONFIRMATION=true
 supabase functions deploy send-submission-email
 ```
 
+## Docker / Coolify deployment
+
+This repo now includes a production `Dockerfile` for Coolify.
+
+Required runtime environment variables in Coolify:
+
+```env
+VITE_SUPABASE_URL=https://nhvbikijjkymkcldgznv.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
+VITE_SUPABASE_PROJECT_ID=nhvbikijjkymkcldgznv
+```
+
+The container serves the built Vite app with nginx and writes `/env-config.js` on startup so frontend runtime config works without committing `.env`.
+
 ## Notes
 
 - Form submission must succeed even if email delivery fails.
