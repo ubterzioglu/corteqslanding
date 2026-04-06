@@ -1,0 +1,100 @@
+import type { Tables, TablesInsert } from "@/integrations/supabase/types";
+
+export type Submission = Tables<"submissions">;
+export type SubmissionInsert = TablesInsert<"submissions">;
+export type SubmissionStatus = Submission["status"];
+export type SubmissionFormMode = "register" | "support";
+
+export const categoryOptions = [
+  { value: "danisman", label: "Danisman" },
+  { value: "isletme", label: "Isletme / Sirket" },
+  { value: "dernek", label: "Dernek" },
+  { value: "vakif", label: "Vakif" },
+  { value: "radyo-tv", label: "Radyo / TV" },
+  { value: "blogger-vlogger", label: "Blogger / Vlogger" },
+  { value: "sehir-elcisi", label: "Sehir Elcisi" },
+  { value: "bireysel", label: "Bireysel Kullanici" },
+  { value: "support", label: "Destek / Yatirim" },
+] as const;
+
+const categoryLabelMap = new Map(categoryOptions.map((option) => [option.value, option.label]));
+
+const statusLabelMap: Record<SubmissionStatus, string> = {
+  new: "Yeni",
+  contacted: "Iletisime gecildi",
+  archived: "Arsivlendi",
+};
+
+export const submissionStatusOptions: Array<{ value: SubmissionStatus; label: string }> = [
+  { value: "new", label: statusLabelMap.new },
+  { value: "contacted", label: statusLabelMap.contacted },
+  { value: "archived", label: statusLabelMap.archived },
+];
+
+export function getCategoryLabel(category: string | null) {
+  if (!category) return "Belirtilmedi";
+  return categoryLabelMap.get(category) ?? category;
+}
+
+export function getFormTypeLabel(formType: string) {
+  return formType === "support" ? "Destek" : "Kayit";
+}
+
+export function getStatusLabel(status: SubmissionStatus) {
+  return statusLabelMap[status] ?? status;
+}
+
+export function buildSubmissionSearchText(submission: Submission) {
+  return [
+    submission.form_type,
+    submission.category,
+    submission.status,
+    submission.fullname,
+    submission.country,
+    submission.city,
+    submission.business,
+    submission.field,
+    submission.email,
+    submission.phone,
+    submission.description,
+    submission.notes,
+    submission.linkedin,
+    submission.instagram,
+    submission.tiktok,
+    submission.facebook,
+    submission.twitter,
+    submission.website,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+export function toSubmissionInsert(
+  values: Record<string, FormDataEntryValue>,
+  mode: SubmissionFormMode,
+): SubmissionInsert {
+  const isSupport = mode === "support";
+
+  return {
+    form_type: isSupport ? "support" : "register",
+    category: isSupport ? "support" : String(values.category ?? ""),
+    fullname: String(values.fullname ?? ""),
+    country: String(values.country ?? ""),
+    city: String(values.city ?? ""),
+    business: String(values.business ?? "") || null,
+    field: String(values.field ?? ""),
+    email: String(values.email ?? ""),
+    phone: String(values.phone ?? ""),
+    description: String(values.description ?? "") || null,
+    contest_interest: values.contest_interest === "yes",
+    linkedin: String(values.linkedin ?? "") || null,
+    instagram: String(values.instagram ?? "") || null,
+    tiktok: String(values.tiktok ?? "") || null,
+    facebook: String(values.facebook ?? "") || null,
+    twitter: String(values.twitter ?? "") || null,
+    website: String(values.website ?? "") || null,
+    consent: true,
+    status: "new",
+  };
+}

@@ -1,91 +1,80 @@
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+
+import heroNetworkLight from "@/assets/hero-network-light.jpg";
+import corteqsLogo from "@/assets/corteqs-logo-globe.png";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import heroNetworkLight from "@/assets/hero-network-light.jpg";
-import corteqsLogo from "@/assets/corteqs-logo-globe.png";
-
-const categories = [
-  { value: "danisman", label: "Danışman" },
-  { value: "isletme", label: "İşletme / Şirket" },
-  { value: "dernek", label: "Dernek" },
-  { value: "vakif", label: "Vakıf" },
-  { value: "radyo-tv", label: "Radyo / TV" },
-  { value: "blogger-vlogger", label: "Blogger / Vlogger" },
-  { value: "sehir-elcisi", label: "Şehir Elçisi" },
-  { value: "bireysel", label: "Bireysel Kullanıcı" },
-];
-
-type FormMode = "register" | "support";
+import { notifySubmission } from "@/lib/mail";
+import { categoryOptions, toSubmissionInsert, type SubmissionFormMode } from "@/lib/submissions";
 
 interface RegisterInterestFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultCategory?: string;
-  mode?: FormMode;
+  mode?: SubmissionFormMode;
 }
 
-const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "register" }: RegisterInterestFormProps) => {
+const RegisterInterestForm = ({
+  open,
+  onOpenChange,
+  defaultCategory,
+  mode = "register",
+}: RegisterInterestFormProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [selectedCat, setSelectedCat] = useState(defaultCategory || "");
+  const [selectedCategory, setSelectedCategory] = useState(defaultCategory || "");
   const [consent, setConsent] = useState(false);
 
   useEffect(() => {
     if (open && defaultCategory) {
-      setSelectedCat(defaultCategory);
+      setSelectedCategory(defaultCategory);
     }
-  }, [open, defaultCategory]);
+  }, [defaultCategory, open]);
 
   const isSupport = mode === "support";
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setLoading(true);
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+
+    const formData = new FormData(event.currentTarget);
+    const values = Object.fromEntries(formData.entries());
+    const payload = toSubmissionInsert(values, mode);
+    const notificationPayload = {
+      ...payload,
+      created_at: new Date().toISOString(),
+    };
 
     try {
-      const { error } = await supabase.from("submissions").insert({
-        form_type: isSupport ? "support" : "register",
-        category: isSupport ? "support" : (data.category as string),
-        fullname: data.fullname as string,
-        country: data.country as string,
-        city: data.city as string,
-        business: (data.business as string) || null,
-        field: data.field as string,
-        email: data.email as string,
-        phone: data.phone as string,
-        description: (data.description as string) || null,
-        contest_interest: data.contest_interest === "yes",
-        linkedin: (data.linkedin as string) || null,
-        instagram: (data.instagram as string) || null,
-        tiktok: (data.tiktok as string) || null,
-        facebook: (data.facebook as string) || null,
-        twitter: (data.twitter as string) || null,
-        website: (data.website as string) || null,
-        consent: true,
-      });
+      const { error } = await supabase.from("submissions").insert(payload);
 
       if (error) throw error;
 
+      try {
+        await notifySubmission(notificationPayload);
+      } catch (notificationError) {
+        console.error("Mail notification error:", notificationError);
+      }
+
       toast({
-        title: "Kaydınız Alındı! ✅",
-        description: "Teşekkürler! Platform açıldığında sizinle iletişime geçeceğiz.",
+        title: "Kaydiniz alindi",
+        description: "Tesekkurler. Platform acildiginda sizinle iletisime gececegiz.",
       });
 
       onOpenChange(false);
       setConsent(false);
-      setSelectedCat(defaultCategory || "");
-    } catch (err) {
-      console.error("Submission error:", err);
+      setSelectedCategory(defaultCategory || "");
+      event.currentTarget.reset();
+    } catch (submissionError) {
+      console.error("Submission error:", submissionError);
       toast({
-        title: "Bir hata oluştu",
-        description: "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.",
+        title: "Bir hata olustu",
+        description: "Lutfen tekrar deneyin veya info@corteqs.net adresine yazin.",
         variant: "destructive",
       });
     } finally {
@@ -95,59 +84,67 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto p-0 border-none">
-        <div className="relative rounded-t-lg overflow-hidden">
-          <img src={heroNetworkLight} alt="" className="w-full h-40 object-cover" />
+      <DialogContent className="max-h-[90vh] overflow-y-auto border-none p-0 sm:max-w-lg">
+        <div className="relative overflow-hidden rounded-t-lg">
+          <img src={heroNetworkLight} alt="" className="h-40 w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
+            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-10" />
             <DialogHeader>
-              <DialogTitle className="text-foreground text-xl">
-                {isSupport ? "Projeye Destek & Yatırım" : "İlginizi Kaydedin"}
+              <DialogTitle className="text-xl text-foreground">
+                {isSupport ? "Projeye Destek ve Yatirim" : "Ilginizi Kaydedin"}
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 {isSupport
-                  ? "💡 Diaspora Connect projesine destek vermek veya yatırım yapmak için bilgilerinizi bırakın."
-                  : "🚀 Yakında açılıyoruz! İlk erişim için bilgilerinizi bırakın."}
+                  ? "Diaspora Connect projesine destek vermek veya yatirim yapmak icin bilgilerinizi birakin."
+                  : "Yakinda aciliyoruz. Ilk erisim icin bilgilerinizi birakin."}
               </DialogDescription>
             </DialogHeader>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 p-6 pt-2">
-          <div className="flex flex-wrap gap-2 mb-2">
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
-              {isSupport ? "🤝 Stratejik Ortaklık" : "🎯 Yakında: AI Destekli Eşleştirme"}
+          <div className="mb-2 flex flex-wrap gap-2">
+            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+              {isSupport ? "Stratejik ortaklik" : "Yakinda: AI destekli eslestirme"}
             </span>
-            <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold">
-              {isSupport ? "💰 Yatırım Fırsatı" : "🌍 Yakında: 50+ Şehir Ağı"}
+            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
+              {isSupport ? "Yatirim firsati" : "Yakinda: 50+ sehir agi"}
             </span>
           </div>
 
           {!isSupport && (
             <div>
-              <Label htmlFor="category">Kategori / İlgi Alanı</Label>
+              <Label htmlFor="category">Kategori / Ilgi Alani</Label>
               <select
                 id="category"
                 name="category"
-                value={selectedCat}
-                onChange={(e) => setSelectedCat(e.target.value)}
+                value={selectedCategory}
+                onChange={(event) => setSelectedCategory(event.target.value)}
                 required
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
-                <option value="" disabled>Seçiniz...</option>
-                {categories.map((cat) => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
+                <option value="" disabled>
+                  Seciniz...
+                </option>
+                {categoryOptions
+                  .filter((option) => option.value !== "support")
+                  .map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
               </select>
 
-              {selectedCat === "blogger-vlogger" && (
-                <div className="mt-3 p-3 rounded-lg bg-accent/10 border border-accent/20">
-                  <p className="text-sm font-semibold text-foreground mb-1">🏆 Ödüllü Blog Yazısı Yarışmamız Başlıyor!</p>
-                  <p className="text-xs text-muted-foreground mb-2">Diaspora deneyiminizi anlatan en iyi blog yazısını yazın, ödülleri kazanın.</p>
-                  <label className="flex items-center gap-2 cursor-pointer">
+              {selectedCategory === "blogger-vlogger" && (
+                <div className="mt-3 rounded-lg border border-accent/20 bg-accent/10 p-3">
+                  <p className="mb-1 text-sm font-semibold text-foreground">Odullu blog yazisi yarismasi yakinda</p>
+                  <p className="mb-2 text-xs text-muted-foreground">
+                    Diaspora deneyiminizi anlatan en iyi blog yazisini yazin, odulleri kazanin.
+                  </p>
+                  <label className="flex cursor-pointer items-center gap-2">
                     <input type="checkbox" name="contest_interest" value="yes" className="rounded border-input" />
-                    <span className="text-sm text-foreground">Yarışma ile ilgili bilgi istiyorum</span>
+                    <span className="text-sm text-foreground">Yarisma ile ilgili bilgi istiyorum</span>
                   </label>
                 </div>
               )}
@@ -156,28 +153,28 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
 
           <div>
             <Label htmlFor="fullname">Ad Soyad</Label>
-            <Input id="fullname" name="fullname" placeholder="Adınız Soyadınız" required />
+            <Input id="fullname" name="fullname" placeholder="Adiniz Soyadiniz" required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="country">Ülke</Label>
+              <Label htmlFor="country">Ulke</Label>
               <Input id="country" name="country" placeholder="Almanya" required />
             </div>
             <div>
-              <Label htmlFor="city">Şehir</Label>
+              <Label htmlFor="city">Sehir</Label>
               <Input id="city" name="city" placeholder="Berlin" required />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="business">İşletme / Kuruluş (opsiyonel)</Label>
-            <Input id="business" name="business" placeholder="Şirket veya kuruluş adı" />
+            <Label htmlFor="business">Isletme / Kurulus (opsiyonel)</Label>
+            <Input id="business" name="business" placeholder="Sirket veya kurulus adi" />
           </div>
 
           <div>
-            <Label htmlFor="field">İştigal / İlgi Sahası</Label>
-            <Input id="field" name="field" placeholder="Faaliyet veya ilgi alanınız" required />
+            <Label htmlFor="field">Istigal / Ilgi Sahasi</Label>
+            <Input id="field" name="field" placeholder="Faaliyet veya ilgi alaniniz" required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -191,32 +188,44 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
             </div>
           </div>
 
-          {selectedCat === "sehir-elcisi" && !isSupport && (
-            <div className="space-y-3 p-4 rounded-xl bg-primary/5 border border-primary/15">
-              <p className="text-sm font-semibold text-foreground">📱 Sosyal Medya Hesaplarınız</p>
+          {selectedCategory === "sehir-elcisi" && !isSupport && (
+            <div className="space-y-3 rounded-xl border border-primary/15 bg-primary/5 p-4">
+              <p className="text-sm font-semibold text-foreground">Sosyal medya hesaplariniz</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="linkedin" className="text-xs">LinkedIn</Label>
+                  <Label htmlFor="linkedin" className="text-xs">
+                    LinkedIn
+                  </Label>
                   <Input id="linkedin" name="linkedin" placeholder="linkedin.com/in/..." />
                 </div>
                 <div>
-                  <Label htmlFor="instagram" className="text-xs">Instagram</Label>
+                  <Label htmlFor="instagram" className="text-xs">
+                    Instagram
+                  </Label>
                   <Input id="instagram" name="instagram" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="tiktok" className="text-xs">TikTok</Label>
+                  <Label htmlFor="tiktok" className="text-xs">
+                    TikTok
+                  </Label>
                   <Input id="tiktok" name="tiktok" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="facebook" className="text-xs">Facebook</Label>
+                  <Label htmlFor="facebook" className="text-xs">
+                    Facebook
+                  </Label>
                   <Input id="facebook" name="facebook" placeholder="facebook.com/..." />
                 </div>
                 <div>
-                  <Label htmlFor="twitter" className="text-xs">X (Twitter)</Label>
+                  <Label htmlFor="twitter" className="text-xs">
+                    X (Twitter)
+                  </Label>
                   <Input id="twitter" name="twitter" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="website" className="text-xs">Web Sitesi</Label>
+                  <Label htmlFor="website" className="text-xs">
+                    Web sitesi
+                  </Label>
                   <Input id="website" name="website" type="url" placeholder="https://..." />
                 </div>
               </div>
@@ -225,26 +234,26 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
 
           {isSupport && (
             <div>
-              <Label htmlFor="description">Açıklama</Label>
+              <Label htmlFor="description">Aciklama</Label>
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Projeye verebileceğiniz teknik, organizasyonel ve yatırım gibi destekleri buraya yazın. Sizinle bağlantıya geçelim."
+                placeholder="Projeye verebileceginiz teknik, organizasyonel veya yatirim destegini kisaca yazin."
                 rows={4}
                 className="resize-none"
               />
             </div>
           )}
 
-          <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-primary/5 border border-primary/15">
-            <span className="text-lg">✉️</span>
-            <a href="mailto:info@corteqs.net" className="text-primary font-semibold hover:underline">
+          <div className="flex items-center justify-center gap-2 rounded-lg border border-primary/15 bg-primary/5 p-3">
+            <span className="text-lg">@</span>
+            <a href="mailto:info@corteqs.net" className="font-semibold text-primary hover:underline">
               info@corteqs.net
             </a>
           </div>
 
-          <div className="p-3 rounded-lg bg-accent/5 border border-accent/15 text-sm text-muted-foreground">
-            ⏳ <strong className="text-foreground">Yakında!</strong> Platform açılır açılmaz size ilk haber vereceğiz. Erken kayıt avantajlarından yararlanın.
+          <div className="rounded-lg border border-accent/15 bg-accent/5 p-3 text-sm text-muted-foreground">
+            <strong className="text-foreground">Yakinda:</strong> Platform acilir acilmaz size haber verecegiz.
           </div>
 
           <div className="flex items-start gap-2">
@@ -254,17 +263,18 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
               onCheckedChange={(checked) => setConsent(checked === true)}
               className="mt-0.5"
             />
-            <label htmlFor="consent" className="text-xs text-muted-foreground cursor-pointer leading-relaxed">
-              Kişisel bilgilerimi, CorteQS tarafından tarafıma ulaşılması amacıyla paylaşıyorum. Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
+            <label htmlFor="consent" className="cursor-pointer text-xs leading-relaxed text-muted-foreground">
+              Kisisel bilgilerimi, CorteQS tarafindan tarafima ulasilmasi amaciyla paylasiyorum.
+              Bilgilerim ucuncu sahislarla paylasilmayacaktir.
             </label>
           </div>
 
           <button
             type="submit"
             disabled={loading || !consent}
-            className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Gönderiliyor..." : (isSupport ? "Destek Başvurusu Gönder →" : "Kayıt Bırak / Takip Et →")}
+            {loading ? "Gonderiliyor..." : isSupport ? "Destek basvurusu gonder" : "Kayit birak / takip et"}
           </button>
         </form>
       </DialogContent>
