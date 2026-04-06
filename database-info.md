@@ -7,19 +7,25 @@ Canli veritabani dogrudan sorgulanmamistir; burada yazanlar repo icindeki gercek
 
 Aktif uygulama baglantisi su Supabase projesine gidiyor:
 
-- Project ID / Ref: `nhvbikijjkymkcldgznv`
-- Supabase URL: `https://nhvbikijjkymkcldgznv.supabase.co`
-- Client-side env source: `.env`
+- Project ID / Ref: `injprdrsklkxgnaiixzh`
+- Supabase URL: `https://injprdrsklkxgnaiixzh.supabase.co`
+- Client-side env source: `.env.local`
 - Supabase local config source: `supabase/config.toml`
 - Frontend client file: `src/integrations/supabase/client.ts`
 
 Projede gorulen env degerleri:
 
 ```env
-VITE_SUPABASE_PROJECT_ID="nhvbikijjkymkcldgznv"
-VITE_SUPABASE_URL="https://nhvbikijjkymkcldgznv.supabase.co"
-VITE_SUPABASE_PUBLISHABLE_KEY="..."
+VITE_SUPABASE_PROJECT_ID="injprdrsklkxgnaiixzh"
+VITE_SUPABASE_URL="https://injprdrsklkxgnaiixzh.supabase.co"
+VITE_SUPABASE_PUBLISHABLE_KEY="new anon key"
+SUPABASE_SERVICE_ROLE_KEY="server-only secret"
 ```
+
+Not:
+
+- `SUPABASE_SERVICE_ROLE_KEY` frontend tarafinda kullanilmaz
+- `src/integrations/supabase/client.ts` sadece `VITE_SUPABASE_URL` ve `VITE_SUPABASE_PUBLISHABLE_KEY` okur
 
 ## Schema Ozeti
 
@@ -240,7 +246,7 @@ values ('YOUR_AUTH_USER_ID');
 
 Su anda uygulama tek bir Supabase projesi kullanıyor:
 
-- `nhvbikijjkymkcldgznv`
+- `injprdrsklkxgnaiixzh`
 
 Repoda tanimli public database yuzeyi su:
 

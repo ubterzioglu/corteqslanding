@@ -13,7 +13,7 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 ## Local setup
 
 1. Install dependencies with `npm install`.
-2. Provide the Supabase client env vars in `.env`.
+2. Provide the Supabase client env vars in `.env.local`.
 3. Apply Supabase migrations.
 4. Create at least one admin auth user and insert its UUID into `public.admin_users`.
 5. Deploy the Edge Function and set its secrets.
@@ -21,9 +21,18 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 ## Required app env
 
 ```env
-VITE_SUPABASE_URL=https://nhvbikijjkymkcldgznv.supabase.co
+VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
+VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
 ```
+
+## Server-only secret
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only. Do not expose it to frontend code or rename it with a `VITE_` prefix.
 
 ## Required function secrets
 
@@ -48,9 +57,9 @@ This repo now includes a production `Dockerfile` for Coolify.
 Required runtime environment variables in Coolify:
 
 ```env
-VITE_SUPABASE_URL=https://nhvbikijjkymkcldgznv.supabase.co
+VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
-VITE_SUPABASE_PROJECT_ID=nhvbikijjkymkcldgznv
+VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
 ```
 
 The container serves the built Vite app with nginx and writes `/env-config.js` on startup so frontend runtime config works without committing `.env`.
