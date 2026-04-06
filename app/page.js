@@ -1,6 +1,6 @@
 ﻿const heroCities = ["Berlin", "Londra", "Dubai", "Paris", "Toronto", "New York"];
 
-const heroBadges = ["Danismanlar", "Etkinlikler", "Topluluklar", "Isletmeler"];
+const heroBadges = ["Danışmanlar", "Etkinlikler", "Topluluklar", "İşletmeler"];
 
 const videos = [
   { src: "/media/video1.mp4", label: "Diaspora Pulse", meta: "Global network energy" },
@@ -10,61 +10,61 @@ const videos = [
 
 const teaserCards = [
   {
-    title: "Danismanlar",
-    text: "Guvendigin uzmanlari sehir sehir kesfet, baglantiyi dogrudan kur.",
+    title: "Danışmanlar",
+    text: "Güvendiğin uzmanları şehir şehir keşfet, bağlantıyı doğrudan kur.",
   },
   {
-    title: "Kuruluslar",
-    text: "Dernekler, topluluklar ve kurumlar tek cati altinda gorunur olsun.",
+    title: "Kuruluşlar",
+    text: "Dernekler, topluluklar ve kurumlar tek çatı altında görünür olsun.",
   },
   {
-    title: "Isletmeler",
-    text: "Diasporaya dokunan isletmeler dogru kitleyle daha hizli bulussun.",
+    title: "İşletmeler",
+    text: "Diasporaya dokunan işletmeler doğru kitleyle daha hızlı buluşsun.",
   },
   {
     title: "Etkinlikler",
-    text: "Sehrindeki bulusmalari, networking alanlarini ve yeni firsatlari kacirma.",
+    text: "Şehrindeki buluşmaları, networking alanlarını ve yeni fırsatları kaçırma.",
   },
   {
     title: "Topluluklar",
-    text: "Ilgi alanina, sehrine ve hayat ritmine gore kendi cevreni kur.",
+    text: "İlgi alanına, şehrine ve hayat ritmine göre kendi çevreni kur.",
   },
   {
-    title: "Sehir Rehberi",
-    text: "Yeni bir ulkede veya sehirde sifirdan baslamak zorunda kalma.",
+    title: "Şehir Rehberi",
+    text: "Yeni bir ülkede veya şehirde sıfırdan başlamak zorunda kalma.",
   },
 ];
 
 const audiences = [
   {
-    title: "Yeni tasinanlar",
-    text: "Nereden baslayacagini degil, kime baglanacagini bilen bir giris noktasi.",
+    title: "Yeni taşınanlar",
+    text: "Nereden başlayacağını değil, kime bağlanacağını bilen bir giriş noktası.",
   },
   {
-    title: "Ogrenciler",
-    text: "Yasadigin sehirde aidiyet, firsat ve dogru insanlarla daha hizli bulus.",
+    title: "Öğrenciler",
+    text: "Yaşadığın şehirde aidiyet, fırsat ve doğru insanlarla daha hızlı buluş.",
   },
   {
-    title: "Genc profesyoneller",
-    text: "Kariyer, sosyal cevre ve yerel kesif ayni akista birlessin.",
+    title: "Genç profesyoneller",
+    text: "Kariyer, sosyal çevre ve yerel keşif aynı akışta birleşsin.",
   },
   {
-    title: "Isletmeler",
-    text: "Topluluga gercekten dokunan gorunurluk ve guven katmani olustur.",
+    title: "İşletmeler",
+    text: "Topluluğa gerçekten dokunan görünürlük ve güven katmanı oluştur.",
   },
   {
     title: "Dernekler",
-    text: "Etkinliklerini, agini ve etkini daha modern bir dille buyut.",
+    text: "Etkinliklerini, ağını ve etkini daha modern bir dille büyüt.",
   },
   {
-    title: "Topluluk yoneticileri",
-    text: "Sehrindeki hareketi organize eden merkezlerden biri sen ol.",
+    title: "Topluluk yöneticileri",
+    text: "Şehrindeki hareketi organize eden merkezlerden biri sen ol.",
   },
 ];
 
 const launchMarkets = [
   "Almanya",
-  "Ingiltere",
+  "İngiltere",
   "BAE",
   "Avustralya",
   "Fransa",
@@ -72,34 +72,34 @@ const launchMarkets = [
   "Kanada",
   "Hollanda",
   "Avusturya",
-  "Isvec",
+  "İsveç",
 ];
 
 const roadmap = [
   {
     phase: "01",
-    title: "Erken erisim",
-    text: "Ilk topluluk, ilk kullanicilar ve ilk sehir sinyalleri aciliyor.",
+    title: "Erken erişim",
+    text: "İlk topluluk, ilk kullanıcılar ve ilk şehir sinyalleri açılıyor.",
   },
   {
     phase: "02",
     title: "Topluluklar",
-    text: "Insanlari ilgi alani, sehir ve ihtiyac etrafinda bulusturan katman geliyor.",
+    text: "İnsanları ilgi alanı, şehir ve ihtiyaç etrafında buluşturan katman geliyor.",
   },
   {
     phase: "03",
     title: "Etkinlikler",
-    text: "Sehir bazli etkinlik kesfi ve yerel gorunurluk akisi aktive oluyor.",
+    text: "Şehir bazlı etkinlik keşfi ve yerel görünürlük akışı aktive oluyor.",
   },
   {
     phase: "04",
-    title: "Danisman agi",
-    text: "Uzmanlara erisim ve guven odakli profil yapisi devreye giriyor.",
+    title: "Danışman ağı",
+    text: "Uzmanlara erişim ve güven odaklı profil yapısı devreye giriyor.",
   },
   {
     phase: "05",
-    title: "Sehir kesfi",
-    text: "Diaspora hayatini kolaylastiran yerel rehberlik katmani buyuyor.",
+    title: "Şehir keşfi",
+    text: "Diaspora hayatını kolaylaştıran yerel rehberlik katmanı büyüyor.",
   },
 ];
 
@@ -109,6 +109,38 @@ export default function HomePage() {
       <div className="mesh mesh-a" />
       <div className="mesh mesh-b" />
       <div className="grain-layer" />
+
+      
+      <section className="top-video-banner">
+        <video autoPlay muted loop playsInline preload="metadata" src={videos[0].src} />
+        <div className="banner-overlay">
+          <div className="banner-top-left">
+            CorteQS
+            <br />
+            Global Türk Diasporası Ağı
+          </div>
+          <h2 className="banner-full-line">
+            Dünyanın neresinde olursan ol, kendi ağın burada başlıyor.
+          </h2>
+        </div>
+      </section>
+
+      <section className="top-video-banner">
+        <video autoPlay muted loop playsInline preload="metadata" src={videos[2].src} />
+        <div className="banner-overlay">
+          <h2>{videos[2].label}</h2>
+          <p>{videos[2].meta}</p>
+        </div>
+      </section>
+
+      <section className="top-video-banner">
+        <video autoPlay muted loop playsInline preload="metadata" src={videos[1].src} />
+        <div className="banner-overlay">
+          <h2>{videos[1].label}</h2>
+          <p>{videos[1].meta}</p>
+        </div>
+      </section>
+
 
       <section className="topbar">
         <div className="brand-mark">
@@ -120,22 +152,19 @@ export default function HomePage() {
 
       <header className="hero-panel">
         <div className="hero-copy">
-          <p className="hero-kicker">Yeni nesil global Turk diasporasi agi</p>
+          <p className="hero-kicker">Global Türk Diasporası Ağı</p>
           <h1>
-            Dunyayin neresinde olursan ol,
-            <span>kendi agin burada basliyor.</span>
+            Dünyanın neresinde olursan ol,
+            <span>kendi ağın burada başlıyor.</span>
           </h1>
-          <p className="hero-text">
-            CorteQS; yurtdisinda yasayan Turkleri, danismanlari, kuruluslari, isletmeleri,
-            etkinlikleri ve topluluklari tek bir dijital akista bulusturmak icin geliyor.
-          </p>
+          
 
           <div className="hero-actions">
             <a href="#notify" className="button button-primary">
-              Ilk Haberdar Olanlardan Ol
+              İlk Haberdar Olanlardan Ol
             </a>
             <a href="#vision" className="button button-secondary">
-              Vizyonu Kesfet
+              Vizyonu Keşfet
             </a>
           </div>
 
@@ -189,24 +218,24 @@ export default function HomePage() {
       <section id="vision" className="story-panel">
         <div className="story-copy">
           <p className="section-kicker">Ne geliyor?</p>
-          <h2>Bir rehber degil. Bir ag etkisi geliyor.</h2>
+          <h2>Bir rehber değil. Bir ağ etkisi geliyor.</h2>
           <p>
-            CorteQS tek bir ihtiyaci cozmek icin tasarlanmadi. Yeni bir sehre tasinmaktan dogru
-            uzmani bulmaya, topluluga baglanmaktan yerel etkinlikleri kesfetmeye kadar daginik
-            hayatlari tek bir dijital ritimde toplamak icin geliyor.
+            CorteQS tek bir ihtiyacı çözmek için tasarlanmadı. Yeni bir şehre taşınmaktan doğru
+            uzmanı bulmaya, topluluğa bağlanmaktan yerel etkinlikleri keşfetmeye kadar dağınık
+            hayatları tek bir dijital ritimde toplamak için geliyor.
           </p>
         </div>
         <div className="story-mini-card">
           <span>Coming Soon</span>
           <strong>Belonging, connection, movement.</strong>
-          <p>Yeni nesil diaspora deneyimi daha sicak, daha hizli ve daha gorunur olacak.</p>
+          <p>Yeni nesil diaspora deneyimi daha sıcak, daha hızlı ve daha görünür olacak.</p>
         </div>
       </section>
 
       <section className="content-panel">
         <div className="section-head">
           <p className="section-kicker">Vitrin</p>
-          <h2>Ilk acilacak katmanlar</h2>
+          <h2>İlk açılacak katmanlar</h2>
         </div>
         <div className="teaser-grid">
           {teaserCards.map((item) => (
@@ -220,8 +249,8 @@ export default function HomePage() {
 
       <section className="content-panel">
         <div className="section-head">
-          <p className="section-kicker">Kimler icin?</p>
-          <h2>Diaspora hayatinin farkli ritimleri icin tek merkez</h2>
+          <p className="section-kicker">Kimler için?</p>
+          <h2>Diaspora hayatının farklı ritimleri için tek merkez</h2>
         </div>
         <div className="audience-grid">
           {audiences.map((item) => (
@@ -236,7 +265,7 @@ export default function HomePage() {
       <section className="content-panel markets-panel">
         <div className="section-head">
           <p className="section-kicker">Launch Markets</p>
-          <h2>Ilk hareketin gelecegi pazarlar</h2>
+          <h2>İlk hareketin geleceği pazarlar</h2>
         </div>
         <div className="market-marquee">
           <div className="market-track">
@@ -252,7 +281,7 @@ export default function HomePage() {
       <section className="content-panel">
         <div className="section-head">
           <p className="section-kicker">Mini roadmap</p>
-          <h2>Yakinda neler aciliyor?</h2>
+          <h2>Yakında neler açılıyor?</h2>
         </div>
         <div className="roadmap-grid">
           {roadmap.map((item) => (
@@ -267,11 +296,11 @@ export default function HomePage() {
 
       <section id="notify" className="cta-panel">
         <div className="cta-copy">
-          <p className="section-kicker">Erken erisim</p>
-          <h2>Listeye katil. Acildiginda ilk sen duy.</h2>
+          <p className="section-kicker">Erken erişim</p>
+          <h2>Listeye katıl. Açıldığında ilk sen duy.</h2>
           <p>
-            Bu ilk dalga merak edenler icin degil; erken gormek, erken baglanmak ve erken konum
-            almak isteyenler icin.
+            Bu ilk dalga merak edenler için değil; erken görmek, erken bağlanmak ve erken konum
+            almak isteyenler için.
           </p>
         </div>
 
@@ -279,17 +308,17 @@ export default function HomePage() {
           <label htmlFor="notifyEmail">E-posta adresin</label>
           <input id="notifyEmail" type="email" name="notifyEmail" placeholder="ornek@mail.com" required />
           <button type="submit" className="button button-primary button-full">
-            Listeye Katil
+            Listeye Katıl
           </button>
           <a href="/d" className="button button-ghost button-full">
-            Dokumani Incele
+            Dokümanı İncele
           </a>
         </form>
       </section>
 
       <footer className="footer-bar">
         <strong>CorteQS</strong>
-        <p>Global Turk diasporasi icin yeni nesil baglanti, kesif ve topluluk katmani.</p>
+        <p>Global Türk diasporası için yeni nesil bağlantı, keşif ve topluluk katmanı.</p>
       </footer>
     </main>
   );
