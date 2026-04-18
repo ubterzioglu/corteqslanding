@@ -29,6 +29,9 @@ const AboutSection = () => {
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               CorteQS nedir? Kisa tanim: Dunya genelindeki Turk diasporasini ve diger diaspora topluluklarini birlestiren, is birligi, networking ve buyume firsatlari sunan bir global diaspora network platformudur.
             </p>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+              Neden CorteQS? Diaspora bireyleri ve kuruluslari siklikla yerel aglara erisimde, is birligi firsatlarini bulmada ve topluluk gucunu organize etmede zorlanmaktadir. CorteQS, bu boslugu doldurarak kategorilere ayrik bir yapida danismanlar, isletmeler, dernekler, vakiflar, bloggerlar, sehir elcileri ve bireysel kullanicilari tek bir platformda bulusturur. Bylece ister Berlin'de bir startup kurucu olun, ister Londra'da bir dernek baskani, CorteQS sizin icin dogru baglantilari sunar.
+            </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center p-4 rounded-xl bg-secondary">
