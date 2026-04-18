@@ -1,0 +1,238 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776541637509,
+  "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.3.1",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.3.1",
+        "category": "frontend"
+      },
+      {
+        "name": "@playwright/test",
+        "version": "1.57.0",
+        "category": "testing"
+      },
+      {
+        "name": "vite",
+        "version": "5.4.19",
+        "category": "build"
+      },
+      {
+        "name": "vitest",
+        "version": "3.2.4",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "build:dev": "vite build --mode development",
+      "lint": "eslint .",
+      "preview": "vite preview",
+      "test": "vitest run",
+      "test:watch": "vitest"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 10,
+      "lastAccessed": 1776541637427,
+      "keyFiles": [
+        "env-config.js",
+        "fav.png",
+        "favicon.ico",
+        "favicon.svg",
+        "index.html"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 9,
+      "lastAccessed": 1776541637427,
+      "keyFiles": [
+        "env-config.js",
+        "fav.png",
+        "favicon.ico",
+        "favicon.svg",
+        "logocorteqsbig.png"
+      ]
+    },
+    "referans": {
+      "path": "referans",
+      "purpose": null,
+      "fileCount": 21,
+      "lastAccessed": 1776541637427,
+      "keyFiles": [
+        "bun.lock",
+        "CHANGELOG.md",
+        "components.json",
+        "dragoman1.mp4",
+        "eslint.config.js"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 6,
+      "lastAccessed": 1776541637427,
+      "keyFiles": [
+        "App.css",
+        "App.tsx",
+        "index.css",
+        "main.tsx",
+        "tailwind.config.lov.json"
+      ]
+    },
+    "supabase": {
+      "path": "supabase",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1776541637427,
+      "keyFiles": [
+        "config.toml"
+      ]
+    },
+    "dist\\assets": {
+      "path": "dist\\assets",
+      "purpose": "Static assets",
+      "fileCount": 8,
+      "lastAccessed": 1776541637428,
+      "keyFiles": [
+        "blogger-vlogger-CB3SgA9I.jpg",
+        "city-ambassador-CtGZbnhx.jpg",
+        "corteqs-logo-globe-Cm4fHxvl.png"
+      ]
+    },
+    "src\\assets": {
+      "path": "src\\assets",
+      "purpose": "Static assets",
+      "fileCount": 10,
+      "lastAccessed": 1776541637428,
+      "keyFiles": [
+        "blogger-vlogger.jpg",
+        "categories-bg.jpg",
+        "city-ambassador.jpg"
+      ]
+    },
+    "src\\components": {
+      "path": "src\\components",
+      "purpose": "UI components",
+      "fileCount": 10,
+      "lastAccessed": 1776541637428,
+      "keyFiles": [
+        "AboutSection.tsx",
+        "AmbassadorSection.tsx",
+        "BackerForm.tsx"
+      ]
+    },
+    "src\\lib": {
+      "path": "src\\lib",
+      "purpose": "Library code",
+      "fileCount": 5,
+      "lastAccessed": 1776541637428,
+      "keyFiles": [
+        "admin.ts",
+        "mail.ts",
+        "submissions.test.ts"
+      ]
+    },
+    "src\\pages": {
+      "path": "src\\pages",
+      "purpose": "Page components",
+      "fileCount": 6,
+      "lastAccessed": 1776541637429,
+      "keyFiles": [
+        "AdminPage.tsx",
+        "ExternalRedirectPage.tsx",
+        "Index.tsx"
+      ]
+    },
+    "supabase\\migrations": {
+      "path": "supabase\\migrations",
+      "purpose": "Database migrations",
+      "fileCount": 3,
+      "lastAccessed": 1776541637429,
+      "keyFiles": [
+        "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
+        "20260406193000_admin_and_submission_workflow.sql",
+        "20260418161500_add_backer_fields.sql"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1776541655790,
+      "type": "directory"
+    },
+    {
+      "path": "index.html",
+      "accessCount": 2,
+      "lastAccessed": 1776541680257,
+      "type": "file"
+    },
+    {
+      "path": ".kilo\\seo-changelog.md",
+      "accessCount": 1,
+      "lastAccessed": 1776541655737,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}
