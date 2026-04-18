@@ -33,40 +33,40 @@ type Tier = {
 const tiers: Tier[] = [
   {
     amount: 10,
-    label: "Erken Uye",
+    label: "Erken Üye",
     icon: Sparkles,
     perks: [
-      "Platform acilmadan once erken erisim",
-      "Kurucu guncellemelerine erisim",
-      "Kapali WhatsApp toplulugu",
-      "Profilde \"Erken Uye\" rozeti",
+      "Platform açılmadan önce erken erişim",
+      "Kurucu güncellemelerine erişim",
+      "Kapalı WhatsApp topluluğu",
+      "Profilde \"Erken Üye\" rozeti",
     ],
     accent: "from-accent/20 to-accent/5",
     border: "border-accent/30",
   },
   {
     amount: 100,
-    label: "Cekirdek Uye",
+    label: "Çekirdek Üye",
     icon: Star,
     perks: [
-      "Tum Erken Uye avantajlari",
-      "Ilk etkinliklere oncelikli erisim",
-      "Premium uyelik indirimi",
-      "Profil gorunurluk artirimi",
+      "Tüm Erken Üye avantajları",
+      "İlk etkinliklere öncelikli erişim",
+      "Premium üyelik indirimi",
+      "Profil görünürlük artırımı",
     ],
     accent: "from-primary/25 to-primary/5",
     border: "border-primary/40",
   },
   {
     amount: 1000,
-    label: "Sehir Patronu",
+    label: "Şehir Patronu",
     icon: Award,
     perks: [
-      "Tum Cekirdek Uye avantajlari",
-      "Sehir bazli one cikma",
-      "Erken kullanici lead'lerine erisim",
-      "Etkinlik sponsorlugu onceligi",
-      "Sehir Patronlarina ozel online etkinlik",
+      "Tüm Çekirdek Üye avantajları",
+      "Şehir bazlı öne çıkma",
+      "Erken kullanıcı lead'lerine erişim",
+      "Etkinlik sponsorluğu önceliği",
+      "Şehir Patronlarına özel online etkinlik",
       "Platform reklam kredisi",
     ],
     accent: "from-primary/35 to-accent/10",
@@ -78,11 +78,11 @@ const tiers: Tier[] = [
     label: "Onursal Kurucu",
     icon: Crown,
     perks: [
-      "Tum Sehir Patronu avantajlari",
-      "CorteQS platform, uygulama ve sosyal medyada global gorunurluk",
+      "Tüm Şehir Patronu avantajları",
+      "CorteQS platform, uygulama ve sosyal medyada global görünürlük",
       "Onursal Kurucular panosunda premium yer",
-      "Ozel is birligi firsatlari",
-      "Stratejik 1:1 gorusmeler",
+      "Özel iş birliği fırsatları",
+      "Stratejik 1:1 görüşmeler",
     ],
     accent: "from-yellow-500/25 via-primary/15 to-accent/10",
     border: "border-yellow-500/50",
@@ -111,7 +111,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
     e.preventDefault();
 
     if (!validatePhone(phone)) {
-      setPhoneError("Telefon ulke kodu ile baslamali (orn: +49 170 1234567).");
+      setPhoneError("Telefon ülke kodu ile başlamalı (örn: +49 170 1234567).");
       return;
     }
     setPhoneError("");
@@ -137,8 +137,8 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
       }
 
       toast({
-        title: "Bagis Niyetiniz Alindi!",
-        description: "Tesekkurler! Detayli gorusme icin kisa sure icinde size e-posta gonderecegiz.",
+        title: "Bağış Niyetiniz Alındı!",
+        description: "Teşekkürler! Detaylı görüşme için kısa süre içinde size e-posta göndereceğiz.",
       });
 
       onOpenChange(false);
@@ -148,9 +148,9 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
       setDonorType("individual");
     } catch (err: unknown) {
       console.error("Backer submission error:", err);
-      const message = err instanceof Error ? err.message : "Lutfen tekrar deneyin veya info@corteqs.net adresine yazin.";
+      const message = err instanceof Error ? err.message : "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.";
       toast({
-        title: "Bir hata olustu",
+        title: "Bir hata oluştu",
         description: message,
         variant: "destructive",
       });
@@ -174,10 +174,10 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
             <DialogHeader>
               <DialogTitle className="text-foreground text-2xl">
-                Bagis Kabul Ediyoruz - Onursal Kuruculariniz Arasina Girin
+                Bağış Kabul Ediyoruz - Onursal Kurucularınız Arasına Girin
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
-                Diaspora Connect'in temellerini birlikte atalim. Bagisinizla erken erisim, uyelik avantajlari, platform reklamlari ve onursal kurucular panomuzda yer alma firsati kazinin.
+                Diaspora Connect'in temellerini birlikte atalım. Bağışınızla erken erişim, üyelik avantajları, platform reklamları ve onursal kurucular panomuzda yer alma fırsatı kazanın.
               </DialogDescription>
             </DialogHeader>
           </div>
@@ -185,7 +185,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-6 p-6 pt-4">
           <div>
-            <Label className="text-base font-semibold mb-3 block">Bagis Tutarinizi Secin</Label>
+            <Label className="text-base font-semibold mb-3 block">Bağış Tutarınızı Seçin</Label>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {tiers.map((tier) => {
                 const Icon = tier.icon;
@@ -203,7 +203,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                   >
                     {tier.popular && (
                       <span className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
-                        Populer
+                        Popüler
                       </span>
                     )}
                     {isSelected && (
@@ -229,7 +229,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           </div>
 
           <div>
-            <Label className="text-base font-semibold mb-3 block">Bagisci Tipi</Label>
+            <Label className="text-base font-semibold mb-3 block">Bağışçı Tipi</Label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -240,7 +240,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                     : "border-border text-muted-foreground hover:border-primary/30"
                 }`}
               >
-                Kisisel
+                Kişisel
               </button>
               <button
                 type="button"
@@ -259,23 +259,23 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fullname">Ad Soyad</Label>
-              <Input id="fullname" name="fullname" placeholder="Adiniz Soyadiniz" required />
+              <Input id="fullname" name="fullname" placeholder="Adınız Soyadınız" required />
             </div>
 
             {donorType === "company" && (
               <div>
-                <Label htmlFor="company_name">Firma Adi</Label>
-                <Input id="company_name" name="company_name" placeholder="Sirket veya kurulus adi" required />
+                <Label htmlFor="company_name">Firma Adı</Label>
+                <Input id="company_name" name="company_name" placeholder="Şirket veya kuruluş adı" required />
               </div>
             )}
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label htmlFor="country">Ulke</Label>
+                <Label htmlFor="country">Ülke</Label>
                 <Input id="country" name="country" placeholder="Almanya" required />
               </div>
               <div>
-                <Label htmlFor="city">Sehir</Label>
+                <Label htmlFor="city">Şehir</Label>
                 <Input id="city" name="city" placeholder="Berlin" required />
               </div>
             </div>
@@ -286,7 +286,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                 <Input id="email" name="email" type="email" placeholder="ornek@mail.com" required />
               </div>
               <div>
-                <Label htmlFor="phone">Telefon (ulke kodu ile)</Label>
+                <Label htmlFor="phone">Telefon (ülke kodu ile)</Label>
                 <Input
                   id="phone"
                   name="phone"
@@ -305,18 +305,18 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                 {phoneError ? (
                   <p className="text-xs text-destructive mt-1">{phoneError}</p>
                 ) : (
-                  <p className="text-xs text-muted-foreground mt-1">+ ile baslatin, ulke kodu zorunlu.</p>
+                  <p className="text-xs text-muted-foreground mt-1">+ ile başlatın, ülke kodu zorunlu.</p>
                 )}
               </div>
             </div>
 
             <div>
-              <Label htmlFor="description">Mesajiniz (opsiyonel)</Label>
+              <Label htmlFor="description">Mesajınız (opsiyonel)</Label>
               <Textarea
                 id="description"
                 name="description"
                 rows={3}
-                placeholder="Bagisinizla ilgili belirtmek istedikleriniz, beklentileriniz veya is birligi onerileriniz..."
+                placeholder="Bağışınızla ilgili belirtmek istedikleriniz, beklentileriniz veya iş birliği önerileriniz..."
                 className="resize-none"
               />
             </div>
@@ -324,10 +324,10 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
 
           <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 space-y-2">
             <p className="font-semibold text-foreground flex items-center gap-2">
-              <Mail className="w-4 h-4 text-primary" /> Detayli Bilgilendirme
+              <Mail className="w-4 h-4 text-primary" /> Detaylı Bilgilendirme
             </p>
             <p className="text-sm text-muted-foreground">
-              Backing/Destek karsiligi erken erisim, uyelik paketi avantajlari, platform reklam firsatlari ve <strong className="text-foreground">Onursal Bagiscilar Panomuzda</strong> yer alma detaylari icin e-posta ile size ulasip gorusme planlayacagiz.
+              Backing/Destek karşılığı erken erişim, üyelik paketi avantajları, platform reklam fırsatları ve <strong className="text-foreground">Onursal Bağışçılar Panomuzda</strong> yer alma detayları için e-posta ile size ulaşıp görüşme planlayacağız.
             </p>
             <a href="mailto:info@corteqs.net" className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:underline">
               info@corteqs.net
@@ -337,7 +337,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
             <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
             <span className="text-sm text-foreground leading-relaxed">
-              <strong>Onursal Kurucular WhatsApp grubuna katilmak istiyorum.</strong>{" "}
+              <strong>Onursal Kurucular WhatsApp grubuna katılmak istiyorum.</strong>{" "}
               <span className="text-muted-foreground">Davet linki size iletilecek.</span>
             </span>
           </label>
@@ -350,7 +350,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
               className="mt-0.5"
             />
             <label htmlFor="backer-consent" className="text-xs text-muted-foreground cursor-pointer leading-relaxed">
-              Kisisel bilgilerimi, CorteQS tarafindan bagis surecinin yurutulmesi ve tarafima ulasilmasi amaciyla paylasuyorum. Bilgilerim ucuncu sahislarla paylasilmayacaktir.
+              Kişisel bilgilerimi, CorteQS tarafından bağış sürecinin yürütülmesi ve tarafıma ulaşılması amacıyla paylaşıyorum. Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
             </label>
           </div>
 
@@ -359,7 +359,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             disabled={loading || !consent}
             className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-500 via-primary to-primary text-white font-bold text-base hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
           >
-            {loading ? "Gonderiliyor..." : `${selectedTier.toLocaleString()}$ Bagis Niyetimi Bildir →`}
+            {loading ? "Gönderiliyor..." : `${selectedTier.toLocaleString()}$ Bağış Niyetimi Bildir →`}
           </button>
         </form>
       </DialogContent>

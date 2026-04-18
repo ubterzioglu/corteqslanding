@@ -15,22 +15,28 @@ const AboutSection = () => {
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Hakkımızda</span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6">
-              Diasporanin Gucunu Kesfedin
+              Diasporanın Gücünü Keşfedin
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-              <strong className="text-foreground">CorteQS Diaspora Connect</strong>, dunya genelindeki Turk diaspora topluluklarini bir araya getirerek is, kultur, egitim ve teknoloji alanlarinda guclu baglantilar kurmayi amaclayan benzersiz bir global diaspora platformudur.
+              <strong className="text-foreground">CorteQS Diaspora Connect</strong>, dünya genelindeki Türk diaspora topluluklarını bir araya getirerek iş, kültür, eğitim ve teknoloji alanlarında güçlü bağlantılar kurmayı amaçlayan benzersiz bir global diaspora platformudur.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-              <a href="https://en.wikipedia.org/wiki/Turkish_diaspora" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Dunya genelinde 8.8 milyondan fazla Turk diasporasi</a> 164 ulkede yasamaktadir. CorteQS, bu genis agi danismanlar, isletmeler, dernekler ve icerik ureticileriyle bulusturarak diaspora is birligi ve global networking potansiyelini ortaya cikarir.
+              <a href="https://en.wikipedia.org/wiki/Turkish_diaspora" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Dünya genelinde 8.8 milyondan fazla Türk diasporası</a> 164 ülkede yaşamaktadır. CorteQS, bu geniş ağı danışmanlar, işletmeler, dernekler ve içerik üreticileriyle buluşturarak diaspora iş birliği ve global networking potansiyelini ortaya çıkarır.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-              Her kategoride uzmanlasmis profesyonelleri, girisimcileri, sanatcilari ve icerik ureticilerini bir cati altinda topluyoruz. Platformumuz, diaspora topluluklarinin <a href="https://www.oecd.org/en/topics/sub-issues/migration.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">uluslararasi is birligi ve surdurulebilir buyume</a> hedeflerine katki saglamayi amaclamaktadir.
+              Her kategoride uzmanlaşmış profesyonelleri, girişimcileri, sanatçıları ve içerik üreticilerini bir çatı altında topluyoruz. Platformumuz, diaspora topluluklarının <a href="https://www.oecd.org/en/topics/sub-issues/migration.html" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">uluslararası iş birliği ve sürdürülebilir büyüme</a> hedeflerine katkı sağlamayı amaçlamaktadır.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              CorteQS nedir? Kisa tanim: Dunya genelindeki Turk diasporasini ve diger diaspora topluluklarini birlestiren, is birligi, networking ve buyume firsatlari sunan bir global diaspora network platformudur.
+              CorteQS nedir? Kısa tanım: Dünya genelindeki Türk diasporasını ve diğer diaspora topluluklarını birleştiren, iş birliği, networking ve büyüme fırsatları sunan bir global diaspora network platformudur.
+            </p>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+              Neden CorteQS? Diaspora bireyleri ve kuruluşları sıklıkla yerel ağlara erişimde, iş birliği fırsatlarını bulmada ve topluluk gücünü organize etmede zorlanmaktadır. CorteQS, bu boşluğu doldurarak kategorilere ayrık bir yapıda danışmanlar, işletmeler, dernekler, vakıflar, bloggerlar, şehir elçileri ve bireysel kullanıcıları tek bir platformda buluşturur. Böylece ister Berlin'de bir startup kurucu olun, ister Londra'da bir dernek başkanı, CorteQS sizin için doğru bağlantıları sunar.
+            </p>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-4">
+              CorteQS'in misyonu, diaspora bireylerinin ve kurumların küresel ölçekte görünür, erişilebilir ve güçlü olmasını sağlamaktır. Platform, yalnızca bir rehber veya üye dizini değil; aktif bir iş birliği ve büyüme ekosistemidir. Şehir elçileri aracılığıyla yerel toplulukları güçlendirirken, kategorilere ayrılmış yapısıyla her türlü kullanıcıya özel ve anlamlı bir deneyim sunmayı hedeflemektedir. Diaspora topluluğunun sahip olduğu bilgi birikimi, deneyim ve ağ gücü, doğru bir platform sayesinde katlanarak büyüyebilir.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Neden CorteQS? Diaspora bireyleri ve kuruluslari siklikla yerel aglara erisimde, is birligi firsatlarini bulmada ve topluluk gucunu organize etmede zorlanmaktadir. CorteQS, bu boslugu doldurarak kategorilere ayrik bir yapida danismanlar, isletmeler, dernekler, vakiflar, bloggerlar, sehir elcileri ve bireysel kullanicilari tek bir platformda bulusturur. Bylece ister Berlin'de bir startup kurucu olun, ister Londra'da bir dernek baskani, CorteQS sizin icin dogru baglantilari sunar.
+              CorteQS Diaspora Connect nasıl çalışır? Kullanıcılar, danışman, işletme, dernek, vakıf, blogger/vlogger, şehir elçisi veya bireysel kullanıcı kategorilerinden birine kayıt olur. Platform açıldığında, her kullanıcı kendi kategorisine özel bir profil sayfasına sahip olur; diğer diaspora üyeleriyle bağlantı kurabilir, yerel etkinliklere katılabilir, iş fırsatlarına erişebilir ve içerik paylaşabilir. Şehir elçileri ise bulundukları şehirde bu ağı temsil ederek yerel toplulukla köprü kurar.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {stats.map((stat) => (
@@ -44,7 +50,7 @@ const AboutSection = () => {
           <div className="relative rounded-2xl overflow-hidden shadow-xl">
             <img
               src={diasporaCommunity}
-              alt="Turk diasporasi topluluk bulusmasi ve is birligi etkinligi"
+              alt="Türk diasporası topluluk buluşması ve iş birliği etkinliği"
               className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1024}

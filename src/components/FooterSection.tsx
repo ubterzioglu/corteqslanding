@@ -21,7 +21,7 @@ const FooterSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <p className="text-3xl md:text-4xl font-bold text-background mb-4">
-            Yakinda Aciliyoruz!
+            Yakında Açılıyoruz!
           </p>
           <p className="text-background/60 text-lg max-w-xl mx-auto mb-6">
             Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
@@ -47,7 +47,7 @@ const FooterSection = () => {
               onClick={() => setSupportFormOpen(true)}
               className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-background/10 text-background border border-background/20 font-bold text-lg hover:bg-background/20 transition-all"
             >
-              Teknik, Org, Yatirim Gorusmeleri icin →
+              Teknik, Org, Yatırım Görüşmeleri için →
             </button>
           </div>
 
@@ -59,7 +59,7 @@ const FooterSection = () => {
               className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-[#25D366] text-white font-semibold hover:bg-[#20bd5a] transition-all shadow-lg"
             >
               <MessageCircle className="w-5 h-5" />
-              WhatsApp Topluluguna Katil
+              WhatsApp Topluluğuna Katıl
             </a>
           </div>
 
@@ -86,11 +86,11 @@ const FooterSection = () => {
         </div>
         <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-background/40 text-sm">
-            © {new Date().getFullYear()} CorteQS - bir Qualtron Sinclair ve Akcakanat-Terzioglu Girisimidir. Tum haklari saklidir.
+            © {new Date().getFullYear()} CorteQS - bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
           </div>
           <div className="flex items-center gap-4 text-background/40 text-xs">
-            <a href="mailto:info@corteqs.net" className="hover:text-primary transition-colors">Iletisim</a>
-            <a href="#hakkinda" className="hover:text-primary transition-colors">Hakkimizda</a>
+            <a href="mailto:info@corteqs.net" className="hover:text-primary transition-colors">İletişim</a>
+            <a href="#hakkinda" className="hover:text-primary transition-colors">Hakkımızda</a>
             <a href="#destek" className="hover:text-primary transition-colors">Destek</a>
           </div>
           <div className="flex items-center gap-2">

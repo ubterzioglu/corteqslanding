@@ -216,9 +216,15 @@
   },
   "hotPaths": [
     {
+      "path": "src\\pages\\AdminPage.tsx",
+      "accessCount": 23,
+      "lastAccessed": 1776542671952,
+      "type": "file"
+    },
+    {
       "path": "",
-      "accessCount": 2,
-      "lastAccessed": 1776541655790,
+      "accessCount": 3,
+      "lastAccessed": 1776542109239,
       "type": "directory"
     },
     {
@@ -228,10 +234,70 @@
       "type": "file"
     },
     {
+      "path": "src\\components\\AboutSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776542165219,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\SupportSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776542513279,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\AmbassadorSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776542589392,
+      "type": "file"
+    },
+    {
       "path": ".kilo\\seo-changelog.md",
       "accessCount": 1,
       "lastAccessed": 1776541655737,
       "type": "file"
+    },
+    {
+      "path": "src\\pages\\Index.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776542112037,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\HeroSection.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776542112699,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\CategoriesSection.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776542117200,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\BloggerSection.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776542513684,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\FooterSection.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776542514032,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1776542527689,
+      "type": "directory"
+    },
+    {
+      "path": "src\\components",
+      "accessCount": 1,
+      "lastAccessed": 1776542528650,
+      "type": "directory"
     }
   ],
   "userDirectives": []

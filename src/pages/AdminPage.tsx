@@ -44,7 +44,7 @@ const AdminPage = () => {
 
     if (error) {
       console.error(error);
-      toast({ title: "Veri yuklenemedi", description: error.message, variant: "destructive" });
+      toast({ title: "Veri yüklenemedi", description: error.message, variant: "destructive" });
     } else {
       setSubmissions(data || []);
     }
@@ -80,8 +80,8 @@ const AdminPage = () => {
       setIsAdmin(false);
       setLoading(false);
       toast({
-        title: "Admin erisimi dogrulanamadi",
-        description: "Yetki kontrolu sirasinda bir sorun olustu.",
+        title: "Admin erişimi doğrulanamadı",
+        description: "Yetki kontrolü sırasında bir sorun oluştu.",
         variant: "destructive",
       });
     } finally {
@@ -137,7 +137,7 @@ const AdminPage = () => {
 
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
-      toast({ title: "Giris basarisiz", description: error.message, variant: "destructive" });
+      toast({ title: "Giriş başarısız", description: error.message, variant: "destructive" });
     }
 
     setAuthLoading(false);
@@ -154,17 +154,17 @@ const AdminPage = () => {
   const exportCSV = () => {
     const headers = [
       "Tarih",
-      "Tur",
+      "Tür",
       "Kategori",
       "Durum",
       "Ad Soyad",
-      "Ulke",
-      "Sehir",
-      "Isletme",
-      "Istigal",
+      "Ülke",
+      "Şehir",
+      "İşletme",
+      "İştigal",
       "E-posta",
       "Telefon",
-      "Aciklama",
+      "Açıklama",
       "Notlar",
       "Yarisma",
       "LinkedIn",
@@ -173,10 +173,10 @@ const AdminPage = () => {
       "Facebook",
       "Twitter",
       "Website",
-      "Firma Adi",
-      "Bagis Tutari",
-      "Bagis Para Birimi",
-      "WhatsApp Ilgi",
+      "Firma Adı",
+      "Bağış Tutarı",
+      "Bağış Para Birimi",
+      "WhatsApp İlgi",
     ];
     const rows = filtered.map((submission) => [
       new Date(submission.created_at).toLocaleDateString("tr-TR"),
@@ -192,7 +192,7 @@ const AdminPage = () => {
       submission.phone,
       submission.description || "",
       submission.notes || "",
-      submission.contest_interest ? "Evet" : "Hayir",
+      submission.contest_interest ? "Evet" : "Hayır",
       submission.linkedin || "",
       submission.instagram || "",
       submission.tiktok || "",
@@ -202,7 +202,7 @@ const AdminPage = () => {
       submission.company_name || "",
       submission.donation_amount != null ? String(submission.donation_amount) : "",
       submission.donation_currency || "",
-      submission.whatsapp_interest ? "Evet" : "Hayir",
+      submission.whatsapp_interest ? "Evet" : "Hayır",
     ]);
 
     const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
@@ -234,12 +234,12 @@ const AdminPage = () => {
         .single();
 
       if (error) {
-        toast({ title: "Kayit guncellenemedi", description: error.message, variant: "destructive" });
+        toast({ title: "Kayıt güncellenemedi", description: error.message, variant: "destructive" });
       } else if (data) {
         setSubmissions((current) =>
           current.map((submission) => (submission.id === submissionId ? data : submission)),
         );
-        toast({ title: "Kayit guncellendi" });
+        toast({ title: "Kayıt güncellendi" });
       }
 
       setSavingSubmissionId(null);
@@ -252,21 +252,21 @@ const AdminPage = () => {
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
         <Card className="w-full max-w-sm">
           <CardHeader>
-            <CardTitle>Admin Giris</CardTitle>
-            <CardDescription>Kayitlara erismek icin yetkili hesabinizla giris yapin.</CardDescription>
+            <CardTitle>Admin Giriş</CardTitle>
+            <CardDescription>Kayıtlara erişmek için yetkili hesabınızla giriş yapın.</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <Input type="email" placeholder="E-posta" value={email} onChange={(event) => setEmail(event.target.value)} required />
               <Input
                 type="password"
-                placeholder="Sifre"
+                placeholder="Şifre"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
               />
               <Button type="submit" disabled={authLoading} className="w-full">
-                {authLoading ? "Giris yapiliyor..." : "Giris Yap"}
+                {authLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
               </Button>
             </form>
           </CardContent>
@@ -284,17 +284,17 @@ const AdminPage = () => {
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
         <Card className="w-full max-w-lg">
           <CardHeader>
-            <CardTitle>Bu hesabin admin yetkisi yok</CardTitle>
+            <CardTitle>Bu hesabın admin yetkisi yok</CardTitle>
             <CardDescription>
-              Supabase uzerindeki <code>admin_users</code> tablosuna kullanici kimligi eklenmeden kayitlara erisemezsiniz.
+              Supabase üzerindeki <code>admin_users</code> tablosuna kullanıcı kimliği eklenmeden kayıtlara erişemezsiniz.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-lg border border-border bg-muted/40 p-4 text-sm text-muted-foreground">
-              Giris yapan kullanici: <span className="font-medium text-foreground">{session?.user.email}</span>
+              Giriş yapan kullanıcı: <span className="font-medium text-foreground">{session?.user.email}</span>
             </div>
             <Button variant="outline" onClick={handleLogout}>
-              Cikis Yap
+              Çıkış Yap
             </Button>
           </CardContent>
         </Card>
@@ -307,17 +307,17 @@ const AdminPage = () => {
       <div className="border-b border-border bg-card">
         <div className="container mx-auto flex items-center justify-between px-4 py-4">
           <div>
-            <h1 className="text-xl font-bold text-foreground">Diaspora Connect Kayitlari</h1>
+            <h1 className="text-xl font-bold text-foreground">Diaspora Connect Kayıtları</h1>
             <p className="text-sm text-muted-foreground">{session?.user.email}</p>
           </div>
           <div className="flex items-center gap-3">
             <Button onClick={exportCSV}>
               <Download className="h-4 w-4" />
-              Excel / CSV Indir
+              Excel / CSV İndir
             </Button>
             <Button onClick={handleLogout} variant="outline">
               <LogOut className="h-4 w-4" />
-              Cikis
+              Çıkış
             </Button>
           </div>
         </div>
@@ -334,32 +334,32 @@ const AdminPage = () => {
             onChange={(event) => setFilterType(event.target.value)}
             className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
           >
-            <option value="all">Tumu</option>
-            <option value="register">Kayitlar</option>
-            <option value="support">Destek / Yatirim</option>
+            <option value="all">Tümü</option>
+            <option value="register">Kayıtlar</option>
+            <option value="support">Destek / Yatırım</option>
             <option value="new">Yeni</option>
-            <option value="contacted">Iletisime gecildi</option>
-            <option value="archived">Arsivlendi</option>
-            <option value="danisman">Danisman</option>
-            <option value="isletme">Isletme</option>
+            <option value="contacted">İletişime geçildi</option>
+            <option value="archived">Arşivlendi</option>
+            <option value="danisman">Danışman</option>
+            <option value="isletme">İşletme</option>
             <option value="dernek">Dernek</option>
-            <option value="vakif">Vakif</option>
+            <option value="vakif">Vakıf</option>
             <option value="radyo-tv">Radyo / TV</option>
             <option value="blogger-vlogger">Blogger / Vlogger</option>
-            <option value="sehir-elcisi">Sehir Elcisi</option>
+            <option value="sehir-elcisi">Şehir Elçisi</option>
             <option value="bireysel">Bireysel</option>
           </select>
-          <span className="text-sm text-muted-foreground">{filtered.length} kayit</span>
+          <span className="text-sm text-muted-foreground">{filtered.length} kayıt</span>
         </div>
 
         {loading ? (
-          <p className="py-12 text-center text-muted-foreground">Yukleniyor...</p>
+          <p className="py-12 text-center text-muted-foreground">Yükleniyor...</p>
         ) : (
           <div className="grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(320px,1fr)]">
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle>Kayit Tablosu</CardTitle>
-                <CardDescription>Listeyi filtreleyin, detay secin ve disari aktarim alin.</CardDescription>
+                <CardDescription>Listeyi filtreleyin, detay seçin ve dışarı aktarım alın.</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
@@ -371,7 +371,7 @@ const AdminPage = () => {
                       <TableHead>Durum</TableHead>
                       <TableHead>Ad Soyad</TableHead>
                       <TableHead>Konum</TableHead>
-                      <TableHead>Iletisim</TableHead>
+                      <TableHead>İletişim</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -415,7 +415,7 @@ const AdminPage = () => {
                     {filtered.length === 0 && (
                       <TableRow>
                         <TableCell colSpan={7} className="py-8 text-center text-muted-foreground">
-                          Kayit bulunamadi.
+                          Kayıt bulunamadı.
                         </TableCell>
                       </TableRow>
                     )}
@@ -427,7 +427,7 @@ const AdminPage = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Kayit Detayi</CardTitle>
-                <CardDescription>Durum, not ve iletisim bilgilerini bu alandan yonetin.</CardDescription>
+                <CardDescription>Durum, not ve iletişim bilgilerini bu alandan yönetin.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-5">
                 {selectedSubmission ? (
@@ -494,9 +494,9 @@ const AdminPage = () => {
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Aciklama</label>
+                      <label className="text-sm font-medium">Açıklama</label>
                       <div className="rounded-md border border-border bg-muted/30 p-3 text-sm text-muted-foreground">
-                        {selectedSubmission.description || "Bu kayit icin aciklama girilmemis."}
+                        {selectedSubmission.description || "Bu kayıt için açıklama girilmemiş."}
                       </div>
                     </div>
 
@@ -517,7 +517,7 @@ const AdminPage = () => {
                             ),
                           );
                         }}
-                        placeholder="Bu kayda dair sonraki aksiyonlari yazin."
+                        placeholder="Bu kayda dair sonraki aksiyonları yazın."
                         rows={5}
                       />
                       <Button
@@ -536,12 +536,12 @@ const AdminPage = () => {
                       <div>Facebook: {selectedSubmission.facebook || "Yok"}</div>
                       <div>Twitter: {selectedSubmission.twitter || "Yok"}</div>
                       <div>Website: {selectedSubmission.website || "Yok"}</div>
-                      <div>Yarisma ilgisi: {selectedSubmission.contest_interest ? "Evet" : "Hayir"}</div>
+                      <div>Yarışma ilgisi: {selectedSubmission.contest_interest ? "Evet" : "Hayır"}</div>
                     </div>
                   </>
                 ) : (
                   <div className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground">
-                    Detaylari gormek icin listeden bir kayit secin.
+                    Detayları görmek için listeden bir kayıt seçin.
                   </div>
                 )}
               </CardContent>

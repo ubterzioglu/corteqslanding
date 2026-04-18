@@ -6,23 +6,23 @@ export type SubmissionStatus = Submission["status"];
 export type SubmissionFormMode = "register" | "support" | "backer";
 
 export const categoryOptions = [
-  { value: "danisman", label: "Danisman" },
-  { value: "isletme", label: "Isletme / Sirket" },
+  { value: "danisman", label: "Danışman" },
+  { value: "isletme", label: "İşletme / Şirket" },
   { value: "dernek", label: "Dernek" },
-  { value: "vakif", label: "Vakif" },
+  { value: "vakif", label: "Vakıf" },
   { value: "radyo-tv", label: "Radyo / TV" },
   { value: "blogger-vlogger", label: "Blogger / Vlogger" },
-  { value: "sehir-elcisi", label: "Sehir Elcisi" },
-  { value: "bireysel", label: "Bireysel Kullanici" },
-  { value: "support", label: "Destek / Yatirim" },
+  { value: "sehir-elcisi", label: "Şehir Elçisi" },
+  { value: "bireysel", label: "Bireysel Kullanıcı" },
+  { value: "support", label: "Destek / Yatırım" },
 ] as const;
 
 const categoryLabelMap = new Map(categoryOptions.map((option) => [option.value, option.label]));
 
 const statusLabelMap: Record<SubmissionStatus, string> = {
   new: "Yeni",
-  contacted: "Iletisime gecildi",
-  archived: "Arsivlendi",
+  contacted: "İletişime geçildi",
+  archived: "Arşivlendi",
 };
 
 export const submissionStatusOptions: Array<{ value: SubmissionStatus; label: string }> = [
@@ -39,7 +39,7 @@ export function getCategoryLabel(category: string | null) {
 export function getFormTypeLabel(formType: string) {
   if (formType === "support") return "Destek";
   if (formType === "backer") return "Backer";
-  return "Kayit";
+  return "Kayıt";
 }
 
 export function getStatusLabel(status: SubmissionStatus) {
@@ -91,7 +91,7 @@ export function toSubmissionInsert(
     city: String(values.city ?? ""),
     business: String(values.business ?? "") || null,
     company_name: isBacker ? (String(values.company_name ?? "") || null) : null,
-    field: isBacker ? (String(values.donor_type ?? "") === "company" ? "Firma Bagisi" : "Bireysel Bagisci") : String(values.field ?? ""),
+    field: isBacker ? (String(values.donor_type ?? "") === "company" ? "Firma Bağışı" : "Bireysel Bağışçı") : String(values.field ?? ""),
     email: String(values.email ?? ""),
     phone: String(values.phone ?? ""),
     description: String(values.description ?? "") || null,
