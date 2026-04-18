@@ -54,7 +54,7 @@ const CategoriesSection = () => {
   return (
     <section id="kategoriler" className="py-20 lg:py-28 bg-card relative overflow-hidden">
       <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-[0.07]"
+        className="absolute inset-0 bg-center bg-cover bg-no-repeat opacity-[0.31]"
         style={{ backgroundImage: `url(${heroNetworkLight})` }}
       />
       <div className="container mx-auto px-4 relative z-10">

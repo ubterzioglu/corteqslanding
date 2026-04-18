@@ -29,6 +29,13 @@ const RegisterInterestForm = ({
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(defaultCategory || "");
   const [consent, setConsent] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
+  const validatePhone = (value: string) => {
+    const cleaned = value.replace(/[\s\-().]/g, "");
+    return /^\+[1-9]\d{7,14}$/.test(cleaned);
+  };
 
   useEffect(() => {
     if (open && defaultCategory) {
@@ -40,10 +47,18 @@ const RegisterInterestForm = ({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!validatePhone(phone)) {
+      setPhoneError("Telefon ulke kodu ile baslamali (orn: +49 170 1234567).");
+      return;
+    }
+    setPhoneError("");
+
     setLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const values = Object.fromEntries(formData.entries());
+    values.phone = phone.replace(/[\s\-().]/g, "");
     const payload = toSubmissionInsert(values, mode);
     const notificationPayload = {
       ...payload,
@@ -68,6 +83,7 @@ const RegisterInterestForm = ({
 
       onOpenChange(false);
       setConsent(false);
+      setPhone("");
       setSelectedCategory(defaultCategory || "");
       event.currentTarget.reset();
     } catch (submissionError) {
@@ -183,8 +199,27 @@ const RegisterInterestForm = ({
               <Input id="email" name="email" type="email" placeholder="ornek@mail.com" required />
             </div>
             <div>
-              <Label htmlFor="phone">Telefon</Label>
-              <Input id="phone" name="phone" type="tel" placeholder="+49 123 456" required />
+              <Label htmlFor="phone">Telefon (ulke kodu ile)</Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                placeholder="+49 170 1234567"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (phoneError) setPhoneError("");
+                }}
+                pattern="^\+[1-9][0-9\s\-().]{7,20}$"
+                required
+                aria-invalid={!!phoneError}
+              />
+              {phoneError ? (
+                <p className="text-xs text-destructive mt-1">{phoneError}</p>
+              ) : (
+                <p className="text-xs text-muted-foreground mt-1">+ ile baslatin, ulke kodu zorunlu.</p>
+              )}
             </div>
           </div>
 
@@ -255,6 +290,14 @@ const RegisterInterestForm = ({
           <div className="rounded-lg border border-accent/15 bg-accent/5 p-3 text-sm text-muted-foreground">
             <strong className="text-foreground">Yakinda:</strong> Platform acilir acilmaz size haber verecegiz.
           </div>
+
+          <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
+            <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
+            <span className="text-sm text-foreground leading-relaxed">
+              <strong>WhatsApp topluluguna katilmak istiyorum.</strong>{" "}
+              <span className="text-muted-foreground">Davet linki size iletilecek.</span>
+            </span>
+          </label>
 
           <div className="flex items-start gap-2">
             <Checkbox

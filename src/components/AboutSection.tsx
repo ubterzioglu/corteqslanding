@@ -32,15 +32,17 @@ const AboutSection = () => {
               ))}
             </div>
           </div>
-          <div className="relative">
+          <div className="relative rounded-2xl overflow-hidden shadow-xl">
             <img
               src={diasporaCommunity}
-              alt="Diaspora topluluğu buluşması"
-              className="rounded-2xl shadow-xl w-full object-cover"
+              alt="Diaspora toplulugu bulusmasi"
+              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1024}
               height={1024}
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" />
+            <div className="absolute inset-0 bg-card/15" />
           </div>
         </div>
       </div>

@@ -9,15 +9,17 @@ const AmbassadorSection = () => {
     <section id="elciler" className="py-20 lg:py-28 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative order-2 lg:order-1">
+          <div className="relative order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl">
             <img
               src={cityAmbassador}
-              alt="Şehir elçisi"
-              className="rounded-2xl shadow-xl w-full object-cover"
+              alt="Sehir elcisi"
+              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1200}
               height={800}
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" />
+            <div className="absolute inset-0 bg-card/15" />
           </div>
           <div className="order-1 lg:order-2">
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Şehir Elçileri</span>

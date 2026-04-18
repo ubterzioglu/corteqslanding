@@ -30,7 +30,7 @@ const HeroSection = () => {
                 onClick={() => setFormOpen(true)}
                 className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
               >
-                Kayıt Bırak / Takip Et →
+                Hemen Kaydol — Erken Avantajli Erisimden Faydalan →
               </button>
               <a
                 href="#kategoriler"
@@ -58,14 +58,16 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
+          <div className="relative hidden lg:block rounded-2xl overflow-hidden">
             <img
               src={heroLandmarks}
-              alt="Dünya şehirleri"
-              className="w-full h-auto rounded-2xl"
+              alt="Dunya sehirleri"
+              className="w-full h-auto [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               width={1920}
               height={1080}
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" />
+            <div className="absolute inset-0 bg-card/15" />
           </div>
         </div>
 

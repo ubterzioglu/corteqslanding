@@ -32,11 +32,14 @@ export type Database = {
           business: string | null;
           category: string | null;
           city: string;
+          company_name: string | null;
           consent: boolean;
           contest_interest: boolean | null;
           country: string;
           created_at: string;
           description: string | null;
+          donation_amount: number | null;
+          donation_currency: string | null;
           email: string;
           facebook: string | null;
           field: string;
@@ -52,17 +55,21 @@ export type Database = {
           status: string;
           tiktok: string | null;
           twitter: string | null;
+          whatsapp_interest: boolean | null;
           website: string | null;
         };
         Insert: {
           business?: string | null;
           category?: string | null;
           city: string;
+          company_name?: string | null;
           consent?: boolean;
           contest_interest?: boolean | null;
           country: string;
           created_at?: string;
           description?: string | null;
+          donation_amount?: number | null;
+          donation_currency?: string | null;
           email: string;
           facebook?: string | null;
           field: string;
@@ -78,17 +85,21 @@ export type Database = {
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
+          whatsapp_interest?: boolean | null;
           website?: string | null;
         };
         Update: {
           business?: string | null;
           category?: string | null;
           city?: string;
+          company_name?: string | null;
           consent?: boolean;
           contest_interest?: boolean | null;
           country?: string;
           created_at?: string;
           description?: string | null;
+          donation_amount?: number | null;
+          donation_currency?: string | null;
           email?: string;
           facebook?: string | null;
           field?: string;
@@ -104,6 +115,7 @@ export type Database = {
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
+          whatsapp_interest?: boolean | null;
           website?: string | null;
         };
         Relationships: [

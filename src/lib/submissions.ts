@@ -3,7 +3,7 @@ import type { Tables, TablesInsert } from "@/integrations/supabase/types";
 export type Submission = Tables<"submissions">;
 export type SubmissionInsert = TablesInsert<"submissions">;
 export type SubmissionStatus = Submission["status"];
-export type SubmissionFormMode = "register" | "support";
+export type SubmissionFormMode = "register" | "support" | "backer";
 
 export const categoryOptions = [
   { value: "danisman", label: "Danisman" },
@@ -37,7 +37,9 @@ export function getCategoryLabel(category: string | null) {
 }
 
 export function getFormTypeLabel(formType: string) {
-  return formType === "support" ? "Destek" : "Kayit";
+  if (formType === "support") return "Destek";
+  if (formType === "backer") return "Backer";
+  return "Kayit";
 }
 
 export function getStatusLabel(status: SubmissionStatus) {
@@ -58,6 +60,10 @@ export function buildSubmissionSearchText(submission: Submission) {
     submission.phone,
     submission.description,
     submission.notes,
+    submission.company_name,
+    submission.donation_amount?.toString(),
+    submission.donation_currency,
+    submission.whatsapp_interest?.toString(),
     submission.linkedin,
     submission.instagram,
     submission.tiktok,
@@ -75,19 +81,24 @@ export function toSubmissionInsert(
   mode: SubmissionFormMode,
 ): SubmissionInsert {
   const isSupport = mode === "support";
+  const isBacker = mode === "backer";
 
   return {
-    form_type: isSupport ? "support" : "register",
-    category: isSupport ? "support" : String(values.category ?? ""),
+    form_type: isBacker ? "backer" : isSupport ? "support" : "register",
+    category: isBacker ? "backer" : isSupport ? "support" : String(values.category ?? ""),
     fullname: String(values.fullname ?? ""),
     country: String(values.country ?? ""),
     city: String(values.city ?? ""),
     business: String(values.business ?? "") || null,
-    field: String(values.field ?? ""),
+    company_name: isBacker ? (String(values.company_name ?? "") || null) : null,
+    field: isBacker ? (String(values.donor_type ?? "") === "company" ? "Firma Bagisi" : "Bireysel Bagisci") : String(values.field ?? ""),
     email: String(values.email ?? ""),
     phone: String(values.phone ?? ""),
     description: String(values.description ?? "") || null,
-    contest_interest: values.contest_interest === "yes",
+    contest_interest: !isBacker && values.contest_interest === "yes",
+    whatsapp_interest: isBacker ? values.whatsapp_interest === "yes" : values.whatsapp_interest === "yes",
+    donation_amount: isBacker ? Number(values.donation_amount ?? 0) || null : null,
+    donation_currency: isBacker ? "USD" : null,
     linkedin: String(values.linkedin ?? "") || null,
     instagram: String(values.instagram ?? "") || null,
     tiktok: String(values.tiktok ?? "") || null,
