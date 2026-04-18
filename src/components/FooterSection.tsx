@@ -65,7 +65,7 @@ const FooterSection = () => {
 
           <div className="flex items-center justify-center gap-4 mt-6">
             <a
-              href="https://www.linkedin.com/company/corteqs"
+              href="https://www.linkedin.com/company/corteqs-global"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0A66C2] text-white text-sm font-semibold hover:bg-[#004182] transition-all"
