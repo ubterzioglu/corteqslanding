@@ -102,7 +102,7 @@ const RegisterInterestForm = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-y-auto border-none p-0 sm:max-w-lg">
         <div className="relative overflow-hidden rounded-t-lg">
-          <img src={heroNetworkLight} alt="" className="h-40 w-full object-cover" />
+          <img src={heroNetworkLight} alt="" aria-hidden="true" className="h-40 w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-10" />

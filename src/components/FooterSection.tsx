@@ -20,9 +20,9 @@ const FooterSection = () => {
     <footer className="bg-foreground py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-background mb-4">
-            Yakında Açılıyoruz!
-          </h2>
+          <p className="text-3xl md:text-4xl font-bold text-background mb-4">
+            Yakinda Aciliyoruz!
+          </p>
           <p className="text-background/60 text-lg max-w-xl mx-auto mb-6">
             Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
           </p>
@@ -86,7 +86,12 @@ const FooterSection = () => {
         </div>
         <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-background/40 text-sm">
-            © {new Date().getFullYear()} CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+            © {new Date().getFullYear()} CorteQS - bir Qualtron Sinclair ve Akcakanat-Terzioglu Girisimidir. Tum haklari saklidir.
+          </div>
+          <div className="flex items-center gap-4 text-background/40 text-xs">
+            <a href="mailto:info@corteqs.net" className="hover:text-primary transition-colors">Iletisim</a>
+            <a href="#hakkinda" className="hover:text-primary transition-colors">Hakkimizda</a>
+            <a href="#destek" className="hover:text-primary transition-colors">Destek</a>
           </div>
           <div className="flex items-center gap-2">
             <a href="mailto:info@corteqs.net" className="text-primary hover:underline text-sm font-semibold">

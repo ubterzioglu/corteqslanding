@@ -25,7 +25,7 @@ const BloggerSection = () => {
                 { title: "İş Birlikleri", desc: "Marka ve proje iş birlikleri" },
               ].map((item) => (
                 <div key={item.title} className="p-4 rounded-xl bg-card border border-border">
-                  <h4 className="font-semibold text-primary mb-1">{item.title}</h4>
+                  <h3 className="font-semibold text-primary mb-1">{item.title}</h3>
                   <p className="text-sm text-muted-foreground">{item.desc}</p>
                 </div>
               ))}
