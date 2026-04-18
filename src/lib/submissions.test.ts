@@ -31,9 +31,9 @@ describe("submission helpers", () => {
   });
 
   it("renders labels and search text consistently", () => {
-    expect(getCategoryLabel("sehir-elcisi")).toBe("Sehir Elcisi");
+    expect(getCategoryLabel("sehir-elcisi")).toBe("Şehir Elçisi");
     expect(getFormTypeLabel("support")).toBe("Destek");
-    expect(getStatusLabel("contacted")).toBe("Iletisime gecildi");
+    expect(getStatusLabel("contacted")).toBe("İletişime geçildi");
 
     const haystack = buildSubmissionSearchText({
       id: "1",

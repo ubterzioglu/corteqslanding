@@ -49,7 +49,7 @@ const RegisterInterestForm = ({
     event.preventDefault();
 
     if (!validatePhone(phone)) {
-      setPhoneError("Telefon ulke kodu ile baslamali (orn: +49 170 1234567).");
+      setPhoneError("Telefon ülke kodu ile başlamalı (örn: +49 170 1234567).");
       return;
     }
     setPhoneError("");
@@ -77,8 +77,8 @@ const RegisterInterestForm = ({
       }
 
       toast({
-        title: "Kaydiniz alindi",
-        description: "Tesekkurler. Platform acildiginda sizinle iletisime gececegiz.",
+        title: "Kaydınız alındı",
+        description: "Teşekkürler. Platform açıldığında sizinle iletişime geçeceğiz.",
       });
 
       onOpenChange(false);
@@ -89,8 +89,8 @@ const RegisterInterestForm = ({
     } catch (submissionError) {
       console.error("Submission error:", submissionError);
       toast({
-        title: "Bir hata olustu",
-        description: "Lutfen tekrar deneyin veya info@corteqs.net adresine yazin.",
+        title: "Bir hata oluştu",
+        description: "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.",
         variant: "destructive",
       });
     } finally {
@@ -108,12 +108,12 @@ const RegisterInterestForm = ({
             <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-10" />
             <DialogHeader>
               <DialogTitle className="text-xl text-foreground">
-                {isSupport ? "Projeye Destek ve Yatirim" : "Ilginizi Kaydedin"}
+                {isSupport ? "Projeye Destek ve Yatirim" : "İlginizi Kaydedin"}
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 {isSupport
-                  ? "Diaspora Connect projesine destek vermek veya yatirim yapmak icin bilgilerinizi birakin."
-                  : "Yakinda aciliyoruz. Ilk erisim icin bilgilerinizi birakin."}
+                  ? "Diaspora Connect projesine destek vermek veya yatırım yapmak için bilgilerinizi bırakın."
+                  : "Yakında açılıyoruz. İlk erişim için bilgilerinizi bırakın."}
               </DialogDescription>
             </DialogHeader>
           </div>
@@ -122,16 +122,16 @@ const RegisterInterestForm = ({
         <form onSubmit={handleSubmit} className="space-y-4 p-6 pt-2">
           <div className="mb-2 flex flex-wrap gap-2">
             <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              {isSupport ? "Stratejik ortaklik" : "Yakinda: AI destekli eslestirme"}
+              {isSupport ? "Stratejik ortaklık" : "Yakında: AI destekli eşleştirme"}
             </span>
             <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-              {isSupport ? "Yatirim firsati" : "Yakinda: 50+ sehir agi"}
+              {isSupport ? "Yatırım fırsatı" : "Yakında: 50+ şehir ağı"}
             </span>
           </div>
 
           {!isSupport && (
             <div>
-              <Label htmlFor="category">Kategori / Ilgi Alani</Label>
+              <Label htmlFor="category">Kategori / İlgi Alanı</Label>
               <select
                 id="category"
                 name="category"
@@ -141,7 +141,7 @@ const RegisterInterestForm = ({
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
                 <option value="" disabled>
-                  Seciniz...
+                  Seçiniz...
                 </option>
                 {categoryOptions
                   .filter((option) => option.value !== "support")
@@ -154,13 +154,13 @@ const RegisterInterestForm = ({
 
               {selectedCategory === "blogger-vlogger" && (
                 <div className="mt-3 rounded-lg border border-accent/20 bg-accent/10 p-3">
-                  <p className="mb-1 text-sm font-semibold text-foreground">Odullu blog yazisi yarismasi yakinda</p>
+                  <p className="mb-1 text-sm font-semibold text-foreground">Ödüllü blog yazısı yarışması yakında</p>
                   <p className="mb-2 text-xs text-muted-foreground">
-                    Diaspora deneyiminizi anlatan en iyi blog yazisini yazin, odulleri kazanin.
+                    Diaspora deneyiminizi anlatan en iyi blog yazısını yazın, ödülleri kazanın.
                   </p>
                   <label className="flex cursor-pointer items-center gap-2">
                     <input type="checkbox" name="contest_interest" value="yes" className="rounded border-input" />
-                    <span className="text-sm text-foreground">Yarisma ile ilgili bilgi istiyorum</span>
+                    <span className="text-sm text-foreground">Yarışma ile ilgili bilgi istiyorum</span>
                   </label>
                 </div>
               )}
@@ -169,28 +169,28 @@ const RegisterInterestForm = ({
 
           <div>
             <Label htmlFor="fullname">Ad Soyad</Label>
-            <Input id="fullname" name="fullname" placeholder="Adiniz Soyadiniz" required />
+            <Input id="fullname" name="fullname" placeholder="Adınız Soyadınız" required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="country">Ulke</Label>
+              <Label htmlFor="country">Ülke</Label>
               <Input id="country" name="country" placeholder="Almanya" required />
             </div>
             <div>
-              <Label htmlFor="city">Sehir</Label>
+              <Label htmlFor="city">Şehir</Label>
               <Input id="city" name="city" placeholder="Berlin" required />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="business">Isletme / Kurulus (opsiyonel)</Label>
-            <Input id="business" name="business" placeholder="Sirket veya kurulus adi" />
+            <Label htmlFor="business">İşletme / Kuruluş (opsiyonel)</Label>
+            <Input id="business" name="business" placeholder="Şirket veya kuruluş adı" />
           </div>
 
           <div>
-            <Label htmlFor="field">Istigal / Ilgi Sahasi</Label>
-            <Input id="field" name="field" placeholder="Faaliyet veya ilgi alaniniz" required />
+            <Label htmlFor="field">İştigal / İlgi Sahası</Label>
+            <Input id="field" name="field" placeholder="Faaliyet veya ilgi alanınız" required />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -199,7 +199,7 @@ const RegisterInterestForm = ({
               <Input id="email" name="email" type="email" placeholder="ornek@mail.com" required />
             </div>
             <div>
-              <Label htmlFor="phone">Telefon (ulke kodu ile)</Label>
+              <Label htmlFor="phone">Telefon (ülke kodu ile)</Label>
               <Input
                 id="phone"
                 name="phone"
@@ -218,14 +218,14 @@ const RegisterInterestForm = ({
               {phoneError ? (
                 <p className="text-xs text-destructive mt-1">{phoneError}</p>
               ) : (
-                <p className="text-xs text-muted-foreground mt-1">+ ile baslatin, ulke kodu zorunlu.</p>
+                <p className="text-xs text-muted-foreground mt-1">+ ile başlatın, ülke kodu zorunlu.</p>
               )}
             </div>
           </div>
 
           {selectedCategory === "sehir-elcisi" && !isSupport && (
             <div className="space-y-3 rounded-xl border border-primary/15 bg-primary/5 p-4">
-              <p className="text-sm font-semibold text-foreground">Sosyal medya hesaplariniz</p>
+              <p className="text-sm font-semibold text-foreground">Sosyal medya hesaplarınız</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label htmlFor="linkedin" className="text-xs">
@@ -237,13 +237,13 @@ const RegisterInterestForm = ({
                   <Label htmlFor="instagram" className="text-xs">
                     Instagram
                   </Label>
-                  <Input id="instagram" name="instagram" placeholder="@kullaniciadi" />
+                  <Input id="instagram" name="instagram" placeholder="@kullanıcıadı" />
                 </div>
                 <div>
                   <Label htmlFor="tiktok" className="text-xs">
                     TikTok
                   </Label>
-                  <Input id="tiktok" name="tiktok" placeholder="@kullaniciadi" />
+                  <Input id="tiktok" name="tiktok" placeholder="@kullanıcıadı" />
                 </div>
                 <div>
                   <Label htmlFor="facebook" className="text-xs">
@@ -255,7 +255,7 @@ const RegisterInterestForm = ({
                   <Label htmlFor="twitter" className="text-xs">
                     X (Twitter)
                   </Label>
-                  <Input id="twitter" name="twitter" placeholder="@kullaniciadi" />
+                  <Input id="twitter" name="twitter" placeholder="@kullanıcıadı" />
                 </div>
                 <div>
                   <Label htmlFor="website" className="text-xs">
@@ -269,11 +269,11 @@ const RegisterInterestForm = ({
 
           {isSupport && (
             <div>
-              <Label htmlFor="description">Aciklama</Label>
+              <Label htmlFor="description">Açıklama</Label>
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Projeye verebileceginiz teknik, organizasyonel veya yatirim destegini kisaca yazin."
+                placeholder="Projeye verebileceğiniz teknik, organizasyonel veya yatırım desteğini kısaca yazın."
                 rows={4}
                 className="resize-none"
               />
@@ -288,13 +288,13 @@ const RegisterInterestForm = ({
           </div>
 
           <div className="rounded-lg border border-accent/15 bg-accent/5 p-3 text-sm text-muted-foreground">
-            <strong className="text-foreground">Yakinda:</strong> Platform acilir acilmaz size haber verecegiz.
+            <strong className="text-foreground">Yakında:</strong> Platform açılır açılmaz size haber vereceğiz.
           </div>
 
           <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
             <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
             <span className="text-sm text-foreground leading-relaxed">
-              <strong>WhatsApp topluluguna katilmak istiyorum.</strong>{" "}
+              <strong>WhatsApp topluluğuna katılmak istiyorum.</strong>{" "}
               <span className="text-muted-foreground">Davet linki size iletilecek.</span>
             </span>
           </label>
@@ -307,8 +307,8 @@ const RegisterInterestForm = ({
               className="mt-0.5"
             />
             <label htmlFor="consent" className="cursor-pointer text-xs leading-relaxed text-muted-foreground">
-              Kisisel bilgilerimi, CorteQS tarafindan tarafima ulasilmasi amaciyla paylasiyorum.
-              Bilgilerim ucuncu sahislarla paylasilmayacaktir.
+              Kişisel bilgilerimi, CorteQS tarafından tarafıma ulaşılması amacıyla paylaşıyorum.
+              Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
             </label>
           </div>
 
@@ -317,7 +317,7 @@ const RegisterInterestForm = ({
             disabled={loading || !consent}
             className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Gonderiliyor..." : isSupport ? "Destek basvurusu gonder" : "Kayit birak / takip et"}
+            {loading ? "Gönderiliyor..." : isSupport ? "Destek başvurusu gönder" : "Kayıt bırak / takip et"}
           </button>
         </form>
       </DialogContent>

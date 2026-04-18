@@ -12,7 +12,7 @@ const AmbassadorSection = () => {
           <div className="relative order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl">
             <img
               src={cityAmbassador}
-              alt="CorteQS sehir elcisi - yerel diaspora temsilcisi"
+              alt="CorteQS şehir elçisi - yerel diaspora temsilcisi"
               className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1200}
