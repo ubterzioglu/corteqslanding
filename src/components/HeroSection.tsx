@@ -1,6 +1,5 @@
 import { useState } from "react";
 import heroLandmarks from "@/assets/hero-landmarks.jpg";
-import corteqsLogo from "@/assets/corteqs-logo-globe.png";
 import { Globe, MapPin, Users, Mail } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 
@@ -12,7 +11,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <img src={corteqsLogo} alt="CorteQS Logo" className="w-[70%] mb-6" />
+            <img src="/logocorteqsbig.png" alt="CorteQS Logo" className="w-[70%] mb-6" />
             <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border border-primary/30 bg-primary/5">
               <Globe className="w-4 h-4 text-primary" />
               <span className="text-primary text-sm font-medium tracking-wider">Türk Diaspora Platformu</span>
