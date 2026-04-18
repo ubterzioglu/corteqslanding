@@ -173,6 +173,10 @@ const AdminPage = () => {
       "Facebook",
       "Twitter",
       "Website",
+      "Firma Adi",
+      "Bagis Tutari",
+      "Bagis Para Birimi",
+      "WhatsApp Ilgi",
     ];
     const rows = filtered.map((submission) => [
       new Date(submission.created_at).toLocaleDateString("tr-TR"),
@@ -195,6 +199,10 @@ const AdminPage = () => {
       submission.facebook || "",
       submission.twitter || "",
       submission.website || "",
+      submission.company_name || "",
+      submission.donation_amount != null ? String(submission.donation_amount) : "",
+      submission.donation_currency || "",
+      submission.whatsapp_interest ? "Evet" : "Hayir",
     ]);
 
     const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
