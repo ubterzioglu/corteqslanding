@@ -61,7 +61,7 @@ const HeroSection = () => {
           <div className="relative hidden lg:block rounded-2xl overflow-hidden">
             <img
               src={heroLandmarks}
-              alt="Dunya sehirleri"
+              alt="Dunya genelinde diaspora topluluklarini birlestiren CorteQS platformu"
               className="w-full h-auto [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               width={1920}
               height={1080}
@@ -75,16 +75,22 @@ const HeroSection = () => {
         <div className="flex flex-wrap items-center gap-8 mt-12 pt-8 border-t border-border">
           <div className="flex items-center gap-2 text-muted-foreground">
             <MapPin className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">164 Ülke</span>
+            <span className="font-semibold text-foreground">164 Ulke</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Users className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">8.8 Milyon Türk</span>
+            <span className="font-semibold text-foreground">8.8 Milyon Turk</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Globe className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">120.000+ Kuruluş</span>
+            <span className="font-semibold text-foreground">120.000+ Kurulus</span>
           </div>
+          <nav className="flex flex-wrap gap-4 ml-auto" aria-label="Bolum navigasyonu">
+            <a href="#hakkinda" className="text-sm text-muted-foreground hover:text-primary transition-colors">Hakkimizda</a>
+            <a href="#kategoriler" className="text-sm text-muted-foreground hover:text-primary transition-colors">Kategoriler</a>
+            <a href="#elciler" className="text-sm text-muted-foreground hover:text-primary transition-colors">Sehir Elcilieri</a>
+            <a href="#destek" className="text-sm text-muted-foreground hover:text-primary transition-colors">Destek</a>
+          </nav>
         </div>
       </div>
 

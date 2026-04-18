@@ -163,7 +163,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-3xl max-h-[92vh] overflow-y-auto p-0 border-none">
         <div className="relative rounded-t-lg overflow-hidden">
-          <img src={heroNetworkLight} alt="" className="w-full h-44 object-cover" />
+          <img src={heroNetworkLight} alt="" aria-hidden="true" className="w-full h-44 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/95" />
           <div className="absolute top-4 right-4">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/95 text-yellow-950 text-xs font-bold shadow-lg">
