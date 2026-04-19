@@ -49,9 +49,19 @@
       "@graph": [
         {
           "@type": "Organization",
+          "@id": "https://corteqs.net/#organization",
           "name": "CorteQS",
           "url": "https://corteqs.net",
           "logo": "https://corteqs.net/logocorteqsbig.png",
+          "description": "CorteQS Diaspora Connect, dunya genelindeki Turk diasporasini danismanlar, isletmeler, dernekler, vakiflar, bloggerlar ve bireylerle birlestiren bir global network platformudur. 164 ulkede 8.8 milyon Turk diasporasini hedefleyen CorteQS, profesyonel ag olusturma, is birligi firsatlari ve topluluk gucunu bir araya getirmektedir. Diaspora networking, global profesyoneller ve is baglantilari alaninda uzmanlasmis platformumuz, Turk diasporasi ve diger diaspora topluluklarini bir cati altinda toplar.",
+          "foundingDate": "2026",
+          "foundingLocation": {
+            "@type": "Place",
+            "name": "Istanbul, Turkey"
+          },
+          "areaServed": "Worldwide",
+          "knowsAbout": ["diaspora networking", "global professionals", "business connections", "Turkish diaspora", "professional networking", "community building"],
+          "brand": { "@id": "https://corteqs.net/#organization" },
           "contactPoint": {
             "@type": "ContactPoint",
             "email": "info@corteqs.net",
@@ -60,34 +70,67 @@
           "sameAs": [
             "https://x.com/corteqsx",
             "https://www.linkedin.com/company/corteqs-global",
-            "https://www.instagram.com/corteqs"
+            "https://www.instagram.com/corteqssocial"
           ],
           "founders": [
-            {
-              "@type": "Organization",
-              "name": "Qualtron Sinclair"
-            },
-            {
-              "@type": "Person",
-              "name": "Akcakanat-Terzioglu"
-            }
+            { "@id": "https://corteqs.net/#founder-qualtron-sinclair" },
+            { "@id": "https://corteqs.net/#founder-akcakanat-terzioglu" }
           ]
         },
         {
           "@type": "WebSite",
+          "@id": "https://corteqs.net/#website",
           "name": "CorteQS Diaspora Connect",
+          "alternateName": "CorteQS Diaspora Connect",
           "url": "https://corteqs.net",
-          "publisher": { "@id": "https://corteqs.net/#organization" }
+          "inLanguage": "tr",
+          "publisher": { "@id": "https://corteqs.net/#organization" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.google.com/search?q=site:corteqs.net+{search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
         },
         {
           "@type": "WebPage",
+          "@id": "https://corteqs.net/#webpage",
           "name": "CorteQS - Turk Diaspora Network Platformu",
           "description": "Dunya genelindeki Turk diasporasini danismanlar, isletmeler, kuruluslar ve bireylerle birlestiren global network platformu.",
           "url": "https://corteqs.net/",
-          "isPartOf": { "@id": "https://corteqs.net/#website" }
+          "inLanguage": "tr",
+          "isPartOf": { "@id": "https://corteqs.net/#website" },
+          "author": { "@id": "https://corteqs.net/#organization" },
+          "primaryImageOfPage": {
+            "@type": "ImageObject",
+            "url": "https://corteqs.net/og-image.png"
+          },
+          "datePublished": "2026-04-18",
+          "dateModified": "2026-04-19",
+          "about": {
+            "@type": "Thing",
+            "name": "Turk Diaspora Network Platformu",
+            "description": "Global Turk diasporasini birlestiren profesyonel networking platformu"
+          },
+          "mentions": [
+            { "@type": "Thing", "name": "Turk diasporasi" },
+            { "@type": "Thing", "name": "global yetenek" }
+          ]
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://corteqs.net/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Ana Sayfa",
+              "item": "https://corteqs.net/"
+            }
+          ]
         },
         {
           "@type": "FAQPage",
+          "author": { "@id": "https://corteqs.net/#organization" },
           "mainEntity": [
             {
               "@type": "Question",
@@ -128,12 +171,92 @@
                 "@type": "Answer",
                 "text": "Onursal kurucu programi, CorteQS platformuna bagis yaparak erken erisim, premium uyelik avantajlari, platform reklamlari ve onursal kurucular panosunda yer alma firsati sunan bir destek programidir. 10$'dan 10.000$'a kadar dort farkli paket mevcuttur."
               }
+            },
+            {
+              "@type": "Question",
+              "name": "CorteQS hangi kategorilerde kayit sunuyor?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS platformunda danisman, isletme, dernek, vakif, blogger, sehir elcisi ve bireysel kullanici olmak uzere yedi farkli kayit kategorisi bulunmaktadir. Her kategori, diaspora networku icin ozellestirilmis profil ve iletisim ozellikleri sunar."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "CorteQS platformu hangi ulkelerde aktif?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS, 164 ulkede bulunan Turk diasporasini hedefleyen global bir network platformudur. Dunya genelindeki tum diaspora topluluklari platforma kaydolabilir ve profesyonel baglantilar kurabilir."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "CorteQS blogger ve vlogger programi nedir?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS blogger ve vlogger programi, diaspora hikayelerini paylasmak isteyen icerik ureticilerine ozel bir katilim kategorisidir. Program, icerik ureticilerinin global Turk toplulugu ile baglanti kurmasini ve diaspora deneyimlerini genis kitlelere ulastirmasini saglar."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Diaspora is birligi nasil saglaniyor?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS, profesyonel networking ozellikleri, topluluk etkinlikleri ve is birligi firsatlari ile diaspora uyeleri arasinda guclu baglar kurar. Platform uzerinden ortakliklar, mentorluk iliskileri ve topluluk etkinlikleri organize edilebilir."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "CorteQS ucretsiz mi?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS su an erken erisim asamasinda olup kayit tamamen ucretsizdir. Erken kaydolan kullanicilar, platformun premium ozelliklerinden oncelikli olarak faydalanabilir ve diaspora networkune ilk katilanlar arasinda yer alabilir."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Global Turk toplulugu neden onemli?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Global Turk toplulugu, ekonomik etki, kultur alisverisi ve is birligi firsatlari acisindan kritik bir oneme sahiptir. 8.8 milyon Turk diasporasi, anavatan ile yasanan ulkeler arasinda kultur koprusu gorevi gorur ve profesyonel baglantilar sayesinde ekonomik buyumeye katkida bulunur."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "CorteQS ile isletmemi nasil gelistirebilirim?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "CorteQS uzerinde isletme profili olusturarak global Turk diaspora networkune ulasabilirsiniz. Platform, isletmenizi potansiyel musterilere, ortaklara ve danismanlara sunarak uluslararasi is baglantileri ve buyume firsatlari saglar."
+              }
             }
           ]
         },
         {
           "@type": "SpeakableSpecification",
-          "cssSelector": ["h1", "h2", ".faq-answer"]
+          "cssSelector": ["h1", "h2", ".hero-description", ".intro-text"]
+        },
+        {
+          "@type": "Service",
+          "@id": "https://corteqs.net/#service",
+          "name": "CorteQS Diaspora Connect",
+          "description": "Global diaspora networking platformu. Turk diasporasini ve diger diaspora topluluklarini danismanlar, isletmeler, kuruluslar ve bireylerle birlestirir.",
+          "provider": { "@id": "https://corteqs.net/#organization" },
+          "serviceType": "Professional Networking Platform",
+          "areaServed": "Worldwide",
+          "inLanguage": "tr"
+        },
+        {
+          "@type": "Person",
+          "@id": "https://corteqs.net/#founder-qualtron-sinclair",
+          "name": "Qualtron Sinclair",
+          "jobTitle": "Co-Founder",
+          "worksFor": { "@id": "https://corteqs.net/#organization" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://corteqs.net/#founder-akcakanat-terzioglu",
+          "name": "Akcakanat-Terzioglu",
+          "jobTitle": "Co-Founder",
+          "worksFor": { "@id": "https://corteqs.net/#organization" }
         }
       ]
     }

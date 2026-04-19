@@ -32,7 +32,7 @@ const HeroSection = () => {
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
               Global Türklerin Platformu
             </p>
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
+            <p className="hero-description text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
               Corteqs Diaspora Connect — dünyanın dört bir yanındaki Türk diasporasını ve diğer diaspora topluluklarını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
             </p>
 
