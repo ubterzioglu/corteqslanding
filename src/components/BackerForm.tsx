@@ -161,12 +161,12 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-3xl max-h-[92vh] overflow-y-auto p-0 border-none">
+      <DialogContent className="max-h-[92vh] overflow-y-auto border-none p-0 sm:max-w-3xl">
         <div className="relative rounded-t-lg overflow-hidden">
           <img src={heroNetworkLight} alt="" aria-hidden="true" className="w-full h-44 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/95" />
           <div className="absolute top-4 right-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/95 text-yellow-950 text-xs font-bold shadow-lg">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-500/95 px-3 py-1.5 text-xs font-bold text-yellow-950 shadow-lg">
               <Crown className="w-3.5 h-3.5" /> ONURSAL KURUCULAR PROGRAMI
             </span>
           </div>
@@ -195,19 +195,19 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                     type="button"
                     key={tier.amount}
                     onClick={() => setSelectedTier(tier.amount)}
-                    className={`relative text-left p-4 rounded-xl border-2 transition-all bg-gradient-to-br ${tier.accent} ${
+                    className={`relative bg-gradient-to-br p-4 text-left transition-all ${tier.accent} ${
                       isSelected
-                        ? `${tier.border} ring-2 ring-primary/50 scale-[1.02] shadow-lg`
-                        : "border-border hover:border-primary/30"
+                        ? `${tier.border} scale-[1.02] rounded-[8px] border-2 shadow-lg ring-2 ring-primary/50`
+                        : "rounded-[8px] border border-border hover:border-primary/30"
                     }`}
                   >
                     {tier.popular && (
-                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
-                        Popüler
-                      </span>
-                    )}
+                        <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
+                          Popüler
+                        </span>
+                      )}
                     {isSelected && (
-                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                      <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
                         <Check className="w-3 h-3" />
                       </span>
                     )}
@@ -234,7 +234,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
               <button
                 type="button"
                 onClick={() => setDonorType("individual")}
-                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
+                className={`rounded-[8px] border-2 p-3 text-sm font-semibold transition-all ${
                   donorType === "individual"
                     ? "border-primary bg-primary/5 text-primary"
                     : "border-border text-muted-foreground hover:border-primary/30"
@@ -245,7 +245,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
               <button
                 type="button"
                 onClick={() => setDonorType("company")}
-                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
+                className={`rounded-[8px] border-2 p-3 text-sm font-semibold transition-all ${
                   donorType === "company"
                     ? "border-primary bg-primary/5 text-primary"
                     : "border-border text-muted-foreground hover:border-primary/30"
@@ -322,7 +322,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             </div>
           </div>
 
-          <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 space-y-2">
+          <div className="space-y-2 rounded-[8px] border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 p-4">
             <p className="font-semibold text-foreground flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary" /> Detaylı Bilgilendirme
             </p>
@@ -334,7 +334,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             </a>
           </div>
 
-          <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
+          <label className="flex cursor-pointer items-start gap-2 rounded-[8px] border border-[#25D366]/30 bg-[#25D366]/5 p-3">
             <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
             <span className="text-sm text-foreground leading-relaxed">
               <strong>Onursal Kurucular WhatsApp grubuna katılmak istiyorum.</strong>{" "}
@@ -357,7 +357,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           <button
             type="submit"
             disabled={loading || !consent}
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-500 via-primary to-primary text-white font-bold text-base hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+            className="w-full rounded-[8px] bg-gradient-to-r from-yellow-500 via-primary to-primary py-4 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Gönderiliyor..." : `${selectedTier.toLocaleString()}$ Bağış Niyetimi Bildir →`}
           </button>

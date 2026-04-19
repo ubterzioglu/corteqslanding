@@ -9,9 +9,9 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="hakkinda" className="py-20 lg:py-28 bg-card">
+    <section id="hakkinda" className="bg-card py-14 lg:py-20">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Hakkımızda</span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6">
@@ -38,26 +38,25 @@ const AboutSection = () => {
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               CorteQS Diaspora Connect nasıl çalışır? Kullanıcılar, danışman, işletme, dernek, vakıf, blogger/vlogger, şehir elçisi veya bireysel kullanıcı kategorilerinden birine kayıt olur. Platform açıldığında, her kullanıcı kendi kategorisine özel bir profil sayfasına sahip olur; diğer diaspora üyeleriyle bağlantı kurabilir, yerel etkinliklere katılabilir, iş fırsatlarına erişebilir ve içerik paylaşabilir. Şehir elçileri ise bulundukları şehirde bu ağı temsil ederek yerel toplulukla köprü kurar.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="text-center p-4 rounded-xl bg-secondary">
+                <div key={stat.label} className="rounded-[8px] border border-border/70 bg-background/80 p-4 text-center shadow-sm">
                   <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
                   <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-xl">
+          <div className="relative mx-auto w-full max-w-[540px] overflow-hidden rounded-[8px] border border-white/60 bg-white/60 p-3 shadow-[0_22px_60px_rgba(31,40,52,0.12)]">
             <img
               src={diasporaCommunity}
               alt="Türk diasporası topluluk buluşması ve iş birliği etkinliği"
-              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
+              className="mx-auto w-[70%] rounded-[8px] object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1024}
               height={1024}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" />
-            <div className="absolute inset-0 bg-card/15" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-card/20 via-transparent to-primary/10" />
           </div>
         </div>
       </div>
