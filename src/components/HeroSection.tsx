@@ -33,7 +33,11 @@ const HeroSection = () => {
               Global Türklerin Platformu
             </p>
             <p className="hero-description text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              Corteqs Diaspora Connect — dünyanın dört bir yanındaki Türk diasporasını ve diğer diaspora topluluklarını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
+              Corteqs Diaspora Connect — dünyanın dört bir yanındaki Türk diasporasını
+              danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
+              İhtiyacınızı seçerek doğru kişilere ve fırsatlara hızlıca ulaşabilir,
+              şehir bazlı networking ile topluluğun gücünden faydalanabilirsiniz.
+              164 ülkede aktif diaspora ağıyla iş birliği yapın, büyüyün.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
