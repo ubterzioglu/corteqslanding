@@ -229,26 +229,62 @@
     },
     {
       "path": "index.html",
-      "accessCount": 4,
-      "lastAccessed": 1776590865771,
+      "accessCount": 5,
+      "lastAccessed": 1776615203669,
       "type": "file"
     },
     {
       "path": "src\\components\\AboutSection.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1776590689997,
+      "accessCount": 5,
+      "lastAccessed": 1776615213957,
       "type": "file"
     },
     {
-      "path": "src\\components\\SupportSection.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1776590691321,
+      "path": "src\\components\\HeroSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776615213722,
       "type": "file"
     },
     {
       "path": "src\\components\\AmbassadorSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776615216082,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\SupportSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776615222238,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\CategoriesSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776615222573,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\FooterSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1776615226685,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Index.tsx",
       "accessCount": 3,
-      "lastAccessed": 1776590692594,
+      "lastAccessed": 1776615214292,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\BloggerSection.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776615222473,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\RegisterInterestForm.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776615230241,
       "type": "file"
     },
     {
@@ -258,27 +294,27 @@
       "type": "directory"
     },
     {
-      "path": "src\\components\\HeroSection.tsx",
+      "path": "src\\components\\BackerForm.tsx",
       "accessCount": 2,
-      "lastAccessed": 1776590689601,
+      "lastAccessed": 1776615210990,
       "type": "file"
     },
     {
-      "path": "src\\components\\FooterSection.tsx",
+      "path": "src\\components\\FAQSection.tsx",
       "accessCount": 2,
-      "lastAccessed": 1776590690853,
+      "lastAccessed": 1776615213781,
       "type": "file"
     },
     {
-      "path": "src\\components\\CategoriesSection.tsx",
+      "path": "src\\App.tsx",
       "accessCount": 2,
-      "lastAccessed": 1776590691757,
+      "lastAccessed": 1776615216557,
       "type": "file"
     },
     {
-      "path": "src\\components\\BloggerSection.tsx",
+      "path": "src\\index.css",
       "accessCount": 2,
-      "lastAccessed": 1776590692230,
+      "lastAccessed": 1776615227047,
       "type": "file"
     },
     {
@@ -288,33 +324,57 @@
       "type": "file"
     },
     {
-      "path": "src\\pages\\Index.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1776542112037,
-      "type": "file"
-    },
-    {
       "path": "src\\components",
       "accessCount": 1,
       "lastAccessed": 1776542528650,
       "type": "directory"
     },
     {
-      "path": "src\\components\\RegisterInterestForm.tsx",
+      "path": "README.md",
       "accessCount": 1,
-      "lastAccessed": 1776590690408,
+      "lastAccessed": 1776615200492,
       "type": "file"
     },
     {
-      "path": "src\\components\\BackerForm.tsx",
+      "path": "package.json",
       "accessCount": 1,
-      "lastAccessed": 1776590692986,
+      "lastAccessed": 1776615200520,
       "type": "file"
     },
     {
-      "path": "src\\index.css",
+      "path": "vite.config.ts",
       "accessCount": 1,
-      "lastAccessed": 1776590701085,
+      "lastAccessed": 1776615203948,
+      "type": "file"
+    },
+    {
+      "path": "public\\robots.txt",
+      "accessCount": 1,
+      "lastAccessed": 1776615209498,
+      "type": "file"
+    },
+    {
+      "path": "public\\sitemap.xml",
+      "accessCount": 1,
+      "lastAccessed": 1776615209555,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\submissions.ts",
+      "accessCount": 1,
+      "lastAccessed": 1776615221992,
+      "type": "file"
+    },
+    {
+      "path": "tailwind.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1776615226857,
+      "type": "file"
+    },
+    {
+      "path": "remiks.md",
+      "accessCount": 1,
+      "lastAccessed": 1776615233871,
       "type": "file"
     }
   ],

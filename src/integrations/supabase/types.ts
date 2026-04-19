@@ -50,6 +50,9 @@ export type Database = {
           linkedin: string | null;
           notes: string | null;
           phone: string;
+          referral_code: string | null;
+          referral_detail: string | null;
+          referral_source: string | null;
           reviewed_at: string | null;
           reviewed_by: string | null;
           status: string;
@@ -80,6 +83,9 @@ export type Database = {
           linkedin?: string | null;
           notes?: string | null;
           phone: string;
+          referral_code?: string | null;
+          referral_detail?: string | null;
+          referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
           status?: string;
@@ -110,6 +116,9 @@ export type Database = {
           linkedin?: string | null;
           notes?: string | null;
           phone?: string;
+          referral_code?: string | null;
+          referral_detail?: string | null;
+          referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
           status?: string;

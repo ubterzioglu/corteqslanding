@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"C:\\\\temp_private\\\\corteqs\\\\corteqs_landing\"}",
+  "error": "EISDIR: illegal operation on a directory, read 'C:\\temp_private\\corteqs\\corteqs_landing'",
+  "timestamp": "2026-04-19T16:13:20.067Z",
+  "retry_count": 1
+}

@@ -9,7 +9,16 @@ import { supabase } from "@/integrations/supabase/client";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import corteqsLogo from "@/assets/corteqs-logo-globe.png";
 import { notifySubmission } from "@/lib/mail";
-import { categoryOptions, toSubmissionInsert, type SubmissionFormMode } from "@/lib/submissions";
+import {
+  categoryOptions,
+  getReferralDetailLabel,
+  getReferralDetailPlaceholder,
+  isReferralDetailRequired,
+  referralSourceOptions,
+  shouldShowReferralDetail,
+  toSubmissionInsert,
+  type SubmissionFormMode,
+} from "@/lib/submissions";
 
 interface RegisterInterestFormProps {
   open: boolean;
@@ -25,6 +34,8 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
   const [consent, setConsent] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [referralSource, setReferralSource] = useState("");
+  const [referralDetail, setReferralDetail] = useState("");
 
   useEffect(() => {
     if (open && defaultCategory) {
@@ -53,6 +64,8 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries());
     values.phone = phone.replace(/[\s\-().]/g, "");
+    values.referral_source = referralSource;
+    values.referral_detail = referralDetail;
 
     const payload = toSubmissionInsert(values, mode);
     const notificationPayload = { ...payload, created_at: new Date().toISOString() };
@@ -77,6 +90,8 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
       setConsent(false);
       setPhone("");
       setPhoneError("");
+      setReferralSource("");
+      setReferralDetail("");
       setSelectedCat(defaultCategory || "");
     } catch (err: unknown) {
       console.error("Submission error:", err);
@@ -209,6 +224,57 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
                 <p className="text-xs text-muted-foreground mt-1">+ ile başlatın, ülke kodu zorunlu.</p>
               )}
             </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="referral_source">Bizi nereden buldunuz?</Label>
+                <select
+                  id="referral_source"
+                  name="referral_source"
+                  value={referralSource}
+                  onChange={(event) => {
+                    setReferralSource(event.target.value);
+                    setReferralDetail("");
+                  }}
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                >
+                  <option value="">Seçiniz...</option>
+                  {referralSourceOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <Label htmlFor="referral_code">Referral Kodu (opsiyonel)</Label>
+                <Input
+                  id="referral_code"
+                  name="referral_code"
+                  placeholder="Admin / davet kodu"
+                  maxLength={32}
+                  className="uppercase"
+                />
+                <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+              </div>
+            </div>
+
+            {shouldShowReferralDetail(referralSource) && (
+              <div>
+                <Label htmlFor="referral_detail">{getReferralDetailLabel(referralSource)}</Label>
+                <Input
+                  id="referral_detail"
+                  name="referral_detail"
+                  value={referralDetail}
+                  onChange={(event) => setReferralDetail(event.target.value)}
+                  placeholder={getReferralDetailPlaceholder(referralSource)}
+                  maxLength={120}
+                  required={isReferralDetailRequired(referralSource)}
+                />
+              </div>
+            )}
           </div>
 
           {selectedCat === "sehir-elcisi" && !isSupport && (

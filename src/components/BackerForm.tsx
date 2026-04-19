@@ -10,7 +10,14 @@ import { Award, Crown, Sparkles, Mail, Check } from "lucide-react";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import corteqsLogo from "@/assets/corteqs-logo-globe.png";
 import { notifySubmission } from "@/lib/mail";
-import { toSubmissionInsert } from "@/lib/submissions";
+import {
+  getReferralDetailLabel,
+  getReferralDetailPlaceholder,
+  isReferralDetailRequired,
+  referralSourceOptions,
+  shouldShowReferralDetail,
+  toSubmissionInsert,
+} from "@/lib/submissions";
 
 interface BackerFormProps {
   open: boolean;
@@ -83,6 +90,8 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
   }, [open, defaultTier, presetAmounts]);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [referralSource, setReferralSource] = useState("");
+  const [referralDetail, setReferralDetail] = useState("");
 
   const validatePhone = (value: string) => {
     const cleaned = value.replace(/[\s\-().]/g, "");
@@ -111,6 +120,8 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries());
+    values.referral_source = referralSource;
+    values.referral_detail = referralDetail;
 
     const payload = toSubmissionInsert(
       { ...values, phone: phone.replace(/[\s\-().]/g, ""), donation_amount: String(effectiveAmount), donor_type: donorType },
@@ -140,6 +151,8 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
       setIsCustom(false);
       setCustomAmount("");
       setDonorType("individual");
+      setReferralSource("");
+      setReferralDetail("");
     } catch (err: unknown) {
       console.error("Backer submission error:", err);
       const message = err instanceof Error ? err.message : "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.";
@@ -362,6 +375,57 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                 placeholder="Bağışınızla ilgili belirtmek istedikleriniz, beklentileriniz veya iş birliği önerileriniz..."
                 className="resize-none"
               />
+            </div>
+
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div>
+                  <Label htmlFor="referral_source">Bizi nereden buldunuz?</Label>
+                  <select
+                    id="referral_source"
+                    name="referral_source"
+                    value={referralSource}
+                    onChange={(event) => {
+                      setReferralSource(event.target.value);
+                      setReferralDetail("");
+                    }}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <option value="">Seçiniz...</option>
+                    {referralSourceOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="referral_code">Referral Kodu (opsiyonel)</Label>
+                  <Input
+                    id="referral_code"
+                    name="referral_code"
+                    placeholder="Admin / davet kodu"
+                    maxLength={32}
+                    className="uppercase"
+                  />
+                  <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+                </div>
+              </div>
+
+              {shouldShowReferralDetail(referralSource) && (
+                <div>
+                  <Label htmlFor="referral_detail">{getReferralDetailLabel(referralSource)}</Label>
+                  <Input
+                    id="referral_detail"
+                    name="referral_detail"
+                    value={referralDetail}
+                    onChange={(event) => setReferralDetail(event.target.value)}
+                    placeholder={getReferralDetailPlaceholder(referralSource)}
+                    maxLength={120}
+                    required={isReferralDetailRequired(referralSource)}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
