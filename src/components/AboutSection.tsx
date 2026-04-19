@@ -15,10 +15,10 @@ const AboutSection = () => {
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Hakkımızda</span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6">
-              Diasporanın Gücünü Keşfedin
+              CorteQS Nedir ve Diaspora Nasıl Birleştirilir?
             </h2>
             <p className="intro-text text-muted-foreground text-lg leading-relaxed mb-8">
-              Her kategoride uzmanlaşmış <strong className="font-bold text-foreground">profesyonelleri, girişimleri, işletmeleri, kurumları ve içerik üreticilerini</strong> benzersiz bir çatı altında topluyoruz.
+              Her kategoride uzmanlaşmış <strong className="font-bold text-foreground">profesyonelleri, girişimleri, işletmeleri, kurumları ve içerik üreticilerini</strong> benzersiz bir çatı altında topluyoruz. <em className="text-foreground font-medium">Şehir bazlı danışmanlık, etkinlik ve networking</em> ile diaspora topluluğunu güçlendiriyoruz.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {stats.map((stat) => (
