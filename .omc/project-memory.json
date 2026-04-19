@@ -223,32 +223,62 @@
     },
     {
       "path": "",
-      "accessCount": 3,
-      "lastAccessed": 1776542109239,
+      "accessCount": 6,
+      "lastAccessed": 1776590701312,
       "type": "directory"
     },
     {
       "path": "index.html",
-      "accessCount": 2,
-      "lastAccessed": 1776541680257,
+      "accessCount": 4,
+      "lastAccessed": 1776590865771,
       "type": "file"
     },
     {
       "path": "src\\components\\AboutSection.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776542165219,
+      "accessCount": 3,
+      "lastAccessed": 1776590689997,
       "type": "file"
     },
     {
       "path": "src\\components\\SupportSection.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776542513279,
+      "accessCount": 3,
+      "lastAccessed": 1776590691321,
       "type": "file"
     },
     {
       "path": "src\\components\\AmbassadorSection.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1776590692594,
+      "type": "file"
+    },
+    {
+      "path": "src",
       "accessCount": 2,
-      "lastAccessed": 1776542589392,
+      "lastAccessed": 1776590686162,
+      "type": "directory"
+    },
+    {
+      "path": "src\\components\\HeroSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776590689601,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\FooterSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776590690853,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\CategoriesSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776590691757,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\BloggerSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776590692230,
       "type": "file"
     },
     {
@@ -264,40 +294,28 @@
       "type": "file"
     },
     {
-      "path": "src\\components\\HeroSection.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1776542112699,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\CategoriesSection.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1776542117200,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\BloggerSection.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1776542513684,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\FooterSection.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1776542514032,
-      "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 1,
-      "lastAccessed": 1776542527689,
-      "type": "directory"
-    },
-    {
       "path": "src\\components",
       "accessCount": 1,
       "lastAccessed": 1776542528650,
       "type": "directory"
+    },
+    {
+      "path": "src\\components\\RegisterInterestForm.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776590690408,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\BackerForm.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776590692986,
+      "type": "file"
+    },
+    {
+      "path": "src\\index.css",
+      "accessCount": 1,
+      "lastAccessed": 1776590701085,
+      "type": "file"
     }
   ],
   "userDirectives": []
