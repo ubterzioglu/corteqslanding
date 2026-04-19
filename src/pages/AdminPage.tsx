@@ -16,6 +16,7 @@ import {
   buildSubmissionSearchText,
   getCategoryLabel,
   getFormTypeLabel,
+  getReferralSourceLabel,
   getStatusLabel,
   submissionStatusOptions,
   type Submission,
@@ -177,6 +178,9 @@ const AdminPage = () => {
       "Bağış Tutarı",
       "Bağış Para Birimi",
       "WhatsApp İlgi",
+      "Referral Kaynağı",
+      "Referral Detayı",
+      "Referral Kodu",
     ];
     const rows = filtered.map((submission) => [
       new Date(submission.created_at).toLocaleDateString("tr-TR"),
@@ -203,6 +207,9 @@ const AdminPage = () => {
       submission.donation_amount != null ? String(submission.donation_amount) : "",
       submission.donation_currency || "",
       submission.whatsapp_interest ? "Evet" : "Hayır",
+      submission.referral_source || "",
+      submission.referral_detail || "",
+      submission.referral_code || "",
     ]);
 
     const csvContent = [headers, ...rows].map((row) => row.map((cell) => `"${cell}"`).join(",")).join("\n");
@@ -470,6 +477,18 @@ const AdminPage = () => {
                         <span className="text-muted-foreground">
                           {new Date(selectedSubmission.created_at).toLocaleString("tr-TR")}
                         </span>
+                      </div>
+                      <div>
+                        Referral kaynağı:{" "}
+                        <span className="text-muted-foreground">{getReferralSourceLabel(selectedSubmission.referral_source)}</span>
+                      </div>
+                      <div>
+                        Referral detayı:{" "}
+                        <span className="text-muted-foreground">{selectedSubmission.referral_detail || "Yok"}</span>
+                      </div>
+                      <div>
+                        Referral kodu:{" "}
+                        <span className="text-muted-foreground">{selectedSubmission.referral_code || "Yok"}</span>
                       </div>
                     </div>
 

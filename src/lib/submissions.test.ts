@@ -28,6 +28,32 @@ describe("submission helpers", () => {
     expect(submission.category).toBe("danisman");
     expect(submission.status).toBe("new");
     expect(submission.business).toBeNull();
+    expect(submission.referral_source).toBeNull();
+    expect(submission.referral_detail).toBeNull();
+    expect(submission.referral_code).toBeNull();
+  });
+
+  it("normalizes referral fields consistently", () => {
+    const submission = toSubmissionInsert(
+      {
+        category: "danisman",
+        fullname: "Ada Lovelace",
+        country: "Germany",
+        city: "Berlin",
+        business: "",
+        field: "AI",
+        email: "ada@example.com",
+        phone: "+49 555",
+        referral_source: "whatsapp",
+        referral_detail: "Berlin Diaspora",
+        referral_code: " abc42 ",
+      },
+      "register",
+    );
+
+    expect(submission.referral_source).toBe("whatsapp");
+    expect(submission.referral_detail).toBe("Berlin Diaspora");
+    expect(submission.referral_code).toBe("ABC42");
   });
 
   it("renders labels and search text consistently", () => {
@@ -46,6 +72,9 @@ describe("submission helpers", () => {
       field: "Technology",
       email: "ada@example.com",
       phone: "+49 555",
+      referral_source: "whatsapp",
+      referral_detail: "Berlin Diaspora",
+      referral_code: "ABC42",
       description: "Community builder",
       contest_interest: false,
       linkedin: null,
@@ -64,5 +93,7 @@ describe("submission helpers", () => {
 
     expect(haystack).toContain("community builder");
     expect(haystack).toContain("priority lead");
+    expect(haystack).toContain("berlin diaspora");
+    expect(haystack).toContain("abc42");
   });
 });

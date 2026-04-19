@@ -17,7 +17,23 @@ export const categoryOptions = [
   { value: "support", label: "Destek / Yatırım" },
 ] as const;
 
+export const referralSourceOptions = [
+  { value: "whatsapp", label: "WhatsApp Grubu" },
+  { value: "instagram", label: "Instagram" },
+  { value: "linkedin", label: "LinkedIn" },
+  { value: "x-twitter", label: "X (Twitter)" },
+  { value: "facebook", label: "Facebook" },
+  { value: "tiktok", label: "TikTok" },
+  { value: "youtube", label: "YouTube" },
+  { value: "arkadas-tavsiye", label: "Arkadaş / Tavsiye" },
+  { value: "etkinlik", label: "Etkinlik / Buluşma" },
+  { value: "google", label: "Google Arama" },
+  { value: "basin-haber", label: "Basın / Haber" },
+  { value: "diger", label: "Diğer" },
+] as const;
+
 const categoryLabelMap = new Map(categoryOptions.map((option) => [option.value, option.label]));
+const referralLabelMap = new Map(referralSourceOptions.map((option) => [option.value, option.label]));
 
 const statusLabelMap: Record<SubmissionStatus, string> = {
   new: "Yeni",
@@ -46,6 +62,39 @@ export function getStatusLabel(status: SubmissionStatus) {
   return statusLabelMap[status] ?? status;
 }
 
+export function getReferralSourceLabel(source: string | null) {
+  if (!source) return "Belirtilmedi";
+  return referralLabelMap.get(source) ?? source;
+}
+
+export function shouldShowReferralDetail(source: string) {
+  return source !== "" && source !== "google" && source !== "basin-haber";
+}
+
+export function isReferralDetailRequired(source: string) {
+  return source === "whatsapp";
+}
+
+export function getReferralDetailLabel(source: string) {
+  if (source === "whatsapp") return "Hangi WhatsApp grubu? *";
+  if (source === "instagram") return "Hangi Instagram hesabı / gönderi?";
+  if (source === "linkedin") return "Hangi LinkedIn hesabı / gönderi?";
+  if (source === "x-twitter") return "Hangi X (Twitter) hesabı?";
+  if (source === "facebook") return "Hangi Facebook sayfa / grubu?";
+  if (source === "tiktok") return "Hangi TikTok hesabı?";
+  if (source === "youtube") return "Hangi YouTube kanalı / videosu?";
+  if (source === "arkadas-tavsiye") return "Sizi yönlendiren kişinin adı";
+  if (source === "etkinlik") return "Hangi etkinlik / buluşma?";
+  if (source === "diger") return "Lütfen detay verin";
+  return "Detay";
+}
+
+export function getReferralDetailPlaceholder(source: string) {
+  if (source === "whatsapp") return "Örn: Berlin Diaspora Topluluğu";
+  if (source === "arkadas-tavsiye") return "Örn: Ahmet Yılmaz";
+  return "Detay yazın";
+}
+
 export function buildSubmissionSearchText(submission: Submission) {
   return [
     submission.form_type,
@@ -64,6 +113,9 @@ export function buildSubmissionSearchText(submission: Submission) {
     submission.donation_amount?.toString(),
     submission.donation_currency,
     submission.whatsapp_interest?.toString(),
+    submission.referral_source,
+    submission.referral_detail,
+    submission.referral_code,
     submission.linkedin,
     submission.instagram,
     submission.tiktok,
@@ -99,6 +151,9 @@ export function toSubmissionInsert(
     whatsapp_interest: isBacker ? values.whatsapp_interest === "yes" : values.whatsapp_interest === "yes",
     donation_amount: isBacker ? Number(values.donation_amount ?? 0) || null : null,
     donation_currency: isBacker ? "USD" : null,
+    referral_source: String(values.referral_source ?? "") || null,
+    referral_detail: String(values.referral_detail ?? "").trim() || null,
+    referral_code: String(values.referral_code ?? "").trim().toUpperCase() || null,
     linkedin: String(values.linkedin ?? "") || null,
     instagram: String(values.instagram ?? "") || null,
     tiktok: String(values.tiktok ?? "") || null,

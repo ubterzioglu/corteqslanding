@@ -13,6 +13,9 @@ type SubmissionPayload = {
   field: string;
   email: string;
   phone: string;
+  referral_code: string | null;
+  referral_detail: string | null;
+  referral_source: string | null;
   description: string | null;
   contest_interest: boolean | null;
   linkedin: string | null;
@@ -35,6 +38,9 @@ function buildAdminHtml(submission: SubmissionPayload) {
     ["Alan", submission.field],
     ["E-posta", submission.email],
     ["Telefon", submission.phone],
+    ["Referral kaynagi", submission.referral_source ?? "-"],
+    ["Referral detayi", submission.referral_detail ?? "-"],
+    ["Referral kodu", submission.referral_code ?? "-"],
     ["Aciklama", submission.description ?? "-"],
     ["Yarisma ilgisi", submission.contest_interest ? "Evet" : "Hayir"],
     ["LinkedIn", submission.linkedin ?? "-"],
