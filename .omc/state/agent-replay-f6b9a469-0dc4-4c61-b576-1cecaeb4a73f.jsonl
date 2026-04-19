@@ -2,3 +2,4 @@
 {"t":0,"agent":"a173f95","agent_type":"Explore","event":"agent_start","parent_mode":"none"}
 {"t":0,"agent":"a173f95","agent_type":"Explore","event":"agent_stop","success":true,"duration_ms":63017}
 {"t":0,"agent":"a70a8d4","agent_type":"Explore","event":"agent_stop","success":true,"duration_ms":123958}
+{"t":0,"agent":"aed8c20","agent_type":"unknown","event":"agent_stop","success":true}
