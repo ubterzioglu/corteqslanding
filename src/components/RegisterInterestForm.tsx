@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
-
-import heroNetworkLight from "@/assets/hero-network-light.jpg";
-import corteqsLogo from "@/assets/corteqs-logo-globe.png";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import heroNetworkLight from "@/assets/hero-network-light.jpg";
+import corteqsLogo from "@/assets/corteqs-logo-globe.png";
 import { notifySubmission } from "@/lib/mail";
 import { categoryOptions, toSubmissionInsert, type SubmissionFormMode } from "@/lib/submissions";
 
@@ -19,34 +18,30 @@ interface RegisterInterestFormProps {
   mode?: SubmissionFormMode;
 }
 
-const RegisterInterestForm = ({
-  open,
-  onOpenChange,
-  defaultCategory,
-  mode = "register",
-}: RegisterInterestFormProps) => {
+const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "register" }: RegisterInterestFormProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(defaultCategory || "");
+  const [selectedCat, setSelectedCat] = useState(defaultCategory || "");
   const [consent, setConsent] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
-  const validatePhone = (value: string) => {
-    const cleaned = value.replace(/[\s\-().]/g, "");
-    return /^\+[1-9]\d{7,14}$/.test(cleaned);
-  };
-
   useEffect(() => {
     if (open && defaultCategory) {
-      setSelectedCategory(defaultCategory);
+      setSelectedCat(defaultCategory);
     }
-  }, [defaultCategory, open]);
+  }, [open, defaultCategory]);
 
   const isSupport = mode === "support";
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const validatePhone = (value: string) => {
+    const cleaned = value.replace(/[\s\-().]/g, "");
+    const e164 = /^\+[1-9]\d{7,14}$/;
+    return e164.test(cleaned);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
     if (!validatePhone(phone)) {
       setPhoneError("Telefon ülke kodu ile başlamalı (örn: +49 170 1234567).");
@@ -55,15 +50,12 @@ const RegisterInterestForm = ({
     setPhoneError("");
 
     setLoading(true);
-
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries());
     values.phone = phone.replace(/[\s\-().]/g, "");
+
     const payload = toSubmissionInsert(values, mode);
-    const notificationPayload = {
-      ...payload,
-      created_at: new Date().toISOString(),
-    };
+    const notificationPayload = { ...payload, created_at: new Date().toISOString() };
 
     try {
       const { error } = await supabase.from("submissions").insert(payload);
@@ -77,20 +69,21 @@ const RegisterInterestForm = ({
       }
 
       toast({
-        title: "Kaydınız alındı",
-        description: "Teşekkürler. Platform açıldığında sizinle iletişime geçeceğiz.",
+        title: "Kaydınız Alındı! ✅",
+        description: "Teşekkürler! Platform açıldığında sizinle iletişime geçeceğiz.",
       });
 
       onOpenChange(false);
       setConsent(false);
       setPhone("");
-      setSelectedCategory(defaultCategory || "");
-      event.currentTarget.reset();
-    } catch (submissionError) {
-      console.error("Submission error:", submissionError);
+      setPhoneError("");
+      setSelectedCat(defaultCategory || "");
+    } catch (err: unknown) {
+      console.error("Submission error:", err);
+      const message = err instanceof Error ? err.message : "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.";
       toast({
         title: "Bir hata oluştu",
-        description: "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.",
+        description: message,
         variant: "destructive",
       });
     } finally {
@@ -100,32 +93,32 @@ const RegisterInterestForm = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto border-none p-0 sm:max-w-lg">
-        <div className="relative overflow-hidden rounded-t-lg">
-          <img src={heroNetworkLight} alt="" aria-hidden="true" className="h-40 w-full object-cover" />
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto p-0 border-none">
+        <div className="relative rounded-t-lg overflow-hidden">
+          <img src={heroNetworkLight} alt="" className="w-full h-40 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
           <div className="absolute bottom-0 left-0 right-0 p-6">
-            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-10" />
+            <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
             <DialogHeader>
-              <DialogTitle className="text-xl text-foreground">
-                {isSupport ? "Projeye Destek ve Yatirim" : "İlginizi Kaydedin"}
+              <DialogTitle className="text-foreground text-xl">
+                {isSupport ? "Projeye Destek & Yatırım" : "İlginizi Kaydedin"}
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 {isSupport
-                  ? "Diaspora Connect projesine destek vermek veya yatırım yapmak için bilgilerinizi bırakın."
-                  : "Yakında açılıyoruz. İlk erişim için bilgilerinizi bırakın."}
+                  ? "💡 Diaspora Connect projesine destek vermek veya yatırım yapmak için bilgilerinizi bırakın."
+                  : "🚀 Yakında açılıyoruz! İlk erişim için bilgilerinizi bırakın."}
               </DialogDescription>
             </DialogHeader>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 p-6 pt-2">
-          <div className="mb-2 flex flex-wrap gap-2">
-            <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              {isSupport ? "Stratejik ortaklık" : "Yakında: AI destekli eşleştirme"}
+          <div className="flex flex-wrap gap-2 mb-2">
+            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+              {isSupport ? "🤝 Stratejik Ortaklık" : "🎯 Yakında: AI Destekli Eşleştirme"}
             </span>
-            <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-              {isSupport ? "Yatırım fırsatı" : "Yakında: 50+ şehir ağı"}
+            <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold">
+              {isSupport ? "💰 Yatırım Fırsatı" : "🌍 Yakında: 50+ Şehir Ağı"}
             </span>
           </div>
 
@@ -135,30 +128,24 @@ const RegisterInterestForm = ({
               <select
                 id="category"
                 name="category"
-                value={selectedCategory}
-                onChange={(event) => setSelectedCategory(event.target.value)}
+                value={selectedCat}
+                onChange={(e) => setSelectedCat(e.target.value)}
                 required
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               >
-                <option value="" disabled>
-                  Seçiniz...
-                </option>
+                <option value="" disabled>Seçiniz...</option>
                 {categoryOptions
-                  .filter((option) => option.value !== "support")
-                  .map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
+                  .filter((cat) => cat.value !== "support")
+                  .map((cat) => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
                   ))}
               </select>
 
-              {selectedCategory === "blogger-vlogger" && (
-                <div className="mt-3 rounded-lg border border-accent/20 bg-accent/10 p-3">
-                  <p className="mb-1 text-sm font-semibold text-foreground">Ödüllü blog yazısı yarışması yakında</p>
-                  <p className="mb-2 text-xs text-muted-foreground">
-                    Diaspora deneyiminizi anlatan en iyi blog yazısını yazın, ödülleri kazanın.
-                  </p>
-                  <label className="flex cursor-pointer items-center gap-2">
+              {selectedCat === "blogger-vlogger" && (
+                <div className="mt-3 p-3 rounded-lg bg-accent/10 border border-accent/20">
+                  <p className="text-sm font-semibold text-foreground mb-1">🏆 Ödüllü Blog Yazısı Yarışmamız Başlıyor!</p>
+                  <p className="text-xs text-muted-foreground mb-2">Diaspora deneyiminizi anlatan en iyi blog yazısını yazın, ödülleri kazanın.</p>
+                  <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" name="contest_interest" value="yes" className="rounded border-input" />
                     <span className="text-sm text-foreground">Yarışma ile ilgili bilgi istiyorum</span>
                   </label>
@@ -212,6 +199,7 @@ const RegisterInterestForm = ({
                   if (phoneError) setPhoneError("");
                 }}
                 pattern="^\+[1-9][0-9\s\-().]{7,20}$"
+                title="Telefon ülke kodu ile başlamalı (örn: +49 170 1234567)"
                 required
                 aria-invalid={!!phoneError}
               />
@@ -223,44 +211,32 @@ const RegisterInterestForm = ({
             </div>
           </div>
 
-          {selectedCategory === "sehir-elcisi" && !isSupport && (
-            <div className="space-y-3 rounded-xl border border-primary/15 bg-primary/5 p-4">
-              <p className="text-sm font-semibold text-foreground">Sosyal medya hesaplarınız</p>
+          {selectedCat === "sehir-elcisi" && !isSupport && (
+            <div className="space-y-3 p-4 rounded-xl bg-primary/5 border border-primary/15">
+              <p className="text-sm font-semibold text-foreground">📱 Sosyal Medya Hesaplarınız</p>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label htmlFor="linkedin" className="text-xs">
-                    LinkedIn
-                  </Label>
+                  <Label htmlFor="linkedin" className="text-xs">LinkedIn</Label>
                   <Input id="linkedin" name="linkedin" placeholder="linkedin.com/in/..." />
                 </div>
                 <div>
-                  <Label htmlFor="instagram" className="text-xs">
-                    Instagram
-                  </Label>
-                  <Input id="instagram" name="instagram" placeholder="@kullanıcıadı" />
+                  <Label htmlFor="instagram" className="text-xs">Instagram</Label>
+                  <Input id="instagram" name="instagram" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="tiktok" className="text-xs">
-                    TikTok
-                  </Label>
-                  <Input id="tiktok" name="tiktok" placeholder="@kullanıcıadı" />
+                  <Label htmlFor="tiktok" className="text-xs">TikTok</Label>
+                  <Input id="tiktok" name="tiktok" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="facebook" className="text-xs">
-                    Facebook
-                  </Label>
+                  <Label htmlFor="facebook" className="text-xs">Facebook</Label>
                   <Input id="facebook" name="facebook" placeholder="facebook.com/..." />
                 </div>
                 <div>
-                  <Label htmlFor="twitter" className="text-xs">
-                    X (Twitter)
-                  </Label>
-                  <Input id="twitter" name="twitter" placeholder="@kullanıcıadı" />
+                  <Label htmlFor="twitter" className="text-xs">X (Twitter)</Label>
+                  <Input id="twitter" name="twitter" placeholder="@kullaniciadi" />
                 </div>
                 <div>
-                  <Label htmlFor="website" className="text-xs">
-                    Web sitesi
-                  </Label>
+                  <Label htmlFor="website" className="text-xs">Web Sitesi</Label>
                   <Input id="website" name="website" type="url" placeholder="https://..." />
                 </div>
               </div>
@@ -273,29 +249,34 @@ const RegisterInterestForm = ({
               <Textarea
                 id="description"
                 name="description"
-                placeholder="Projeye verebileceğiniz teknik, organizasyonel veya yatırım desteğini kısaca yazın."
+                placeholder="Projeye verebileceğiniz teknik, organizasyonel ve yatırım gibi destekleri buraya yazın. Sizinle bağlantıya geçelim."
                 rows={4}
                 className="resize-none"
               />
             </div>
           )}
 
-          <div className="flex items-center justify-center gap-2 rounded-lg border border-primary/15 bg-primary/5 p-3">
-            <span className="text-lg">@</span>
-            <a href="mailto:info@corteqs.net" className="font-semibold text-primary hover:underline">
+          <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-primary/5 border border-primary/15">
+            <span className="text-lg">✉️</span>
+            <a href="mailto:info@corteqs.net" className="text-primary font-semibold hover:underline">
               info@corteqs.net
             </a>
           </div>
 
-          <div className="rounded-lg border border-accent/15 bg-accent/5 p-3 text-sm text-muted-foreground">
-            <strong className="text-foreground">Yakında:</strong> Platform açılır açılmaz size haber vereceğiz.
+          <div className="p-3 rounded-lg bg-accent/5 border border-accent/15 text-sm text-muted-foreground">
+            ⏳ <strong className="text-foreground">Yakında!</strong> Platform açılır açılmaz size ilk haber vereceğiz. Erken kayıt avantajlarından yararlanın.
           </div>
 
           <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
-            <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
+            <input
+              type="checkbox"
+              name="whatsapp_interest"
+              value="yes"
+              className="mt-1 rounded border-input accent-[#25D366]"
+            />
             <span className="text-sm text-foreground leading-relaxed">
-              <strong>WhatsApp topluluğuna katılmak istiyorum.</strong>{" "}
-              <span className="text-muted-foreground">Davet linki size iletilecek.</span>
+              💬 <strong>Kategori WhatsApp grubuna katılmak istiyorum.</strong>{" "}
+              <span className="text-muted-foreground">Erken erişim, açılış avantajları ve topluluk duyuruları için davet linki size iletilecek.</span>
             </span>
           </label>
 
@@ -306,18 +287,17 @@ const RegisterInterestForm = ({
               onCheckedChange={(checked) => setConsent(checked === true)}
               className="mt-0.5"
             />
-            <label htmlFor="consent" className="cursor-pointer text-xs leading-relaxed text-muted-foreground">
-              Kişisel bilgilerimi, CorteQS tarafından tarafıma ulaşılması amacıyla paylaşıyorum.
-              Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
+            <label htmlFor="consent" className="text-xs text-muted-foreground cursor-pointer leading-relaxed">
+              Kişisel bilgilerimi, CorteQS tarafından tarafıma ulaşılması amacıyla paylaşıyorum. Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
             </label>
           </div>
 
           <button
             type="submit"
             disabled={loading || !consent}
-            className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Gönderiliyor..." : isSupport ? "Destek başvurusu gönder" : "Kayıt bırak / takip et"}
+            {loading ? "Gönderiliyor..." : (isSupport ? "Destek Başvurusu Gönder →" : "Kayıt Bırak / Takip Et →")}
           </button>
         </form>
       </DialogContent>
