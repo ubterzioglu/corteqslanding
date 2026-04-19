@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Award, Crown, Sparkles, Star, Mail, Check } from "lucide-react";
+import { Award, Crown, Sparkles, Mail, Check } from "lucide-react";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import corteqsLogo from "@/assets/corteqs-logo-globe.png";
 import { notifySubmission } from "@/lib/mail";
@@ -32,41 +32,14 @@ type Tier = {
 
 const tiers: Tier[] = [
   {
-    amount: 10,
-    label: "Erken Üye",
-    icon: Sparkles,
-    perks: [
-      "Platform açılmadan önce erken erişim",
-      "Kurucu güncellemelerine erişim",
-      "Kapalı WhatsApp topluluğu",
-      "Profilde \"Erken Üye\" rozeti",
-    ],
-    accent: "from-accent/20 to-accent/5",
-    border: "border-accent/30",
-  },
-  {
-    amount: 100,
-    label: "Çekirdek Üye",
-    icon: Star,
-    perks: [
-      "Tüm Erken Üye avantajları",
-      "İlk etkinliklere öncelikli erişim",
-      "Premium üyelik indirimi",
-      "Profil görünürlük artırımı",
-    ],
-    accent: "from-primary/25 to-primary/5",
-    border: "border-primary/40",
-  },
-  {
     amount: 1000,
-    label: "Şehir Patronu",
+    label: "Ülke Bazlı Kurucu",
     icon: Award,
     perks: [
-      "Tüm Çekirdek Üye avantajları",
-      "Şehir bazlı öne çıkma",
+      "Ülke bazlı kurucu unvanı",
+      "Sosyal medya tanıtımlarında 1 yıl süreyle yer alma",
       "Erken kullanıcı lead'lerine erişim",
       "Etkinlik sponsorluğu önceliği",
-      "Şehir Patronlarına özel online etkinlik",
       "Platform reklam kredisi",
     ],
     accent: "from-primary/35 to-accent/10",
@@ -78,9 +51,7 @@ const tiers: Tier[] = [
     label: "Onursal Kurucu",
     icon: Crown,
     perks: [
-      "Tüm Şehir Patronu avantajları",
-      "CorteQS platform, uygulama ve sosyal medyada global görünürlük",
-      "Onursal Kurucular panosunda premium yer",
+      "CorteQS platformunda ve sosyal medyada global görünürlük",
       "Özel iş birliği fırsatları",
       "Stratejik 1:1 görüşmeler",
     ],
@@ -94,11 +65,22 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
   const [loading, setLoading] = useState(false);
   const [consent, setConsent] = useState(false);
   const [donorType, setDonorType] = useState<DonorType>("individual");
-  const [selectedTier, setSelectedTier] = useState<number>(defaultTier ?? 100);
+  const presetAmounts = tiers.map((t) => t.amount);
+  const initialAmount = defaultTier ?? 1000;
+  const [selectedTier, setSelectedTier] = useState<number>(initialAmount);
+  const [isCustom, setIsCustom] = useState<boolean>(!presetAmounts.includes(initialAmount));
+  const [customAmount, setCustomAmount] = useState<string>(
+    !presetAmounts.includes(initialAmount) ? String(initialAmount) : ""
+  );
 
   useEffect(() => {
-    if (open && defaultTier) setSelectedTier(defaultTier);
-  }, [open, defaultTier]);
+    if (open && defaultTier) {
+      setSelectedTier(defaultTier);
+      const custom = !presetAmounts.includes(defaultTier);
+      setIsCustom(custom);
+      setCustomAmount(custom ? String(defaultTier) : "");
+    }
+  }, [open, defaultTier, presetAmounts]);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
@@ -116,12 +98,22 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
     }
     setPhoneError("");
 
+    const effectiveAmount = isCustom ? parseInt(customAmount, 10) : selectedTier;
+    if (!effectiveAmount || effectiveAmount < 1) {
+      toast({
+        title: "Geçerli bir tutar girin",
+        description: "Lütfen en az 1 USD tutarında bir bağış miktarı belirtin.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     const values = Object.fromEntries(formData.entries());
 
     const payload = toSubmissionInsert(
-      { ...values, phone: phone.replace(/[\s\-().]/g, ""), donation_amount: String(selectedTier), donor_type: donorType },
+      { ...values, phone: phone.replace(/[\s\-().]/g, ""), donation_amount: String(effectiveAmount), donor_type: donorType },
       "backer",
     );
     const notificationPayload = { ...payload, created_at: new Date().toISOString() };
@@ -137,14 +129,16 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
       }
 
       toast({
-        title: "Bağış Niyetiniz Alındı!",
+        title: "Bağış Niyetiniz Alındı! 🏆",
         description: "Teşekkürler! Detaylı görüşme için kısa süre içinde size e-posta göndereceğiz.",
       });
 
       onOpenChange(false);
       setConsent(false);
       setPhone("");
-      setSelectedTier(100);
+      setSelectedTier(1000);
+      setIsCustom(false);
+      setCustomAmount("");
       setDonorType("individual");
     } catch (err: unknown) {
       console.error("Backer submission error:", err);
@@ -161,12 +155,12 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] overflow-y-auto border-none p-0 sm:max-w-3xl">
+      <DialogContent className="sm:max-w-3xl max-h-[92vh] overflow-y-auto p-0 border-none">
         <div className="relative rounded-t-lg overflow-hidden">
-          <img src={heroNetworkLight} alt="" aria-hidden="true" className="w-full h-44 object-cover" />
+          <img src={heroNetworkLight} alt="" className="w-full h-44 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/95" />
           <div className="absolute top-4 right-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-500/95 px-3 py-1.5 text-xs font-bold text-yellow-950 shadow-lg">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/95 text-yellow-950 text-xs font-bold shadow-lg">
               <Crown className="w-3.5 h-3.5" /> ONURSAL KURUCULAR PROGRAMI
             </span>
           </div>
@@ -174,7 +168,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
             <DialogHeader>
               <DialogTitle className="text-foreground text-2xl">
-                Bağış Kabul Ediyoruz - Onursal Kurucularınız Arasına Girin
+                🏆 Bağış Kabul Ediyoruz — Onursal Kurucularımız Arasına Girin
               </DialogTitle>
               <DialogDescription className="text-muted-foreground">
                 Diaspora Connect'in temellerini birlikte atalım. Bağışınızla erken erişim, üyelik avantajları, platform reklamları ve onursal kurucular panomuzda yer alma fırsatı kazanın.
@@ -186,28 +180,31 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
         <form onSubmit={handleSubmit} className="space-y-6 p-6 pt-4">
           <div>
             <Label className="text-base font-semibold mb-3 block">Bağış Tutarınızı Seçin</Label>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid sm:grid-cols-2 gap-3">
               {tiers.map((tier) => {
                 const Icon = tier.icon;
-                const isSelected = selectedTier === tier.amount;
+                const isSelected = !isCustom && selectedTier === tier.amount;
                 return (
                   <button
                     type="button"
                     key={tier.amount}
-                    onClick={() => setSelectedTier(tier.amount)}
-                    className={`relative bg-gradient-to-br p-4 text-left transition-all ${tier.accent} ${
+                    onClick={() => {
+                      setIsCustom(false);
+                      setSelectedTier(tier.amount);
+                    }}
+                    className={`relative text-left p-4 rounded-xl border-2 transition-all bg-gradient-to-br ${tier.accent} ${
                       isSelected
-                        ? `${tier.border} scale-[1.02] rounded-[8px] border-2 shadow-lg ring-2 ring-primary/50`
-                        : "rounded-[8px] border border-border hover:border-primary/30"
+                        ? `${tier.border} ring-2 ring-primary/50 scale-[1.02] shadow-lg`
+                        : "border-border hover:border-primary/30"
                     }`}
                   >
                     {tier.popular && (
-                        <span className="absolute -top-2 left-1/2 -translate-x-1/2 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-foreground">
-                          Popüler
-                        </span>
-                      )}
+                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
+                        Popüler
+                      </span>
+                    )}
                     {isSelected && (
-                      <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
                         <Check className="w-3 h-3" />
                       </span>
                     )}
@@ -217,7 +214,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                     <ul className="space-y-1">
                       {tier.perks.map((perk) => (
                         <li key={perk} className="text-xs text-foreground/80 flex items-start gap-1">
-                          <span className="text-primary mt-0.5">-</span>
+                          <span className="text-primary mt-0.5">•</span>
                           <span>{perk}</span>
                         </li>
                       ))}
@@ -225,6 +222,52 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
                   </button>
                 );
               })}
+            </div>
+
+            <div
+              className={`mt-3 p-4 rounded-xl border-2 transition-all bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 ${
+                isCustom ? "border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-md" : "border-border"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  <span className="font-semibold text-foreground text-sm">Özel Tutar / Esnek Bağış</span>
+                </div>
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">İstediğiniz kadar</span>
+              </div>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold">$</span>
+                  <Input
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    placeholder="Tutar (USD)"
+                    value={customAmount}
+                    onFocus={() => setIsCustom(true)}
+                    onChange={(e) => {
+                      setIsCustom(true);
+                      setCustomAmount(e.target.value);
+                    }}
+                    className="pl-7"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (customAmount && parseInt(customAmount, 10) >= 1) setIsCustom(true);
+                  }}
+                  className="px-4 rounded-md bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-all"
+                >
+                  Seç
+                </button>
+              </div>
+              {isCustom && customAmount && parseInt(customAmount, 10) >= 1 && (
+                <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-2 font-medium">
+                  ✓ ${parseInt(customAmount, 10).toLocaleString()} USD bağış seçildi
+                </p>
+              )}
             </div>
           </div>
 
@@ -234,24 +277,24 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
               <button
                 type="button"
                 onClick={() => setDonorType("individual")}
-                className={`rounded-[8px] border-2 p-3 text-sm font-semibold transition-all ${
+                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
                   donorType === "individual"
                     ? "border-primary bg-primary/5 text-primary"
                     : "border-border text-muted-foreground hover:border-primary/30"
                 }`}
               >
-                Kişisel
+                👤 Kişisel
               </button>
               <button
                 type="button"
                 onClick={() => setDonorType("company")}
-                className={`rounded-[8px] border-2 p-3 text-sm font-semibold transition-all ${
+                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
                   donorType === "company"
                     ? "border-primary bg-primary/5 text-primary"
                     : "border-border text-muted-foreground hover:border-primary/30"
                 }`}
               >
-                Firma
+                🏢 Firma
               </button>
             </div>
           </div>
@@ -322,7 +365,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             </div>
           </div>
 
-          <div className="space-y-2 rounded-[8px] border border-primary/20 bg-gradient-to-br from-primary/5 to-accent/5 p-4">
+          <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 space-y-2">
             <p className="font-semibold text-foreground flex items-center gap-2">
               <Mail className="w-4 h-4 text-primary" /> Detaylı Bilgilendirme
             </p>
@@ -334,10 +377,10 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
             </a>
           </div>
 
-          <label className="flex cursor-pointer items-start gap-2 rounded-[8px] border border-[#25D366]/30 bg-[#25D366]/5 p-3">
+          <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
             <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
             <span className="text-sm text-foreground leading-relaxed">
-              <strong>Onursal Kurucular WhatsApp grubuna katılmak istiyorum.</strong>{" "}
+              💬 <strong>Onursal Kurucular WhatsApp grubuna katılmak istiyorum.</strong>{" "}
               <span className="text-muted-foreground">Davet linki size iletilecek.</span>
             </span>
           </label>
@@ -357,9 +400,11 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           <button
             type="submit"
             disabled={loading || !consent}
-            className="w-full rounded-[8px] bg-gradient-to-r from-yellow-500 via-primary to-primary py-4 text-base font-bold text-white shadow-lg shadow-primary/20 transition-all hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-500 via-primary to-primary text-white font-bold text-base hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
           >
-            {loading ? "Gönderiliyor..." : `${selectedTier.toLocaleString()}$ Bağış Niyetimi Bildir →`}
+            {loading
+              ? "Gönderiliyor..."
+              : `🏆 ${(isCustom ? parseInt(customAmount || "0", 10) : selectedTier).toLocaleString()}$ Bağış Niyetimi Bildir →`}
           </button>
         </form>
       </DialogContent>

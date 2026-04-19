@@ -6,28 +6,29 @@ const AmbassadorSection = () => {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section id="elciler" className="bg-background py-14 lg:py-20">
+    <section id="elciler" className="py-14 lg:py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
-          <div className="relative order-2 overflow-hidden rounded-[8px] border border-white/60 bg-white/60 p-3 shadow-[0_22px_60px_rgba(31,40,52,0.12)] lg:order-1">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="relative order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl">
             <img
               src={cityAmbassador}
-              alt="CorteQS şehir elçisi - yerel diaspora temsilcisi"
-              className="w-full rounded-[8px] object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
+              alt="Şehir elçisi"
+              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1200}
               height={800}
             />
-            <div className="pointer-events-none absolute inset-3 rounded-[8px] bg-gradient-to-t from-foreground/15 via-transparent to-transparent" />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" aria-hidden />
+            <div className="pointer-events-none absolute inset-0 bg-card/15" aria-hidden />
           </div>
           <div className="order-1 lg:order-2">
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Şehir Elçileri</span>
-            <p className="text-muted-foreground text-base mt-2 mb-1 italic">CorteQS'in topluluk gücünü arkanıza alın</p>
+            <p className="text-foreground font-bold text-base mt-2 mb-1 italic">CorteQS'in topluluk gücünü arkanıza alın</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               Şehrinizin Sesi Olun
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Corteqs Diaspora Connect şehir elçileri, bulundukları şehirlerde diaspora topluluğunu temsil eden, yerel etkinlikler organize eden ve ağı büyüten gönüllü liderlerdir.
+              Şehir elçileri, bulundukları şehirlerde diaspora topluluğunu temsil eden, CorteQS'in alt yapısı ile yerel etkinlikler organize eden ve ağı büyüten bölgesel partnerlerdir.
             </p>
             <ul className="space-y-4 mb-8">
               {[
@@ -49,7 +50,7 @@ const AmbassadorSection = () => {
             </ul>
             <button
               onClick={() => setFormOpen(true)}
-              className="inline-flex items-center justify-center rounded-[8px] bg-accent px-8 py-4 text-lg font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-accent-foreground font-semibold text-lg hover:bg-accent/90 transition-all shadow-lg shadow-accent/20"
             >
               Elçi Olarak Kayıt Bırak / Takip Et
             </button>

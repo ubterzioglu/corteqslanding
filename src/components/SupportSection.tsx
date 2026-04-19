@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Rocket, Handshake, CircuitBoard, Crown, Sparkles, Star, Award, Check } from "lucide-react";
+import { Rocket, Handshake, CircuitBoard, Crown, Award, Check, Heart } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 import BackerForm from "./BackerForm";
 
@@ -9,7 +9,7 @@ type MiniTier = {
   limit: string;
   badge?: string;
   badgeClass?: string;
-  icon: typeof Sparkles;
+  icon: typeof Crown;
   perks: string[];
   cta: string;
   highlight?: boolean;
@@ -18,33 +18,21 @@ type MiniTier = {
 
 const miniTiers: MiniTier[] = [
   {
-    amount: 10,
-    title: "Erken Üye",
-    limit: "İlk 1000 kişi",
-    icon: Sparkles,
-    perks: ["Erken erişim", "Kurucu güncellemeleri", "Kapalı WhatsApp", "Profil rozeti"],
-    cta: "Erken Katıl",
-  },
-  {
-    amount: 100,
-    title: "Çekirdek Üye",
-    limit: "İlk 750 kişi",
-    badge: "Önerilen",
-    badgeClass: "bg-accent text-accent-foreground",
-    icon: Star,
-    perks: ["Tüm Erken Üye avantajları", "Etkinliklere öncelikli erişim", "Premium üyelik indirimi", "Profil görünürlük artırımı"],
-    cta: "Çekirdek Üye Ol",
-  },
-  {
     amount: 1000,
-    title: "Şehir Patronu",
+    title: "Ülke Bazlı Kurucu",
     limit: "Max 500 kişi",
     badge: "Popüler",
     badgeClass: "bg-emerald-500 text-white",
     icon: Award,
     highlight: true,
-    perks: ["Tüm Çekirdek Üye avantajları", "Şehir bazlı öne çıkma", "Erken kullanıcı lead'leri", "Etkinlik sponsorluğu önceliği", "Şehir Patronlarına özel online etkinlik", "Platform reklam kredisi"],
-    cta: "Şehir Patronu Ol",
+    perks: [
+      "Ülke bazlı kurucu unvanı",
+      "Sosyal medya tanıtımlarında 1 yıl süreyle yer alma",
+      "Erken kullanıcı lead'lerine erişim",
+      "Etkinlik sponsorluğu önceliği",
+      "Platform reklam kredisi",
+    ],
+    cta: "Ülke Bazlı Kurucu Ol",
   },
   {
     amount: 10000,
@@ -54,7 +42,11 @@ const miniTiers: MiniTier[] = [
     badgeClass: "bg-gradient-to-r from-yellow-500 to-primary text-white",
     icon: Crown,
     founding: true,
-    perks: ["Tüm Şehir Patronu avantajları", "Global görünürlük", "Onursal Kurucular panosu", "Özel iş birliği fırsatları", "Stratejik 1:1 görüşmeler"],
+    perks: [
+      "CorteQS platformunda ve sosyal medyada global görünürlük",
+      "Özel iş birliği fırsatları",
+      "Stratejik 1:1 görüşmeler",
+    ],
     cta: "Onursal Kurucu Ol",
   },
 ];
@@ -62,15 +54,22 @@ const miniTiers: MiniTier[] = [
 const SupportSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const [backerOpen, setBackerOpen] = useState(false);
-  const [selectedTier, setSelectedTier] = useState<number>(100);
+  const [selectedTier, setSelectedTier] = useState<number>(1000);
+  const [customAmount, setCustomAmount] = useState<string>("");
 
   const openBacker = (amount: number) => {
     setSelectedTier(amount);
     setBackerOpen(true);
   };
 
+  const openCustom = () => {
+    const parsed = parseInt(customAmount, 10);
+    if (!parsed || parsed < 1) return;
+    openBacker(parsed);
+  };
+
   return (
-    <section id="destek" className="bg-card py-14 lg:py-20">
+    <section id="destek" className="py-14 lg:py-20 bg-card">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="text-accent font-semibold text-sm uppercase tracking-wider">Projeye Destek</span>
@@ -82,23 +81,23 @@ const SupportSection = () => {
           </p>
         </div>
 
-        <div className="mx-auto mb-12 grid max-w-4xl gap-5 sm:grid-cols-3">
-          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-accent/10">
+        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
+          <div className="p-8 rounded-2xl bg-background border border-border text-center">
+            <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-5">
               <CircuitBoard className="w-7 h-7 text-accent" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Teknik</h3>
             <p className="text-muted-foreground text-sm">Yazılım, tasarım, altyapı ve teknoloji alanlarında katkıda bulunun.</p>
           </div>
-          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-primary/10">
+          <div className="p-8 rounded-2xl bg-background border border-border text-center">
+            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
               <Handshake className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Organizasyonel</h3>
             <p className="text-muted-foreground text-sm">İş birlikleri, ağ genişletme ve topluluk yönetimi ile destek olun.</p>
           </div>
-          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
-            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-accent/10">
+          <div className="p-8 rounded-2xl bg-background border border-border text-center">
+            <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-5">
               <Rocket className="w-7 h-7 text-accent" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Yatırım</h3>
@@ -109,7 +108,7 @@ const SupportSection = () => {
         <div className="text-center space-y-4">
           <button
             onClick={() => setFormOpen(true)}
-            className="inline-flex items-center justify-center rounded-[8px] bg-accent px-10 py-4 text-lg font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
+            className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-accent text-accent-foreground font-bold text-lg hover:bg-accent/90 transition-all shadow-lg shadow-accent/20"
           >
             Teknik, Org, Yatırım Görüşmeleri için →
           </button>
@@ -118,53 +117,90 @@ const SupportSection = () => {
           </p>
         </div>
 
-        <div className="mx-auto mt-16 max-w-6xl">
-          <div className="relative overflow-hidden rounded-[8px] border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-background to-cyan-500/10 p-7 shadow-[0_24px_70px_rgba(28,38,52,0.10)] md:p-9">
-
-            <div className="absolute top-4 right-4 hidden sm:block">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white shadow-md">
-                <Crown className="w-3.5 h-3.5" /> SINIRLI KONTENJAN
-              </span>
-            </div>
+        {/* Honorary Founders / Backing CTA + Membership packages */}
+        <div className="max-w-6xl mx-auto mt-16">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/15 p-8 md:p-10">
+            {/* Decorative blobs */}
+            <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-emerald-400/20 blur-3xl" aria-hidden />
+            <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-cyan-400/20 blur-3xl" aria-hidden />
 
             <div className="relative text-center">
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-[8px] bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/30">
-                <Crown className="w-8 h-8 text-white" />
-              </div>
-
               <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
                 <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-                  Onursal Kurucularımızın Arasına Girin
+                  🏆 Bağış/Backing Kabul Ediyoruz
                 </h3>
-                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+              </div>
+
+              {/* Tagline with trophy + honorary badge icons */}
+              <div className="flex flex-wrap items-center justify-center gap-3 mb-3">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                  <Crown className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-lg md:text-xl font-semibold text-foreground/90">
+                  Onursal Kurucularımız Arasına Girin
+                </p>
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wide">
                   <Crown className="w-3 h-3" /> Onursal
                 </span>
               </div>
-              <p className="text-lg md:text-xl font-semibold text-foreground/90 mb-3">
-                Bağış/Backing Kabul Ediyoruz
-              </p>
-              <p className="text-muted-foreground text-base max-w-2xl mx-auto mb-8">
-                Bağışınızla <strong className="text-foreground">erken erişim</strong>, <strong className="text-foreground">üyelik paketi avantajları</strong>, <strong className="text-foreground">platform reklamları</strong> ve <strong className="text-foreground">Onursal Bağışçılar Panomuzda</strong> yer alma fırsatı kazanın.
+
+              <p className="text-foreground text-base md:text-lg font-semibold max-w-2xl mx-auto mb-8">
+                Onursal Kurucular Panomuzda yerinizi alın. Vizyonumuza ortak olun.
               </p>
             </div>
 
-            <div className="relative mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Custom amount — flexible donation */}
+            <div className="relative max-w-2xl mx-auto mb-8 p-5 rounded-2xl bg-card/95 backdrop-blur border-2 border-border">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-9 h-9 rounded-lg bg-emerald-500/15 flex items-center justify-center">
+                  <Heart className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <h4 className="font-bold text-foreground text-sm leading-tight">İstediğiniz Kadar Bağış / Katkı Yapın</h4>
+              </div>
+              <p className="text-xs text-muted-foreground mb-3">
+                Her katkı değerlidir. İstediğiniz miktarı girerek bu vizyona destek olabilirsiniz.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="relative flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold">$</span>
+                  <input
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    placeholder="Tutar (USD)"
+                    value={customAmount}
+                    onChange={(e) => setCustomAmount(e.target.value)}
+                    className="w-full pl-7 pr-3 py-2.5 rounded-lg bg-background border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/60"
+                  />
+                </div>
+                <button
+                  onClick={openCustom}
+                  disabled={!customAmount || parseInt(customAmount, 10) < 1}
+                  className="py-2.5 px-5 rounded-lg bg-emerald-500 text-white font-bold text-xs hover:bg-emerald-600 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Bağış Yap →
+                </button>
+              </div>
+            </div>
+
+            {/* Compact membership packages */}
+            <div className="relative grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto mb-8">
               {miniTiers.map((tier) => {
                 const Icon = tier.icon;
                 return (
                   <div
                     key={tier.amount}
-                    className={`relative flex flex-col rounded-[8px] border bg-card/95 p-5 backdrop-blur transition-all hover:shadow-xl ${
+                    className={`relative flex flex-col p-5 rounded-2xl bg-card/95 backdrop-blur border-2 transition-all hover:shadow-xl ${
                       tier.founding
                         ? "border-yellow-500/40"
                         : tier.highlight
-                        ? "border-emerald-500/60 shadow-lg ring-2 ring-emerald-500/30 lg:scale-[1.02]"
-                        : "border-border/75"
+                        ? "border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-lg"
+                        : "border-border"
                     }`}
                   >
                     {tier.badge && (
                       <span
-                        className={`absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide shadow-md ${tier.badgeClass}`}
+                        className={`absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md ${tier.badgeClass}`}
                       >
                         {tier.badge}
                       </span>
@@ -172,7 +208,7 @@ const SupportSection = () => {
 
                     <div className="flex items-center gap-2 mb-3">
                       <div
-                        className={`flex h-9 w-9 items-center justify-center rounded-[8px] ${
+                        className={`w-9 h-9 rounded-lg flex items-center justify-center ${
                           tier.founding
                             ? "bg-gradient-to-br from-yellow-500 to-primary"
                             : "bg-emerald-500/15"
@@ -199,7 +235,7 @@ const SupportSection = () => {
 
                     <button
                       onClick={() => openBacker(tier.amount)}
-                      className={`w-full rounded-[8px] py-2.5 font-bold text-xs transition-all ${
+                      className={`w-full py-2.5 rounded-lg font-bold text-xs transition-all ${
                         tier.founding
                           ? "bg-gradient-to-r from-yellow-500 via-primary to-primary text-white hover:opacity-95 shadow-md"
                           : tier.highlight
@@ -214,10 +250,11 @@ const SupportSection = () => {
               })}
             </div>
 
+            {/* Main CTA below packages */}
             <div className="relative text-center">
               <button
                 onClick={() => openBacker(10000)}
-                className="inline-flex items-center justify-center rounded-[8px] bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 px-10 py-4 text-lg font-bold text-white shadow-lg shadow-emerald-500/30 transition-all hover:opacity-95"
+                className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white font-bold text-lg hover:opacity-95 transition-all shadow-lg shadow-emerald-500/30"
               >
                 Onursal Kurucu Olmak İstiyorum →
               </button>
