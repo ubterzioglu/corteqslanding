@@ -222,21 +222,27 @@
       "type": "file"
     },
     {
+      "path": "index.html",
+      "accessCount": 9,
+      "lastAccessed": 1776615807978,
+      "type": "file"
+    },
+    {
       "path": "",
       "accessCount": 6,
       "lastAccessed": 1776590701312,
       "type": "directory"
     },
     {
-      "path": "index.html",
-      "accessCount": 5,
-      "lastAccessed": 1776615203669,
-      "type": "file"
-    },
-    {
       "path": "src\\components\\AboutSection.tsx",
       "accessCount": 5,
       "lastAccessed": 1776615213957,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Index.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1776615824654,
       "type": "file"
     },
     {
@@ -270,9 +276,9 @@
       "type": "file"
     },
     {
-      "path": "src\\pages\\Index.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1776615214292,
+      "path": "package.json",
+      "accessCount": 4,
+      "lastAccessed": 1776615847062,
       "type": "file"
     },
     {
@@ -285,6 +291,18 @@
       "path": "src\\components\\RegisterInterestForm.tsx",
       "accessCount": 3,
       "lastAccessed": 1776615230241,
+      "type": "file"
+    },
+    {
+      "path": "public\\robots.txt",
+      "accessCount": 3,
+      "lastAccessed": 1776615730000,
+      "type": "file"
+    },
+    {
+      "path": "public\\sitemap.xml",
+      "accessCount": 3,
+      "lastAccessed": 1776615765365,
       "type": "file"
     },
     {
@@ -318,6 +336,12 @@
       "type": "file"
     },
     {
+      "path": "src\\main.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1776615851767,
+      "type": "file"
+    },
+    {
       "path": ".kilo\\seo-changelog.md",
       "accessCount": 1,
       "lastAccessed": 1776541655737,
@@ -336,27 +360,9 @@
       "type": "file"
     },
     {
-      "path": "package.json",
-      "accessCount": 1,
-      "lastAccessed": 1776615200520,
-      "type": "file"
-    },
-    {
       "path": "vite.config.ts",
       "accessCount": 1,
       "lastAccessed": 1776615203948,
-      "type": "file"
-    },
-    {
-      "path": "public\\robots.txt",
-      "accessCount": 1,
-      "lastAccessed": 1776615209498,
-      "type": "file"
-    },
-    {
-      "path": "public\\sitemap.xml",
-      "accessCount": 1,
-      "lastAccessed": 1776615209555,
       "type": "file"
     },
     {
@@ -375,6 +381,18 @@
       "path": "remiks.md",
       "accessCount": 1,
       "lastAccessed": 1776615233871,
+      "type": "file"
+    },
+    {
+      "path": "public\\llms.txt",
+      "accessCount": 1,
+      "lastAccessed": 1776615750836,
+      "type": "file"
+    },
+    {
+      "path": "public\\.well-known\\security.txt",
+      "accessCount": 1,
+      "lastAccessed": 1776615757934,
       "type": "file"
     }
   ],
