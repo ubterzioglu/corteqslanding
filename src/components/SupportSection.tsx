@@ -70,7 +70,7 @@ const SupportSection = () => {
   };
 
   return (
-    <section id="destek" className="py-20 lg:py-28 bg-card">
+    <section id="destek" className="bg-card py-14 lg:py-20">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <span className="text-accent font-semibold text-sm uppercase tracking-wider">Projeye Destek</span>
@@ -82,23 +82,23 @@ const SupportSection = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-          <div className="p-8 rounded-2xl bg-background border border-border text-center">
-            <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-5">
+        <div className="mx-auto mb-12 grid max-w-4xl gap-5 sm:grid-cols-3">
+          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-accent/10">
               <CircuitBoard className="w-7 h-7 text-accent" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Teknik</h3>
             <p className="text-muted-foreground text-sm">Yazılım, tasarım, altyapı ve teknoloji alanlarında katkıda bulunun.</p>
           </div>
-          <div className="p-8 rounded-2xl bg-background border border-border text-center">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-5">
+          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-primary/10">
               <Handshake className="w-7 h-7 text-primary" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Organizasyonel</h3>
             <p className="text-muted-foreground text-sm">İş birlikleri, ağ genişletme ve topluluk yönetimi ile destek olun.</p>
           </div>
-          <div className="p-8 rounded-2xl bg-background border border-border text-center">
-            <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-5">
+          <div className="rounded-[8px] border border-border/75 bg-background/88 p-7 text-center shadow-sm">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-[8px] bg-accent/10">
               <Rocket className="w-7 h-7 text-accent" />
             </div>
             <h3 className="font-bold text-foreground text-lg mb-2">Yatırım</h3>
@@ -109,7 +109,7 @@ const SupportSection = () => {
         <div className="text-center space-y-4">
           <button
             onClick={() => setFormOpen(true)}
-            className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-accent text-accent-foreground font-bold text-lg hover:bg-accent/90 transition-all shadow-lg shadow-accent/20"
+            className="inline-flex items-center justify-center rounded-[8px] bg-accent px-10 py-4 text-lg font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
           >
             Teknik, Org, Yatırım Görüşmeleri için →
           </button>
@@ -118,19 +118,17 @@ const SupportSection = () => {
           </p>
         </div>
 
-        <div className="max-w-6xl mx-auto mt-16">
-          <div className="relative overflow-hidden rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/15 via-teal-500/10 to-cyan-500/15 p-8 md:p-10">
-            <div className="absolute -top-16 -left-16 w-48 h-48 rounded-full bg-emerald-400/20 blur-3xl" aria-hidden />
-            <div className="absolute -bottom-16 -right-16 w-48 h-48 rounded-full bg-cyan-400/20 blur-3xl" aria-hidden />
+        <div className="mx-auto mt-16 max-w-6xl">
+          <div className="relative overflow-hidden rounded-[8px] border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-background to-cyan-500/10 p-7 shadow-[0_24px_70px_rgba(28,38,52,0.10)] md:p-9">
 
             <div className="absolute top-4 right-4 hidden sm:block">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-bold shadow-md">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-bold text-white shadow-md">
                 <Crown className="w-3.5 h-3.5" /> SINIRLI KONTENJAN
               </span>
             </div>
 
             <div className="relative text-center">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/30">
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-[8px] bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-500/30">
                 <Crown className="w-8 h-8 text-white" />
               </div>
 
@@ -138,7 +136,7 @@ const SupportSection = () => {
                 <h3 className="text-2xl md:text-3xl font-bold text-foreground">
                   Onursal Kurucularımızın Arasına Girin
                 </h3>
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold uppercase tracking-wide">
+                <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
                   <Crown className="w-3 h-3" /> Onursal
                 </span>
               </div>
@@ -150,23 +148,23 @@ const SupportSection = () => {
               </p>
             </div>
 
-            <div className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div className="relative mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {miniTiers.map((tier) => {
                 const Icon = tier.icon;
                 return (
                   <div
                     key={tier.amount}
-                    className={`relative flex flex-col p-5 rounded-2xl bg-card/95 backdrop-blur border-2 transition-all hover:shadow-xl ${
+                    className={`relative flex flex-col rounded-[8px] border bg-card/95 p-5 backdrop-blur transition-all hover:shadow-xl ${
                       tier.founding
                         ? "border-yellow-500/40"
                         : tier.highlight
-                        ? "border-emerald-500/60 ring-2 ring-emerald-500/30 lg:scale-[1.02] shadow-lg"
-                        : "border-border"
+                        ? "border-emerald-500/60 shadow-lg ring-2 ring-emerald-500/30 lg:scale-[1.02]"
+                        : "border-border/75"
                     }`}
                   >
                     {tier.badge && (
                       <span
-                        className={`absolute -top-2.5 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide shadow-md ${tier.badgeClass}`}
+                        className={`absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide shadow-md ${tier.badgeClass}`}
                       >
                         {tier.badge}
                       </span>
@@ -174,7 +172,7 @@ const SupportSection = () => {
 
                     <div className="flex items-center gap-2 mb-3">
                       <div
-                        className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                        className={`flex h-9 w-9 items-center justify-center rounded-[8px] ${
                           tier.founding
                             ? "bg-gradient-to-br from-yellow-500 to-primary"
                             : "bg-emerald-500/15"
@@ -201,7 +199,7 @@ const SupportSection = () => {
 
                     <button
                       onClick={() => openBacker(tier.amount)}
-                      className={`w-full py-2.5 rounded-lg font-bold text-xs transition-all ${
+                      className={`w-full rounded-[8px] py-2.5 font-bold text-xs transition-all ${
                         tier.founding
                           ? "bg-gradient-to-r from-yellow-500 via-primary to-primary text-white hover:opacity-95 shadow-md"
                           : tier.highlight
@@ -219,7 +217,7 @@ const SupportSection = () => {
             <div className="relative text-center">
               <button
                 onClick={() => openBacker(10000)}
-                className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white font-bold text-lg hover:opacity-95 transition-all shadow-lg shadow-emerald-500/30"
+                className="inline-flex items-center justify-center rounded-[8px] bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 px-10 py-4 text-lg font-bold text-white shadow-lg shadow-emerald-500/30 transition-all hover:opacity-95"
               >
                 Onursal Kurucu Olmak İstiyorum →
               </button>

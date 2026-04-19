@@ -17,9 +17,9 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="bg-foreground py-16">
+    <footer className="bg-foreground py-14 lg:py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="mb-12 rounded-[8px] border border-white/10 bg-white/5 px-5 py-10 text-center shadow-[0_24px_70px_rgba(0,0,0,0.18)] backdrop-blur sm:px-8">
           <p className="text-3xl md:text-4xl font-bold text-background mb-4">
             Yakında Açılıyoruz!
           </p>
@@ -27,10 +27,9 @@ const FooterSection = () => {
             Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
           </p>
 
-          {/* Prominent email */}
           <a
             href="mailto:info@corteqs.net"
-            className="inline-flex items-center gap-2 mb-8 px-5 py-3 rounded-xl bg-background/10 border border-background/20 hover:bg-background/15 transition-colors"
+            className="mb-8 inline-flex items-center gap-2 rounded-[8px] border border-background/20 bg-background/10 px-5 py-3 transition-colors hover:bg-background/15"
           >
             <Mail className="w-5 h-5 text-primary" />
             <span className="text-primary font-bold text-lg">info@corteqs.net</span>
@@ -39,24 +38,24 @@ const FooterSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setFormOpen(true)}
-              className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-accent text-accent-foreground font-bold text-lg hover:bg-accent/90 transition-all shadow-lg"
+              className="inline-flex items-center justify-center rounded-[8px] bg-accent px-10 py-4 text-lg font-bold text-accent-foreground shadow-lg transition-all hover:bg-accent/90"
             >
               Kategorine Kayıt ve Takip İçin →
             </button>
             <button
               onClick={() => setSupportFormOpen(true)}
-              className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-background/10 text-background border border-background/20 font-bold text-lg hover:bg-background/20 transition-all"
+              className="inline-flex items-center justify-center rounded-[8px] border border-background/20 bg-background/10 px-10 py-4 text-lg font-bold text-background transition-all hover:bg-background/20"
             >
               Teknik, Org, Yatırım Görüşmeleri için →
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a
               href="https://chat.whatsapp.com/example"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl bg-[#25D366] text-white font-semibold hover:bg-[#20bd5a] transition-all shadow-lg"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[8px] bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:bg-[#20bd5a]"
             >
               <MessageCircle className="w-5 h-5" />
               WhatsApp Topluluğuna Katıl
@@ -68,7 +67,7 @@ const FooterSection = () => {
               href="https://www.linkedin.com/company/corteqs-global"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0A66C2] text-white text-sm font-semibold hover:bg-[#004182] transition-all"
+              className="inline-flex min-h-11 items-center gap-2 rounded-[8px] bg-[#0A66C2] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#004182]"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
@@ -77,10 +76,18 @@ const FooterSection = () => {
               href="https://www.instagram.com/corteqs"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888] text-white text-sm font-semibold hover:opacity-90 transition-all"
+              className="inline-flex min-h-11 items-center gap-2 rounded-[8px] bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
             >
               <Instagram className="w-4 h-4" />
               Instagram
+            </a>
+            <a
+              href="https://x.com/corteqsx"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center gap-2 rounded-[8px] border border-background/20 bg-background/8 px-5 py-2.5 text-sm font-semibold text-background transition-all hover:bg-background/15"
+            >
+              X
             </a>
           </div>
         </div>

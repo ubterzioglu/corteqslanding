@@ -6,20 +6,19 @@ const AmbassadorSection = () => {
   const [formOpen, setFormOpen] = useState(false);
 
   return (
-    <section id="elciler" className="py-20 lg:py-28 bg-background">
+    <section id="elciler" className="bg-background py-14 lg:py-20">
       <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative order-2 lg:order-1 rounded-2xl overflow-hidden shadow-xl">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="relative order-2 overflow-hidden rounded-[8px] border border-white/60 bg-white/60 p-3 shadow-[0_22px_60px_rgba(31,40,52,0.12)] lg:order-1">
             <img
               src={cityAmbassador}
               alt="CorteQS şehir elçisi - yerel diaspora temsilcisi"
-              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
+              className="w-full rounded-[8px] object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1200}
               height={800}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" />
-            <div className="absolute inset-0 bg-card/15" />
+            <div className="pointer-events-none absolute inset-3 rounded-[8px] bg-gradient-to-t from-foreground/15 via-transparent to-transparent" />
           </div>
           <div className="order-1 lg:order-2">
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Şehir Elçileri</span>
@@ -50,7 +49,7 @@ const AmbassadorSection = () => {
             </ul>
             <button
               onClick={() => setFormOpen(true)}
-              className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-accent text-accent-foreground font-semibold text-lg hover:bg-accent/90 transition-all shadow-lg shadow-accent/20"
+              className="inline-flex items-center justify-center rounded-[8px] bg-accent px-8 py-4 text-lg font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
             >
               Elçi Olarak Kayıt Bırak / Takip Et
             </button>
