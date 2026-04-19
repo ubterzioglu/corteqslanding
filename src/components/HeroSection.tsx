@@ -1,6 +1,6 @@
 import { useState } from "react";
 import heroLandmarks from "@/assets/hero-watercolor.png";
-import corteqsLogo from "@/assets/corteqs-logo-globe.png";
+const corteqsLogo = "/logocorteqsbig.png";
 import { Globe, MapPin, Users, Mail } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 
