@@ -234,6 +234,12 @@
       "type": "directory"
     },
     {
+      "path": "package.json",
+      "accessCount": 6,
+      "lastAccessed": 1776616332944,
+      "type": "file"
+    },
+    {
       "path": "src\\components\\AboutSection.tsx",
       "accessCount": 5,
       "lastAccessed": 1776615213957,
@@ -273,12 +279,6 @@
       "path": "src\\components\\FooterSection.tsx",
       "accessCount": 4,
       "lastAccessed": 1776615226685,
-      "type": "file"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 4,
-      "lastAccessed": 1776615847062,
       "type": "file"
     },
     {
