@@ -7,37 +7,37 @@ const categories = [
   {
     icon: Briefcase,
     title: "Danışmanlar",
-    desc: "Vergi, emlak, vize, iş kurma, kariyer, doktorlar ve daha birçok alanda uzman profesyoneller ağı.",
+    desc: "Vergi, emlak, vize, relocation, iş kurma, kariyer ve daha birçok alanda uzman profesyoneller ağı. Doğrulanmış danışmanlarla güvenilir destek alın.",
     defaultCategory: "danisman",
   },
   {
     icon: Building2,
     title: "İşletmeler & Şirketler",
-    desc: "Diasporadaki Türk işletmeleri, şirketleri ve girişimcileri keşfedin, iş birliği yapın.",
+    desc: "Diaspora Türk işletmeleri, şirketleri ve girişimcileri keşfedin. Diaspora business directory ile fırsatları yakalayın.",
     defaultCategory: "isletme",
   },
   {
     icon: Landmark,
     title: "Kuruluşlar",
-    desc: "Dernekler, vakıflar, radyo ve TV kuruluşları — topluluk yapılarına katılın veya kaydedin.",
+    desc: "Dernekler, vakıflar, radyo ve TV kuruluşları — Türk topluluk yapılarına katılın veya kaydedin.",
     defaultCategory: "dernek",
   },
   {
     icon: Mic,
     title: "Blogger & Vlogger",
-    desc: "Diaspora hikayelerini anlatan içerik üreticileri ağına katılın, sesinizi duyurun.",
+    desc: "Diaspora hikayelerini anlatan içerik üreticileri ağına katılın, expat deneyimlerinizi paylaşın.",
     defaultCategory: "blogger-vlogger",
   },
   {
     icon: Users,
     title: "Şehir Elçileri",
-    desc: "Bulunduğunuz şehirde diaspora ağını temsil edin, yerel topluluk lideri olun.",
+    desc: "Bulunduğunuz şehirde diaspora ağını temsil edin, yerel topluluk lideri ve expat rehberi olun.",
     defaultCategory: "sehir-elcisi",
   },
   {
     icon: User,
     title: "Bireysel Kullanıcı",
-    desc: "Platform hizmetlerinden faydalanmak isteyen bireyler için. Danışman bulun, etkinliklere katılın.",
+    desc: "Expat destek hizmetlerinden faydalanmak isteyen bireyler için. Danışman bulun, etkinliklere katılın, topluluğa erişin.",
     defaultCategory: "bireysel",
   },
 ];
