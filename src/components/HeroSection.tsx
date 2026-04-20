@@ -13,7 +13,7 @@ const HeroSection = () => {
       <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
         <img
           src={heroLandmarks}
-          alt=""
+          alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
           className="absolute right-[2%] top-[22%] h-[45%] w-auto max-w-[55%] object-contain [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_92%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_55%,transparent_92%)]"
           width={1480}
           height={860}
@@ -25,19 +25,18 @@ const HeroSection = () => {
           <div>
             <img src={corteqsLogo} alt="CorteQS Logo" className="w-[70%] mb-6" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
-              Diasporayı Birleştiren{" "}
-              <span className="text-accent">Platform</span>{" "}
-              Yakında
+              CorteQS: Global Türk Diasporasını{" "}
+              <span className="text-accent">Birleştiren Network Platformu</span>
             </h1>
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
               Global Türklerin Platformu
             </p>
             <p className="hero-description text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              Corteqs Diaspora Connect — dünyanın dört bir yanındaki Türk diasporasını
-              danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
-              İhtiyacınızı seçerek doğru kişilere ve fırsatlara hızlıca ulaşabilir,
-              şehir bazlı networking ile topluluğun gücünden faydalanabilirsiniz.
-              164 ülkede aktif diaspora ağıyla iş birliği yapın, büyüyün.
+              CorteQS, yurtdışında yaşayan Türk diasporası için geliştirilmiş şehir bazlı bir
+              topluluk ve hizmet platformudur. Almanya, Avrupa ve dünya genelindeki Türk
+              topluluklarını doğrulanmış danışmanlar, yerel işletmeler ve gurbetçi ağlarıyla
+              buluşturuyoruz. Yeni bir ülkeye taşınıyor musun? CorteQS ile relocation sürecinden
+              adaptasyona kadar her adımda yanındayız.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">

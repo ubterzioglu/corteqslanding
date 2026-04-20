@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Mail, Copy, Check, MessageCircle, Linkedin, Instagram, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import RegisterInterestForm from "./RegisterInterestForm";
 
@@ -99,8 +100,13 @@ const FooterSection = () => {
           </div>
         </div>
         <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-background/40 text-sm">
-            © {new Date().getFullYear()} CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+          <div className="flex items-center gap-4">
+            <div className="text-background/40 text-sm">
+              © {new Date().getFullYear()} CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+            </div>
+            <Link to="/hakkimizda" className="text-primary hover:underline text-sm font-semibold">
+              Hakkımızda
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <a href="mailto:info@corteqs.net" className="text-primary hover:underline text-sm font-semibold">

@@ -180,6 +180,40 @@ const faqs = [
       </>
     ),
   },
+  {
+    q: "Almanya'ya taşınmak istiyorum, CorteQS relocation sürecinde nasıl yardımcı olur?",
+    a: (
+      <>
+        <p>
+          Almanya'ya taşınma sürecinde vize başvuruları, oturum izni (Aufenthaltstitel), ev bulma, Anmeldung,
+          banka hesabı açma ve sağlık sigortası gibi birçok adım vardır. CorteQS, bu süreçlerde Almanya'daki
+          Türk diasporasından doğrulanmış danışmanlar ve şehir elçileriyle sizi buluşturur.
+        </p>
+        <p className="mt-3">
+          Berlin, Dortmund, Köln, Hamburg ve München gibi şehirlerde yerel danışmanlar ve topluluk üyeleri,
+          relocation sürecinizde size rehberlik edebilir. Platform üzerinden şehrinizi seçerek ilgili
+          uzmanlara ve topluluk kaynaklarına erişebilirsiniz.
+        </p>
+      </>
+    ),
+  },
+  {
+    q: "CorteQS'te doğrulanmış hizmet sağlayıcılarını nasıl bulabilirim?",
+    a: (
+      <>
+        <p>
+          CorteQS, platformdaki danışman ve hizmet sağlayıcılarını doğrulama sürecinden geçirir. Doğrulanmış
+          sağlayıcılar, profesyonel niteliklerini ve diaspora topluluğundaki güvenilirliklerini kanıtlamış
+          kişilerdir. Bu sayede yanlış bilgilendirme veya güven sorunu yaşamadan hizmet alabilirsiniz.
+        </p>
+        <p className="mt-3">
+          Platform açıldığında danışman profillerinde doğrulama durumu görüntülenecek, kullanıcılar
+          değerlendirme ve geri bildirimlerle topluluk kalitesini destekleyebilecektir. Bu sistem, diaspora
+          bağlamında güven temelli ilişkilerin oluşmasını hızlandırmayı hedefler.
+        </p>
+      </>
+    ),
+  },
 ];
 
 const FAQSection = () => {
