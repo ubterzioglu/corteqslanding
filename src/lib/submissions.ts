@@ -4,6 +4,22 @@ export type Submission = Tables<"submissions">;
 export type SubmissionInsert = TablesInsert<"submissions">;
 export type SubmissionStatus = Submission["status"];
 export type SubmissionFormMode = "register" | "support" | "backer";
+export type UploadedDocument = {
+  url: string;
+  name: string;
+};
+
+export const allowedSubmissionDocumentTypes = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+] as const;
+
+export const maxSubmissionDocumentBytes = 10 * 1024 * 1024;
+export const maxSubmissionDocumentCount = 5;
 
 export const categoryOptions = [
   { value: "danisman", label: "Danışman" },
@@ -109,7 +125,9 @@ export function buildSubmissionSearchText(submission: Submission) {
     submission.email,
     submission.phone,
     submission.description,
+    submission.offers_needs,
     submission.notes,
+    submission.document_name,
     submission.company_name,
     submission.donation_amount?.toString(),
     submission.donation_currency,
@@ -123,10 +141,72 @@ export function buildSubmissionSearchText(submission: Submission) {
     submission.facebook,
     submission.twitter,
     submission.website,
+    submission.documents
+      ?.map((document) => {
+        if (!document || typeof document !== "object") return "";
+        return "name" in document && typeof document.name === "string" ? document.name : "";
+      })
+      .filter(Boolean)
+      .join(" "),
   ]
     .filter(Boolean)
     .join(" ")
     .toLowerCase();
+}
+
+export function validateSubmissionDocuments(files: File[], currentFiles: File[] = []) {
+  const merged = [...currentFiles];
+
+  for (const file of files) {
+    if (!allowedSubmissionDocumentTypes.includes(file.type as (typeof allowedSubmissionDocumentTypes)[number])) {
+      return {
+        ok: false as const,
+        message: `"${file.name}" desteklenmeyen format. Sadece PDF, DOC, DOCX, JPG, PNG, WEBP.`,
+      };
+    }
+
+    if (file.size > maxSubmissionDocumentBytes) {
+      return {
+        ok: false as const,
+        message: `"${file.name}" çok büyük. Dosya başına maks. 10 MB.`,
+      };
+    }
+
+    if (merged.length >= maxSubmissionDocumentCount) {
+      return {
+        ok: false as const,
+        message: `En fazla ${maxSubmissionDocumentCount} dosya yükleyebilirsiniz.`,
+      };
+    }
+
+    if (!merged.some((existing) => existing.name === file.name && existing.size === file.size)) {
+      merged.push(file);
+    }
+  }
+
+  return { ok: true as const, files: merged };
+}
+
+export async function uploadSubmissionDocuments(files: File[]): Promise<UploadedDocument[]> {
+  if (!files.length) return [];
+
+  const { supabase } = await import("@/integrations/supabase/client");
+  const uploadedDocs: UploadedDocument[] = [];
+
+  for (const file of files) {
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeName}`;
+    const { error } = await supabase.storage
+      .from("submission-documents")
+      .upload(path, file, { contentType: file.type, upsert: false });
+
+    if (error) throw error;
+
+    const { data } = supabase.storage.from("submission-documents").getPublicUrl(path);
+    uploadedDocs.push({ url: data.publicUrl, name: file.name });
+  }
+
+  return uploadedDocs;
 }
 
 export function toSubmissionInsert(
@@ -148,6 +228,10 @@ export function toSubmissionInsert(
     email: String(values.email ?? ""),
     phone: String(values.phone ?? ""),
     description: String(values.description ?? "") || null,
+    offers_needs: String(values.offers_needs ?? "").trim() || null,
+    document_url: String(values.document_url ?? "") || null,
+    document_name: String(values.document_name ?? "") || null,
+    documents: Array.isArray(values.documents) ? (values.documents as unknown as SubmissionInsert["documents"]) : [],
     contest_interest: !isBacker && values.contest_interest === "yes",
     whatsapp_interest: isBacker ? values.whatsapp_interest === "yes" : values.whatsapp_interest === "yes",
     donation_amount: isBacker ? Number(values.donation_amount ?? 0) || null : null,

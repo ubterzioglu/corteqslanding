@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,20 +14,30 @@ import {
   getReferralDetailLabel,
   getReferralDetailPlaceholder,
   isReferralDetailRequired,
+  maxSubmissionDocumentCount,
   referralSourceOptions,
   shouldShowReferralDetail,
   toSubmissionInsert,
   type SubmissionFormMode,
+  uploadSubmissionDocuments,
+  validateSubmissionDocuments,
 } from "@/lib/submissions";
 
 interface RegisterInterestFormProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   defaultCategory?: string;
+  defaultCity?: string;
   mode?: SubmissionFormMode;
 }
 
-const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "register" }: RegisterInterestFormProps) => {
+const RegisterInterestForm = ({
+  open,
+  onOpenChange,
+  defaultCategory,
+  defaultCity,
+  mode = "register",
+}: RegisterInterestFormProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [selectedCat, setSelectedCat] = useState(defaultCategory || "");
@@ -36,6 +46,8 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
   const [phoneError, setPhoneError] = useState("");
   const [referralSource, setReferralSource] = useState("");
   const [referralDetail, setReferralDetail] = useState("");
+  const [documentFiles, setDocumentFiles] = useState<File[]>([]);
+  const [documentError, setDocumentError] = useState("");
 
   useEffect(() => {
     if (open && defaultCategory) {
@@ -44,6 +56,7 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
   }, [open, defaultCategory]);
 
   const isSupport = mode === "support";
+  const showDocUpload = !isSupport && selectedCat !== "";
 
   const validatePhone = (value: string) => {
     const cleaned = value.replace(/[\s\-().]/g, "");
@@ -67,10 +80,14 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
     values.referral_source = referralSource;
     values.referral_detail = referralDetail;
 
-    const payload = toSubmissionInsert(values, mode);
-    const notificationPayload = { ...payload, created_at: new Date().toISOString() };
-
     try {
+      const uploadedDocs = await uploadSubmissionDocuments(documentFiles);
+      values.document_url = uploadedDocs[0]?.url ?? "";
+      values.document_name = uploadedDocs[0]?.name ?? "";
+      values.documents = uploadedDocs as unknown as FormDataEntryValue;
+
+      const payload = toSubmissionInsert(values, mode);
+      const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);
 
       if (error) throw error;
@@ -93,6 +110,8 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
       setReferralSource("");
       setReferralDetail("");
       setSelectedCat(defaultCategory || "");
+      setDocumentFiles([]);
+      setDocumentError("");
     } catch (err: unknown) {
       console.error("Submission error:", err);
       const message = err instanceof Error ? err.message : "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.";
@@ -166,6 +185,15 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
                   </label>
                 </div>
               )}
+
+              {selectedCat === "danisman" && (
+                <div className="mt-3 rounded-lg border border-primary/20 bg-primary/10 p-3">
+                  <p className="mb-1 text-sm font-semibold text-foreground">Danışman / Doktor / Avukat Profili</p>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    Hekim, avukat, mali müşavir, mühendis, koç, terapist ve diğer uzman danışmanlar için. Uzmanlık alanınızı ve varsa sertifika/CV dökümanlarınızı ekleyin; sizi daha doğru danışanlarla eşleştirelim.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
@@ -181,7 +209,7 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
             </div>
             <div>
               <Label htmlFor="city">Şehir</Label>
-              <Input id="city" name="city" placeholder="Berlin" required />
+              <Input id="city" name="city" placeholder="Berlin" defaultValue={defaultCity || ""} key={defaultCity || "city"} required />
             </div>
           </div>
 
@@ -319,6 +347,81 @@ const RegisterInterestForm = ({ open, onOpenChange, defaultCategory, mode = "reg
                 rows={4}
                 className="resize-none"
               />
+            </div>
+          )}
+
+          <div>
+            <Label htmlFor="offers_needs">Arz & Talepleriniz (opsiyonel)</Label>
+            <Textarea
+              id="offers_needs"
+              name="offers_needs"
+              rows={3}
+              maxLength={1000}
+              placeholder="Örn: İş arıyorum • Araç satıyorum • Etkinlik sponsoru arıyorum • Eleman arıyorum..."
+              className="resize-none"
+            />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Diasporadaki arz ve taleplerinizi serbestçe yazın. <strong className="text-primary">Detaylı veri AI eşleşme kalitesini artırır.</strong>
+            </p>
+          </div>
+
+          {showDocUpload && (
+            <div className="rounded-lg border border-primary/15 bg-primary/5 p-3">
+              <Label htmlFor="document" className="text-sm font-semibold">
+                CV / Doküman Yükle (opsiyonel)
+              </Label>
+              <Input
+                id="document"
+                name="document"
+                type="file"
+                multiple
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.webp"
+                onChange={(event) => {
+                  const picked = Array.from(event.target.files ?? []);
+                  if (!picked.length) return;
+
+                  const result = validateSubmissionDocuments(picked, documentFiles);
+                  if (!result.ok) {
+                    setDocumentError(result.message);
+                    event.target.value = "";
+                    return;
+                  }
+
+                  setDocumentError("");
+                  setDocumentFiles(result.files);
+                  event.target.value = "";
+                }}
+                className="mt-2 cursor-pointer file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-primary hover:file:bg-primary/20"
+              />
+              {documentError && <p className="mt-2 text-xs text-destructive">{documentError}</p>}
+              {documentFiles.length > 0 ? (
+                <ul className="mt-2 space-y-1">
+                  {documentFiles.map((file, index) => (
+                    <li
+                      key={`${file.name}-${index}`}
+                      className="flex items-center justify-between gap-2 rounded border border-primary/15 bg-background/60 px-2 py-1 text-xs"
+                    >
+                      <span className="truncate font-medium text-primary">
+                        {file.name} <span className="text-muted-foreground">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setDocumentFiles(documentFiles.filter((_, currentIndex) => currentIndex !== index))}
+                        className="shrink-0 text-destructive hover:underline"
+                      >
+                        Kaldır
+                      </button>
+                    </li>
+                  ))}
+                  <li className="pt-1 text-[11px] text-muted-foreground">
+                    {documentFiles.length} / {maxSubmissionDocumentCount} dosya seçildi.
+                  </li>
+                </ul>
+              ) : (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  CV, portföy, sertifika veya tanıtım dökümanlarınızı ekleyin. Dosya başına maks. 10 MB.
+                </p>
+              )}
             </div>
           )}
 

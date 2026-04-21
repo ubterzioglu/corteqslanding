@@ -200,6 +200,8 @@ const AdminPage = () => {
       "E-posta",
       "Telefon",
       "Açıklama",
+      "Arz & Talepler",
+      "Doküman Adı",
       "Notlar",
       "Yarisma",
       "LinkedIn",
@@ -229,6 +231,8 @@ const AdminPage = () => {
       submission.email,
       submission.phone,
       submission.description || "",
+      submission.offers_needs || "",
+      submission.document_name || "",
       submission.notes || "",
       submission.contest_interest ? "Evet" : "Hayır",
       submission.linkedin || "",
@@ -386,6 +390,7 @@ const AdminPage = () => {
             <option value="all">Tümü</option>
             <option value="register">Kayıtlar</option>
             <option value="support">Destek / Yatırım</option>
+            <option value="backer">Backer</option>
             <option value="new">Yeni</option>
             <option value="contacted">İletişime geçildi</option>
             <option value="archived">Arşivlendi</option>
@@ -533,6 +538,25 @@ const AdminPage = () => {
                         Referral kodu:{" "}
                         <span className="text-muted-foreground">{selectedSubmission.referral_code || "Yok"}</span>
                       </div>
+                      <div>
+                        Arz & Talepler:{" "}
+                        <span className="text-muted-foreground">{selectedSubmission.offers_needs || "Yok"}</span>
+                      </div>
+                      <div>
+                        Doküman:{" "}
+                        {selectedSubmission.document_url ? (
+                          <a
+                            href={selectedSubmission.document_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-primary hover:underline"
+                          >
+                            {selectedSubmission.document_name || "Dokümanı aç"}
+                          </a>
+                        ) : (
+                          <span className="text-muted-foreground">Yok</span>
+                        )}
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -561,6 +585,26 @@ const AdminPage = () => {
                         {selectedSubmission.description || "Bu kayıt için açıklama girilmemiş."}
                       </div>
                     </div>
+
+                    {Array.isArray(selectedSubmission.documents) && selectedSubmission.documents.length > 0 && (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Dokümanlar</label>
+                        <div className="space-y-2 rounded-md border border-border bg-muted/30 p-3 text-sm">
+                          {selectedSubmission.documents.map((document, index) => {
+                            if (!document || typeof document !== "object") return null;
+                            const name = "name" in document && typeof document.name === "string" ? document.name : `Doküman ${index + 1}`;
+                            const url = "url" in document && typeof document.url === "string" ? document.url : null;
+                            return url ? (
+                              <a key={`${name}-${index}`} href={url} target="_blank" rel="noreferrer" className="block text-primary hover:underline">
+                                {name}
+                              </a>
+                            ) : (
+                              <div key={`${name}-${index}`} className="text-muted-foreground">{name}</div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
 
                     <div className="space-y-2">
                       <label htmlFor="submission-notes" className="text-sm font-medium">
