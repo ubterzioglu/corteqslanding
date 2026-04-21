@@ -102,8 +102,7 @@ const ChatBot = () => {
             Form Doldurmaktan <span className="text-accent">Sıkıldın mı?</span>
           </h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Adım adım sohbet ile kaydını saniyeler içinde tamamla. İstersen
-            klasik forma da geçebilirsin.
+            Adım adım sohbet ile kaydını saniyeler içinde tamamla. İstersen klasik forma da geçebilirsin.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <span className="text-sm text-muted-foreground">
