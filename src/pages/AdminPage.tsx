@@ -353,6 +353,7 @@ const AdminPage = () => {
             <option value="vakif">Vakıf</option>
             <option value="radyo-tv">Radyo / TV</option>
             <option value="blogger-vlogger">Blogger / Vlogger</option>
+            <option value="influencer">Influencer</option>
             <option value="sehir-elcisi">Şehir Elçisi</option>
             <option value="bireysel">Bireysel</option>
           </select>
