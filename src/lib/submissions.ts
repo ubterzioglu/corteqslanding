@@ -12,6 +12,7 @@ export const categoryOptions = [
   { value: "vakif", label: "Vakıf" },
   { value: "radyo-tv", label: "Radyo / TV" },
   { value: "blogger-vlogger", label: "Blogger / Vlogger" },
+  { value: "influencer", label: "Influencer" },
   { value: "sehir-elcisi", label: "Şehir Elçisi" },
   { value: "bireysel", label: "Bireysel Kullanıcı" },
   { value: "support", label: "Destek / Yatırım" },
