@@ -25,15 +25,14 @@ const HeroSection = () => {
           <div>
             <img src={corteqsLogo} alt="CorteQS Logo" className="w-[70%] mb-6" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
-              Diasporayı Birleştiren{" "}
-              <span className="text-accent">Platform</span>{" "}
-              Yakında
+              Türk Diasporasını Birleştiren{" "}
+              <span className="text-accent">Platform</span>
             </h1>
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
-              Global Türklerin Platformu
+              Yeni ülke, yeni şehir, yeni bağlantılar
             </p>
-            <p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed">
-              CorteQS Diaspora Connect, dünyanın dört bir yanındaki Türk diasporasını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
+            <p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed hero-description">
+              CorteQS Diaspora Connect, dünyanın dört bir yanındaki Türk diasporasını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren şehir bazlı network platformu.
             </p>
 
             <div className="flex flex-wrap gap-2 mb-8 max-w-xl">
@@ -76,7 +75,7 @@ const HeroSection = () => {
                 className="flex items-center gap-2 py-2 px-3 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all w-fit"
               >
                 <span className="text-base">⏳</span>
-                <p className="font-semibold text-foreground text-xs">Yakında Açılıyor — Hemen Kaydol, Erken Avantajlardan Faydalan →</p>
+                <p className="font-semibold text-foreground text-xs">Yakında Açılıyoruz — Erken Kayıt Avantajlarından Faydalan →</p>
               </button>
             </div>
           </div>

@@ -7,6 +7,7 @@ import AmbassadorSection from "@/components/AmbassadorSection";
 import FAQSection from "@/components/FAQSection";
 import CitiesSection from "@/components/CitiesSection";
 import FooterSection from "@/components/FooterSection";
+import SEOContentSection from "@/components/SEOContentSection";
 
 const Index = () => {
   useEffect(() => {
@@ -18,6 +19,7 @@ const Index = () => {
       <main id="main">
         <HeroSection />
         <AboutSection />
+        <SEOContentSection />
         <FAQSection />
         <CategoriesSection />
         <CitiesSection />
