@@ -34,6 +34,7 @@ const AdminPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("all");
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<string | null>(null);
@@ -142,6 +143,39 @@ const AdminPage = () => {
     }
 
     setAuthLoading(false);
+  };
+
+  const handlePasswordReset = async () => {
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail) {
+      toast({
+        title: "E-posta gerekli",
+        description: "Sıfırlama bağlantısı için önce e-posta adresinizi girin.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setResetLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setResetLoading(false);
+
+    if (error) {
+      toast({
+        title: "Sıfırlama e-postası gönderilemedi",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Sıfırlama e-postası gönderildi",
+      description: `${trimmedEmail} adresine gelen bağlantı ile şifrenizi yenileyebilirsiniz.`,
+    });
   };
 
   const handleLogout = async () => {
@@ -275,6 +309,14 @@ const AdminPage = () => {
               <Button type="submit" disabled={authLoading} className="w-full">
                 {authLoading ? "Giriş yapılıyor..." : "Giriş Yap"}
               </Button>
+              <button
+                type="button"
+                onClick={() => void handlePasswordReset()}
+                disabled={resetLoading}
+                className="w-full text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline disabled:opacity-60"
+              >
+                {resetLoading ? "Gönderiliyor..." : "Şifremi unuttum"}
+              </button>
             </form>
           </CardContent>
         </Card>
