@@ -53,7 +53,7 @@ const NotFound = () => {
         </p>
 
         <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-          {["🇩🇪 Berlin", "🇬🇧 Londra", "🇺🇸 New York", "🇫🇷 Paris"].map(
+          {["Berlin", "Londra", "New York", "Paris"].map(
             (city) => (
               <span
                 key={city}

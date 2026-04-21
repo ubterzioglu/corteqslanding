@@ -38,15 +38,15 @@ const HeroSection = () => {
 
             <div className="flex flex-wrap gap-2 mb-8 max-w-xl">
               {[
-                "🇩🇪 Berlin",
-                "🇬🇧 Londra",
-                "🇺🇸 New York",
-                "🇫🇷 Paris",
-                "🇳🇱 Amsterdam",
-                "🇦🇪 Dubai",
-                "🇨🇦 Toronto",
-                "🇦🇺 Sydney",
-                "🇹🇷 İstanbul",
+                "Berlin",
+                "Londra",
+                "New York",
+                "Paris",
+                "Amsterdam",
+                "Dubai",
+                "Toronto",
+                "Sydney",
+                "İstanbul",
               ].map((city) => (
                 <span
                   key={city}
@@ -62,7 +62,7 @@ const HeroSection = () => {
                 href="#kaydol"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
               >
-                AI ile 60 Saniyede Kaydol →
+                Ücretsiz Kayıt Ol →
               </a>
             </div>
 
