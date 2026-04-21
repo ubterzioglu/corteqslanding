@@ -7,7 +7,7 @@ const perks = [
   { icon: Crown, title: "VIP — Sabit Gelir", desc: "VIP olduğunda sabit gelir: şehrinin, ülkenin iş partneri ol." },
   { icon: TrendingUp, title: "Influencer Büyüme", desc: "Sosyal medyanı CorteQS ağı ile patlat." },
   { icon: Users, title: "Etkinlik Lideri", desc: "Parti ve etkinlik düzenle, sorunsuz ödeme al, topluluğu aktif tut." },
-  { icon: Globe2, title: "Global Ağ", desc: "164 ülkedeki city business partner'larla doğrudan bağlan." },
+  { icon: Globe2, title: "Global Ağ", desc: "Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun.", pill: true },
   { icon: Zap, title: "Erken Avantajlar", desc: "Yeni özelliklere ilk sen eriş, gelir paylaşımına erkenden dahil ol." },
   { icon: Sparkles, title: "İçerik Desteği", desc: "Profesyonel medya kiti ve kampanya desteği." },
 ];
@@ -68,7 +68,13 @@ const AmbassadorSection = () => {
                     <perk.icon className="w-5 h-5 text-accent group-hover:scale-110 transition-transform" />
                   </div>
                   <h3 className="font-bold text-foreground mb-1">{perk.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{perk.desc}</p>
+                  {"pill" in perk && perk.pill ? (
+                    <span className="inline-block whitespace-nowrap text-sm leading-relaxed px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent font-medium">
+                      {perk.desc}
+                    </span>
+                  ) : (
+                    <p className="text-sm text-muted-foreground leading-relaxed">{perk.desc}</p>
+                  )}
                 </div>
               ))}
             </div>
