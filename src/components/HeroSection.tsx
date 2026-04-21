@@ -1,7 +1,7 @@
 import { useState } from "react";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
-import corteqsLogo from "@/assets/seologo.png";
-import { Globe, MapPin, Users, Mail } from "lucide-react";
+import corteqsLogo from "@/assets/corteqs-logo-globe.png";
+import { Globe, MapPin, Users } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 
 const HeroSection = () => {
@@ -25,26 +25,44 @@ const HeroSection = () => {
           <div>
             <img src={corteqsLogo} alt="CorteQS Logo" className="w-[70%] mb-6" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
-              CorteQS: Global Türk Diasporasını{" "}
-              <span className="text-accent">Birleştiren Network Platformu</span>
+              Diasporayı Birleştiren{" "}
+              <span className="text-accent">Platform</span>{" "}
+              Yakında
             </h1>
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
               Global Türklerin Platformu
             </p>
-            <p className="hero-description text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">
-              CorteQS, yurtdışında yaşayan Türk diasporası için geliştirilmiş şehir bazlı bir
-              topluluk ve hizmet platformudur. Almanya, Avrupa ve dünya genelindeki Türk
-              topluluklarını doğrulanmış danışmanlar, yerel işletmeler ve gurbetçi ağlarıyla
-              buluşturuyoruz. Yeni bir ülkeye taşınıyor musun? CorteQS ile relocation sürecinden
-              adaptasyona kadar her adımda yanındayız.
+            <p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed">
+              CorteQS Diaspora Connect, dünyanın dört bir yanındaki Türk diasporasını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren platform.
             </p>
+
+            <div className="flex flex-wrap gap-2 mb-8 max-w-xl">
+              {[
+                "🇩🇪 Berlin",
+                "🇬🇧 Londra",
+                "🇺🇸 New York",
+                "🇫🇷 Paris",
+                "🇳🇱 Amsterdam",
+                "🇦🇪 Dubai",
+                "🇨🇦 Toronto",
+                "🇦🇺 Sydney",
+                "🇹🇷 İstanbul",
+              ].map((city) => (
+                <span
+                  key={city}
+                  className="inline-flex items-center px-3 py-1 rounded-full bg-card border border-border text-xs font-medium text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all"
+                >
+                  {city}
+                </span>
+              ))}
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <a
-                href="#kategoriler"
+                href="#kaydol"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
               >
-                Kategorileri Gör — Kaydol →
+                AI ile 60 Saniyede Kaydol →
               </a>
             </div>
 

@@ -5,11 +5,14 @@ import {
   getCategoryLabel,
   getFormTypeLabel,
   getStatusLabel,
+  type UploadedDocument,
   toSubmissionInsert,
+  validateSubmissionDocuments,
 } from "@/lib/submissions";
 
 describe("submission helpers", () => {
   it("builds register inserts with default review status", () => {
+    const documents: UploadedDocument[] = [{ url: "https://example.com/cv.pdf", name: "cv.pdf" }];
     const submission = toSubmissionInsert(
       {
         category: "danisman",
@@ -20,6 +23,7 @@ describe("submission helpers", () => {
         field: "AI",
         email: "ada@example.com",
         phone: "+49 555",
+        offers_needs: "Danışmanlık veriyorum",
       },
       "register",
     );
@@ -31,9 +35,12 @@ describe("submission helpers", () => {
     expect(submission.referral_source).toBeNull();
     expect(submission.referral_detail).toBeNull();
     expect(submission.referral_code).toBeNull();
+    expect(submission.offers_needs).toBe("Danışmanlık veriyorum");
+    expect(submission.documents).toEqual([]);
   });
 
   it("normalizes referral fields consistently", () => {
+    const documents: UploadedDocument[] = [{ url: "https://example.com/cv.pdf", name: "cv.pdf" }];
     const submission = toSubmissionInsert(
       {
         category: "danisman",
@@ -43,10 +50,13 @@ describe("submission helpers", () => {
         business: "",
         field: "AI",
         email: "ada@example.com",
-        phone: "+49 555",
-        referral_source: "whatsapp",
-        referral_detail: "Berlin Diaspora",
-        referral_code: " abc42 ",
+      phone: "+49 555",
+      referral_source: "whatsapp",
+      referral_detail: "Berlin Diaspora",
+      referral_code: " abc42 ",
+        document_url: "https://example.com/cv.pdf",
+        document_name: "cv.pdf",
+        documents: documents as unknown as FormDataEntryValue,
       },
       "register",
     );
@@ -54,6 +64,7 @@ describe("submission helpers", () => {
     expect(submission.referral_source).toBe("whatsapp");
     expect(submission.referral_detail).toBe("Berlin Diaspora");
     expect(submission.referral_code).toBe("ABC42");
+    expect(submission.document_name).toBe("cv.pdf");
   });
 
   it("renders labels and search text consistently", () => {
@@ -76,6 +87,10 @@ describe("submission helpers", () => {
       referral_detail: "Berlin Diaspora",
       referral_code: "ABC42",
       description: "Community builder",
+      offers_needs: "Network arıyor",
+      document_url: "https://example.com/doc.pdf",
+      document_name: "doc.pdf",
+      documents: [{ url: "https://example.com/doc.pdf", name: "doc.pdf" }],
       contest_interest: false,
       linkedin: null,
       instagram: "@ada",
@@ -95,5 +110,24 @@ describe("submission helpers", () => {
     expect(haystack).toContain("priority lead");
     expect(haystack).toContain("berlin diaspora");
     expect(haystack).toContain("abc42");
+    expect(haystack).toContain("network arıyor");
+    expect(haystack).toContain("doc.pdf");
+  });
+
+  it("validates uploaded documents against limits and types", () => {
+    const validFile = new File(["hello"], "cv.pdf", { type: "application/pdf" });
+    const invalidFile = new File(["hello"], "script.exe", { type: "application/x-msdownload" });
+
+    const valid = validateSubmissionDocuments([validFile]);
+    expect(valid.ok).toBe(true);
+    if (valid.ok) {
+      expect(valid.files).toHaveLength(1);
+    }
+
+    const invalid = validateSubmissionDocuments([invalidFile]);
+    expect(invalid.ok).toBe(false);
+    if (!invalid.ok) {
+      expect(invalid.message).toContain("desteklenmeyen format");
+    }
   });
 });

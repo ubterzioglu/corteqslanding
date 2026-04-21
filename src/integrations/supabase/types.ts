@@ -38,6 +38,9 @@ export type Database = {
           country: string;
           created_at: string;
           description: string | null;
+          document_name: string | null;
+          document_url: string | null;
+          documents: Json;
           donation_amount: number | null;
           donation_currency: string | null;
           email: string;
@@ -49,6 +52,7 @@ export type Database = {
           instagram: string | null;
           linkedin: string | null;
           notes: string | null;
+          offers_needs: string | null;
           phone: string;
           referral_code: string | null;
           referral_detail: string | null;
@@ -71,6 +75,9 @@ export type Database = {
           country: string;
           created_at?: string;
           description?: string | null;
+          document_name?: string | null;
+          document_url?: string | null;
+          documents?: Json;
           donation_amount?: number | null;
           donation_currency?: string | null;
           email: string;
@@ -82,6 +89,7 @@ export type Database = {
           instagram?: string | null;
           linkedin?: string | null;
           notes?: string | null;
+          offers_needs?: string | null;
           phone: string;
           referral_code?: string | null;
           referral_detail?: string | null;
@@ -104,6 +112,9 @@ export type Database = {
           country?: string;
           created_at?: string;
           description?: string | null;
+          document_name?: string | null;
+          document_url?: string | null;
+          documents?: Json;
           donation_amount?: number | null;
           donation_currency?: string | null;
           email?: string;
@@ -115,6 +126,7 @@ export type Database = {
           instagram?: string | null;
           linkedin?: string | null;
           notes?: string | null;
+          offers_needs?: string | null;
           phone?: string;
           referral_code?: string | null;
           referral_detail?: string | null;
@@ -134,6 +146,57 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "admin_users";
             referencedColumns: ["user_id"];
+          },
+        ];
+      };
+      matches: {
+        Row: {
+          created_at: string;
+          id: string;
+          match_reason: string | null;
+          match_score: number | null;
+          match_type: string;
+          matched_submission_id: string;
+          notified_source: boolean;
+          notified_target: boolean;
+          source_submission_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          match_reason?: string | null;
+          match_score?: number | null;
+          match_type?: string;
+          matched_submission_id: string;
+          notified_source?: boolean;
+          notified_target?: boolean;
+          source_submission_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          match_reason?: string | null;
+          match_score?: number | null;
+          match_type?: string;
+          matched_submission_id?: string;
+          notified_source?: boolean;
+          notified_target?: boolean;
+          source_submission_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "matches_matched_submission_id_fkey";
+            columns: ["matched_submission_id"];
+            isOneToOne: false;
+            referencedRelation: "submissions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "matches_source_submission_id_fkey";
+            columns: ["source_submission_id"];
+            isOneToOne: false;
+            referencedRelation: "submissions";
+            referencedColumns: ["id"];
           },
         ];
       };
