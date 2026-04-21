@@ -7,8 +7,7 @@ import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
-import ShortlinkDPage from "./pages/ShortlinkDPage.tsx";
-import ShortlinkSPage from "./pages/ShortlinkSPage.tsx";
+import FormPage from "./pages/FormPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,8 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/s" element={<ShortlinkSPage />} />
-          <Route path="/d" element={<ShortlinkDPage />} />
+          <Route path="/form"         element={<FormPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
