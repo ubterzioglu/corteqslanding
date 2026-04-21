@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import AdminPage from "./pages/AdminPage.tsx";
 import FormPage from "./pages/FormPage.tsx";
+import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/form"         element={<FormPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

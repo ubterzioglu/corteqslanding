@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776541637509,
+  "lastScanned": 1776777008221,
   "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
@@ -89,8 +89,8 @@
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
-      "fileCount": 10,
-      "lastAccessed": 1776541637427,
+      "fileCount": 11,
+      "lastAccessed": 1776777008093,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -102,34 +102,34 @@
     "public": {
       "path": "public",
       "purpose": "Public files",
-      "fileCount": 9,
-      "lastAccessed": 1776541637427,
+      "fileCount": 10,
+      "lastAccessed": 1776777008094,
       "keyFiles": [
         "env-config.js",
         "fav.png",
         "favicon.ico",
         "favicon.svg",
-        "logocorteqsbig.png"
+        "llms.txt"
       ]
     },
     "referans": {
       "path": "referans",
       "purpose": null,
-      "fileCount": 21,
-      "lastAccessed": 1776541637427,
+      "fileCount": 22,
+      "lastAccessed": 1776777008094,
       "keyFiles": [
         "bun.lock",
         "CHANGELOG.md",
         "components.json",
-        "dragoman1.mp4",
-        "eslint.config.js"
+        "eslint.config.js",
+        "index.html"
       ]
     },
     "src": {
       "path": "src",
       "purpose": "Source code",
       "fileCount": 6,
-      "lastAccessed": 1776541637427,
+      "lastAccessed": 1776777008094,
       "keyFiles": [
         "App.css",
         "App.tsx",
@@ -142,7 +142,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1776541637427,
+      "lastAccessed": 1776777008095,
       "keyFiles": [
         "config.toml"
       ]
@@ -150,8 +150,8 @@
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
-      "fileCount": 8,
-      "lastAccessed": 1776541637428,
+      "fileCount": 9,
+      "lastAccessed": 1776777008096,
       "keyFiles": [
         "blogger-vlogger-CB3SgA9I.jpg",
         "city-ambassador-CtGZbnhx.jpg",
@@ -161,8 +161,8 @@
     "src\\assets": {
       "path": "src\\assets",
       "purpose": "Static assets",
-      "fileCount": 10,
-      "lastAccessed": 1776541637428,
+      "fileCount": 11,
+      "lastAccessed": 1776777008097,
       "keyFiles": [
         "blogger-vlogger.jpg",
         "categories-bg.jpg",
@@ -172,8 +172,8 @@
     "src\\components": {
       "path": "src\\components",
       "purpose": "UI components",
-      "fileCount": 10,
-      "lastAccessed": 1776541637428,
+      "fileCount": 12,
+      "lastAccessed": 1776777008097,
       "keyFiles": [
         "AboutSection.tsx",
         "AmbassadorSection.tsx",
@@ -184,7 +184,7 @@
       "path": "src\\lib",
       "purpose": "Library code",
       "fileCount": 5,
-      "lastAccessed": 1776541637428,
+      "lastAccessed": 1776777008098,
       "keyFiles": [
         "admin.ts",
         "mail.ts",
@@ -194,19 +194,19 @@
     "src\\pages": {
       "path": "src\\pages",
       "purpose": "Page components",
-      "fileCount": 6,
-      "lastAccessed": 1776541637429,
+      "fileCount": 5,
+      "lastAccessed": 1776777008098,
       "keyFiles": [
+        "AboutPage.tsx",
         "AdminPage.tsx",
-        "ExternalRedirectPage.tsx",
-        "Index.tsx"
+        "FormPage.tsx"
       ]
     },
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 3,
-      "lastAccessed": 1776541637429,
+      "fileCount": 4,
+      "lastAccessed": 1776777008099,
       "keyFiles": [
         "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
         "20260406193000_admin_and_submission_workflow.sql",
@@ -217,182 +217,44 @@
   "hotPaths": [
     {
       "path": "src\\pages\\AdminPage.tsx",
-      "accessCount": 23,
-      "lastAccessed": 1776542671952,
-      "type": "file"
-    },
-    {
-      "path": "index.html",
-      "accessCount": 9,
-      "lastAccessed": 1776615807978,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 6,
-      "lastAccessed": 1776590701312,
-      "type": "directory"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 6,
-      "lastAccessed": 1776616332944,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\AboutSection.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1776615213957,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\Index.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1776615824654,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\HeroSection.tsx",
       "accessCount": 4,
-      "lastAccessed": 1776615213722,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\AmbassadorSection.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1776615216082,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\SupportSection.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1776615222238,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\CategoriesSection.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1776615222573,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\FooterSection.tsx",
-      "accessCount": 4,
-      "lastAccessed": 1776615226685,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\BloggerSection.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1776615222473,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\RegisterInterestForm.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1776615230241,
-      "type": "file"
-    },
-    {
-      "path": "public\\robots.txt",
-      "accessCount": 3,
-      "lastAccessed": 1776615730000,
-      "type": "file"
-    },
-    {
-      "path": "public\\sitemap.xml",
-      "accessCount": 3,
-      "lastAccessed": 1776615765365,
+      "lastAccessed": 1776777093578,
       "type": "file"
     },
     {
       "path": "src",
-      "accessCount": 2,
-      "lastAccessed": 1776590686162,
+      "accessCount": 3,
+      "lastAccessed": 1776777034788,
       "type": "directory"
-    },
-    {
-      "path": "src\\components\\BackerForm.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776615210990,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\FAQSection.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776615213781,
-      "type": "file"
     },
     {
       "path": "src\\App.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776615216557,
+      "accessCount": 3,
+      "lastAccessed": 1776777074640,
       "type": "file"
     },
     {
-      "path": "src\\index.css",
-      "accessCount": 2,
-      "lastAccessed": 1776615227047,
-      "type": "file"
-    },
-    {
-      "path": "src\\main.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1776615851767,
-      "type": "file"
-    },
-    {
-      "path": ".kilo\\seo-changelog.md",
+      "path": "",
       "accessCount": 1,
-      "lastAccessed": 1776541655737,
-      "type": "file"
-    },
-    {
-      "path": "src\\components",
-      "accessCount": 1,
-      "lastAccessed": 1776542528650,
+      "lastAccessed": 1776777026769,
       "type": "directory"
     },
     {
-      "path": "README.md",
+      "path": "src\\integrations\\supabase\\client.ts",
       "accessCount": 1,
-      "lastAccessed": 1776615200492,
+      "lastAccessed": 1776777040354,
       "type": "file"
     },
     {
-      "path": "vite.config.ts",
+      "path": "src\\pages\\NotFound.tsx",
       "accessCount": 1,
-      "lastAccessed": 1776615203948,
+      "lastAccessed": 1776777040719,
       "type": "file"
     },
     {
-      "path": "src\\lib\\submissions.ts",
+      "path": "src\\pages\\ResetPasswordPage.tsx",
       "accessCount": 1,
-      "lastAccessed": 1776615221992,
-      "type": "file"
-    },
-    {
-      "path": "tailwind.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1776615226857,
-      "type": "file"
-    },
-    {
-      "path": "remiks.md",
-      "accessCount": 1,
-      "lastAccessed": 1776615233871,
-      "type": "file"
-    },
-    {
-      "path": "public\\llms.txt",
-      "accessCount": 1,
-      "lastAccessed": 1776615750836,
-      "type": "file"
-    },
-    {
-      "path": "public\\.well-known\\security.txt",
-      "accessCount": 1,
-      "lastAccessed": 1776615757934,
+      "lastAccessed": 1776777063162,
       "type": "file"
     }
   ],
