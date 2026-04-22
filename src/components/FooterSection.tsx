@@ -53,7 +53,7 @@ const FooterSection = () => {
 
           <div className="mt-3 flex justify-center">
             <a
-              href="https://chat.whatsapp.com/L3FeJVRpPIb75bQGG7M3oN?mode=gi_t"
+              href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-[#25D366] text-white font-bold text-sm hover:bg-[#1ebe5d] transition-all shadow-md"
