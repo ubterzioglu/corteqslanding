@@ -102,7 +102,7 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
         model: "openai/gpt-5-mini",
@@ -117,7 +117,7 @@ Deno.serve(async (req) => {
       console.error("AI gateway error:", response.status, text);
       return new Response(JSON.stringify({ error: "AI hatası" }), {
         status: response.status >= 400 && response.status < 600 ? response.status : 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
     }
 
@@ -129,19 +129,20 @@ Deno.serve(async (req) => {
           message: "Bir şeyler ters gitti, tekrar dener misiniz?",
           status: "in_progress",
         }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        { headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
       );
     }
 
     const args = JSON.parse(toolCall.function.arguments);
     return new Response(JSON.stringify(args), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
     });
   } catch (error) {
     console.error("chat-register error:", error);
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Bilinmeyen hata" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
     );
   }
 });
+

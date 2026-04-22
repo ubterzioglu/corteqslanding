@@ -82,7 +82,7 @@ Deno.serve(async (req) => {
 
     if (!offers_needs || typeof offers_needs !== "string" || offers_needs.trim().length < 5) {
       return new Response(JSON.stringify({ matches: [] }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
     }
 
@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
 
     if (!scored.length) {
       return new Response(JSON.stringify({ matches: [] }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
     }
 
@@ -134,7 +134,7 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: {
         Authorization: `Bearer ${lovableApiKey}`,
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
@@ -227,13 +227,14 @@ Deno.serve(async (req) => {
     }
 
     return new Response(JSON.stringify({ matches: enriched }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
     });
   } catch (error) {
     console.error("find-matches error:", error);
     return new Response(
       JSON.stringify({ error: error instanceof Error ? error.message : "Bilinmeyen hata" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
     );
   }
 });
+
