@@ -140,3 +140,70 @@ export async function createReferralCode(params: {
     },
   );
 }
+
+export async function updateReferralCodeEditableFields(params: {
+  id: string;
+  note: string | null;
+  valid_from: string;
+  valid_until: string;
+}): Promise<ReferralCodeRow> {
+  const fromDate = new Date(params.valid_from);
+  const untilDate = new Date(params.valid_until);
+  if (Number.isNaN(fromDate.getTime()) || Number.isNaN(untilDate.getTime())) {
+    throw new Error("Gecerlilik tarihleri gecersiz.");
+  }
+  if (untilDate < fromDate) {
+    throw new Error("Bitis tarihi baslangic tarihinden once olamaz.");
+  }
+
+  const payload = {
+    valid_from: params.valid_from,
+    valid_until: params.valid_until,
+    note: params.note ? normalizeTurkishText(params.note) : null,
+  };
+
+  const { data, error } = await supabase
+    .from("referral_codes")
+    .update(payload)
+    .eq("id", params.id)
+    .select("*")
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function setReferralCodeActive(params: { id: string; is_active: boolean }): Promise<ReferralCodeRow> {
+  const { data, error } = await supabase
+    .from("referral_codes")
+    .update({ is_active: params.is_active })
+    .eq("id", params.id)
+    .select("*")
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
+export async function deleteReferralCodeHard(id: string): Promise<void> {
+  const [submissionCountResult, usageCountResult] = await Promise.all([
+    supabase
+      .from("submissions")
+      .select("id", { count: "exact", head: true })
+      .eq("referral_code_id", id),
+    supabase
+      .from("referral_code_usages")
+      .select("id", { count: "exact", head: true })
+      .eq("referral_code_id", id),
+  ]);
+
+  if (submissionCountResult.error) throw submissionCountResult.error;
+  if (usageCountResult.error) throw usageCountResult.error;
+
+  if ((submissionCountResult.count ?? 0) > 0 || (usageCountResult.count ?? 0) > 0) {
+    throw new Error("Kullanilmis referral kodu hard delete edilemez.");
+  }
+
+  const { error } = await supabase.from("referral_codes").delete().eq("id", id);
+  if (error) throw error;
+}
