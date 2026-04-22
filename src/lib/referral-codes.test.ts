@@ -25,21 +25,27 @@ function buildRowFromPayload(payload: ReferralCodeInsert): ReferralCodeRow {
     used_at: payload.used_at ?? null,
     created_by: payload.created_by ?? null,
     created_at: payload.created_at ?? "2026-04-22T00:00:00.000Z",
+    group_code: payload.group_code,
+    group_id: payload.group_id,
+    usage_count: payload.usage_count ?? 0,
+    valid_from: payload.valid_from,
+    valid_until: payload.valid_until,
   };
 }
 
 describe("referral code helpers", () => {
-  it("builds code in SOURCE+TYPE+MM+YY-RAND format", () => {
+  it("builds code in SOURCE+GROUP+TYPE-RAND format", () => {
     const generated = generateReferralCodeFromParts({
       sourceCode: "WA",
+      groupCode: "OK",
       typeCode: "NM",
-      month: 4,
-      year: 2026,
-      randomLength: 4,
+      validFrom: "2026-04-22",
+      validUntil: "2027-04-22",
+      randomLength: 6,
     });
 
-    expect(generated.code).toMatch(/^[A-Z]{4}[0-9]{4}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{4}$/);
-    expect(generated.code.startsWith("WANM0426-")).toBe(true);
+    expect(generated.code).toMatch(/^[A-Z]{6}-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/);
+    expect(generated.code.startsWith("WAOKNM-")).toBe(true);
   });
 
   it("accepts only 2-letter uppercase tokens", () => {
@@ -50,6 +56,7 @@ describe("referral code helpers", () => {
 
   it("retries on unique violation and succeeds", async () => {
     const source = { id: "s1", code: "WA", name: "WhatsApp", is_active: true, created_at: "2026-01-01T00:00:00Z" };
+    const group = { id: "g1", code: "OK", name: "Okul", is_active: true, created_at: "2026-01-01T00:00:00Z" };
     const type = { id: "t1", code: "NM", name: "Normal", is_active: true, created_at: "2026-01-01T00:00:00Z" };
 
     const insertFn = vi
@@ -66,12 +73,12 @@ describe("referral code helpers", () => {
       }));
 
     const result = await createReferralCodeWithRetry(
-      { source, type, month: 4, year: 2026, note: "Deneme" },
+      { source, group, type, validFrom: "2026-04-22", validUntil: "2027-04-22", note: "Deneme" },
       insertFn,
       5,
     );
 
-    expect(result.code).toMatch(/^WANM0426-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{4}$/);
+    expect(result.code).toMatch(/^WAOKNM-[ABCDEFGHJKLMNPQRSTUVWXYZ23456789]{6}$/);
     expect(insertFn).toHaveBeenCalledTimes(2);
   });
 });

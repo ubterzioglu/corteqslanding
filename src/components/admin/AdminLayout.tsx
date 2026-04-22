@@ -236,6 +236,11 @@ const AdminLayout = () => {
                 {"<- Referral"}
               </Link>
             )}
+            {location.pathname.startsWith("/admin/referral/groups") && (
+              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                {"<- Referral"}
+              </Link>
+            )}
             {location.pathname.startsWith("/admin/referral/types") && (
               <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
                 {"<- Referral"}

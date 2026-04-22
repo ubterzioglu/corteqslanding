@@ -17,12 +17,14 @@ const AdminReferralTypesPage = () => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [draftNames, setDraftNames] = useState<Record<string, string>>({});
 
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
       const data = await listReferralTypes(false);
       setItems(data);
+      setDraftNames(Object.fromEntries(data.map((item) => [item.id, item.name])));
     } catch (error) {
       const message = error instanceof Error ? error.message : "Bilinmeyen hata";
       toast({ title: "Type listesi yüklenemedi", description: message, variant: "destructive" });
@@ -64,6 +66,20 @@ const AdminReferralTypesPage = () => {
     }
   };
 
+  const renameType = async (id: string) => {
+    try {
+      const nextName = normalizeTurkishText(draftNames[id] ?? "");
+      if (!nextName) return;
+      const updated = await updateReferralType({ id, name: nextName });
+      setItems((current) => current.map((item) => (item.id === id ? updated : item)));
+      setDraftNames((current) => ({ ...current, [id]: updated.name }));
+      toast({ title: "Type guncellendi" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Guncellenemedi";
+      toast({ title: "Type guncellenemedi", description: message, variant: "destructive" });
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -92,22 +108,33 @@ const AdminReferralTypesPage = () => {
                 <TableHead>Code</TableHead>
                 <TableHead>Aktif</TableHead>
                 <TableHead>Tarih</TableHead>
+                <TableHead>Islem</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={4}>Yükleniyor...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Yükleniyor...</TableCell></TableRow>
               ) : items.length === 0 ? (
-                <TableRow><TableCell colSpan={4}>Kayıt yok.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Kayıt yok.</TableCell></TableRow>
               ) : (
                 items.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.name}</TableCell>
+                    <TableCell>
+                      <Input
+                        value={draftNames[item.id] ?? item.name}
+                        onChange={(event) => setDraftNames((current) => ({ ...current, [item.id]: event.target.value }))}
+                      />
+                    </TableCell>
                     <TableCell className="font-mono">{item.code}</TableCell>
                     <TableCell>
                       <Switch checked={item.is_active} onCheckedChange={(checked) => void toggleActive(item.id, checked)} />
                     </TableCell>
                     <TableCell>{new Date(item.created_at).toLocaleDateString("tr-TR")}</TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm" onClick={() => void renameType(item.id)}>
+                        Kaydet
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))
               )}

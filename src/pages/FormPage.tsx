@@ -17,6 +17,7 @@ import {
   referralSourceOptions,
   shouldShowReferralDetail,
   toSubmissionInsert,
+  validateReferralCodeBeforeSubmit,
 } from "@/lib/submissions";
 
 const FormPage = () => {
@@ -56,10 +57,10 @@ const FormPage = () => {
     values.referral_source = referralSource;
     values.referral_detail = referralDetail;
 
-    const payload = toSubmissionInsert(values, "register");
-    const notificationPayload = { ...payload, created_at: new Date().toISOString() };
-
     try {
+      const payload = toSubmissionInsert(values, "register");
+      payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
+      const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);
 
       if (error) throw error;

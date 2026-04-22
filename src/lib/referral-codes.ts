@@ -2,21 +2,23 @@ import type { Tables, TablesInsert } from "@/integrations/supabase/types";
 import { normalizeTurkishText } from "@/lib/text-normalization";
 
 export const SAFE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-export const DEFAULT_RANDOM_LENGTH = 4;
+export const DEFAULT_RANDOM_LENGTH = 6;
 
 export type ReferralCodeRow = Tables<"referral_codes">;
 export type ReferralCodeInsert = TablesInsert<"referral_codes">;
 export type ReferralSourceRow = Tables<"referral_sources">;
+export type ReferralGroupRow = Tables<"referral_groups">;
 export type ReferralTypeRow = Tables<"referral_types">;
 
 export type CreateReferralCodeParams = {
   sourceId: string;
+  groupId: string;
   typeId: string;
-  month: number;
-  year: number;
+  validFrom: string;
+  validUntil: string;
   note?: string | null;
   createdBy?: string | null;
-  randomLength?: 4 | 5;
+  randomLength?: 5 | 6 | 7;
 };
 
 export function validateReferralCodeToken(code: string) {
@@ -44,65 +46,79 @@ export function randomString(length: number): string {
 
 export function generateReferralCodeFromParts(params: {
   sourceCode: string;
+  groupCode: string;
   typeCode: string;
-  month: number;
-  year: number;
+  validFrom: string;
+  validUntil: string;
   randomLength?: number;
 }) {
   const sourceCode = validateReferralCodeToken(params.sourceCode);
+  const groupCode = validateReferralCodeToken(params.groupCode);
   const typeCode = validateReferralCodeToken(params.typeCode);
-  if (params.month < 1 || params.month > 12) {
-    throw new Error("Month must be between 1 and 12.");
+  const validFromDate = new Date(params.validFrom);
+  const validUntilDate = new Date(params.validUntil);
+  if (Number.isNaN(validFromDate.getTime()) || Number.isNaN(validUntilDate.getTime())) {
+    throw new Error("Valid from/until dates are required.");
   }
-  if (params.year < 2000 || params.year > 2099) {
-    throw new Error("Year must be between 2000 and 2099.");
+  if (validUntilDate < validFromDate) {
+    throw new Error("Valid until date must be after valid from date.");
   }
 
-  const mm = String(params.month).padStart(2, "0");
-  const yy = String(params.year).slice(-2);
   const randomLength = params.randomLength ?? DEFAULT_RANDOM_LENGTH;
   const randomPart = randomString(randomLength);
-  const code = `${sourceCode}${typeCode}${mm}${yy}-${randomPart}`;
+  const prefix = `${sourceCode}${groupCode}${typeCode}`;
+  const code = `${prefix}-${randomPart}`;
+  const monthNum = validFromDate.getUTCMonth() + 1;
+  const yearShort = String(validFromDate.getUTCFullYear()).slice(-2);
 
   return {
     code,
+    prefix,
     sourceCode,
+    groupCode,
     typeCode,
-    monthNum: params.month,
-    yearShort: yy,
+    monthNum,
+    yearShort,
     randomPart,
   };
 }
 
 export function buildReferralInsertPayload(params: {
   source: ReferralSourceRow;
+  group: ReferralGroupRow;
   type: ReferralTypeRow;
-  month: number;
-  year: number;
+  validFrom: string;
+  validUntil: string;
   note?: string | null;
   createdBy?: string | null;
-  randomLength?: 4 | 5;
+  randomLength?: 5 | 6 | 7;
 }): ReferralCodeInsert {
   if (!params.source.is_active) throw new Error("Selected source is not active.");
+  if (!params.group.is_active) throw new Error("Selected group is not active.");
   if (!params.type.is_active) throw new Error("Selected type is not active.");
 
   const generated = generateReferralCodeFromParts({
     sourceCode: params.source.code,
+    groupCode: params.group.code,
     typeCode: params.type.code,
-    month: params.month,
-    year: params.year,
+    validFrom: params.validFrom,
+    validUntil: params.validUntil,
     randomLength: params.randomLength ?? DEFAULT_RANDOM_LENGTH,
   });
 
   return {
     code: generated.code,
     source_id: params.source.id,
+    group_id: params.group.id,
     type_id: params.type.id,
     source_code: generated.sourceCode,
+    group_code: generated.groupCode,
     type_code: generated.typeCode,
     month_num: generated.monthNum,
     year_short: generated.yearShort,
     random_part: generated.randomPart,
+    valid_from: params.validFrom,
+    valid_until: params.validUntil,
     note: params.note ? normalizeTurkishText(params.note) : null,
     created_by: params.createdBy ?? null,
   };
@@ -116,12 +132,13 @@ type InsertResult<TData> = {
 export async function createReferralCodeWithRetry<TData extends ReferralCodeRow>(
   params: {
     source: ReferralSourceRow;
+    group: ReferralGroupRow;
     type: ReferralTypeRow;
-    month: number;
-    year: number;
+    validFrom: string;
+    validUntil: string;
     note?: string | null;
     createdBy?: string | null;
-    randomLength?: 4 | 5;
+    randomLength?: 5 | 6 | 7;
   },
   insertFn: (payload: ReferralCodeInsert) => Promise<InsertResult<TData>>,
   maxAttempts = 5,

@@ -12,7 +12,6 @@ import {
 
 describe("submission helpers", () => {
   it("builds register inserts with default review status", () => {
-    const documents: UploadedDocument[] = [{ url: "https://example.com/cv.pdf", name: "cv.pdf" }];
     const submission = toSubmissionInsert(
       {
         category: "danisman",
@@ -35,6 +34,7 @@ describe("submission helpers", () => {
     expect(submission.referral_source).toBeNull();
     expect(submission.referral_detail).toBeNull();
     expect(submission.referral_code).toBeNull();
+    expect(submission.referral_code_id).toBeNull();
     expect(submission.offers_needs).toBe("Danışmanlık veriyorum");
     expect(submission.documents).toEqual([]);
   });
@@ -86,6 +86,7 @@ describe("submission helpers", () => {
       referral_source: "whatsapp",
       referral_detail: "Berlin Diaspora",
       referral_code: "ABC42",
+      referral_code_id: null,
       description: "Community builder",
       offers_needs: "Network arıyor",
       document_url: "https://example.com/doc.pdf",

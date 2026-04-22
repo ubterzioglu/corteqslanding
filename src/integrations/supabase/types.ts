@@ -51,6 +51,30 @@ export type Database = {
         };
         Relationships: [];
       };
+      referral_groups: {
+        Row: {
+          code: string;
+          created_at: string;
+          id: string;
+          is_active: boolean;
+          name: string;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name: string;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name?: string;
+        };
+        Relationships: [];
+      };
       referral_types: {
         Row: {
           code: string;
@@ -80,6 +104,8 @@ export type Database = {
           code: string;
           created_at: string;
           created_by: string | null;
+          group_code: string;
+          group_id: string;
           id: string;
           is_active: boolean;
           is_used: boolean;
@@ -91,12 +117,17 @@ export type Database = {
           type_code: string;
           type_id: string;
           used_at: string | null;
+          usage_count: number;
+          valid_from: string;
+          valid_until: string;
           year_short: string;
         };
         Insert: {
           code: string;
           created_at?: string;
           created_by?: string | null;
+          group_code: string;
+          group_id: string;
           id?: string;
           is_active?: boolean;
           is_used?: boolean;
@@ -108,12 +139,17 @@ export type Database = {
           type_code: string;
           type_id: string;
           used_at?: string | null;
+          usage_count?: number;
+          valid_from: string;
+          valid_until: string;
           year_short: string;
         };
         Update: {
           code?: string;
           created_at?: string;
           created_by?: string | null;
+          group_code?: string;
+          group_id?: string;
           id?: string;
           is_active?: boolean;
           is_used?: boolean;
@@ -125,6 +161,9 @@ export type Database = {
           type_code?: string;
           type_id?: string;
           used_at?: string | null;
+          usage_count?: number;
+          valid_from?: string;
+          valid_until?: string;
           year_short?: string;
         };
         Relationships: [
@@ -134,6 +173,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "admin_users";
             referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "referral_codes_group_id_fkey";
+            columns: ["group_id"];
+            isOneToOne: false;
+            referencedRelation: "referral_groups";
+            referencedColumns: ["id"];
           },
           {
             foreignKeyName: "referral_codes_source_id_fkey";
@@ -147,6 +193,48 @@ export type Database = {
             columns: ["type_id"];
             isOneToOne: false;
             referencedRelation: "referral_types";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      referral_code_usages: {
+        Row: {
+          email: string | null;
+          full_name: string | null;
+          id: string;
+          referral_code_id: string;
+          submission_id: string;
+          used_at: string;
+        };
+        Insert: {
+          email?: string | null;
+          full_name?: string | null;
+          id?: string;
+          referral_code_id: string;
+          submission_id: string;
+          used_at?: string;
+        };
+        Update: {
+          email?: string | null;
+          full_name?: string | null;
+          id?: string;
+          referral_code_id?: string;
+          submission_id?: string;
+          used_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "referral_code_usages_referral_code_id_fkey";
+            columns: ["referral_code_id"];
+            isOneToOne: false;
+            referencedRelation: "referral_codes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "referral_code_usages_submission_id_fkey";
+            columns: ["submission_id"];
+            isOneToOne: false;
+            referencedRelation: "submissions";
             referencedColumns: ["id"];
           },
         ];
@@ -179,6 +267,7 @@ export type Database = {
           offers_needs: string | null;
           phone: string;
           referral_code: string | null;
+          referral_code_id: string | null;
           referral_detail: string | null;
           referral_source: string | null;
           reviewed_at: string | null;
@@ -216,6 +305,7 @@ export type Database = {
           offers_needs?: string | null;
           phone: string;
           referral_code?: string | null;
+          referral_code_id?: string | null;
           referral_detail?: string | null;
           referral_source?: string | null;
           reviewed_at?: string | null;
@@ -253,6 +343,7 @@ export type Database = {
           offers_needs?: string | null;
           phone?: string;
           referral_code?: string | null;
+          referral_code_id?: string | null;
           referral_detail?: string | null;
           referral_source?: string | null;
           reviewed_at?: string | null;
@@ -270,6 +361,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "admin_users";
             referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "submissions_referral_code_id_fkey";
+            columns: ["referral_code_id"];
+            isOneToOne: false;
+            referencedRelation: "referral_codes";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -329,7 +427,20 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      validate_and_bind_referral_code: {
+        Args: { input_code: string; reference_time?: string };
+        Returns: {
+          group_code: string | null;
+          message: string | null;
+          normalized_code: string | null;
+          referral_code_id: string | null;
+          source_code: string | null;
+          status: string | null;
+          type_code: string | null;
+          valid_from: string | null;
+          valid_until: string | null;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

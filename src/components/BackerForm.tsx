@@ -19,6 +19,7 @@ import {
   shouldShowReferralDetail,
   toSubmissionInsert,
   uploadSubmissionDocuments,
+  validateReferralCodeBeforeSubmit,
   validateSubmissionDocuments,
 } from "@/lib/submissions";
 
@@ -144,6 +145,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
         },
         "backer",
       );
+      payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);
       if (error) throw error;
