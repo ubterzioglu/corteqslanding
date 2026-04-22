@@ -21,11 +21,18 @@ const SUPABASE_PUBLISHABLE_KEY =
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
-if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-  throw new Error('Supabase runtime config is missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.');
+export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_PUBLISHABLE_KEY);
+
+if (!isSupabaseConfigured) {
+  console.error(
+    "Supabase runtime config is missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.",
+  );
 }
 
-export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+const safeUrl = SUPABASE_URL || "https://placeholder.supabase.co";
+const safeKey = SUPABASE_PUBLISHABLE_KEY || "placeholder-anon-key";
+
+export const supabase = createClient<Database>(safeUrl, safeKey, {
   auth: {
     storage: localStorage,
     persistSession: true,
