@@ -34,6 +34,7 @@ const AdminReferralPage = () => {
   const [usageMap, setUsageMap] = useState<Record<string, ReferralUsageRow[]>>({});
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
+  const [lastCreatedCode, setLastCreatedCode] = useState<string | null>(null);
 
   const now = new Date();
   const defaultFrom = now.toISOString().slice(0, 10);
@@ -154,6 +155,7 @@ const AdminReferralPage = () => {
         createdBy: session.user.id,
       });
       setReferralCodes((current) => [created, ...current].slice(0, 100));
+      setLastCreatedCode(created.code);
       setNote("");
       const next = new URLSearchParams(searchParams);
       next.delete("action");
@@ -164,6 +166,27 @@ const AdminReferralPage = () => {
       toast({ title: "Olusturma basarisiz", description: message, variant: "destructive" });
     } finally {
       setCreating(false);
+    }
+  };
+
+  const copyCode = async (code: string) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = code;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      toast({ title: "Kopyalandi", description: code });
+    } catch {
+      toast({ title: "Kopyalama basarisiz", description: "Kod panoya kopyalanamadi.", variant: "destructive" });
     }
   };
 
@@ -218,6 +241,17 @@ const AdminReferralPage = () => {
             <p className="font-mono text-lg font-semibold">{summary}</p>
             <p className="mt-1 text-xs text-muted-foreground">Valid: {validFrom} - {validUntil}</p>
           </div>
+          {lastCreatedCode && (
+            <div className="flex items-center justify-between rounded-md border bg-primary/5 p-3">
+              <div>
+                <p className="text-xs text-muted-foreground">Son uretilen kod</p>
+                <p className="font-mono text-base font-semibold">{lastCreatedCode}</p>
+              </div>
+              <Button variant="outline" size="sm" onClick={() => void copyCode(lastCreatedCode)}>
+                Kopyala
+              </Button>
+            </div>
+          )}
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline" size="sm"><Link to="/admin/referral/sources">Source Yonetimi</Link></Button>
             <Button asChild variant="outline" size="sm"><Link to="/admin/referral/groups">Group Yonetimi</Link></Button>
@@ -258,6 +292,12 @@ const AdminReferralPage = () => {
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="grid gap-2 text-sm text-muted-foreground md:grid-cols-2">
+                        <div className="md:col-span-2 flex items-center gap-2">
+                          <span className="font-mono text-foreground">{referral.code}</span>
+                          <Button variant="outline" size="sm" onClick={() => void copyCode(referral.code)}>
+                            Kopyala
+                          </Button>
+                        </div>
                         <div>Source/Group/Type: <span className="font-mono text-foreground">{referral.source_code}/{referral.group_code}/{referral.type_code}</span></div>
                         <div>Valid Window: <span className="text-foreground">{referral.valid_from} - {referral.valid_until}</span></div>
                         <div>Random: <span className="font-mono text-foreground">{referral.random_part}</span></div>

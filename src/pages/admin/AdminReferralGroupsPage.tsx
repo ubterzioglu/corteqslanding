@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { createReferralGroup, listReferralGroups, updateReferralGroup } from "@/lib/admin";
@@ -56,10 +55,11 @@ const AdminReferralGroupsPage = () => {
     }
   };
 
-  const toggleActive = async (id: string, isActive: boolean) => {
+  const deleteGroup = async (id: string) => {
     try {
-      const updated = await updateReferralGroup({ id, is_active: isActive });
+      const updated = await updateReferralGroup({ id, is_active: false });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
+      toast({ title: "Group silindi" });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Guncellenemedi";
       toast({ title: "Group guncellenemedi", description: message, variant: "destructive" });
@@ -106,7 +106,7 @@ const AdminReferralGroupsPage = () => {
               <TableRow>
                 <TableHead>Ad</TableHead>
                 <TableHead>Code</TableHead>
-                <TableHead>Aktif</TableHead>
+                <TableHead>Durum</TableHead>
                 <TableHead>Tarih</TableHead>
                 <TableHead>Islem</TableHead>
               </TableRow>
@@ -126,13 +126,14 @@ const AdminReferralGroupsPage = () => {
                       />
                     </TableCell>
                     <TableCell className="font-mono">{item.code}</TableCell>
-                    <TableCell>
-                      <Switch checked={item.is_active} onCheckedChange={(checked) => void toggleActive(item.id, checked)} />
-                    </TableCell>
+                    <TableCell>{item.is_active ? "Aktif" : "Silindi"}</TableCell>
                     <TableCell>{new Date(item.created_at).toLocaleDateString("tr-TR")}</TableCell>
-                    <TableCell>
+                    <TableCell className="flex gap-2">
                       <Button variant="outline" size="sm" onClick={() => void renameGroup(item.id)}>
                         Kaydet
+                      </Button>
+                      <Button variant="destructive" size="sm" onClick={() => void deleteGroup(item.id)} disabled={!item.is_active}>
+                        Sil
                       </Button>
                     </TableCell>
                   </TableRow>
