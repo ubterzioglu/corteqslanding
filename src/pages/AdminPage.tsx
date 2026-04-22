@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -52,6 +53,8 @@ const AdminPage = () => {
   const [referralNote, setReferralNote] = useState("");
   const [creatingReferral, setCreatingReferral] = useState(false);
   const [lastCreatedReferral, setLastCreatedReferral] = useState<ReferralCodeRow | null>(null);
+  const [referralCodes, setReferralCodes] = useState<ReferralCodeRow[]>([]);
+  const [referralCodesLoading, setReferralCodesLoading] = useState(false);
 
   const fetchSubmissions = useCallback(async () => {
     setLoading(true);
@@ -65,6 +68,20 @@ const AdminPage = () => {
     }
 
     setLoading(false);
+  }, [toast]);
+
+  const fetchReferralCodes = useCallback(async () => {
+    setReferralCodesLoading(true);
+    const { data, error } = await supabase.from("referral_codes").select("*").order("created_at", { ascending: false }).limit(100);
+
+    if (error) {
+      console.error(error);
+      toast({ title: "Referral kodları yüklenemedi", description: error.message, variant: "destructive" });
+    } else {
+      setReferralCodes(data || []);
+    }
+
+    setReferralCodesLoading(false);
   }, [toast]);
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
@@ -86,8 +103,10 @@ const AdminPage = () => {
 
       if (allowed) {
         await fetchSubmissions();
+        await fetchReferralCodes();
       } else {
         setSubmissions([]);
+        setReferralCodes([]);
         setLoading(false);
       }
     } catch (error) {
@@ -102,7 +121,7 @@ const AdminPage = () => {
     } finally {
       setCheckingAccess(false);
     }
-  }, [fetchSubmissions, toast]);
+  }, [fetchReferralCodes, fetchSubmissions, toast]);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((_event, nextSession) => {
@@ -197,6 +216,7 @@ const AdminPage = () => {
     setIsAdmin(false);
     setSession(null);
     setSubmissions([]);
+    setReferralCodes([]);
   };
 
   const handleCreateReferralCode = async () => {
@@ -220,6 +240,7 @@ const AdminPage = () => {
         createdBy: session.user.id,
       });
       setLastCreatedReferral(data);
+      setReferralCodes((current) => [data, ...current].slice(0, 100));
       toast({
         title: "Referral kodu oluşturuldu",
         description: data.code,
@@ -508,6 +529,65 @@ const AdminPage = () => {
                 <p className="text-sm text-muted-foreground">Son oluşturulan kod</p>
                 <p className="mt-1 font-mono text-lg font-semibold tracking-wide text-foreground">{lastCreatedReferral.code}</p>
               </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Üretilen Referral Kodları</CardTitle>
+            <CardDescription>Son 100 kodu akordeon listesinde detaylarıyla görüntüleyin.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {referralCodesLoading ? (
+              <p className="text-sm text-muted-foreground">Referral kodları yükleniyor...</p>
+            ) : referralCodes.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Henüz üretilmiş referral kodu yok.</p>
+            ) : (
+              <Accordion type="single" collapsible className="w-full">
+                {referralCodes.map((referral) => (
+                  <AccordionItem key={referral.id} value={referral.id}>
+                    <AccordionTrigger className="text-left">
+                      <div className="flex w-full items-center justify-between gap-3 pr-2">
+                        <div className="flex flex-col">
+                          <span className="font-mono text-sm font-semibold">{referral.code}</span>
+                          <span className="text-xs text-muted-foreground">
+                            {new Date(referral.created_at).toLocaleString("tr-TR")} - {referral.type_key} / {referral.source_key}
+                          </span>
+                        </div>
+                        <Badge variant={referral.is_active ? "outline" : "secondary"}>
+                          {referral.is_active ? "Aktif" : "Pasif"}
+                        </Badge>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="grid gap-2 text-sm text-muted-foreground md:grid-cols-2">
+                        <div>
+                          Referral tarihi: <span className="text-foreground">{referral.referral_date}</span>
+                        </div>
+                        <div>
+                          Prefix: <span className="font-mono text-foreground">{referral.code_prefix}</span>
+                        </div>
+                        <div>
+                          Type: <span className="text-foreground">{referral.type_key}</span> ({referral.type_char})
+                        </div>
+                        <div>
+                          Source: <span className="text-foreground">{referral.source_key}</span> ({referral.source_char})
+                        </div>
+                        <div>
+                          Random: <span className="font-mono text-foreground">{referral.random_part}</span>
+                        </div>
+                        <div>
+                          Check: <span className="font-mono text-foreground">{referral.check_char}</span>
+                        </div>
+                        <div className="md:col-span-2">
+                          Ne için üretildi (not): <span className="text-foreground">{referral.note || "Not girilmedi"}</span>
+                        </div>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             )}
           </CardContent>
         </Card>
