@@ -27,6 +27,87 @@ export type Database = {
         };
         Relationships: [];
       };
+      referral_codes: {
+        Row: {
+          check_char: string;
+          code: string;
+          code_prefix: string;
+          created_at: string;
+          created_by: string | null;
+          id: string;
+          is_active: boolean;
+          is_used: boolean;
+          month_char: string;
+          note: string | null;
+          random_part: string;
+          referral_date: string;
+          source_char: string;
+          source_key: string;
+          type_char: string;
+          type_key: string;
+          used_at: string | null;
+          used_by: string | null;
+          year_short: string;
+        };
+        Insert: {
+          check_char: string;
+          code: string;
+          code_prefix: string;
+          created_at?: string;
+          created_by?: string | null;
+          id?: string;
+          is_active?: boolean;
+          is_used?: boolean;
+          month_char: string;
+          note?: string | null;
+          random_part: string;
+          referral_date: string;
+          source_char: string;
+          source_key: string;
+          type_char: string;
+          type_key: string;
+          used_at?: string | null;
+          used_by?: string | null;
+          year_short: string;
+        };
+        Update: {
+          check_char?: string;
+          code?: string;
+          code_prefix?: string;
+          created_at?: string;
+          created_by?: string | null;
+          id?: string;
+          is_active?: boolean;
+          is_used?: boolean;
+          month_char?: string;
+          note?: string | null;
+          random_part?: string;
+          referral_date?: string;
+          source_char?: string;
+          source_key?: string;
+          type_char?: string;
+          type_key?: string;
+          used_at?: string | null;
+          used_by?: string | null;
+          year_short?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "referral_codes_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "admin_users";
+            referencedColumns: ["user_id"];
+          },
+          {
+            foreignKeyName: "referral_codes_used_by_fkey";
+            columns: ["used_by"];
+            isOneToOne: false;
+            referencedRelation: "admin_users";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
       submissions: {
         Row: {
           business: string | null;

@@ -11,7 +11,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { userIsAdmin } from "@/lib/admin";
+import { createReferralCode, userIsAdmin } from "@/lib/admin";
+import {
+  referralSourceOptions as referralCodeSourceOptions,
+  type ReferralCodeRow,
+  referralTypeOptions,
+  type ReferralSource,
+  type ReferralType,
+} from "@/lib/referral-codes";
 import {
   buildSubmissionSearchText,
   getCategoryLabel,
@@ -39,6 +46,12 @@ const AdminPage = () => {
   const [filterType, setFilterType] = useState("all");
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<string | null>(null);
   const [savingSubmissionId, setSavingSubmissionId] = useState<string | null>(null);
+  const [referralType, setReferralType] = useState<ReferralType>("normal");
+  const [referralSource, setReferralSource] = useState<ReferralSource>("whatsapp");
+  const [referralDate, setReferralDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [referralNote, setReferralNote] = useState("");
+  const [creatingReferral, setCreatingReferral] = useState(false);
+  const [lastCreatedReferral, setLastCreatedReferral] = useState<ReferralCodeRow | null>(null);
 
   const fetchSubmissions = useCallback(async () => {
     setLoading(true);
@@ -184,6 +197,43 @@ const AdminPage = () => {
     setIsAdmin(false);
     setSession(null);
     setSubmissions([]);
+  };
+
+  const handleCreateReferralCode = async () => {
+    if (!session?.user?.id) return;
+    if (!referralDate.trim()) {
+      toast({
+        title: "Tarih gerekli",
+        description: "Referral kodu üretmek için geçerli bir tarih girin.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setCreatingReferral(true);
+    try {
+      const data = await createReferralCode({
+        type: referralType,
+        source: referralSource,
+        date: referralDate,
+        note: referralNote || null,
+        createdBy: session.user.id,
+      });
+      setLastCreatedReferral(data);
+      toast({
+        title: "Referral kodu oluşturuldu",
+        description: data.code,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Referral kodu oluşturulamadı.";
+      toast({
+        title: "Referral kodu oluşturulamadı",
+        description: message,
+        variant: "destructive",
+      });
+    } finally {
+      setCreatingReferral(false);
+    }
   };
 
   const exportCSV = () => {
@@ -377,6 +427,91 @@ const AdminPage = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6">
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle>Referral Kod Oluştur</CardTitle>
+            <CardDescription>Tip, kaynak ve tarih seçerek kodu tek adımda oluşturup kaydedin.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <div className="space-y-2">
+                <label htmlFor="referral-type" className="text-sm font-medium">
+                  Type
+                </label>
+                <select
+                  id="referral-type"
+                  value={referralType}
+                  onChange={(event) => setReferralType(event.target.value as ReferralType)}
+                  className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  {referralTypeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="referral-source" className="text-sm font-medium">
+                  Source
+                </label>
+                <select
+                  id="referral-source"
+                  value={referralSource}
+                  onChange={(event) => setReferralSource(event.target.value as ReferralSource)}
+                  className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  {referralCodeSourceOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="referral-date" className="text-sm font-medium">
+                  Tarih
+                </label>
+                <Input
+                  id="referral-date"
+                  type="date"
+                  value={referralDate}
+                  onChange={(event) => setReferralDate(event.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="flex items-end">
+                <Button onClick={() => void handleCreateReferralCode()} disabled={creatingReferral || !referralDate} className="w-full">
+                  {creatingReferral ? "Oluşturuluyor..." : "Oluştur ve Kaydet"}
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="referral-note" className="text-sm font-medium">
+                Not (opsiyonel)
+              </label>
+              <Textarea
+                id="referral-note"
+                value={referralNote}
+                onChange={(event) => setReferralNote(event.target.value)}
+                placeholder="Kampanya, segment veya batch notu ekleyebilirsiniz."
+                rows={3}
+              />
+            </div>
+
+            {lastCreatedReferral && (
+              <div className="rounded-md border border-border bg-muted/30 p-3">
+                <p className="text-sm text-muted-foreground">Son oluşturulan kod</p>
+                <p className="mt-1 font-mono text-lg font-semibold tracking-wide text-foreground">{lastCreatedReferral.code}</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
         <div className="mb-6 flex flex-wrap items-center gap-3">
           <div className="relative min-w-[200px] max-w-sm flex-1">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
