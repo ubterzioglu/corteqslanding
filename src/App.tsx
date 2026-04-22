@@ -1,14 +1,19 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
-import AdminPage from "./pages/AdminPage.tsx";
 import FormPage from "./pages/FormPage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
+import AdminLayout from "@/components/admin/AdminLayout";
+import AdminMembersPage from "@/pages/admin/AdminMembersPage";
+import AdminReferralPage from "@/pages/admin/AdminReferralPage";
+import AdminReferralSourcesPage from "@/pages/admin/AdminReferralSourcesPage";
+import AdminReferralTypesPage from "@/pages/admin/AdminReferralTypesPage";
+import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +26,14 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/members" replace />} />
+            <Route path="members" element={<AdminMembersPage />} />
+            <Route path="referral" element={<AdminReferralPage />} />
+            <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
+            <Route path="referral/types" element={<AdminReferralTypesPage />} />
+            <Route path="about" element={<AdminAboutPage />} />
+          </Route>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/form"         element={<FormPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

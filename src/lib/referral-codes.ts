@@ -1,80 +1,30 @@
 import type { Tables, TablesInsert } from "@/integrations/supabase/types";
+import { normalizeTurkishText } from "@/lib/text-normalization";
 
-export type ReferralType = "normal" | "partner" | "campaign" | "manual";
-export type ReferralSource = "whatsapp" | "instagram" | "linkedin" | "organic" | "partner" | "manual";
-
-export const TYPE_MAP: Record<ReferralType, string> = {
-  normal: "A",
-  partner: "B",
-  campaign: "C",
-  manual: "D",
-};
-
-export const SOURCE_MAP: Record<ReferralSource, string> = {
-  whatsapp: "W",
-  instagram: "I",
-  linkedin: "L",
-  organic: "O",
-  partner: "P",
-  manual: "M",
-};
-
-export const MONTH_MAP = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "X", "Y", "Z"] as const;
 export const SAFE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+export const DEFAULT_RANDOM_LENGTH = 4;
 
-export const referralTypeOptions: Array<{ value: ReferralType; label: string }> = [
-  { value: "normal", label: "Normal" },
-  { value: "partner", label: "Partner" },
-  { value: "campaign", label: "Campaign" },
-  { value: "manual", label: "Manual" },
-];
-
-export const referralSourceOptions: Array<{ value: ReferralSource; label: string }> = [
-  { value: "whatsapp", label: "WhatsApp" },
-  { value: "instagram", label: "Instagram" },
-  { value: "linkedin", label: "LinkedIn" },
-  { value: "organic", label: "Organic" },
-  { value: "partner", label: "Partner" },
-  { value: "manual", label: "Manual" },
-];
-
-export type GeneratedReferralCode = {
-  code: string;
-  code_prefix: string;
-  type_key: ReferralType;
-  type_char: string;
-  source_key: ReferralSource;
-  source_char: string;
-  referral_date: string;
-  month_char: string;
-  year_short: string;
-  random_part: string;
-  check_char: string;
-};
+export type ReferralCodeRow = Tables<"referral_codes">;
+export type ReferralCodeInsert = TablesInsert<"referral_codes">;
+export type ReferralSourceRow = Tables<"referral_sources">;
+export type ReferralTypeRow = Tables<"referral_types">;
 
 export type CreateReferralCodeParams = {
-  type: ReferralType;
-  source: ReferralSource;
-  date: string;
+  sourceId: string;
+  typeId: string;
+  month: number;
+  year: number;
   note?: string | null;
   createdBy?: string | null;
+  randomLength?: 4 | 5;
 };
 
-export type ReferralCodeInsert = TablesInsert<"referral_codes">;
-export type ReferralCodeRow = Tables<"referral_codes">;
-
-function parseDateInput(date: string) {
-  const trimmed = date.trim();
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
-    throw new Error("Invalid referral date. Use YYYY-MM-DD format.");
+export function validateReferralCodeToken(code: string) {
+  const normalized = normalizeTurkishText(code).toUpperCase();
+  if (!/^[A-Z]{2}$/.test(normalized)) {
+    throw new Error("Code must be exactly 2 uppercase letters.");
   }
-
-  const dateObj = new Date(`${trimmed}T00:00:00.000Z`);
-  if (Number.isNaN(dateObj.getTime())) {
-    throw new Error("Invalid referral date");
-  }
-
-  return dateObj;
+  return normalized;
 }
 
 function getRandomValues(length: number) {
@@ -86,61 +36,74 @@ function getRandomValues(length: number) {
 export function randomString(length: number): string {
   const values = getRandomValues(length);
   let result = "";
-
   for (let index = 0; index < values.length; index += 1) {
     result += SAFE_CHARS[values[index] % SAFE_CHARS.length];
   }
-
   return result;
 }
 
-export function buildCheckChar(input: string): string {
-  let sum = 0;
-  for (let index = 0; index < input.length; index += 1) {
-    sum += input.charCodeAt(index) * (index + 1);
+export function generateReferralCodeFromParts(params: {
+  sourceCode: string;
+  typeCode: string;
+  month: number;
+  year: number;
+  randomLength?: number;
+}) {
+  const sourceCode = validateReferralCodeToken(params.sourceCode);
+  const typeCode = validateReferralCodeToken(params.typeCode);
+  if (params.month < 1 || params.month > 12) {
+    throw new Error("Month must be between 1 and 12.");
+  }
+  if (params.year < 2000 || params.year > 2099) {
+    throw new Error("Year must be between 2000 and 2099.");
   }
 
-  return SAFE_CHARS[sum % SAFE_CHARS.length];
-}
-
-export function generateReferralCode(params: {
-  type: ReferralType;
-  source: ReferralSource;
-  date: string;
-}): GeneratedReferralCode {
-  const dateObj = parseDateInput(params.date);
-
-  const typeChar = TYPE_MAP[params.type];
-  const sourceChar = SOURCE_MAP[params.source];
-  const monthChar = MONTH_MAP[dateObj.getUTCMonth()];
-  const yearShort = String(dateObj.getUTCFullYear()).slice(-2);
-  const prefix = `${typeChar}${sourceChar}${monthChar}${yearShort}`;
-  const randomPart = randomString(4);
-  const raw = `${prefix}${randomPart}`;
-  const checkChar = buildCheckChar(raw);
+  const mm = String(params.month).padStart(2, "0");
+  const yy = String(params.year).slice(-2);
+  const randomLength = params.randomLength ?? DEFAULT_RANDOM_LENGTH;
+  const randomPart = randomString(randomLength);
+  const code = `${sourceCode}${typeCode}${mm}${yy}-${randomPart}`;
 
   return {
-    code: `${prefix}-${randomPart}-${checkChar}`,
-    code_prefix: prefix,
-    type_key: params.type,
-    type_char: typeChar,
-    source_key: params.source,
-    source_char: sourceChar,
-    referral_date: params.date,
-    month_char: monthChar,
-    year_short: yearShort,
-    random_part: randomPart,
-    check_char: checkChar,
+    code,
+    sourceCode,
+    typeCode,
+    monthNum: params.month,
+    yearShort: yy,
+    randomPart,
   };
 }
 
-export function buildReferralInsertPayload(
-  params: CreateReferralCodeParams,
-  generated = generateReferralCode(params),
-): ReferralCodeInsert {
+export function buildReferralInsertPayload(params: {
+  source: ReferralSourceRow;
+  type: ReferralTypeRow;
+  month: number;
+  year: number;
+  note?: string | null;
+  createdBy?: string | null;
+  randomLength?: 4 | 5;
+}): ReferralCodeInsert {
+  if (!params.source.is_active) throw new Error("Selected source is not active.");
+  if (!params.type.is_active) throw new Error("Selected type is not active.");
+
+  const generated = generateReferralCodeFromParts({
+    sourceCode: params.source.code,
+    typeCode: params.type.code,
+    month: params.month,
+    year: params.year,
+    randomLength: params.randomLength ?? DEFAULT_RANDOM_LENGTH,
+  });
+
   return {
-    ...generated,
-    note: params.note?.trim() || null,
+    code: generated.code,
+    source_id: params.source.id,
+    type_id: params.type.id,
+    source_code: generated.sourceCode,
+    type_code: generated.typeCode,
+    month_num: generated.monthNum,
+    year_short: generated.yearShort,
+    random_part: generated.randomPart,
+    note: params.note ? normalizeTurkishText(params.note) : null,
     created_by: params.createdBy ?? null,
   };
 }
@@ -151,14 +114,21 @@ type InsertResult<TData> = {
 };
 
 export async function createReferralCodeWithRetry<TData extends ReferralCodeRow>(
-  params: CreateReferralCodeParams,
+  params: {
+    source: ReferralSourceRow;
+    type: ReferralTypeRow;
+    month: number;
+    year: number;
+    note?: string | null;
+    createdBy?: string | null;
+    randomLength?: 4 | 5;
+  },
   insertFn: (payload: ReferralCodeInsert) => Promise<InsertResult<TData>>,
   maxAttempts = 5,
 ): Promise<TData> {
   for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
     const payload = buildReferralInsertPayload(params);
     const { data, error } = await insertFn(payload);
-
     if (!error && data) return data;
     if (!error && !data) throw new Error("Referral code insert returned empty result.");
     if (error.code !== "23505") throw new Error(error.message);

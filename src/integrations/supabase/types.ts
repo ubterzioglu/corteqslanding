@@ -27,68 +27,104 @@ export type Database = {
         };
         Relationships: [];
       };
+      referral_sources: {
+        Row: {
+          code: string;
+          created_at: string;
+          id: string;
+          is_active: boolean;
+          name: string;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name: string;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name?: string;
+        };
+        Relationships: [];
+      };
+      referral_types: {
+        Row: {
+          code: string;
+          created_at: string;
+          id: string;
+          is_active: boolean;
+          name: string;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name: string;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name?: string;
+        };
+        Relationships: [];
+      };
       referral_codes: {
         Row: {
-          check_char: string;
           code: string;
-          code_prefix: string;
           created_at: string;
           created_by: string | null;
           id: string;
           is_active: boolean;
           is_used: boolean;
-          month_char: string;
+          month_num: number;
           note: string | null;
           random_part: string;
-          referral_date: string;
-          source_char: string;
-          source_key: string;
-          type_char: string;
-          type_key: string;
+          source_code: string;
+          source_id: string;
+          type_code: string;
+          type_id: string;
           used_at: string | null;
-          used_by: string | null;
           year_short: string;
         };
         Insert: {
-          check_char: string;
           code: string;
-          code_prefix: string;
           created_at?: string;
           created_by?: string | null;
           id?: string;
           is_active?: boolean;
           is_used?: boolean;
-          month_char: string;
+          month_num: number;
           note?: string | null;
           random_part: string;
-          referral_date: string;
-          source_char: string;
-          source_key: string;
-          type_char: string;
-          type_key: string;
+          source_code: string;
+          source_id: string;
+          type_code: string;
+          type_id: string;
           used_at?: string | null;
-          used_by?: string | null;
           year_short: string;
         };
         Update: {
-          check_char?: string;
           code?: string;
-          code_prefix?: string;
           created_at?: string;
           created_by?: string | null;
           id?: string;
           is_active?: boolean;
           is_used?: boolean;
-          month_char?: string;
+          month_num?: number;
           note?: string | null;
           random_part?: string;
-          referral_date?: string;
-          source_char?: string;
-          source_key?: string;
-          type_char?: string;
-          type_key?: string;
+          source_code?: string;
+          source_id?: string;
+          type_code?: string;
+          type_id?: string;
           used_at?: string | null;
-          used_by?: string | null;
           year_short?: string;
         };
         Relationships: [
@@ -100,11 +136,18 @@ export type Database = {
             referencedColumns: ["user_id"];
           },
           {
-            foreignKeyName: "referral_codes_used_by_fkey";
-            columns: ["used_by"];
+            foreignKeyName: "referral_codes_source_id_fkey";
+            columns: ["source_id"];
             isOneToOne: false;
-            referencedRelation: "admin_users";
-            referencedColumns: ["user_id"];
+            referencedRelation: "referral_sources";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "referral_codes_type_id_fkey";
+            columns: ["type_id"];
+            isOneToOne: false;
+            referencedRelation: "referral_types";
+            referencedColumns: ["id"];
           },
         ];
       };

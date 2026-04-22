@@ -78,7 +78,7 @@ async function sendWithResend(apiKey: string, payload: Record<string, unknown>) 
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify(payload),
   });
@@ -105,7 +105,7 @@ Deno.serve(async (request) => {
     if (!submission) {
       return new Response(JSON.stringify({ error: "Missing submission payload" }), {
         status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
     }
 
@@ -113,7 +113,7 @@ Deno.serve(async (request) => {
       console.warn("Mail function skipped because env vars are missing.");
       return new Response(JSON.stringify({ skipped: true }), {
         status: 200,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
     }
 
@@ -137,13 +137,14 @@ Deno.serve(async (request) => {
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
     });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ error: String(error) }), {
       status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
     });
   }
 });
+
