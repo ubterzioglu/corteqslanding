@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Link, NavLink, Outlet, useLocation, useNavigate, useOutletContext } from "react-router-dom";
-import { Download, Layers3, LogOut, Plus, Share2 } from "lucide-react";
+import { Download, Layers3, Plus, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -220,45 +220,42 @@ const AdminLayout = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
-              <span className="text-xs text-muted-foreground">{session?.user.email}</span>
-            </div>
-            <nav className="flex flex-wrap gap-2">
-              {navItems.map((item) => (
-                <NavLink key={item.to} to={item.to} className={linkClass}>
-                  {item.label}
-                </NavLink>
-              ))}
-              {location.pathname.startsWith("/admin/referral/sources") && (
-                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
-                  {"<- Referral"}
-                </Link>
-              )}
-              {location.pathname.startsWith("/admin/referral/types") && (
-                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
-                  {"<- Referral"}
-                </Link>
-              )}
-            </nav>
+        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-3">
+          <div className="flex items-center gap-3">
+            <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
+            <span className="text-xs text-muted-foreground">{session?.user.email}</span>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            {globalActions.map((action) => (
-              <Button key={action.label} variant="outline" size="sm" onClick={action.onClick}>
-                <action.icon className="h-4 w-4" />
-                {action.label}
-              </Button>
+          <nav className="flex flex-wrap gap-2">
+            {navItems.map((item) => (
+              <NavLink key={item.to} to={item.to} className={linkClass}>
+                {item.label}
+              </NavLink>
             ))}
-            <Button size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4" />
+            {location.pathname.startsWith("/admin/referral/sources") && (
+              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                {"<- Referral"}
+              </Link>
+            )}
+            {location.pathname.startsWith("/admin/referral/types") && (
+              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                {"<- Referral"}
+              </Link>
+            )}
+            <button onClick={() => void handleLogout()} className={linkClass({ isActive: false })}>
               Çıkış
-            </Button>
-          </div>
+            </button>
+          </nav>
         </div>
       </header>
       <main className="container mx-auto px-4 py-6">
+        <div className="mb-5 flex flex-wrap items-center justify-end gap-2">
+          {globalActions.map((action) => (
+            <Button key={action.label} variant="outline" size="sm" onClick={action.onClick}>
+              <action.icon className="h-4 w-4" />
+              {action.label}
+            </Button>
+          ))}
+        </div>
         {session && <Outlet context={{ session }} />}
       </main>
     </div>

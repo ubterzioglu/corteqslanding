@@ -224,6 +224,11 @@ const AdminMembersPage = () => {
       { accessorKey: "city", header: "Şehir", cell: ({ row }) => <span className="text-xs">{row.original.city}</span> },
       { accessorKey: "email", header: "E-posta", cell: ({ row }) => <span className="text-xs">{row.original.email}</span> },
       {
+        accessorKey: "referral_code",
+        header: "Referral Kodu",
+        cell: ({ row }) => <span className="font-mono text-xs">{row.original.referral_code || "-"}</span>,
+      },
+      {
         accessorKey: "referral_source",
         header: "Referral Kaynağı",
         cell: ({ row }) => <span className="text-xs">{getReferralSourceLabel(row.original.referral_source)}</span>,
@@ -388,64 +393,115 @@ const AdminMembersPage = () => {
           <CardDescription>Sunucu tarafı sayfalama, kolon bazlı filtre ve URL persistent state.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
-            <Input value={fullnameInput} onChange={(event) => setFullnameInput(event.target.value)} placeholder="Ad Soyad ara" />
-            <Input value={emailInput} onChange={(event) => setEmailInput(event.target.value)} placeholder="E-posta ara" />
-            <Input value={cityInput} onChange={(event) => setCityInput(event.target.value)} placeholder="Şehir ara" />
-            <Select value={statusFilter || "__all__"} onValueChange={(value) => updateParam("status", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="Durum" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                <SelectItem value="new">Yeni</SelectItem>
-                <SelectItem value="contacted">İletişime geçildi</SelectItem>
-                <SelectItem value="archived">Arşiv</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={formTypeFilter || "__all__"} onValueChange={(value) => updateParam("formType", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="Form Türü" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                <SelectItem value="register">Kayıt</SelectItem>
-                <SelectItem value="support">Destek</SelectItem>
-                <SelectItem value="backer">Backer</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input type="date" value={fromDate} onChange={(event) => updateParam("fromDate", event.target.value)} />
-            <Input type="date" value={toDate} onChange={(event) => updateParam("toDate", event.target.value)} />
-            <Select value={categoryFilter || "__all__"} onValueChange={(value) => updateParam("category", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="Kategori" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                {categoryOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={referralSourceFilter || "__all__"} onValueChange={(value) => updateParam("referralSource", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="Referral kaynağı" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                {referralSourceOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Select value={searchParams.get("whatsapp") ?? "__all__"} onValueChange={(value) => updateParam("whatsapp", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="WhatsApp ilgisi" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                <SelectItem value="true">Evet</SelectItem>
-                <SelectItem value="false">Hayır</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={searchParams.get("contest") ?? "__all__"} onValueChange={(value) => updateParam("contest", value === "__all__" ? "" : value)}>
-              <SelectTrigger><SelectValue placeholder="Yarışma ilgisi" /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__all__">Tümü</SelectItem>
-                <SelectItem value="true">Evet</SelectItem>
-                <SelectItem value="false">Hayır</SelectItem>
-              </SelectContent>
-            </Select>
+          <p className="text-xs text-muted-foreground">
+            Filtreler iki satırda düzenlendi. Dropdown alanlarının üstündeki etiketler hangi veriyi filtrelediğini gösterir.
+          </p>
+          <div className="grid gap-2 md:grid-cols-3 xl:grid-cols-6">
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Ad Soyad (metin)</label>
+              <Input className="h-8 text-xs" value={fullnameInput} onChange={(event) => setFullnameInput(event.target.value)} placeholder="Ada Lovelace" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">E-posta (metin)</label>
+              <Input className="h-8 text-xs" value={emailInput} onChange={(event) => setEmailInput(event.target.value)} placeholder="mail ara" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Şehir (metin)</label>
+              <Input className="h-8 text-xs" value={cityInput} onChange={(event) => setCityInput(event.target.value)} placeholder="şehir ara" />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Durum (enum)</label>
+              <Select value={statusFilter || "__all__"} onValueChange={(value) => updateParam("status", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Durum" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  <SelectItem value="new">Yeni</SelectItem>
+                  <SelectItem value="contacted">İletişime geçildi</SelectItem>
+                  <SelectItem value="archived">Arşiv</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Form Türü (enum)</label>
+              <Select value={formTypeFilter || "__all__"} onValueChange={(value) => updateParam("formType", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Form Türü" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  <SelectItem value="register">Kayıt</SelectItem>
+                  <SelectItem value="support">Destek</SelectItem>
+                  <SelectItem value="backer">Backer</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Kategori (enum)</label>
+              <Select value={categoryFilter || "__all__"} onValueChange={(value) => updateParam("category", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Kategori" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  {categoryOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Referral Kaynağı (enum)</label>
+              <Select value={referralSourceFilter || "__all__"} onValueChange={(value) => updateParam("referralSource", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Referral kaynağı" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  {referralSourceOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Başlangıç Tarihi</label>
+              <Input className="h-8 text-xs" type="date" value={fromDate} onChange={(event) => updateParam("fromDate", event.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Bitiş Tarihi</label>
+              <Input className="h-8 text-xs" type="date" value={toDate} onChange={(event) => updateParam("toDate", event.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">WhatsApp İlgisi (boolean)</label>
+              <Select value={searchParams.get("whatsapp") ?? "__all__"} onValueChange={(value) => updateParam("whatsapp", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="WhatsApp ilgisi" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  <SelectItem value="true">Evet</SelectItem>
+                  <SelectItem value="false">Hayır</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Yarışma İlgisi (boolean)</label>
+              <Select value={searchParams.get("contest") ?? "__all__"} onValueChange={(value) => updateParam("contest", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Yarışma ilgisi" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  <SelectItem value="true">Evet</SelectItem>
+                  <SelectItem value="false">Hayır</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Filtreleri Temizle</label>
+              <Button
+                variant="outline"
+                className="h-8 w-full text-xs"
+                onClick={() =>
+                  setSearchParams(
+                    new URLSearchParams({ page: "1", pageSize: String(pageSize), sortBy, sortDir }),
+                    { replace: true },
+                  )
+                }
+              >
+                Sıfırla
+              </Button>
+            </div>
           </div>
 
           <div className="overflow-hidden rounded-lg border">
@@ -472,7 +528,13 @@ const AdminMembersPage = () => {
                   table.getRowModel().rows.map((row, index) => (
                     <TableRow
                       key={row.id}
-                      className={`${index % 2 === 0 ? "bg-background" : "bg-muted/20"} cursor-pointer hover:bg-muted/60`}
+                      className={`${
+                        row.original.id === selectedSubmissionId
+                          ? "bg-green-100/70 dark:bg-green-900/30"
+                          : index % 2 === 0
+                            ? "bg-background"
+                            : "bg-muted/20"
+                      } cursor-pointer hover:bg-green-100/60 dark:hover:bg-green-900/40`}
                       onClick={() => setSelectedSubmissionId(row.original.id)}
                     >
                       {row.getVisibleCells().map((cell) => (
