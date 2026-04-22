@@ -56,12 +56,20 @@ const HeroSection = () => {
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4 w-fit">
               <a
                 href="#kaydol"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-orange-500 text-white font-semibold text-lg hover:bg-orange-600 transition-all shadow-lg shadow-orange-500/30"
               >
                 Ücretsiz Kayıt Ol →
+              </a>
+              <a
+                href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+              >
+                WhatsApp Grubuna Katıl →
               </a>
             </div>
 
