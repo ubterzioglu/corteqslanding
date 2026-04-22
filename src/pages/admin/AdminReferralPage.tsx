@@ -9,7 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { createReferralCode, listReferralGroups, listReferralSources, listReferralTypes } from "@/lib/admin";
+import {
+  createReferralCode,
+  deleteReferralCodeHard,
+  listReferralGroups,
+  listReferralSources,
+  listReferralTypes,
+  setReferralCodeActive,
+  updateReferralCodeEditableFields,
+} from "@/lib/admin";
 import type { ReferralCodeRow, ReferralGroupRow, ReferralSourceRow, ReferralTypeRow } from "@/lib/referral-codes";
 import { supabase } from "@/integrations/supabase/client";
 import { useAdminOutletContext } from "@/components/admin/AdminLayout";
@@ -35,6 +43,11 @@ const AdminReferralPage = () => {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [lastCreatedCode, setLastCreatedCode] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingNote, setEditingNote] = useState("");
+  const [editingValidFrom, setEditingValidFrom] = useState("");
+  const [editingValidUntil, setEditingValidUntil] = useState("");
+  const [busyById, setBusyById] = useState<Record<string, boolean>>({});
 
   const now = new Date();
   const defaultFrom = now.toISOString().slice(0, 10);
@@ -190,6 +203,92 @@ const AdminReferralPage = () => {
     }
   };
 
+  const setBusy = (id: string, busy: boolean) => {
+    setBusyById((current) => ({ ...current, [id]: busy }));
+  };
+
+  const startEdit = (referral: ReferralCodeRow) => {
+    setEditingId(referral.id);
+    setEditingNote(referral.note ?? "");
+    setEditingValidFrom(referral.valid_from);
+    setEditingValidUntil(referral.valid_until);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingNote("");
+    setEditingValidFrom("");
+    setEditingValidUntil("");
+  };
+
+  const saveEdit = async (id: string) => {
+    if (!editingValidFrom || !editingValidUntil) {
+      toast({ title: "Gecerlilik tarihleri zorunlu", variant: "destructive" });
+      return;
+    }
+    if (new Date(editingValidUntil) < new Date(editingValidFrom)) {
+      toast({ title: "Tarih araligi gecersiz", description: "Bitis tarihi baslangictan once olamaz.", variant: "destructive" });
+      return;
+    }
+
+    setBusy(id, true);
+    try {
+      const updated = await updateReferralCodeEditableFields({
+        id,
+        note: editingNote.trim() ? editingNote : null,
+        valid_from: editingValidFrom,
+        valid_until: editingValidUntil,
+      });
+      setReferralCodes((current) => current.map((item) => (item.id === id ? updated : item)));
+      cancelEdit();
+      toast({ title: "Referral kodu guncellendi" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Referral kodu guncellenemedi.";
+      toast({ title: "Guncelleme basarisiz", description: message, variant: "destructive" });
+    } finally {
+      setBusy(id, false);
+    }
+  };
+
+  const toggleActive = async (referral: ReferralCodeRow) => {
+    setBusy(referral.id, true);
+    try {
+      const updated = await setReferralCodeActive({ id: referral.id, is_active: !referral.is_active });
+      setReferralCodes((current) => current.map((item) => (item.id === referral.id ? updated : item)));
+      toast({ title: updated.is_active ? "Referral kodu aktiflesti" : "Referral kodu pasiflesti" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Durum degistirilemedi.";
+      toast({ title: "Islem basarisiz", description: message, variant: "destructive" });
+    } finally {
+      setBusy(referral.id, false);
+    }
+  };
+
+  const hardDelete = async (referral: ReferralCodeRow) => {
+    const confirmed = window.confirm(
+      `${referral.code} kodu hard delete edilecek. Bu islem geri alinamaz. Devam edilsin mi?`,
+    );
+    if (!confirmed) return;
+
+    setBusy(referral.id, true);
+    try {
+      await deleteReferralCodeHard(referral.id);
+      setReferralCodes((current) => current.filter((item) => item.id !== referral.id));
+      setUsageMap((current) => {
+        const next = { ...current };
+        delete next[referral.id];
+        return next;
+      });
+      if (editingId === referral.id) cancelEdit();
+      toast({ title: "Referral kodu hard delete edildi" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Referral kodu silinemedi.";
+      toast({ title: "Hard delete basarisiz", description: message, variant: "destructive" });
+    } finally {
+      setBusy(referral.id, false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card id="referral-create-form">
@@ -263,7 +362,7 @@ const AdminReferralPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Uretilen Referral Kodlari</CardTitle>
-          <CardDescription>Son 100 kod, kullanim ve kayit raporu.</CardDescription>
+          <CardDescription>Son 100 kod, kullanim ve kayit raporu. Hard delete sadece kullanilmamis kodlarda calisir.</CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -304,6 +403,68 @@ const AdminReferralPage = () => {
                         <div>Usage Count: <span className="text-foreground">{referral.usage_count}</span></div>
                         <div>Son Kullanim: <span className="text-foreground">{referral.used_at ? new Date(referral.used_at).toLocaleString("tr-TR") : "-"}</span></div>
                         <div className="md:col-span-2">Not: <span className="text-foreground">{referral.note || "Yok"}</span></div>
+                        <div className="md:col-span-2 flex flex-wrap gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => void toggleActive(referral)}
+                            disabled={Boolean(busyById[referral.id])}
+                          >
+                            {referral.is_active ? "Pasif Yap" : "Aktif Yap"}
+                          </Button>
+                          {editingId === referral.id ? (
+                            <>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => void saveEdit(referral.id)}
+                                disabled={Boolean(busyById[referral.id])}
+                              >
+                                Kaydet
+                              </Button>
+                              <Button variant="secondary" size="sm" onClick={cancelEdit} disabled={Boolean(busyById[referral.id])}>
+                                Vazgec
+                              </Button>
+                            </>
+                          ) : (
+                            <Button variant="outline" size="sm" onClick={() => startEdit(referral)} disabled={Boolean(busyById[referral.id])}>
+                              Duzenle
+                            </Button>
+                          )}
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => void hardDelete(referral)}
+                            disabled={Boolean(busyById[referral.id])}
+                          >
+                            Sil (Hard Delete)
+                          </Button>
+                        </div>
+                        {editingId === referral.id && (
+                          <div className="md:col-span-2 grid gap-2 rounded-md border p-3">
+                            <p className="text-xs text-muted-foreground">
+                              Sadece aciklama ve gecerlilik tarihleri duzenlenebilir.
+                            </p>
+                            <div className="grid gap-2 md:grid-cols-2">
+                              <Input
+                                type="date"
+                                value={editingValidFrom}
+                                onChange={(event) => setEditingValidFrom(event.target.value)}
+                              />
+                              <Input
+                                type="date"
+                                value={editingValidUntil}
+                                onChange={(event) => setEditingValidUntil(event.target.value)}
+                              />
+                            </div>
+                            <Textarea
+                              value={editingNote}
+                              onChange={(event) => setEditingNote(event.target.value)}
+                              placeholder="Aciklama (opsiyonel)"
+                              rows={3}
+                            />
+                          </div>
+                        )}
                         <div className="md:col-span-2">
                           Kayitlar:
                           <span className="text-foreground">
