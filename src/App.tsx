@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import FormPage from "./pages/FormPage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.tsx";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 import AdminReferralPage from "@/pages/admin/AdminReferralPage";
@@ -38,6 +39,7 @@ const App = () => (
           </Route>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/form"         element={<FormPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
