@@ -12,6 +12,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 import AdminReferralPage from "@/pages/admin/AdminReferralPage";
 import AdminReferralSourcesPage from "@/pages/admin/AdminReferralSourcesPage";
+import AdminReferralGroupsPage from "@/pages/admin/AdminReferralGroupsPage";
 import AdminReferralTypesPage from "@/pages/admin/AdminReferralTypesPage";
 import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="members" element={<AdminMembersPage />} />
             <Route path="referral" element={<AdminReferralPage />} />
             <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
+            <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
             <Route path="referral/types" element={<AdminReferralTypesPage />} />
             <Route path="about" element={<AdminAboutPage />} />
           </Route>

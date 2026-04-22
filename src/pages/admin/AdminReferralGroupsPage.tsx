@@ -6,13 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { createReferralSource, listReferralSources, updateReferralSource } from "@/lib/admin";
-import { validateReferralCodeToken, type ReferralSourceRow } from "@/lib/referral-codes";
+import { createReferralGroup, listReferralGroups, updateReferralGroup } from "@/lib/admin";
+import { validateReferralCodeToken, type ReferralGroupRow } from "@/lib/referral-codes";
 import { normalizeTurkishText } from "@/lib/text-normalization";
 
-const AdminReferralSourcesPage = () => {
+const AdminReferralGroupsPage = () => {
   const { toast } = useToast();
-  const [items, setItems] = useState<ReferralSourceRow[]>([]);
+  const [items, setItems] = useState<ReferralGroupRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
@@ -22,12 +22,12 @@ const AdminReferralSourcesPage = () => {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const data = await listReferralSources(false);
+      const data = await listReferralGroups(false);
       setItems(data);
       setDraftNames(Object.fromEntries(data.map((item) => [item.id, item.name])));
     } catch (error) {
       const message = error instanceof Error ? error.message : "Bilinmeyen hata";
-      toast({ title: "Source listesi yüklenemedi", description: message, variant: "destructive" });
+      toast({ title: "Group listesi yuklenemedi", description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -40,17 +40,17 @@ const AdminReferralSourcesPage = () => {
   const handleCreate = async () => {
     setSubmitting(true);
     try {
-      await createReferralSource({
+      await createReferralGroup({
         name: normalizeTurkishText(name),
         code: validateReferralCodeToken(code),
       });
-      toast({ title: "Source eklendi" });
+      toast({ title: "Group eklendi" });
       setName("");
       setCode("");
       await refresh();
     } catch (error) {
       const message = error instanceof Error ? error.message : "Eklenemedi";
-      toast({ title: "Source eklenemedi", description: message, variant: "destructive" });
+      toast({ title: "Group eklenemedi", description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -58,25 +58,25 @@ const AdminReferralSourcesPage = () => {
 
   const toggleActive = async (id: string, isActive: boolean) => {
     try {
-      const updated = await updateReferralSource({ id, is_active: isActive });
+      const updated = await updateReferralGroup({ id, is_active: isActive });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Güncellenemedi";
-      toast({ title: "Source güncellenemedi", description: message, variant: "destructive" });
+      const message = error instanceof Error ? error.message : "Guncellenemedi";
+      toast({ title: "Group guncellenemedi", description: message, variant: "destructive" });
     }
   };
 
-  const renameSource = async (id: string) => {
+  const renameGroup = async (id: string) => {
     try {
       const nextName = normalizeTurkishText(draftNames[id] ?? "");
       if (!nextName) return;
-      const updated = await updateReferralSource({ id, name: nextName });
+      const updated = await updateReferralGroup({ id, name: nextName });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       setDraftNames((current) => ({ ...current, [id]: updated.name }));
-      toast({ title: "Source guncellendi" });
+      toast({ title: "Group guncellendi" });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Guncellenemedi";
-      toast({ title: "Source guncellenemedi", description: message, variant: "destructive" });
+      toast({ title: "Group guncellenemedi", description: message, variant: "destructive" });
     }
   };
 
@@ -84,21 +84,21 @@ const AdminReferralSourcesPage = () => {
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Source Management</CardTitle>
-          <CardDescription>Code alanı 2 harf, uppercase ve immutable kabul edilir.</CardDescription>
+          <CardTitle>Group Management</CardTitle>
+          <CardDescription>Code alani 2 harf, uppercase ve immutable kabul edilir.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-[2fr_1fr_auto]">
-          <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Source adı" />
-          <Input value={code} onChange={(event) => setCode(event.target.value.toUpperCase())} placeholder="Code (WA)" maxLength={2} />
+          <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Group adi" />
+          <Input value={code} onChange={(event) => setCode(event.target.value.toUpperCase())} placeholder="Code (OK)" maxLength={2} />
           <Button onClick={() => void handleCreate()} disabled={submitting || !name || !code}>
-            {submitting ? "Ekleniyor..." : "Source Ekle"}
+            {submitting ? "Ekleniyor..." : "Group Ekle"}
           </Button>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Mevcut Source Kayıtları</CardTitle>
+          <CardTitle>Mevcut Group Kayitlari</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -113,9 +113,9 @@ const AdminReferralSourcesPage = () => {
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={5}>Yükleniyor...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Yukleniyor...</TableCell></TableRow>
               ) : items.length === 0 ? (
-                <TableRow><TableCell colSpan={5}>Kayıt yok.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Kayit yok.</TableCell></TableRow>
               ) : (
                 items.map((item) => (
                   <TableRow key={item.id}>
@@ -131,7 +131,7 @@ const AdminReferralSourcesPage = () => {
                     </TableCell>
                     <TableCell>{new Date(item.created_at).toLocaleDateString("tr-TR")}</TableCell>
                     <TableCell>
-                      <Button variant="outline" size="sm" onClick={() => void renameSource(item.id)}>
+                      <Button variant="outline" size="sm" onClick={() => void renameGroup(item.id)}>
                         Kaydet
                       </Button>
                     </TableCell>
@@ -146,4 +146,4 @@ const AdminReferralSourcesPage = () => {
   );
 };
 
-export default AdminReferralSourcesPage;
+export default AdminReferralGroupsPage;

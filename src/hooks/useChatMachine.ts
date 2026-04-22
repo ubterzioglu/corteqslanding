@@ -4,6 +4,7 @@ import { notifySubmission } from "@/lib/mail";
 import {
   toSubmissionInsert,
   uploadSubmissionDocuments,
+  validateReferralCodeBeforeSubmit,
   validateSubmissionDocuments,
 } from "@/lib/submissions";
 import {
@@ -411,6 +412,7 @@ export function useChatMachine() {
       };
 
       const payload = toSubmissionInsert(values, "register");
+      payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const { error } = await supabase.from("submissions").insert(payload);
       if (error) throw error;
 

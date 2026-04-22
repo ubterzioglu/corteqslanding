@@ -9,6 +9,7 @@ export type UploadedDocument = {
   url: string;
   name: string;
 };
+export type ReferralValidationStatus = "missing" | "not_found" | "inactive" | "expired" | "out_of_window" | "valid";
 
 export const allowedSubmissionDocumentTypes = [
   "application/pdf",
@@ -242,6 +243,7 @@ export function toSubmissionInsert(
     referral_source: normalizeOptionalTurkishText(String(values.referral_source ?? "")),
     referral_detail: normalizeOptionalTurkishText(String(values.referral_detail ?? "")),
     referral_code: normalizeOptionalTurkishText(String(values.referral_code ?? ""))?.toUpperCase() || null,
+    referral_code_id: null,
     linkedin: normalizeOptionalTurkishText(String(values.linkedin ?? "")),
     instagram: normalizeOptionalTurkishText(String(values.instagram ?? "")),
     tiktok: normalizeOptionalTurkishText(String(values.tiktok ?? "")),
@@ -251,4 +253,33 @@ export function toSubmissionInsert(
     consent: true,
     status: "new",
   };
+}
+
+export function getReferralValidationMessage(status: ReferralValidationStatus) {
+  if (status === "not_found") return "Referral kodu bulunamadi.";
+  if (status === "inactive") return "Referral kodu pasif durumda.";
+  if (status === "expired") return "Referral kodunun suresi dolmus.";
+  if (status === "out_of_window") return "Referral kodu bu tarihte kullanilamaz.";
+  if (status === "missing") return "Referral kodu bos birakilamaz.";
+  return "Referral kodu gecersiz.";
+}
+
+export async function validateReferralCodeBeforeSubmit(referralCode: string | null | undefined) {
+  const normalized = normalizeOptionalTurkishText(referralCode ?? "")?.toUpperCase() ?? "";
+  if (!normalized) return null;
+
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data, error } = await supabase.rpc("validate_and_bind_referral_code", {
+    input_code: normalized,
+    reference_time: new Date().toISOString(),
+  });
+
+  if (error) throw error;
+  const result = data?.[0];
+  const status = (result?.status ?? "not_found") as ReferralValidationStatus;
+  if (status !== "valid") {
+    throw new Error(getReferralValidationMessage(status));
+  }
+
+  return result?.normalized_code ?? normalized;
 }

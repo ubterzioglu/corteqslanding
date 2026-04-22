@@ -20,6 +20,7 @@ import {
   toSubmissionInsert,
   type SubmissionFormMode,
   uploadSubmissionDocuments,
+  validateReferralCodeBeforeSubmit,
   validateSubmissionDocuments,
 } from "@/lib/submissions";
 
@@ -87,6 +88,7 @@ const RegisterInterestForm = ({
       values.documents = uploadedDocs as unknown as FormDataEntryValue;
 
       const payload = toSubmissionInsert(values, mode);
+      payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);
 
