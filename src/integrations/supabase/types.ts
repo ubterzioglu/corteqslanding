@@ -245,6 +245,10 @@ export type Database = {
           category: string | null;
           city: string;
           company_name: string | null;
+          contact_email_reached: boolean;
+          contact_instagram_reached: boolean;
+          contact_phone_reached: boolean;
+          contact_whatsapp_reached: boolean;
           consent: boolean;
           contest_interest: boolean | null;
           country: string;
@@ -283,6 +287,10 @@ export type Database = {
           category?: string | null;
           city: string;
           company_name?: string | null;
+          contact_email_reached?: boolean;
+          contact_instagram_reached?: boolean;
+          contact_phone_reached?: boolean;
+          contact_whatsapp_reached?: boolean;
           consent?: boolean;
           contest_interest?: boolean | null;
           country: string;
@@ -321,6 +329,10 @@ export type Database = {
           category?: string | null;
           city?: string;
           company_name?: string | null;
+          contact_email_reached?: boolean;
+          contact_instagram_reached?: boolean;
+          contact_phone_reached?: boolean;
+          contact_whatsapp_reached?: boolean;
           consent?: boolean;
           contest_interest?: boolean | null;
           country?: string;
