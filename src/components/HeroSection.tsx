@@ -75,13 +75,13 @@ const HeroSection = () => {
             </div>
 
             <div className="mt-8 space-y-2 max-w-md">
-              <div className="inline-flex items-center gap-2 py-2 px-3 rounded-lg bg-accent/5 border border-accent/20 w-fit">
+              <div className="inline-flex items-center gap-2 py-2 px-3 rounded-lg bg-accent/5 border border-accent/20 w-full">
                 <span className="text-base">🏆</span>
                 <p className="font-semibold text-foreground text-xs">Ödüllü Blog Yazısı Yarışmamız Başlıyor!</p>
               </div>
               <button
                 onClick={() => setFormOpen(true)}
-                className="flex items-center gap-2 py-2 px-3 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all w-fit"
+                className="flex items-center gap-2 py-2 px-3 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all w-full"
               >
                 <span className="text-base">⏳</span>
                 <p className="font-semibold text-foreground text-xs">Yakında Açılıyoruz — Erken Kayıt Avantajlarından Faydalan →</p>
