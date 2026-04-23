@@ -31,9 +31,10 @@ const HeroSection = () => {
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
               Yeni ülke, yeni şehir, yeni bağlantılar
             </p>
-            <p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed hero-description">
-              CorteQS Diaspora Connect, dünyanın dört bir yanındaki Türk diasporasını danışmanlar, işletmeler, kuruluşlar ve bireylerle bir araya getiren şehir bazlı network platformu.
-            </p>
+<p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed hero-description">
+  Global Ağ<br />
+  Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun ve global ağınızı genişletin.
+</p>
 
             <div className="flex flex-wrap gap-2 mb-8 max-w-xl">
               {[

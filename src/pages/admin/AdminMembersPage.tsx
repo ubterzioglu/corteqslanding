@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   type ColumnDef,
@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Check, Pencil, Trash2, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -54,6 +55,24 @@ function parseBool(value: string | null): boolean | null {
   return null;
 }
 
+type RowDraft = {
+  fullname: string;
+  email: string;
+  city: string;
+  status: SubmissionStatus;
+};
+
+type DetailDraft = {
+  fullname: string;
+  email: string;
+  phone: string;
+  country: string;
+  city: string;
+  status: SubmissionStatus;
+  referral_source: string;
+  referral_code: string;
+};
+
 const AdminMembersPage = () => {
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -63,7 +82,12 @@ const AdminMembersPage = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<string | null>(null);
   const [savingSubmissionId, setSavingSubmissionId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [editingRowId, setEditingRowId] = useState<string | null>(null);
+  const [rowDraft, setRowDraft] = useState<RowDraft | null>(null);
+  const [isDetailEditing, setIsDetailEditing] = useState(false);
+  const [detailDraft, setDetailDraft] = useState<DetailDraft | null>(null);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
@@ -184,6 +208,18 @@ const AdminMembersPage = () => {
     }
   }, [rows, selectedSubmissionId]);
 
+  useEffect(() => {
+    setIsDetailEditing(false);
+    setDetailDraft(null);
+  }, [selectedSubmissionId]);
+
+  useEffect(() => {
+    if (editingRowId && !rows.some((submission) => submission.id === editingRowId)) {
+      setEditingRowId(null);
+      setRowDraft(null);
+    }
+  }, [editingRowId, rows]);
+
   const selectedSubmission = useMemo(
     () => rows.find((submission) => submission.id === selectedSubmissionId) ?? null,
     [rows, selectedSubmissionId],
@@ -193,6 +229,127 @@ const AdminMembersPage = () => {
     () => Object.entries(rowSelection).filter(([, checked]) => checked).map(([id]) => id),
     [rowSelection],
   );
+
+  const toRowDraft = (submission: Submission): RowDraft => ({
+    fullname: submission.fullname,
+    email: submission.email,
+    city: submission.city,
+    status: submission.status,
+  });
+
+  const toDetailDraft = (submission: Submission): DetailDraft => ({
+    fullname: submission.fullname,
+    email: submission.email,
+    phone: submission.phone,
+    country: submission.country,
+    city: submission.city,
+    status: submission.status,
+    referral_source: submission.referral_source ?? "",
+    referral_code: submission.referral_code ?? "",
+  });
+
+  const updateSubmission = useCallback(async (
+    submissionId: string,
+    patch: Partial<Submission>,
+    successTitle = "Kayıt güncellendi",
+  ) => {
+    setSavingSubmissionId(submissionId);
+    const { data, error } = await supabase.from("submissions").update(patch).eq("id", submissionId).select("*").single();
+
+    if (error) {
+      toast({ title: "Kayıt güncellenemedi", description: error.message, variant: "destructive" });
+      setSavingSubmissionId(null);
+      return false;
+    }
+
+    if (data) {
+      setRows((current) => {
+        const updatedRows = current.map((submission) => (submission.id === submissionId ? data : submission));
+        if (statusFilter && data.status !== statusFilter) {
+          return updatedRows.filter((submission) => submission.id !== submissionId);
+        }
+        return updatedRows;
+      });
+      toast({ title: successTitle });
+    }
+
+    setSavingSubmissionId(null);
+    return true;
+  }, [statusFilter, toast]);
+
+  const startRowEdit = useCallback((submission: Submission) => {
+    setEditingRowId(submission.id);
+    setRowDraft(toRowDraft(submission));
+  }, []);
+
+  const cancelRowEdit = useCallback(() => {
+    setEditingRowId(null);
+    setRowDraft(null);
+  }, []);
+
+  const saveRowEdit = useCallback(async (submissionId: string) => {
+    if (!rowDraft) return;
+    const saved = await updateSubmission(
+      submissionId,
+      {
+        fullname: normalizeTurkishText(rowDraft.fullname),
+        email: normalizeTurkishText(rowDraft.email),
+        city: normalizeTurkishText(rowDraft.city),
+        status: rowDraft.status,
+      },
+      "Kayıt satırdan güncellendi",
+    );
+    if (saved) cancelRowEdit();
+  }, [cancelRowEdit, rowDraft, updateSubmission]);
+
+  const softDeleteSubmission = useCallback(async (submission: Submission) => {
+    const confirmed = window.confirm(
+      `${submission.fullname} kaydı arşivlenecek. Bu işlem geri alınabilir (Durum: Arşiv). Devam edilsin mi?`,
+    );
+    if (!confirmed) return;
+
+    setDeletingId(submission.id);
+    const archived = await updateSubmission(submission.id, { status: "archived" }, "Kayıt arşivlendi");
+    if (archived) {
+      if (editingRowId === submission.id) cancelRowEdit();
+      if (selectedSubmissionId === submission.id) setIsDetailEditing(false);
+    }
+    setDeletingId(null);
+  }, [cancelRowEdit, editingRowId, selectedSubmissionId, updateSubmission]);
+
+  const startDetailEdit = () => {
+    if (!selectedSubmission) return;
+    setDetailDraft(toDetailDraft(selectedSubmission));
+    setIsDetailEditing(true);
+  };
+
+  const cancelDetailEdit = () => {
+    setIsDetailEditing(false);
+    setDetailDraft(null);
+  };
+
+  const saveDetailEdit = async () => {
+    if (!selectedSubmission || !detailDraft) return;
+    const saved = await updateSubmission(
+      selectedSubmission.id,
+      {
+        fullname: normalizeTurkishText(detailDraft.fullname),
+        email: normalizeTurkishText(detailDraft.email),
+        phone: normalizeTurkishText(detailDraft.phone),
+        country: normalizeTurkishText(detailDraft.country),
+        city: normalizeTurkishText(detailDraft.city),
+        status: detailDraft.status,
+        referral_source: detailDraft.referral_source.trim()
+          ? normalizeTurkishText(detailDraft.referral_source)
+          : null,
+        referral_code: detailDraft.referral_code.trim()
+          ? normalizeTurkishText(detailDraft.referral_code).toUpperCase()
+          : null,
+      },
+      "Kayıt detaydan güncellendi",
+    );
+    if (saved) cancelDetailEdit();
+  };
 
   const columns = useMemo<ColumnDef<Submission>[]>(
     () => [
@@ -219,10 +376,82 @@ const AdminMembersPage = () => {
         cell: ({ row }) => <Badge variant="outline">{getFormTypeLabel(row.original.form_type)}</Badge>,
       },
       { accessorKey: "category", header: "Kategori", cell: ({ row }) => <span className="text-xs">{getCategoryLabel(row.original.category)}</span> },
-      { accessorKey: "status", header: "Durum", cell: ({ row }) => <Badge variant="secondary">{getStatusLabel(row.original.status)}</Badge> },
-      { accessorKey: "fullname", header: "Ad Soyad", cell: ({ row }) => <span className="text-xs font-medium">{row.original.fullname}</span> },
-      { accessorKey: "city", header: "Şehir", cell: ({ row }) => <span className="text-xs">{row.original.city}</span> },
-      { accessorKey: "email", header: "E-posta", cell: ({ row }) => <span className="text-xs">{row.original.email}</span> },
+      {
+        accessorKey: "status",
+        header: "Durum",
+        cell: ({ row }) => {
+          if (editingRowId !== row.original.id || !rowDraft) {
+            return <Badge variant="secondary">{getStatusLabel(row.original.status)}</Badge>;
+          }
+          return (
+            <div onClick={(event) => event.stopPropagation()}>
+              <Select
+                value={rowDraft.status}
+                onValueChange={(value) => setRowDraft((current) => (current ? { ...current, status: value as SubmissionStatus } : current))}
+                disabled={savingSubmissionId === row.original.id}
+              >
+                <SelectTrigger className="h-8 w-[148px] text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="new">Yeni</SelectItem>
+                  <SelectItem value="contacted">İletişime geçildi</SelectItem>
+                  <SelectItem value="archived">Arşiv</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "fullname",
+        header: "Ad Soyad",
+        cell: ({ row }) => {
+          if (editingRowId !== row.original.id || !rowDraft) {
+            return <span className="text-xs font-medium">{row.original.fullname}</span>;
+          }
+          return (
+            <Input
+              className="h-8 text-xs"
+              value={rowDraft.fullname}
+              onClick={(event) => event.stopPropagation()}
+              onChange={(event) => setRowDraft((current) => (current ? { ...current, fullname: event.target.value } : current))}
+            />
+          );
+        },
+      },
+      {
+        accessorKey: "city",
+        header: "Şehir",
+        cell: ({ row }) => {
+          if (editingRowId !== row.original.id || !rowDraft) {
+            return <span className="text-xs">{row.original.city}</span>;
+          }
+          return (
+            <Input
+              className="h-8 text-xs"
+              value={rowDraft.city}
+              onClick={(event) => event.stopPropagation()}
+              onChange={(event) => setRowDraft((current) => (current ? { ...current, city: event.target.value } : current))}
+            />
+          );
+        },
+      },
+      {
+        accessorKey: "email",
+        header: "E-posta",
+        cell: ({ row }) => {
+          if (editingRowId !== row.original.id || !rowDraft) {
+            return <span className="text-xs">{row.original.email}</span>;
+          }
+          return (
+            <Input
+              className="h-8 text-xs"
+              value={rowDraft.email}
+              onClick={(event) => event.stopPropagation()}
+              onChange={(event) => setRowDraft((current) => (current ? { ...current, email: event.target.value } : current))}
+            />
+          );
+        },
+      },
       {
         accessorKey: "referral_code",
         header: "Referral Kodu",
@@ -233,8 +462,68 @@ const AdminMembersPage = () => {
         header: "Referral Kaynağı",
         cell: ({ row }) => <span className="text-xs">{getReferralSourceLabel(row.original.referral_source)}</span>,
       },
+      {
+        id: "actions",
+        header: () => <div className="text-right">Aksiyon</div>,
+        cell: ({ row }) => {
+          const busy = savingSubmissionId === row.original.id || deletingId === row.original.id;
+          const isEditing = editingRowId === row.original.id;
+
+          if (isEditing) {
+            return (
+              <div className="flex items-center justify-end gap-1" onClick={(event) => event.stopPropagation()}>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  disabled={busy}
+                  onClick={() => void saveRowEdit(row.original.id)}
+                  title="Kaydet"
+                >
+                  <Check className="h-3.5 w-3.5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-7 w-7"
+                  disabled={busy}
+                  onClick={cancelRowEdit}
+                  title="Vazgeç"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            );
+          }
+
+          return (
+            <div className="flex items-center justify-end gap-1" onClick={(event) => event.stopPropagation()}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                disabled={busy}
+                onClick={() => startRowEdit(row.original)}
+                title="Düzenle"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7 text-destructive hover:text-destructive"
+                disabled={busy}
+                onClick={() => void softDeleteSubmission(row.original)}
+                title="Arşivle"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          );
+        },
+      },
     ],
-    [],
+    [cancelRowEdit, deletingId, editingRowId, rowDraft, saveRowEdit, savingSubmissionId, softDeleteSubmission, startRowEdit],
   );
 
   const table = useReactTable({
@@ -279,18 +568,6 @@ const AdminMembersPage = () => {
     anchor.download = `diaspora-connect-members-${new Date().toISOString().slice(0, 10)}.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
-  };
-
-  const updateSubmission = async (submissionId: string, patch: Partial<Submission>) => {
-    setSavingSubmissionId(submissionId);
-    const { data, error } = await supabase.from("submissions").update(patch).eq("id", submissionId).select("*").single();
-    if (error) {
-      toast({ title: "Kayıt güncellenemedi", description: error.message, variant: "destructive" });
-    } else if (data) {
-      setRows((current) => current.map((submission) => (submission.id === submissionId ? data : submission)));
-      toast({ title: "Kayıt güncellendi" });
-    }
-    setSavingSubmissionId(null);
   };
 
   const createMember = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -384,6 +661,10 @@ const AdminMembersPage = () => {
     closeAction();
     setRowSelection({});
   };
+
+  const detailBusy = selectedSubmission
+    ? savingSubmissionId === selectedSubmission.id || deletingId === selectedSubmission.id
+    : false;
 
   return (
     <div className="space-y-6">
@@ -535,7 +816,11 @@ const AdminMembersPage = () => {
                             ? "bg-background"
                             : "bg-muted/20"
                       } cursor-pointer hover:bg-green-100/60 dark:hover:bg-green-900/40`}
-                      onClick={() => setSelectedSubmissionId(row.original.id)}
+                      onClick={() => {
+                        setSelectedSubmissionId(row.original.id);
+                        setIsDetailEditing(false);
+                        setDetailDraft(null);
+                      }}
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell key={cell.id} className="py-2 align-middle text-xs">
@@ -591,31 +876,138 @@ const AdminMembersPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Kayıt Detayı</CardTitle>
-          <CardDescription>Seçili üyenin status/not yönetimi.</CardDescription>
+          <CardDescription>Seçili üyenin detay bilgilerini düzenleyin veya arşivleyin.</CardDescription>
         </CardHeader>
         <CardContent>
           {selectedSubmission ? (
-            <div className="space-y-3 text-sm">
-              <div className="font-semibold">{selectedSubmission.fullname}</div>
-              <div>{selectedSubmission.email} · {selectedSubmission.phone}</div>
-              <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
-              <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
-              <div className="flex gap-2">
-                <Select
-                  value={selectedSubmission.status}
-                  onValueChange={(value) => void updateSubmission(selectedSubmission.id, { status: value as SubmissionStatus })}
-                  disabled={savingSubmissionId === selectedSubmission.id}
-                >
-                  <SelectTrigger className="w-[220px]"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="new">Yeni</SelectItem>
-                    <SelectItem value="contacted">İletişime geçildi</SelectItem>
-                    <SelectItem value="archived">Arşiv</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button variant="outline" size="sm" onClick={exportCSV}>CSV Export</Button>
+            isDetailEditing && detailDraft ? (
+              <div className="space-y-4">
+                <div className="grid gap-3 md:grid-cols-2">
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Ad Soyad</label>
+                    <Input
+                      className="h-8 text-xs"
+                      value={detailDraft.fullname}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, fullname: event.target.value } : current))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">E-posta</label>
+                    <Input
+                      className="h-8 text-xs"
+                      value={detailDraft.email}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, email: event.target.value } : current))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Telefon</label>
+                    <Input
+                      className="h-8 text-xs"
+                      value={detailDraft.phone}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, phone: event.target.value } : current))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Durum</label>
+                    <Select
+                      value={detailDraft.status}
+                      onValueChange={(value) => setDetailDraft((current) => (current ? { ...current, status: value as SubmissionStatus } : current))}
+                    >
+                      <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="new">Yeni</SelectItem>
+                        <SelectItem value="contacted">İletişime geçildi</SelectItem>
+                        <SelectItem value="archived">Arşiv</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Ülke</label>
+                    <Input
+                      className="h-8 text-xs"
+                      value={detailDraft.country}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, country: event.target.value } : current))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Şehir</label>
+                    <Input
+                      className="h-8 text-xs"
+                      value={detailDraft.city}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, city: event.target.value } : current))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Referral Kaynağı</label>
+                    <Select
+                      value={detailDraft.referral_source || "__none__"}
+                      onValueChange={(value) =>
+                        setDetailDraft((current) => (current ? { ...current, referral_source: value === "__none__" ? "" : value } : current))
+                      }
+                    >
+                      <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="__none__">Belirtilmedi</SelectItem>
+                        {referralSourceOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[11px] text-muted-foreground">Referral Kodu</label>
+                    <Input
+                      className="h-8 font-mono text-xs"
+                      value={detailDraft.referral_code}
+                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, referral_code: event.target.value } : current))}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Button size="sm" onClick={() => void saveDetailEdit()} disabled={detailBusy}>
+                    Kaydet
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={cancelDetailEdit} disabled={detailBusy}>
+                    Vazgeç
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={exportCSV} disabled={detailBusy}>
+                    CSV Export
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => void softDeleteSubmission(selectedSubmission)}
+                    disabled={detailBusy}
+                  >
+                    Sil (Arşivle)
+                  </Button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-3 text-sm">
+                <div className="font-semibold">{selectedSubmission.fullname}</div>
+                <div>{selectedSubmission.email} · {selectedSubmission.phone}</div>
+                <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
+                <div>Durum: <Badge variant="secondary">{getStatusLabel(selectedSubmission.status)}</Badge></div>
+                <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
+                    Düzenle
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => void softDeleteSubmission(selectedSubmission)}
+                    disabled={detailBusy}
+                  >
+                    Sil (Arşivle)
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={exportCSV} disabled={detailBusy}>
+                    CSV Export
+                  </Button>
+                </div>
+              </div>
+            )
           ) : (
             <p className="text-sm text-muted-foreground">Detayları görmek için tablodan bir kayıt seçin.</p>
           )}
