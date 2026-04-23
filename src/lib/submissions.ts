@@ -214,6 +214,7 @@ export async function uploadSubmissionDocuments(files: File[]): Promise<Uploaded
 export function toSubmissionInsert(
   values: Record<string, FormDataEntryValue>,
   mode: SubmissionFormMode,
+  consentValue?: boolean,
 ): SubmissionInsert {
   const isSupport = mode === "support";
   const isBacker = mode === "backer";
@@ -250,7 +251,7 @@ export function toSubmissionInsert(
     facebook: normalizeOptionalTurkishText(String(values.facebook ?? "")),
     twitter: normalizeOptionalTurkishText(String(values.twitter ?? "")),
     website: normalizeOptionalTurkishText(String(values.website ?? "")),
-    consent: true,
+    consent: consentValue ?? false,
     status: "new",
   };
 }

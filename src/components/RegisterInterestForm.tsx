@@ -87,7 +87,7 @@ const RegisterInterestForm = ({
       values.document_name = uploadedDocs[0]?.name ?? "";
       values.documents = uploadedDocs as unknown as FormDataEntryValue;
 
-      const payload = toSubmissionInsert(values, mode);
+      const payload = toSubmissionInsert(values, mode, consent);
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);

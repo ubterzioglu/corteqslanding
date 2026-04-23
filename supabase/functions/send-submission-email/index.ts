@@ -1,7 +1,32 @@
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const ALLOWED_ORIGINS = [
+  "https://corteqs.net",
+  "https://www.corteqs.net",
+  "http://localhost:5173",
+  "http://localhost:4173",
+];
+
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Vary": "Origin",
+  };
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;");
+}
+
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 type SubmissionPayload = {
   form_type: string;
@@ -57,7 +82,7 @@ function buildAdminHtml(submission: SubmissionPayload) {
     <p>Asagidaki form kaydi alindi.</p>
     <table cellpadding="8" cellspacing="0" border="1" style="border-collapse: collapse; border-color: #d4d4d8;">
       ${rows
-        .map(([label, value]) => `<tr><td><strong>${label}</strong></td><td>${value}</td></tr>`)
+        .map(([label, value]) => `<tr><td><strong>${escapeHtml(label)}</strong></td><td>${escapeHtml(value)}</td></tr>`)
         .join("")}
     </table>
   `;
@@ -66,9 +91,9 @@ function buildAdminHtml(submission: SubmissionPayload) {
 function buildConfirmationHtml(submission: SubmissionPayload) {
   return `
     <h2>Kaydiniz alindi</h2>
-    <p>Merhaba ${submission.fullname},</p>
+    <p>Merhaba ${escapeHtml(submission.fullname)},</p>
     <p>CorteQS uzerinden ilettiginiz basvuru bize ulasti. Gerekli durumlarda sizinle e-posta veya telefon yoluyla iletisime gececegiz.</p>
-    <p>Basvuru tipi: <strong>${submission.form_type}</strong></p>
+    <p>Basvuru tipi: <strong>${escapeHtml(submission.form_type)}</strong></p>
     <p>Kayit zamani: <strong>${new Date(submission.created_at).toLocaleString("tr-TR", { timeZone: "Europe/Berlin" })}</strong></p>
   `;
 }
@@ -90,6 +115,8 @@ async function sendWithResend(apiKey: string, payload: Record<string, unknown>) 
 }
 
 Deno.serve(async (request) => {
+  const corsHeaders = getCorsHeaders(request);
+
   if (request.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -102,8 +129,8 @@ Deno.serve(async (request) => {
     const mailReplyTo = Deno.env.get("MAIL_REPLY_TO");
     const sendConfirmation = Deno.env.get("MAIL_SEND_CONFIRMATION") === "true";
 
-    if (!submission) {
-      return new Response(JSON.stringify({ error: "Missing submission payload" }), {
+    if (!submission || !submission.email || !isValidEmail(submission.email)) {
+      return new Response(JSON.stringify({ error: "Invalid submission payload" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
@@ -141,7 +168,7 @@ Deno.serve(async (request) => {
     });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: String(error) }), {
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
     });

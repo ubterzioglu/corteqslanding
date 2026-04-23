@@ -25,11 +25,13 @@ describe("submission helpers", () => {
         offers_needs: "Danışmanlık veriyorum",
       },
       "register",
+      true,
     );
 
     expect(submission.form_type).toBe("register");
     expect(submission.category).toBe("danisman");
     expect(submission.status).toBe("new");
+    expect(submission.consent).toBe(true);
     expect(submission.business).toBeNull();
     expect(submission.referral_source).toBeNull();
     expect(submission.referral_detail).toBeNull();

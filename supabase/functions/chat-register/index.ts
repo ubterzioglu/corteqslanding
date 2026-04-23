@@ -1,8 +1,20 @@
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+const ALLOWED_ORIGINS = [
+  "https://corteqs.net",
+  "https://www.corteqs.net",
+  "http://localhost:5173",
+  "http://localhost:4173",
+];
+
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "Vary": "Origin",
+  };
+}
 
 const SYSTEM_PROMPT = `Sen CorteQS Diaspora Connect platformunun akıllı, çevik ve girişken kayıt asistanısın.
 Görevin: Kullanıcıyla TÜRKÇE, sıcak ve samimi bir sohbet kurarak hem kayıt bilgilerini toplamak hem de **arz & taleplerini** olabildiğince zengin biçimde yakalamak.
@@ -33,6 +45,8 @@ Kurallar:
 Her zaman "chat_response" tool'unu çağır.`;
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req);
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -140,7 +154,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("chat-register error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Bilinmeyen hata" }),
+      JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
     );
   }

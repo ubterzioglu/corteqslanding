@@ -58,7 +58,7 @@ const FormPage = () => {
     values.referral_detail = referralDetail;
 
     try {
-      const payload = toSubmissionInsert(values, "register");
+      const payload = toSubmissionInsert(values, "register", consent);
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       const { error } = await supabase.from("submissions").insert(payload);

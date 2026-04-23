@@ -111,15 +111,15 @@ const AdminLayout = () => {
 
     if (error) {
       toast({
-        title: "Sıfırlama e-postası gönderilemedi",
-        description: error.message,
+        title: "Sıfırlama isteği alınamadı",
+        description: "Lütfen daha sonra tekrar deneyin.",
         variant: "destructive",
       });
       return;
     }
     toast({
-      title: "Sıfırlama e-postası gönderildi",
-      description: `${trimmedEmail} adresine gelen bağlantı ile şifrenizi yenileyebilirsiniz.`,
+      title: "İstek alındı",
+      description: "Bu e-posta kayıtlıysa sıfırlama bağlantısı gönderilecek.",
     });
   };
 

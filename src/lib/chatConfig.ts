@@ -372,7 +372,7 @@ export function getPreviousStep(stepHistory: ChatStep[]): ChatStep | null {
 }
 
 export function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  return crypto.randomUUID();
 }
 
 export function getProgressInfo(step: ChatStep, data: ChatCollectedData): { completed: number; total: number; percentage: number } {

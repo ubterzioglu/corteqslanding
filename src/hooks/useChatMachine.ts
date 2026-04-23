@@ -411,7 +411,7 @@ export function useChatMachine() {
         whatsapp_interest: data.whatsapp_interest ? "yes" : "",
       };
 
-      const payload = toSubmissionInsert(values, "register");
+      const payload = toSubmissionInsert(values, "register", data.consent);
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const { error } = await supabase.from("submissions").insert(payload);
       if (error) throw error;
