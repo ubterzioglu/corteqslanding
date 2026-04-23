@@ -69,7 +69,7 @@ const AmbassadorSection = () => {
                   </div>
                   <h3 className="font-bold text-foreground mb-1">{perk.title}</h3>
                   {"pill" in perk && perk.pill ? (
-                    <span className="inline-block whitespace-nowrap text-sm leading-relaxed px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent font-medium">
+                    <span className="inline-block max-w-full whitespace-normal break-words text-sm leading-relaxed px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent font-medium">
                       {perk.desc}
                     </span>
                   ) : (
