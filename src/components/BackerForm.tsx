@@ -144,6 +144,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           offers_needs: String(values.offers_needs ?? ""),
         },
         "backer",
+        consent,
       );
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const notificationPayload = { ...payload, created_at: new Date().toISOString() };

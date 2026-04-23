@@ -1,10 +1,22 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+const ALLOWED_ORIGINS = [
+  "https://corteqs.net",
+  "https://www.corteqs.net",
+  "http://localhost:5173",
+  "http://localhost:4173",
+];
+
+function getCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin") ?? "";
+  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowOrigin,
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "Vary": "Origin",
+  };
+}
 
 type Candidate = {
   id: string;
@@ -14,7 +26,6 @@ type Candidate = {
   field: string;
   category: string | null;
   offers_needs: string | null;
-  email: string;
   created_at: string;
 };
 
@@ -73,6 +84,8 @@ function keywordScore(query: string, candidate: Candidate): number {
 }
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req);
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -97,7 +110,7 @@ Deno.serve(async (req) => {
     const supabase = createClient(supabaseUrl, serviceKey);
     let query = supabase
       .from("submissions")
-      .select("id, fullname, city, country, field, category, offers_needs, email, created_at")
+      .select("id, fullname, city, country, field, category, offers_needs, created_at")
       .not("offers_needs", "is", null)
       .order("created_at", { ascending: false })
       .limit(200);
@@ -232,7 +245,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("find-matches error:", error);
     return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Bilinmeyen hata" }),
+      JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
     );
   }

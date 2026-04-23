@@ -42,13 +42,21 @@ const ResetPasswordPage = () => {
     };
   }, []);
 
+  const isStrongPassword = (pwd: string) => {
+    if (pwd.length < 12) return false;
+    if (!/[A-Z]/.test(pwd)) return false;
+    if (!/[a-z]/.test(pwd)) return false;
+    if (!/[0-9]/.test(pwd)) return false;
+    return true;
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (password.length < 8) {
+    if (!isStrongPassword(password)) {
       toast({
-        title: "Şifre çok kısa",
-        description: "En az 8 karakter olmalı.",
+        title: "Şifre yeterince güçlü değil",
+        description: "En az 12 karakter, büyük harf, küçük harf ve rakam içermeli.",
         variant: "destructive",
       });
       return;
@@ -142,11 +150,11 @@ const ResetPasswordPage = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
               type="password"
-              placeholder="Yeni şifre (en az 8 karakter)"
+              placeholder="Yeni şifre (en az 12 karakter)"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete="new-password"
-              minLength={8}
+              minLength={12}
               required
             />
             <Input
