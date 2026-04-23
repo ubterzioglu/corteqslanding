@@ -92,14 +92,14 @@ const CitiesSection = () => {
                 {row.map((label) => {
                   const cityName = stripFlag(label);
                   return (
-                    <span key={label} className="group inline-flex items-center gap-1.5 pl-3 pr-1.5 py-1 rounded-full bg-card border border-border text-xs font-medium text-foreground/80 hover:border-primary/40 transition-colors">
-                      <button type="button" onClick={() => triggerCitySelect(cityName, "ai")} className="hover:text-primary transition-colors">
-                        {label}
-                      </button>
-                      <button type="button" onClick={() => triggerCitySelect(cityName, "form")} className="px-1.5 py-0.5 rounded-full text-[10px] font-semibold text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
-                        Form
-                      </button>
-                    </span>
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => triggerCitySelect(cityName, "ai")}
+                      className="inline-flex w-[170px] items-center justify-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground/80 transition-colors hover:border-primary/40 hover:text-primary"
+                    >
+                      {label}
+                    </button>
                   );
                 })}
               </div>
