@@ -6,7 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Check, Pencil, Trash2, X } from "lucide-react";
+import { Check, Instagram, Mail, MessageCircle, Pencil, Phone, Trash2, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,7 +71,28 @@ type DetailDraft = {
   status: SubmissionStatus;
   referral_source: string;
   referral_code: string;
+  contact_phone_reached: boolean;
+  contact_whatsapp_reached: boolean;
+  contact_instagram_reached: boolean;
+  contact_email_reached: boolean;
 };
+
+type ContactChannelKey =
+  | "contact_phone_reached"
+  | "contact_whatsapp_reached"
+  | "contact_instagram_reached"
+  | "contact_email_reached";
+
+const contactChannelOptions: Array<{
+  key: ContactChannelKey;
+  label: string;
+  Icon: typeof Phone;
+}> = [
+  { key: "contact_phone_reached", label: "Telefon", Icon: Phone },
+  { key: "contact_whatsapp_reached", label: "WhatsApp", Icon: MessageCircle },
+  { key: "contact_instagram_reached", label: "Instagram", Icon: Instagram },
+  { key: "contact_email_reached", label: "Mail", Icon: Mail },
+];
 
 const AdminMembersPage = () => {
   const { toast } = useToast();
@@ -246,6 +267,10 @@ const AdminMembersPage = () => {
     status: submission.status,
     referral_source: submission.referral_source ?? "",
     referral_code: submission.referral_code ?? "",
+    contact_phone_reached: submission.contact_phone_reached ?? false,
+    contact_whatsapp_reached: submission.contact_whatsapp_reached ?? false,
+    contact_instagram_reached: submission.contact_instagram_reached ?? false,
+    contact_email_reached: submission.contact_email_reached ?? false,
   });
 
   const updateSubmission = useCallback(async (
@@ -345,6 +370,10 @@ const AdminMembersPage = () => {
         referral_code: detailDraft.referral_code.trim()
           ? normalizeTurkishText(detailDraft.referral_code).toUpperCase()
           : null,
+        contact_phone_reached: detailDraft.contact_phone_reached,
+        contact_whatsapp_reached: detailDraft.contact_whatsapp_reached,
+        contact_instagram_reached: detailDraft.contact_instagram_reached,
+        contact_email_reached: detailDraft.contact_email_reached,
       },
       "Kayıt detaydan güncellendi",
     );
@@ -665,6 +694,7 @@ const AdminMembersPage = () => {
   const detailBusy = selectedSubmission
     ? savingSubmissionId === selectedSubmission.id || deletingId === selectedSubmission.id
     : false;
+  const selectedIsAdvisor = selectedSubmission?.category === "danisman";
 
   return (
     <div className="space-y-6">
@@ -882,86 +912,121 @@ const AdminMembersPage = () => {
           {selectedSubmission ? (
             isDetailEditing && detailDraft ? (
               <div className="space-y-4">
-                <div className="grid gap-3 md:grid-cols-2">
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Ad Soyad</label>
-                    <Input
-                      className="h-8 text-xs"
-                      value={detailDraft.fullname}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, fullname: event.target.value } : current))}
-                    />
+                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Ad Soyad</label>
+                      <Input
+                        className="h-8 text-xs"
+                        value={detailDraft.fullname}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, fullname: event.target.value } : current))}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">E-posta</label>
+                      <Input
+                        className="h-8 text-xs"
+                        value={detailDraft.email}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, email: event.target.value } : current))}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Telefon</label>
+                      <Input
+                        className="h-8 text-xs"
+                        value={detailDraft.phone}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, phone: event.target.value } : current))}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Durum</label>
+                      <Select
+                        value={detailDraft.status}
+                        onValueChange={(value) => setDetailDraft((current) => (current ? { ...current, status: value as SubmissionStatus } : current))}
+                      >
+                        <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="new">Yeni</SelectItem>
+                          <SelectItem value="contacted">İletişime geçildi</SelectItem>
+                          <SelectItem value="archived">Arşiv</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Ülke</label>
+                      <Input
+                        className="h-8 text-xs"
+                        value={detailDraft.country}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, country: event.target.value } : current))}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Şehir</label>
+                      <Input
+                        className="h-8 text-xs"
+                        value={detailDraft.city}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, city: event.target.value } : current))}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Referral Kaynağı</label>
+                      <Select
+                        value={detailDraft.referral_source || "__none__"}
+                        onValueChange={(value) =>
+                          setDetailDraft((current) => (current ? { ...current, referral_source: value === "__none__" ? "" : value } : current))
+                        }
+                      >
+                        <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="__none__">Belirtilmedi</SelectItem>
+                          {referralSourceOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] text-muted-foreground">Referral Kodu</label>
+                      <Input
+                        className="h-8 font-mono text-xs"
+                        value={detailDraft.referral_code}
+                        onChange={(event) => setDetailDraft((current) => (current ? { ...current, referral_code: event.target.value } : current))}
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">E-posta</label>
-                    <Input
-                      className="h-8 text-xs"
-                      value={detailDraft.email}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, email: event.target.value } : current))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Telefon</label>
-                    <Input
-                      className="h-8 text-xs"
-                      value={detailDraft.phone}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, phone: event.target.value } : current))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Durum</label>
-                    <Select
-                      value={detailDraft.status}
-                      onValueChange={(value) => setDetailDraft((current) => (current ? { ...current, status: value as SubmissionStatus } : current))}
-                    >
-                      <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="new">Yeni</SelectItem>
-                        <SelectItem value="contacted">İletişime geçildi</SelectItem>
-                        <SelectItem value="archived">Arşiv</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Ülke</label>
-                    <Input
-                      className="h-8 text-xs"
-                      value={detailDraft.country}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, country: event.target.value } : current))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Şehir</label>
-                    <Input
-                      className="h-8 text-xs"
-                      value={detailDraft.city}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, city: event.target.value } : current))}
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Referral Kaynağı</label>
-                    <Select
-                      value={detailDraft.referral_source || "__none__"}
-                      onValueChange={(value) =>
-                        setDetailDraft((current) => (current ? { ...current, referral_source: value === "__none__" ? "" : value } : current))
-                      }
-                    >
-                      <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="__none__">Belirtilmedi</SelectItem>
-                        {referralSourceOptions.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[11px] text-muted-foreground">Referral Kodu</label>
-                    <Input
-                      className="h-8 font-mono text-xs"
-                      value={detailDraft.referral_code}
-                      onChange={(event) => setDetailDraft((current) => (current ? { ...current, referral_code: event.target.value } : current))}
-                    />
-                  </div>
+                  {selectedIsAdvisor && (
+                    <div className="rounded-lg border bg-muted/20 p-3">
+                      <p className="mb-2 text-xs font-medium">Kontak Durumu</p>
+                      <div className="space-y-2">
+                        {contactChannelOptions.map(({ key, label, Icon }) => {
+                          const reached = detailDraft[key];
+                          return (
+                            <Button
+                              key={key}
+                              type="button"
+                              variant="outline"
+                              className={`h-9 w-full justify-between border text-xs ${
+                                reached
+                                  ? "border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                                  : "border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100"
+                              }`}
+                              onClick={() =>
+                                setDetailDraft((current) =>
+                                  current ? { ...current, [key]: !current[key] } : current,
+                                )
+                              }
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                <Icon className="h-4 w-4" />
+                                {label}
+                              </span>
+                              <span>{reached ? "Kuruldu" : "Kurulmadı"}</span>
+                            </Button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <Button size="sm" onClick={() => void saveDetailEdit()} disabled={detailBusy}>
@@ -984,12 +1049,42 @@ const AdminMembersPage = () => {
                 </div>
               </div>
             ) : (
-              <div className="space-y-3 text-sm">
-                <div className="font-semibold">{selectedSubmission.fullname}</div>
-                <div>{selectedSubmission.email} · {selectedSubmission.phone}</div>
-                <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
-                <div>Durum: <Badge variant="secondary">{getStatusLabel(selectedSubmission.status)}</Badge></div>
-                <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
+              <div className="space-y-4 text-sm">
+                <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+                  <div className="space-y-3">
+                    <div className="font-semibold">{selectedSubmission.fullname}</div>
+                    <div>{selectedSubmission.email} · {selectedSubmission.phone}</div>
+                    <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
+                    <div>Durum: <Badge variant="secondary">{getStatusLabel(selectedSubmission.status)}</Badge></div>
+                    <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
+                  </div>
+                  {selectedIsAdvisor && (
+                    <div className="rounded-lg border bg-muted/20 p-3">
+                      <p className="mb-2 text-xs font-medium">Kontak Durumu</p>
+                      <div className="space-y-2">
+                        {contactChannelOptions.map(({ key, label, Icon }) => {
+                          const reached = selectedSubmission[key];
+                          return (
+                            <div
+                              key={key}
+                              className={`flex items-center justify-between rounded-md border px-2.5 py-2 text-xs ${
+                                reached
+                                  ? "border-emerald-300 bg-emerald-50 text-emerald-700"
+                                  : "border-rose-300 bg-rose-50 text-rose-700"
+                              }`}
+                            >
+                              <span className="inline-flex items-center gap-2">
+                                <Icon className="h-4 w-4" />
+                                {label}
+                              </span>
+                              <span>{reached ? "Kuruldu" : "Kurulmadı"}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
                     Düzenle
