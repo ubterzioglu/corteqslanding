@@ -19,6 +19,8 @@ import AdminReferralGroupsPage from "@/pages/admin/AdminReferralGroupsPage";
 import AdminReferralTypesPage from "@/pages/admin/AdminReferralTypesPage";
 import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
+import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
+import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +43,8 @@ const App = () => (
             <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
             <Route path="referral/types" element={<AdminReferralTypesPage />} />
             <Route path="marquee" element={<AdminMarqueePage />} />
+            <Route path="advisors" element={<AdminAdvisorLinksPage />} />
+            <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
             <Route path="about" element={<AdminAboutPage />} />
           </Route>
           <Route path="/reset-password" element={<ResetPasswordPage />} />

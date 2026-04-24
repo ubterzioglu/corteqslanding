@@ -27,6 +27,60 @@ export type Database = {
         };
         Relationships: [];
       };
+      advisor_social_media_links: {
+        Row: {
+          added_by: "UBT" | "Burak" | "Diğer";
+          created_at: string;
+          description: string | null;
+          id: string;
+          link: string | null;
+          platform:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
+        };
+        Insert: {
+          added_by?: "UBT" | "Burak" | "Diğer";
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          link?: string | null;
+          platform?:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
+        };
+        Update: {
+          added_by?: "UBT" | "Burak" | "Diğer";
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          link?: string | null;
+          platform?:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
+        };
+        Relationships: [];
+      };
       marquee_items: {
         Row: {
           created_at: string;
@@ -102,6 +156,60 @@ export type Database = {
           id?: string;
           is_active?: boolean;
           name?: string;
+        };
+        Relationships: [];
+      };
+      social_media_links: {
+        Row: {
+          added_by: "UBT" | "Burak" | "Diğer";
+          created_at: string;
+          description: string | null;
+          id: string;
+          link: string | null;
+          platform:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
+        };
+        Insert: {
+          added_by?: "UBT" | "Burak" | "Diğer";
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          link?: string | null;
+          platform?:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
+        };
+        Update: {
+          added_by?: "UBT" | "Burak" | "Diğer";
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          link?: string | null;
+          platform?:
+            | "Instagram"
+            | "LinkedIn"
+            | "Twitter (X)"
+            | "YouTube"
+            | "TikTok"
+            | "Facebook"
+            | "Reddit"
+            | "Discord"
+            | "Diğer";
         };
         Relationships: [];
       };
