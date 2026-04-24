@@ -60,7 +60,7 @@ const HeroSection = () => {
   Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun ve global ağınızı genişletin.
 </p>
 
-            <div className="flex flex-wrap gap-2 mb-8 max-w-xl">
+            <div className="mb-8 flex max-w-xl flex-nowrap gap-2 overflow-x-auto pb-1">
               {[
                 "Berlin",
                 "Londra",
@@ -74,7 +74,7 @@ const HeroSection = () => {
               ].map((city) => (
                 <span
                   key={city}
-                  className="inline-flex items-center px-3 py-1 rounded-full bg-card border border-border text-xs font-medium text-foreground/80 hover:border-primary/40 hover:bg-primary/5 transition-all"
+                  className="inline-flex shrink-0 items-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground/80 transition-all hover:border-primary/40 hover:bg-primary/5"
                 >
                   {city}
                 </span>
