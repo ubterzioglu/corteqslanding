@@ -11,7 +11,7 @@ const SEOContentSection = () => {
       <div className="pointer-events-none absolute right-8 top-0 h-64 w-64 rounded-full bg-accent/15 blur-3xl" aria-hidden />
 
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
-        <div className="space-y-8">
+        <div className="grid gap-8 lg:auto-rows-fr">
           <div className="grid overflow-hidden rounded-2xl border border-white/50 bg-card/80 shadow-xl shadow-primary/10 backdrop-blur-sm lg:grid-cols-[0.42fr_0.58fr]">
             <figure className="flex min-h-64 items-center justify-center border-b border-white/50 bg-background/60 px-8 py-10 lg:border-b-0 lg:border-r">
               <img
