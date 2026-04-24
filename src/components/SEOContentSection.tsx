@@ -1,8 +1,8 @@
 const SEOContentSection = () => {
   return (
     <section className="py-14 lg:py-20 bg-background">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <div className="grid md:grid-cols-2 gap-10">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr_1fr] lg:items-center">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               CorteQS Nedir?
@@ -19,6 +19,18 @@ const SEOContentSection = () => {
               Amsterdam, Dubai ve daha birçok şehirde aktif topluluk oluşturma hedefiyle yola çıkar.
             </p>
           </div>
+
+          <figure className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80"
+              alt="Diaspora topluluğu ve profesyonel networking buluşması"
+              className="h-72 w-full object-cover lg:h-[360px]"
+              loading="lazy"
+              width={900}
+              height={600}
+            />
+          </figure>
+
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               Kimler İçin?
