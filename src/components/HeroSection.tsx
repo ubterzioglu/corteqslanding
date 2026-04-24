@@ -1,8 +1,32 @@
 import { useState } from "react";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
 import corteqsLogo from "@/assets/seologo.png";
-import { Globe, MapPin, Users } from "lucide-react";
+import {
+  BookOpen,
+  BriefcaseBusiness,
+  Building2,
+  CalendarDays,
+  GraduationCap,
+  HandHeart,
+  MapPin,
+  Network,
+  Radio,
+  Users,
+} from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
+
+const heroStats = [
+  { label: "164 Ülke", icon: MapPin },
+  { label: "8.8 Milyon Türk", icon: Users },
+  { label: "120.000+ Kuruluş", icon: Building2 },
+  { label: "35.000+ Türk Girişimi", icon: BriefcaseBusiness },
+  { label: "50.000+ Öğrenci", icon: GraduationCap },
+  { label: "10.000+ Akademisyen", icon: BookOpen },
+  { label: "5.000+ STK", icon: HandHeart },
+  { label: "2.000+ Medya & Yayın Platformu", icon: Radio },
+  { label: "1.000+ Kültürel Etkinlik (yıllık)", icon: CalendarDays },
+  { label: "500+ Profesyonel Ağ & Topluluk", icon: Network },
+];
 
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
@@ -95,19 +119,16 @@ const HeroSection = () => {
         </div>
 
         {/* Stats bar */}
-        <div className="flex flex-wrap items-center gap-8 mt-12 pt-8 border-t border-border">
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <MapPin className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">164 Ülke</span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Users className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">8.8 Milyon Türk</span>
-          </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Globe className="w-4 h-4 text-primary" />
-            <span className="font-semibold text-foreground">120.000+ Kuruluş</span>
-          </div>
+        <div className="mt-12 grid grid-cols-2 gap-3 border-t border-border pt-8 sm:grid-cols-3 lg:grid-cols-5">
+          {heroStats.map(({ label, icon: Icon }) => (
+            <div
+              key={label}
+              className="flex min-h-14 items-center gap-2 rounded-lg border border-border/70 bg-card/70 px-3 py-2 text-muted-foreground shadow-sm backdrop-blur-sm"
+            >
+              <Icon className="h-4 w-4 shrink-0 text-primary" />
+              <span className="text-sm font-semibold leading-snug text-foreground">{label}</span>
+            </div>
+          ))}
         </div>
       </div>
 

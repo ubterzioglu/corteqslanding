@@ -10,6 +10,7 @@ import FormPage from "./pages/FormPage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.tsx";
 import DiasporaDetailPage from "./pages/DiasporaDetailPage.tsx";
+import RadarPage from "./pages/RadarPage.tsx";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 import AdminReferralPage from "@/pages/admin/AdminReferralPage";
@@ -30,6 +31,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
+          <Route path="/radar" element={<RadarPage />} />
           <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/members" replace />} />
