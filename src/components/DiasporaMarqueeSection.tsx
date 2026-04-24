@@ -117,10 +117,10 @@ const DiasporaMarqueeSection = () => {
             <h2 className="max-w-4xl text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
               Türk Diaspora Haberleri / İstatistikler / Duyurular
             </h2>
+            <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Dünya genelindeki Türk topluluklarından sayılar, gelişmeler ve platform duyuruları.
+            </p>
           </div>
-          <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-            Dünya genelindeki Türk topluluklarından sayılar, gelişmeler ve platform duyuruları.
-          </p>
         </div>
       </div>
 

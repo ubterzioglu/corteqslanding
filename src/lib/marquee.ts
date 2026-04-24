@@ -6,6 +6,11 @@ export type MarqueeItemRow = Tables<"marquee_items">;
 export type MarqueeItemInsert = TablesInsert<"marquee_items">;
 export type MarqueeItemUpdate = TablesUpdate<"marquee_items">;
 
+export const newsImageBucket = "newsimage";
+export const allowedNewsImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
+export const allowedNewsImageExtensions = [".jpg", ".jpeg", ".png", ".webp", ".gif"] as const;
+export const maxNewsImageBytes = 5 * 1024 * 1024;
+
 export const marqueeTypeLabels: Record<MarqueeItemType, string> = {
   news: "Haber",
   stat: "İstatistik",
@@ -80,6 +85,55 @@ export function slugifyMarqueeTitle(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .replace(/-{2,}/g, "-");
+}
+
+export function validateNewsImageFile(file: File) {
+  const extension = file.name.toLowerCase().match(/\.[^.]+$/)?.[0] ?? "";
+
+  if (!allowedNewsImageTypes.includes(file.type as (typeof allowedNewsImageTypes)[number])) {
+    return {
+      ok: false as const,
+      message: `"${file.name}" desteklenmeyen format. Sadece JPG, PNG, WEBP veya GIF yükleyin.`,
+    };
+  }
+
+  if (!allowedNewsImageExtensions.includes(extension as (typeof allowedNewsImageExtensions)[number])) {
+    return {
+      ok: false as const,
+      message: `"${file.name}" uzantısı desteklenmiyor. Sadece JPG, PNG, WEBP veya GIF yükleyin.`,
+    };
+  }
+
+  if (file.size > maxNewsImageBytes) {
+    return {
+      ok: false as const,
+      message: `"${file.name}" çok büyük. Maksimum görsel boyutu 5 MB.`,
+    };
+  }
+
+  return { ok: true as const };
+}
+
+export async function uploadNewsImage(file: File): Promise<string> {
+  const validation = validateNewsImageFile(file);
+  if (!validation.ok) throw new Error(validation.message);
+
+  const extension = file.name.toLowerCase().match(/\.[^.]+$/)?.[0] ?? ".jpg";
+  const safeBaseName = file.name
+    .replace(/\.[^.]+$/, "")
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    .slice(0, 80);
+  const path = `marquee/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeBaseName}${extension}`;
+
+  const { error } = await supabase.storage.from(newsImageBucket).upload(path, file, {
+    contentType: file.type,
+    upsert: false,
+  });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage.from(newsImageBucket).getPublicUrl(path);
+  return data.publicUrl;
 }
 
 export async function listPublicMarqueeItems(): Promise<MarqueeItemRow[]> {

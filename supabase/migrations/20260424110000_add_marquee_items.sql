@@ -137,4 +137,60 @@ VALUES
   )
 ON CONFLICT DO NOTHING;
 
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'newsimage',
+  'newsimage',
+  true,
+  5242880,
+  ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+)
+ON CONFLICT (id) DO UPDATE
+SET
+  public = EXCLUDED.public,
+  file_size_limit = EXCLUDED.file_size_limit,
+  allowed_mime_types = EXCLUDED.allowed_mime_types;
+
+DROP POLICY IF EXISTS "Public can read news images" ON storage.objects;
+DROP POLICY IF EXISTS "Admin users can upload news images" ON storage.objects;
+DROP POLICY IF EXISTS "Admin users can update news images" ON storage.objects;
+DROP POLICY IF EXISTS "Admin users can delete news images" ON storage.objects;
+
+CREATE POLICY "Public can read news images"
+  ON storage.objects
+  FOR SELECT
+  TO anon, authenticated
+  USING (bucket_id = 'newsimage');
+
+CREATE POLICY "Admin users can upload news images"
+  ON storage.objects
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    bucket_id = 'newsimage'
+    AND EXISTS (SELECT 1 FROM public.admin_users admin WHERE admin.user_id = auth.uid())
+  );
+
+CREATE POLICY "Admin users can update news images"
+  ON storage.objects
+  FOR UPDATE
+  TO authenticated
+  USING (
+    bucket_id = 'newsimage'
+    AND EXISTS (SELECT 1 FROM public.admin_users admin WHERE admin.user_id = auth.uid())
+  )
+  WITH CHECK (
+    bucket_id = 'newsimage'
+    AND EXISTS (SELECT 1 FROM public.admin_users admin WHERE admin.user_id = auth.uid())
+  );
+
+CREATE POLICY "Admin users can delete news images"
+  ON storage.objects
+  FOR DELETE
+  TO authenticated
+  USING (
+    bucket_id = 'newsimage'
+    AND EXISTS (SELECT 1 FROM public.admin_users admin WHERE admin.user_id = auth.uid())
+  );
+
 COMMIT;
