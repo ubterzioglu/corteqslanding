@@ -24,7 +24,7 @@ const navItems = [
   { to: "/admin/marquee", label: "Haber Bandı" },
   { to: "/admin/advisors", label: "Danışman/SM" },
   { to: "/admin/social-media", label: "Sosyal Medya" },
-  { to: "/admin/about", label: "Hakkında" },
+  { to: "/admin/about", label: "Güncellemeler" },
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>

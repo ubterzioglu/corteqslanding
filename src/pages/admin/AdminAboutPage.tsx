@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 const AdminAboutPage = () => (
   <Card>
     <CardHeader>
-      <CardTitle>Admin Hakkında</CardTitle>
+      <CardTitle>Güncellemeler</CardTitle>
       <CardDescription>Bu panel üyeler ve referral yönetimini güvenli şekilde ölçeklemek için modülerleştirildi.</CardDescription>
     </CardHeader>
     <CardContent className="space-y-2 text-sm text-muted-foreground">

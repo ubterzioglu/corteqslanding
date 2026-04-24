@@ -23,11 +23,32 @@ export type SocialResourceLinkRow = Tables<"social_media_links">;
 export type ResourceLinkRow = AdvisorResourceLinkRow | SocialResourceLinkRow;
 export type ResourceLinkInsert = TablesInsert<"advisor_social_media_links">;
 export type ResourceLinkUpdate = TablesUpdate<"advisor_social_media_links">;
+export type AdvisorResourceLinkInsert = TablesInsert<"advisor_social_media_links">;
+export type AdvisorResourceLinkUpdate = TablesUpdate<"advisor_social_media_links">;
+export type AdvisorContactStatusKey =
+  | "contacted_whatsapp"
+  | "contacted_instagram"
+  | "contacted_email"
+  | "contacted_phone";
 
 export type ResourceLinkFormState = {
   platform: ResourceLinkPlatform;
   description: string;
   link: string;
+  added_by: ResourceLinkAuthor;
+};
+
+export type AdvisorResourceLinkFormState = {
+  name: string;
+  description: string;
+  email: string;
+  phone: string;
+  whatsapp: string;
+  instagram: string;
+  contacted_whatsapp: boolean;
+  contacted_instagram: boolean;
+  contacted_email: boolean;
+  contacted_phone: boolean;
   added_by: ResourceLinkAuthor;
 };
 
@@ -40,10 +61,31 @@ export function createEmptyResourceLinkFormState(): ResourceLinkFormState {
   };
 }
 
+export function createEmptyAdvisorResourceLinkFormState(): AdvisorResourceLinkFormState {
+  return {
+    name: "",
+    description: "",
+    email: "",
+    phone: "",
+    whatsapp: "",
+    instagram: "",
+    contacted_whatsapp: false,
+    contacted_instagram: false,
+    contacted_email: false,
+    contacted_phone: false,
+    added_by: "UBT",
+  };
+}
+
 export function validateResourceLinkUrl(value: string) {
   const trimmed = value.trim();
   if (!trimmed) return "Link URL zorunlu.";
   if (!/^https?:\/\/\S+$/i.test(trimmed)) return "Link http:// veya https:// ile başlamalı.";
+  return null;
+}
+
+export function validateAdvisorResourceLinkForm(form: AdvisorResourceLinkFormState) {
+  if (!form.name.trim()) return "Ad zorunlu.";
   return null;
 }
 
@@ -59,11 +101,48 @@ export function toResourceLinkPayload(form: ResourceLinkFormState): ResourceLink
   };
 }
 
+export function toAdvisorResourceLinkPayload(form: AdvisorResourceLinkFormState): AdvisorResourceLinkInsert {
+  const formError = validateAdvisorResourceLinkForm(form);
+  if (formError) throw new Error(formError);
+
+  return {
+    name: form.name.trim(),
+    platform: "Diğer",
+    description: form.description.trim() || null,
+    link: null,
+    email: form.email.trim() || null,
+    phone: form.phone.trim() || null,
+    whatsapp: form.whatsapp.trim() || null,
+    instagram: form.instagram.trim() || null,
+    contacted_whatsapp: form.contacted_whatsapp,
+    contacted_instagram: form.contacted_instagram,
+    contacted_email: form.contacted_email,
+    contacted_phone: form.contacted_phone,
+    added_by: form.added_by,
+  };
+}
+
 export function toResourceLinkFormState(row: ResourceLinkRow): ResourceLinkFormState {
   return {
     platform: row.platform,
     description: row.description ?? "",
     link: row.link ?? "",
+    added_by: row.added_by,
+  };
+}
+
+export function toAdvisorResourceLinkFormState(row: AdvisorResourceLinkRow): AdvisorResourceLinkFormState {
+  return {
+    name: row.name,
+    description: row.description ?? "",
+    email: row.email ?? "",
+    phone: row.phone ?? "",
+    whatsapp: row.whatsapp ?? "",
+    instagram: row.instagram ?? "",
+    contacted_whatsapp: row.contacted_whatsapp,
+    contacted_instagram: row.contacted_instagram,
+    contacted_email: row.contacted_email,
+    contacted_phone: row.contacted_phone,
     added_by: row.added_by,
   };
 }
@@ -85,11 +164,29 @@ export async function listResourceLinks(tableName: ResourceLinkTableName): Promi
   return data ?? [];
 }
 
+export async function listAdvisorResourceLinks(): Promise<AdvisorResourceLinkRow[]> {
+  const { data, error } = await supabase
+    .from("advisor_social_media_links")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data ?? [];
+}
+
 export async function createResourceLink(
   tableName: ResourceLinkTableName,
   payload: ResourceLinkInsert,
 ): Promise<ResourceLinkRow> {
   const { data, error } = await supabase.from(tableName).insert(payload).select("*").single();
+  if (error) throw error;
+  return data;
+}
+
+export async function createAdvisorResourceLink(
+  payload: AdvisorResourceLinkInsert,
+): Promise<AdvisorResourceLinkRow> {
+  const { data, error } = await supabase.from("advisor_social_media_links").insert(payload).select("*").single();
   if (error) throw error;
   return data;
 }
@@ -102,6 +199,28 @@ export async function updateResourceLink(
   const { data, error } = await supabase.from(tableName).update(payload).eq("id", id).select("*").single();
   if (error) throw error;
   return data;
+}
+
+export async function updateAdvisorResourceLink(
+  id: string,
+  payload: AdvisorResourceLinkUpdate,
+): Promise<AdvisorResourceLinkRow> {
+  const { data, error } = await supabase
+    .from("advisor_social_media_links")
+    .update(payload)
+    .eq("id", id)
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateAdvisorContactStatus(
+  id: string,
+  key: AdvisorContactStatusKey,
+  value: boolean,
+): Promise<AdvisorResourceLinkRow> {
+  return updateAdvisorResourceLink(id, { [key]: value });
 }
 
 export async function deleteResourceLink(tableName: ResourceLinkTableName, id: string): Promise<void> {
