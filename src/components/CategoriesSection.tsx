@@ -72,7 +72,7 @@ const CategoriesSection = () => {
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className="group p-8 rounded-2xl bg-background border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300"
+              className="group rounded-2xl border border-white/50 bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
             >
               <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
                 <cat.icon className="w-7 h-7 text-primary" />
