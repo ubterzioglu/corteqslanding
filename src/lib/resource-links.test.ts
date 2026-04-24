@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  advisorProfileSections,
   createEmptyAdvisorResourceLinkFormState,
   toAdvisorResourceLinkFormState,
   toAdvisorResourceLinkPayload,
@@ -9,6 +10,14 @@ import {
 } from "@/lib/resource-links";
 
 describe("advisor resource link helpers", () => {
+  it("maps advisor profile tabs to their dedicated tables", () => {
+    expect(advisorProfileSections.map((section) => [section.key, section.tableName])).toEqual([
+      ["consultant", "consultant_social_media_links"],
+      ["influencer", "influencer_social_media_links"],
+      ["contributor", "contributor_social_media_links"],
+    ]);
+  });
+
   it("builds advisor contact payloads with trimmed contact fields", () => {
     const payload = toAdvisorResourceLinkPayload({
       ...createEmptyAdvisorResourceLinkFormState(),
@@ -38,6 +47,20 @@ describe("advisor resource link helpers", () => {
 
   it("requires an advisor name", () => {
     expect(validateAdvisorResourceLinkForm(createEmptyAdvisorResourceLinkFormState())).toBe("Ad zorunlu.");
+  });
+
+  it("stores empty optional advisor contact fields as null", () => {
+    const payload = toAdvisorResourceLinkPayload({
+      ...createEmptyAdvisorResourceLinkFormState(),
+      name: "Katkı Veren",
+    });
+
+    expect(payload.description).toBeNull();
+    expect(payload.email).toBeNull();
+    expect(payload.phone).toBeNull();
+    expect(payload.whatsapp).toBeNull();
+    expect(payload.instagram).toBeNull();
+    expect(payload.link).toBeNull();
   });
 
   it("maps advisor rows back to editable form state", () => {

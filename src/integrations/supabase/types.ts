@@ -6,6 +6,88 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+type AdvisorProfileLinkTable = {
+  Row: {
+    added_by: "UBT" | "Burak" | "Diğer";
+    contacted_email: boolean;
+    contacted_instagram: boolean;
+    contacted_phone: boolean;
+    contacted_whatsapp: boolean;
+    created_at: string;
+    description: string | null;
+    email: string | null;
+    id: string;
+    instagram: string | null;
+    link: string | null;
+    name: string;
+    phone: string | null;
+    platform:
+      | "Instagram"
+      | "LinkedIn"
+      | "Twitter (X)"
+      | "YouTube"
+      | "TikTok"
+      | "Facebook"
+      | "Reddit"
+      | "Discord"
+      | "Diğer";
+    whatsapp: string | null;
+  };
+  Insert: {
+    added_by?: "UBT" | "Burak" | "Diğer";
+    contacted_email?: boolean;
+    contacted_instagram?: boolean;
+    contacted_phone?: boolean;
+    contacted_whatsapp?: boolean;
+    created_at?: string;
+    description?: string | null;
+    email?: string | null;
+    id?: string;
+    instagram?: string | null;
+    link?: string | null;
+    name?: string;
+    phone?: string | null;
+    platform?:
+      | "Instagram"
+      | "LinkedIn"
+      | "Twitter (X)"
+      | "YouTube"
+      | "TikTok"
+      | "Facebook"
+      | "Reddit"
+      | "Discord"
+      | "Diğer";
+    whatsapp?: string | null;
+  };
+  Update: {
+    added_by?: "UBT" | "Burak" | "Diğer";
+    contacted_email?: boolean;
+    contacted_instagram?: boolean;
+    contacted_phone?: boolean;
+    contacted_whatsapp?: boolean;
+    created_at?: string;
+    description?: string | null;
+    email?: string | null;
+    id?: string;
+    instagram?: string | null;
+    link?: string | null;
+    name?: string;
+    phone?: string | null;
+    platform?:
+      | "Instagram"
+      | "LinkedIn"
+      | "Twitter (X)"
+      | "YouTube"
+      | "TikTok"
+      | "Facebook"
+      | "Reddit"
+      | "Discord"
+      | "Diğer";
+    whatsapp?: string | null;
+  };
+  Relationships: [];
+};
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.5";
@@ -108,6 +190,8 @@ export type Database = {
         };
         Relationships: [];
       };
+      consultant_social_media_links: AdvisorProfileLinkTable;
+      contributor_social_media_links: AdvisorProfileLinkTable;
       expenses: {
         Row: {
           amount: number;
@@ -210,6 +294,7 @@ export type Database = {
         };
         Relationships: [];
       };
+      influencer_social_media_links: AdvisorProfileLinkTable;
       marquee_items: {
         Row: {
           created_at: string;
