@@ -22,6 +22,8 @@ const navItems = [
   { to: "/admin/members", label: "Üye Takibi" },
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/marquee", label: "Haber Bandı" },
+  { to: "/admin/advisors", label: "Danışman/SM" },
+  { to: "/admin/social-media", label: "Sosyal Medya" },
   { to: "/admin/about", label: "Hakkında" },
 ];
 
