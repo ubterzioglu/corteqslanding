@@ -24,7 +24,7 @@ const FooterSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-background mb-4">
             Yakında Açılıyoruz!
           </h2>
-          <p className="text-background/60 text-lg max-w-xl mx-auto mb-6">
+          <p className="mx-auto mb-6 max-w-4xl overflow-x-auto whitespace-nowrap text-lg text-background/60">
             Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
           </p>
 
@@ -36,27 +36,24 @@ const FooterSection = () => {
             <span className="text-primary font-bold text-lg">info@corteqs.net</span>
           </a>
 
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
+          <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
             <button
               onClick={() => setFormOpen(true)}
-              className="inline-flex items-center justify-center px-5 py-2 rounded-lg bg-accent text-accent-foreground font-bold text-sm hover:bg-accent/90 transition-all shadow-md"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground shadow-md transition-all hover:bg-accent/90"
             >
               Kategorine Kayıt ve Takip İçin →
             </button>
             <button
               onClick={() => setSupportFormOpen(true)}
-              className="inline-flex items-center justify-center px-5 py-2 rounded-lg bg-background/10 text-background border border-background/20 font-bold text-sm hover:bg-background/20 transition-all"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-cyan-500/20 transition-all hover:from-cyan-400 hover:to-blue-500"
             >
               Teknik, Org, Yatırım Görüşmeleri için →
             </button>
-          </div>
-
-          <div className="mt-3 flex justify-center">
             <a
               href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg bg-[#25D366] text-white font-bold text-sm hover:bg-[#1ebe5d] transition-all shadow-md"
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all hover:bg-[#1ebe5d]"
             >
               <MessageCircle className="w-4 h-4" />
               WhatsApp Grubuna Katıl →
@@ -65,13 +62,13 @@ const FooterSection = () => {
 
           <div className="mt-8">
             <p className="text-background/70 text-sm mb-3">Bizi Sosyal Medyada Takip Edin</p>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="mx-auto grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
               <a
                 href="https://www.linkedin.com/company/corteqs-global"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CorteQS LinkedIn"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#0A66C2] text-white font-semibold hover:bg-[#0a5cb0] transition-all shadow-md"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0A66C2] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#0a5cb0]"
               >
                 <Linkedin className="w-5 h-5" />
                 LinkedIn
@@ -81,7 +78,7 @@ const FooterSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CorteQS Facebook"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#1877F2] text-white font-semibold hover:bg-[#166fe5] transition-all shadow-md"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1877F2] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#166fe5]"
               >
                 <Facebook className="w-5 h-5" />
                 Facebook
@@ -91,7 +88,7 @@ const FooterSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CorteQS Instagram"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] text-white font-semibold hover:opacity-90 transition-all shadow-md"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] px-4 py-3 font-semibold text-white shadow-md transition-all hover:opacity-90"
               >
                 <Instagram className="w-5 h-5" />
                 Instagram
@@ -101,7 +98,7 @@ const FooterSection = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="CorteQS X"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-black text-white font-semibold hover:bg-neutral-800 transition-all shadow-md"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-neutral-800"
               >
                 <Twitter className="w-5 h-5" />
                 X

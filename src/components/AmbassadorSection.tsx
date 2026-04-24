@@ -7,7 +7,7 @@ const perks = [
   { icon: Crown, title: "VIP — Sabit Gelir", desc: "VIP olduğunda sabit gelir: şehrinin, ülkenin iş partneri ol." },
   { icon: TrendingUp, title: "Influencer Büyüme", desc: "Sosyal medyanı CorteQS ağı ile patlat." },
   { icon: Users, title: "Etkinlik Lideri", desc: "Parti ve etkinlik düzenle, sorunsuz ödeme al, topluluğu aktif tut." },
-  { icon: Globe2, title: "Global Ağ", desc: "Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun.", pill: true },
+  { icon: Globe2, title: "Global Ağ", desc: "Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun." },
   { icon: Zap, title: "Erken Avantajlar", desc: "Yeni özelliklere ilk sen eriş, gelir paylaşımına erkenden dahil ol." },
   { icon: Sparkles, title: "İçerik Desteği", desc: "Profesyonel medya kiti ve kampanya desteği." },
 ];
@@ -28,7 +28,7 @@ const AmbassadorSection = () => {
       <div className="pointer-events-none absolute bottom-10 right-10 w-96 h-96 rounded-full blur-3xl opacity-25" style={{ background: "hsl(var(--primary))" }} aria-hidden />
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-14 max-w-3xl mx-auto">
+        <div className="text-center mb-14 max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 mb-4">
             <Crown className="w-4 h-4 text-accent" />
             <span className="text-xs font-bold text-accent uppercase tracking-wider">Şehir Elçisi / City Business Partner Programı</span>
@@ -36,7 +36,7 @@ const AmbassadorSection = () => {
           <h2 className="text-4xl md:text-6xl font-extrabold text-foreground mb-5 leading-tight">
             Şehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">İş Partneri</span> Ol
           </h2>
-          <p className="text-muted-foreground text-lg md:text-xl leading-relaxed">
+          <p className="overflow-x-auto whitespace-nowrap text-base text-muted-foreground md:text-xl">
             Takipçi değil, topluluk ve iş inşa et. CorteQS Şehir Elçisi olarak diasporanın merkezi sen ol.
           </p>
         </div>
@@ -68,13 +68,7 @@ const AmbassadorSection = () => {
                     <perk.icon className="w-5 h-5 text-accent group-hover:scale-110 transition-transform" />
                   </div>
                   <h3 className="font-bold text-foreground mb-1">{perk.title}</h3>
-                  {"pill" in perk && perk.pill ? (
-                    <span className="inline-block max-w-full whitespace-normal break-words text-sm leading-relaxed px-3 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent font-medium">
-                      {perk.desc}
-                    </span>
-                  ) : (
-                    <p className="text-sm text-muted-foreground leading-relaxed">{perk.desc}</p>
-                  )}
+                  <p className="text-sm text-muted-foreground leading-relaxed">{perk.desc}</p>
                 </div>
               ))}
             </div>

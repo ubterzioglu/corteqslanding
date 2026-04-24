@@ -35,18 +35,23 @@ const radarCities = [
   "Stockholm",
   "Kopenhag",
   "Madrid",
+  "Stuttgart",
+  "Düsseldorf",
   "Manchester",
   "Milano",
   "Los Angeles",
   "Chicago",
   "Miami",
   "Montreal",
+  "Vancouver",
   "São Paulo",
   "Tokyo",
   "Singapur",
   "Abu Dabi",
   "Doha",
   "Melbourne",
+  "Essen",
+  "Nürnberg",
 ];
 
 const triggerCitySelect = (city: string, mode: "ai" | "form") => {
