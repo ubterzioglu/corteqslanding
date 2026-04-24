@@ -13,3 +13,8 @@ alter table public.advisor_social_media_links
 
 create index if not exists advisor_social_media_links_name_idx
   on public.advisor_social_media_links (name);
+
+update public.advisor_social_media_links
+set instagram = link
+where instagram is null
+  and link is not null;

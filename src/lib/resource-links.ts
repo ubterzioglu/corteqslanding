@@ -104,16 +104,17 @@ export function toResourceLinkPayload(form: ResourceLinkFormState): ResourceLink
 export function toAdvisorResourceLinkPayload(form: AdvisorResourceLinkFormState): AdvisorResourceLinkInsert {
   const formError = validateAdvisorResourceLinkForm(form);
   if (formError) throw new Error(formError);
+  const instagram = form.instagram.trim() || null;
 
   return {
     name: form.name.trim(),
-    platform: "Diğer",
+    platform: "Instagram",
     description: form.description.trim() || null,
-    link: null,
+    link: instagram,
     email: form.email.trim() || null,
     phone: form.phone.trim() || null,
     whatsapp: form.whatsapp.trim() || null,
-    instagram: form.instagram.trim() || null,
+    instagram,
     contacted_whatsapp: form.contacted_whatsapp,
     contacted_instagram: form.contacted_instagram,
     contacted_email: form.contacted_email,
@@ -138,7 +139,7 @@ export function toAdvisorResourceLinkFormState(row: AdvisorResourceLinkRow): Adv
     email: row.email ?? "",
     phone: row.phone ?? "",
     whatsapp: row.whatsapp ?? "",
-    instagram: row.instagram ?? "",
+    instagram: row.instagram ?? row.link ?? "",
     contacted_whatsapp: row.contacted_whatsapp,
     contacted_instagram: row.contacted_instagram,
     contacted_email: row.contacted_email,
