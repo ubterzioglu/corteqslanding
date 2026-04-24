@@ -21,6 +21,7 @@ import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
 import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
+import { muhasebeRoutes } from "@/pages/admin/muhasebe/routes";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="advisors" element={<AdminAdvisorLinksPage />} />
             <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
             <Route path="about" element={<AdminAboutPage />} />
+            {muhasebeRoutes}
           </Route>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/form"         element={<FormPage />} />

@@ -21,6 +21,7 @@ export function useAdminOutletContext() {
 const navItems = [
   { to: "/admin/members", label: "Üye Takibi" },
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
+  { to: "/admin/muhasebe", label: "Muhasebe" },
   { to: "/admin/marquee", label: "Haber Bandı" },
   { to: "/admin/advisors", label: "Danışman/SM" },
   { to: "/admin/social-media", label: "Sosyal Medya" },

@@ -108,6 +108,108 @@ export type Database = {
         };
         Relationships: [];
       };
+      expenses: {
+        Row: {
+          amount: number;
+          category: Database["public"]["Enums"]["expense_category"];
+          created_at: string;
+          created_by: string | null;
+          currency: Database["public"]["Enums"]["currency_code"];
+          description: string;
+          expense_date: string;
+          id: string;
+          invoice_url: string | null;
+          is_virtual_card: boolean;
+          note: string | null;
+          payment_method: Database["public"]["Enums"]["payment_method"] | null;
+          person: Database["public"]["Enums"]["person_type"];
+          status: Database["public"]["Enums"]["expense_status"];
+          updated_at: string;
+        };
+        Insert: {
+          amount: number;
+          category: Database["public"]["Enums"]["expense_category"];
+          created_at?: string;
+          created_by?: string | null;
+          currency?: Database["public"]["Enums"]["currency_code"];
+          description: string;
+          expense_date: string;
+          id?: string;
+          invoice_url?: string | null;
+          is_virtual_card?: boolean;
+          note?: string | null;
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null;
+          person: Database["public"]["Enums"]["person_type"];
+          status?: Database["public"]["Enums"]["expense_status"];
+          updated_at?: string;
+        };
+        Update: {
+          amount?: number;
+          category?: Database["public"]["Enums"]["expense_category"];
+          created_at?: string;
+          created_by?: string | null;
+          currency?: Database["public"]["Enums"]["currency_code"];
+          description?: string;
+          expense_date?: string;
+          id?: string;
+          invoice_url?: string | null;
+          is_virtual_card?: boolean;
+          note?: string | null;
+          payment_method?: Database["public"]["Enums"]["payment_method"] | null;
+          person?: Database["public"]["Enums"]["person_type"];
+          status?: Database["public"]["Enums"]["expense_status"];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      incomes: {
+        Row: {
+          amount: number;
+          category: Database["public"]["Enums"]["income_category"];
+          created_at: string;
+          created_by: string | null;
+          currency: Database["public"]["Enums"]["currency_code"];
+          description: string;
+          id: string;
+          income_date: string;
+          link: string | null;
+          note: string | null;
+          source: string;
+          status: Database["public"]["Enums"]["income_status"];
+          updated_at: string;
+        };
+        Insert: {
+          amount: number;
+          category: Database["public"]["Enums"]["income_category"];
+          created_at?: string;
+          created_by?: string | null;
+          currency?: Database["public"]["Enums"]["currency_code"];
+          description: string;
+          id?: string;
+          income_date: string;
+          link?: string | null;
+          note?: string | null;
+          source: string;
+          status?: Database["public"]["Enums"]["income_status"];
+          updated_at?: string;
+        };
+        Update: {
+          amount?: number;
+          category?: Database["public"]["Enums"]["income_category"];
+          created_at?: string;
+          created_by?: string | null;
+          currency?: Database["public"]["Enums"]["currency_code"];
+          description?: string;
+          id?: string;
+          income_date?: string;
+          link?: string | null;
+          note?: string | null;
+          source?: string;
+          status?: Database["public"]["Enums"]["income_status"];
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       marquee_items: {
         Row: {
           created_at: string;
@@ -625,7 +727,52 @@ export type Database = {
       };
     };
     Views: {
-      [_ in never]: never;
+      v_muhasebe_by_category: {
+        Row: {
+          category: Database["public"]["Enums"]["expense_category"] | null;
+          record_count: number | null;
+          total_try: number | null;
+        };
+        Relationships: [];
+      };
+      v_muhasebe_by_person: {
+        Row: {
+          paid_try: number | null;
+          pending_try: number | null;
+          person: Database["public"]["Enums"]["person_type"] | null;
+          record_count: number | null;
+          total_try: number | null;
+        };
+        Relationships: [];
+      };
+      v_muhasebe_cashflow_monthly: {
+        Row: {
+          baris_try: number | null;
+          burak_try: number | null;
+          expense_paid_try: number | null;
+          expense_pending_try: number | null;
+          expense_try: number | null;
+          income_collected_try: number | null;
+          income_pending_try: number | null;
+          income_try: number | null;
+          month_num: number | null;
+          net_try: number | null;
+          ortak_try: number | null;
+          year_num: number | null;
+        };
+        Relationships: [];
+      };
+      v_muhasebe_kpi: {
+        Row: {
+          net_position_try: number | null;
+          pending_expense_try: number | null;
+          pending_income_try: number | null;
+          total_expense_try: number | null;
+          total_income_try: number | null;
+          total_records: number | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       validate_and_bind_referral_code: {
@@ -644,7 +791,38 @@ export type Database = {
       };
     };
     Enums: {
-      [_ in never]: never;
+      currency_code: "TRY" | "USD" | "EUR" | "GBP" | "QAR";
+      expense_category:
+        | "yazilim_araclar"
+        | "hosting_sunucu"
+        | "alan_adi_ssl"
+        | "pazarlama_reklam"
+        | "hukuki_danismanlik"
+        | "muhasebe_finans"
+        | "seyahat_ulasim"
+        | "ofis_kirtasiye"
+        | "maas_ucret"
+        | "esop_hisse"
+        | "banka_komisyon"
+        | "diger_gider";
+      expense_status: "odendi" | "bekliyor" | "iptal";
+      income_category:
+        | "pilot_gelir"
+        | "danismanlik_geliri"
+        | "hibe_grant"
+        | "yatirim_taahhudu"
+        | "demo_geliri"
+        | "diger_gelir";
+      income_status: "tahsil_edildi" | "bekliyor" | "iptal";
+      payment_method:
+        | "sanal_kart_burak"
+        | "sanal_kart_baris"
+        | "kisisel_kart_burak"
+        | "kisisel_kart_baris"
+        | "havale_eft"
+        | "nakit"
+        | "diger";
+      person_type: "burak" | "baris" | "ortak";
     };
     CompositeTypes: {
       [_ in never]: never;
