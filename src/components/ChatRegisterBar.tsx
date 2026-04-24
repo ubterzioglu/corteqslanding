@@ -330,17 +330,25 @@ const ChatRegisterBar = () => {
   return (
     <section
       id="kaydol"
-      className="relative overflow-hidden py-16 lg:py-24"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--accent) / 0.06) 50%, hsl(var(--background)) 100%)",
-      }}
+      className="relative overflow-hidden bg-background py-16 lg:py-24"
     >
-      <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full blur-3xl opacity-30" style={{ background: "hsl(var(--accent))" }} />
-      <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full blur-3xl opacity-20" style={{ background: "hsl(var(--primary))" }} />
+      <video
+        className="absolute inset-0 h-full w-full object-cover opacity-45"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=80"
+        aria-hidden="true"
+      >
+        <source src="https://videos.pexels.com/video-files/3255275/3255275-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      </video>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-background/85 via-background/70 to-background/92" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,hsl(var(--primary)/0.18),transparent_34%),radial-gradient(circle_at_82%_30%,hsl(var(--accent)/0.14),transparent_32%)]" aria-hidden="true" />
 
       <div className="container relative z-10 mx-auto px-4">
-        <div className="mx-auto mb-10 max-w-3xl text-center">
+        <div className="mx-auto mb-10 max-w-3xl rounded-3xl border border-white/40 bg-background/70 px-6 py-8 text-center shadow-2xl shadow-primary/10 backdrop-blur-xl md:px-10 md:py-10">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">Akıllı Kayıt Deneyimi</span>

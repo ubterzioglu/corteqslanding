@@ -220,6 +220,11 @@ const FAQSection = () => {
   return (
     <section className="bg-background py-14 lg:py-20">
       <div className="container mx-auto max-w-3xl px-4">
+        <div className="mb-3 text-center">
+          <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+            Yardım Merkezi
+          </span>
+        </div>
         <h2 className="mb-8 text-center text-3xl font-bold text-foreground md:text-4xl">
           Sıkça Sorulan Sorular
           <br />
