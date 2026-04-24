@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { ArrowLeft, Compass, Globe, Home } from "lucide-react";
-import corteqsLogo from "@/assets/seologo.png";
 
 const NotFound = () => {
   const location = useLocation();
@@ -27,9 +26,9 @@ const NotFound = () => {
       <div className="relative z-10 mx-auto max-w-2xl px-4 text-center">
         <Link to="/" className="inline-block">
           <img
-            src={corteqsLogo}
+            src="/sharedx/maillogo.png"
             alt="CorteQS Logo"
-            className="mx-auto mb-8 h-16 w-auto"
+            className="mx-auto mb-8 h-20 w-auto"
           />
         </Link>
 
@@ -47,9 +46,9 @@ const NotFound = () => {
           değilsin!
         </h1>
 
-        <p className="mx-auto mb-8 max-w-md text-lg leading-relaxed text-muted-foreground">
-          Diaspora ağında yolunu bulamadık gibi görünüyor. Ama endişelenme,
-          ana sayfadan haritana ulaşabilirsin.
+        <p className="mx-auto mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
+          <span className="block">Diaspora ağında yolunu bulamadık gibi görünüyor.</span>
+          <span className="block">Ama endişelenme, ana sayfadan haritana ulaşabilirsin.</span>
         </p>
 
         <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
@@ -71,16 +70,16 @@ const NotFound = () => {
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/90 px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
+            className="inline-flex w-64 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/90 px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
           >
             <Home className="h-4 w-4" />
             Ana Sayfaya Dön
           </Link>
           <Link
             to="/#kaydol"
-            className="inline-flex items-center gap-2 rounded-xl border-2 border-primary/30 bg-card px-8 py-3 text-sm font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5"
+            className="inline-flex w-64 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
           >
-            <Globe className="h-4 w-4 text-primary" />
+            <Globe className="h-4 w-4" />
             Kayıt Ol
           </Link>
         </div>
