@@ -27,6 +27,60 @@ export type Database = {
         };
         Relationships: [];
       };
+      marquee_items: {
+        Row: {
+          created_at: string;
+          detail_content: string | null;
+          id: string;
+          image_alt: string | null;
+          image_url: string | null;
+          is_active: boolean;
+          link_enabled: boolean;
+          metric_value: string | null;
+          published_at: string;
+          slug: string | null;
+          sort_order: number;
+          summary: string;
+          title: string;
+          type: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          detail_content?: string | null;
+          id?: string;
+          image_alt?: string | null;
+          image_url?: string | null;
+          is_active?: boolean;
+          link_enabled?: boolean;
+          metric_value?: string | null;
+          published_at?: string;
+          slug?: string | null;
+          sort_order?: number;
+          summary: string;
+          title: string;
+          type: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          detail_content?: string | null;
+          id?: string;
+          image_alt?: string | null;
+          image_url?: string | null;
+          is_active?: boolean;
+          link_enabled?: boolean;
+          metric_value?: string | null;
+          published_at?: string;
+          slug?: string | null;
+          sort_order?: number;
+          summary?: string;
+          title?: string;
+          type?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       referral_sources: {
         Row: {
           code: string;

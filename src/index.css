@@ -99,4 +99,32 @@
   .text-glow-orange {
     color: hsl(var(--glow-orange));
   }
+
+  .diaspora-marquee-track {
+    animation: diaspora-marquee 38s linear infinite;
+  }
+
+  .diaspora-marquee:hover .diaspora-marquee-track,
+  .diaspora-marquee:focus-within .diaspora-marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes diaspora-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diaspora-marquee {
+    overflow-x: auto;
+  }
+
+  .diaspora-marquee-track {
+    animation: none;
+  }
 }

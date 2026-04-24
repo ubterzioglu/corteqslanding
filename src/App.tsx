@@ -9,6 +9,7 @@ import AboutPage from "./pages/AboutPage.tsx";
 import FormPage from "./pages/FormPage.tsx";
 import ResetPasswordPage from "./pages/ResetPasswordPage.tsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.tsx";
+import DiasporaDetailPage from "./pages/DiasporaDetailPage.tsx";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 import AdminReferralPage from "@/pages/admin/AdminReferralPage";
@@ -16,6 +17,7 @@ import AdminReferralSourcesPage from "@/pages/admin/AdminReferralSourcesPage";
 import AdminReferralGroupsPage from "@/pages/admin/AdminReferralGroupsPage";
 import AdminReferralTypesPage from "@/pages/admin/AdminReferralTypesPage";
 import AdminAboutPage from "@/pages/admin/AdminAboutPage";
+import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
+          <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Navigate to="/admin/members" replace />} />
             <Route path="members" element={<AdminMembersPage />} />
@@ -35,6 +38,7 @@ const App = () => (
             <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
             <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
             <Route path="referral/types" element={<AdminReferralTypesPage />} />
+            <Route path="marquee" element={<AdminMarqueePage />} />
             <Route path="about" element={<AdminAboutPage />} />
           </Route>
           <Route path="/reset-password" element={<ResetPasswordPage />} />
