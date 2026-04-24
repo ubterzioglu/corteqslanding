@@ -28,6 +28,8 @@ describe("advisor resource link helpers", () => {
     expect(payload.phone).toBe("+49 555");
     expect(payload.whatsapp).toBe("+49 555 WA");
     expect(payload.instagram).toBe("@ada");
+    expect(payload.link).toBe("@ada");
+    expect(payload.platform).toBe("Instagram");
     expect(payload.contacted_whatsapp).toBe(true);
     expect(payload.contacted_instagram).toBe(false);
     expect(payload.contacted_email).toBe(true);
@@ -70,5 +72,27 @@ describe("advisor resource link helpers", () => {
       contacted_phone: true,
       added_by: "UBT",
     });
+  });
+
+  it("uses the legacy link as the editable Instagram value when instagram is empty", () => {
+    const row: AdvisorResourceLinkRow = {
+      id: "1",
+      name: "Ada",
+      platform: "Instagram",
+      description: null,
+      link: "https://instagram.com/ada",
+      email: null,
+      phone: null,
+      whatsapp: null,
+      instagram: null,
+      contacted_whatsapp: false,
+      contacted_instagram: false,
+      contacted_email: false,
+      contacted_phone: false,
+      added_by: "UBT",
+      created_at: "2026-04-24T00:00:00.000Z",
+    };
+
+    expect(toAdvisorResourceLinkFormState(row).instagram).toBe("https://instagram.com/ada");
   });
 });

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Instagram, Mail, MessageCircle, Pencil, Phone, Plus, Save, Trash2, X } from "lucide-react";
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
 import {
   createAdvisorResourceLink,
   createEmptyAdvisorResourceLinkFormState,
@@ -58,7 +60,10 @@ const ContactStatusButtons = ({ values, disabled, onToggle }: ContactStatusButto
           aria-label={`${label}: ${contacted ? "iletişim kuruldu" : "iletişim kurulmadı"}`}
           title={`${label}: ${contacted ? "iletişim kuruldu" : "iletişim kurulmadı"}`}
           disabled={disabled}
-          onClick={() => onToggle(key, !contacted)}
+          onClick={(event) => {
+            event.stopPropagation();
+            onToggle(key, !contacted);
+          }}
           className={
             contacted
               ? "border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
@@ -72,23 +77,64 @@ const ContactStatusButtons = ({ values, disabled, onToggle }: ContactStatusButto
   </div>
 );
 
+type ContactInfoIconsProps = {
+  item: AdvisorResourceLinkRow;
+};
+
+const ContactInfoIcons = ({ item }: ContactInfoIconsProps) => {
+  const instagram = item.instagram || item.link;
+  const values = [
+    { label: "WhatsApp", value: item.whatsapp, Icon: MessageCircle },
+    { label: "Instagram", value: instagram, Icon: Instagram },
+    { label: "Mail", value: item.email, Icon: Mail },
+    { label: "Telefon", value: item.phone, Icon: Phone },
+  ];
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {values.map(({ label, value, Icon }) => (
+        <span
+          key={label}
+          title={value ? `${label}: ${value}` : `${label} yok`}
+          className={cn(
+            "inline-flex h-9 w-9 items-center justify-center rounded-md border",
+            value ? "border-primary/30 bg-primary/5 text-primary" : "border-muted bg-muted/30 text-muted-foreground",
+          )}
+        >
+          <Icon className="h-4 w-4" />
+        </span>
+      ))}
+    </div>
+  );
+};
+
 const AdminAdvisorLinksPage = () => {
   const { toast } = useToast();
   const [items, setItems] = useState<AdvisorResourceLinkRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [selectedAdvisorId, setSelectedAdvisorId] = useState<string | null>(null);
+  const [createAccordionValue, setCreateAccordionValue] = useState<string | undefined>();
   const [form, setForm] = useState<AdvisorResourceLinkFormState>(() => createEmptyAdvisorResourceLinkFormState());
   const [editingForm, setEditingForm] = useState<AdvisorResourceLinkFormState>(() =>
     createEmptyAdvisorResourceLinkFormState(),
   );
 
   const editingItem = useMemo(() => items.find((item) => item.id === editingId) ?? null, [editingId, items]);
+  const selectedAdvisor = useMemo(
+    () => items.find((item) => item.id === selectedAdvisorId) ?? null,
+    [items, selectedAdvisorId],
+  );
 
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      setItems(await listAdvisorResourceLinks());
+      const nextItems = await listAdvisorResourceLinks();
+      setItems(nextItems);
+      setSelectedAdvisorId((current) =>
+        current && nextItems.some((item) => item.id === current) ? current : nextItems[0]?.id ?? null,
+      );
     } catch (error) {
       const message = error instanceof Error ? error.message : "Bilinmeyen hata";
       toast({ title: "Danışman kayıtları yüklenemedi", description: message, variant: "destructive" });
@@ -116,6 +162,7 @@ const AdminAdvisorLinksPage = () => {
   };
 
   const startEdit = (item: AdvisorResourceLinkRow) => {
+    setSelectedAdvisorId(item.id);
     setEditingId(item.id);
     setEditingForm(toAdvisorResourceLinkFormState(item));
   };
@@ -130,6 +177,8 @@ const AdminAdvisorLinksPage = () => {
     try {
       const created = await createAdvisorResourceLink(toAdvisorResourceLinkPayload(form));
       setItems((current) => [created, ...current]);
+      setSelectedAdvisorId(created.id);
+      setCreateAccordionValue(undefined);
       setForm(createEmptyAdvisorResourceLinkFormState());
       toast({ title: "Danışman kaydı eklendi" });
     } catch (error) {
@@ -145,6 +194,7 @@ const AdminAdvisorLinksPage = () => {
     try {
       const updated = await updateAdvisorResourceLink(id, toAdvisorResourceLinkPayload(editingForm));
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
+      setSelectedAdvisorId(updated.id);
       cancelEdit();
       toast({ title: "Danışman kaydı güncellendi" });
     } catch (error) {
@@ -178,7 +228,11 @@ const AdminAdvisorLinksPage = () => {
     setSubmitting(true);
     try {
       await deleteResourceLink("advisor_social_media_links", item.id);
-      setItems((current) => current.filter((currentItem) => currentItem.id !== item.id));
+      setItems((current) => {
+        const nextItems = current.filter((currentItem) => currentItem.id !== item.id);
+        if (selectedAdvisorId === item.id) setSelectedAdvisorId(nextItems[0]?.id ?? null);
+        return nextItems;
+      });
       if (editingId === item.id) cancelEdit();
       toast({ title: "Danışman kaydı silindi" });
     } catch (error) {
@@ -272,13 +326,58 @@ const AdminAdvisorLinksPage = () => {
 
   return (
     <div className="space-y-6">
+      <Accordion
+        type="single"
+        collapsible
+        value={createAccordionValue}
+        onValueChange={setCreateAccordionValue}
+        className="w-full"
+      >
+        <AccordionItem value="create-advisor" className="rounded-lg border bg-card px-6">
+          <AccordionTrigger className="hover:no-underline">
+            <div className="text-left">
+              <div className="text-lg font-semibold">Yeni danışman ekle</div>
+              <div className="text-sm font-normal text-muted-foreground">
+                Danışmanın iletişim bilgilerini ve ilk ulaşım durumunu kaydedin.
+              </div>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent>
+            {renderEditor(form, updateForm, submitting ? "Kaydediliyor..." : "Yeni ekle", () => void handleCreate())}
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <Card>
         <CardHeader>
-          <CardTitle>Danışman İletişim Takibi</CardTitle>
-          <CardDescription>Danışmanların iletişim bilgilerini ve hangi kanaldan ulaşıldığını yönetin.</CardDescription>
+          <CardTitle>Seçilen Danışman</CardTitle>
+          <CardDescription>Seçili kaydın iletişim bilgileri ve ulaşım durumu.</CardDescription>
         </CardHeader>
         <CardContent>
-          {renderEditor(form, updateForm, submitting ? "Kaydediliyor..." : "Yeni ekle", () => void handleCreate())}
+          {selectedAdvisor ? (
+            <div className="grid gap-4 lg:grid-cols-[1.4fr_1fr_auto]">
+              <div>
+                <div className="text-lg font-semibold">{selectedAdvisor.name}</div>
+                <div className="mt-1 text-sm text-muted-foreground">{selectedAdvisor.description || "-"}</div>
+                <div className="mt-3 text-xs text-muted-foreground">
+                  {selectedAdvisor.added_by} · {new Date(selectedAdvisor.created_at).toLocaleDateString("tr-TR")}
+                </div>
+              </div>
+              <div className="space-y-1 text-sm">
+                <div>Mail: {selectedAdvisor.email || "-"}</div>
+                <div>Telefon: {selectedAdvisor.phone || "-"}</div>
+                <div>WhatsApp: {selectedAdvisor.whatsapp || "-"}</div>
+                <div>Instagram: {selectedAdvisor.instagram || selectedAdvisor.link || "-"}</div>
+              </div>
+              <ContactStatusButtons
+                values={selectedAdvisor}
+                disabled={submitting}
+                onToggle={(key, value) => void handleQuickToggle(selectedAdvisor, key, value)}
+              />
+            </div>
+          ) : (
+            <div className="text-sm text-muted-foreground">Henüz seçili danışman yok.</div>
+          )}
         </CardContent>
       </Card>
 
@@ -329,16 +428,18 @@ const AdminAdvisorLinksPage = () => {
                   }
 
                   return (
-                    <TableRow key={item.id}>
+                    <TableRow
+                      key={item.id}
+                      data-state={selectedAdvisorId === item.id ? "selected" : undefined}
+                      onClick={() => setSelectedAdvisorId(item.id)}
+                      className={cn("cursor-pointer", selectedAdvisorId === item.id && "bg-muted/60")}
+                    >
                       <TableCell className="min-w-52 align-top">
                         <div className="font-medium">{item.name}</div>
                         <div className="mt-1 max-w-sm text-sm text-muted-foreground">{item.description || "-"}</div>
                       </TableCell>
-                      <TableCell className="min-w-64 align-top text-sm">
-                        <div>{item.email || "-"}</div>
-                        <div>{item.phone || "-"}</div>
-                        <div>{item.whatsapp ? `WA: ${item.whatsapp}` : "WA: -"}</div>
-                        <div>{item.instagram ? `IG: ${item.instagram}` : "IG: -"}</div>
+                      <TableCell className="align-top">
+                        <ContactInfoIcons item={item} />
                       </TableCell>
                       <TableCell className="align-top">
                         <ContactStatusButtons
@@ -357,7 +458,10 @@ const AdminAdvisorLinksPage = () => {
                             type="button"
                             variant="outline"
                             size="sm"
-                            onClick={() => startEdit(item)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              startEdit(item);
+                            }}
                             disabled={submitting || Boolean(editingItem)}
                           >
                             <Pencil className="h-4 w-4" />
@@ -367,7 +471,10 @@ const AdminAdvisorLinksPage = () => {
                             type="button"
                             variant="destructive"
                             size="sm"
-                            onClick={() => void handleDelete(item)}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              void handleDelete(item);
+                            }}
                             disabled={submitting}
                           >
                             <Trash2 className="h-4 w-4" />
