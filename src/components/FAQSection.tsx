@@ -218,8 +218,17 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="bg-background py-14 lg:py-20">
-      <div className="container mx-auto max-w-3xl px-4">
+    <section
+      className="relative overflow-hidden py-14 lg:py-20"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(var(--accent) / 0.07) 0%, hsl(var(--primary) / 0.06) 50%, hsl(var(--background)) 100%)",
+      }}
+    >
+      <div className="pointer-events-none absolute left-10 top-12 h-72 w-72 rounded-full bg-accent/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-20 bottom-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" aria-hidden />
+
+      <div className="container relative z-10 mx-auto max-w-3xl px-4">
         <div className="mb-3 text-center">
           <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Yardım Merkezi
@@ -235,7 +244,7 @@ const FAQSection = () => {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className="overflow-hidden rounded-[8px] border border-primary/15 bg-gradient-to-br from-primary/5 via-background to-accent/5 px-5 transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:from-primary/8 data-[state=open]:to-accent/8"
+              className="overflow-hidden rounded-[8px] border border-primary/15 bg-card/80 px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10"
             >
               <AccordionTrigger className="text-left text-base text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:text-lg">
                 {faq.q}

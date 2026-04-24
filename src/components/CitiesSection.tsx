@@ -62,8 +62,18 @@ const triggerCitySelect = (city: string, mode: "ai" | "form") => {
 
 const CitiesSection = () => {
   return (
-    <section id="sehirler" className="py-20 bg-background">
-      <div className="container mx-auto px-4">
+    <section
+      id="sehirler"
+      className="relative overflow-hidden py-20"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(var(--primary) / 0.07) 0%, hsl(var(--accent) / 0.07) 48%, hsl(var(--background)) 100%)",
+      }}
+    >
+      <div className="pointer-events-none absolute -left-24 top-24 h-80 w-80 rounded-full bg-primary/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-24 bottom-16 h-96 w-96 rounded-full bg-accent/15 blur-3xl" aria-hidden />
+
+      <div className="container relative z-10 mx-auto px-4">
         <div className="text-center mb-12">
           <p className="text-sm font-bold uppercase tracking-widest text-primary mb-3">Küresel Ağ</p>
           <h2 className="text-3xl md:text-5xl font-extrabold text-foreground mb-4">
@@ -76,7 +86,7 @@ const CitiesSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cities.map((city) => (
-            <div key={city.name} className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-xl hover:-translate-y-1 hover:border-primary/40">
+            <div key={city.name} className="group relative overflow-hidden rounded-2xl border border-white/50 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
               <div className={`absolute inset-0 bg-gradient-to-br ${city.gradient} opacity-0 group-hover:opacity-100 transition-opacity`} aria-hidden />
               <div className="relative">
                 <div className="flex items-start gap-4 mb-4">
@@ -113,7 +123,7 @@ const CitiesSection = () => {
           ))}
         </div>
 
-        <div className="mt-14 mb-10 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary/5 via-background to-accent/5 p-5 shadow-sm">
+        <div className="mt-14 mb-10 overflow-hidden rounded-2xl border border-white/50 bg-card/80 p-5 shadow-lg shadow-primary/5 backdrop-blur-sm">
           <div className="mb-5 flex flex-col items-center gap-2 text-center">
             <p className="text-xs font-bold uppercase tracking-widest text-primary">Radarımızdaki Şehirler</p>
             <p className="max-w-2xl text-sm text-muted-foreground">

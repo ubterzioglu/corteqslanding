@@ -9,8 +9,18 @@ const AboutSection = () => {
   ];
 
   return (
-    <section id="hakkinda" className="py-14 lg:py-20 bg-card">
-      <div className="container mx-auto px-4">
+    <section
+      id="hakkinda"
+      className="relative overflow-hidden py-14 lg:py-20"
+      style={{
+        background:
+          "linear-gradient(135deg, hsl(var(--accent) / 0.08) 0%, hsl(var(--primary) / 0.06) 48%, hsl(var(--background)) 100%)",
+      }}
+    >
+      <div className="pointer-events-none absolute -left-24 top-8 h-72 w-72 rounded-full bg-accent/20 blur-3xl" aria-hidden />
+      <div className="pointer-events-none absolute -right-28 bottom-0 h-80 w-80 rounded-full bg-primary/20 blur-3xl" aria-hidden />
+
+      <div className="container relative z-10 mx-auto px-4">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <span className="text-primary font-semibold text-sm uppercase tracking-wider">Hakkımızda</span>
@@ -22,14 +32,14 @@ const AboutSection = () => {
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="text-center p-4 rounded-xl bg-secondary">
+                <div key={stat.label} className="rounded-xl border border-white/50 bg-card/80 p-4 text-center shadow-sm backdrop-blur-sm">
                   <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
                   <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative rounded-2xl overflow-hidden shadow-xl mx-auto w-[70%]">
+          <div className="relative mx-auto w-[70%] overflow-hidden rounded-2xl border border-white/50 shadow-2xl shadow-primary/10">
             <img
               src={diasporaCommunity}
               alt="Diaspora topluluğu buluşması"
