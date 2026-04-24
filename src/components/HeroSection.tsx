@@ -38,6 +38,7 @@ const heroCities = [
   { name: "Toronto", className: "border-red-400/35 bg-red-50 text-red-800 hover:border-red-500 hover:bg-red-100" },
   { name: "Sydney", className: "border-cyan-400/35 bg-cyan-50 text-cyan-800 hover:border-cyan-500 hover:bg-cyan-100" },
   { name: "İstanbul", className: "border-teal-400/35 bg-teal-50 text-teal-800 hover:border-teal-500 hover:bg-teal-100" },
+  { name: "Roma", className: "border-lime-400/35 bg-lime-50 text-lime-800 hover:border-lime-500 hover:bg-lime-100" },
 ];
 
 const HeroSection = () => {
@@ -100,17 +101,17 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="mt-8 space-y-2 max-w-md">
-              <div className="inline-flex items-center gap-2 py-2 px-3 rounded-lg bg-accent/5 border border-accent/20 w-full">
-                <span className="text-base">🏆</span>
-                <p className="font-semibold text-foreground text-xs">Ödüllü Blog Yazısı Yarışmamız Başlıyor!</p>
+            <div className="mt-8 max-w-xl space-y-3">
+              <div className="inline-flex w-full items-center gap-3 rounded-xl border border-accent/20 bg-accent/5 px-5 py-4">
+                <span className="text-xl">🏆</span>
+                <p className="text-sm font-semibold text-foreground md:text-base">Ödüllü Blog Yazısı Yarışmamız Başlıyor!</p>
               </div>
               <button
                 onClick={() => setFormOpen(true)}
-                className="flex items-center gap-2 py-2 px-3 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/10 hover:border-primary/40 transition-all w-full"
+                className="flex w-full items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-5 py-4 transition-all hover:border-primary/40 hover:bg-primary/10"
               >
-                <span className="text-base">⏳</span>
-                <p className="font-semibold text-foreground text-xs">Yakında Açılıyoruz — Erken Kayıt Avantajlarından Faydalan →</p>
+                <span className="text-xl">⏳</span>
+                <p className="text-left text-sm font-semibold text-foreground md:text-base">Yakında Açılıyoruz — Erken Kayıt Avantajlarından Faydalan →</p>
               </button>
             </div>
           </div>

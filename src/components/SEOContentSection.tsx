@@ -4,6 +4,9 @@ const SEOContentSection = () => {
       <article className="container mx-auto px-4 max-w-6xl" aria-labelledby="geo-content-title">
         <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr_1fr] lg:items-center">
           <div>
+            <span className="mb-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+              Platform
+            </span>
             <h2 id="geo-content-title" className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               CorteQS Nedir?
             </h2>
@@ -20,28 +23,15 @@ const SEOContentSection = () => {
             </p>
           </div>
 
-          <figure className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-            <picture>
-              <source
-                type="image/avif"
-                srcSet="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80&fm=avif"
-                sizes="(min-width: 1024px) 30vw, 100vw"
-              />
-              <source
-                type="image/webp"
-                srcSet="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80&fm=webp"
-                sizes="(min-width: 1024px) 30vw, 100vw"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80"
-                alt="Diaspora topluluğu ve profesyonel networking buluşması"
-                className="h-72 w-full object-cover lg:h-[360px]"
-                loading="lazy"
-                width={900}
-                height={600}
-                sizes="(min-width: 1024px) 30vw, 100vw"
-              />
-            </picture>
+          <figure className="flex h-72 items-center justify-center rounded-lg border border-border bg-card px-8 shadow-sm lg:h-[360px]">
+            <img
+              src="/sharedx/maillogo.png"
+              alt="CorteQS Logo"
+              className="h-auto w-full max-w-[280px]"
+              loading="lazy"
+              width={560}
+              height={220}
+            />
           </figure>
 
           <div>
