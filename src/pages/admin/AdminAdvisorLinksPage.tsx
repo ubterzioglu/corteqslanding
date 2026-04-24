@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import {
+  advisorProfileSections,
   createAdvisorResourceLink,
   createEmptyAdvisorResourceLinkFormState,
   deleteResourceLink,
@@ -21,6 +23,7 @@ import {
   updateAdvisorContactStatus,
   updateAdvisorResourceLink,
   type AdvisorContactStatusKey,
+  type AdvisorProfileKey,
   type AdvisorResourceLinkFormState,
   type AdvisorResourceLinkRow,
   type ResourceLinkAuthor,
@@ -110,6 +113,7 @@ const ContactInfoIcons = ({ item }: ContactInfoIconsProps) => {
 
 const AdminAdvisorLinksPage = () => {
   const { toast } = useToast();
+  const [activeProfileKey, setActiveProfileKey] = useState<AdvisorProfileKey>("consultant");
   const [items, setItems] = useState<AdvisorResourceLinkRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -121,6 +125,10 @@ const AdminAdvisorLinksPage = () => {
     createEmptyAdvisorResourceLinkFormState(),
   );
 
+  const activeProfile = useMemo(
+    () => advisorProfileSections.find((section) => section.key === activeProfileKey) ?? advisorProfileSections[0],
+    [activeProfileKey],
+  );
   const editingItem = useMemo(() => items.find((item) => item.id === editingId) ?? null, [editingId, items]);
   const selectedAdvisor = useMemo(
     () => items.find((item) => item.id === selectedAdvisorId) ?? null,
@@ -130,22 +138,31 @@ const AdminAdvisorLinksPage = () => {
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
-      const nextItems = await listAdvisorResourceLinks();
+      const nextItems = await listAdvisorResourceLinks(activeProfile.tableName);
       setItems(nextItems);
       setSelectedAdvisorId((current) =>
         current && nextItems.some((item) => item.id === current) ? current : nextItems[0]?.id ?? null,
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : "Bilinmeyen hata";
-      toast({ title: "Danışman kayıtları yüklenemedi", description: message, variant: "destructive" });
+      toast({ title: `${activeProfile.label} kayıtları yüklenemedi`, description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [activeProfile, toast]);
 
   useEffect(() => {
     void refresh();
   }, [refresh]);
+
+  useEffect(() => {
+    setItems([]);
+    setEditingId(null);
+    setSelectedAdvisorId(null);
+    setCreateAccordionValue(undefined);
+    setForm(createEmptyAdvisorResourceLinkFormState());
+    setEditingForm(createEmptyAdvisorResourceLinkFormState());
+  }, [activeProfileKey]);
 
   const updateForm = <Key extends keyof AdvisorResourceLinkFormState>(
     key: Key,
@@ -175,15 +192,15 @@ const AdminAdvisorLinksPage = () => {
   const handleCreate = async () => {
     setSubmitting(true);
     try {
-      const created = await createAdvisorResourceLink(toAdvisorResourceLinkPayload(form));
+      const created = await createAdvisorResourceLink(activeProfile.tableName, toAdvisorResourceLinkPayload(form));
       setItems((current) => [created, ...current]);
       setSelectedAdvisorId(created.id);
       setCreateAccordionValue(undefined);
       setForm(createEmptyAdvisorResourceLinkFormState());
-      toast({ title: "Danışman kaydı eklendi" });
+      toast({ title: `${activeProfile.label} kaydı eklendi` });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Eklenemedi";
-      toast({ title: "Danışman kaydı eklenemedi", description: message, variant: "destructive" });
+      toast({ title: `${activeProfile.label} kaydı eklenemedi`, description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -192,14 +209,14 @@ const AdminAdvisorLinksPage = () => {
   const handleUpdate = async (id: string) => {
     setSubmitting(true);
     try {
-      const updated = await updateAdvisorResourceLink(id, toAdvisorResourceLinkPayload(editingForm));
+      const updated = await updateAdvisorResourceLink(activeProfile.tableName, id, toAdvisorResourceLinkPayload(editingForm));
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       setSelectedAdvisorId(updated.id);
       cancelEdit();
-      toast({ title: "Danışman kaydı güncellendi" });
+      toast({ title: `${activeProfile.label} kaydı güncellendi` });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Güncellenemedi";
-      toast({ title: "Danışman kaydı güncellenemedi", description: message, variant: "destructive" });
+      toast({ title: `${activeProfile.label} kaydı güncellenemedi`, description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -211,7 +228,7 @@ const AdminAdvisorLinksPage = () => {
       current.map((currentItem) => (currentItem.id === item.id ? { ...currentItem, [key]: value } : currentItem)),
     );
     try {
-      const updated = await updateAdvisorContactStatus(item.id, key, value);
+      const updated = await updateAdvisorContactStatus(activeProfile.tableName, item.id, key, value);
       setItems((current) => current.map((currentItem) => (currentItem.id === item.id ? updated : currentItem)));
     } catch (error) {
       setItems((current) => current.map((currentItem) => (currentItem.id === item.id ? item : currentItem)));
@@ -223,21 +240,21 @@ const AdminAdvisorLinksPage = () => {
   };
 
   const handleDelete = async (item: AdvisorResourceLinkRow) => {
-    if (!window.confirm(`"${item.name}" danışman kaydı silinsin mi?`)) return;
+    if (!window.confirm(`"${item.name}" ${activeProfile.label} kaydı silinsin mi?`)) return;
 
     setSubmitting(true);
     try {
-      await deleteResourceLink("advisor_social_media_links", item.id);
+      await deleteResourceLink(activeProfile.tableName, item.id);
       setItems((current) => {
         const nextItems = current.filter((currentItem) => currentItem.id !== item.id);
         if (selectedAdvisorId === item.id) setSelectedAdvisorId(nextItems[0]?.id ?? null);
         return nextItems;
       });
       if (editingId === item.id) cancelEdit();
-      toast({ title: "Danışman kaydı silindi" });
+      toast({ title: `${activeProfile.label} kaydı silindi` });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Silinemedi";
-      toast({ title: "Danışman kaydı silinemedi", description: message, variant: "destructive" });
+      toast({ title: `${activeProfile.label} kaydı silinemedi`, description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -326,6 +343,16 @@ const AdminAdvisorLinksPage = () => {
 
   return (
     <div className="space-y-6">
+      <Tabs value={activeProfileKey} onValueChange={(value) => setActiveProfileKey(value as AdvisorProfileKey)}>
+        <TabsList className="grid h-auto w-full grid-cols-3 md:w-auto">
+          {advisorProfileSections.map((section) => (
+            <TabsTrigger key={section.key} value={section.key}>
+              {section.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </Tabs>
+
       <Accordion
         type="single"
         collapsible
@@ -336,9 +363,9 @@ const AdminAdvisorLinksPage = () => {
         <AccordionItem value="create-advisor" className="rounded-lg border bg-card px-6">
           <AccordionTrigger className="hover:no-underline">
             <div className="text-left">
-              <div className="text-lg font-semibold">Yeni danışman ekle</div>
+              <div className="text-lg font-semibold">Yeni {activeProfile.label} ekle</div>
               <div className="text-sm font-normal text-muted-foreground">
-                Danışmanın iletişim bilgilerini ve ilk ulaşım durumunu kaydedin.
+                {activeProfile.label} iletişim bilgilerini ve ilk ulaşım durumunu kaydedin.
               </div>
             </div>
           </AccordionTrigger>
@@ -350,7 +377,7 @@ const AdminAdvisorLinksPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Seçilen Danışman</CardTitle>
+          <CardTitle>Seçilen {activeProfile.label}</CardTitle>
           <CardDescription>Seçili kaydın iletişim bilgileri ve ulaşım durumu.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -383,14 +410,14 @@ const AdminAdvisorLinksPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Mevcut Danışmanlar</CardTitle>
+          <CardTitle>Mevcut {activeProfile.label} Kayıtları</CardTitle>
           <CardDescription>Yeşil ikon iletişim kurulduğunu, kırmızı ikon henüz kurulmadığını gösterir.</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Danışman</TableHead>
+                <TableHead>{activeProfile.label}</TableHead>
                 <TableHead>İletişim Bilgileri</TableHead>
                 <TableHead>Durum</TableHead>
                 <TableHead>Kim</TableHead>
@@ -405,7 +432,7 @@ const AdminAdvisorLinksPage = () => {
                 </TableRow>
               ) : items.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6}>Henüz danışman kaydı yok.</TableCell>
+                  <TableCell colSpan={6}>Henüz {activeProfile.label} kaydı yok.</TableCell>
                 </TableRow>
               ) : (
                 items.map((item) => {

@@ -15,16 +15,26 @@ export const resourceLinkPlatforms = [
 
 export const resourceLinkAuthors = ["UBT", "Burak", "Diğer"] as const;
 
-export type ResourceLinkTableName = "advisor_social_media_links" | "social_media_links";
+export const advisorProfileSections = [
+  { key: "consultant", label: "Consultant", tableName: "consultant_social_media_links" },
+  { key: "influencer", label: "Influencer", tableName: "influencer_social_media_links" },
+  { key: "contributor", label: "Contributor", tableName: "contributor_social_media_links" },
+] as const;
+
+export type AdvisorProfileSection = (typeof advisorProfileSections)[number];
+export type AdvisorProfileKey = AdvisorProfileSection["key"];
+export type AdvisorProfileTableName = AdvisorProfileSection["tableName"];
+export type ResourceLinkTableName = "advisor_social_media_links" | "social_media_links" | AdvisorProfileTableName;
 export type ResourceLinkPlatform = (typeof resourceLinkPlatforms)[number];
 export type ResourceLinkAuthor = (typeof resourceLinkAuthors)[number];
-export type AdvisorResourceLinkRow = Tables<"advisor_social_media_links">;
+export type LegacyAdvisorResourceLinkRow = Tables<"advisor_social_media_links">;
+export type AdvisorResourceLinkRow = Tables<"consultant_social_media_links">;
 export type SocialResourceLinkRow = Tables<"social_media_links">;
-export type ResourceLinkRow = AdvisorResourceLinkRow | SocialResourceLinkRow;
+export type ResourceLinkRow = LegacyAdvisorResourceLinkRow | AdvisorResourceLinkRow | SocialResourceLinkRow;
 export type ResourceLinkInsert = TablesInsert<"advisor_social_media_links">;
 export type ResourceLinkUpdate = TablesUpdate<"advisor_social_media_links">;
-export type AdvisorResourceLinkInsert = TablesInsert<"advisor_social_media_links">;
-export type AdvisorResourceLinkUpdate = TablesUpdate<"advisor_social_media_links">;
+export type AdvisorResourceLinkInsert = TablesInsert<"consultant_social_media_links">;
+export type AdvisorResourceLinkUpdate = TablesUpdate<"consultant_social_media_links">;
 export type AdvisorContactStatusKey =
   | "contacted_whatsapp"
   | "contacted_instagram"
@@ -165,9 +175,9 @@ export async function listResourceLinks(tableName: ResourceLinkTableName): Promi
   return data ?? [];
 }
 
-export async function listAdvisorResourceLinks(): Promise<AdvisorResourceLinkRow[]> {
+export async function listAdvisorResourceLinks(tableName: AdvisorProfileTableName): Promise<AdvisorResourceLinkRow[]> {
   const { data, error } = await supabase
-    .from("advisor_social_media_links")
+    .from(tableName)
     .select("*")
     .order("created_at", { ascending: false });
 
@@ -185,9 +195,10 @@ export async function createResourceLink(
 }
 
 export async function createAdvisorResourceLink(
+  tableName: AdvisorProfileTableName,
   payload: AdvisorResourceLinkInsert,
 ): Promise<AdvisorResourceLinkRow> {
-  const { data, error } = await supabase.from("advisor_social_media_links").insert(payload).select("*").single();
+  const { data, error } = await supabase.from(tableName).insert(payload).select("*").single();
   if (error) throw error;
   return data;
 }
@@ -203,11 +214,12 @@ export async function updateResourceLink(
 }
 
 export async function updateAdvisorResourceLink(
+  tableName: AdvisorProfileTableName,
   id: string,
   payload: AdvisorResourceLinkUpdate,
 ): Promise<AdvisorResourceLinkRow> {
   const { data, error } = await supabase
-    .from("advisor_social_media_links")
+    .from(tableName)
     .update(payload)
     .eq("id", id)
     .select("*")
@@ -217,11 +229,12 @@ export async function updateAdvisorResourceLink(
 }
 
 export async function updateAdvisorContactStatus(
+  tableName: AdvisorProfileTableName,
   id: string,
   key: AdvisorContactStatusKey,
   value: boolean,
 ): Promise<AdvisorResourceLinkRow> {
-  return updateAdvisorResourceLink(id, { [key]: value });
+  return updateAdvisorResourceLink(tableName, id, { [key]: value });
 }
 
 export async function deleteResourceLink(tableName: ResourceLinkTableName, id: string): Promise<void> {
