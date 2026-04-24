@@ -30,10 +30,18 @@ export type Database = {
       advisor_social_media_links: {
         Row: {
           added_by: "UBT" | "Burak" | "Diğer";
+          contacted_email: boolean;
+          contacted_instagram: boolean;
+          contacted_phone: boolean;
+          contacted_whatsapp: boolean;
           created_at: string;
           description: string | null;
+          email: string | null;
           id: string;
+          instagram: string | null;
           link: string | null;
+          name: string;
+          phone: string | null;
           platform:
             | "Instagram"
             | "LinkedIn"
@@ -44,13 +52,22 @@ export type Database = {
             | "Reddit"
             | "Discord"
             | "Diğer";
+          whatsapp: string | null;
         };
         Insert: {
           added_by?: "UBT" | "Burak" | "Diğer";
+          contacted_email?: boolean;
+          contacted_instagram?: boolean;
+          contacted_phone?: boolean;
+          contacted_whatsapp?: boolean;
           created_at?: string;
           description?: string | null;
+          email?: string | null;
           id?: string;
+          instagram?: string | null;
           link?: string | null;
+          name?: string;
+          phone?: string | null;
           platform?:
             | "Instagram"
             | "LinkedIn"
@@ -61,13 +78,22 @@ export type Database = {
             | "Reddit"
             | "Discord"
             | "Diğer";
+          whatsapp?: string | null;
         };
         Update: {
           added_by?: "UBT" | "Burak" | "Diğer";
+          contacted_email?: boolean;
+          contacted_instagram?: boolean;
+          contacted_phone?: boolean;
+          contacted_whatsapp?: boolean;
           created_at?: string;
           description?: string | null;
+          email?: string | null;
           id?: string;
+          instagram?: string | null;
           link?: string | null;
+          name?: string;
+          phone?: string | null;
           platform?:
             | "Instagram"
             | "LinkedIn"
@@ -78,6 +104,7 @@ export type Database = {
             | "Reddit"
             | "Discord"
             | "Diğer";
+          whatsapp?: string | null;
         };
         Relationships: [];
       };
