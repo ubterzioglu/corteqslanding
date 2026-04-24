@@ -21,7 +21,33 @@ const cities: City[] = [
   { name: "İstanbul", country: "Türkiye", flag: "🇹🇷", population: "Köprü Şehir", desc: "Dünya diasporasını anavatana bağlayan stratejik buluşma noktası.", gradient: "from-red-500/10 to-amber-500/10" },
 ];
 
-const stripFlag = (label: string) => label.replace(/^[^\p{L}]+/u, "").trim();
+const radarCities = [
+  "Dortmund",
+  "Münih",
+  "Hamburg",
+  "Frankfurt",
+  "Köln",
+  "Lyon",
+  "Brüksel",
+  "Viyana",
+  "Zürih",
+  "Rotterdam",
+  "Stockholm",
+  "Kopenhag",
+  "Madrid",
+  "Manchester",
+  "Milano",
+  "Los Angeles",
+  "Chicago",
+  "Miami",
+  "Montreal",
+  "São Paulo",
+  "Tokyo",
+  "Singapur",
+  "Abu Dabi",
+  "Doha",
+  "Melbourne",
+];
 
 const triggerCitySelect = (city: string, mode: "ai" | "form") => {
   window.dispatchEvent(new CustomEvent("corteqs:select-city", { detail: { city, mode } }));
@@ -82,27 +108,25 @@ const CitiesSection = () => {
           ))}
         </div>
 
-        <div className="mt-14 mb-10 -mx-4 overflow-hidden border-y border-border bg-muted/30 py-4">
-          <div className="flex flex-col gap-2 px-4">
-            {[
-              ["🇩🇪 Dortmund", "🇩🇪 Münih", "🇩🇪 Hamburg", "🇩🇪 Frankfurt", "🇩🇪 Köln", "🇫🇷 Lyon", "🇧🇪 Brüksel", "🇦🇹 Viyana", "🇨🇭 Zürih", "🇳🇱 Rotterdam", "🇸🇪 Stockholm", "🇩🇰 Kopenhag", "🇪🇸 Madrid"],
-              ["🇬🇧 Manchester", "🇮🇹 Milano", "🇺🇸 Los Angeles", "🇺🇸 Chicago", "🇺🇸 Miami", "🇨🇦 Montreal", "🇧🇷 São Paulo", "🇯🇵 Tokyo", "🇸🇬 Singapur", "🇦🇪 Abu Dabi", "🇶🇦 Doha", "🇦🇺 Melbourne"],
-            ].map((row, index) => (
-              <div key={index} className="flex flex-wrap justify-center gap-2">
-                {row.map((label) => {
-                  const cityName = stripFlag(label);
-                  return (
-                    <button
-                      key={label}
-                      type="button"
-                      onClick={() => triggerCitySelect(cityName, "ai")}
-                      className="inline-flex w-[170px] items-center justify-center rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-foreground/80 transition-colors hover:border-primary/40 hover:text-primary"
-                    >
-                      {label}
-                    </button>
-                  );
-                })}
-              </div>
+        <div className="mt-14 mb-10 overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-primary/5 via-background to-accent/5 p-5 shadow-sm">
+          <div className="mb-5 flex flex-col items-center gap-2 text-center">
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">Radarımızdaki Şehirler</p>
+            <p className="max-w-2xl text-sm text-muted-foreground">
+              Bu şehirler için de topluluk ilgisini topluyoruz. Şehrini seçerek erken kayıt akışını başlatabilirsin.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            {radarCities.map((city) => (
+              <button
+                key={city}
+                type="button"
+                onClick={() => triggerCitySelect(city, "ai")}
+                className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border/80 bg-background/85 px-3 py-2 text-sm font-semibold text-foreground/80 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:bg-primary hover:text-primary-foreground hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              >
+                <MapPin className="h-3.5 w-3.5 text-primary transition-colors group-hover:text-primary-foreground" />
+                <span className="truncate">{city}</span>
+              </button>
             ))}
           </div>
         </div>
