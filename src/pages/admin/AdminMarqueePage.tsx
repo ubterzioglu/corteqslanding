@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Edit, Eye, EyeOff, Plus, Trash2 } from "lucide-react";
+import { Edit, Eye, EyeOff, ImagePlus, Loader2, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +16,8 @@ import {
   listAdminMarqueeItems,
   marqueeTypeLabels,
   slugifyMarqueeTitle,
+  uploadNewsImage,
+  validateNewsImageFile,
   updateMarqueeItem,
   type MarqueeItemRow,
   type MarqueeItemType,
@@ -83,6 +85,8 @@ const AdminMarqueePage = () => {
   const [items, setItems] = useState<MarqueeItemRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<MarqueeFormState>(() => emptyForm());
 
@@ -106,6 +110,33 @@ const AdminMarqueePage = () => {
 
   const updateForm = <Key extends keyof MarqueeFormState>(key: Key, value: MarqueeFormState[Key]) => {
     setForm((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleImageUpload = async (file: File | null) => {
+    setImageUploadError("");
+    if (!file) return;
+
+    const validation = validateNewsImageFile(file);
+    if (!validation.ok) {
+      setImageUploadError(validation.message);
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const publicUrl = await uploadNewsImage(file);
+      updateForm("image_url", publicUrl);
+      if (!form.image_alt.trim()) {
+        updateForm("image_alt", form.title.trim() || file.name.replace(/\.[^.]+$/, ""));
+      }
+      toast({ title: "Görsel yüklendi", description: "Görsel URL alanı otomatik güncellendi." });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Görsel yüklenemedi";
+      setImageUploadError(message);
+      toast({ title: "Görsel yüklenemedi", description: message, variant: "destructive" });
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const resetForm = () => {
@@ -259,6 +290,46 @@ const AdminMarqueePage = () => {
             <div className="space-y-2">
               <Label>Görsel alt metni</Label>
               <Input value={form.image_alt} onChange={(event) => updateForm("image_alt", event.target.value)} />
+            </div>
+          </div>
+
+          <div className="grid gap-4 rounded-lg border border-dashed border-primary/30 bg-primary/5 p-4 md:grid-cols-[180px_1fr]">
+            <div className="aspect-[4/3] overflow-hidden rounded-md border border-border bg-background">
+              {form.image_url ? (
+                <img src={form.image_url} alt={form.image_alt || "Haber bandı görsel önizleme"} className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                  <ImagePlus className="h-8 w-8" />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col justify-center gap-3">
+              <div>
+                <Label htmlFor="marquee-image-upload">Photo upload</Label>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Görsel `newsimage` bucket içine yüklenir ve URL alanına otomatik yazılır. JPG, PNG, WEBP veya GIF; maksimum 5 MB.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Input
+                  id="marquee-image-upload"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  disabled={uploadingImage}
+                  onChange={(event) => {
+                    void handleImageUpload(event.target.files?.[0] ?? null);
+                    event.currentTarget.value = "";
+                  }}
+                  className="max-w-md bg-background"
+                />
+                {uploadingImage && (
+                  <span className="inline-flex items-center gap-2 text-sm font-medium text-primary">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Yükleniyor...
+                  </span>
+                )}
+              </div>
+              {imageUploadError && <p className="text-sm text-destructive">{imageUploadError}</p>}
             </div>
           </div>
 
