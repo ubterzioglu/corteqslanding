@@ -1,17 +1,17 @@
 const SEOContentSection = () => {
   return (
     <section className="py-14 lg:py-20 bg-background">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <article className="container mx-auto px-4 max-w-6xl" aria-labelledby="geo-content-title">
         <div className="grid gap-10 lg:grid-cols-[1fr_0.95fr_1fr] lg:items-center">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            <h2 id="geo-content-title" className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               CorteQS Nedir?
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              CorteQS, dünya genelindeki Türk diasporasını şehir bazlı bir ağ yapısıyla birleştiren
-              bir network platformudur. Yurt dışında yaşayan Türkleri, expatları, danışmanları,
-              işletmeleri ve toplulukları aynı çatı altında buluşturarak bağlantı kurmayı, bilgi
-              paylaşmayı ve iş birliğini kolaylaştırır.
+              CorteQS, dünya genelindeki <strong className="font-semibold text-foreground">Türk diasporası</strong>
+              için geliştirilen bir <strong className="font-semibold text-foreground">şehir bazlı diaspora network platformu</strong>dur.
+              Yurt dışında yaşayan Türkleri, expatları, danışmanları, işletmeleri ve toplulukları aynı çatı altında buluşturarak bilgi paylaşımını ve iş birliğini kolaylaştırır.
+              Relocation sürecinden profesyonel ağ oluşturmaya kadar, kullanıcıların yeni şehirlerde <em className="font-medium text-foreground">güven temelli bağlantı</em> kurmasına yardımcı olur.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               Platform, relocation sürecinden yerel entegrasyona, profesyonel ağ oluşturmaktan
@@ -21,14 +21,27 @@ const SEOContentSection = () => {
           </div>
 
           <figure className="overflow-hidden rounded-lg border border-border bg-card shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80"
-              alt="Diaspora topluluğu ve profesyonel networking buluşması"
-              className="h-72 w-full object-cover lg:h-[360px]"
-              loading="lazy"
-              width={900}
-              height={600}
-            />
+            <picture>
+              <source
+                type="image/avif"
+                srcSet="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80&fm=avif"
+                sizes="(min-width: 1024px) 30vw, 100vw"
+              />
+              <source
+                type="image/webp"
+                srcSet="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80&fm=webp"
+                sizes="(min-width: 1024px) 30vw, 100vw"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80"
+                alt="Diaspora topluluğu ve profesyonel networking buluşması"
+                className="h-72 w-full object-cover lg:h-[360px]"
+                loading="lazy"
+                width={900}
+                height={600}
+                sizes="(min-width: 1024px) 30vw, 100vw"
+              />
+            </picture>
           </figure>
 
           <div>
@@ -63,7 +76,7 @@ const SEOContentSection = () => {
             </ul>
           </div>
         </div>
-      </div>
+      </article>
     </section>
   );
 };

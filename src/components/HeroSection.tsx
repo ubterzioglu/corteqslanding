@@ -28,6 +28,18 @@ const heroStats = [
   { label: "500+ Profesyonel Ağ & Topluluk", icon: Network },
 ];
 
+const heroCities = [
+  { name: "Berlin", className: "border-amber-400/35 bg-amber-50 text-amber-800 hover:border-amber-500 hover:bg-amber-100" },
+  { name: "Londra", className: "border-sky-400/35 bg-sky-50 text-sky-800 hover:border-sky-500 hover:bg-sky-100" },
+  { name: "New York", className: "border-indigo-400/35 bg-indigo-50 text-indigo-800 hover:border-indigo-500 hover:bg-indigo-100" },
+  { name: "Paris", className: "border-rose-400/35 bg-rose-50 text-rose-800 hover:border-rose-500 hover:bg-rose-100" },
+  { name: "Amsterdam", className: "border-orange-400/35 bg-orange-50 text-orange-800 hover:border-orange-500 hover:bg-orange-100" },
+  { name: "Dubai", className: "border-emerald-400/35 bg-emerald-50 text-emerald-800 hover:border-emerald-500 hover:bg-emerald-100" },
+  { name: "Toronto", className: "border-red-400/35 bg-red-50 text-red-800 hover:border-red-500 hover:bg-red-100" },
+  { name: "Sydney", className: "border-cyan-400/35 bg-cyan-50 text-cyan-800 hover:border-cyan-500 hover:bg-cyan-100" },
+  { name: "İstanbul", className: "border-teal-400/35 bg-teal-50 text-teal-800 hover:border-teal-500 hover:bg-teal-100" },
+];
+
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
 
@@ -61,22 +73,12 @@ const HeroSection = () => {
 </p>
 
             <div className="mb-8 flex max-w-xl flex-wrap gap-2">
-              {[
-                "Berlin",
-                "Londra",
-                "New York",
-                "Paris",
-                "Amsterdam",
-                "Dubai",
-                "Toronto",
-                "Sydney",
-                "İstanbul",
-              ].map((city) => (
+              {heroCities.map((city) => (
                 <span
-                  key={city}
-                  className="inline-flex h-7 w-[104px] items-center justify-center rounded-full border border-border bg-card px-3 text-xs font-medium text-foreground/80 transition-all hover:border-primary/40 hover:bg-primary/5"
+                  key={city.name}
+                  className={`inline-flex h-7 w-[104px] items-center justify-center rounded-full border px-3 text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${city.className}`}
                 >
-                  {city}
+                  {city.name}
                 </span>
               ))}
             </div>
