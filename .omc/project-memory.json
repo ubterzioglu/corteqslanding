@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777041310526,
+  "lastScanned": 1777205993628,
   "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
@@ -90,7 +90,7 @@
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 11,
-      "lastAccessed": 1777041310450,
+      "lastAccessed": 1777205993585,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -103,7 +103,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 10,
-      "lastAccessed": 1777041310450,
+      "lastAccessed": 1777205993586,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -112,24 +112,24 @@
         "llms.txt"
       ]
     },
-    "referans": {
-      "path": "referans",
+    "ref": {
+      "path": "ref",
       "purpose": null,
-      "fileCount": 23,
-      "lastAccessed": 1777041310451,
+      "fileCount": 24,
+      "lastAccessed": 1777205993604,
       "keyFiles": [
-        "admin-encoding-runbook.md",
         "bun.lock",
         "CHANGELOG.md",
+        "CHANGELOG_25-26_NISAN_2026.md",
         "components.json",
-        "eslint.config.js"
+        "corteqs-diaspora-connect_20260426.zip"
       ]
     },
     "sharedx": {
       "path": "sharedx",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1777041310451,
+      "lastAccessed": 1777205993604,
       "keyFiles": [
         "maillogo.png"
       ]
@@ -138,7 +138,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 6,
-      "lastAccessed": 1777041310451,
+      "lastAccessed": 1777205993604,
       "keyFiles": [
         "App.css",
         "App.tsx",
@@ -151,7 +151,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1777041310451,
+      "lastAccessed": 1777205993605,
       "keyFiles": [
         "config.toml"
       ]
@@ -159,19 +159,19 @@
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
-      "fileCount": 8,
-      "lastAccessed": 1777041310452,
+      "fileCount": 17,
+      "lastAccessed": 1777205993605,
       "keyFiles": [
         "city-ambassador-CtGZbnhx.jpg",
-        "corteqs-logo-globe-Cm4fHxvl.png",
-        "diaspora-community-BnNytn4r.jpg"
+        "ComposedChart-DnO-C-NP.js",
+        "corteqs-logo-globe-Cm4fHxvl.png"
       ]
     },
     "src\\assets": {
       "path": "src\\assets",
       "purpose": "Static assets",
       "fileCount": 11,
-      "lastAccessed": 1777041310453,
+      "lastAccessed": 1777205993606,
       "keyFiles": [
         "blogger-vlogger.jpg",
         "categories-bg.jpg",
@@ -182,7 +182,7 @@
       "path": "src\\components",
       "purpose": "UI components",
       "fileCount": 16,
-      "lastAccessed": 1777041310453,
+      "lastAccessed": 1777205993607,
       "keyFiles": [
         "AboutSection.tsx",
         "AmbassadorSection.tsx",
@@ -192,8 +192,8 @@
     "src\\lib": {
       "path": "src\\lib",
       "purpose": "Library code",
-      "fileCount": 12,
-      "lastAccessed": 1777041310454,
+      "fileCount": 17,
+      "lastAccessed": 1777205993607,
       "keyFiles": [
         "admin.ts",
         "chatConfig.ts",
@@ -204,7 +204,7 @@
       "path": "src\\pages",
       "purpose": "Page components",
       "fileCount": 9,
-      "lastAccessed": 1777041310454,
+      "lastAccessed": 1777205993608,
       "keyFiles": [
         "AboutPage.tsx",
         "AdminPage.tsx",
@@ -214,8 +214,8 @@
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 14,
-      "lastAccessed": 1777041310454,
+      "fileCount": 16,
+      "lastAccessed": 1777205993609,
       "keyFiles": [
         "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
         "20260406193000_admin_and_submission_workflow.sql",
@@ -225,88 +225,46 @@
   },
   "hotPaths": [
     {
-      "path": "",
-      "accessCount": 5,
-      "lastAccessed": 1777041349150,
-      "type": "directory"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 1,
-      "lastAccessed": 1777041330703,
-      "type": "file"
-    },
-    {
-      "path": "vite.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1777041338862,
-      "type": "file"
-    },
-    {
-      "path": "tsconfig.json",
-      "accessCount": 1,
-      "lastAccessed": 1777041338972,
-      "type": "file"
-    },
-    {
-      "path": "tailwind.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1777041339408,
-      "type": "file"
-    },
-    {
-      "path": "components.json",
-      "accessCount": 1,
-      "lastAccessed": 1777041339925,
-      "type": "file"
-    },
-    {
-      "path": "vitest.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1777041341265,
-      "type": "file"
-    },
-    {
-      "path": "playwright.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1777041341497,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 1,
-      "lastAccessed": 1777041341559,
-      "type": "file"
-    },
-    {
-      "path": "src\\main.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1777041349232,
-      "type": "file"
-    },
-    {
-      "path": "Dockerfile",
-      "accessCount": 1,
-      "lastAccessed": 1777041353681,
+      "path": "src\\components\\CategoriesSection.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1777206384197,
       "type": "file"
     },
     {
       "path": "src\\App.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1777041354445,
+      "accessCount": 3,
+      "lastAccessed": 1777206285828,
       "type": "file"
     },
     {
-      "path": "nginx.conf",
-      "accessCount": 1,
-      "lastAccessed": 1777041354832,
+      "path": "src\\components\\RegisterInterestForm.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1777206320339,
       "type": "file"
     },
     {
-      "path": "tech.md",
-      "accessCount": 1,
-      "lastAccessed": 1777041395663,
+      "path": "src\\components\\HeroSection.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1777206352393,
       "type": "file"
+    },
+    {
+      "path": "tailwind.config.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777206297569,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\CitiesSection.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1777206406147,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Index.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1777206631055,
+      "type": "directory"
     }
   ],
   "userDirectives": []

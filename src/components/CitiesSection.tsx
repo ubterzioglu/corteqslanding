@@ -86,11 +86,11 @@ const CitiesSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cities.map((city) => (
-            <div key={city.name} className="group relative overflow-hidden rounded-2xl border border-white/50 bg-card/80 p-6 shadow-sm backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10">
-              <div className={`absolute inset-0 bg-gradient-to-br ${city.gradient} opacity-0 group-hover:opacity-100 transition-opacity`} aria-hidden />
+            <div key={city.name} className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm ring-1 ring-border/40 backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-primary/50 hover:ring-primary/20 hover:shadow-xl hover:shadow-primary/10">
+              <div className={`absolute inset-0 bg-gradient-to-br ${city.gradient} opacity-40 group-hover:opacity-100 transition-opacity`} aria-hidden />
               <div className="relative">
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center text-3xl shrink-0">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 ring-1 ring-primary/20 flex items-center justify-center text-3xl shrink-0">
                     {city.flag}
                   </div>
                   <div>
@@ -108,12 +108,19 @@ const CitiesSection = () => {
                     <span className="font-semibold text-foreground">{city.population}</span>
                     <span className="text-muted-foreground">Türk</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button type="button" onClick={() => triggerCitySelect(city.name, "ai")} className="text-sm font-semibold text-primary hover:text-accent transition-colors">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => triggerCitySelect(city.name, "ai")}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-primary text-primary-foreground text-xs font-semibold shadow-sm hover:bg-primary/90 hover:shadow transition-all"
+                    >
                       AI Sohbet →
                     </button>
-                    <span className="text-border">|</span>
-                    <button type="button" onClick={() => triggerCitySelect(city.name, "form")} className="text-sm font-semibold text-foreground/70 hover:text-primary transition-colors">
+                    <button
+                      type="button"
+                      onClick={() => triggerCitySelect(city.name, "form")}
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border border-border bg-background text-foreground/80 text-xs font-semibold hover:border-primary/50 hover:text-primary transition-all"
+                    >
                       Form →
                     </button>
                   </div>
