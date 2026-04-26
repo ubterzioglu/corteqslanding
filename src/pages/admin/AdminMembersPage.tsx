@@ -26,7 +26,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import type { Tables } from "@/integrations/supabase/types";
 import {
   categoryOptions,
   getCategoryLabel,
@@ -41,17 +40,11 @@ import { normalizeTurkishText } from "@/lib/text-normalization";
 
 const DEFAULT_PAGE_SIZE = 20;
 const AI_CHAT_REFERRAL_SOURCE = "ai-chat";
+const WHATSAPP_REFERRAL_SOURCE = "whatsapp";
 
-type WaUser = Tables<"wa_users">;
 type MemberSourceType = "form" | "chatbot" | "wa";
-type SourceTable = "submissions" | "wa_users";
-type AdminMemberRow = Omit<Submission, "id" | "source_type"> & {
-  id: string;
-  source_record_id: string;
-  source_table: SourceTable;
+type AdminMemberRow = Omit<Submission, "source_type"> & {
   source_type: MemberSourceType;
-  wa_registration_status?: string | null;
-  wa_note?: string | null;
 };
 
 function useDebouncedValue<T>(value: T, delayMs = 300) {
@@ -70,9 +63,14 @@ function parseBool(value: string | null): boolean | null {
 }
 
 function getSubmissionSourceType(submission: Submission): MemberSourceType {
+  if (submission.source_type === "wa") return "wa";
   if (submission.source_type === "chatbot") return "chatbot";
   if (submission.referral_source === AI_CHAT_REFERRAL_SOURCE) return "chatbot";
   return "form";
+}
+
+function isWhatsappReferralSource(source: string | null) {
+  return source === WHATSAPP_REFERRAL_SOURCE;
 }
 
 function getSourceLabel(sourceType: MemberSourceType) {
@@ -94,66 +92,8 @@ function getSourceBadgeClass(sourceType: MemberSourceType) {
 function toSubmissionMemberRow(submission: Submission): AdminMemberRow {
   return {
     ...submission,
-    source_record_id: submission.id,
-    source_table: "submissions",
     source_type: getSubmissionSourceType(submission),
   };
-}
-
-function toWaMemberRow(user: WaUser): AdminMemberRow {
-  const fullname = [user.name, user.surname].filter(Boolean).join(" ").trim();
-
-  return {
-    business: user.organization,
-    category: user.category,
-    city: user.city ?? "",
-    company_name: user.organization,
-    contact_email_reached: false,
-    contact_instagram_reached: false,
-    contact_phone_reached: false,
-    contact_whatsapp_reached: false,
-    consent: user.privacy_consent ?? false,
-    contest_interest: false,
-    country: user.country ?? "",
-    created_at: user.created_at,
-    description: user.note,
-    document_name: null,
-    document_url: null,
-    documents: [],
-    donation_amount: null,
-    donation_currency: null,
-    email: user.email ?? "",
-    facebook: null,
-    field: user.occupation_interest ?? user.organization ?? user.funnel_interest ?? "",
-    form_type: "wa",
-    fullname: fullname || user.phone || user.wa_id || "WhatsApp kullanıcısı",
-    id: `wa:${user.id}`,
-    instagram: null,
-    linkedin: null,
-    notes: user.note,
-    offers_needs: user.funnel_interest ?? user.note,
-    phone: user.phone ?? user.wa_id ?? "",
-    referral_code: user.referral_code,
-    referral_code_id: null,
-    referral_detail: null,
-    referral_source: user.discovery_source,
-    reviewed_at: null,
-    reviewed_by: null,
-    source_record_id: user.id,
-    source_table: "wa_users",
-    source_type: "wa",
-    status: user.registration_status === "completed" ? "contacted" : "new",
-    tiktok: null,
-    twitter: null,
-    wa_note: user.note,
-    wa_registration_status: user.registration_status,
-    whatsapp_interest: user.whatsapp_group_interest,
-    website: null,
-  };
-}
-
-function includesValue(value: string | null | undefined, filter: string) {
-  return value?.toLocaleLowerCase("tr-TR").includes(filter.toLocaleLowerCase("tr-TR")) ?? false;
 }
 
 type RowDraft = {
@@ -272,14 +212,15 @@ const AdminMembersPage = () => {
       supabase
         .from("submissions")
         .select("id", { count: "exact", head: true })
-        .neq("source_type", "chatbot"),
+        .eq("source_type", "form"),
       supabase
         .from("submissions")
         .select("id", { count: "exact", head: true })
         .eq("source_type", "chatbot"),
       supabase
-        .from("wa_users")
-        .select("id", { count: "exact", head: true }),
+        .from("submissions")
+        .select("id", { count: "exact", head: true })
+        .eq("source_type", "wa"),
     ]);
 
     if (submissionResult.error || chatbotResult.error || waResult.error) {
@@ -305,51 +246,35 @@ const AdminMembersPage = () => {
 
     const run = async () => {
       setLoading(true);
-      const [submissionResult, waResult] = await Promise.all([
-        supabase.from("submissions").select("*"),
-        supabase.from("wa_users").select("*"),
-      ]);
+      let query = supabase.from("submissions").select("*", { count: "exact" });
+
+      if (debouncedFullname) query = query.ilike("fullname", `%${debouncedFullname}%`);
+      if (debouncedEmail) query = query.ilike("email", `%${debouncedEmail}%`);
+      if (debouncedCity) query = query.ilike("city", `%${debouncedCity}%`);
+      if (statusFilter) query = query.eq("status", statusFilter);
+      if (formTypeFilter) query = query.eq("form_type", formTypeFilter);
+      if (categoryFilter) query = query.eq("category", categoryFilter);
+      if (referralSourceFilter) query = query.eq("referral_source", referralSourceFilter);
+      if (sourceTypeFilter) query = query.eq("source_type", sourceTypeFilter);
+      if (whatsappFilter !== null) query = query.eq("whatsapp_interest", whatsappFilter);
+      if (contestFilter !== null) query = query.eq("contest_interest", contestFilter);
+      if (fromDate) query = query.gte("created_at", `${fromDate}T00:00:00.000Z`);
+      if (toDate) query = query.lte("created_at", `${toDate}T23:59:59.999Z`);
+
+      const start = (Math.max(page, 1) - 1) * Math.max(pageSize, 1);
+      const end = start + Math.max(pageSize, 1) - 1;
+      const { data, count, error } = await query.order(sortBy, { ascending: sortDir === "asc" }).range(start, end);
 
       if (cancelled) return;
 
-      if (submissionResult.error || waResult.error) {
-        const error = submissionResult.error ?? waResult.error;
+      if (error) {
         console.error(error);
-        toast({ title: "Kayıtlar yüklenemedi", description: error?.message, variant: "destructive" });
+        toast({ title: "Kayıtlar yüklenemedi", description: error.message, variant: "destructive" });
         setRows([]);
         setTotalCount(0);
       } else {
-        const allRows = [
-          ...(submissionResult.data ?? []).map(toSubmissionMemberRow),
-          ...(waResult.data ?? []).map(toWaMemberRow),
-        ].filter((row) => {
-          if (debouncedFullname && !includesValue(row.fullname, debouncedFullname)) return false;
-          if (debouncedEmail && !includesValue(row.email, debouncedEmail)) return false;
-          if (debouncedCity && !includesValue(row.city, debouncedCity)) return false;
-          if (statusFilter && row.status !== statusFilter) return false;
-          if (formTypeFilter && row.form_type !== formTypeFilter) return false;
-          if (categoryFilter && row.category !== categoryFilter) return false;
-          if (referralSourceFilter && row.referral_source !== referralSourceFilter) return false;
-          if (sourceTypeFilter && row.source_type !== sourceTypeFilter) return false;
-          if (whatsappFilter !== null && row.whatsapp_interest !== whatsappFilter) return false;
-          if (contestFilter !== null && row.contest_interest !== contestFilter) return false;
-          if (fromDate && row.created_at < `${fromDate}T00:00:00.000Z`) return false;
-          if (toDate && row.created_at > `${toDate}T23:59:59.999Z`) return false;
-          return true;
-        });
-
-        allRows.sort((left, right) => {
-          const leftValue = String(left[sortBy as keyof AdminMemberRow] ?? "");
-          const rightValue = String(right[sortBy as keyof AdminMemberRow] ?? "");
-          return sortDir === "asc"
-            ? leftValue.localeCompare(rightValue, "tr")
-            : rightValue.localeCompare(leftValue, "tr");
-        });
-
-        const start = (Math.max(page, 1) - 1) * Math.max(pageSize, 1);
-        const end = start + Math.max(pageSize, 1);
-        setRows(allRows.slice(start, end));
-        setTotalCount(allRows.length);
+        setRows((data ?? []).map(toSubmissionMemberRow));
+        setTotalCount(count ?? 0);
       }
       setLoading(false);
     };
@@ -406,13 +331,8 @@ const AdminMembersPage = () => {
   );
 
   const selectedIds = useMemo(
-    () =>
-      Object.entries(rowSelection)
-        .filter(([, checked]) => checked)
-        .map(([id]) => rows.find((row) => row.id === id))
-        .filter((row): row is AdminMemberRow => Boolean(row) && row.source_table === "submissions")
-        .map((row) => row.source_record_id),
-    [rowSelection, rows],
+    () => Object.entries(rowSelection).filter(([, checked]) => checked).map(([id]) => id),
+    [rowSelection],
   );
 
   const toRowDraft = (submission: AdminMemberRow): RowDraft => ({
@@ -454,12 +374,12 @@ const AdminMembersPage = () => {
     if (data) {
       setRows((current) => {
         const updatedRow = toSubmissionMemberRow(data);
-        const updatedRows = current.map((submission) => (submission.source_record_id === submissionId ? updatedRow : submission));
+        const updatedRows = current.map((submission) => (submission.id === submissionId ? updatedRow : submission));
         if (statusFilter && data.status !== statusFilter) {
-          return updatedRows.filter((submission) => submission.source_record_id !== submissionId);
+          return updatedRows.filter((submission) => submission.id !== submissionId);
         }
         if (sourceTypeFilter && updatedRow.source_type !== sourceTypeFilter) {
-          return updatedRows.filter((submission) => submission.source_record_id !== submissionId);
+          return updatedRows.filter((submission) => submission.id !== submissionId);
         }
         return updatedRows;
       });
@@ -472,7 +392,6 @@ const AdminMembersPage = () => {
   }, [fetchMemberCounts, sourceTypeFilter, statusFilter, toast]);
 
   const startRowEdit = useCallback((submission: AdminMemberRow) => {
-    if (submission.source_table !== "submissions") return;
     setEditingRowId(submission.id);
     setRowDraft(toRowDraft(submission));
   }, []);
@@ -498,14 +417,13 @@ const AdminMembersPage = () => {
   }, [cancelRowEdit, rowDraft, updateSubmission]);
 
   const softDeleteSubmission = useCallback(async (submission: AdminMemberRow) => {
-    if (submission.source_table !== "submissions") return;
     const confirmed = window.confirm(
       `${submission.fullname} kaydı arşivlenecek. Bu işlem geri alınabilir (Durum: Arşiv). Devam edilsin mi?`,
     );
     if (!confirmed) return;
 
     setDeletingId(submission.id);
-    const archived = await updateSubmission(submission.source_record_id, { status: "archived" }, "Kayıt arşivlendi");
+    const archived = await updateSubmission(submission.id, { status: "archived" }, "Kayıt arşivlendi");
     if (archived) {
       if (editingRowId === submission.id) cancelRowEdit();
       if (selectedSubmissionId === submission.id) setIsDetailEditing(false);
@@ -565,7 +483,6 @@ const AdminMembersPage = () => {
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(checked) => row.toggleSelected(Boolean(checked))}
-            disabled={row.original.source_table !== "submissions"}
           />
         ),
       },
@@ -593,7 +510,7 @@ const AdminMembersPage = () => {
         accessorKey: "status",
         header: "Durum",
         cell: ({ row }) => {
-          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
+          if (editingRowId !== row.original.id || !rowDraft) {
             return <Badge variant="secondary">{getStatusLabel(row.original.status)}</Badge>;
           }
           return (
@@ -618,7 +535,7 @@ const AdminMembersPage = () => {
         accessorKey: "fullname",
         header: "Ad Soyad",
         cell: ({ row }) => {
-          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
+          if (editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs font-medium">{row.original.fullname}</span>;
           }
           return (
@@ -635,7 +552,7 @@ const AdminMembersPage = () => {
         accessorKey: "city",
         header: "Şehir",
         cell: ({ row }) => {
-          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
+          if (editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs">{row.original.city}</span>;
           }
           return (
@@ -652,7 +569,7 @@ const AdminMembersPage = () => {
         accessorKey: "email",
         header: "E-posta",
         cell: ({ row }) => {
-          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
+          if (editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs">{row.original.email}</span>;
           }
           return (
@@ -673,7 +590,13 @@ const AdminMembersPage = () => {
       {
         accessorKey: "referral_source",
         header: "Referral Kaynağı",
-        cell: ({ row }) => <span className="text-xs">{getReferralSourceLabel(row.original.referral_source)}</span>,
+        cell: ({ row }) => (
+          isWhatsappReferralSource(row.original.referral_source) ? (
+            <Badge className={getSourceBadgeClass("wa")}>WhatsApp</Badge>
+          ) : (
+            <span className="text-xs">{getReferralSourceLabel(row.original.referral_source)}</span>
+          )
+        ),
       },
       {
         id: "actions",
@@ -681,10 +604,6 @@ const AdminMembersPage = () => {
         cell: ({ row }) => {
           const busy = savingSubmissionId === row.original.id || deletingId === row.original.id;
           const isEditing = editingRowId === row.original.id;
-
-          if (row.original.source_table !== "submissions") {
-            return <div className="text-right text-xs text-muted-foreground">WA</div>;
-          }
 
           if (isEditing) {
             return (
@@ -749,7 +668,7 @@ const AdminMembersPage = () => {
     getCoreRowModel: getCoreRowModel(),
     state: { rowSelection },
     onRowSelectionChange: setRowSelection,
-    enableRowSelection: (row) => row.original.source_table === "submissions",
+    enableRowSelection: true,
     getRowId: (row) => row.id,
   });
 
@@ -888,7 +807,6 @@ const AdminMembersPage = () => {
     ? savingSubmissionId === selectedSubmission.id || deletingId === selectedSubmission.id
     : false;
   const selectedIsAdvisor = selectedSubmission?.category === "danisman";
-  const selectedIsSubmission = selectedSubmission?.source_table === "submissions";
 
   return (
     <div className="space-y-6">
@@ -1286,11 +1204,6 @@ const AdminMembersPage = () => {
                     <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
                     <div>Durum: <Badge variant="secondary">{getStatusLabel(selectedSubmission.status)}</Badge></div>
                     <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
-                    {selectedSubmission.source_type === "wa" && (
-                      <div className="text-xs text-muted-foreground">
-                        WA durumu: {selectedSubmission.wa_registration_status || "-"} · Not: {selectedSubmission.wa_note || "-"}
-                      </div>
-                    )}
                   </div>
                   {selectedIsAdvisor && (
                     <div className="rounded-lg border bg-muted/20 p-3">
@@ -1320,21 +1233,17 @@ const AdminMembersPage = () => {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {selectedIsSubmission && (
-                    <>
-                      <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
-                        Düzenle
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => void softDeleteSubmission(selectedSubmission)}
-                        disabled={detailBusy}
-                      >
-                        Sil (Arşivle)
-                      </Button>
-                    </>
-                  )}
+                  <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
+                    Düzenle
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => void softDeleteSubmission(selectedSubmission)}
+                    disabled={detailBusy}
+                  >
+                    Sil (Arşivle)
+                  </Button>
                   <Button variant="outline" size="sm" onClick={exportCSV} disabled={detailBusy}>
                     CSV Export
                   </Button>
