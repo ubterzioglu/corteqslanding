@@ -47,7 +47,10 @@ const App = () => (
             <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
             <Route path="referral/types" element={<AdminReferralTypesPage />} />
             <Route path="marquee" element={<AdminMarqueePage />} />
-            <Route path="advisors" element={<AdminAdvisorLinksPage />} />
+            <Route path="advisors">
+              <Route index element={<Navigate to="/admin/advisors/consultant" replace />} />
+              <Route path=":profile" element={<AdminAdvisorLinksPage />} />
+            </Route>
             <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
             <Route path="about" element={<AdminAboutPage />} />
             {muhasebeRoutes}

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { userIsAdmin } from "@/lib/admin";
+import { advisorProfileSections } from "@/lib/resource-links";
 
 type AdminOutletContext = {
   session: Session;
@@ -33,6 +34,13 @@ const linkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
   }`;
 
+const secondaryLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+    isActive
+      ? "bg-primary/10 text-primary"
+      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+  }`;
+
 const AdminLayout = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -46,6 +54,7 @@ const AdminLayout = () => {
   const [password, setPassword] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+  const showAdvisorSubnav = location.pathname.startsWith("/admin/advisors");
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -224,36 +233,51 @@ const AdminLayout = () => {
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-3">
-          <div className="flex items-center gap-3">
-            <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
-            <span className="text-xs text-muted-foreground">{session?.user.email}</span>
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
+              <span className="text-xs text-muted-foreground">{session?.user.email}</span>
+            </div>
+            <nav className="flex flex-wrap gap-2">
+              {navItems.map((item) => (
+                <NavLink key={item.to} to={item.to} className={linkClass}>
+                  {item.label}
+                </NavLink>
+              ))}
+              {location.pathname.startsWith("/admin/referral/sources") && (
+                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                  {"<- Referral"}
+                </Link>
+              )}
+              {location.pathname.startsWith("/admin/referral/groups") && (
+                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                  {"<- Referral"}
+                </Link>
+              )}
+              {location.pathname.startsWith("/admin/referral/types") && (
+                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                  {"<- Referral"}
+                </Link>
+              )}
+              <button onClick={() => void handleLogout()} className={linkClass({ isActive: false })}>
+                Çıkış
+              </button>
+            </nav>
           </div>
-          <nav className="flex flex-wrap gap-2">
-            {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to} className={linkClass}>
-                {item.label}
-              </NavLink>
-            ))}
-            {location.pathname.startsWith("/admin/referral/sources") && (
-              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
-                {"<- Referral"}
-              </Link>
-            )}
-            {location.pathname.startsWith("/admin/referral/groups") && (
-              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
-                {"<- Referral"}
-              </Link>
-            )}
-            {location.pathname.startsWith("/admin/referral/types") && (
-              <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
-                {"<- Referral"}
-              </Link>
-            )}
-            <button onClick={() => void handleLogout()} className={linkClass({ isActive: false })}>
-              Çıkış
-            </button>
-          </nav>
+          {showAdvisorSubnav && (
+            <nav className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3">
+              {advisorProfileSections.map((section) => (
+                <NavLink
+                  key={section.key}
+                  to={`/admin/advisors/${section.key}`}
+                  className={secondaryLinkClass}
+                >
+                  {section.label}
+                </NavLink>
+              ))}
+            </nav>
+          )}
         </div>
       </header>
       <main className="container mx-auto px-4 py-6">
