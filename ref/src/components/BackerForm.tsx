@@ -1,0 +1,535 @@
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { Award, Crown, Sparkles, Star, Mail, Check } from "lucide-react";
+import heroNetworkLight from "@/assets/hero-network-light.jpg";
+import corteqsLogo from "@/assets/corteqs-logo-globe.png";
+
+interface BackerFormProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  defaultTier?: number;
+}
+
+type DonorType = "individual" | "company";
+
+type Tier = {
+  amount: number;
+  label: string;
+  icon: typeof Sparkles;
+  perks: string[];
+  accent: string;
+  border: string;
+  popular?: boolean;
+};
+
+const tiers: Tier[] = [
+  {
+    amount: 1000,
+    label: "Ülke Bazlı Kurucu",
+    icon: Award,
+    perks: [
+      "Ülke bazlı kurucu unvanı",
+      "Sosyal medya tanıtımlarında 1 yıl süreyle yer alma",
+      "Erken kullanıcı lead'lerine erişim",
+      "Etkinlik sponsorluğu önceliği",
+      "Platform reklam kredisi",
+    ],
+    accent: "from-primary/35 to-accent/10",
+    border: "border-primary/50",
+    popular: true,
+  },
+  {
+    amount: 10000,
+    label: "Onursal Kurucu",
+    icon: Crown,
+    perks: [
+      "CorteQS platformunda ve sosyal medyada global görünürlük",
+      "Özel iş birliği fırsatları",
+      "Stratejik 1:1 görüşmeler",
+    ],
+    accent: "from-yellow-500/25 via-primary/15 to-accent/10",
+    border: "border-yellow-500/50",
+  },
+];
+
+const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [consent, setConsent] = useState(false);
+  const [donorType, setDonorType] = useState<DonorType>("individual");
+  const presetAmounts = tiers.map((t) => t.amount);
+  const initialAmount = defaultTier ?? 1000;
+  const [selectedTier, setSelectedTier] = useState<number>(initialAmount);
+  const [isCustom, setIsCustom] = useState<boolean>(!presetAmounts.includes(initialAmount));
+  const [customAmount, setCustomAmount] = useState<string>(
+    !presetAmounts.includes(initialAmount) ? String(initialAmount) : ""
+  );
+
+  useEffect(() => {
+    if (open && defaultTier) {
+      setSelectedTier(defaultTier);
+      const custom = !presetAmounts.includes(defaultTier);
+      setIsCustom(custom);
+      setCustomAmount(custom ? String(defaultTier) : "");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, defaultTier]);
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [referralSource, setReferralSource] = useState("");
+  const [referralDetail, setReferralDetail] = useState("");
+
+  const validatePhone = (value: string) => {
+    const cleaned = value.replace(/[\s\-().]/g, "");
+    return /^\+[1-9]\d{7,14}$/.test(cleaned);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validatePhone(phone)) {
+      setPhoneError("Telefon ülke kodu ile başlamalı (örn: +49 170 1234567).");
+      return;
+    }
+    setPhoneError("");
+
+    const effectiveAmount = isCustom ? parseInt(customAmount, 10) : selectedTier;
+    if (!effectiveAmount || effectiveAmount < 1) {
+      toast({
+        title: "Geçerli bir tutar girin",
+        description: "Lütfen en az 1 USD tutarında bir bağış miktarı belirtin.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    const tierLabel = !isCustom
+      ? tiers.find((t) => t.amount === selectedTier)?.label ?? "Bağışçı"
+      : effectiveAmount >= 10000
+      ? "Onursal Kurucu"
+      : effectiveAmount >= 1000
+      ? "Ülke Bazlı Kurucu"
+      : "Destekçi";
+
+    try {
+      const insertData = {
+        form_type: "backer",
+        category: "backer",
+        fullname: data.fullname as string,
+        country: data.country as string,
+        city: data.city as string,
+        business: donorType === "company" ? (data.company_name as string) : null,
+        company_name: donorType === "company" ? (data.company_name as string) : null,
+        field: `${donorType === "company" ? "Firma Bağışı" : "Bireysel Bağışçı"} — ${tierLabel}`,
+        email: data.email as string,
+        phone: phone.replace(/[\s\-().]/g, ""),
+        description: (data.description as string) || null,
+        offers_needs: (data.offers_needs as string)?.trim() || null,
+        donation_amount: effectiveAmount,
+        donation_currency: "USD",
+        whatsapp_interest: data.whatsapp_interest === "yes",
+        referral_source: referralSource || null,
+        referral_detail: referralDetail.trim() || null,
+        referral_code: ((data.referral_code as string) || "").trim().toUpperCase() || null,
+        consent: true,
+      };
+
+      const { error } = await supabase.from("submissions").insert(insertData);
+      if (error) throw error;
+
+      toast({
+        title: "Bağış Niyetiniz Alındı! 🏆",
+        description: "Teşekkürler! Detaylı görüşme için kısa süre içinde size e-posta göndereceğiz.",
+      });
+
+      onOpenChange(false);
+      setConsent(false);
+      setPhone("");
+      setSelectedTier(1000);
+      setIsCustom(false);
+      setCustomAmount("");
+      setDonorType("individual");
+      setReferralSource("");
+      setReferralDetail("");
+    } catch (err: any) {
+      console.error("Backer submission error:", err);
+      toast({
+        title: "Bir hata oluştu",
+        description: err?.message || "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-3xl max-h-[92vh] overflow-y-auto p-0 border-none">
+        <div className="relative rounded-t-lg overflow-hidden">
+          <img src={heroNetworkLight} alt="" className="w-full h-44 object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/95" />
+          <div className="absolute top-4 right-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-yellow-500/95 text-yellow-950 text-xs font-bold shadow-lg">
+              <Crown className="w-3.5 h-3.5" /> ONURSAL KURUCULAR PROGRAMI
+            </span>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
+            <DialogHeader>
+              <DialogTitle className="text-foreground text-2xl">
+                🏆 Bağış Kabul Ediyoruz — Onursal Kurucularımız Arasına Girin
+              </DialogTitle>
+              <DialogDescription className="text-muted-foreground">
+                Diaspora Connect'in temellerini birlikte atalım. Bağışınızla erken erişim, üyelik avantajları, platform reklamları ve onursal kurucular panomuzda yer alma fırsatı kazanın.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6 p-6 pt-4">
+          {/* Tier selector */}
+          <div>
+            <Label className="text-base font-semibold mb-3 block">Bağış Tutarınızı Seçin</Label>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {tiers.map((tier) => {
+                const Icon = tier.icon;
+                const isSelected = !isCustom && selectedTier === tier.amount;
+                return (
+                  <button
+                    type="button"
+                    key={tier.amount}
+                    onClick={() => {
+                      setIsCustom(false);
+                      setSelectedTier(tier.amount);
+                    }}
+                    className={`relative text-left p-4 rounded-xl border-2 transition-all bg-gradient-to-br ${tier.accent} ${
+                      isSelected
+                        ? `${tier.border} ring-2 ring-primary/50 scale-[1.02] shadow-lg`
+                        : "border-border hover:border-primary/30"
+                    }`}
+                  >
+                    {tier.popular && (
+                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wide">
+                        Popüler
+                      </span>
+                    )}
+                    {isSelected && (
+                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
+                        <Check className="w-3 h-3" />
+                      </span>
+                    )}
+                    <Icon className="w-6 h-6 text-primary mb-2" />
+                    <div className="font-bold text-foreground text-2xl">${tier.amount.toLocaleString()}</div>
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground mb-2">{tier.label}</div>
+                    <ul className="space-y-1">
+                      {tier.perks.map((perk) => (
+                        <li key={perk} className="text-xs text-foreground/80 flex items-start gap-1">
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>{perk}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Custom amount */}
+            <div
+              className={`mt-3 p-4 rounded-xl border-2 transition-all bg-gradient-to-br from-emerald-500/10 to-cyan-500/5 ${
+                isCustom ? "border-emerald-500/60 ring-2 ring-emerald-500/30 shadow-md" : "border-border"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                  <span className="font-semibold text-foreground text-sm">Özel Tutar / Esnek Bağış</span>
+                </div>
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground">İstediğiniz kadar</span>
+              </div>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold">$</span>
+                  <Input
+                    type="number"
+                    min={1}
+                    inputMode="numeric"
+                    placeholder="Tutar (USD)"
+                    value={customAmount}
+                    onFocus={() => setIsCustom(true)}
+                    onChange={(e) => {
+                      setIsCustom(true);
+                      setCustomAmount(e.target.value);
+                    }}
+                    className="pl-7"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (customAmount && parseInt(customAmount, 10) >= 1) setIsCustom(true);
+                  }}
+                  className="px-4 rounded-md bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-all"
+                >
+                  Seç
+                </button>
+              </div>
+              {isCustom && customAmount && parseInt(customAmount, 10) >= 1 && (
+                <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-2 font-medium">
+                  ✓ ${parseInt(customAmount, 10).toLocaleString()} USD bağış seçildi
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Donor type */}
+          <div>
+            <Label className="text-base font-semibold mb-3 block">Bağışçı Tipi</Label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setDonorType("individual")}
+                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
+                  donorType === "individual"
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border text-muted-foreground hover:border-primary/30"
+                }`}
+              >
+                👤 Kişisel
+              </button>
+              <button
+                type="button"
+                onClick={() => setDonorType("company")}
+                className={`p-3 rounded-lg border-2 font-semibold text-sm transition-all ${
+                  donorType === "company"
+                    ? "border-primary bg-primary/5 text-primary"
+                    : "border-border text-muted-foreground hover:border-primary/30"
+                }`}
+              >
+                🏢 Firma
+              </button>
+            </div>
+          </div>
+
+          {/* Personal/company fields */}
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="fullname">Ad Soyad</Label>
+              <Input id="fullname" name="fullname" placeholder="Adınız Soyadınız" required />
+            </div>
+
+            {donorType === "company" && (
+              <div>
+                <Label htmlFor="company_name">Firma Adı</Label>
+                <Input id="company_name" name="company_name" placeholder="Şirket veya kuruluş adı" required />
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="country">Ülke</Label>
+                <Input id="country" name="country" placeholder="Almanya" required />
+              </div>
+              <div>
+                <Label htmlFor="city">Şehir</Label>
+                <Input id="city" name="city" placeholder="Berlin" required />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="email">E-posta</Label>
+                <Input id="email" name="email" type="email" placeholder="ornek@mail.com" required />
+              </div>
+              <div>
+                <Label htmlFor="phone">Telefon (ülke kodu ile)</Label>
+                <Input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="tel"
+                  placeholder="+49 170 1234567"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    if (phoneError) setPhoneError("");
+                  }}
+                  pattern="^\+[1-9][0-9\s\-().]{7,20}$"
+                  required
+                  aria-invalid={!!phoneError}
+                />
+                {phoneError ? (
+                  <p className="text-xs text-destructive mt-1">{phoneError}</p>
+                ) : (
+                  <p className="text-xs text-muted-foreground mt-1">+ ile başlatın, ülke kodu zorunlu.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="referral_source">Bizi nereden buldunuz?</Label>
+                  <select
+                    id="referral_source"
+                    name="referral_source"
+                    value={referralSource}
+                    onChange={(e) => {
+                      setReferralSource(e.target.value);
+                      setReferralDetail("");
+                    }}
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  >
+                    <option value="" disabled>Seçiniz...</option>
+                    <option value="whatsapp">WhatsApp Grubu</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="x-twitter">X (Twitter)</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="arkadas-tavsiye">Arkadaş / Tavsiye</option>
+                    <option value="etkinlik">Etkinlik / Buluşma</option>
+                    <option value="google">Google Arama</option>
+                    <option value="basin-haber">Basın / Haber</option>
+                    <option value="diger">Diğer</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="referral_code">Referral Kodu (opsiyonel)</Label>
+                  <Input
+                    id="referral_code"
+                    name="referral_code"
+                    placeholder="Admin / davet kodu"
+                    maxLength={32}
+                    className="uppercase"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Sizi davet eden admin/influencer referral kodunuzu girin. Avantajlardan faydalanın.
+                  </p>
+                </div>
+              </div>
+
+              {referralSource && referralSource !== "google" && referralSource !== "basin-haber" && (
+                <div>
+                  <Label htmlFor="referral_detail">
+                    {referralSource === "whatsapp" && "Hangi WhatsApp grubu? *"}
+                    {referralSource === "instagram" && "Hangi Instagram hesabı / gönderi?"}
+                    {referralSource === "linkedin" && "Hangi LinkedIn hesabı / gönderi?"}
+                    {referralSource === "x-twitter" && "Hangi X (Twitter) hesabı?"}
+                    {referralSource === "facebook" && "Hangi Facebook sayfa / grubu?"}
+                    {referralSource === "tiktok" && "Hangi TikTok hesabı?"}
+                    {referralSource === "youtube" && "Hangi YouTube kanalı / videosu?"}
+                    {referralSource === "arkadas-tavsiye" && "Sizi yönlendiren kişinin adı"}
+                    {referralSource === "etkinlik" && "Hangi etkinlik / buluşma?"}
+                    {referralSource === "diger" && "Lütfen detay verin"}
+                  </Label>
+                  <Input
+                    id="referral_detail"
+                    name="referral_detail"
+                    value={referralDetail}
+                    onChange={(e) => setReferralDetail(e.target.value)}
+                    placeholder={
+                      referralSource === "whatsapp"
+                        ? "Örn: Berlin Diaspora Topluluğu"
+                        : referralSource === "arkadas-tavsiye"
+                        ? "Örn: Ahmet Yılmaz"
+                        : "Detay yazın"
+                    }
+                    maxLength={120}
+                    required={referralSource === "whatsapp"}
+                  />
+                </div>
+              )}
+            </div>
+
+
+            <div>
+              <Label htmlFor="description">Mesajınız (opsiyonel)</Label>
+              <Textarea
+                id="description"
+                name="description"
+                rows={3}
+                placeholder="Bağışınızla ilgili belirtmek istedikleriniz, beklentileriniz veya iş birliği önerileriniz..."
+                className="resize-none"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="offers_needs">Arz & Talepleriniz (opsiyonel)</Label>
+              <Textarea
+                id="offers_needs"
+                name="offers_needs"
+                rows={3}
+                maxLength={1000}
+                placeholder="Örn: İş arıyorum • Aracımı satıyorum • Parti biletim var • Eleman arıyorum..."
+                className="resize-none"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Diasporadaki arz ve taleplerinizi serbestçe yazın. <strong className="text-primary">🤖 Detaylı veri AI eşleşme (AI match) kalitesini artıracaktır.</strong>
+              </p>
+            </div>
+          </div>
+
+          {/* Benefits reminder */}
+          <div className="p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/20 space-y-2">
+            <p className="font-semibold text-foreground flex items-center gap-2">
+              <Mail className="w-4 h-4 text-primary" /> Detaylı Bilgilendirme
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Backing/Destek karşılığı erken erişim, üyelik paketi avantajları, platform reklam fırsatları ve <strong className="text-foreground">Onursal Bağışçılar Panomuzda</strong> yer alma detayları için e-posta ile size ulaşıp görüşme planlayacağız.
+            </p>
+            <a href="mailto:info@corteqs.net" className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:underline">
+              info@corteqs.net
+            </a>
+          </div>
+
+          {/* WhatsApp */}
+          <label className="flex items-start gap-2 p-3 rounded-lg bg-[#25D366]/5 border border-[#25D366]/30 cursor-pointer">
+            <input type="checkbox" name="whatsapp_interest" value="yes" className="mt-1 rounded border-input accent-[#25D366]" />
+            <span className="text-sm text-foreground leading-relaxed">
+              💬 <strong>Onursal Kurucular WhatsApp grubuna katılmak istiyorum.</strong>{" "}
+              <span className="text-muted-foreground">Davet linki size iletilecek.</span>
+            </span>
+          </label>
+
+          {/* Consent */}
+          <div className="flex items-start gap-2">
+            <Checkbox
+              id="backer-consent"
+              checked={consent}
+              onCheckedChange={(checked) => setConsent(checked === true)}
+              className="mt-0.5"
+            />
+            <label htmlFor="backer-consent" className="text-xs text-muted-foreground cursor-pointer leading-relaxed">
+              Kişisel bilgilerimi, CorteQS tarafından bağış sürecinin yürütülmesi ve tarafıma ulaşılması amacıyla paylaşıyorum. Bilgilerim üçüncü şahıslarla paylaşılmayacaktır.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading || !consent}
+            className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-500 via-primary to-primary text-white font-bold text-base hover:opacity-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-primary/20"
+          >
+            {loading
+              ? "Gönderiliyor..."
+              : `🏆 ${(isCustom ? parseInt(customAmount || "0", 10) : selectedTier).toLocaleString()}$ Bağış Niyetimi Bildir →`}
+          </button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default BackerForm;

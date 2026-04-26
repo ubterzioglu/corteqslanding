@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Briefcase, Building2, Landmark, User, Mic, Users } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowRight, Briefcase, Building2, Landmark, User, Mic, Users } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 
@@ -13,7 +14,7 @@ const categories = [
   {
     icon: Building2,
     title: "İşletmeler & Şirketler",
-    desc: "Diasporadaki Türk işletmeleri, şirketleri ve girişimcileri keşfedin, iş birliği yapın.",
+    desc: "Diasporadaki Türk işletmeleri, şirketleri ve girişimcileri — marketler, klinikler, restoranlar, kafeler, butikler, ajanslar, kuaförler, atölyeler, turizm ofisleri ve daha fazlasını keşfedin, iş birliği yapın.",
     defaultCategory: "isletme",
   },
   {
@@ -87,6 +88,33 @@ const CategoriesSection = () => {
               </button>
             </div>
           ))}
+        </div>
+
+        {/* Founding 1000 CTA */}
+        <div className="mt-16 max-w-3xl mx-auto">
+          <div className="relative rounded-3xl bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 border-2 border-amber-300/60 p-8 md:p-10 shadow-lg shadow-amber-500/10 overflow-hidden">
+            <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-amber-300/30 blur-3xl pointer-events-none" aria-hidden />
+            <div className="relative flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+              <div className="flex-1">
+                <span className="inline-block px-3 py-1 rounded-full bg-slate-900 text-amber-300 text-[10px] font-bold tracking-wider uppercase mb-3">
+                  ⭐ Erken Erişim
+                </span>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2 leading-tight">
+                  Founding 1000'e Katıl
+                </h3>
+                <p className="text-slate-700 text-sm md:text-base leading-relaxed">
+                  Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar — kategorinde ilk konumlananlardan biri ol.
+                </p>
+              </div>
+              <Link
+                to="/founding-1000"
+                className="group shrink-0 inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold text-base hover:from-amber-400 hover:to-yellow-300 transition-all shadow-lg shadow-amber-500/30 whitespace-nowrap"
+              >
+                🌍 Katıl
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
         </div>
 
         <div className="text-center mt-12">

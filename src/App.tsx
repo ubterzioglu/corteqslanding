@@ -22,6 +22,9 @@ import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
 import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
 import { muhasebeRoutes } from "@/pages/admin/muhasebe/routes";
+import Founding1000Page from "./pages/Founding1000Page.tsx";
+import BloggerContestPage from "./pages/BloggerContestPage.tsx";
+import VloggerContestPage from "./pages/VloggerContestPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +55,9 @@ const App = () => (
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/form"         element={<FormPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/founding-1000" element={<Founding1000Page />} />
+          <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
+          <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

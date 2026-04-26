@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
 import corteqsLogo from "@/assets/seologo.png";
 import {
@@ -99,6 +100,35 @@ const HeroSection = () => {
               >
                 WhatsApp Grubuna Katıl →
               </a>
+            </div>
+
+            <div className="mt-6 flex flex-col gap-3 max-w-xl">
+              <Link
+                to="/founding-1000"
+                className="group relative inline-flex flex-col items-center justify-center px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold text-base hover:from-amber-400 hover:to-yellow-300 transition-all shadow-lg shadow-amber-500/30"
+              >
+                <span className="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-slate-900 text-amber-300 text-[10px] font-bold tracking-wider uppercase shadow-md">
+                  Erken Erişim
+                </span>
+                <span>🌍 Founding 1000'e Katıl →</span>
+                <span className="mt-1 text-[11px] font-semibold tracking-wide text-slate-900/80 uppercase">
+                  Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
+                </span>
+              </Link>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Link
+                  to="/blogger-yarismasi"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-primary/30 bg-primary/5 text-primary font-semibold text-sm hover:bg-primary/10 hover:border-primary/50 transition-all"
+                >
+                  ✍️ Blogger Yarışması →
+                </Link>
+                <Link
+                  to="/vlogger-yarismasi"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-accent/30 bg-accent/5 text-accent font-semibold text-sm hover:bg-accent/10 hover:border-accent/50 transition-all"
+                >
+                  🎥 Vlogger Yarışması →
+                </Link>
+              </div>
             </div>
 
             <div className="mt-8 max-w-xl space-y-3">

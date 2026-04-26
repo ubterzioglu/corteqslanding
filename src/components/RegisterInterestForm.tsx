@@ -29,6 +29,7 @@ interface RegisterInterestFormProps {
   onOpenChange: (open: boolean) => void;
   defaultCategory?: string;
   defaultCity?: string;
+  defaultReferralCode?: string;
   mode?: SubmissionFormMode;
 }
 
@@ -37,6 +38,7 @@ const RegisterInterestForm = ({
   onOpenChange,
   defaultCategory,
   defaultCity,
+  defaultReferralCode,
   mode = "register",
 }: RegisterInterestFormProps) => {
   const { toast } = useToast();
@@ -286,8 +288,15 @@ const RegisterInterestForm = ({
                   placeholder="Admin / davet kodu"
                   maxLength={32}
                   className="uppercase"
+                  defaultValue={defaultReferralCode || ""}
+                  readOnly={!!defaultReferralCode}
+                  key={defaultReferralCode || "referral_code"}
                 />
-                <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+                {defaultReferralCode ? (
+                  <p className="mt-1 text-xs font-medium text-emerald-600">🎁 Bu sayfa için referral kodu otomatik uygulandı.</p>
+                ) : (
+                  <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+                )}
               </div>
             </div>
 
