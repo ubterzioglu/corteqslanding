@@ -24,7 +24,10 @@ const navItems = [
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
   { to: "/admin/marquee", label: "Haber Bandı" },
-  { to: "/admin/advisors", label: "Danışman/SM" },
+  ...advisorProfileSections.map((section) => ({
+    to: `/admin/advisors/${section.key}`,
+    label: section.label,
+  })),
   { to: "/admin/social-media", label: "Sosyal Medya" },
   { to: "/admin/about", label: "Güncellemeler" },
 ];
@@ -32,13 +35,6 @@ const navItems = [
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-  }`;
-
-const secondaryLinkClass = ({ isActive }: { isActive: boolean }) =>
-  `rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
-    isActive
-      ? "bg-primary/10 text-primary"
-      : "text-muted-foreground hover:bg-muted hover:text-foreground"
   }`;
 
 const AdminLayout = () => {
@@ -54,7 +50,6 @@ const AdminLayout = () => {
   const [password, setPassword] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
-  const showAdvisorSubnav = location.pathname.startsWith("/admin/advisors");
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -265,19 +260,6 @@ const AdminLayout = () => {
               </button>
             </nav>
           </div>
-          {showAdvisorSubnav && (
-            <nav className="mt-3 flex flex-wrap gap-2 border-t border-border pt-3">
-              {advisorProfileSections.map((section) => (
-                <NavLink
-                  key={section.key}
-                  to={`/admin/advisors/${section.key}`}
-                  className={secondaryLinkClass}
-                >
-                  {section.label}
-                </NavLink>
-              ))}
-            </nav>
-          )}
         </div>
       </header>
       <main className="container mx-auto px-4 py-6">
