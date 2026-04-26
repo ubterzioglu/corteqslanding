@@ -15,7 +15,7 @@ const Founding1000Page = () => {
         <div className="container mx-auto px-4 pt-6 pb-2">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold text-sm transition-colors"
+            className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card/80 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur-sm transition-colors hover:bg-primary/10"
           >
             <ArrowLeft className="w-4 h-4" />
             Ana Sayfaya Dön
