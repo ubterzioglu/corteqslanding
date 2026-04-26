@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import { Instagram, Mail, MessageCircle, Pencil, Phone, Plus, Save, Trash2, X } from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -6,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
@@ -23,7 +23,6 @@ import {
   updateAdvisorContactStatus,
   updateAdvisorResourceLink,
   type AdvisorContactStatusKey,
-  type AdvisorProfileKey,
   type AdvisorResourceLinkFormState,
   type AdvisorResourceLinkRow,
   type ResourceLinkAuthor,
@@ -113,7 +112,7 @@ const ContactInfoIcons = ({ item }: ContactInfoIconsProps) => {
 
 const AdminAdvisorLinksPage = () => {
   const { toast } = useToast();
-  const [activeProfileKey, setActiveProfileKey] = useState<AdvisorProfileKey>("consultant");
+  const { profile } = useParams<{ profile: string }>();
   const [items, setItems] = useState<AdvisorResourceLinkRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -125,10 +124,10 @@ const AdminAdvisorLinksPage = () => {
     createEmptyAdvisorResourceLinkFormState(),
   );
 
-  const activeProfile = useMemo(
-    () => advisorProfileSections.find((section) => section.key === activeProfileKey) ?? advisorProfileSections[0],
-    [activeProfileKey],
-  );
+  const activeProfile = useMemo(() => {
+    if (!profile) return null;
+    return advisorProfileSections.find((section) => section.key === profile) ?? null;
+  }, [profile]);
   const editingItem = useMemo(() => items.find((item) => item.id === editingId) ?? null, [editingId, items]);
   const selectedAdvisor = useMemo(
     () => items.find((item) => item.id === selectedAdvisorId) ?? null,
@@ -152,8 +151,9 @@ const AdminAdvisorLinksPage = () => {
   }, [activeProfile, toast]);
 
   useEffect(() => {
+    if (!activeProfile) return;
     void refresh();
-  }, [refresh]);
+  }, [activeProfile, refresh]);
 
   useEffect(() => {
     setItems([]);
@@ -162,7 +162,7 @@ const AdminAdvisorLinksPage = () => {
     setCreateAccordionValue(undefined);
     setForm(createEmptyAdvisorResourceLinkFormState());
     setEditingForm(createEmptyAdvisorResourceLinkFormState());
-  }, [activeProfileKey]);
+  }, [activeProfile]);
 
   const updateForm = <Key extends keyof AdvisorResourceLinkFormState>(
     key: Key,
@@ -341,18 +341,12 @@ const AdminAdvisorLinksPage = () => {
     </div>
   );
 
+  if (!activeProfile) {
+    return <Navigate to="/admin/advisors/consultant" replace />;
+  }
+
   return (
     <div className="space-y-6">
-      <Tabs value={activeProfileKey} onValueChange={(value) => setActiveProfileKey(value as AdvisorProfileKey)}>
-        <TabsList className="grid h-auto w-full grid-cols-3 md:w-auto">
-          {advisorProfileSections.map((section) => (
-            <TabsTrigger key={section.key} value={section.key}>
-              {section.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
-
       <Accordion
         type="single"
         collapsible
