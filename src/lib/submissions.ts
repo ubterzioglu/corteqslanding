@@ -74,6 +74,7 @@ export function getCategoryLabel(category: string | null) {
 export function getFormTypeLabel(formType: string) {
   if (formType === "support") return "Destek";
   if (formType === "backer") return "Backer";
+  if (formType === "wa") return "WA";
   return "Kayıt";
 }
 
@@ -83,6 +84,7 @@ export function getStatusLabel(status: SubmissionStatus) {
 
 export function getReferralSourceLabel(source: string | null) {
   if (!source) return "Belirtilmedi";
+  if (source === "ai-chat") return "AI Chat";
   return referralLabelMap.get(source) ?? source;
 }
 
@@ -221,6 +223,7 @@ export function toSubmissionInsert(
 
   return {
     form_type: isBacker ? "backer" : isSupport ? "support" : "register",
+    source_type: "form",
     category: isBacker ? "backer" : isSupport ? "support" : normalizeTurkishText(String(values.category ?? "")),
     fullname: normalizeTurkishText(String(values.fullname ?? "")),
     country: normalizeTurkishText(String(values.country ?? "")),

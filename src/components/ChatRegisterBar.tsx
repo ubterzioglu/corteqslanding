@@ -189,6 +189,7 @@ const ChatRegisterBar = () => {
       const uploadedDocs = await uploadSubmissionDocuments(docs);
       const insertData = {
         form_type: "register",
+        source_type: "chatbot",
         category: collected.category ?? null,
         fullname: collected.fullname ?? "",
         country: collected.country ?? "",
