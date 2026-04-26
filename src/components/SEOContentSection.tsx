@@ -1,3 +1,5 @@
+import mascotHome from "../../maskotanasayfa.png";
+
 const SEOContentSection = () => {
   return (
     <section
@@ -80,12 +82,12 @@ const SEOContentSection = () => {
 
             <figure className="flex min-h-64 items-center justify-center border-t border-white/50 bg-background/60 px-8 py-10 lg:border-l lg:border-t-0">
               <img
-                src="/sharedx/maillogo.png"
-                alt="CorteQS Logo"
-                className="h-auto w-full max-w-[280px]"
+                src={mascotHome}
+                alt="CorteQS ana sayfa maskotu"
+                className="h-auto w-full max-w-[300px]"
                 loading="lazy"
-                width={560}
-                height={220}
+                width={900}
+                height={900}
               />
             </figure>
           </div>
