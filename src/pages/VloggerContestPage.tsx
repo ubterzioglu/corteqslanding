@@ -49,60 +49,67 @@ const participationDetails = [
   "Katılımcı tüm başvurularını CorteQS dashboard'u üzerinden takip edebilir.",
 ];
 
+const statCards = [
+  { icon: Trophy, value: "€1.500", label: "Birincilik Ödülü" },
+  { icon: Film, value: "5", label: "Maks. Video" },
+  { icon: Calendar, value: "1 Eylül", label: "Son Gönderim" },
+  { icon: Award, value: "29 Ekim", label: "Kazanan İlanı" },
+];
+
+const sectionTitleClass = "text-3xl md:text-4xl font-bold text-foreground mb-4";
+const softCardClass =
+  "rounded-xl border border-white/60 bg-card/85 p-6 shadow-sm backdrop-blur-sm transition-all hover:border-primary/35 hover:shadow-lg";
+const iconBoxClass =
+  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10";
+const primaryButtonClass =
+  "group inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90";
+
 const VloggerContestPage = () => {
   const [formOpen, setFormOpen] = useState(false);
   const openForm = () => setFormOpen(true);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Top nav */}
       <div className="container mx-auto px-4 pt-6">
         <Link
           to="/"
-          className="inline-flex items-center gap-2 text-slate-300 hover:text-amber-300 text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card/80 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur-sm transition-colors hover:bg-primary/10"
         >
           <ArrowLeft className="w-4 h-4" />
           Ana sayfaya dön
         </Link>
       </div>
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-        <div className="pointer-events-none absolute inset-0 opacity-30" aria-hidden>
-          <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-amber-500/20 blur-3xl" />
-          <div className="absolute top-1/2 -left-40 h-96 w-96 rounded-full bg-yellow-400/10 blur-3xl" />
-        </div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-card to-secondary/40">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--accent)/0.08),hsl(var(--primary)/0.07),hsl(var(--background)))]" aria-hidden />
 
         <div className="container mx-auto px-4 py-16 lg:py-24 relative z-10">
           {/* HERO */}
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-14 items-center mb-16">
             {/* Hero text column */}
             <div className="text-center lg:text-left max-w-2xl mx-auto lg:mx-0">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 mb-6">
-                <Video className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-300 text-sm font-semibold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                <Video className="w-4 h-4 text-primary" />
+                <span className="text-primary text-sm font-semibold tracking-wider uppercase">
                   🎥 CorteQS Vlogger İçerik Yarışması
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-6 leading-tight">
                 Hikâyeni ya da Global Türklerin hikâyesini{" "}
-                <span className="bg-gradient-to-r from-amber-400 to-yellow-300 bg-clip-text text-transparent">
-                  video ile anlat
-                </span>
+                <span className="text-accent">video ile anlat</span>
                 . Dünyaya duyur.
               </h1>
 
-              <p className="text-lg md:text-xl text-slate-300 leading-relaxed">
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
                 Diaspora deneyimlerini, kültürel gözlemlerini, mücadeleni, mizahını ve gustonu video
                 formatında bir araya getir. CorteQS sosyal medya kanallarında ve dijital yayın
                 akışlarında global görünürlük kazan.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
-                <button
-                  onClick={openForm}
-                  className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold text-lg hover:from-amber-400 hover:to-yellow-300 transition-all shadow-xl shadow-amber-500/30"
-                >
+                <button onClick={openForm} className={primaryButtonClass}>
                   Videonu Gönder
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -113,22 +120,22 @@ const VloggerContestPage = () => {
             <div className="relative flex items-center justify-center">
               {/* Glow halo behind ball */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
-                <div className="w-[80%] h-[80%] rounded-full bg-amber-400/20 blur-3xl" />
+                <div className="w-[80%] h-[80%] rounded-full bg-accent/15 blur-3xl" />
               </div>
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
-                <div className="w-[55%] h-[55%] rounded-full bg-blue-500/20 blur-3xl" />
+                <div className="w-[55%] h-[55%] rounded-full bg-primary/15 blur-3xl" />
               </div>
               <img
                 src={magicBallHero}
                 alt="CorteQS Magic Ball — Global Türk diasporası maskotu"
-                className="relative z-10 w-full max-w-md lg:max-w-lg object-contain drop-shadow-[0_25px_60px_rgba(251,191,36,0.25)] animate-float"
+                className="relative z-10 w-full max-w-md lg:max-w-lg object-contain drop-shadow-[0_25px_60px_rgba(31,154,137,0.18)] animate-float"
                 width={1024}
                 height={1024}
                 loading="eager"
               />
               {/* Subtle reflection plate */}
               <div
-                className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 w-[60%] h-3 rounded-[100%] bg-amber-400/30 blur-md"
+                className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 w-[60%] h-3 rounded-[100%] bg-primary/25 blur-md"
                 aria-hidden
               />
             </div>
@@ -136,28 +143,23 @@ const VloggerContestPage = () => {
 
           {/* Stats — full width below hero */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-20">
-            {[
-              { icon: Trophy, value: "€1.500", label: "Birincilik Ödülü" },
-              { icon: Film, value: "5", label: "Maks. Video" },
-              { icon: Calendar, value: "1 Eylül", label: "Son Gönderim" },
-              { icon: Award, value: "29 Ekim", label: "Kazanan İlanı" },
-            ].map((s) => (
+            {statCards.map((s) => (
               <div
                 key={s.label}
-                className="text-center rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm p-5 hover:bg-white/10 hover:border-amber-400/30 transition-all"
+                className="text-center rounded-xl bg-card/85 border border-white/60 shadow-sm backdrop-blur-sm p-5 hover:border-primary/35 hover:shadow-lg transition-all"
               >
-                <s.icon className="w-6 h-6 text-amber-400 mx-auto mb-3" />
-                <div className="text-2xl md:text-3xl font-extrabold text-white">{s.value}</div>
-                <div className="text-xs text-slate-400 mt-1">{s.label}</div>
+                <s.icon className="w-6 h-6 text-primary mx-auto mb-3" />
+                <div className="text-2xl md:text-3xl font-extrabold text-foreground">{s.value}</div>
+                <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
               </div>
             ))}
           </div>
 
           {/* INTRO */}
-          <div className="max-w-4xl mx-auto mb-20 space-y-5 text-slate-300 text-lg leading-relaxed">
+          <div className="max-w-4xl mx-auto mb-20 space-y-5 rounded-2xl border border-white/60 bg-card/80 p-6 text-lg leading-relaxed text-muted-foreground shadow-sm backdrop-blur-sm md:p-8">
             <p>
               CorteQS Vlogger İçerik Yarışması, dünyanın farklı ülkelerinde yaşayan{" "}
-              <span className="text-amber-300 font-semibold">Global Türklerin</span> hikâyelerini,
+              <span className="text-primary font-semibold">Global Türklerin</span> hikâyelerini,
               diaspora deneyimlerini, kültürel gözlemlerini, mücadelelerini, mizahını ve gusto anlayışını
               video formatında bir araya getiriyor.
             </p>
@@ -168,7 +170,7 @@ const VloggerContestPage = () => {
             </p>
             <p>
               Yarışmaya gönderilen uygun video içerikler{" "}
-              <span className="text-white font-semibold">
+              <span className="text-foreground font-semibold">
                 CorteQS sosyal medya kanallarında ve dijital yayın akışlarında
               </span>{" "}
               kullanıma alınır. Bu süreç içerik sahibine global görünürlük, kendini tanıtma ve CorteQS
@@ -178,15 +180,15 @@ const VloggerContestPage = () => {
 
           {/* PARTICIPATION */}
           <div className="max-w-4xl mx-auto mb-20">
-            <div className="rounded-3xl bg-gradient-to-br from-amber-500/10 via-yellow-400/5 to-amber-600/10 border border-amber-400/30 p-8 md:p-10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">
+            <div className="rounded-2xl bg-gradient-to-br from-accent/10 via-card to-primary/10 border border-accent/20 p-8 shadow-sm md:p-10">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">
                 Katılım Limiti ve Ücret
               </h2>
               <ul className="space-y-3">
                 {participationDetails.map((d) => (
                   <li key={d} className="flex items-start gap-3">
-                    <div className="shrink-0 w-2 h-2 rounded-full bg-amber-400 mt-2.5" />
-                    <span className="text-slate-200 leading-relaxed">{d}</span>
+                    <div className="shrink-0 w-2 h-2 rounded-full bg-primary mt-2.5" />
+                    <span className="text-foreground leading-relaxed">{d}</span>
                   </li>
                 ))}
               </ul>
@@ -196,29 +198,29 @@ const VloggerContestPage = () => {
           {/* CATEGORIES */}
           <div className="mb-20">
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Kategoriler</h2>
+              <h2 className={sectionTitleClass}>Kategoriler</h2>
             </div>
             <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-              <div className="p-7 rounded-2xl bg-white/5 border border-white/10">
+              <div className={softCardClass}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6 text-amber-400" />
+                  <div className={iconBoxClass}>
+                    <ShieldCheck className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-bold text-white text-xl">Otantik İçerik</h3>
+                  <h3 className="font-bold text-foreground text-xl">Otantik İçerik</h3>
                 </div>
-                <p className="text-slate-300 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   Tamamen katılımcının kendi üretimi olan, yapay zekâ izi taşımayan özgün video
                   içeriklerdir. AI kullanımı tespit edilirse başvuru diskalifiye edilebilir.
                 </p>
               </div>
-              <div className="p-7 rounded-2xl bg-white/5 border border-white/10">
+              <div className={softCardClass}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                    <Bot className="w-6 h-6 text-amber-400" />
+                  <div className={iconBoxClass}>
+                    <Bot className="w-6 h-6 text-primary" />
                   </div>
-                  <h3 className="font-bold text-white text-xl">AI Serbest İçerik</h3>
+                  <h3 className="font-bold text-foreground text-xl">AI Serbest İçerik</h3>
                 </div>
-                <p className="text-slate-300 text-sm leading-relaxed">
+                <p className="text-muted-foreground text-sm leading-relaxed">
                   Teknoloji kullanımı serbesttir. Hibrit, kısmi veya tamamen AI destekli video üretimleri
                   kabul edilir. Yaratıcılık, anlatım gücü ve içerik etkisi değerlendirilir.
                 </p>
@@ -229,16 +231,13 @@ const VloggerContestPage = () => {
           {/* THEMES */}
           <div className="mb-20">
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Temalar</h2>
+              <h2 className={sectionTitleClass}>Temalar</h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-5 max-w-5xl mx-auto">
               {themes.map((t) => (
-                <div
-                  key={t.title}
-                  className="p-6 rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] border border-white/10 hover:border-amber-400/40 transition-all"
-                >
-                  <h3 className="font-bold text-amber-300 text-xl mb-2">{t.title}</h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">{t.desc}</p>
+                <div key={t.title} className={softCardClass}>
+                  <h3 className="font-bold text-primary text-xl mb-2">{t.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{t.desc}</p>
                 </div>
               ))}
             </div>
@@ -247,7 +246,7 @@ const VloggerContestPage = () => {
           {/* PRIZES */}
           <div className="max-w-5xl mx-auto mb-20">
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Ödüller</h2>
+              <h2 className={sectionTitleClass}>Ödüller</h2>
             </div>
             <div className="grid md:grid-cols-3 gap-5 mb-6">
               {[
@@ -259,22 +258,22 @@ const VloggerContestPage = () => {
                   key={p.rank}
                   className={`relative p-7 rounded-2xl border text-center ${
                     p.glow
-                      ? "bg-gradient-to-br from-amber-500/20 to-yellow-400/10 border-amber-400/50 shadow-xl shadow-amber-500/20"
-                      : "bg-white/5 border-white/10"
+                      ? "bg-gradient-to-br from-accent/15 to-primary/10 border-accent/35 shadow-lg shadow-accent/10"
+                      : "bg-card/85 border-white/60 shadow-sm"
                   }`}
                 >
-                  <div className={`text-5xl font-extrabold mb-3 ${p.glow ? "text-amber-300" : "text-white"}`}>
+                  <div className={`text-5xl font-extrabold mb-3 ${p.glow ? "text-accent" : "text-foreground"}`}>
                     {p.rank}
                   </div>
-                  <div className="text-xl font-bold text-white mb-2">{p.prize}</div>
-                  <p className="text-slate-400 text-xs leading-relaxed">{p.desc}</p>
+                  <div className="text-xl font-bold text-foreground mb-2">{p.prize}</div>
+                  <p className="text-muted-foreground text-xs leading-relaxed">{p.desc}</p>
                 </div>
               ))}
             </div>
-            <div className="rounded-2xl bg-amber-500/10 border border-amber-500/30 p-5 flex items-start gap-3">
-              <BadgeCheck className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-              <p className="text-amber-100 text-sm leading-relaxed">
-                Öne çıkan <span className="font-bold text-amber-300">ilk 20 içerik üreticisine</span>{" "}
+            <div className="rounded-xl bg-primary/10 border border-primary/20 p-5 flex items-start gap-3">
+              <BadgeCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+              <p className="text-foreground text-sm leading-relaxed">
+                Öne çıkan <span className="font-bold text-primary">ilk 20 içerik üreticisine</span>{" "}
                 CorteQS'te <span className="font-semibold">1 yıl süreyle Onursal Blogger/Vlogger Badge'i</span>{" "}
                 verilir ve platformda özel tanıtım yapılır.
               </p>
@@ -284,28 +283,28 @@ const VloggerContestPage = () => {
           {/* EVALUATION */}
           <div className="max-w-4xl mx-auto mb-20">
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Değerlendirme Özeti</h2>
+              <h2 className={sectionTitleClass}>Değerlendirme Özeti</h2>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10 mb-6">
+            <div className="rounded-xl overflow-hidden border border-white/60 bg-card/80 shadow-sm mb-6">
               {evaluation.map((e, i) => (
                 <div
                   key={e.criterion}
                   className={`flex items-center justify-between gap-4 px-6 py-4 ${
-                    i % 2 === 0 ? "bg-white/[0.04]" : "bg-white/[0.02]"
-                  } ${i !== evaluation.length - 1 ? "border-b border-white/5" : ""}`}
+                    i % 2 === 0 ? "bg-background/70" : "bg-card/70"
+                  } ${i !== evaluation.length - 1 ? "border-b border-border/70" : ""}`}
                 >
-                  <span className="text-slate-200 text-sm md:text-base">{e.criterion}</span>
-                  <span className="text-amber-300 font-bold text-lg whitespace-nowrap">{e.weight}</span>
+                  <span className="text-foreground text-sm md:text-base">{e.criterion}</span>
+                  <span className="text-primary font-bold text-lg whitespace-nowrap">{e.weight}</span>
                 </div>
               ))}
             </div>
-            <div className="rounded-2xl bg-white/5 border border-white/10 p-6 flex items-start gap-4">
-              <Globe2 className="w-6 h-6 text-amber-400 shrink-0 mt-1" />
-              <p className="text-slate-300 text-sm leading-relaxed">
-                Her yarışmacıya veya her içeriğe özel <span className="text-white font-semibold">referral
+            <div className={`${softCardClass} flex items-start gap-4`}>
+              <Globe2 className="w-6 h-6 text-primary shrink-0 mt-1" />
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                Her yarışmacıya veya her içeriğe özel <span className="text-foreground font-semibold">referral
                 kodu / referral linki</span> tanımlanır. Bu kod üzerinden corteqs.net'e gelen ve platforma
                 kayıt olan kullanıcılar, yarışmanın en yüksek ağırlıklı performans kriteri olan{" "}
-                <span className="text-amber-300 font-semibold">subscription conversion</span> puanını
+                <span className="text-primary font-semibold">subscription conversion</span> puanını
                 oluşturur.
               </p>
             </div>
@@ -314,45 +313,42 @@ const VloggerContestPage = () => {
           {/* CALENDAR */}
           <div className="max-w-4xl mx-auto mb-20">
             <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Takvim</h2>
+              <h2 className={sectionTitleClass}>Takvim</h2>
             </div>
-            <div className="rounded-2xl overflow-hidden border border-white/10">
+            <div className="rounded-xl overflow-hidden border border-white/60 bg-card/80 shadow-sm">
               {calendar.map((c, i) => (
                 <div
                   key={c.phase}
                   className={`grid grid-cols-1 sm:grid-cols-2 gap-2 px-6 py-4 ${
-                    i % 2 === 0 ? "bg-white/[0.04]" : "bg-white/[0.02]"
-                  } ${i !== calendar.length - 1 ? "border-b border-white/5" : ""}`}
+                    i % 2 === 0 ? "bg-background/70" : "bg-card/70"
+                  } ${i !== calendar.length - 1 ? "border-b border-border/70" : ""}`}
                 >
                   <div className="flex items-center gap-3">
-                    <Calendar className="w-4 h-4 text-amber-400 shrink-0" />
-                    <span className="text-slate-200 font-medium text-sm md:text-base">{c.phase}</span>
+                    <Calendar className="w-4 h-4 text-primary shrink-0" />
+                    <span className="text-foreground font-medium text-sm md:text-base">{c.phase}</span>
                   </div>
-                  <span className="text-amber-200 text-sm md:text-base sm:text-right">{c.date}</span>
+                  <span className="text-primary text-sm md:text-base sm:text-right">{c.date}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* APPLICATION */}
-          <div className="max-w-3xl mx-auto text-center rounded-3xl bg-gradient-to-br from-amber-500/10 via-yellow-400/5 to-amber-600/10 border border-amber-400/30 p-10 md:p-14">
-            <Video className="w-12 h-12 text-amber-400 mx-auto mb-6" />
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 leading-tight">
+          <div className="max-w-3xl mx-auto text-center rounded-2xl bg-gradient-to-br from-accent/12 via-card to-primary/12 border border-accent/25 p-10 shadow-lg shadow-accent/10 md:p-14">
+            <Video className="w-12 h-12 text-accent mx-auto mb-6" />
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 leading-tight">
               Başvuru
             </h2>
-            <p className="text-slate-300 text-lg mb-8 leading-relaxed">
+            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
               Formun tamamlanması, video bağlantısının yüklenmesi, gerekli onayların verilmesi ve her
-              içerik için <span className="text-amber-300 font-bold">€25 katılım bedelinin</span> ödenmesi
+              içerik için <span className="text-accent font-bold">€25 katılım bedelinin</span> ödenmesi
               gerekir.
             </p>
-            <button
-              onClick={openForm}
-              className="group inline-flex items-center justify-center gap-2 px-10 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold text-lg hover:from-amber-400 hover:to-yellow-300 transition-all shadow-xl shadow-amber-500/30"
-            >
+            <button onClick={openForm} className={primaryButtonClass}>
               Başvuruyu Tamamla ve Ödemeye Geç
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="text-xs text-slate-400 mt-6">
+            <p className="text-xs text-muted-foreground mt-6">
               Ödeme akışı, başvuru tamamlandıktan sonra e-posta ile iletilecektir.
             </p>
           </div>

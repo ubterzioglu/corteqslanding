@@ -231,15 +231,27 @@
       "type": "file"
     },
     {
-      "path": "src\\App.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1777206285828,
+      "path": "src\\components\\RegisterInterestForm.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1777207352214,
       "type": "file"
     },
     {
-      "path": "src\\components\\RegisterInterestForm.tsx",
+      "path": "src\\pages\\BloggerContestPage.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1777209995301,
+      "type": "directory"
+    },
+    {
+      "path": "src\\pages\\VloggerContestPage.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1777209996087,
+      "type": "directory"
+    },
+    {
+      "path": "src\\App.tsx",
       "accessCount": 3,
-      "lastAccessed": 1777206320339,
+      "lastAccessed": 1777206285828,
       "type": "file"
     },
     {
@@ -247,6 +259,12 @@
       "accessCount": 3,
       "lastAccessed": 1777206352393,
       "type": "file"
+    },
+    {
+      "path": "src\\pages\\Founding1000Page.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1777209971318,
+      "type": "directory"
     },
     {
       "path": "tailwind.config.ts",
@@ -262,9 +280,27 @@
     },
     {
       "path": "src\\pages\\Index.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1777206631055,
+      "accessCount": 2,
+      "lastAccessed": 1777209942125,
       "type": "directory"
+    },
+    {
+      "path": "src\\components\\Founding1000Section.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1777209950990,
+      "type": "directory"
+    },
+    {
+      "path": "src\\lib\\submissions.ts",
+      "accessCount": 1,
+      "lastAccessed": 1777207352761,
+      "type": "directory"
+    },
+    {
+      "path": "src\\pages\\AboutPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1777209950632,
+      "type": "file"
     }
   ],
   "userDirectives": []
