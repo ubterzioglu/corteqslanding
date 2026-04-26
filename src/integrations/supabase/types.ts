@@ -652,7 +652,8 @@ export type Database = {
           referral_source: string | null;
           reviewed_at: string | null;
           reviewed_by: string | null;
-          source_type: "form" | "chatbot";
+          source_external_id: string | null;
+          source_type: "form" | "chatbot" | "wa";
           status: string;
           tiktok: string | null;
           twitter: string | null;
@@ -695,7 +696,8 @@ export type Database = {
           referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
-          source_type?: "form" | "chatbot";
+          source_external_id?: string | null;
+          source_type?: "form" | "chatbot" | "wa";
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
@@ -738,7 +740,8 @@ export type Database = {
           referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
-          source_type?: "form" | "chatbot";
+          source_external_id?: string | null;
+          source_type?: "form" | "chatbot" | "wa";
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
