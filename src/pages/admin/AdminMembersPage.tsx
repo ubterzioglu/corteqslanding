@@ -490,7 +490,7 @@ const AdminMembersPage = () => {
         accessorKey: "source_type",
         header: "Kaynak",
         cell: ({ row }) => (
-          <Badge className={getSourceBadgeClass(row.original.source_type)}>
+          <Badge className={`whitespace-nowrap ${getSourceBadgeClass(row.original.source_type)}`}>
             {getSourceLabel(row.original.source_type)}
           </Badge>
         ),
