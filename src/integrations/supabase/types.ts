@@ -652,6 +652,7 @@ export type Database = {
           referral_source: string | null;
           reviewed_at: string | null;
           reviewed_by: string | null;
+          source_type: "form" | "chatbot";
           status: string;
           tiktok: string | null;
           twitter: string | null;
@@ -694,6 +695,7 @@ export type Database = {
           referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
+          source_type?: "form" | "chatbot";
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
@@ -736,6 +738,7 @@ export type Database = {
           referral_source?: string | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
+          source_type?: "form" | "chatbot";
           status?: string;
           tiktok?: string | null;
           twitter?: string | null;
@@ -758,6 +761,84 @@ export type Database = {
             referencedColumns: ["id"];
           },
         ];
+      };
+      wa_users: {
+        Row: {
+          category: string | null;
+          city: string | null;
+          country: string | null;
+          created_at: string;
+          current_step: string | null;
+          discovery_source: string | null;
+          email: string | null;
+          funnel_interest: string | null;
+          id: string;
+          name: string | null;
+          note: string | null;
+          occupation_interest: string | null;
+          organization: string | null;
+          phone: string | null;
+          privacy_consent: boolean | null;
+          referral_code: string | null;
+          registration_completed_at: string | null;
+          registration_status: string | null;
+          source_type: "wa";
+          surname: string | null;
+          updated_at: string | null;
+          wa_id: string | null;
+          whatsapp_group_interest: boolean | null;
+        };
+        Insert: {
+          category?: string | null;
+          city?: string | null;
+          country?: string | null;
+          created_at?: string;
+          current_step?: string | null;
+          discovery_source?: string | null;
+          email?: string | null;
+          funnel_interest?: string | null;
+          id?: string;
+          name?: string | null;
+          note?: string | null;
+          occupation_interest?: string | null;
+          organization?: string | null;
+          phone?: string | null;
+          privacy_consent?: boolean | null;
+          referral_code?: string | null;
+          registration_completed_at?: string | null;
+          registration_status?: string | null;
+          source_type?: "wa";
+          surname?: string | null;
+          updated_at?: string | null;
+          wa_id?: string | null;
+          whatsapp_group_interest?: boolean | null;
+        };
+        Update: {
+          category?: string | null;
+          city?: string | null;
+          country?: string | null;
+          created_at?: string;
+          current_step?: string | null;
+          discovery_source?: string | null;
+          email?: string | null;
+          funnel_interest?: string | null;
+          id?: string;
+          name?: string | null;
+          note?: string | null;
+          occupation_interest?: string | null;
+          organization?: string | null;
+          phone?: string | null;
+          privacy_consent?: boolean | null;
+          referral_code?: string | null;
+          registration_completed_at?: string | null;
+          registration_status?: string | null;
+          source_type?: "wa";
+          surname?: string | null;
+          updated_at?: string | null;
+          wa_id?: string | null;
+          whatsapp_group_interest?: boolean | null;
+        };
+        Relationships: [];
       };
       matches: {
         Row: {

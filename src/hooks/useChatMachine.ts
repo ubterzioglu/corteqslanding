@@ -412,6 +412,8 @@ export function useChatMachine() {
       };
 
       const payload = toSubmissionInsert(values, "register", data.consent);
+      payload.source_type = "chatbot";
+      payload.referral_source = payload.referral_source || "ai-chat";
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
       const { error } = await supabase.from("submissions").insert(payload);
       if (error) throw error;

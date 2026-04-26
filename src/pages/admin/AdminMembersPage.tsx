@@ -26,6 +26,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 import {
   categoryOptions,
   getCategoryLabel,
@@ -39,6 +40,19 @@ import {
 import { normalizeTurkishText } from "@/lib/text-normalization";
 
 const DEFAULT_PAGE_SIZE = 20;
+const AI_CHAT_REFERRAL_SOURCE = "ai-chat";
+
+type WaUser = Tables<"wa_users">;
+type MemberSourceType = "form" | "chatbot" | "wa";
+type SourceTable = "submissions" | "wa_users";
+type AdminMemberRow = Omit<Submission, "id" | "source_type"> & {
+  id: string;
+  source_record_id: string;
+  source_table: SourceTable;
+  source_type: MemberSourceType;
+  wa_registration_status?: string | null;
+  wa_note?: string | null;
+};
 
 function useDebouncedValue<T>(value: T, delayMs = 300) {
   const [debounced, setDebounced] = useState(value);
@@ -53,6 +67,93 @@ function parseBool(value: string | null): boolean | null {
   if (value === "true") return true;
   if (value === "false") return false;
   return null;
+}
+
+function getSubmissionSourceType(submission: Submission): MemberSourceType {
+  if (submission.source_type === "chatbot") return "chatbot";
+  if (submission.referral_source === AI_CHAT_REFERRAL_SOURCE) return "chatbot";
+  return "form";
+}
+
+function getSourceLabel(sourceType: MemberSourceType) {
+  if (sourceType === "wa") return "WA Bot";
+  if (sourceType === "chatbot") return "Chatbot";
+  return "Form";
+}
+
+function getSourceBadgeClass(sourceType: MemberSourceType) {
+  if (sourceType === "wa") {
+    return "border-emerald-300 bg-emerald-100 text-emerald-800 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200";
+  }
+  if (sourceType === "chatbot") {
+    return "border-sky-300 bg-sky-100 text-sky-800 hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-200";
+  }
+  return "border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200";
+}
+
+function toSubmissionMemberRow(submission: Submission): AdminMemberRow {
+  return {
+    ...submission,
+    source_record_id: submission.id,
+    source_table: "submissions",
+    source_type: getSubmissionSourceType(submission),
+  };
+}
+
+function toWaMemberRow(user: WaUser): AdminMemberRow {
+  const fullname = [user.name, user.surname].filter(Boolean).join(" ").trim();
+
+  return {
+    business: user.organization,
+    category: user.category,
+    city: user.city ?? "",
+    company_name: user.organization,
+    contact_email_reached: false,
+    contact_instagram_reached: false,
+    contact_phone_reached: false,
+    contact_whatsapp_reached: false,
+    consent: user.privacy_consent ?? false,
+    contest_interest: false,
+    country: user.country ?? "",
+    created_at: user.created_at,
+    description: user.note,
+    document_name: null,
+    document_url: null,
+    documents: [],
+    donation_amount: null,
+    donation_currency: null,
+    email: user.email ?? "",
+    facebook: null,
+    field: user.occupation_interest ?? user.organization ?? user.funnel_interest ?? "",
+    form_type: "wa",
+    fullname: fullname || user.phone || user.wa_id || "WhatsApp kullanıcısı",
+    id: `wa:${user.id}`,
+    instagram: null,
+    linkedin: null,
+    notes: user.note,
+    offers_needs: user.funnel_interest ?? user.note,
+    phone: user.phone ?? user.wa_id ?? "",
+    referral_code: user.referral_code,
+    referral_code_id: null,
+    referral_detail: null,
+    referral_source: user.discovery_source,
+    reviewed_at: null,
+    reviewed_by: null,
+    source_record_id: user.id,
+    source_table: "wa_users",
+    source_type: "wa",
+    status: user.registration_status === "completed" ? "contacted" : "new",
+    tiktok: null,
+    twitter: null,
+    wa_note: user.note,
+    wa_registration_status: user.registration_status,
+    whatsapp_interest: user.whatsapp_group_interest,
+    website: null,
+  };
+}
+
+function includesValue(value: string | null | undefined, filter: string) {
+  return value?.toLocaleLowerCase("tr-TR").includes(filter.toLocaleLowerCase("tr-TR")) ?? false;
 }
 
 type RowDraft = {
@@ -98,9 +199,13 @@ const AdminMembersPage = () => {
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [rows, setRows] = useState<Submission[]>([]);
+  const [rows, setRows] = useState<AdminMemberRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+  const [formMemberCount, setFormMemberCount] = useState(0);
+  const [chatbotMemberCount, setChatbotMemberCount] = useState(0);
+  const [waMemberCount, setWaMemberCount] = useState(0);
+  const [memberCountsLoading, setMemberCountsLoading] = useState(true);
   const [selectedSubmissionId, setSelectedSubmissionId] = useState<string | null>(null);
   const [savingSubmissionId, setSavingSubmissionId] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -131,6 +236,7 @@ const AdminMembersPage = () => {
   const formTypeFilter = searchParams.get("formType") ?? "";
   const categoryFilter = searchParams.get("category") ?? "";
   const referralSourceFilter = searchParams.get("referralSource") ?? "";
+  const sourceTypeFilter = searchParams.get("sourceType") ?? "";
   const fromDate = searchParams.get("fromDate") ?? "";
   const toDate = searchParams.get("toDate") ?? "";
   const whatsappFilter = parseBool(searchParams.get("whatsapp"));
@@ -159,39 +265,91 @@ const AdminMembersPage = () => {
     setSearchParams(next, { replace: true });
   };
 
+  const fetchMemberCounts = useCallback(async () => {
+    setMemberCountsLoading(true);
+
+    const [submissionResult, chatbotResult, waResult] = await Promise.all([
+      supabase
+        .from("submissions")
+        .select("id", { count: "exact", head: true })
+        .neq("source_type", "chatbot"),
+      supabase
+        .from("submissions")
+        .select("id", { count: "exact", head: true })
+        .eq("source_type", "chatbot"),
+      supabase
+        .from("wa_users")
+        .select("id", { count: "exact", head: true }),
+    ]);
+
+    if (submissionResult.error || chatbotResult.error || waResult.error) {
+      console.error(submissionResult.error ?? chatbotResult.error ?? waResult.error);
+      setChatbotMemberCount(0);
+      setWaMemberCount(0);
+      setFormMemberCount(0);
+    } else {
+      setChatbotMemberCount(chatbotResult.count ?? 0);
+      setWaMemberCount(waResult.count ?? 0);
+      setFormMemberCount(submissionResult.count ?? 0);
+    }
+
+    setMemberCountsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    void fetchMemberCounts();
+  }, [fetchMemberCounts]);
+
   useEffect(() => {
     let cancelled = false;
 
     const run = async () => {
       setLoading(true);
-      let query = supabase.from("submissions").select("*", { count: "exact" });
-
-      if (debouncedFullname) query = query.ilike("fullname", `%${debouncedFullname}%`);
-      if (debouncedEmail) query = query.ilike("email", `%${debouncedEmail}%`);
-      if (debouncedCity) query = query.ilike("city", `%${debouncedCity}%`);
-      if (statusFilter) query = query.eq("status", statusFilter);
-      if (formTypeFilter) query = query.eq("form_type", formTypeFilter);
-      if (categoryFilter) query = query.eq("category", categoryFilter);
-      if (referralSourceFilter) query = query.eq("referral_source", referralSourceFilter);
-      if (whatsappFilter !== null) query = query.eq("whatsapp_interest", whatsappFilter);
-      if (contestFilter !== null) query = query.eq("contest_interest", contestFilter);
-      if (fromDate) query = query.gte("created_at", `${fromDate}T00:00:00.000Z`);
-      if (toDate) query = query.lte("created_at", `${toDate}T23:59:59.999Z`);
-
-      const start = (Math.max(page, 1) - 1) * Math.max(pageSize, 1);
-      const end = start + Math.max(pageSize, 1) - 1;
-      const { data, count, error } = await query.order(sortBy, { ascending: sortDir === "asc" }).range(start, end);
+      const [submissionResult, waResult] = await Promise.all([
+        supabase.from("submissions").select("*"),
+        supabase.from("wa_users").select("*"),
+      ]);
 
       if (cancelled) return;
 
-      if (error) {
+      if (submissionResult.error || waResult.error) {
+        const error = submissionResult.error ?? waResult.error;
         console.error(error);
-        toast({ title: "Kayıtlar yüklenemedi", description: error.message, variant: "destructive" });
+        toast({ title: "Kayıtlar yüklenemedi", description: error?.message, variant: "destructive" });
         setRows([]);
         setTotalCount(0);
       } else {
-        setRows(data ?? []);
-        setTotalCount(count ?? 0);
+        const allRows = [
+          ...(submissionResult.data ?? []).map(toSubmissionMemberRow),
+          ...(waResult.data ?? []).map(toWaMemberRow),
+        ].filter((row) => {
+          if (debouncedFullname && !includesValue(row.fullname, debouncedFullname)) return false;
+          if (debouncedEmail && !includesValue(row.email, debouncedEmail)) return false;
+          if (debouncedCity && !includesValue(row.city, debouncedCity)) return false;
+          if (statusFilter && row.status !== statusFilter) return false;
+          if (formTypeFilter && row.form_type !== formTypeFilter) return false;
+          if (categoryFilter && row.category !== categoryFilter) return false;
+          if (referralSourceFilter && row.referral_source !== referralSourceFilter) return false;
+          if (sourceTypeFilter && row.source_type !== sourceTypeFilter) return false;
+          if (whatsappFilter !== null && row.whatsapp_interest !== whatsappFilter) return false;
+          if (contestFilter !== null && row.contest_interest !== contestFilter) return false;
+          if (fromDate && row.created_at < `${fromDate}T00:00:00.000Z`) return false;
+          if (toDate && row.created_at > `${toDate}T23:59:59.999Z`) return false;
+          return true;
+        });
+
+        allRows.sort((left, right) => {
+          const leftValue = String(left[sortBy as keyof AdminMemberRow] ?? "");
+          const rightValue = String(right[sortBy as keyof AdminMemberRow] ?? "");
+          return sortDir === "asc"
+            ? leftValue.localeCompare(rightValue, "tr")
+            : rightValue.localeCompare(leftValue, "tr");
+        });
+
+        const start = (Math.max(page, 1) - 1) * Math.max(pageSize, 1);
+        const end = start + Math.max(pageSize, 1);
+        setRows(allRows.slice(start, end));
+        setTotalCount(allRows.length);
       }
       setLoading(false);
     };
@@ -213,6 +371,7 @@ const AdminMembersPage = () => {
     referralSourceFilter,
     sortBy,
     sortDir,
+    sourceTypeFilter,
     statusFilter,
     toDate,
     toast,
@@ -247,18 +406,23 @@ const AdminMembersPage = () => {
   );
 
   const selectedIds = useMemo(
-    () => Object.entries(rowSelection).filter(([, checked]) => checked).map(([id]) => id),
-    [rowSelection],
+    () =>
+      Object.entries(rowSelection)
+        .filter(([, checked]) => checked)
+        .map(([id]) => rows.find((row) => row.id === id))
+        .filter((row): row is AdminMemberRow => Boolean(row) && row.source_table === "submissions")
+        .map((row) => row.source_record_id),
+    [rowSelection, rows],
   );
 
-  const toRowDraft = (submission: Submission): RowDraft => ({
+  const toRowDraft = (submission: AdminMemberRow): RowDraft => ({
     fullname: submission.fullname,
     email: submission.email,
     city: submission.city,
     status: submission.status,
   });
 
-  const toDetailDraft = (submission: Submission): DetailDraft => ({
+  const toDetailDraft = (submission: AdminMemberRow): DetailDraft => ({
     fullname: submission.fullname,
     email: submission.email,
     phone: submission.phone,
@@ -289,20 +453,26 @@ const AdminMembersPage = () => {
 
     if (data) {
       setRows((current) => {
-        const updatedRows = current.map((submission) => (submission.id === submissionId ? data : submission));
+        const updatedRow = toSubmissionMemberRow(data);
+        const updatedRows = current.map((submission) => (submission.source_record_id === submissionId ? updatedRow : submission));
         if (statusFilter && data.status !== statusFilter) {
-          return updatedRows.filter((submission) => submission.id !== submissionId);
+          return updatedRows.filter((submission) => submission.source_record_id !== submissionId);
+        }
+        if (sourceTypeFilter && updatedRow.source_type !== sourceTypeFilter) {
+          return updatedRows.filter((submission) => submission.source_record_id !== submissionId);
         }
         return updatedRows;
       });
       toast({ title: successTitle });
+      if ("referral_source" in patch || "source_type" in patch) void fetchMemberCounts();
     }
 
     setSavingSubmissionId(null);
     return true;
-  }, [statusFilter, toast]);
+  }, [fetchMemberCounts, sourceTypeFilter, statusFilter, toast]);
 
-  const startRowEdit = useCallback((submission: Submission) => {
+  const startRowEdit = useCallback((submission: AdminMemberRow) => {
+    if (submission.source_table !== "submissions") return;
     setEditingRowId(submission.id);
     setRowDraft(toRowDraft(submission));
   }, []);
@@ -327,14 +497,15 @@ const AdminMembersPage = () => {
     if (saved) cancelRowEdit();
   }, [cancelRowEdit, rowDraft, updateSubmission]);
 
-  const softDeleteSubmission = useCallback(async (submission: Submission) => {
+  const softDeleteSubmission = useCallback(async (submission: AdminMemberRow) => {
+    if (submission.source_table !== "submissions") return;
     const confirmed = window.confirm(
       `${submission.fullname} kaydı arşivlenecek. Bu işlem geri alınabilir (Durum: Arşiv). Devam edilsin mi?`,
     );
     if (!confirmed) return;
 
     setDeletingId(submission.id);
-    const archived = await updateSubmission(submission.id, { status: "archived" }, "Kayıt arşivlendi");
+    const archived = await updateSubmission(submission.source_record_id, { status: "archived" }, "Kayıt arşivlendi");
     if (archived) {
       if (editingRowId === submission.id) cancelRowEdit();
       if (selectedSubmissionId === submission.id) setIsDetailEditing(false);
@@ -380,7 +551,7 @@ const AdminMembersPage = () => {
     if (saved) cancelDetailEdit();
   };
 
-  const columns = useMemo<ColumnDef<Submission>[]>(
+  const columns = useMemo<ColumnDef<AdminMemberRow>[]>(
     () => [
       {
         id: "select",
@@ -391,7 +562,20 @@ const AdminMembersPage = () => {
           />
         ),
         cell: ({ row }) => (
-          <Checkbox checked={row.getIsSelected()} onCheckedChange={(checked) => row.toggleSelected(Boolean(checked))} />
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(checked) => row.toggleSelected(Boolean(checked))}
+            disabled={row.original.source_table !== "submissions"}
+          />
+        ),
+      },
+      {
+        accessorKey: "source_type",
+        header: "Kaynak",
+        cell: ({ row }) => (
+          <Badge className={getSourceBadgeClass(row.original.source_type)}>
+            {getSourceLabel(row.original.source_type)}
+          </Badge>
         ),
       },
       {
@@ -402,14 +586,14 @@ const AdminMembersPage = () => {
       {
         accessorKey: "form_type",
         header: "Tür",
-        cell: ({ row }) => <Badge variant="outline">{getFormTypeLabel(row.original.form_type)}</Badge>,
+        cell: ({ row }) => <Badge variant="outline">{row.original.source_type === "wa" ? "WA" : getFormTypeLabel(row.original.form_type)}</Badge>,
       },
       { accessorKey: "category", header: "Kategori", cell: ({ row }) => <span className="text-xs">{getCategoryLabel(row.original.category)}</span> },
       {
         accessorKey: "status",
         header: "Durum",
         cell: ({ row }) => {
-          if (editingRowId !== row.original.id || !rowDraft) {
+          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
             return <Badge variant="secondary">{getStatusLabel(row.original.status)}</Badge>;
           }
           return (
@@ -434,7 +618,7 @@ const AdminMembersPage = () => {
         accessorKey: "fullname",
         header: "Ad Soyad",
         cell: ({ row }) => {
-          if (editingRowId !== row.original.id || !rowDraft) {
+          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs font-medium">{row.original.fullname}</span>;
           }
           return (
@@ -451,7 +635,7 @@ const AdminMembersPage = () => {
         accessorKey: "city",
         header: "Şehir",
         cell: ({ row }) => {
-          if (editingRowId !== row.original.id || !rowDraft) {
+          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs">{row.original.city}</span>;
           }
           return (
@@ -468,7 +652,7 @@ const AdminMembersPage = () => {
         accessorKey: "email",
         header: "E-posta",
         cell: ({ row }) => {
-          if (editingRowId !== row.original.id || !rowDraft) {
+          if (row.original.source_table !== "submissions" || editingRowId !== row.original.id || !rowDraft) {
             return <span className="text-xs">{row.original.email}</span>;
           }
           return (
@@ -497,6 +681,10 @@ const AdminMembersPage = () => {
         cell: ({ row }) => {
           const busy = savingSubmissionId === row.original.id || deletingId === row.original.id;
           const isEditing = editingRowId === row.original.id;
+
+          if (row.original.source_table !== "submissions") {
+            return <div className="text-right text-xs text-muted-foreground">WA</div>;
+          }
 
           if (isEditing) {
             return (
@@ -561,7 +749,7 @@ const AdminMembersPage = () => {
     getCoreRowModel: getCoreRowModel(),
     state: { rowSelection },
     onRowSelectionChange: setRowSelection,
-    enableRowSelection: true,
+    enableRowSelection: (row) => row.original.source_table === "submissions",
     getRowId: (row) => row.id,
   });
 
@@ -574,9 +762,10 @@ const AdminMembersPage = () => {
   };
 
   const exportCSV = () => {
-    const headers = ["Tarih", "Tür", "Kategori", "Durum", "Ad Soyad", "Ülke", "Şehir", "E-posta", "Telefon", "Referral Kaynağı", "Referral Kodu"];
+    const headers = ["Tarih", "Kayıt Kaynağı", "Tür", "Kategori", "Durum", "Ad Soyad", "Ülke", "Şehir", "E-posta", "Telefon", "Referral Kaynağı", "Referral Kodu"];
     const csvRows = rows.map((submission) => [
       new Date(submission.created_at).toLocaleDateString("tr-TR"),
+      getSourceLabel(submission.source_type),
       submission.form_type,
       submission.category || "",
       submission.status,
@@ -610,6 +799,7 @@ const AdminMembersPage = () => {
       email: normalizeTurkishText(String(form.get("email") ?? "")),
       phone: normalizeTurkishText(String(form.get("phone") ?? "")),
       form_type: "register",
+      source_type: "form",
       category: "bireysel",
       consent: true,
       status: "new",
@@ -620,6 +810,7 @@ const AdminMembersPage = () => {
       return;
     }
     toast({ title: "Yeni kayıt eklendi" });
+    void fetchMemberCounts();
     setCreateOpen(false);
     closeAction();
     setRows([]);
@@ -655,6 +846,7 @@ const AdminMembersPage = () => {
         email: normalizeTurkishText(get("email")),
         phone: normalizeTurkishText(get("phone")),
         form_type: get("form_type") || "register",
+        source_type: "form",
         category: get("category") || "bireysel",
         status: (get("status") as SubmissionStatus) || "new",
         consent: true,
@@ -668,6 +860,7 @@ const AdminMembersPage = () => {
     }
 
     toast({ title: "Import tamamlandı", description: `${rowsToInsert.length} kayıt eklendi.` });
+    void fetchMemberCounts();
     setImportOpen(false);
     closeAction();
     setImportCsvText("");
@@ -695,13 +888,34 @@ const AdminMembersPage = () => {
     ? savingSubmissionId === selectedSubmission.id || deletingId === selectedSubmission.id
     : false;
   const selectedIsAdvisor = selectedSubmission?.category === "danisman";
+  const selectedIsSubmission = selectedSubmission?.source_table === "submissions";
 
   return (
     <div className="space-y-6">
       <Card>
-        <CardHeader>
-          <CardTitle>Üye Takibi</CardTitle>
-          <CardDescription>Sunucu tarafı sayfalama, kolon bazlı filtre ve URL persistent state.</CardDescription>
+        <CardHeader className="gap-4 md:flex md:flex-row md:items-start md:justify-between">
+          <div className="space-y-1.5">
+            <CardTitle>Üye Takibi</CardTitle>
+            <CardDescription>Sunucu tarafı sayfalama, kolon bazlı filtre ve URL persistent state.</CardDescription>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:min-w-[420px]">
+            <div className="rounded-md border bg-muted/30 px-3 py-2">
+              <div className="text-[11px] font-medium text-muted-foreground">Üye Sayısı Form</div>
+              <div className="text-lg font-semibold leading-tight">{memberCountsLoading ? "..." : formMemberCount}</div>
+            </div>
+            <div className="rounded-md border border-sky-200 bg-sky-50 px-3 py-2 dark:border-sky-900 dark:bg-sky-950/40">
+              <div className="text-[11px] font-medium text-sky-700 dark:text-sky-300">Üye Sayısı Chatbot</div>
+              <div className="text-lg font-semibold leading-tight text-sky-800 dark:text-sky-200">
+                {memberCountsLoading ? "..." : chatbotMemberCount}
+              </div>
+            </div>
+            <div className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 dark:border-emerald-900 dark:bg-emerald-950/40">
+              <div className="text-[11px] font-medium text-emerald-700 dark:text-emerald-300">Üye Sayısı WA</div>
+              <div className="text-lg font-semibold leading-tight text-emerald-800 dark:text-emerald-200">
+                {memberCountsLoading ? "..." : waMemberCount}
+              </div>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-xs text-muted-foreground">
@@ -765,6 +979,18 @@ const AdminMembersPage = () => {
                   {referralSourceOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
                   ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <label className="text-[11px] text-muted-foreground">Kayıt Kaynağı</label>
+              <Select value={sourceTypeFilter || "__all__"} onValueChange={(value) => updateParam("sourceType", value === "__all__" ? "" : value)}>
+                <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="Kayıt kaynağı" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__all__">Tümü</SelectItem>
+                  <SelectItem value="form">Form</SelectItem>
+                  <SelectItem value="chatbot">Chatbot</SelectItem>
+                  <SelectItem value="wa">WA Bot</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -906,7 +1132,7 @@ const AdminMembersPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Kayıt Detayı</CardTitle>
-          <CardDescription>Seçili üyenin detay bilgilerini düzenleyin veya arşivleyin.</CardDescription>
+          <CardDescription>Seçili üyenin detay bilgilerini ve kayıt kaynağını görüntüleyin.</CardDescription>
         </CardHeader>
         <CardContent>
           {selectedSubmission ? (
@@ -1053,10 +1279,18 @@ const AdminMembersPage = () => {
                 <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
                   <div className="space-y-3">
                     <div className="font-semibold">{selectedSubmission.fullname}</div>
+                    <div>
+                      Kaynak: <Badge className={getSourceBadgeClass(selectedSubmission.source_type)}>{getSourceLabel(selectedSubmission.source_type)}</Badge>
+                    </div>
                     <div>{selectedSubmission.email} · {selectedSubmission.phone}</div>
                     <div>{selectedSubmission.country}, {selectedSubmission.city}</div>
                     <div>Durum: <Badge variant="secondary">{getStatusLabel(selectedSubmission.status)}</Badge></div>
                     <div>Referral: {getReferralSourceLabel(selectedSubmission.referral_source)} / {selectedSubmission.referral_code || "-"}</div>
+                    {selectedSubmission.source_type === "wa" && (
+                      <div className="text-xs text-muted-foreground">
+                        WA durumu: {selectedSubmission.wa_registration_status || "-"} · Not: {selectedSubmission.wa_note || "-"}
+                      </div>
+                    )}
                   </div>
                   {selectedIsAdvisor && (
                     <div className="rounded-lg border bg-muted/20 p-3">
@@ -1086,17 +1320,21 @@ const AdminMembersPage = () => {
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
-                    Düzenle
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => void softDeleteSubmission(selectedSubmission)}
-                    disabled={detailBusy}
-                  >
-                    Sil (Arşivle)
-                  </Button>
+                  {selectedIsSubmission && (
+                    <>
+                      <Button variant="outline" size="sm" onClick={startDetailEdit} disabled={detailBusy}>
+                        Düzenle
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => void softDeleteSubmission(selectedSubmission)}
+                        disabled={detailBusy}
+                      >
+                        Sil (Arşivle)
+                      </Button>
+                    </>
+                  )}
                   <Button variant="outline" size="sm" onClick={exportCSV} disabled={detailBusy}>
                     CSV Export
                   </Button>
