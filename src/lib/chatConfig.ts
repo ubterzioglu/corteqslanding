@@ -122,6 +122,75 @@ const SOURCE_QUICK_REPLIES: QuickReply[] = [
 
 const SKIP_REPLY: QuickReply = { label: "Ge\u00e7 \u23ed\ufe0f", value: "__skip__" };
 
+const categoryAliasMap: Array<{ value: string; aliases: string[] }> = [
+  { value: "danisman", aliases: ["danisman", "danışman", "doktor", "avukat", "muhasebe", "mali musavir", "mali müşavir", "terapist", "koc", "koç", "uzman", "consultant"] },
+  { value: "isletme", aliases: ["isletme", "işletme", "sirket", "şirket", "firma", "girisim", "girişim", "startup", "restoran", "kafe", "ajans", "emlak"] },
+  { value: "dernek", aliases: ["dernek", "stk", "ngo"] },
+  { value: "vakif", aliases: ["vakif", "vakıf", "foundation"] },
+  { value: "radyo-tv", aliases: ["radyo", "tv", "televizyon", "podcast", "media", "medya"] },
+  { value: "blogger-vlogger", aliases: ["blogger", "vlogger", "blog", "vlog", "youtube", "youtuber"] },
+  { value: "influencer", aliases: ["influencer", "creator", "icerik ureticisi", "içerik üreticisi", "content creator"] },
+  { value: "sehir-elcisi", aliases: ["sehir elcisi", "şehir elçisi", "elci", "elçi", "community lead", "topluluk lideri"] },
+  { value: "bireysel", aliases: ["bireysel", "kullanici", "kullanıcı", "user", "birey"] },
+];
+
+function foldForComparison(input: string) {
+  return input
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[ı]/g, "i")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+export function resolveCategoryInput(input: string): string | null {
+  const foldedInput = foldForComparison(input);
+  if (!foldedInput) return null;
+
+  const directMatch = categoryOptions.find((option) => option.value === input.trim());
+  if (directMatch) return directMatch.value;
+
+  for (const option of categoryOptions) {
+    if (option.value === "support") continue;
+    const foldedLabel = foldForComparison(option.label);
+    const foldedValue = foldForComparison(option.value);
+    if (foldedInput === foldedLabel || foldedInput === foldedValue) {
+      return option.value;
+    }
+  }
+
+  for (const { value, aliases } of categoryAliasMap) {
+    const matchedAlias = aliases.find((alias) => {
+      const foldedAlias = foldForComparison(alias);
+      return foldedInput === foldedAlias || foldedInput.includes(foldedAlias);
+    });
+    if (matchedAlias) return value;
+  }
+
+  return null;
+}
+
+export function shouldUseRagFallback(input: string) {
+  const trimmed = input.trim();
+  if (trimmed.length < 5) return false;
+  if (trimmed.includes("?")) return true;
+
+  const folded = foldForComparison(trimmed);
+  return [
+    "corteqs",
+    "nedir",
+    "nasil",
+    "nasıl",
+    "ne ise yarar",
+    "ne işe yarar",
+    "hangi",
+    "kim",
+    "neden",
+    "niye",
+  ].some((pattern) => folded.includes(foldForComparison(pattern)));
+}
+
 export function getStepMessage(step: ChatStep, data: ChatCollectedData): { content: string; quickReplies?: QuickReply[] } {
   switch (step) {
     case "welcome":
@@ -275,8 +344,7 @@ export function validateStep(step: ChatStep, input: string, _data: ChatCollected
 
   switch (step) {
     case "category": {
-      const valid = categoryOptions.filter((c) => c.value !== "support").some((c) => c.value === trimmed);
-      if (!valid) return { ok: false, message: "L\u00fctfen bir kategori se\u00e7." };
+      if (!resolveCategoryInput(trimmed)) return { ok: false, message: "L\u00fctfen bir kategori se\u00e7." };
       return { ok: true };
     }
 
