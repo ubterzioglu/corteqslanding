@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileText, Sparkles } from "lucide-react";
+import { FileText, MessageCircleQuestion, Sparkles } from "lucide-react";
 import ChatWindow from "@/components/chat/ChatWindow";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
 import { useChatMachine } from "@/hooks/useChatMachine";
@@ -104,6 +104,18 @@ const ChatBot = () => {
           <p className="text-lg leading-relaxed text-muted-foreground">
             Adım adım sohbet ile kaydını saniyeler içinde tamamla. İstersen klasik forma da geçebilirsin.
           </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <span className="rounded-full border border-accent/20 bg-accent/10 px-4 py-2 text-xs font-semibold text-accent">
+              Soruların için bilgi asistanını kullan, kayıt için bu akışta kal.
+            </span>
+            <a
+              href="#bilgi-asistani"
+              className="inline-flex items-center gap-2 rounded-xl border border-accent/25 bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent/45 hover:bg-accent/5"
+            >
+              <MessageCircleQuestion className="h-4 w-4 text-accent" />
+              CorteQS Asistanına Git
+            </a>
+          </div>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <span className="text-sm text-muted-foreground">
               Sohbet yerine klasik form mu istiyorsun?

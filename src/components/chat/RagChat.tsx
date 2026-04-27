@@ -67,6 +67,7 @@ const RagChat = () => {
 
   return (
     <section
+      id="bilgi-asistani"
       className="relative overflow-hidden py-14 lg:py-20"
       style={{
         background:

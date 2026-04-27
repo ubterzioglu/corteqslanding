@@ -171,7 +171,7 @@ export function resolveCategoryInput(input: string): string | null {
   return null;
 }
 
-export function shouldUseRagFallback(input: string) {
+export function shouldRedirectToKnowledgeAssistant(input: string) {
   const trimmed = input.trim();
   if (trimmed.length < 5) return false;
   if (trimmed.includes("?")) return true;
