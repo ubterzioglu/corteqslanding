@@ -32,6 +32,10 @@ const navItems = [
   { to: "/admin/about", label: "Güncellemeler" },
 ];
 
+const externalNavItems = [
+  { href: "https://dashboard.corteqs.net/", label: "WikiDash" },
+];
+
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -239,6 +243,15 @@ const AdminLayout = () => {
                 <NavLink key={item.to} to={item.to} className={linkClass}>
                   {item.label}
                 </NavLink>
+              ))}
+              {externalNavItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={linkClass({ isActive: false })}
+                >
+                  {item.label}
+                </a>
               ))}
               {location.pathname.startsWith("/admin/referral/sources") && (
                 <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">

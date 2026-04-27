@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { resolveCategoryInput, shouldUseRagFallback, validateStep } from "@/lib/chatConfig";
+import { resolveCategoryInput, shouldRedirectToKnowledgeAssistant, validateStep } from "@/lib/chatConfig";
 
 describe("chatConfig helpers", () => {
   it("accepts typed category labels and aliases", () => {
@@ -18,9 +18,9 @@ describe("chatConfig helpers", () => {
     });
   });
 
-  it("detects likely knowledge questions for rag fallback", () => {
-    expect(shouldUseRagFallback("Corteqs nedir?")).toBe(true);
-    expect(shouldUseRagFallback("Nasıl çalışıyor bu platform")).toBe(true);
-    expect(shouldUseRagFallback("Berlin")).toBe(false);
+  it("detects likely knowledge questions for knowledge-assistant redirect", () => {
+    expect(shouldRedirectToKnowledgeAssistant("Corteqs nedir?")).toBe(true);
+    expect(shouldRedirectToKnowledgeAssistant("Nasıl çalışıyor bu platform")).toBe(true);
+    expect(shouldRedirectToKnowledgeAssistant("Berlin")).toBe(false);
   });
 });

@@ -1,6 +1,5 @@
 import { useReducer, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { askRag } from "@/lib/ragApi";
 import { notifySubmission } from "@/lib/mail";
 import {
   getCategoryLabel,
@@ -22,7 +21,7 @@ import {
   getNextStep,
   generateId,
   resolveCategoryInput,
-  shouldUseRagFallback,
+  shouldRedirectToKnowledgeAssistant,
 } from "@/lib/chatConfig";
 
 export type ChatState = {
@@ -39,6 +38,7 @@ export type ChatState = {
 
 type ChatAction =
   | { type: "SEND_MESSAGE"; payload: string }
+  | { type: "KNOWLEDGE_GUARD"; payload: string }
   | { type: "SELECT_QUICK_REPLY"; payload: string }
   | { type: "SELECT_CATEGORY"; payload: string }
   | { type: "SELECT_SOURCE"; payload: string }
@@ -50,10 +50,7 @@ type ChatAction =
   | { type: "GO_BACK" }
   | { type: "RESET" }
   | { type: "PREFILL_CITY"; payload: string }
-  | { type: "START_OVER_FROM_SUMMARY" }
-  | { type: "RAG_REQUEST"; payload: string }
-  | { type: "RAG_SUCCESS"; payload: string }
-  | { type: "RAG_ERROR"; payload: string };
+  | { type: "START_OVER_FROM_SUMMARY" };
 
 function addBotMessage(messages: ChatMessage[], step: ChatStep, data: ChatCollectedData): ChatMessage[] {
   const { content, quickReplies, isSummary } = getStepMessage(step, data);
@@ -78,6 +75,34 @@ function addUserMessage(messages: ChatMessage[], content: string): ChatMessage[]
       timestamp: Date.now(),
     },
   ];
+}
+
+function addGuardAndRepeatPrompt(state: ChatState, input: string): ChatState {
+  const guardMessage: ChatMessage = {
+    id: generateId(),
+    role: "bot",
+    content:
+      "Şu an kayıt adımındayız. Bilgi soruları için üstteki **CorteQS Asistan** alanını kullanabilirsin; kayıt için bu akışta kalalım.",
+    timestamp: Date.now(),
+  };
+
+  const { content, quickReplies } = getStepMessage(state.step, state.data);
+  const repeatedPrompt: ChatMessage = {
+    id: generateId(),
+    role: "bot",
+    content,
+    timestamp: Date.now(),
+    quickReplies,
+  };
+
+  return {
+    ...state,
+    messages: [...addUserMessage(state.messages, input), guardMessage, repeatedPrompt],
+  };
+}
+
+function isOnboardingStep(step: ChatStep) {
+  return !["welcome", "summary", "completed"].includes(step);
 }
 
 function advanceStep(state: ChatState, currentStep: ChatStep): Partial<ChatState> {
@@ -282,6 +307,9 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...st, ...advanced };
     }
 
+    case "KNOWLEDGE_GUARD":
+      return addGuardAndRepeatPrompt(state, action.payload);
+
     case "UPLOAD_FILES": {
       const files = action.payload;
       const result = validateSubmissionDocuments(files, state.documentFiles);
@@ -343,64 +371,6 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...state, step: prevStep, messages: msgs, stepHistory: trimmedHistory };
     }
 
-    case "RAG_REQUEST":
-      return {
-        ...state,
-        messages: addUserMessage(state.messages, action.payload),
-        loading: true,
-        error: null,
-      };
-
-    case "RAG_SUCCESS": {
-      const ragMessage: ChatMessage = {
-        id: generateId(),
-        role: "bot",
-        content: action.payload,
-        timestamp: Date.now(),
-      };
-
-      const repeatedPrompt = getStepMessage(state.step, state.data);
-      const followUpPrompt: ChatMessage = {
-        id: generateId(),
-        role: "bot",
-        content: repeatedPrompt.content,
-        timestamp: Date.now(),
-        quickReplies: repeatedPrompt.quickReplies,
-      };
-
-      return {
-        ...state,
-        messages: [...state.messages, ragMessage, followUpPrompt],
-        loading: false,
-        error: null,
-      };
-    }
-
-    case "RAG_ERROR": {
-      const fallbackMessage: ChatMessage = {
-        id: generateId(),
-        role: "bot",
-        content: action.payload,
-        timestamp: Date.now(),
-      };
-
-      const repeatedPrompt = getStepMessage(state.step, state.data);
-      const followUpPrompt: ChatMessage = {
-        id: generateId(),
-        role: "bot",
-        content: repeatedPrompt.content,
-        timestamp: Date.now(),
-        quickReplies: repeatedPrompt.quickReplies,
-      };
-
-      return {
-        ...state,
-        messages: [...state.messages, fallbackMessage, followUpPrompt],
-        loading: false,
-        error: null,
-      };
-    }
-
     case "CONFIRM_SUBMIT":
       return { ...state, loading: true, error: null };
 
@@ -429,23 +399,8 @@ export function useChatMachine() {
       return;
     }
 
-    const validation = validateStep(state.step, input, state.data);
-    if (!validation.ok && shouldUseRagFallback(input)) {
-      dispatch({ type: "RAG_REQUEST", payload: input });
-
-      void askRag(input)
-        .then(({ answer, hasContext }) => {
-          const response = hasContext
-            ? answer
-            : "Bu soruya net bir bilgi bulamadım ama kayıt akışına devam edebiliriz.";
-          dispatch({ type: "RAG_SUCCESS", payload: response });
-        })
-        .catch(() => {
-          dispatch({
-            type: "RAG_ERROR",
-            payload: "Bilgi asistanına şu an bağlanamadım ama kayıt adımına birlikte devam edebiliriz.",
-          });
-        });
+    if (isOnboardingStep(state.step) && shouldRedirectToKnowledgeAssistant(input)) {
+      dispatch({ type: "KNOWLEDGE_GUARD", payload: input });
       return;
     }
 
