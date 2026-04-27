@@ -60,9 +60,10 @@ Required runtime environment variables in Coolify:
 VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
 VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
+RAG_API_SECRET=your_rag_api_secret
 ```
 
-The container serves the built Vite app with nginx and writes `/env-config.js` on startup so frontend runtime config works without committing `.env`.
+The container serves the built Vite app with nginx and writes `/env-config.js` on startup so frontend runtime config works without committing `.env`. `RAG_API_SECRET` is used only on the server-side nginx proxy for `/api/chat` and must not be exposed with a `VITE_` prefix.
 
 ## Notes
 

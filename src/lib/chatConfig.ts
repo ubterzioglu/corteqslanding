@@ -191,12 +191,31 @@ export function shouldRedirectToKnowledgeAssistant(input: string) {
   ].some((pattern) => folded.includes(foldForComparison(pattern)));
 }
 
+export function shouldStartRegistration(input: string) {
+  const folded = foldForComparison(input);
+  if (!folded) return false;
+
+  return [
+    "kayit olmak istiyorum",
+    "kaydolmak istiyorum",
+    "kayit ol",
+    "kaydol",
+    "beni ekle",
+    "uye olayim",
+    "uye olmak istiyorum",
+    "basvuru yapmak istiyorum",
+    "basvuru yapmak",
+    "kaydimi al",
+  ].some((pattern) => folded.includes(foldForComparison(pattern)));
+}
+
 export function getStepMessage(step: ChatStep, data: ChatCollectedData): { content: string; quickReplies?: QuickReply[] } {
   switch (step) {
     case "welcome":
       return {
-        content: "Merhaba! \ud83d\udc4b CorteQS Diaspora Connect a\u011f\u0131na kayd\u0131n\u0131 sohbet ile tamamlayabilirsin.\nHem h\u0131zl\u0131 hem kolay \u2014 ba\u015flayal\u0131m!",
-        quickReplies: [{ label: "Ba\u015fla \ud83d\ude80", value: "__start__" }],
+        content:
+          "Merhaba! Ben CorteQS Asistan\u0131.\n\nCorteQS hakk\u0131nda sorular\u0131n\u0131 yan\u0131tlayabilirim ya da istersen kayd\u0131n\u0131 sohbet i\u00e7inde tamamlayabilirim.",
+        quickReplies: [{ label: "Kay\u0131t Ol \ud83d\ude80", value: "__start__" }],
       };
 
     case "category":

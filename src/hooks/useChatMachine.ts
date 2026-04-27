@@ -21,7 +21,6 @@ import {
   getNextStep,
   generateId,
   resolveCategoryInput,
-  shouldRedirectToKnowledgeAssistant,
 } from "@/lib/chatConfig";
 
 export type ChatState = {
@@ -38,7 +37,6 @@ export type ChatState = {
 
 type ChatAction =
   | { type: "SEND_MESSAGE"; payload: string }
-  | { type: "KNOWLEDGE_GUARD"; payload: string }
   | { type: "SELECT_QUICK_REPLY"; payload: string }
   | { type: "SELECT_CATEGORY"; payload: string }
   | { type: "SELECT_SOURCE"; payload: string }
@@ -50,7 +48,12 @@ type ChatAction =
   | { type: "GO_BACK" }
   | { type: "RESET" }
   | { type: "PREFILL_CITY"; payload: string }
-  | { type: "START_OVER_FROM_SUMMARY" };
+  | { type: "START_OVER_FROM_SUMMARY" }
+  | { type: "BEGIN_REGISTRATION"; payload?: string }
+  | {
+      type: "APPEND_MESSAGE";
+      payload: Pick<ChatMessage, "role" | "content" | "quickReplies" | "isSummary">;
+    };
 
 function addBotMessage(messages: ChatMessage[], step: ChatStep, data: ChatCollectedData): ChatMessage[] {
   const { content, quickReplies, isSummary } = getStepMessage(step, data);
@@ -75,34 +78,6 @@ function addUserMessage(messages: ChatMessage[], content: string): ChatMessage[]
       timestamp: Date.now(),
     },
   ];
-}
-
-function addGuardAndRepeatPrompt(state: ChatState, input: string): ChatState {
-  const guardMessage: ChatMessage = {
-    id: generateId(),
-    role: "bot",
-    content:
-      "Şu an kayıt adımındayız. Bilgi soruları için üstteki **CorteQS Asistan** alanını kullanabilirsin; kayıt için bu akışta kalalım.",
-    timestamp: Date.now(),
-  };
-
-  const { content, quickReplies } = getStepMessage(state.step, state.data);
-  const repeatedPrompt: ChatMessage = {
-    id: generateId(),
-    role: "bot",
-    content,
-    timestamp: Date.now(),
-    quickReplies,
-  };
-
-  return {
-    ...state,
-    messages: [...addUserMessage(state.messages, input), guardMessage, repeatedPrompt],
-  };
-}
-
-function isOnboardingStep(step: ChatStep) {
-  return !["welcome", "summary", "completed"].includes(step);
 }
 
 function advanceStep(state: ChatState, currentStep: ChatStep): Partial<ChatState> {
@@ -152,12 +127,35 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...state, prefillCity: action.payload, data: { ...state.data, city: action.payload } };
     }
 
+    case "BEGIN_REGISTRATION": {
+      if (state.step !== "welcome") return state;
+      const messages = action.payload ? addUserMessage(state.messages, action.payload) : state.messages;
+      const nextState = { ...state, messages };
+      const advanced = advanceStep(nextState, "welcome");
+      return { ...nextState, ...advanced };
+    }
+
+    case "APPEND_MESSAGE":
+      return {
+        ...state,
+        messages: [
+          ...state.messages,
+          {
+            id: generateId(),
+            role: action.payload.role,
+            content: action.payload.content,
+            timestamp: Date.now(),
+            quickReplies: action.payload.quickReplies,
+            isSummary: action.payload.isSummary,
+          },
+        ],
+      };
+
     case "SELECT_QUICK_REPLY": {
       const value = action.payload;
 
       if (value === "__start__") {
-        const advanced = advanceStep(state, "welcome");
-        return { ...state, ...advanced };
+        return chatReducer(state, { type: "BEGIN_REGISTRATION" });
       }
 
       if (value === "__skip__") {
@@ -307,9 +305,6 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...st, ...advanced };
     }
 
-    case "KNOWLEDGE_GUARD":
-      return addGuardAndRepeatPrompt(state, action.payload);
-
     case "UPLOAD_FILES": {
       const files = action.payload;
       const result = validateSubmissionDocuments(files, state.documentFiles);
@@ -399,11 +394,6 @@ export function useChatMachine() {
       return;
     }
 
-    if (isOnboardingStep(state.step) && shouldRedirectToKnowledgeAssistant(input)) {
-      dispatch({ type: "KNOWLEDGE_GUARD", payload: input });
-      return;
-    }
-
     dispatch({ type: "SEND_MESSAGE", payload: input });
   }, [state]);
 
@@ -430,6 +420,14 @@ export function useChatMachine() {
 
   const prefillCity = useCallback((city: string) => {
     dispatch({ type: "PREFILL_CITY", payload: city });
+  }, []);
+
+  const beginRegistration = useCallback((input?: string) => {
+    dispatch({ type: "BEGIN_REGISTRATION", payload: input });
+  }, []);
+
+  const appendMessage = useCallback((payload: Pick<ChatMessage, "role" | "content" | "quickReplies" | "isSummary">) => {
+    dispatch({ type: "APPEND_MESSAGE", payload });
   }, []);
 
   const submit = useCallback(async () => {
@@ -492,6 +490,8 @@ export function useChatMachine() {
     uploadFiles,
     removeFile,
     prefillCity,
+    beginRegistration,
+    appendMessage,
     submit,
   };
 }

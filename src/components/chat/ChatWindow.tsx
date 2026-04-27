@@ -13,6 +13,11 @@ type Props = {
   onSelectQuickReply: (value: string) => void;
   onUploadFiles: (files: File[]) => void;
   onRemoveFile: (index: number) => void;
+  assistantTitle?: string;
+  assistantStatus?: string;
+  loadingOverride?: boolean;
+  errorOverride?: string | null;
+  allowInputAfterSubmit?: boolean;
 };
 
 const ChatWindow = ({
@@ -21,9 +26,17 @@ const ChatWindow = ({
   onSelectQuickReply,
   onUploadFiles,
   onRemoveFile,
+  assistantTitle = "CorteQS Asistanı",
+  assistantStatus,
+  loadingOverride,
+  errorOverride,
+  allowInputAfterSubmit = false,
 }: Props) => {
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const isLoading = loadingOverride ?? state.loading;
+  const errorMessage = errorOverride ?? state.error;
+  const inputLocked = state.submitted && !allowInputAfterSubmit;
 
   const { percentage } = getProgressInfo(state.step, state.data);
 
@@ -32,7 +45,7 @@ const ChatWindow = ({
       top: scrollRef.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [state.messages, state.loading]);
+  }, [isLoading, state.messages]);
 
   const handleSend = () => {
     const trimmed = input.trim();
@@ -47,8 +60,8 @@ const ChatWindow = ({
 
   const lastMessage = state.messages[state.messages.length - 1];
   const showQuickReplies =
-    !state.submitted &&
-    !state.loading &&
+    !inputLocked &&
+    !isLoading &&
     lastMessage?.role === "bot" &&
     lastMessage?.quickReplies &&
     lastMessage.quickReplies.length > 0;
@@ -72,10 +85,10 @@ const ChatWindow = ({
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">
-                CorteQS Kayıt Asistanı
+                {assistantTitle}
               </p>
               <p className="text-xs text-muted-foreground">
-                {state.submitted ? "Tamamlandı ✅" : "Online"}
+                {assistantStatus ?? (state.submitted ? "Kayıt tamamlandı, sorulara devam edebilirsin ✅" : "Online")}
               </p>
             </div>
           </div>
@@ -93,7 +106,7 @@ const ChatWindow = ({
         {state.messages.map((msg) => (
           <ChatMessage key={msg.id} message={msg} />
         ))}
-        {state.loading && (
+        {isLoading && (
           <div className="flex justify-start gap-3">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent">
               <Bot className="h-4 w-4 text-primary-foreground" />
@@ -116,9 +129,9 @@ const ChatWindow = ({
             </div>
           </div>
         )}
-        {state.error && (
+        {errorMessage && (
           <div className="mx-auto max-w-md rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-center text-sm text-destructive">
-            {state.error}
+            {errorMessage}
           </div>
         )}
       </div>
@@ -128,7 +141,7 @@ const ChatWindow = ({
           <ChatQuickReply
             replies={lastMessage.quickReplies!}
             onSelect={onSelectQuickReply}
-            disabled={state.loading || state.submitted}
+            disabled={isLoading || inputLocked}
           />
         </div>
       )}
@@ -140,9 +153,9 @@ const ChatWindow = ({
         onFileSelect={handleFileSelect}
         documentFiles={state.documentFiles}
         onRemoveFile={onRemoveFile}
-        disabled={state.loading}
-        loading={state.loading}
-        submitted={state.submitted}
+        disabled={isLoading}
+        loading={isLoading}
+        submitted={inputLocked}
         step={state.step}
         showFileInput={showFileInput}
       />
