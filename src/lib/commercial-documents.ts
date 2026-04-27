@@ -1,4 +1,4 @@
-import contributorOnepagerHtml from "../../corteqs-local-contributor-onepager.html?raw";
+import contributorOnepagerHtml from "../../info-contributor.html?raw";
 
 export interface CommercialDocument {
   slug: string;
