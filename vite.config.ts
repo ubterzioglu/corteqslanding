@@ -10,6 +10,12 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    proxy: {
+      "/api/chat": {
+        target: "https://rag.corteqs.net",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [
     react(),
