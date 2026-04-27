@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import FooterSection from "@/components/FooterSection";
@@ -11,6 +12,15 @@ const CommercialDocumentPage = () => {
   }
 
   const document = getCommercialDocumentBySlug(slug);
+  const standalonePath = document?.standalonePath;
+
+  useEffect(() => {
+    const isJsdom = typeof navigator !== "undefined" && navigator.userAgent.includes("jsdom");
+
+    if (standalonePath && !isJsdom) {
+      window.location.replace(standalonePath);
+    }
+  }, [standalonePath]);
 
   if (!document) {
     return <Navigate to="/404" replace />;
@@ -52,13 +62,20 @@ const CommercialDocumentPage = () => {
 
             <div className="mt-8 h-px bg-gradient-to-r from-primary/25 via-accent/25 to-transparent" />
 
-            {document.srcDoc ? (
-              <div className="mt-8 overflow-hidden rounded-[1.5rem] border border-border/70 bg-white shadow-[0_20px_50px_rgba(15,23,42,0.05)]">
-                <iframe
-                  title={`${document.title} document`}
-                  srcDoc={document.srcDoc}
-                  className="min-h-[1800px] w-full bg-white"
-                />
+            {standalonePath ? (
+              <div className="mt-8 rounded-[1.5rem] border border-border/70 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.05)]">
+                <p className="text-base leading-8 text-muted-foreground md:text-lg">
+                  Contributor dokümanı bağımsız HTML sayfası olarak açılıyor. Böylece iç scroll olmadan
+                  normal sayfa gibi gezebilir ve istersen doğrudan <strong>Save As</strong> ile
+                  kaydedebilirsin.
+                </p>
+                <a
+                  href={standalonePath}
+                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-primary/10 px-5 py-3 text-sm font-bold text-primary transition-colors hover:bg-primary/15"
+                >
+                  Standalone contributor dokümanını aç
+                  <ExternalLink className="h-4 w-4" />
+                </a>
               </div>
             ) : (
               <article

@@ -1,9 +1,11 @@
 import { ArrowRight, FileText } from "lucide-react";
-import { Link } from "react-router-dom";
 import FooterSection from "@/components/FooterSection";
 import { commercialDocuments } from "@/lib/commercial-documents";
 
 const CommercialIndexPage = () => {
+  const getDocumentHref = (slug: string, standalonePath?: string) =>
+    standalonePath ?? `/commercial/${slug}`;
+
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,hsl(var(--background))_0%,hsl(var(--section-warm))_52%,hsl(var(--background))_100%)]">
       <main className="relative overflow-hidden">
@@ -33,9 +35,9 @@ const CommercialIndexPage = () => {
 
           <section className="mt-8 grid gap-5 md:grid-cols-2">
             {commercialDocuments.map((document) => (
-              <Link
+              <a
                 key={document.slug}
-                to={`/commercial/${document.slug}`}
+                href={getDocumentHref(document.slug, document.standalonePath)}
                 className="group rounded-[1.75rem] border border-border/70 bg-card p-6 shadow-[0_20px_50px_rgba(15,23,42,0.06)] transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_28px_60px_rgba(15,23,42,0.1)]"
               >
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -47,7 +49,7 @@ const CommercialIndexPage = () => {
                   Dokümana git
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
-              </Link>
+              </a>
             ))}
           </section>
         </div>

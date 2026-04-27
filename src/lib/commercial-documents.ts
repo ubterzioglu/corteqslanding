@@ -1,11 +1,9 @@
-import contributorOnepagerHtml from "../../info-contributor.html?raw";
-
 export interface CommercialDocument {
   slug: string;
   title: string;
   summary: string;
   html?: string;
-  srcDoc?: string;
+  standalonePath?: string;
 }
 
 export const commercialDocuments: CommercialDocument[] = [
@@ -13,7 +11,7 @@ export const commercialDocuments: CommercialDocument[] = [
     slug: "contributor",
     title: "Contributor",
     summary: "CorteQS contributor yapısının rolü, katkı alanları ve birlikte çalışma biçimi.",
-    srcDoc: contributorOnepagerHtml,
+    standalonePath: "/commercial/contributor/",
   },
   {
     slug: "ambassador",

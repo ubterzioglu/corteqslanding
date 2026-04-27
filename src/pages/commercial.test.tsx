@@ -27,11 +27,33 @@ describe("commercial routes", () => {
     }
   });
 
-  it("renders a known commercial document", () => {
+  it("links the contributor card to the standalone HTML document", () => {
+    renderAtRoute("/commercial");
+
+    expect(screen.getByRole("link", { name: /contributor/i })).toHaveAttribute(
+      "href",
+      "/commercial/contributor/",
+    );
+  });
+
+  it("renders the contributor route as a standalone HTML handoff", () => {
     renderAtRoute("/commercial/contributor");
 
     expect(screen.getByRole("heading", { name: "Contributor" })).toBeInTheDocument();
-    expect(screen.getByTitle(/contributor document/i)).toBeInTheDocument();
+    expect(screen.queryByTitle(/contributor document/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /standalone contributor dokümanını aç/i }),
+    ).toHaveAttribute(
+      "href",
+      "/commercial/contributor/",
+    );
+  });
+
+  it("renders a known embedded commercial document", () => {
+    renderAtRoute("/commercial/ambassador");
+
+    expect(screen.getByRole("heading", { name: "Ambassador" })).toBeInTheDocument();
+    expect(screen.getByText(/replace this html with the final ambassador document when ready/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /commercial alanına dön/i })).toHaveAttribute(
       "href",
       "/commercial",
