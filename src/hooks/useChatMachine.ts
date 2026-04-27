@@ -1,7 +1,10 @@
 import { useReducer, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { askRag } from "@/lib/ragApi";
 import { notifySubmission } from "@/lib/mail";
 import {
+  getCategoryLabel,
+  getReferralSourceLabel,
   toSubmissionInsert,
   uploadSubmissionDocuments,
   validateReferralCodeBeforeSubmit,
@@ -18,6 +21,8 @@ import {
   detectCommand,
   getNextStep,
   generateId,
+  resolveCategoryInput,
+  shouldUseRagFallback,
 } from "@/lib/chatConfig";
 
 export type ChatState = {
@@ -45,7 +50,10 @@ type ChatAction =
   | { type: "GO_BACK" }
   | { type: "RESET" }
   | { type: "PREFILL_CITY"; payload: string }
-  | { type: "START_OVER_FROM_SUMMARY" };
+  | { type: "START_OVER_FROM_SUMMARY" }
+  | { type: "RAG_REQUEST"; payload: string }
+  | { type: "RAG_SUCCESS"; payload: string }
+  | { type: "RAG_ERROR"; payload: string };
 
 function addBotMessage(messages: ChatMessage[], step: ChatStep, data: ChatCollectedData): ChatMessage[] {
   const { content, quickReplies, isSummary } = getStepMessage(step, data);
@@ -151,7 +159,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
       if (state.step === "category") {
         const newData = { ...state.data, category: value };
-        const label = value;
+        const label = getCategoryLabel(value);
         let msgs = addUserMessage(state.messages, label);
         const st: ChatState = { ...state, messages: msgs, data: newData, stepHistory: [...state.stepHistory] };
 
@@ -175,7 +183,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 
       if (state.step === "referral_source") {
         const newData = { ...state.data, referral_source: value, referral_detail: null };
-        const msgs = addUserMessage(state.messages, value);
+        const msgs = addUserMessage(state.messages, getReferralSourceLabel(value));
         const st: ChatState = { ...state, messages: msgs, data: newData, stepHistory: [...state.stepHistory] };
         const advanced = advanceStep(st, "referral_source");
         return { ...st, ...advanced };
@@ -335,6 +343,64 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...state, step: prevStep, messages: msgs, stepHistory: trimmedHistory };
     }
 
+    case "RAG_REQUEST":
+      return {
+        ...state,
+        messages: addUserMessage(state.messages, action.payload),
+        loading: true,
+        error: null,
+      };
+
+    case "RAG_SUCCESS": {
+      const ragMessage: ChatMessage = {
+        id: generateId(),
+        role: "bot",
+        content: action.payload,
+        timestamp: Date.now(),
+      };
+
+      const repeatedPrompt = getStepMessage(state.step, state.data);
+      const followUpPrompt: ChatMessage = {
+        id: generateId(),
+        role: "bot",
+        content: repeatedPrompt.content,
+        timestamp: Date.now(),
+        quickReplies: repeatedPrompt.quickReplies,
+      };
+
+      return {
+        ...state,
+        messages: [...state.messages, ragMessage, followUpPrompt],
+        loading: false,
+        error: null,
+      };
+    }
+
+    case "RAG_ERROR": {
+      const fallbackMessage: ChatMessage = {
+        id: generateId(),
+        role: "bot",
+        content: action.payload,
+        timestamp: Date.now(),
+      };
+
+      const repeatedPrompt = getStepMessage(state.step, state.data);
+      const followUpPrompt: ChatMessage = {
+        id: generateId(),
+        role: "bot",
+        content: repeatedPrompt.content,
+        timestamp: Date.now(),
+        quickReplies: repeatedPrompt.quickReplies,
+      };
+
+      return {
+        ...state,
+        messages: [...state.messages, fallbackMessage, followUpPrompt],
+        loading: false,
+        error: null,
+      };
+    }
+
     case "CONFIRM_SUBMIT":
       return { ...state, loading: true, error: null };
 
@@ -354,8 +420,37 @@ export function useChatMachine() {
   const submitRef = useRef(false);
 
   const sendMessage = useCallback((input: string) => {
+    if (state.loading || state.submitted) return;
+
+    const resolvedCategory =
+      state.step === "category" ? resolveCategoryInput(input) : null;
+    if (resolvedCategory) {
+      dispatch({ type: "SELECT_QUICK_REPLY", payload: resolvedCategory });
+      return;
+    }
+
+    const validation = validateStep(state.step, input, state.data);
+    if (!validation.ok && shouldUseRagFallback(input)) {
+      dispatch({ type: "RAG_REQUEST", payload: input });
+
+      void askRag(input)
+        .then(({ answer, hasContext }) => {
+          const response = hasContext
+            ? answer
+            : "Bu soruya net bir bilgi bulamadım ama kayıt akışına devam edebiliriz.";
+          dispatch({ type: "RAG_SUCCESS", payload: response });
+        })
+        .catch(() => {
+          dispatch({
+            type: "RAG_ERROR",
+            payload: "Bilgi asistanına şu an bağlanamadım ama kayıt adımına birlikte devam edebiliriz.",
+          });
+        });
+      return;
+    }
+
     dispatch({ type: "SEND_MESSAGE", payload: input });
-  }, []);
+  }, [state]);
 
   const selectQuickReply = useCallback((value: string) => {
     dispatch({ type: "SELECT_QUICK_REPLY", payload: value });
