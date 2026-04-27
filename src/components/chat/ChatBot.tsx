@@ -1,22 +1,33 @@
 import { useEffect, useState } from "react";
-import { FileText, MessageCircleQuestion, Sparkles } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 import ChatWindow from "@/components/chat/ChatWindow";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
 import { useChatMachine } from "@/hooks/useChatMachine";
+import {
+  getStepMessage,
+  shouldRedirectToKnowledgeAssistant,
+  shouldStartRegistration,
+} from "@/lib/chatConfig";
+import { askRag } from "@/lib/ragApi";
 
 const ChatBot = () => {
   const {
     state,
     sendMessage,
+    goBack,
     selectQuickReply,
     uploadFiles,
     removeFile,
     submit,
     prefillCity,
+    beginRegistration,
+    appendMessage,
   } = useChatMachine();
 
   const [classicFormOpen, setClassicFormOpen] = useState(false);
   const [presetCity, setPresetCity] = useState<string | undefined>(undefined);
+  const [knowledgeLoading, setKnowledgeLoading] = useState(false);
+  const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
 
   useEffect(() => {
     const handleSelectCity = (event: Event) => {
@@ -57,7 +68,56 @@ const ChatBot = () => {
     }
   }, [state.step, state.messages, submit]);
 
+  const answerKnowledgeQuestion = async (input: string) => {
+    appendMessage({ role: "user", content: input });
+    setKnowledgeError(null);
+    setKnowledgeLoading(true);
+
+    try {
+      const { answer, hasContext } = await askRag(input);
+      appendMessage({
+        role: "bot",
+        content: hasContext
+          ? answer
+          : "Üzgünüm, bu konuda yeterli bilgi bulamadım. Daha farklı bir şekilde sorabilir misin?",
+      });
+
+      if (state.step !== "welcome" && !state.submitted) {
+        const { content, quickReplies } = getStepMessage(state.step, state.data);
+        appendMessage({
+          role: "bot",
+          content: `Kayıt için kaldığımız yerden devam edelim.\n\n${content}`,
+          quickReplies,
+        });
+      }
+    } catch {
+      const message = "Bilgi asistanına şu anda ulaşılamıyor. Lütfen birazdan tekrar dene.";
+      setKnowledgeError(message);
+      appendMessage({ role: "bot", content: message });
+    } finally {
+      setKnowledgeLoading(false);
+    }
+  };
+
   const handleSendMessage = (input: string) => {
+    if (knowledgeLoading || state.loading) return;
+    setKnowledgeError(null);
+
+    if (state.step === "welcome") {
+      if (shouldStartRegistration(input)) {
+        beginRegistration(input);
+        return;
+      }
+
+      void answerKnowledgeQuestion(input);
+      return;
+    }
+
+    if (state.submitted || shouldRedirectToKnowledgeAssistant(input)) {
+      void answerKnowledgeQuestion(input);
+      return;
+    }
+
     sendMessage(input);
   };
 
@@ -67,6 +127,7 @@ const ChatBot = () => {
       return;
     }
     if (value === "__go_back__") {
+      goBack();
       return;
     }
     selectQuickReply(value);
@@ -95,27 +156,15 @@ const ChatBot = () => {
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Akıllı Kayıt Deneyimi
+              Yapay Zeka Destekli Asistan
             </span>
           </div>
           <h2 className="mb-4 text-3xl font-bold leading-tight text-foreground md:text-5xl">
-            Form Doldurmaktan <span className="text-accent">Sıkıldın mı?</span>
+            Sorularını Sor, <span className="text-accent">İstersen Kaydını da Bırak</span>
           </h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Adım adım sohbet ile kaydını saniyeler içinde tamamla. İstersen klasik forma da geçebilirsin.
+            Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
           </p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-            <span className="rounded-full border border-accent/20 bg-accent/10 px-4 py-2 text-xs font-semibold text-accent">
-              Soruların için bilgi asistanını kullan, kayıt için bu akışta kal.
-            </span>
-            <a
-              href="#bilgi-asistani"
-              className="inline-flex items-center gap-2 rounded-xl border border-accent/25 bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent/45 hover:bg-accent/5"
-            >
-              <MessageCircleQuestion className="h-4 w-4 text-accent" />
-              CorteQS Asistanına Git
-            </a>
-          </div>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <span className="text-sm text-muted-foreground">
               Sohbet yerine klasik form mu istiyorsun?
@@ -137,6 +186,17 @@ const ChatBot = () => {
           onSelectQuickReply={handleSelectQuickReply}
           onUploadFiles={uploadFiles}
           onRemoveFile={removeFile}
+          assistantTitle="CorteQS Asistanı"
+          assistantStatus={
+            state.submitted
+              ? "Kayıt tamamlandı, sorularına devam edebilirsin ✅"
+              : state.step === "welcome"
+                ? "Sorulara cevap verir, istediğinde kayda geçer"
+                : "Kayıt modunda, ama sorularını da yanıtlayabilir"
+          }
+          loadingOverride={state.loading || knowledgeLoading}
+          errorOverride={knowledgeError ?? state.error}
+          allowInputAfterSubmit
         />
       </div>
 
