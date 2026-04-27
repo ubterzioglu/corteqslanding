@@ -90,6 +90,66 @@
 }
 
 @layer utilities {
+  .commercial-prose {
+    @apply text-base leading-8 text-foreground;
+  }
+
+  .commercial-prose h2 {
+    @apply mt-10 text-2xl font-black tracking-tight text-foreground first:mt-0 md:text-3xl;
+  }
+
+  .commercial-prose h3 {
+    @apply mt-8 text-xl font-bold text-foreground md:text-2xl;
+  }
+
+  .commercial-prose p {
+    @apply mt-4 text-base leading-8 text-muted-foreground;
+  }
+
+  .commercial-prose ul,
+  .commercial-prose ol {
+    @apply mt-4 space-y-3 pl-6 text-muted-foreground;
+  }
+
+  .commercial-prose ul {
+    list-style: disc;
+  }
+
+  .commercial-prose ol {
+    list-style: decimal;
+  }
+
+  .commercial-prose li {
+    @apply pl-1 leading-7;
+  }
+
+  .commercial-prose a {
+    @apply font-semibold text-primary underline decoration-primary/30 underline-offset-4 transition-colors hover:text-accent;
+  }
+
+  .commercial-prose strong {
+    @apply font-semibold text-foreground;
+  }
+
+  .commercial-prose table {
+    @apply mt-6 w-full overflow-hidden rounded-2xl border border-border/70 bg-white/70 text-left text-sm;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .commercial-prose thead {
+    background-color: hsl(var(--primary) / 0.08);
+  }
+
+  .commercial-prose th,
+  .commercial-prose td {
+    @apply border-b border-border/60 px-4 py-3 align-top;
+  }
+
+  .commercial-prose tr:last-child td {
+    @apply border-b-0;
+  }
+
   .bg-section-warm {
     background-color: hsl(var(--section-warm));
   }
