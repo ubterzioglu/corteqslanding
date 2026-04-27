@@ -4,6 +4,7 @@ import DiasporaMarqueeSection from "@/components/DiasporaMarqueeSection";
 import AboutSection from "@/components/AboutSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import ChatBot from "@/components/chat/ChatBot";
+import RagChat from "@/components/chat/RagChat";
 import AmbassadorSection from "@/components/AmbassadorSection";
 import FAQSection from "@/components/FAQSection";
 import CitiesSection from "@/components/CitiesSection";
@@ -26,6 +27,7 @@ const Index = () => {
           <div className="h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
         </div>
         <FAQSection />
+        <RagChat />
         <CategoriesSection />
         <CitiesSection />
         <ChatBot />
