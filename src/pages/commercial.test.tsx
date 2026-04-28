@@ -1,7 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "@/App";
-import { commercialDocuments } from "@/lib/commercial-documents";
+import {
+  commercialDocuments,
+  publicCommercialDocuments,
+} from "@/lib/commercial-documents";
 
 const renderAtRoute = (path: string) => {
   window.history.pushState({}, "", path);
@@ -22,8 +25,18 @@ describe("commercial routes", () => {
       }),
     ).toBeInTheDocument();
 
-    for (const document of commercialDocuments) {
+    for (const document of publicCommercialDocuments) {
       expect(screen.getByRole("link", { name: new RegExp(document.title, "i") })).toBeInTheDocument();
+    }
+  });
+
+  it("hides non-public commercial documents from the commercial index", () => {
+    renderAtRoute("/commercial");
+
+    for (const document of commercialDocuments.filter((item) => item.isPublic === false)) {
+      expect(
+        screen.queryByRole("link", { name: new RegExp(document.title, "i") }),
+      ).not.toBeInTheDocument();
     }
   });
 
@@ -33,15 +46,6 @@ describe("commercial routes", () => {
     expect(screen.getByRole("link", { name: /contributor/i })).toHaveAttribute(
       "href",
       "/commercial/contributor/",
-    );
-  });
-
-  it("links the ambassador card to the standalone HTML document", () => {
-    renderAtRoute("/commercial");
-
-    expect(screen.getByRole("link", { name: /ambassador/i })).toHaveAttribute(
-      "href",
-      "/commercial/ambassador/",
     );
   });
 
