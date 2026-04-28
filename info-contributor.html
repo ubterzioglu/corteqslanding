@@ -237,7 +237,7 @@
       font-size:13px;
     }
 
-    section { padding:30px 0; }
+    section { padding:16px 0; }
     .section-head {
       display:flex;
       flex-direction:column;
@@ -382,6 +382,18 @@
       transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
       position:relative;
       overflow:hidden;
+    }
+
+    .accordion-glyph {
+      width:11px;
+      height:11px;
+      border-right:2.4px solid currentColor;
+      border-bottom:2.4px solid currentColor;
+      transform:rotate(45deg) translate(-1px, -1px);
+      border-radius:1px;
+      position:relative;
+      z-index:1;
+      filter:drop-shadow(0 1px 0 rgba(255,255,255,.22));
     }
 
     .accordion-arrow::before {
@@ -742,7 +754,7 @@
     @media (min-width: 921px) {
       .hero { grid-template-columns:1.06fr .94fr; gap:42px; padding:72px 0 46px; }
       .stats { grid-template-columns:repeat(4, 1fr); margin:18px 0 58px; }
-      section { padding:40px 0; }
+      section { padding:20px 0; }
       .section-head { flex-direction:row; align-items:end; gap:24px; margin-bottom:26px; }
       .grid-2 { grid-template-columns:repeat(2, 1fr); }
       .grid-2.stack-always { grid-template-columns:1fr; }
@@ -790,7 +802,7 @@
                 <p>CorteQS Local Contributor Programı, bulunduğu şehirde yerel çevresi güçlü olan kişiler için hazırlanmış şehir bazlı bir büyüme partnerliği modelidir.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -798,15 +810,17 @@
               <article class="card">
                 <div class="icon">🌍</div>
                 <h3>Local Contributor kimdir?</h3>
-                <p>Local Contributor, CorteQS’in şehir bazlı yerel büyüme partneridir. Şehrindeki işletmeleri, consultant’ları, hizmet sağlayıcıları ve topluluk aktörlerini CorteQS ile tanıştırır.</p>
-                <p>Bu rol klasik bir çalışan pozisyonu değildir. Esnek, görev bazlı ve performans odaklı bir yerel büyüme partnerliğidir.</p>
+                <p>Local Contributor, CorteQS’in şehir bazlı yerel büyüme partneridir. Şehrindeki işletmeleri, consultant’ları, hizmet sağlayıcıları ve topluluk aktörlerini CorteQS ile tanıştırır. Bu rol klasik bir çalışan pozisyonu değildir; esnek, görev bazlı ve performans odaklı bir yerel büyüme partnerliğidir.</p>
               </article>
 
               <article class="card">
                 <div class="icon">🤝</div>
                 <h3>Takipçi sayısı değil, bağlantı gücü önemli</h3>
-                <p>Contributor olmak için yüksek takipçi sayısına sahip olmak gerekmez. Önemli olan doğru kişilere ulaşabilmek, CorteQS’i anlatabilmek ve yerel ağı harekete geçirebilmektir.</p>
                 <ul>
+                  <li>Contributor olmak için yüksek takipçi sayısına sahip olmak gerekmez</li>
+                  <li>Doğru kişilere ulaşabilmek</li>
+                  <li>CorteQS’i etkili şekilde anlatabilmek</li>
+                  <li>Yerel ağı harekete geçirebilmek</li>
                   <li>Şehirde görünürlük yaratır</li>
                   <li>İşletme ve consultant kayıtlarını destekler</li>
                   <li>İçerik, kampanya ve etkinlik yayılımına katkı sağlar</li>
@@ -829,7 +843,7 @@
                 <p>Yerel bağlantıyı global CorteQS ekosistemine taşır ve şehir bazlı büyümeye doğrudan katkı verir.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -857,7 +871,7 @@
                 <p>İşletme ve consultant üyelikleri üzerinden referral geliri; content görevleri üzerinden ek gelir modeli bulunur.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -960,11 +974,16 @@
                   <li>Kampanya bazlı yayılım desteği</li>
                 </ul>
               </article>
-              <article class="card dark">
-                <h3>Ödeme mantığı</h3>
-                <p>Standart content yayılım görevi için Local Contributor minimum €20, Senior Local Contributor minimum €24 kazanabilir. Daha büyük kampanya görevlerinde ödeme kampanya bütçesine göre belirlenir.</p>
-              </article>
             </div>
+
+            <article class="card" style="margin-top:14px;">
+              <h3>Ödeme mantığı</h3>
+              <ul>
+                <li>Standart content yayılım görevinde Local Contributor minimum €20 kazanabilir</li>
+                <li>Standart content yayılım görevinde Senior Local Contributor minimum €24 kazanabilir</li>
+                <li>Daha büyük kampanya görevlerinde ödeme kampanya bütçesine göre belirlenir</li>
+              </ul>
+            </article>
           </div>
         </details>
       </div>
@@ -981,7 +1000,7 @@
                 <p>Her contributor kendi dashboard’u üzerinden süreci, yönlendirmelerini ve performansını şeffaf şekilde takip eder.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -1009,7 +1028,7 @@
                 <p>Başvurudan Senior seviyeye kadar süreç basit, takip edilebilir ve performans odaklıdır.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -1045,7 +1064,7 @@
                 <p>Programın tüm detaylarını tek bir ana kart altında, başlık başlık açarak inceleyebilirsin.</p>
               </div>
             </div>
-            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+            <span class="accordion-arrow" aria-hidden="true"><span class="accordion-glyph"></span></span>
           </summary>
 
           <div class="accordion-body">
@@ -1177,7 +1196,7 @@
   </main>
 
   <footer>
-    CorteQS Local Contributor Program · Yerel bağlantıdan global network gücüne
+    CorteQS Local Contributor Program · Yerel bağlantıdan global network gücüne! Senin de desteğinle!
   </footer>
 </body>
 </html>
