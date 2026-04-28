@@ -295,6 +295,86 @@
     }
     .card.dark p, .card.dark li { color:rgba(255,255,255,.78); }
 
+    .accordion-card {
+      overflow:hidden;
+      padding:0;
+    }
+
+    .accordion-toggle {
+      list-style:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:22px 20px;
+      cursor:pointer;
+    }
+    .accordion-toggle::-webkit-details-marker { display:none; }
+
+    .accordion-title {
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .accordion-copy h3 {
+      margin:0 0 4px;
+    }
+
+    .accordion-copy p {
+      margin:0;
+      color:#53657b;
+      font-size:14px;
+      line-height:1.55;
+      font-weight:600;
+    }
+
+    .accordion-arrow {
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:linear-gradient(135deg, rgba(0,120,212,.08), rgba(255,122,0,.12));
+      color:var(--navy);
+      font-size:20px;
+      font-weight:900;
+      transition:transform .2s ease;
+    }
+
+    details[open] .accordion-arrow {
+      transform:rotate(180deg);
+    }
+
+    .accordion-body {
+      padding:0 20px 22px;
+      border-top:1px solid rgba(0,120,212,.1);
+    }
+
+    .accordion-list {
+      margin:18px 0 0;
+      gap:14px;
+    }
+
+    .accordion-list li {
+      padding-left:0;
+      color:#2f4664;
+    }
+
+    .accordion-list li::before {
+      display:none;
+    }
+
+    .accordion-list strong {
+      display:block;
+      margin-bottom:4px;
+      color:var(--navy);
+      font-size:15px;
+      font-weight:800;
+    }
+
     .icon {
       width:48px;
       height:48px;
@@ -552,6 +632,7 @@
       .btn { width:auto; }
       .hero-card { min-height:420px; }
       .card, .price-card { padding:26px; border-radius:28px; }
+      .accordion-card { padding:0; }
       th, td { font-size:13px; padding:16px 14px; }
       .archive-wrap { padding:22px; }
     }
@@ -632,14 +713,29 @@
           <p>Yerel bağlantıyı global CorteQS ekosistemine taşır ve şehir bazlı büyümeye doğrudan katkı verir.</p>
         </div>
 
-        <div class="grid-3">
-          <article class="card"><div class="icon">🏪</div><h3>İşletme daveti</h3><p>Şehrindeki işletmeleri, consultant’ları ve hizmet sağlayıcıları CorteQS’e davet eder.</p></article>
-          <article class="card"><div class="icon">🧭</div><h3>Kayıt desteği</h3><p>Platforma kayıt sürecinde yönlendirme ve bilgilendirme desteği sağlar.</p></article>
-          <article class="card"><div class="icon">📣</div><h3>Yerel yayılım</h3><p>CorteQS içeriklerinin, kampanyalarının ve duyurularının yerel çevrede görünür olmasına destek olur.</p></article>
-          <article class="card"><div class="icon">🎟️</div><h3>Referral takibi</h3><p>Kendi referral linki veya kodu üzerinden yönlendirmelerini takip eder.</p></article>
-          <article class="card"><div class="icon">📊</div><h3>Performans izleme</h3><p>Dashboard üzerinden katkılarını, kazançlarını, görevlerini ve etkileşimlerini izler.</p></article>
-          <article class="card"><div class="icon">🚀</div><h3>Büyüme etkisi</h3><p>Performansı arttıkça Senior Local Contributor seviyesine geçebilir.</p></article>
-        </div>
+        <details class="card accordion-card" open>
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">📌</div>
+              <div class="accordion-copy">
+                <h3>Contributor görev alanları</h3>
+                <p>Tek kart içinde contributor rolünün ana sorumluluklarını madde madde inceleyebilirsin.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="accordion-body">
+            <ul class="accordion-list">
+              <li><strong>İşletme daveti</strong> Şehrindeki işletmeleri, consultant’ları ve hizmet sağlayıcıları CorteQS’e davet eder.</li>
+              <li><strong>Kayıt desteği</strong> Platforma kayıt sürecinde yönlendirme ve bilgilendirme desteği sağlar.</li>
+              <li><strong>Yerel yayılım</strong> CorteQS içeriklerinin, kampanyalarının ve duyurularının yerel çevrede görünür olmasına destek olur.</li>
+              <li><strong>Referral takibi</strong> Kendi referral linki veya kodu üzerinden yönlendirmelerini takip eder.</li>
+              <li><strong>Performans izleme</strong> Dashboard üzerinden katkılarını, kazançlarını, görevlerini ve etkileşimlerini izler.</li>
+              <li><strong>Büyüme etkisi</strong> Performansı arttıkça Senior Local Contributor seviyesine geçebilir.</li>
+            </ul>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -770,14 +866,29 @@
           <p>Her contributor kendi dashboard’u üzerinden süreci, yönlendirmelerini ve performansını şeffaf şekilde takip eder.</p>
         </div>
 
-        <div class="grid-3">
-          <article class="card"><div class="icon">🔗</div><h3>Referral link / kod</h3><p>Kazandırılan işletme, consultant ve kullanıcıların contributor’a bağlanmasını sağlar.</p></article>
-          <article class="card"><div class="icon">💶</div><h3>Kazanç paneli</h3><p>Referral ve content gelirleri tek ekranda takip edilir.</p></article>
-          <article class="card"><div class="icon">🗂️</div><h3>Yönlendirme alanı</h3><p>Yeni işletme ve consultant yönlendirmeleri sisteme eklenebilir.</p></article>
-          <article class="card"><div class="icon">✅</div><h3>Content görevleri</h3><p>Açık kampanya ve paylaşım görevleri görüntülenir.</p></article>
-          <article class="card"><div class="icon">📈</div><h3>Etkileşim takibi</h3><p>Paylaşımların performansı ve katkı etkisi izlenir.</p></article>
-          <article class="card"><div class="icon">📍</div><h3>Etkinlik duyuruları</h3><p>Şehirdeki etkinlikler paylaşılabilir ve desteklenebilir.</p></article>
-        </div>
+        <details class="card accordion-card" open>
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">🖥️</div>
+              <div class="accordion-copy">
+                <h3>Dashboard içinde neler var?</h3>
+                <p>Contributor dashboard’unda süreci, gelirlerini ve yönlendirmelerini tek alandan takip edebilirsin.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="accordion-body">
+            <ul class="accordion-list">
+              <li><strong>Referral link / kod</strong> Kazandırılan işletme, consultant ve kullanıcıların contributor’a bağlanmasını sağlar.</li>
+              <li><strong>Kazanç paneli</strong> Referral ve content gelirleri tek ekranda takip edilir.</li>
+              <li><strong>Yönlendirme alanı</strong> Yeni işletme ve consultant yönlendirmeleri sisteme eklenebilir.</li>
+              <li><strong>Content görevleri</strong> Açık kampanya ve paylaşım görevleri görüntülenir.</li>
+              <li><strong>Etkileşim takibi</strong> Paylaşımların performansı ve katkı etkisi izlenir.</li>
+              <li><strong>Etkinlik duyuruları</strong> Şehirdeki etkinlikler paylaşılabilir ve desteklenebilir.</li>
+            </ul>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -810,12 +921,25 @@
     <section class="archive" id="program-arsivi">
       <div class="container">
         <div class="section-head">
-          <h2>Program arşivi</h2>
-          <p>Dokümandaki tüm metin, daha rahat okunabilmesi için aşağıda başlık başlık akordeon kartlara gömüldü.</p>
+          <h2>Detaylı Anlatım</h2>
+          <p>Programın tüm detaylarını tek bir ana kart altında, başlık başlık açarak inceleyebilirsin.</p>
         </div>
 
-        <div class="archive-wrap">
-          <div class="archive-grid">
+        <details class="card accordion-card" open>
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">📚</div>
+              <div class="accordion-copy">
+                <h3>Program detaylarını aç</h3>
+                <p>İçeride contributor modeli, paketler, kazanç yapısı, dashboard ve yol haritası başlıkları yer alır.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
+
+          <div class="accordion-body">
+            <div class="archive-wrap">
+              <div class="archive-grid">
             <details class="accordion-item" open>
               <summary>1. Local Contributor nedir?</summary>
               <div class="accordion-body">
@@ -933,8 +1057,10 @@
                 <p><strong>Başvuru ve detaylar:</strong> <a href="https://corteqs.net/" target="_blank" rel="noopener">https://corteqs.net</a></p>
               </div>
             </details>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
     </section>
   </main>
