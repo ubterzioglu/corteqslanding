@@ -49,6 +49,13 @@ describe("commercial routes", () => {
     );
   });
 
+  it("redirects the short contributor route into the commercial flow", () => {
+    renderAtRoute("/contributor");
+
+    expect(window.location.pathname).toBe("/commercial/contributor");
+    expect(screen.getByRole("heading", { name: "Contributor" })).toBeInTheDocument();
+  });
+
   it("renders a known embedded commercial document", () => {
     renderAtRoute("/commercial/ambassador");
 
