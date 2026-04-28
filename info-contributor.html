@@ -237,7 +237,7 @@
       font-size:13px;
     }
 
-    section { padding:42px 0; }
+    section { padding:30px 0; }
     .section-head {
       display:flex;
       flex-direction:column;
@@ -265,7 +265,7 @@
     .grid-2 {
       display:grid;
       grid-template-columns:1fr;
-      gap:20px;
+      gap:14px;
     }
     .grid-2.stack-always {
       grid-template-columns:1fr;
@@ -273,7 +273,7 @@
     .grid-3 {
       display:grid;
       grid-template-columns:1fr;
-      gap:18px;
+      gap:14px;
     }
 
     .card {
@@ -294,6 +294,26 @@
       border-color:rgba(255,255,255,.12);
     }
     .card.dark p, .card.dark li { color:rgba(255,255,255,.78); }
+    .card.dark .accordion-copy p { color:rgba(255,255,255,.76); }
+    .card.dark .accordion-title {
+      gap:10px;
+      align-items:flex-start;
+    }
+    .card.dark .accordion-toggle .icon {
+      width:42px;
+      height:42px;
+      margin-bottom:0;
+      border-radius:14px;
+      font-size:18px;
+      flex:0 0 42px;
+    }
+    .card.dark .accordion-arrow {
+      background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.14));
+      color:white;
+    }
+    .card.dark .accordion-body {
+      border-top:1px solid rgba(255,255,255,.12);
+    }
 
     .accordion-card {
       overflow:hidden;
@@ -640,7 +660,7 @@
     @media (min-width: 921px) {
       .hero { grid-template-columns:1.06fr .94fr; gap:42px; padding:72px 0 46px; }
       .stats { grid-template-columns:repeat(4, 1fr); margin:18px 0 58px; }
-      section { padding:54px 0; }
+      section { padding:40px 0; }
       .section-head { flex-direction:row; align-items:end; gap:24px; margin-bottom:26px; }
       .grid-2 { grid-template-columns:repeat(2, 1fr); }
       .grid-2.stack-always { grid-template-columns:1fr; }
@@ -679,47 +699,52 @@
 
     <section id="program">
       <div class="container">
-        <div class="section-head">
-          <h2>Program nedir?</h2>
-          <p>CorteQS Local Contributor Programı, bulunduğu şehirde yerel çevresi güçlü olan kişiler için hazırlanmış şehir bazlı bir büyüme partnerliği modelidir.</p>
-        </div>
+        <details class="card accordion-card">
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">🌍</div>
+              <div class="accordion-copy">
+                <h3>Program nedir?</h3>
+                <p>CorteQS Local Contributor Programı, bulunduğu şehirde yerel çevresi güçlü olan kişiler için hazırlanmış şehir bazlı bir büyüme partnerliği modelidir.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
 
-        <div class="grid-2 stack-always">
-          <article class="card dark">
-            <div class="icon">🌍</div>
-            <h3>Local Contributor kimdir?</h3>
-            <p>Local Contributor, CorteQS’in şehir bazlı yerel büyüme partneridir. Şehrindeki işletmeleri, consultant’ları, hizmet sağlayıcıları ve topluluk aktörlerini CorteQS ile tanıştırır.</p>
-            <p>Bu rol klasik bir çalışan pozisyonu değildir. Esnek, görev bazlı ve performans odaklı bir yerel büyüme partnerliğidir.</p>
-          </article>
+          <div class="accordion-body">
+            <div class="grid-2 stack-always">
+              <article class="card">
+                <div class="icon">🌍</div>
+                <h3>Local Contributor kimdir?</h3>
+                <p>Local Contributor, CorteQS’in şehir bazlı yerel büyüme partneridir. Şehrindeki işletmeleri, consultant’ları, hizmet sağlayıcıları ve topluluk aktörlerini CorteQS ile tanıştırır.</p>
+                <p>Bu rol klasik bir çalışan pozisyonu değildir. Esnek, görev bazlı ve performans odaklı bir yerel büyüme partnerliğidir.</p>
+              </article>
 
-          <article class="card">
-            <div class="icon">🤝</div>
-            <h3>Takipçi sayısı değil, bağlantı gücü önemli</h3>
-            <p>Contributor olmak için yüksek takipçi sayısına sahip olmak gerekmez. Önemli olan doğru kişilere ulaşabilmek, CorteQS’i anlatabilmek ve yerel ağı harekete geçirebilmektir.</p>
-            <ul>
-              <li>Şehirde görünürlük yaratır</li>
-              <li>İşletme ve consultant kayıtlarını destekler</li>
-              <li>İçerik, kampanya ve etkinlik yayılımına katkı sağlar</li>
-            </ul>
-          </article>
-        </div>
+              <article class="card">
+                <div class="icon">🤝</div>
+                <h3>Takipçi sayısı değil, bağlantı gücü önemli</h3>
+                <p>Contributor olmak için yüksek takipçi sayısına sahip olmak gerekmez. Önemli olan doğru kişilere ulaşabilmek, CorteQS’i anlatabilmek ve yerel ağı harekete geçirebilmektir.</p>
+                <ul>
+                  <li>Şehirde görünürlük yaratır</li>
+                  <li>İşletme ve consultant kayıtlarını destekler</li>
+                  <li>İçerik, kampanya ve etkinlik yayılımına katkı sağlar</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </details>
       </div>
     </section>
 
     <section>
       <div class="container">
-        <div class="section-head">
-          <h2>Contributor ne yapar?</h2>
-          <p>Yerel bağlantıyı global CorteQS ekosistemine taşır ve şehir bazlı büyümeye doğrudan katkı verir.</p>
-        </div>
-
-        <details class="card accordion-card" open>
+        <details class="card accordion-card">
           <summary class="accordion-toggle">
             <div class="accordion-title">
               <div class="icon">📌</div>
               <div class="accordion-copy">
-                <h3>Contributor görev alanları</h3>
-                <p>Tek kart içinde contributor rolünün ana sorumluluklarını madde madde inceleyebilirsin.</p>
+                <h3>Contributor ne yapar?</h3>
+                <p>Yerel bağlantıyı global CorteQS ekosistemine taşır ve şehir bazlı büyümeye doğrudan katkı verir.</p>
               </div>
             </div>
             <span class="accordion-arrow" aria-hidden="true">⌄</span>
@@ -741,138 +766,137 @@
 
     <section id="kazanc">
       <div class="container">
-        <div class="section-head">
-          <h2>Paketler ve kazanç modeli</h2>
-          <p>İşletme ve consultant üyelikleri üzerinden referral geliri; content görevleri üzerinden ek gelir modeli bulunur.</p>
-        </div>
+        <details class="card accordion-card">
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">💶</div>
+              <div class="accordion-copy">
+                <h3>Paketler ve kazanç modeli</h3>
+                <p>İşletme ve consultant üyelikleri üzerinden referral geliri; content görevleri üzerinden ek gelir modeli bulunur.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
 
-        <div class="pricing">
-          <div class="price-card">
-            <h3>Aylık Paket</h3>
-            <div class="price">€5 <small>/ ay</small></div>
-            <p>İlk yıl kampanyasında ilk 6 ay ücretsiz, sonraki 6 ay €5 / ay.</p>
-            <ul>
-              <li>İlk yıl ödeme: €30</li>
-              <li>İkinci yıl normal ödeme: €60</li>
-              <li>2 yıllık toplam: €90</li>
-            </ul>
+          <div class="accordion-body">
+            <div class="pricing">
+              <div class="price-card">
+                <h3>Aylık Paket</h3>
+                <div class="price">€5 <small>/ ay</small></div>
+                <p>İlk yıl kampanyasında ilk 6 ay ücretsiz, sonraki 6 ay €5 / ay.</p>
+                <ul>
+                  <li>İlk yıl ödeme: €30</li>
+                  <li>İkinci yıl normal ödeme: €60</li>
+                  <li>2 yıllık toplam: €90</li>
+                </ul>
+              </div>
+
+              <div class="price-card">
+                <h3>Yıllık Paket</h3>
+                <div class="price">€60 <small>/ yıl</small></div>
+                <p>İlk 6 ay ücretsiz avantajı ve yıllık peşin ödemede %20 indirim.</p>
+                <ul>
+                  <li>İlk yıl ödeme: €24</li>
+                  <li>İkinci yıl indirimli ödeme: €48</li>
+                  <li>2 yıllık toplam: €72</li>
+                </ul>
+              </div>
+            </div>
+
+            <br>
+
+            <table aria-label="Contributor kademeleri">
+              <thead>
+                <tr>
+                  <th>Kademe</th>
+                  <th>Referral Oranı</th>
+                  <th>Content Görev Çarpanı</th>
+                  <th>Kimler İçin?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Local Contributor</strong></td>
+                  <td>%15</td>
+                  <td>1.0x</td>
+                  <td>Programa yeni başlayan ve aktif işletme / consultant kazandıran contributor’lar.</td>
+                </tr>
+                <tr>
+                  <td><strong>Senior Local Contributor</strong></td>
+                  <td>%20</td>
+                  <td>1.2x</td>
+                  <td>101+ üye sonrası daha yüksek performans gösteren contributor’lar.</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <br>
+
+            <table aria-label="Referral kazanç örnekleri">
+              <thead>
+                <tr>
+                  <th>Senaryo</th>
+                  <th>Local Contributor</th>
+                  <th>Senior Local Contributor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>25 üye aylık paket seçerse, 1. yıl</td>
+                  <td>25 × €4.50 = <strong>€112.50</strong></td>
+                  <td>25 × €6.00 = <strong>€150</strong></td>
+                </tr>
+                <tr>
+                  <td>25 üye yıllık paket seçerse, 1. yıl</td>
+                  <td>25 × €3.60 = <strong>€90</strong></td>
+                  <td>25 × €4.80 = <strong>€120</strong></td>
+                </tr>
+                <tr>
+                  <td>Aynı 25 üye 2. yıl devam ederse</td>
+                  <td>25 × €9.00 = <strong>€225</strong></td>
+                  <td>25 × €12.00 = <strong>€300</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="callout">
+              <h2>Founding Contributor fırsatı</h2>
+              <p>Pre-lansman döneminde / founding contributor olarak 29 Ekim 2026 tarihine kadar kazandırılan işletme ve consultant üyeliklerinde, üye yenileme yaptığı sürece 3 yıl boyunca referral fee kazanma fırsatı olabilir.</p>
+            </div>
+
+            <h3 style="margin-top:28px;">Content gelirleri</h3>
+            <p>Contributor’lar yalnızca referral ile değil, şehir ve ülke bazlı content yayılım görevleriyle de ek gelir elde edebilir.</p>
+
+            <div class="grid-2">
+              <article class="card">
+                <h3>Görev tipleri</h3>
+                <ul>
+                  <li>Content paylaşımı</li>
+                  <li>Repost / story desteği</li>
+                  <li>Yerel içerik üretimi</li>
+                  <li>Etkinlik duyurusu</li>
+                  <li>Kampanya bazlı yayılım desteği</li>
+                </ul>
+              </article>
+              <article class="card dark">
+                <h3>Ödeme mantığı</h3>
+                <p>Standart content yayılım görevi için Local Contributor minimum €20, Senior Local Contributor minimum €24 kazanabilir. Daha büyük kampanya görevlerinde ödeme kampanya bütçesine göre belirlenir.</p>
+              </article>
+            </div>
           </div>
-
-          <div class="price-card">
-            <h3>Yıllık Paket</h3>
-            <div class="price">€60 <small>/ yıl</small></div>
-            <p>İlk 6 ay ücretsiz avantajı ve yıllık peşin ödemede %20 indirim.</p>
-            <ul>
-              <li>İlk yıl ödeme: €24</li>
-              <li>İkinci yıl indirimli ödeme: €48</li>
-              <li>2 yıllık toplam: €72</li>
-            </ul>
-          </div>
-        </div>
-
-        <br>
-
-        <table aria-label="Contributor kademeleri">
-          <thead>
-            <tr>
-              <th>Kademe</th>
-              <th>Referral Oranı</th>
-              <th>Content Görev Çarpanı</th>
-              <th>Kimler İçin?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Local Contributor</strong></td>
-              <td>%15</td>
-              <td>1.0x</td>
-              <td>Programa yeni başlayan ve aktif işletme / consultant kazandıran contributor’lar.</td>
-            </tr>
-            <tr>
-              <td><strong>Senior Local Contributor</strong></td>
-              <td>%20</td>
-              <td>1.2x</td>
-              <td>101+ üye sonrası daha yüksek performans gösteren contributor’lar.</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <br>
-
-        <table aria-label="Referral kazanç örnekleri">
-          <thead>
-            <tr>
-              <th>Senaryo</th>
-              <th>Local Contributor</th>
-              <th>Senior Local Contributor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>25 üye aylık paket seçerse, 1. yıl</td>
-              <td>25 × €4.50 = <strong>€112.50</strong></td>
-              <td>25 × €6.00 = <strong>€150</strong></td>
-            </tr>
-            <tr>
-              <td>25 üye yıllık paket seçerse, 1. yıl</td>
-              <td>25 × €3.60 = <strong>€90</strong></td>
-              <td>25 × €4.80 = <strong>€120</strong></td>
-            </tr>
-            <tr>
-              <td>Aynı 25 üye 2. yıl devam ederse</td>
-              <td>25 × €9.00 = <strong>€225</strong></td>
-              <td>25 × €12.00 = <strong>€300</strong></td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div class="callout">
-          <h2>Founding Contributor fırsatı</h2>
-          <p>Pre-lansman döneminde / founding contributor olarak 29 Ekim 2026 tarihine kadar kazandırılan işletme ve consultant üyeliklerinde, üye yenileme yaptığı sürece 3 yıl boyunca referral fee kazanma fırsatı olabilir.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="section-head">
-          <h2>Content gelirleri</h2>
-          <p>Contributor’lar yalnızca referral ile değil, şehir ve ülke bazlı content yayılım görevleriyle de ek gelir elde edebilir.</p>
-        </div>
-
-        <div class="grid-2">
-          <article class="card">
-            <h3>Görev tipleri</h3>
-            <ul>
-              <li>Content paylaşımı</li>
-              <li>Repost / story desteği</li>
-              <li>Yerel içerik üretimi</li>
-              <li>Etkinlik duyurusu</li>
-              <li>Kampanya bazlı yayılım desteği</li>
-            </ul>
-          </article>
-          <article class="card dark">
-            <h3>Ödeme mantığı</h3>
-            <p>Standart content yayılım görevi için Local Contributor minimum €20, Senior Local Contributor minimum €24 kazanabilir. Daha büyük kampanya görevlerinde ödeme kampanya bütçesine göre belirlenir.</p>
-          </article>
-        </div>
+        </details>
       </div>
     </section>
 
     <section id="dashboard">
       <div class="container">
-        <div class="section-head">
-          <h2>Contributor Dashboard</h2>
-          <p>Her contributor kendi dashboard’u üzerinden süreci, yönlendirmelerini ve performansını şeffaf şekilde takip eder.</p>
-        </div>
-
-        <details class="card accordion-card" open>
+        <details class="card accordion-card">
           <summary class="accordion-toggle">
             <div class="accordion-title">
               <div class="icon">🖥️</div>
               <div class="accordion-copy">
-                <h3>Dashboard içinde neler var?</h3>
-                <p>Contributor dashboard’unda süreci, gelirlerini ve yönlendirmelerini tek alandan takip edebilirsin.</p>
+                <h3>Contributor Dashboard'da Neler Var ?</h3>
+                <p>Her contributor kendi dashboard’u üzerinden süreci, yönlendirmelerini ve performansını şeffaf şekilde takip eder.</p>
               </div>
             </div>
             <span class="accordion-arrow" aria-hidden="true">⌄</span>
@@ -920,18 +944,13 @@
 
     <section class="archive" id="program-arsivi">
       <div class="container">
-        <div class="section-head">
-          <h2>Detaylı Anlatım</h2>
-          <p>Programın tüm detaylarını tek bir ana kart altında, başlık başlık açarak inceleyebilirsin.</p>
-        </div>
-
-        <details class="card accordion-card" open>
+        <details class="card accordion-card">
           <summary class="accordion-toggle">
             <div class="accordion-title">
               <div class="icon">📚</div>
               <div class="accordion-copy">
-                <h3>Program detaylarını aç</h3>
-                <p>İçeride contributor modeli, paketler, kazanç yapısı, dashboard ve yol haritası başlıkları yer alır.</p>
+                <h3>Detaylı Anlatım</h3>
+                <p>Programın tüm detaylarını tek bir ana kart altında, başlık başlık açarak inceleyebilirsin.</p>
               </div>
             </div>
             <span class="accordion-arrow" aria-hidden="true">⌄</span>
@@ -940,7 +959,7 @@
           <div class="accordion-body">
             <div class="archive-wrap">
               <div class="archive-grid">
-            <details class="accordion-item" open>
+            <details class="accordion-item">
               <summary>1. Local Contributor nedir?</summary>
               <div class="accordion-body">
                 <p>CorteQS Local Contributor Programı; bulunduğu şehirde işletmelerle, consultant’larla, hizmet sağlayıcılarla ve yerel topluluklarla bağlantısı olan kişiler için tasarlanmış şehir bazlı bir büyüme programıdır. Takipçi sayısı gerekmez; önemli olan yerel çevrende doğru kişilere ulaşabilmen, CorteQS’i anlatabilmen ve platforma aktif üye kazandırabilmendir.</p>
