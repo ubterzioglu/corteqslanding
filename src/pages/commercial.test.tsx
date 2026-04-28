@@ -36,6 +36,15 @@ describe("commercial routes", () => {
     );
   });
 
+  it("links the ambassador card to the standalone HTML document", () => {
+    renderAtRoute("/commercial");
+
+    expect(screen.getByRole("link", { name: /ambassador/i })).toHaveAttribute(
+      "href",
+      "/commercial/ambassador/",
+    );
+  });
+
   it("renders the contributor route as a standalone HTML handoff", () => {
     renderAtRoute("/commercial/contributor");
 
@@ -56,15 +65,23 @@ describe("commercial routes", () => {
     expect(screen.getByRole("heading", { name: "Contributor" })).toBeInTheDocument();
   });
 
-  it("renders a known embedded commercial document", () => {
+  it("renders the ambassador route as a standalone HTML handoff", () => {
     renderAtRoute("/commercial/ambassador");
 
     expect(screen.getByRole("heading", { name: "Ambassador" })).toBeInTheDocument();
-    expect(screen.getByText(/replace this html with the final ambassador document when ready/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /commercial alanına dön/i })).toHaveAttribute(
+    expect(
+      screen.getByRole("link", { name: /standalone ambassador dokümanını aç/i }),
+    ).toHaveAttribute(
       "href",
-      "/commercial",
+      "/commercial/ambassador/",
     );
+  });
+
+  it("redirects the short ambassador route into the commercial flow", () => {
+    renderAtRoute("/ambassador");
+
+    expect(window.location.pathname).toBe("/commercial/ambassador");
+    expect(screen.getByRole("heading", { name: "Ambassador" })).toBeInTheDocument();
   });
 
   it("renders not found for an unknown commercial document", () => {

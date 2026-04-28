@@ -4,20 +4,39 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-const contributorSourcePath = path.resolve(__dirname, "./info-contributor.html");
-const contributorStandaloneRoute = "/commercial/contributor";
-const contributorAliasRoute = "/contributor";
+const standaloneDocuments = [
+  {
+    slug: "contributor",
+    sourcePath: path.resolve(__dirname, "./info-contributor.html"),
+  },
+  {
+    slug: "ambassador",
+    sourcePath: path.resolve(__dirname, "./info-ambassador.html"),
+  },
+];
 
-const contributorRequestPaths = new Set([
-  contributorStandaloneRoute,
-  `${contributorStandaloneRoute}/`,
-  `${contributorStandaloneRoute}.html`,
-  contributorAliasRoute,
-  `${contributorAliasRoute}/`,
-  `${contributorAliasRoute}.html`,
-]);
+const getDocumentRoutes = (slug: string) => {
+  const commercialRoute = `/commercial/${slug}`;
+  const aliasRoute = `/${slug}`;
 
-const readContributorDocument = () => fs.readFileSync(contributorSourcePath, "utf-8");
+  return [
+    commercialRoute,
+    `${commercialRoute}/`,
+    `${commercialRoute}.html`,
+    aliasRoute,
+    `${aliasRoute}/`,
+    `${aliasRoute}.html`,
+  ];
+};
+
+const standaloneRouteMap = new Map(
+  standaloneDocuments.flatMap((document) =>
+    getDocumentRoutes(document.slug).map((route) => [route, document.sourcePath] as const),
+  ),
+);
+
+const readStandaloneDocument = (sourcePath: string) =>
+  fs.readFileSync(sourcePath, "utf-8");
 
 export default defineConfig(({ mode }) => ({
   server: {
@@ -36,14 +55,16 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     {
-      name: "contributor-standalone-document",
+      name: "standalone-commercial-documents",
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const requestPath = req.url?.split("?")[0];
 
-          if (requestPath && contributorRequestPaths.has(requestPath)) {
+          const sourcePath = requestPath ? standaloneRouteMap.get(requestPath) : undefined;
+
+          if (sourcePath) {
             res.setHeader("Content-Type", "text/html; charset=utf-8");
-            res.end(readContributorDocument());
+            res.end(readStandaloneDocument(sourcePath));
             return;
           }
 
@@ -51,31 +72,33 @@ export default defineConfig(({ mode }) => ({
         });
       },
       generateBundle() {
-        const source = readContributorDocument();
+        for (const document of standaloneDocuments) {
+          const source = readStandaloneDocument(document.sourcePath);
 
-        this.emitFile({
-          type: "asset",
-          fileName: "commercial/contributor/index.html",
-          source,
-        });
+          this.emitFile({
+            type: "asset",
+            fileName: `commercial/${document.slug}/index.html`,
+            source,
+          });
 
-        this.emitFile({
-          type: "asset",
-          fileName: "commercial/contributor.html",
-          source,
-        });
+          this.emitFile({
+            type: "asset",
+            fileName: `commercial/${document.slug}.html`,
+            source,
+          });
 
-        this.emitFile({
-          type: "asset",
-          fileName: "contributor/index.html",
-          source,
-        });
+          this.emitFile({
+            type: "asset",
+            fileName: `${document.slug}/index.html`,
+            source,
+          });
 
-        this.emitFile({
-          type: "asset",
-          fileName: "contributor.html",
-          source,
-        });
+          this.emitFile({
+            type: "asset",
+            fileName: `${document.slug}.html`,
+            source,
+          });
+        }
       },
     },
     mode === "development" && componentTagger(),
