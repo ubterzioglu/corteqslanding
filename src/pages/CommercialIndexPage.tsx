@@ -1,6 +1,6 @@
 import { ArrowRight, FileText } from "lucide-react";
 import FooterSection from "@/components/FooterSection";
-import { commercialDocuments } from "@/lib/commercial-documents";
+import { publicCommercialDocuments } from "@/lib/commercial-documents";
 
 const CommercialIndexPage = () => {
   const getDocumentHref = (slug: string, standalonePath?: string) =>
@@ -34,7 +34,7 @@ const CommercialIndexPage = () => {
           </div>
 
           <section className="mt-8 grid gap-5 md:grid-cols-2">
-            {commercialDocuments.map((document) => (
+            {publicCommercialDocuments.map((document) => (
               <a
                 key={document.slug}
                 href={getDocumentHref(document.slug, document.standalonePath)}
