@@ -18,81 +18,95 @@ const AmbassadorSection = () => {
   return (
     <section
       id="elciler"
-      className="relative py-20 lg:py-28 overflow-hidden"
+      className="relative overflow-hidden py-20 lg:py-28"
       style={{
         background:
           "linear-gradient(135deg, hsl(var(--accent) / 0.12) 0%, hsl(var(--primary) / 0.08) 50%, hsl(var(--background)) 100%)",
       }}
     >
-      <div className="pointer-events-none absolute top-10 left-10 w-72 h-72 rounded-full blur-3xl opacity-30" style={{ background: "hsl(var(--accent))" }} aria-hidden />
-      <div className="pointer-events-none absolute bottom-10 right-10 w-96 h-96 rounded-full blur-3xl opacity-25" style={{ background: "hsl(var(--primary))" }} aria-hidden />
+      <div
+        className="pointer-events-none absolute left-10 top-10 h-72 w-72 rounded-full blur-3xl opacity-30"
+        style={{ background: "hsl(var(--accent))" }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute bottom-10 right-10 h-96 w-96 rounded-full blur-3xl opacity-25"
+        style={{ background: "hsl(var(--primary))" }}
+        aria-hidden
+      />
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-14 max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 border border-accent/30 mb-4">
-            <Crown className="w-4 h-4 text-accent" />
-            <span className="text-xs font-bold text-accent uppercase tracking-wider">Şehir Elçisi / City Business Partner Programı</span>
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="mx-auto mb-14 max-w-5xl text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/15 px-4 py-1.5">
+            <Crown className="h-4 w-4 text-accent" />
+            <span className="text-xs font-bold uppercase tracking-wider text-accent">Sehir Elcisi / City Business Partner Programi</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-extrabold text-foreground mb-5 leading-tight">
-            Şehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">İş Partneri</span> Ol
+          <h2 className="mb-5 text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
+            Sehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Is Partneri</span> Ol
           </h2>
           <p className="overflow-x-auto whitespace-nowrap text-base text-muted-foreground md:text-xl">
-            Takipçi değil, topluluk ve iş inşa et. CorteQS Şehir Elçisi olarak diasporanın merkezi sen ol.
+            Takipci degil, topluluk ve is insa et. CorteQS Sehir Elcisi olarak diasporanin merkezi sen ol.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-8 items-start">
-          <div className="lg:col-span-2 relative rounded-3xl overflow-hidden shadow-2xl group">
+        <div className="grid items-start gap-8 lg:grid-cols-5">
+          <div className="group relative overflow-hidden rounded-3xl shadow-2xl lg:col-span-2">
             <img
               src={cityAmbassador}
-              alt="CorteQS Şehir Elçisi"
-              className="w-full h-full object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-105"
+              alt="CorteQS Sehir Elcisi"
+              className="aspect-[4/5] h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
               width={800}
               height={1000}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" aria-hidden />
             <div className="absolute bottom-0 left-0 right-0 p-6">
-              <p className="text-xs font-bold text-accent uppercase tracking-wider mb-1">Şehir Elçisi · Berlin</p>
-              <p className="text-foreground font-bold text-lg leading-tight">
-                "CorteQS ile topluluğumu büyüttüm ve iş görünürlüğümü artırdım."
+              <p className="mb-1 text-xs font-bold uppercase tracking-wider text-accent">Sehir Elcisi · Berlin</p>
+              <p className="text-lg font-bold leading-tight text-foreground">
+                "CorteQS ile toplulugumu buyuttum ve is gorunurlugumu artirdim."
               </p>
             </div>
           </div>
 
           <div className="lg:col-span-3">
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+            <div className="mb-8 grid gap-4 sm:grid-cols-2">
               {perks.map((perk) => (
-                <div key={perk.title} className="group p-5 rounded-2xl bg-card border border-border hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5 transition-all duration-300">
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3 shadow-md" style={{ background: "linear-gradient(135deg, hsl(var(--accent) / 0.2), hsl(var(--primary) / 0.2))" }}>
-                    <perk.icon className="w-5 h-5 text-accent group-hover:scale-110 transition-transform" />
+                <div
+                  key={perk.title}
+                  className="group rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:border-accent/40 hover:shadow-xl hover:shadow-accent/5"
+                >
+                  <div
+                    className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl shadow-md"
+                    style={{ background: "linear-gradient(135deg, hsl(var(--accent) / 0.2), hsl(var(--primary) / 0.2))" }}
+                  >
+                    <perk.icon className="h-5 w-5 text-accent transition-transform group-hover:scale-110" />
                   </div>
-                  <h3 className="font-bold text-foreground mb-1">{perk.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{perk.desc}</p>
+                  <h3 className="mb-1 font-bold text-foreground">{perk.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{perk.desc}</p>
                 </div>
               ))}
             </div>
 
             <div
-              className="rounded-2xl p-6 border-2 shadow-xl"
+              className="rounded-2xl border-2 p-6 shadow-xl"
               style={{
                 background: "linear-gradient(135deg, hsl(var(--accent) / 0.1) 0%, hsl(var(--primary) / 0.1) 100%)",
                 borderColor: "hsl(var(--accent) / 0.3)",
               }}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
+              <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
-                  <p className="font-bold text-foreground text-lg mb-1">Elçi olmak 1 dakika sürer.</p>
+                  <p className="mb-1 text-lg font-bold text-foreground">Elci olmak 1 dakika surer.</p>
                   <p className="text-sm text-muted-foreground">
-                    Kayıt bırak, seni değerlendirelim. Seçilirsen özel onboarding paketin hazır.
+                    Kayit birak, seni degerlendirelim. Secilirsen ozel onboarding paketin hazir.
                   </p>
                 </div>
                 <button
                   onClick={() => setFormOpen(true)}
-                  className="shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-accent to-primary text-accent-foreground font-bold text-base hover:shadow-2xl hover:shadow-accent/30 hover:scale-[1.02] transition-all shadow-lg"
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-primary px-6 py-3.5 text-base font-bold text-accent-foreground shadow-lg transition-all hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/30"
                 >
-                  <Crown className="w-5 h-5" />
-                  Elçi Olmak İstiyorum
+                  <Crown className="h-5 w-5" />
+                  Elci Olmak Istiyorum
                 </button>
               </div>
             </div>
