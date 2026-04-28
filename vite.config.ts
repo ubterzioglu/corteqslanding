@@ -100,6 +100,19 @@ export default defineConfig(({ mode }) => ({
           });
         }
       },
+      closeBundle() {
+        const outDir = path.resolve(__dirname, "dist");
+        const rootIndexPath = path.join(outDir, "index.html");
+
+        if (!fs.existsSync(rootIndexPath)) {
+          return;
+        }
+
+        const commercialDir = path.join(outDir, "commercial");
+        fs.mkdirSync(commercialDir, { recursive: true });
+        fs.copyFileSync(rootIndexPath, path.join(commercialDir, "index.html"));
+        fs.copyFileSync(rootIndexPath, path.join(outDir, "commercial.html"));
+      },
     },
     mode === "development" && componentTagger(),
   ].filter(Boolean),
