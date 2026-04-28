@@ -39,6 +39,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
+          <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
           <Route path="/radar" element={<RadarPage />} />
           <Route path="/commercial" element={<CommercialIndexPage />} />

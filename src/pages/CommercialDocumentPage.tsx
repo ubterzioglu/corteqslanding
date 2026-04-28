@@ -65,15 +65,15 @@ const CommercialDocumentPage = () => {
             {standalonePath ? (
               <div className="mt-8 rounded-[1.5rem] border border-border/70 bg-white p-6 shadow-[0_20px_50px_rgba(15,23,42,0.05)]">
                 <p className="text-base leading-8 text-muted-foreground md:text-lg">
-                  Contributor dokümanı bağımsız HTML sayfası olarak açılıyor. Böylece iç scroll olmadan
-                  normal sayfa gibi gezebilir ve istersen doğrudan <strong>Save As</strong> ile
+                  {document.title} dokümanı bağımsız HTML sayfası olarak açılıyor. Böylece iç scroll
+                  olmadan normal sayfa gibi gezebilir ve istersen doğrudan <strong>Save As</strong> ile
                   kaydedebilirsin.
                 </p>
                 <a
                   href={standalonePath}
                   className="mt-5 inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-primary/10 px-5 py-3 text-sm font-bold text-primary transition-colors hover:bg-primary/15"
                 >
-                  Standalone contributor dokümanını aç
+                  Standalone {document.title.toLowerCase()} dokümanını aç
                   <ExternalLink className="h-4 w-4" />
                 </a>
               </div>
