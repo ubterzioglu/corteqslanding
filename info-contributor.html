@@ -308,8 +308,16 @@
       flex:0 0 42px;
     }
     .card.dark .accordion-arrow {
-      background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.14));
+      background:
+        radial-gradient(circle at 28% 24%, rgba(255,255,255,.24), transparent 34%),
+        radial-gradient(circle at 72% 78%, rgba(255,255,255,.08), transparent 42%),
+        linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.18));
       color:white;
+      border-color:rgba(255,255,255,.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.2),
+        inset 0 -8px 16px rgba(255,255,255,.03),
+        0 10px 24px rgba(3,16,34,.24);
     }
     .card.dark .accordion-body {
       border-top:1px solid rgba(255,255,255,.12);
@@ -352,16 +360,57 @@
 
     .accordion-arrow {
       flex:0 0 auto;
-      width:40px;
-      height:40px;
+      width:48px;
+      height:48px;
       display:grid;
       place-items:center;
-      border-radius:14px;
-      background:linear-gradient(135deg, rgba(0,120,212,.08), rgba(255,122,0,.12));
+      border-radius:999px;
+      border:1px solid rgba(0,120,212,.14);
+      background:
+        radial-gradient(circle at 28% 24%, rgba(255,255,255,.98), rgba(255,255,255,.18) 30%, transparent 31%),
+        radial-gradient(circle at 74% 78%, rgba(255,255,255,.24), transparent 40%),
+        linear-gradient(145deg, rgba(0,120,212,.08), rgba(255,255,255,.84) 48%, rgba(255,122,0,.09));
       color:var(--navy);
-      font-size:20px;
+      font-size:16px;
       font-weight:900;
-      transition:transform .2s ease;
+      line-height:1;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.96),
+        inset 0 -10px 18px rgba(255,255,255,.3),
+        0 10px 24px rgba(3,16,34,.08),
+        0 1px 2px rgba(3,16,34,.05);
+      transition:transform .24s ease, box-shadow .24s ease, border-color .24s ease, background .24s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .accordion-arrow::before {
+      content:"";
+      position:absolute;
+      inset:3px;
+      border-radius:inherit;
+      border:1px solid rgba(255,255,255,.55);
+      pointer-events:none;
+    }
+
+    .accordion-arrow::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background:
+        conic-gradient(from 210deg, rgba(0,120,212,.08), rgba(255,255,255,0) 34%, rgba(255,122,0,.08) 72%, rgba(255,255,255,0));
+      opacity:.7;
+      pointer-events:none;
+    }
+
+    .accordion-toggle:hover .accordion-arrow {
+      border-color:rgba(0,120,212,.2);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.98),
+        inset 0 -10px 18px rgba(255,255,255,.36),
+        0 14px 28px rgba(3,16,34,.12),
+        0 1px 2px rgba(3,16,34,.06);
     }
 
     details[open] .accordion-arrow {
@@ -379,17 +428,27 @@
     }
 
     .accordion-list li {
-      padding-left:0;
+      padding-left:38px;
       color:#2f4664;
+      font-size:14px;
+      line-height:1.55;
+      font-weight:700;
     }
 
     .accordion-list li::before {
-      display:none;
+      display:block;
+      width:12px;
+      height:12px;
+      left:0;
+      top:.42em;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 38% 38%, var(--orange) 0 32%, transparent 33%),
+        linear-gradient(135deg, rgba(0,166,214,.28), rgba(0,120,212,.15));
+      box-shadow:0 0 0 6px rgba(0,166,214,.12);
     }
 
     .accordion-list strong {
-      display:block;
-      margin-bottom:4px;
       color:var(--navy);
       font-size:15px;
       font-weight:800;
@@ -404,6 +463,29 @@
       background:linear-gradient(135deg, rgba(0,120,212,.12), rgba(255,122,0,.14));
       font-size:20px;
       margin-bottom:18px;
+    }
+
+    .card > .icon:first-child {
+      float:left;
+      margin:2px 14px 10px 0;
+    }
+
+    .card > .icon:first-child + h3 {
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      margin:0 0 10px;
+    }
+
+    .card > .icon:first-child ~ p:first-of-type,
+    .card > .icon:first-child ~ ul:first-of-type {
+      margin-top:0;
+    }
+
+    .card > .icon:first-child ~ *:last-child::after {
+      content:"";
+      display:block;
+      clear:both;
     }
 
     h3 {
@@ -918,27 +1000,37 @@
 
     <section id="basvuru">
       <div class="container">
-        <div class="section-head">
-          <h2>Contributor yol haritası</h2>
-          <p>Başvurudan Senior seviyeye kadar süreç basit, takip edilebilir ve performans odaklıdır.</p>
-        </div>
+        <details class="card accordion-card">
+          <summary class="accordion-toggle">
+            <div class="accordion-title">
+              <div class="icon">🗺️</div>
+              <div class="accordion-copy">
+                <h3>Contributor yol haritası</h3>
+                <p>Başvurudan Senior seviyeye kadar süreç basit, takip edilebilir ve performans odaklıdır.</p>
+              </div>
+            </div>
+            <span class="accordion-arrow" aria-hidden="true">⌄</span>
+          </summary>
 
-        <div class="steps">
-          <div class="step"><strong>Contributor başvurunu yaparsın.</strong></div>
-          <div class="step"><strong>CorteQS ekibi başvurunu değerlendirir.</strong></div>
-          <div class="step"><strong>Sana özel referral link / kod tanımlanır.</strong></div>
-          <div class="step"><strong>Şehrindeki işletmeleri ve consultant’ları CorteQS’e davet edersin.</strong></div>
-          <div class="step"><strong>Content ve kampanya görevlerine katılırsın.</strong></div>
-          <div class="step"><strong>Performansın arttıkça Senior Local Contributor seviyesine geçersin.</strong></div>
-        </div>
+          <div class="accordion-body">
+            <div class="steps">
+              <div class="step"><strong>Contributor başvurunu yaparsın.</strong></div>
+              <div class="step"><strong>CorteQS ekibi başvurunu değerlendirir.</strong></div>
+              <div class="step"><strong>Sana özel referral link / kod tanımlanır.</strong></div>
+              <div class="step"><strong>Şehrindeki işletmeleri ve consultant’ları CorteQS’e davet edersin.</strong></div>
+              <div class="step"><strong>Content ve kampanya görevlerine katılırsın.</strong></div>
+              <div class="step"><strong>Performansın arttıkça Senior Local Contributor seviyesine geçersin.</strong></div>
+            </div>
 
-        <div class="callout">
-          <h2>Şehrinde bağlantı kur. Yerel etki yarat. Global CorteQS ağıyla büyü.</h2>
-          <p>CorteQS, global Türk diasporasını şehir bazlı bir network yapısıyla bir araya getirmek için büyüyor. Erken dahil olan Contributor’lar kendi şehirlerinde ilk görünenlerden biri olma avantajına sahip olur.</p>
-          <div class="actions">
-            <a class="btn" href="https://corteqs.net/" target="_blank" rel="noopener">corteqs.net üzerinden başvur</a>
+            <div class="callout">
+              <h2>Şehrinde bağlantı kur. Yerel etki yarat. Global CorteQS ağıyla büyü.</h2>
+              <p>CorteQS, global Türk diasporasını şehir bazlı bir network yapısıyla bir araya getirmek için büyüyor. Erken dahil olan Contributor’lar kendi şehirlerinde ilk görünenlerden biri olma avantajına sahip olur.</p>
+              <div class="actions">
+                <a class="btn" href="https://corteqs.net/" target="_blank" rel="noopener">corteqs.net üzerinden başvur</a>
+              </div>
+            </div>
           </div>
-        </div>
+        </details>
       </div>
     </section>
 
@@ -977,7 +1069,7 @@
             </details>
 
             <details class="accordion-item">
-              <summary>2. İşletme ve consultant paketleri</summary>
+              <summary>2. İşletme ve consultant paketleri nelerdir?</summary>
               <div class="accordion-body">
                 <p>CorteQS’te işletmeler ve consultant’lar için normal abonelik ücreti aylık €5’tir. Lansman yılında işletmelere ve consultant’lara ilk 6 ay ücretsiz avantaj sunulur.</p>
                 <h4>Basit hesap ve iki yıllık simülasyon</h4>
@@ -1006,7 +1098,7 @@
             </details>
 
             <details class="accordion-item">
-              <summary>4. Content gelirleri</summary>
+              <summary>4. Content gelirleri nelerdir?</summary>
               <div class="accordion-body">
                 <p>Contributor’lar yalnızca işletme veya consultant kazandırarak değil, content yayılım görevleriyle de gelir elde edebilir. Bu görevler CorteQS’in, işletmelerin, consultant’ların veya markaların talep ettiği şehir ya da ülke bazlı duyuru ve tanıtım kampanyaları için oluşturulur.</p>
                 <h4>Content ödeme örneği</h4>
@@ -1052,7 +1144,7 @@
             </details>
 
             <details class="accordion-item">
-              <summary>7. Yol haritası ve kısa özet</summary>
+              <summary>7. Yol haritası ve kısa özet nedir?</summary>
               <div class="accordion-body">
                 <h4>Basit yol haritası</h4>
                 <ul>
@@ -1069,7 +1161,7 @@
             </details>
 
             <details class="accordion-item">
-              <summary>8. Neden şimdi? Çağrı</summary>
+              <summary>8. Neden şimdi?</summary>
               <div class="accordion-body">
                 <p>CorteQS, global Türk diasporasını şehir bazlı bir network yapısıyla bir araya getirmek için büyüyor. Bu süreçte erken dahil olan contributor’lar kendi şehirlerinde ilk görünenlerden biri olma, yerel ağı şekillendirme ve global CorteQS ekosisteminin parçası olma avantajına sahip olur.</p>
                 <p>Şehrindeki işletmeleri, consultant’ları, içerik üreticilerini ve toplulukları CorteQS ağına bağlamak istiyorsan Local Contributor Programı’na katıl. Şehrinde bağlantı kur, yerel etki yarat ve global CorteQS ağıyla büyü.</p>
