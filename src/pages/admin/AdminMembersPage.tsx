@@ -807,6 +807,7 @@ const AdminMembersPage = () => {
     ? savingSubmissionId === selectedSubmission.id || deletingId === selectedSubmission.id
     : false;
   const selectedIsAdvisor = selectedSubmission?.category === "danisman";
+  const totalMemberCount = formMemberCount + chatbotMemberCount + waMemberCount;
 
   return (
     <div className="space-y-6">
@@ -816,7 +817,13 @@ const AdminMembersPage = () => {
             <CardTitle>Üye Takibi</CardTitle>
             <CardDescription>Sunucu tarafı sayfalama, kolon bazlı filtre ve URL persistent state.</CardDescription>
           </div>
-          <div className="grid grid-cols-3 gap-2 sm:min-w-[420px]">
+          <div className="grid grid-cols-2 gap-2 sm:min-w-[560px] sm:grid-cols-4">
+            <div className="rounded-md border border-primary/20 bg-primary/5 px-3 py-2">
+              <div className="text-[11px] font-medium text-primary">Toplam Üye</div>
+              <div className="text-lg font-semibold leading-tight text-primary">
+                {memberCountsLoading ? "..." : totalMemberCount}
+              </div>
+            </div>
             <div className="rounded-md border bg-muted/30 px-3 py-2">
               <div className="text-[11px] font-medium text-muted-foreground">Üye Sayısı Form</div>
               <div className="text-lg font-semibold leading-tight">{memberCountsLoading ? "..." : formMemberCount}</div>
