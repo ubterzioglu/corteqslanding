@@ -39,6 +39,9 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
+          <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />
+          <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
+          <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
           <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
           <Route path="/hakkimizda" element={<AboutPage />} />
           <Route path="/radar" element={<RadarPage />} />

@@ -16,6 +16,27 @@ export const commercialDocuments: CommercialDocument[] = [
     isPublic: true,
   },
   {
+    slug: "influencer-partner",
+    title: "Influencer Partner",
+    summary: "Influencer partner modeli, referral geliri, etkinlik paylaşımı ve marka iş birlikleri.",
+    standalonePath: "/commercial/influencer-partner/",
+    isPublic: true,
+  },
+  {
+    slug: "strategic-partner",
+    title: "Strategic Partner",
+    summary: "Strategic partner yapısı, ortak proje alanları, event paylaşımı ve sponsor fırsatları.",
+    standalonePath: "/commercial/strategic-partner/",
+    isPublic: true,
+  },
+  {
+    slug: "community-leader",
+    title: "Community Leader",
+    summary: "Community leader rolü, şehir bazlı topluluk liderliği ve yerel etki alanları.",
+    standalonePath: "/commercial/community-leader/",
+    isPublic: true,
+  },
+  {
     slug: "ambassador",
     title: "Ambassador",
     summary: "Ambassador rolünün temsil, topluluk büyütme ve lokal network geliştirme beklentileri.",

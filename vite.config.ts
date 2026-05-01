@@ -10,6 +10,18 @@ const standaloneDocuments = [
     sourcePath: path.resolve(__dirname, "./info-contributor.html"),
   },
   {
+    slug: "influencer-partner",
+    sourcePath: path.resolve(__dirname, "./info-influencer-partner.html"),
+  },
+  {
+    slug: "strategic-partner",
+    sourcePath: path.resolve(__dirname, "./info-strategic-partner.html"),
+  },
+  {
+    slug: "community-leader",
+    sourcePath: path.resolve(__dirname, "./info-community-leader.html"),
+  },
+  {
     slug: "ambassador",
     sourcePath: path.resolve(__dirname, "./info-ambassador.html"),
   },

@@ -49,6 +49,15 @@ describe("commercial routes", () => {
     );
   });
 
+  it("links the influencer partner card to the standalone HTML document", () => {
+    renderAtRoute("/commercial");
+
+    expect(screen.getByRole("link", { name: /influencer partner/i })).toHaveAttribute(
+      "href",
+      "/commercial/influencer-partner/",
+    );
+  });
+
   it("renders the contributor route as a standalone HTML handoff", () => {
     renderAtRoute("/commercial/contributor");
 
@@ -67,6 +76,51 @@ describe("commercial routes", () => {
 
     expect(window.location.pathname).toBe("/commercial/contributor");
     expect(screen.getByRole("heading", { name: "Contributor" })).toBeInTheDocument();
+  });
+
+  it("redirects the short influencer partner route into the commercial flow", () => {
+    renderAtRoute("/influencer-partner");
+
+    expect(window.location.pathname).toBe("/commercial/influencer-partner");
+    expect(screen.getByRole("heading", { name: "Influencer Partner" })).toBeInTheDocument();
+  });
+
+  it("renders the strategic partner route as a standalone HTML handoff", () => {
+    renderAtRoute("/commercial/strategic-partner");
+
+    expect(screen.getByRole("heading", { name: "Strategic Partner" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /standalone strategic partner dokümanını aç/i }),
+    ).toHaveAttribute(
+      "href",
+      "/commercial/strategic-partner/",
+    );
+  });
+
+  it("redirects the short strategic partner route into the commercial flow", () => {
+    renderAtRoute("/strategic-partner");
+
+    expect(window.location.pathname).toBe("/commercial/strategic-partner");
+    expect(screen.getByRole("heading", { name: "Strategic Partner" })).toBeInTheDocument();
+  });
+
+  it("renders the community leader route as a standalone HTML handoff", () => {
+    renderAtRoute("/commercial/community-leader");
+
+    expect(screen.getByRole("heading", { name: "Community Leader" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /standalone community leader dokümanını aç/i }),
+    ).toHaveAttribute(
+      "href",
+      "/commercial/community-leader/",
+    );
+  });
+
+  it("redirects the short community leader route into the commercial flow", () => {
+    renderAtRoute("/community-leader");
+
+    expect(window.location.pathname).toBe("/commercial/community-leader");
+    expect(screen.getByRole("heading", { name: "Community Leader" })).toBeInTheDocument();
   });
 
   it("renders the ambassador route as a standalone HTML handoff", () => {
