@@ -56,27 +56,43 @@ const SEOContentSection = () => {
               <ul className="grid gap-3 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>Yeni bir ülkeye taşınmayı planlayan ve relocation desteği arayan Türkler</span>
+                  <span>🌍 Relocation desteği arayan Türkler</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>Yurt dışında yaşayan Türk diaspora topluluklarına bağlanmak isteyen expatlar</span>
+                  <span>🤝 Diaspora ile bağ kurmak isteyen expatlar</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>Diaspora kitlesine hizmet sunmak isteyen danışman, avukat, doktor ve uzmanlar</span>
+                  <span>🧑‍⚕️ Hizmet sunan danışman, doktor, avukatlar</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>Türk müşteri kitlesine ulaşmak isteyen işletmeler ve girişimciler</span>
+                  <span>🏢 Türk müşteriye ulaşmak isteyen işletmeler</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>Dernek, vakıf ve sivil toplum kuruluşları</span>
+                  <span>🏛️ Dernek, vakıf ve STK’lar</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
-                  <span>İçerik üreticileri, bloggerlar ve diaspora hikâyelerini paylaşmak isteyenler</span>
+                  <span>🎥 İçerik üreticileri ve bloggerlar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold mt-0.5">•</span>
+                  <span>🧑‍🤝‍🧑 Sosyal çevre arayan bireyler</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold mt-0.5">•</span>
+                  <span>💼 İş ve kariyer fırsatı arayanlar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold mt-0.5">•</span>
+                  <span>🧑‍💻 Freelance ve proje arayanlar</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary font-bold mt-0.5">•</span>
+                  <span>📍 Yerel bilgi ve tavsiye arayanlar</span>
                 </li>
               </ul>
             </div>

@@ -136,32 +136,10 @@ const CitiesSection = () => {
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-border/60 bg-background/55 px-4 py-5 md:px-6 md:py-6">
-              <div className="mb-5 text-center">
-                <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">Radarımızdaki Şehirler</p>
-                <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-                  Bu şehirler için de topluluk ilgisini topluyoruz. Şehrini seçerek erken kayıt akışını başlatabilirsin.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                {radarCities.map((city) => (
-                  <button
-                    key={city}
-                    type="button"
-                    onClick={() => triggerCitySelect(city, "ai")}
-                    className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border/80 bg-background/85 px-3 py-2 text-sm font-semibold text-foreground/80 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:bg-primary hover:text-primary-foreground hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                  >
-                    <MapPin className="h-3.5 w-3.5 text-primary transition-colors group-hover:text-primary-foreground" />
-                    <span className="truncate">{city}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="mt-8 text-center">
-              <p className="text-muted-foreground">
-                Şehrin listede yoksa{" "}
+              <p className="mx-auto max-w-4xl text-xs leading-6 text-muted-foreground md:text-sm">
+                <span className="mr-1 font-bold uppercase tracking-widest text-primary">Radarımızdaki Şehirler:</span>
+                {radarCities.join(", ")}. Bu şehirler için de topluluk ilgisini topluyoruz. Şehrin listede yoksa{" "}
                 <a href="#kaydol" className="font-semibold text-primary underline-offset-4 transition-colors hover:text-accent hover:underline">
                   kaydını bırak
                 </a>{" "}
