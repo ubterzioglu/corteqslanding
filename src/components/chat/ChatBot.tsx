@@ -152,17 +152,17 @@ const ChatBot = () => {
       />
 
       <div className="container relative z-10 mx-auto px-4">
-        <div className="mx-auto mb-10 max-w-3xl text-center">
+        <div className="mx-auto mb-10 max-w-4xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
               Yapay Zeka Destekli Asistan
             </span>
           </div>
-          <h2 className="mb-4 text-3xl font-bold leading-tight text-foreground md:text-5xl">
+          <h2 className="mb-3 text-2xl font-bold leading-tight text-foreground md:text-4xl">
             Sorularını Sor, <span className="text-accent">İstersen Kaydını da Bırak</span>
           </h2>
-          <p className="text-lg leading-relaxed text-muted-foreground">
+          <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
             Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">

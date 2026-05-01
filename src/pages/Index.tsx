@@ -19,9 +19,9 @@ const Index = () => {
     <div className="min-h-screen">
       <main id="main">
         <HeroSection />
+        <SEOContentSection />
         <DiasporaMarqueeSection />
         <AboutSection />
-        <SEOContentSection />
         <div className="container mx-auto max-w-6xl px-4" aria-hidden="true">
           <div className="h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
         </div>
