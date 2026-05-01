@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
+import heroLogo from "../../logo.png";
 import RegisterInterestForm from "./RegisterInterestForm";
 
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
-  const heroCardBaseClass =
-    "relative inline-flex min-h-16 w-full items-center justify-center rounded-xl border px-8 py-4 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
-  const heroCompactCardClass =
-    "relative inline-flex min-h-[72px] w-full items-center justify-center rounded-xl border px-4 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
+  const heroCtaClass =
+    "relative inline-flex min-h-[64px] w-full items-center justify-center rounded-xl border px-5 py-3 text-center text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-base";
+  const heroFeaturedCardClass =
+    "relative inline-flex min-h-[76px] w-full items-center justify-center rounded-xl border px-6 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
 
   const heroCardStyles = {
     register: {
@@ -57,22 +58,11 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
-      {/* Hero illustration — sits between logo bottom and CTA bottom */}
-      <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden>
-        <img
-          src={heroLandmarks}
-          alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
-          className="absolute right-[0%] top-[15%] h-[58%] w-auto max-w-[64%] object-contain [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)]"
-          width={1480}
-          height={860}
-        />
-      </div>
-
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div>
+        <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div className="flex flex-col justify-center">
             <div className="mb-4 flex flex-col items-start gap-5 md:flex-row md:items-center">
-              <img src="/logocorteqsbig.png" alt="CorteQS Logo" className="w-full max-w-[190px] shrink-0 md:max-w-[210px]" />
+              <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[220px] shrink-0 md:max-w-[250px]" />
               <h1 className="text-4xl font-extrabold leading-tight text-foreground md:text-5xl lg:text-6xl">
                 Türk Diasporasını Birleştiren{" "}
                 <span className="text-accent">Platform</span>
@@ -86,10 +76,10 @@ const HeroSection = () => {
               Ücretsiz kayıt ol! Ağını genişlet!
             </p>
 
-            <div className="grid w-full max-w-xl gap-4 sm:grid-cols-2">
+            <div className="grid w-full max-w-xl gap-3 sm:grid-cols-2">
               <a
                 href="#kaydol"
-                className={`${heroCompactCardClass} whitespace-nowrap text-base font-semibold md:text-lg`}
+                className={`${heroCtaClass} whitespace-nowrap`}
                 style={heroCardStyles.register}
               >
                 <span
@@ -110,7 +100,7 @@ const HeroSection = () => {
                 href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${heroCompactCardClass} whitespace-nowrap text-base font-semibold md:text-lg`}
+                className={`${heroCtaClass} whitespace-nowrap`}
                 style={heroCardStyles.whatsapp}
               >
                 <span
@@ -129,10 +119,10 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 max-w-xl">
+            <div className="mt-3 flex max-w-xl flex-col gap-3">
               <Link
                 to="/founding-1000"
-                className={`${heroCardBaseClass} group relative flex-col text-base font-semibold`}
+                className={`${heroFeaturedCardClass} group relative flex-col text-sm font-semibold md:text-base`}
                 style={heroCardStyles.founding}
               >
                 <span
@@ -140,24 +130,24 @@ const HeroSection = () => {
                   aria-hidden
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
+                    "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
                   }}
                 />
                 <span
-                  className="absolute -top-2 -right-2 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider shadow-md"
+                  className="absolute -right-2 -top-2 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider shadow-md"
                   style={{ background: "#0E2238", color: "#FFD43A" }}
                 >
                   Erken Erişim
                 </span>
                 <span className="relative z-10">🌍 Founding 1000'e Katıl →</span>
-                <span className="relative z-10 mt-1 text-[11px] font-semibold uppercase tracking-wide text-[#0E2238]/85">
+                <span className="relative z-10 mt-1 text-[10px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[11px]">
                   Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
                 </span>
               </Link>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <Link
                   to="/blogger-yarismasi"
-                  className={`${heroCardBaseClass} text-base font-semibold`}
+                  className={heroCtaClass}
                   style={heroCardStyles.blogger}
                 >
                   <span
@@ -172,7 +162,7 @@ const HeroSection = () => {
                 </Link>
                 <Link
                   to="/vlogger-yarismasi"
-                  className={`${heroCardBaseClass} text-base font-semibold`}
+                  className={heroCtaClass}
                   style={heroCardStyles.vlogger}
                 >
                   <span
@@ -187,11 +177,18 @@ const HeroSection = () => {
                 </Link>
               </div>
             </div>
-
           </div>
 
-          <div className="relative hidden min-h-[520px] lg:block" aria-hidden>
-            {/* Spacer column — hero image is now a full-width background */}
+          <div className="relative hidden lg:flex lg:h-full lg:items-stretch" aria-hidden>
+            <div className="flex h-full w-full items-center justify-center rounded-[2rem]">
+              <img
+                src={heroLandmarks}
+                alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
+                className="h-full w-full object-contain [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)]"
+                width={1480}
+                height={860}
+              />
+            </div>
           </div>
         </div>
       </div>
