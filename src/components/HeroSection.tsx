@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
-import corteqsLogo from "@/assets/seologo.png";
 import {
   BookOpen,
   BriefcaseBusiness,
@@ -29,19 +28,6 @@ const heroStats = [
   { label: "500+ Profesyonel Ağ & Topluluk", icon: Network },
 ];
 
-const heroCities = [
-  { name: "Berlin", className: "border-amber-400/35 bg-amber-50 text-amber-800 hover:border-amber-500 hover:bg-amber-100" },
-  { name: "Londra", className: "border-sky-400/35 bg-sky-50 text-sky-800 hover:border-sky-500 hover:bg-sky-100" },
-  { name: "New York", className: "border-indigo-400/35 bg-indigo-50 text-indigo-800 hover:border-indigo-500 hover:bg-indigo-100" },
-  { name: "Paris", className: "border-rose-400/35 bg-rose-50 text-rose-800 hover:border-rose-500 hover:bg-rose-100" },
-  { name: "Amsterdam", className: "border-orange-400/35 bg-orange-50 text-orange-800 hover:border-orange-500 hover:bg-orange-100" },
-  { name: "Dubai", className: "border-emerald-400/35 bg-emerald-50 text-emerald-800 hover:border-emerald-500 hover:bg-emerald-100" },
-  { name: "Toronto", className: "border-red-400/35 bg-red-50 text-red-800 hover:border-red-500 hover:bg-red-100" },
-  { name: "Sydney", className: "border-cyan-400/35 bg-cyan-50 text-cyan-800 hover:border-cyan-500 hover:bg-cyan-100" },
-  { name: "İstanbul", className: "border-teal-400/35 bg-teal-50 text-teal-800 hover:border-teal-500 hover:bg-teal-100" },
-  { name: "Roma", className: "border-lime-400/35 bg-lime-50 text-lime-800 hover:border-lime-500 hover:bg-lime-100" },
-];
-
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
 
@@ -61,7 +47,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <img src={corteqsLogo} alt="CorteQS Logo" className="w-[70%] mb-6" />
+            <img src="/logo.png" alt="CorteQS Logo" className="mb-6 w-full max-w-[320px]" />
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground mb-4 leading-tight">
               Türk Diasporasını Birleştiren{" "}
               <span className="text-accent">Platform</span>
@@ -69,21 +55,13 @@ const HeroSection = () => {
             <p className="text-2xl md:text-3xl font-bold text-foreground/90 mb-6 tracking-tight">
               Yeni ülke, yeni şehir, yeni bağlantılar
             </p>
-<p className="text-lg text-muted-foreground mb-6 max-w-xl leading-relaxed hero-description">
-  Global Ağ<br />
-  Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun ve global ağınızı genişletin.
-</p>
-
-            <div className="mb-8 flex max-w-xl flex-wrap gap-2">
-              {heroCities.map((city) => (
-                <span
-                  key={city.name}
-                  className={`inline-flex h-7 w-[104px] items-center justify-center rounded-full border px-3 text-xs font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md ${city.className}`}
-                >
-                  {city.name}
-                </span>
-              ))}
-            </div>
+            <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground hero-description">
+              CorteQS, yurt dışına giden Türklerin birbirini daha kolay bulması için var.
+              <br />
+              Yardım arıyorsan doğru insanı bulursun, bir şey biliyorsan başkasına yardım edersin.
+              <br />
+              Yani kısacası: yalnız kalmazsın, bağlantı kurarsın, birlikte güçlenirsin.
+            </p>
 
             <div className="flex flex-col gap-4 w-fit">
               <a
