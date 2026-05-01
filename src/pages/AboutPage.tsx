@@ -13,26 +13,16 @@ import {
 } from "lucide-react";
 
 const impactItems = [
-  "Türk diasporasını tek platformda toplar",
-  "Profesyonelleri, girişimcileri ve üreticileri buluşturur",
-  "Global ölçekte güçlü network oluşturur",
-  "İş fırsatlarına erişimi hızlandırır",
-  "Yeteneği doğru fırsatla eşleştirir",
-  "Üyelerin görünürlüğünü artırır",
-  "Topluluk içi güveni ve etkileşimi güçlendirir",
-  "Ülkeler arası bilgi akışını sağlar",
-  "Yeni iş birliklerinin önünü açar",
-  "Girişimlerin büyümesini destekler",
-  "Freelance ve remote fırsatları görünür kılar",
-  "Kariyer gelişimini destekleyen ortam sunar",
-  "Bilgi paylaşımını sistematik hale getirir",
-  "Sosyal ve profesyonel bağı birleştirir",
-  "Diaspora içi dayanışmayı artırır",
-  "Dijital kimlik ve profil oluşturmayı kolaylaştırır",
-  "Topluluk bazlı fırsat keşfi sağlar",
-  "AI destekli eşleşmelerle doğru kişiyi buldurur",
-  "Global Türk gücünü organize eder",
-  "Görünürlüğü gerçek değere dönüştürür",
+  "Global Türk diasporasını tek platformda toplar",
+  "Şehir bazlı network sunar: Berlin, Londra, Dubai ve daha fazlası",
+  "İnsanları, işletmeleri ve toplulukları buluşturur",
+  "Yeni şehirde nereden başlayacağını netleştirir",
+  "Relocation sürecini daha kolay ve yönetilebilir hale getirir",
+  "İş, proje ve iş birliği fırsatlarını görünür kılar",
+  "Güven temelli bağlantılar kurmanı sağlar",
+  "Bilgi paylaşımını ve deneyim aktarımını hızlandırır",
+  "Profesyonel network oluşturmayı destekler",
+  "Global ama lokal odaklı topluluklar yaratır",
 ];
 
 const pillars = [

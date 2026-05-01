@@ -34,15 +34,14 @@ const SEOContentSection = () => {
                 CorteQS Nedir?
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                CorteQS, dünya genelindeki <strong className="font-semibold text-foreground">Türk diasporası</strong>
-                için geliştirilen bir <strong className="font-semibold text-foreground">şehir bazlı diaspora network platformu</strong>dur.
-                Yurt dışında yaşayan Türkleri, expatları, danışmanları, işletmeleri ve toplulukları aynı çatı altında buluşturarak bilgi paylaşımını ve iş birliğini kolaylaştırır.
-                Relocation sürecinden profesyonel ağ oluşturmaya kadar, kullanıcıların yeni şehirlerde <em className="font-medium text-foreground">güven temelli bağlantı</em> kurmasına yardımcı olur.
+                CorteQS, dünya genelindeki <strong className="font-semibold text-foreground">global Türk diasporasını tek platformda toplayan</strong>
+                şehir bazlı bir network yapısıdır. Berlin, Londra, Dubai ve benzeri şehirlerde insanları, işletmeleri ve toplulukları bir araya getirerek
+                yeni bir şehirde <em className="font-medium text-foreground">nereden başlayacağım</em> sorusuna daha net bir cevap sunar.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Platform, relocation sürecinden yerel entegrasyona, profesyonel ağ oluşturmaktan
-                topluluk etkinliklerine kadar geniş bir kullanım alanına sahiptir. Berlin, Londra,
-                Amsterdam, Dubai ve daha birçok şehirde aktif topluluk oluşturma hedefiyle yola çıkar.
+                Platform; relocation sürecini kolaylaştırır, bilgi paylaşımını ve deneyim aktarımını hızlandırır, iş, proje ve iş birliği fırsatlarını daha görünür hale getirir.
+                Aynı zamanda <strong className="font-semibold text-foreground">güven temelli bağlantılar</strong> kurmanı sağlar, profesyonel network oluşturmayı destekler ve
+                global ölçekte ama lokal odaklı topluluklar yaratmayı hedefler.
               </p>
             </div>
           </div>
