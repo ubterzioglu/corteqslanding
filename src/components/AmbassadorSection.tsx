@@ -39,13 +39,13 @@ const AmbassadorSection = () => {
         <div className="mx-auto mb-14 max-w-5xl text-center">
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/15 px-4 py-1.5">
             <Crown className="h-4 w-4 text-accent" />
-            <span className="text-xs font-bold uppercase tracking-wider text-accent">Sehir Elcisi / City Business Partner Programi</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-accent">Şehir Elçisi / City Business Partner Programı</span>
           </div>
           <h2 className="mb-5 text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
-            Sehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">Is Partneri</span> Ol
+            Şehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">İş Partneri</span> Ol
           </h2>
           <p className="overflow-x-auto whitespace-nowrap text-base text-muted-foreground md:text-xl">
-            Takipci degil, topluluk ve is insa et. CorteQS Sehir Elcisi olarak diasporanin merkezi sen ol.
+            Takipçi değil, topluluk ve iş inşa et. CorteQS Şehir Elçisi olarak diasporanın merkezi sen ol.
           </p>
         </div>
 
@@ -53,7 +53,7 @@ const AmbassadorSection = () => {
           <div className="group relative overflow-hidden rounded-3xl shadow-2xl lg:col-span-2">
             <img
               src={cityAmbassador}
-              alt="CorteQS Sehir Elcisi"
+              alt="CorteQS Şehir Elçisi"
               className="aspect-[4/5] h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               loading="lazy"
               width={800}
@@ -61,9 +61,9 @@ const AmbassadorSection = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent" aria-hidden />
             <div className="absolute bottom-0 left-0 right-0 p-6">
-              <p className="mb-1 text-xs font-bold uppercase tracking-wider text-accent">Sehir Elcisi · Berlin</p>
+              <p className="mb-1 text-xs font-bold uppercase tracking-wider text-accent">Şehir Elçisi · Berlin</p>
               <p className="text-lg font-bold leading-tight text-foreground">
-                "CorteQS ile toplulugumu buyuttum ve is gorunurlugumu artirdim."
+                "CorteQS ile topluluğumu büyüttüm ve iş görünürlüğümü artırdım."
               </p>
             </div>
           </div>
@@ -96,9 +96,9 @@ const AmbassadorSection = () => {
             >
               <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
                 <div>
-                  <p className="mb-1 text-lg font-bold text-foreground">Elci olmak 1 dakika surer.</p>
+                  <p className="mb-1 text-lg font-bold text-foreground">Elçi olmak 1 dakika sürer.</p>
                   <p className="text-sm text-muted-foreground">
-                    Kayit birak, seni degerlendirelim. Secilirsen ozel onboarding paketin hazir.
+                    Kayıt bırak, seni değerlendirelim. Seçilirsen özel onboarding paketin hazır.
                   </p>
                 </div>
                 <button
@@ -106,7 +106,7 @@ const AmbassadorSection = () => {
                   className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-primary px-6 py-3.5 text-base font-bold text-accent-foreground shadow-lg transition-all hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/30"
                 >
                   <Crown className="h-5 w-5" />
-                  Elci Olmak Istiyorum
+                  Elçi Olmak İstiyorum
                 </button>
               </div>
             </div>
