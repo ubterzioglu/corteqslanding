@@ -43,7 +43,15 @@ const CommercialIndexPage = () => {
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                   <FileText className="h-5 w-5" />
                 </div>
-                <h2 className="text-2xl font-bold text-foreground">{document.title}</h2>
+                <h2
+                  className={
+                    document.slug === "contributor"
+                      ? "text-sm font-bold leading-7 text-foreground"
+                      : "text-2xl font-bold text-foreground"
+                  }
+                >
+                  {document.title}
+                </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{document.summary}</p>
                 <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
                   Dokümana git
