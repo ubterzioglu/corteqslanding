@@ -7,9 +7,9 @@ import RegisterInterestForm from "./RegisterInterestForm";
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const heroCtaClass =
-    "relative inline-flex min-h-[58px] w-full items-center justify-center rounded-xl border px-4 py-2.5 text-center text-[13px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-sm";
+    "relative inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center text-[12px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-[13px]";
   const heroFeaturedCardClass =
-    "relative inline-flex min-h-[68px] w-full items-center justify-center rounded-xl border px-5 py-2.5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
+    "relative inline-flex min-h-[62px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
 
   const heroCardStyles = {
     register: {
@@ -57,18 +57,18 @@ const HeroSection = () => {
   } as const;
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
+      <div className="container relative z-10 mx-auto px-4 py-14 md:py-16">
+        <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div className="flex flex-col justify-center">
-            <div className="mb-4 flex flex-col items-start gap-4 md:flex-row md:items-center">
-              <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[180px] shrink-0 md:max-w-[205px]" />
-              <h1 className="text-3xl font-extrabold leading-[0.95] text-foreground md:text-4xl lg:text-5xl">
+            <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
+              <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />
+              <h1 className="text-[2.3rem] font-extrabold leading-[0.95] text-foreground md:text-[3rem] lg:text-[3.8rem]">
                 Türk Diasporasını Birleştiren{" "}
                 <span className="text-accent">Platform</span>
               </h1>
             </div>
-            <p className="mb-6 max-w-lg text-base leading-relaxed text-muted-foreground hero-description md:text-[17px]">
+            <p className="hero-description mb-5 max-w-lg text-[15px] leading-relaxed text-muted-foreground md:text-base">
               Dünyanın her yerindeki Türkleri tek çatı altında buluşturur.
               <br />
               Bağlan, keşfet, birlikte büyü!
@@ -76,7 +76,7 @@ const HeroSection = () => {
               Ücretsiz kayıt ol! Ağını genişlet!
             </p>
 
-            <div className="grid w-full max-w-lg gap-3 sm:grid-cols-2">
+            <div className="grid w-full max-w-lg gap-2.5 sm:grid-cols-2">
               <a
                 href="#kaydol"
                 className={`${heroCtaClass} whitespace-nowrap`}
@@ -119,10 +119,10 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="mt-3 flex max-w-lg flex-col gap-3">
+            <div className="mt-2.5 flex max-w-lg flex-col gap-2.5">
               <Link
                 to="/founding-1000"
-                className={`${heroFeaturedCardClass} group relative flex-col text-[13px] font-semibold md:text-sm`}
+                className={`${heroFeaturedCardClass} group relative flex-col text-[12px] font-semibold md:text-[13px]`}
                 style={heroCardStyles.founding}
               >
                 <span
@@ -134,17 +134,17 @@ const HeroSection = () => {
                   }}
                 />
                 <span
-                  className="absolute -right-2 -top-2 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider shadow-md"
+                  className="absolute -right-1 -top-2 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider shadow-md"
                   style={{ background: "#0E2238", color: "#FFD43A" }}
                 >
                   Erken Erişim
                 </span>
                 <span className="relative z-10">🌍 Founding 1000'e Katıl →</span>
-                <span className="relative z-10 mt-1 text-[9px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[10px]">
+                <span className="relative z-10 mt-1 text-[8px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[9px]">
                   Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
                 </span>
               </Link>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                 <Link
                   to="/blogger-yarismasi"
                   className={heroCtaClass}
