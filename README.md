@@ -54,6 +54,13 @@ supabase functions deploy send-submission-email
 
 This repo now includes a production `Dockerfile` for Coolify.
 
+If Coolify is using Nixpacks instead of the `Dockerfile`, the repo now also provides:
+
+- `server.mjs` to serve `dist/` with SPA fallback
+- runtime `/env-config.js` generation
+- `/api/chat` proxying for `RAG_API_SECRET`
+- `nixpacks.toml` so Coolify builds with `npm run build` and starts with `npm run start`
+
 Required runtime environment variables in Coolify:
 
 ```env
