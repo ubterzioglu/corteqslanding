@@ -7,9 +7,9 @@ import RegisterInterestForm from "./RegisterInterestForm";
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const heroCtaClass =
-    "relative inline-flex min-h-[64px] w-full items-center justify-center rounded-xl border px-5 py-3 text-center text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-base";
+    "relative inline-flex min-h-[58px] w-full items-center justify-center rounded-xl border px-4 py-2.5 text-center text-[13px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-sm";
   const heroFeaturedCardClass =
-    "relative inline-flex min-h-[76px] w-full items-center justify-center rounded-xl border px-6 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
+    "relative inline-flex min-h-[68px] w-full items-center justify-center rounded-xl border px-5 py-2.5 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
 
   const heroCardStyles = {
     register: {
@@ -61,14 +61,14 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="grid items-stretch gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div className="flex flex-col justify-center">
-            <div className="mb-4 flex flex-col items-start gap-5 md:flex-row md:items-center">
-              <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[220px] shrink-0 md:max-w-[250px]" />
-              <h1 className="text-4xl font-extrabold leading-tight text-foreground md:text-5xl lg:text-6xl">
+            <div className="mb-4 flex flex-col items-start gap-4 md:flex-row md:items-center">
+              <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[180px] shrink-0 md:max-w-[205px]" />
+              <h1 className="text-3xl font-extrabold leading-[0.95] text-foreground md:text-4xl lg:text-5xl">
                 Türk Diasporasını Birleştiren{" "}
                 <span className="text-accent">Platform</span>
               </h1>
             </div>
-            <p className="mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground hero-description">
+            <p className="mb-6 max-w-lg text-base leading-relaxed text-muted-foreground hero-description md:text-[17px]">
               Dünyanın her yerindeki Türkleri tek çatı altında buluşturur.
               <br />
               Bağlan, keşfet, birlikte büyü!
@@ -76,7 +76,7 @@ const HeroSection = () => {
               Ücretsiz kayıt ol! Ağını genişlet!
             </p>
 
-            <div className="grid w-full max-w-xl gap-3 sm:grid-cols-2">
+            <div className="grid w-full max-w-lg gap-3 sm:grid-cols-2">
               <a
                 href="#kaydol"
                 className={`${heroCtaClass} whitespace-nowrap`}
@@ -119,10 +119,10 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="mt-3 flex max-w-xl flex-col gap-3">
+            <div className="mt-3 flex max-w-lg flex-col gap-3">
               <Link
                 to="/founding-1000"
-                className={`${heroFeaturedCardClass} group relative flex-col text-sm font-semibold md:text-base`}
+                className={`${heroFeaturedCardClass} group relative flex-col text-[13px] font-semibold md:text-sm`}
                 style={heroCardStyles.founding}
               >
                 <span
@@ -140,7 +140,7 @@ const HeroSection = () => {
                   Erken Erişim
                 </span>
                 <span className="relative z-10">🌍 Founding 1000'e Katıl →</span>
-                <span className="relative z-10 mt-1 text-[10px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[11px]">
+                <span className="relative z-10 mt-1 text-[9px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[10px]">
                   Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
                 </span>
               </Link>

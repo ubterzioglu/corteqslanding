@@ -33,16 +33,18 @@ const SEOContentSection = () => {
               <h2 id="geo-content-title" className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 CorteQS Nedir?
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                CorteQS, dünya genelindeki <strong className="font-semibold text-foreground">global Türk diasporasını tek platformda toplayan</strong>
-                şehir bazlı bir network yapısıdır. Berlin, Londra, Dubai ve benzeri şehirlerde insanları, işletmeleri ve toplulukları bir araya getirerek
-                yeni bir şehirde <em className="font-medium text-foreground">nereden başlayacağım</em> sorusuna daha net bir cevap sunar.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Platform; relocation sürecini kolaylaştırır, bilgi paylaşımını ve deneyim aktarımını hızlandırır, iş, proje ve iş birliği fırsatlarını daha görünür hale getirir.
-                Aynı zamanda <strong className="font-semibold text-foreground">güven temelli bağlantılar</strong> kurmanı sağlar, profesyonel network oluşturmayı destekler ve
-                global ölçekte ama lokal odaklı topluluklar yaratmayı hedefler.
-              </p>
+              <ul className="grid gap-3 text-muted-foreground leading-relaxed">
+                <li>🌍 Global Türk diasporasını tek platformda toplar</li>
+                <li>📍 Şehir bazlı network (Berlin, Londra, Dubai vb.)</li>
+                <li>🤝 İnsan, işletme ve toplulukları buluşturur</li>
+                <li>🧭 Yeni şehirde “nereden başlayacağım?” sorununu çözer</li>
+                <li>🏠 Relocation sürecini kolaylaştırır</li>
+                <li>💼 İş, proje ve işbirliği fırsatları sunar</li>
+                <li>👥 Güven temelli bağlantılar kurmanı sağlar</li>
+                <li>📢 Bilgi paylaşımı ve deneyim aktarımını hızlandırır</li>
+                <li>🎯 Profesyonel network oluşturmayı destekler</li>
+                <li>🌐 Global ama lokal odaklı topluluklar yaratır</li>
+              </ul>
             </div>
           </div>
 
