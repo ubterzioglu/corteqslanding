@@ -1,11 +1,29 @@
 import diasporaCommunity from "@/assets/diaspora-community.jpg";
+import {
+  BookOpen,
+  BriefcaseBusiness,
+  Building2,
+  CalendarDays,
+  GraduationCap,
+  HandHeart,
+  MapPin,
+  Network,
+  Radio,
+  Users,
+} from "lucide-react";
 
 const AboutSection = () => {
   const stats = [
-    { value: "50+", label: "Şehir" },
-    { value: "12", label: "Kategori" },
-    { value: "1M+", label: "Hedef Üye" },
-    { value: "25+", label: "Ülke" },
+    { label: "164 Ülke", icon: MapPin },
+    { label: "8.8 Milyon Türk", icon: Users },
+    { label: "120.000+ Kuruluş", icon: Building2 },
+    { label: "35.000+ Türk Girişimi", icon: BriefcaseBusiness },
+    { label: "50.000+ Öğrenci", icon: GraduationCap },
+    { label: "10.000+ Akademisyen", icon: BookOpen },
+    { label: "5.000+ STK", icon: HandHeart },
+    { label: "2.000+ Medya & Yayın Platformu", icon: Radio },
+    { label: "1.000+ Kültürel Etkinlik (yıllık)", icon: CalendarDays },
+    { label: "500+ Profesyonel Ağ & Topluluk", icon: Network },
   ];
 
   return (
@@ -20,39 +38,45 @@ const AboutSection = () => {
       <div className="pointer-events-none absolute -left-24 top-8 h-72 w-72 rounded-full bg-accent/20 blur-3xl" aria-hidden />
       <div className="pointer-events-none absolute -right-28 bottom-0 h-80 w-80 rounded-full bg-primary/20 blur-3xl" aria-hidden />
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Hakkımızda</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6">
+      <div className="container relative z-10 mx-auto max-w-6xl px-4">
+        <article className="grid overflow-hidden rounded-2xl border border-white/50 bg-card/80 shadow-xl shadow-primary/10 backdrop-blur-sm lg:grid-cols-[0.58fr_0.42fr]">
+          <div className="p-6 md:p-8 lg:p-10">
+            <span className="mb-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+              Hakkımızda
+            </span>
+            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl">
               Diasporanın Gücünü Keşfedin
             </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            <p className="mb-8 text-lg leading-relaxed text-muted-foreground">
               Her kategoride uzmanlaşmış <strong className="font-bold text-foreground">profesyonelleri, girişimleri, işletmeleri, kurumları ve içerik üreticilerini</strong> benzersiz bir çatı altında topluyoruz.
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {stats.map((stat) => (
-                <div key={stat.label} className="rounded-xl border border-white/50 bg-card/80 p-4 text-center shadow-sm backdrop-blur-sm">
-                  <div className="text-2xl md:text-3xl font-bold text-primary">{stat.value}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {stats.map(({ label, icon: Icon }) => (
+                <div
+                  key={label}
+                  className="flex min-h-14 items-center gap-3 rounded-xl border border-white/50 bg-background/75 px-4 py-3 shadow-sm"
+                >
+                  <Icon className="h-4 w-4 shrink-0 text-primary" />
+                  <div className="text-sm font-semibold leading-snug text-foreground">{label}</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative mx-auto w-[70%] overflow-hidden rounded-2xl border border-white/50 shadow-2xl shadow-primary/10">
+
+          <figure className="relative min-h-72 border-t border-white/50 bg-background/60 lg:border-l lg:border-t-0">
             <img
               src={diasporaCommunity}
               alt="Diaspora topluluğu buluşması"
-              className="w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
+              className="h-full w-full object-cover [filter:brightness(0.95)_saturate(0.85)_contrast(0.95)]"
               loading="lazy"
               width={1024}
               height={1024}
             />
-            {/* Soft tonal overlay to harmonize with page palette */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-card/40 via-card/10 to-primary/15 mix-blend-soft-light" aria-hidden />
             <div className="pointer-events-none absolute inset-0 bg-card/15" aria-hidden />
-          </div>
-        </div>
+          </figure>
+        </article>
       </div>
     </section>
   );

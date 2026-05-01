@@ -52,7 +52,7 @@ const SEOContentSection = () => {
               <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                 Kimler İçin?
               </h2>
-              <ul className="grid gap-3 text-muted-foreground md:grid-cols-2">
+              <ul className="grid gap-3 text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <span className="text-primary font-bold mt-0.5">•</span>
                   <span>Yeni bir ülkeye taşınmayı planlayan ve relocation desteği arayan Türkler</span>

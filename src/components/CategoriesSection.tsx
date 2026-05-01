@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowRight, Briefcase, Building2, Landmark, User, Mic, Users } from "lucide-react";
+import { Briefcase, Building2, Landmark, User, Mic, Users } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 
@@ -73,50 +72,24 @@ const CategoriesSection = () => {
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className="group rounded-2xl border border-white/50 bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
+              className="group flex h-full flex-col rounded-2xl border border-white/50 bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
             >
-              <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5">
-                <cat.icon className="w-7 h-7 text-primary" />
+              <div className="mb-5 flex items-center gap-4">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <cat.icon className="h-7 w-7 text-primary" />
+                </div>
+                <h3 className="text-xl font-bold leading-snug text-foreground">{cat.title}</h3>
               </div>
-              <h3 className="font-bold text-foreground text-xl mb-3">{cat.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{cat.desc}</p>
+              <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">{cat.desc}</p>
               <button
                 onClick={() => openForm(cat.defaultCategory)}
-                className="w-full py-3 rounded-xl bg-primary/10 text-primary font-semibold text-sm hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                className="mt-auto w-full rounded-xl bg-primary/10 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
               >
                 Kayıt Bırak / Takip Et →
               </button>
             </div>
           ))}
         </div>
-
-        {/* Founding 1000 CTA */}
-        <div className="mt-16 max-w-3xl mx-auto">
-          <div className="relative rounded-3xl bg-gradient-to-br from-amber-50 via-yellow-50 to-amber-100 border-2 border-amber-300/60 p-8 md:p-10 shadow-lg shadow-amber-500/10 overflow-hidden">
-            <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-amber-300/30 blur-3xl pointer-events-none" aria-hidden />
-            <div className="relative flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-              <div className="flex-1">
-                <span className="inline-block px-3 py-1 rounded-full bg-slate-900 text-amber-300 text-[10px] font-bold tracking-wider uppercase mb-3">
-                  ⭐ Erken Erişim
-                </span>
-                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2 leading-tight">
-                  Founding 1000'e Katıl
-                </h3>
-                <p className="text-slate-700 text-sm md:text-base leading-relaxed">
-                  Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar — kategorinde ilk konumlananlardan biri ol.
-                </p>
-              </div>
-              <Link
-                to="/founding-1000"
-                className="group shrink-0 inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold text-base hover:from-amber-400 hover:to-yellow-300 transition-all shadow-lg shadow-amber-500/30 whitespace-nowrap"
-              >
-                🌍 Katıl
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
-          </div>
-        </div>
-
         <div className="text-center mt-12">
           <p className="text-muted-foreground text-sm">
             İletişim: <a href="mailto:info@corteqs.net" className="text-primary hover:underline">info@corteqs.net</a>
