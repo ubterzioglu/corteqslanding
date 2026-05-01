@@ -7,6 +7,8 @@ const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const heroCardBaseClass =
     "relative inline-flex min-h-16 w-full items-center justify-center rounded-xl border px-8 py-4 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
+  const heroCompactCardClass =
+    "relative inline-flex min-h-[72px] w-full items-center justify-center rounded-xl border px-4 py-3 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
 
   const heroCardStyles = {
     register: {
@@ -70,7 +72,7 @@ const HeroSection = () => {
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
           <div>
             <div className="mb-4 flex flex-col items-start gap-5 md:flex-row md:items-center">
-              <img src="/logo.png" alt="CorteQS Logo" className="w-full max-w-[220px] shrink-0 md:max-w-[240px]" />
+              <img src="/logocorteqsbig.png" alt="CorteQS Logo" className="w-full max-w-[190px] shrink-0 md:max-w-[210px]" />
               <h1 className="text-4xl font-extrabold leading-tight text-foreground md:text-5xl lg:text-6xl">
                 Türk Diasporasını Birleştiren{" "}
                 <span className="text-accent">Platform</span>
@@ -87,7 +89,7 @@ const HeroSection = () => {
             <div className="grid w-full max-w-xl gap-4 sm:grid-cols-2">
               <a
                 href="#kaydol"
-                className={`${heroCardBaseClass} text-lg font-semibold`}
+                className={`${heroCompactCardClass} whitespace-nowrap text-base font-semibold md:text-lg`}
                 style={heroCardStyles.register}
               >
                 <span
@@ -108,7 +110,7 @@ const HeroSection = () => {
                 href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`${heroCardBaseClass} text-lg font-semibold`}
+                className={`${heroCompactCardClass} whitespace-nowrap text-base font-semibold md:text-lg`}
                 style={heroCardStyles.whatsapp}
               >
                 <span
