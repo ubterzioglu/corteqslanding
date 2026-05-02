@@ -23,11 +23,11 @@ const CommercialIndexPage = () => {
             <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
               Commercial Docs
             </span>
-            <h1 className="mt-5 max-w-4xl text-4xl font-black leading-[0.95] tracking-tight text-foreground md:text-6xl">
+            <h1 className="mt-5 max-w-4xl text-3xl font-black leading-[0.95] tracking-tight text-foreground md:text-5xl">
               Paylaşım ve teklif görüşmeleri için
               <span className="block text-primary">kısa doküman merkezi</span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
               Bu alan, CorteQS rolleri ve iş birliği başlıkları hakkında hızlı bir ön bilgi sunmak için
               hazırlanmıştır. Aşağıdaki başlıklardan ilgili dokümana geçebilirsiniz.
             </p>
