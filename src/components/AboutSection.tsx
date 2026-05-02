@@ -44,7 +44,7 @@ const AboutSection = () => {
             <span className="mb-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               Hakkımızda
             </span>
-            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl">
+            <h2 className="mb-4 text-2xl font-bold text-foreground md:text-4xl">
               Diasporanın Gücünü Keşfedin
             </h2>
             <p className="mb-8 text-lg leading-relaxed text-muted-foreground">

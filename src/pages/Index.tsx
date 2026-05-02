@@ -4,7 +4,6 @@ import DiasporaMarqueeSection from "@/components/DiasporaMarqueeSection";
 import AboutSection from "@/components/AboutSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import ChatBot from "@/components/chat/ChatBot";
-import AmbassadorSection from "@/components/AmbassadorSection";
 import FAQSection from "@/components/FAQSection";
 import CitiesSection from "@/components/CitiesSection";
 import FooterSection from "@/components/FooterSection";
@@ -29,7 +28,6 @@ const Index = () => {
         <CategoriesSection />
         <CitiesSection />
         <ChatBot />
-        <AmbassadorSection />
       </main>
       <FooterSection />
     </div>

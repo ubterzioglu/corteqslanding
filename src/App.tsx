@@ -27,6 +27,7 @@ import { muhasebeRoutes } from "@/pages/admin/muhasebe/routes";
 import Founding1000Page from "./pages/Founding1000Page.tsx";
 import BloggerContestPage from "./pages/BloggerContestPage.tsx";
 import VloggerContestPage from "./pages/VloggerContestPage.tsx";
+import ScrollTopButton from "@/components/ScrollTopButton";
 
 const queryClient = new QueryClient();
 
@@ -36,43 +37,46 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
-          <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />
-          <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
-          <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
-          <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
-          <Route path="/hakkimizda" element={<AboutPage />} />
-          <Route path="/radar" element={<RadarPage />} />
-          <Route path="/commercial" element={<CommercialIndexPage />} />
-          <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
-          <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<Navigate to="/admin/members" replace />} />
-            <Route path="members" element={<AdminMembersPage />} />
-            <Route path="referral" element={<AdminReferralPage />} />
-            <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
-            <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
-            <Route path="referral/types" element={<AdminReferralTypesPage />} />
-            <Route path="marquee" element={<AdminMarqueePage />} />
-            <Route path="advisors">
-              <Route index element={<Navigate to="/admin/advisors/consultant" replace />} />
-              <Route path=":profile" element={<AdminAdvisorLinksPage />} />
+        <>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
+            <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />
+            <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
+            <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
+            <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
+            <Route path="/hakkimizda" element={<AboutPage />} />
+            <Route path="/radar" element={<RadarPage />} />
+            <Route path="/commercial" element={<CommercialIndexPage />} />
+            <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
+            <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<Navigate to="/admin/members" replace />} />
+              <Route path="members" element={<AdminMembersPage />} />
+              <Route path="referral" element={<AdminReferralPage />} />
+              <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
+              <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
+              <Route path="referral/types" element={<AdminReferralTypesPage />} />
+              <Route path="marquee" element={<AdminMarqueePage />} />
+              <Route path="advisors">
+                <Route index element={<Navigate to="/admin/advisors/consultant" replace />} />
+                <Route path=":profile" element={<AdminAdvisorLinksPage />} />
+              </Route>
+              <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
+              <Route path="about" element={<AdminAboutPage />} />
+              {muhasebeRoutes}
             </Route>
-            <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
-            <Route path="about" element={<AdminAboutPage />} />
-            {muhasebeRoutes}
-          </Route>
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
-          <Route path="/form"         element={<FormPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/founding-1000" element={<Founding1000Page />} />
-          <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
-          <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/form"         element={<FormPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/founding-1000" element={<Founding1000Page />} />
+            <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
+            <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <ScrollTopButton />
+        </>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

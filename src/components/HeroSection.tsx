@@ -63,7 +63,7 @@ const HeroSection = () => {
           <div className="flex flex-col justify-center">
             <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
               <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />
-              <h1 className="text-[2.3rem] font-extrabold leading-[0.95] text-foreground md:text-[3rem] lg:text-[3.8rem]">
+              <h1 className="text-2xl font-extrabold leading-[0.95] text-foreground md:text-4xl">
                 Türk Diasporasını Birleştiren{" "}
                 <span className="text-accent">Platform</span>
               </h1>
