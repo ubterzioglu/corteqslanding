@@ -36,7 +36,7 @@ const FooterSection = () => {
       <div className="container relative z-10 mx-auto px-4">
         <div className="mx-auto max-w-5xl rounded-3xl border border-white/20 bg-white/10 px-5 py-8 text-center shadow-2xl shadow-black/30 backdrop-blur-xl sm:px-8 lg:px-12">
           <div className="mb-10">
-            <h2 className="text-3xl font-bold text-white md:text-4xl">
+            <h2 className="text-2xl font-bold text-white md:text-4xl">
               Yakında Açılıyoruz!
             </h2>
             <p className="mx-auto mt-4 mb-6 max-w-4xl text-base leading-relaxed text-white/75 md:text-lg">

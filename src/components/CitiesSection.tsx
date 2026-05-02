@@ -76,7 +76,7 @@ const CitiesSection = () => {
         <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl border border-white/50 bg-card/85 shadow-2xl shadow-primary/10 backdrop-blur-sm">
           <div className="border-b border-border/60 px-6 py-8 text-center md:px-8 md:py-10">
             <p className="mb-3 text-sm font-bold uppercase tracking-widest text-primary">Küresel Ağ</p>
-            <h2 className="mb-4 text-3xl font-extrabold text-foreground md:text-5xl">
+            <h2 className="mb-4 text-2xl font-extrabold text-foreground md:text-4xl">
               Türk Diasporasının Olduğu <span className="text-accent">Her Şehirde</span>
             </h2>
             <p className="mx-auto max-w-2xl text-base text-muted-foreground md:text-lg">

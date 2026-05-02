@@ -42,7 +42,7 @@ const AmbassadorSection = () => {
               <Crown className="h-4 w-4 text-accent" />
               <span className="text-xs font-bold uppercase tracking-wider text-accent">Şehir Elçisi / City Business Partner Programı</span>
             </div>
-            <h2 className="mb-4 text-4xl font-extrabold leading-tight text-foreground md:text-6xl">
+            <h2 className="mb-4 text-2xl font-extrabold leading-tight text-foreground md:text-4xl">
               Şehrinin <span className="bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">İş Partneri</span> Ol
             </h2>
             <p className="mx-auto max-w-4xl text-base text-muted-foreground md:text-xl">

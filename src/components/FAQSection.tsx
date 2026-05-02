@@ -234,7 +234,7 @@ const FAQSection = () => {
             Yardım Merkezi
           </span>
         </div>
-        <h2 className="mb-8 text-center text-xl font-bold text-foreground md:text-2xl">
+        <h2 className="mb-8 text-center text-2xl font-bold text-foreground md:text-4xl">
           Sıkça Sorulan Sorular
           <br />
           CorteQS Nasıl Çalışır?
