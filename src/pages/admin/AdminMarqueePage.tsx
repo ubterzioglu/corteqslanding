@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Edit, Eye, EyeOff, ImagePlus, Loader2, Plus, Trash2 } from "lucide-react";
+import { Edit, ExternalLink, ImagePlus, Loader2, Plus, Trash2 } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,14 +14,17 @@ import { useToast } from "@/hooks/use-toast";
 import {
   createMarqueeItem,
   deleteMarqueeItem,
+  importNewsPostToMarquee,
   listAdminMarqueeItems,
+  listImportableNewsPosts,
   marqueeTypeLabels,
   slugifyMarqueeTitle,
+  updateMarqueeItem,
   uploadNewsImage,
   validateNewsImageFile,
-  updateMarqueeItem,
   type MarqueeItemRow,
   type MarqueeItemType,
+  type NewsPostRow,
 } from "@/lib/marquee";
 
 type MarqueeFormState = {
@@ -80,12 +84,26 @@ const normalizeOptional = (value: string) => {
   return trimmed ? trimmed : null;
 };
 
+const formatNewsDate = (value: string | null) => {
+  if (!value) return "Tarih yok";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Tarih yok";
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
+
 const AdminMarqueePage = () => {
   const { toast } = useToast();
   const [items, setItems] = useState<MarqueeItemRow[]>([]);
+  const [newsPosts, setNewsPosts] = useState<NewsPostRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingNewsPosts, setLoadingNewsPosts] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [importingNewsPostId, setImportingNewsPostId] = useState<number | null>(null);
   const [imageUploadError, setImageUploadError] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<MarqueeFormState>(() => emptyForm());
@@ -104,9 +122,22 @@ const AdminMarqueePage = () => {
     }
   }, [toast]);
 
+  const refreshNewsPosts = useCallback(async () => {
+    setLoadingNewsPosts(true);
+    try {
+      setNewsPosts(await listImportableNewsPosts());
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Bilinmeyen hata";
+      toast({ title: "Haber havuzu yüklenemedi", description: message, variant: "destructive" });
+    } finally {
+      setLoadingNewsPosts(false);
+    }
+  }, [toast]);
+
   useEffect(() => {
     void refresh();
-  }, [refresh]);
+    void refreshNewsPosts();
+  }, [refresh, refreshNewsPosts]);
 
   const updateForm = <Key extends keyof MarqueeFormState>(key: Key, value: MarqueeFormState[Key]) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -202,16 +233,6 @@ const AdminMarqueePage = () => {
     }
   };
 
-  const toggleActive = async (item: MarqueeItemRow) => {
-    try {
-      const updated = await updateMarqueeItem(item.id, { is_active: !item.is_active });
-      setItems((current) => current.map((currentItem) => (currentItem.id === item.id ? updated : currentItem)));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Durum değiştirilemedi";
-      toast({ title: "Güncelleme başarısız", description: message, variant: "destructive" });
-    }
-  };
-
   const removeItem = async (item: MarqueeItemRow) => {
     if (!window.confirm(`"${item.title}" kaydı silinsin mi?`)) return;
     try {
@@ -224,6 +245,34 @@ const AdminMarqueePage = () => {
       toast({ title: "Silme başarısız", description: message, variant: "destructive" });
     }
   };
+
+  const handleImportNewsPost = async (post: NewsPostRow) => {
+    setImportingNewsPostId(post.id);
+    try {
+      const imported = await importNewsPostToMarquee(post.id);
+      setItems((current) => {
+        const existingIndex = current.findIndex((item) => item.id === imported.id);
+        if (existingIndex >= 0) {
+          return current.map((item) => (item.id === imported.id ? imported : item));
+        }
+        return [...current, imported].sort((first, second) => {
+          if (first.sort_order !== second.sort_order) return first.sort_order - second.sort_order;
+          return new Date(second.published_at).getTime() - new Date(first.published_at).getTime();
+        });
+      });
+      toast({ title: "Haber marquee’ye aktarıldı" });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Aktarım yapılamadı";
+      toast({ title: "Aktarım başarısız", description: message, variant: "destructive" });
+    } finally {
+      setImportingNewsPostId(null);
+    }
+  };
+
+  const importedByNewsPostId = useMemo(
+    () => new Map(items.filter((item) => item.news_post_id != null).map((item) => [item.news_post_id as number, item])),
+    [items],
+  );
 
   return (
     <div className="space-y-6">
@@ -370,6 +419,84 @@ const AdminMarqueePage = () => {
 
       <Card>
         <CardHeader>
+          <CardTitle>OpenClaw Haber Havuzu</CardTitle>
+          <CardDescription>Aktif haberleri tek tek marquee akışına ekleyin. Aynı haber ikinci kez eklenmez.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Başlık</TableHead>
+                <TableHead>Kaynak</TableHead>
+                <TableHead>Tarih</TableHead>
+                <TableHead>Durum</TableHead>
+                <TableHead>İşlem</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {loadingNewsPosts ? (
+                <TableRow>
+                  <TableCell colSpan={5}>Yükleniyor...</TableCell>
+                </TableRow>
+              ) : newsPosts.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5}>Aktarılabilir aktif haber yok.</TableCell>
+                </TableRow>
+              ) : (
+                newsPosts.map((post) => {
+                  const importedItem = importedByNewsPostId.get(post.id);
+                  return (
+                    <TableRow key={post.id}>
+                      <TableCell className="max-w-md">
+                        <div className="font-semibold text-foreground">{post.title}</div>
+                        <div className="line-clamp-2 text-xs text-muted-foreground">{post.summary ?? "Özet yok"}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-sm">{post.source_name ?? "-"}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {[post.city, post.country].filter(Boolean).join(", ") || post.category || "-"}
+                        </div>
+                      </TableCell>
+                      <TableCell>{formatNewsDate(post.published_at ?? post.created_at)}</TableCell>
+                      <TableCell>
+                        {importedItem ? <Badge variant="outline">Marquee’de</Badge> : <Badge>Hazır</Badge>}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            size="sm"
+                            onClick={() => void handleImportNewsPost(post)}
+                            disabled={Boolean(importedItem) || importingNewsPostId === post.id}
+                          >
+                            {importingNewsPostId === post.id ? "Ekleniyor..." : importedItem ? "Eklendi" : "Marquee’ye ekle"}
+                          </Button>
+                          {importedItem && (
+                            <Button variant="outline" size="sm" onClick={() => editItem(importedItem)}>
+                              <Edit className="h-4 w-4" />
+                              Düzenle
+                            </Button>
+                          )}
+                          {post.source_url && (
+                            <Button variant="ghost" size="sm" asChild>
+                              <a href={post.source_url} target="_blank" rel="noreferrer">
+                                <ExternalLink className="h-4 w-4" />
+                                Kaynak
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
           <CardTitle>Mevcut Haber Bandı Kayıtları</CardTitle>
           <CardDescription>Görsel, durum, detay ve sıralama bilgilerini hızlıca kontrol edin.</CardDescription>
         </CardHeader>
@@ -413,10 +540,7 @@ const AdminMarqueePage = () => {
                       </TableCell>
                       <TableCell>{marqueeTypeLabels[type]}</TableCell>
                       <TableCell>
-                        <Button variant="outline" size="sm" onClick={() => void toggleActive(item)}>
-                          {item.is_active ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                          {item.is_active ? "Aktif" : "Pasif"}
-                        </Button>
+                        <Badge variant={item.is_active ? "outline" : "secondary"}>{item.is_active ? "Aktif" : "Pasif"}</Badge>
                       </TableCell>
                       <TableCell>{item.link_enabled ? "Açık" : "Kapalı"}</TableCell>
                       <TableCell>{item.sort_order}</TableCell>

@@ -13,7 +13,9 @@ dist-ssr
 *.local
 
 .env
+secret.md
 secret_ignore.md
+supabase/.temp/
 
 # Editor directories and files
 .vscode/*
