@@ -5,6 +5,7 @@ export type MarqueeItemType = "news" | "stat" | "announcement";
 export type MarqueeItemRow = Tables<"marquee_items">;
 export type MarqueeItemInsert = TablesInsert<"marquee_items">;
 export type MarqueeItemUpdate = TablesUpdate<"marquee_items">;
+export type NewsPostRow = Tables<"news_posts">;
 
 export const newsImageBucket = "newsimage";
 export const allowedNewsImageTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
@@ -28,6 +29,7 @@ export const fallbackMarqueeItems: MarqueeItemRow[] = [
     image_url: "/og-image.png",
     image_alt: "CorteQS küresel diaspora ağı",
     metric_value: "164 ülke",
+    news_post_id: null,
     link_enabled: true,
     sort_order: 10,
     is_active: true,
@@ -45,6 +47,7 @@ export const fallbackMarqueeItems: MarqueeItemRow[] = [
     image_url: "/logocorteqsbig.png",
     image_alt: "CorteQS diaspora bağlantı görseli",
     metric_value: "8.8 milyon",
+    news_post_id: null,
     link_enabled: false,
     sort_order: 20,
     is_active: true,
@@ -62,6 +65,7 @@ export const fallbackMarqueeItems: MarqueeItemRow[] = [
     image_url: "/og-image.png",
     image_alt: "CorteQS erken kayıt duyurusu",
     metric_value: null,
+    news_post_id: null,
     link_enabled: true,
     sort_order: 30,
     is_active: true,
@@ -170,6 +174,71 @@ export async function listAdminMarqueeItems(): Promise<MarqueeItemRow[]> {
 
   if (error) throw error;
   return data ?? [];
+}
+
+export async function listImportableNewsPosts(): Promise<NewsPostRow[]> {
+  const { data, error } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("status", "active")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false, nullsFirst: false });
+
+  if (error) throw error;
+  return data ?? [];
+}
+
+const joinNewsParts = (parts: Array<string | null | undefined>) => parts.map((part) => part?.trim()).filter(Boolean).join(" • ");
+
+export function buildNewsPostSummary(post: NewsPostRow): string {
+  const summary = post.summary?.trim();
+  if (summary) return summary;
+
+  const location = [post.city?.trim(), post.country?.trim()].filter(Boolean).join(", ");
+  const fallback = joinNewsParts([post.source_name, post.category, location]);
+
+  return fallback || "Harici haber akışından CorteQS radarına aktarıldı.";
+}
+
+export async function importNewsPostToMarquee(newsPostId: number): Promise<MarqueeItemRow> {
+  const { data: existing, error: existingError } = await supabase
+    .from("marquee_items")
+    .select("*")
+    .eq("news_post_id", newsPostId)
+    .maybeSingle();
+
+  if (existingError) throw existingError;
+  if (existing) return existing;
+
+  const { data: post, error: postError } = await supabase
+    .from("news_posts")
+    .select("*")
+    .eq("id", newsPostId)
+    .eq("status", "active")
+    .maybeSingle();
+
+  if (postError) throw postError;
+  if (!post) throw new Error("Aktarılacak haber bulunamadı veya aktif değil.");
+
+  const payload: MarqueeItemInsert = {
+    type: "news",
+    title: post.title,
+    summary: buildNewsPostSummary(post),
+    detail_content: null,
+    image_url: post.image_url,
+    image_alt: post.title,
+    metric_value: null,
+    news_post_id: post.id,
+    link_enabled: false,
+    slug: null,
+    sort_order: 0,
+    is_active: true,
+    published_at: post.published_at ?? post.created_at ?? new Date().toISOString(),
+  };
+
+  const { data, error } = await supabase.from("marquee_items").insert(payload).select("*").single();
+  if (error) throw error;
+  return data;
 }
 
 export async function createMarqueeItem(payload: MarqueeItemInsert): Promise<MarqueeItemRow> {

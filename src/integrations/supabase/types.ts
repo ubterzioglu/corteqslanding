@@ -305,6 +305,7 @@ export type Database = {
           is_active: boolean;
           link_enabled: boolean;
           metric_value: string | null;
+          news_post_id: number | null;
           published_at: string;
           slug: string | null;
           sort_order: number;
@@ -322,6 +323,7 @@ export type Database = {
           is_active?: boolean;
           link_enabled?: boolean;
           metric_value?: string | null;
+          news_post_id?: number | null;
           published_at?: string;
           slug?: string | null;
           sort_order?: number;
@@ -339,6 +341,7 @@ export type Database = {
           is_active?: boolean;
           link_enabled?: boolean;
           metric_value?: string | null;
+          news_post_id?: number | null;
           published_at?: string;
           slug?: string | null;
           sort_order?: number;
@@ -346,6 +349,60 @@ export type Database = {
           title?: string;
           type?: string;
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      news_posts: {
+        Row: {
+          category: string | null;
+          city: string | null;
+          country: string | null;
+          created_at: string | null;
+          id: number;
+          image_url: string | null;
+          language: string | null;
+          original_url: string | null;
+          published_at: string | null;
+          source_name: string | null;
+          source_url: string | null;
+          status: string | null;
+          summary: string | null;
+          title: string;
+          unique_hash: string;
+        };
+        Insert: {
+          category?: string | null;
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: never;
+          image_url?: string | null;
+          language?: string | null;
+          original_url?: string | null;
+          published_at?: string | null;
+          source_name?: string | null;
+          source_url?: string | null;
+          status?: string | null;
+          summary?: string | null;
+          title: string;
+          unique_hash: string;
+        };
+        Update: {
+          category?: string | null;
+          city?: string | null;
+          country?: string | null;
+          created_at?: string | null;
+          id?: never;
+          image_url?: string | null;
+          language?: string | null;
+          original_url?: string | null;
+          published_at?: string | null;
+          source_name?: string | null;
+          source_url?: string | null;
+          status?: string | null;
+          summary?: string | null;
+          title?: string;
+          unique_hash?: string;
         };
         Relationships: [];
       };
