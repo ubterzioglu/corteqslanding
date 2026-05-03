@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { Outlet } from "react-router-dom";
 
 import App from "@/App";
 
@@ -8,7 +9,12 @@ vi.mock("@/pages/AdminLansmanPage.tsx", () => ({
 }));
 
 vi.mock("@/components/admin/AdminLayout", () => ({
-  default: () => <div>Shared Admin Layout</div>,
+  default: () => (
+    <div>
+      <div>Shared Admin Layout</div>
+      <Outlet />
+    </div>
+  ),
 }));
 
 describe("App lansman admin routing", () => {
@@ -20,10 +26,10 @@ describe("App lansman admin routing", () => {
     window.history.pushState({}, "", "/");
   });
 
-  it("renders the standalone lansman admin route outside the shared admin shell", () => {
+  it("renders the lansman admin route inside the shared admin shell", () => {
     render(<App />);
 
     expect(screen.getByText("Standalone Lansman Admin Page")).toBeInTheDocument();
-    expect(screen.queryByText("Shared Admin Layout")).not.toBeInTheDocument();
+    expect(screen.getByText("Shared Admin Layout")).toBeInTheDocument();
   });
 });

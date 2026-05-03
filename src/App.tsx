@@ -53,10 +53,10 @@ const App = () => (
             <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
             <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
             <Route path="/lansman" element={<LansmanPage />} />
-            <Route path="/admin/lansman" element={<AdminLansmanPage />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Navigate to="/admin/members" replace />} />
               <Route path="members" element={<AdminMembersPage />} />
+              <Route path="lansman" element={<AdminLansmanPage />} />
               <Route path="referral" element={<AdminReferralPage />} />
               <Route path="referral/sources" element={<AdminReferralSourcesPage />} />
               <Route path="referral/groups" element={<AdminReferralGroupsPage />} />

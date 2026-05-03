@@ -21,6 +21,7 @@ export function useAdminOutletContext() {
 
 const navItems = [
   { to: "/admin/members", label: "Üye Takibi" },
+  { to: "/admin/lansman", label: "Lansman Katılım" },
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
   { to: "/admin/marquee", label: "Haber Bandı" },
@@ -276,14 +277,16 @@ const AdminLayout = () => {
         </div>
       </header>
       <main className="container mx-auto px-4 py-6">
-        <div className="mb-5 flex flex-wrap items-center justify-end gap-2">
-          {globalActions.map((action) => (
-            <Button key={action.label} variant="outline" size="sm" onClick={action.onClick}>
-              <action.icon className="h-4 w-4" />
-              {action.label}
-            </Button>
-          ))}
-        </div>
+        {location.pathname === "/admin/members" ? (
+          <div className="mb-5 flex flex-wrap items-center justify-end gap-2">
+            {globalActions.map((action) => (
+              <Button key={action.label} variant="outline" size="sm" onClick={action.onClick}>
+                <action.icon className="h-4 w-4" />
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        ) : null}
         {session && <Outlet context={{ session }} />}
       </main>
     </div>

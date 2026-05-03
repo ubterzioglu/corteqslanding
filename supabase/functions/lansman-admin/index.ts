@@ -43,21 +43,26 @@ function jsonResponse(
 function validateConfiguredSecrets() {
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  // MVP note: keep this value aligned with VITE_ADMIN_PASSWORD in deployment.
-  // The edge-function secret is the actual gate for admin reads/writes.
-  const adminPassword = Deno.env.get("LANSMAN_ADMIN_PASSWORD");
 
-  if (!supabaseUrl || !serviceRoleKey || !adminPassword) {
+  if (!supabaseUrl || !serviceRoleKey) {
     throw new Error(
-      "Missing SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, or LANSMAN_ADMIN_PASSWORD.",
+      "Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.",
     );
   }
 
   return {
     supabaseUrl,
     serviceRoleKey,
-    adminPassword,
   };
+}
+
+function getBearerToken(req: Request) {
+  const authorization = req.headers.get("Authorization") ?? req.headers.get("authorization") ?? "";
+  if (!authorization.toLowerCase().startsWith("bearer ")) {
+    return null;
+  }
+
+  return authorization.slice(7).trim();
 }
 
 Deno.serve(async (req) => {
@@ -72,14 +77,35 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { supabaseUrl, serviceRoleKey, adminPassword } = validateConfiguredSecrets();
+    const { supabaseUrl, serviceRoleKey } = validateConfiguredSecrets();
     const payload = (await req.json()) as LansmanAdminRequest;
+    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const accessToken = getBearerToken(req);
 
-    if (!payload?.password || payload.password !== adminPassword) {
+    if (!accessToken) {
       return jsonResponse({ error: "Unauthorized" }, { status: 401 }, corsHeaders);
     }
 
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(accessToken);
+
+    if (authError || !user) {
+      return jsonResponse({ error: "Unauthorized" }, { status: 401 }, corsHeaders);
+    }
+
+    const { data: adminUser, error: adminError } = await supabase
+      .from("admin_users")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (adminError) throw adminError;
+
+    if (!adminUser) {
+      return jsonResponse({ error: "Forbidden" }, { status: 403 }, corsHeaders);
+    }
 
     if (payload.action === "list") {
       const { data, error } = await supabase
