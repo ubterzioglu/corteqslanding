@@ -1,8 +1,7 @@
 import LansmanForm from "@/components/LansmanForm";
 import { Button } from "@/components/ui/button";
-import heroPoster from "../../inflans.jpeg";
+import heroPoster from "../../yeniinffffffff.png";
 import logo from "../../logo.png";
-import mascot from "../../maskot.png";
 
 const launchPanelClass =
   "rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,#123f74_0%,#17588f_54%,#18a6d0_100%)] p-7 text-white shadow-[0_24px_80px_rgba(7,26,51,0.22)]";
@@ -47,7 +46,7 @@ const LansmanPage = () => {
   return (
     <div className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#f4f9ff_0%,#eef5fb_38%,#f8fbff_100%)] text-slate-900">
       <div className="relative isolate">
-        <div className="absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.16),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(249,115,22,0.14),_transparent_28%),linear-gradient(135deg,rgba(7,26,51,0.95),rgba(13,77,136,0.86)_52%,rgba(10,160,200,0.72))]" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.16),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(249,115,22,0.14),_transparent_28%),linear-gradient(135deg,rgba(7,26,51,0.95),rgba(13,77,136,0.86)_52%,rgba(10,160,200,0.72))]" />
         <div className="absolute left-[-10rem] top-40 -z-10 h-80 w-80 rounded-full bg-emerald-400/15 blur-3xl" />
         <div className="absolute right-[-6rem] top-20 -z-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
 
@@ -105,16 +104,13 @@ const LansmanPage = () => {
                   className="w-full rounded-[1.5rem] object-cover"
                 />
               </div>
-              <div className="absolute -bottom-10 -left-6 hidden w-36 rounded-[1.75rem] border border-white/60 bg-white/90 p-3 shadow-2xl backdrop-blur md:block">
-                <img src={mascot} alt="CorteQS maskotu" className="w-full object-contain" />
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto space-y-8 px-4 pb-20 lg:px-6">
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.95fr)]">
+      <div className="container mx-auto space-y-6 px-4 pb-20 lg:max-w-5xl lg:px-6">
+        <section className="space-y-6">
           <div className={launchPanelClass}>
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
               Bu lansmanda neden yer almalısın?
@@ -146,7 +142,7 @@ const LansmanPage = () => {
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+        <section className="space-y-6">
           <div className={launchPanelClass}>
             <div className="flex items-start justify-between gap-4">
               <div>

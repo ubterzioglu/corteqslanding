@@ -22,6 +22,11 @@ import {
 
 const FormPage = () => {
   const { toast } = useToast();
+  const [prefilledReferralCode] = useState(() => {
+    if (typeof window === "undefined") return "";
+    const params = new URLSearchParams(window.location.search);
+    return (params.get("referral_code") ?? params.get("ref") ?? "").trim().toUpperCase();
+  });
   const [loading, setLoading] = useState(false);
   const [selectedCat, setSelectedCat] = useState("");
   const [consent, setConsent] = useState(false);
@@ -271,8 +276,14 @@ const FormPage = () => {
                   placeholder="Admin / davet kodu"
                   maxLength={32}
                   className="uppercase"
+                  value={prefilledReferralCode}
+                  readOnly={Boolean(prefilledReferralCode)}
                 />
-                <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+                {prefilledReferralCode ? (
+                  <p className="mt-1 text-xs font-medium text-emerald-600">🎁 Bu link için referral kodu otomatik uygulandı.</p>
+                ) : (
+                  <p className="mt-1 text-xs text-muted-foreground">Sizi yönlendiren admin veya davet kodunu girebilirsiniz.</p>
+                )}
               </div>
             </div>
 
