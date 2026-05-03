@@ -1,10 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
 
-import type {
-  LansmanAdminRequest,
-  LansmanRegistration,
-} from "../../../src/types/lansman.ts";
-
 const ALLOWED_ORIGINS = [
   "https://corteqs.net",
   "https://www.corteqs.net",
@@ -56,15 +51,6 @@ function validateConfiguredSecrets() {
   };
 }
 
-function getBearerToken(req: Request) {
-  const authorization = req.headers.get("Authorization") ?? req.headers.get("authorization") ?? "";
-  if (!authorization.toLowerCase().startsWith("bearer ")) {
-    return null;
-  }
-
-  return authorization.slice(7).trim();
-}
-
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req);
 
@@ -78,72 +64,12 @@ Deno.serve(async (req) => {
 
   try {
     const { supabaseUrl, serviceRoleKey } = validateConfiguredSecrets();
-    const payload = (await req.json()) as LansmanAdminRequest;
-    const supabase = createClient(supabaseUrl, serviceRoleKey);
-    const accessToken = getBearerToken(req);
-
-    if (!accessToken) {
-      return jsonResponse({ error: "Unauthorized" }, { status: 401 }, corsHeaders);
-    }
-
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser(accessToken);
-
-    if (authError || !user) {
-      return jsonResponse({ error: "Unauthorized" }, { status: 401 }, corsHeaders);
-    }
-
-    const { data: adminUser, error: adminError } = await supabase
-      .from("admin_users")
-      .select("user_id")
-      .eq("user_id", user.id)
-      .maybeSingle();
-
-    if (adminError) throw adminError;
-
-    if (!adminUser) {
-      return jsonResponse({ error: "Forbidden" }, { status: 403 }, corsHeaders);
-    }
-
-    if (payload.action === "list") {
-      const { data, error } = await supabase
-        .from("lansman_registrations")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      return jsonResponse(
-        { registrations: (data ?? []) as LansmanRegistration[] },
-        { status: 200 },
-        corsHeaders,
-      );
-    }
-
-    if (payload.action === "update-status") {
-      if (payload.status !== "approved" && payload.status !== "rejected") {
-        return jsonResponse({ error: "Invalid status" }, { status: 400 }, corsHeaders);
-      }
-
-      const { data, error } = await supabase
-        .from("lansman_registrations")
-        .update({ status: payload.status })
-        .eq("id", payload.id)
-        .select("*")
-        .single();
-
-      if (error) throw error;
-
-      return jsonResponse(
-        { registration: data as LansmanRegistration },
-        { status: 200 },
-        corsHeaders,
-      );
-    }
-
-    return jsonResponse({ error: "Invalid action" }, { status: 400 }, corsHeaders);
+    createClient(supabaseUrl, serviceRoleKey);
+    return jsonResponse(
+      { error: "Deprecated. Admin lansman access now uses direct RLS-backed table access." },
+      { status: 410 },
+      corsHeaders,
+    );
   } catch (error) {
     console.error("lansman-admin error:", error);
     return jsonResponse(

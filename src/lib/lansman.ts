@@ -2,8 +2,6 @@ import { z } from "zod";
 
 import { supabase } from "@/lib/supabase";
 import type {
-  LansmanAdminListResponse,
-  LansmanAdminUpdateStatusResponse,
   LansmanRegistration,
   LansmanRegistrationFormData,
   LansmanRegistrationInsert,
@@ -74,25 +72,22 @@ export async function createRegistration(data: LansmanRegistrationFormData) {
     status: "pending",
   };
 
-  const { data: inserted, error } = await supabase
+  const { error } = await supabase
     .from("lansman_registrations")
-    .insert(payload)
-    .select("*")
-    .single();
+    .insert(payload);
 
   if (error) throw error;
-  return inserted as LansmanRegistration;
+  return payload;
 }
 
 export async function getAllRegistrations() {
-  const { data, error } = await supabase.functions.invoke("lansman-admin", {
-    body: {
-      action: "list",
-    },
-  });
+  const { data, error } = await supabase
+    .from("lansman_registrations")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return ((data as LansmanAdminListResponse | null)?.registrations ?? []) as LansmanRegistration[];
+  return (data ?? []) as LansmanRegistration[];
 }
 
 export async function updateRegistrationStatus(
@@ -103,14 +98,13 @@ export async function updateRegistrationStatus(
     throw new Error("Geçersiz durum güncellemesi.");
   }
 
-  const { data, error } = await supabase.functions.invoke("lansman-admin", {
-    body: {
-      action: "update-status",
-      id,
-      status,
-    },
-  });
+  const { data, error } = await supabase
+    .from("lansman_registrations")
+    .update({ status })
+    .eq("id", id)
+    .select("*")
+    .single();
 
   if (error) throw error;
-  return (data as LansmanAdminUpdateStatusResponse).registration;
+  return data as LansmanRegistration;
 }

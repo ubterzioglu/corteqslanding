@@ -108,17 +108,21 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
     ) : null;
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4 rounded-lg border border-border bg-card p-4">
+    <form
+      onSubmit={handleSubmit}
+      noValidate
+      className="space-y-4 rounded-[1.5rem] border border-white/15 bg-white/5 p-4 text-white backdrop-blur"
+    >
       <div>
-        <h2 className="text-lg font-semibold text-foreground">Lansman Kaydı</h2>
-        <p className="text-sm text-muted-foreground">
+        <h2 className="text-lg font-semibold text-white">Lansman Kaydı</h2>
+        <p className="text-sm text-slate-100">
           Bilgilerinizi bırakın, başvurunuzu inceleyelim.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="first_name" className="text-sm font-medium text-foreground">
+          <label htmlFor="first_name" className="text-sm font-medium text-white">
             Ad
           </label>
           <Input
@@ -131,7 +135,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="last_name" className="text-sm font-medium text-foreground">
+          <label htmlFor="last_name" className="text-sm font-medium text-white">
             Soyad
           </label>
           <Input
@@ -145,7 +149,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="phone" className="text-sm font-medium text-foreground">
+        <label htmlFor="phone" className="text-sm font-medium text-white">
           Telefon
         </label>
         <Input
@@ -155,7 +159,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
           placeholder="+491701234567"
           aria-invalid={Boolean(errors.phone)}
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-slate-200">
           WhatsApp uyumlu uluslararası format kullanın.
         </p>
         {renderFieldError("phone")}
@@ -163,7 +167,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="linkedin" className="text-sm font-medium text-foreground">
+          <label htmlFor="linkedin" className="text-sm font-medium text-white">
             LinkedIn URL
           </label>
           <Input
@@ -177,7 +181,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="instagram" className="text-sm font-medium text-foreground">
+          <label htmlFor="instagram" className="text-sm font-medium text-white">
             Instagram URL
           </label>
           <Input
@@ -191,7 +195,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="twitter" className="text-sm font-medium text-foreground">
+          <label htmlFor="twitter" className="text-sm font-medium text-white">
             X / Twitter URL
           </label>
           <Input
@@ -205,7 +209,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="website" className="text-sm font-medium text-foreground">
+          <label htmlFor="website" className="text-sm font-medium text-white">
             Web Sitesi
           </label>
           <Input
@@ -220,7 +224,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="description" className="text-sm font-medium text-foreground">
+        <label htmlFor="description" className="text-sm font-medium text-white">
           Kısa Açıklama
         </label>
         <Textarea
@@ -232,18 +236,18 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
       </div>
 
       {successMessage ? (
-        <p className="rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+        <p className="rounded-md border border-emerald-300/40 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-100">
           {successMessage}
         </p>
       ) : null}
 
       {submitError ? (
-        <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+        <p className="rounded-md border border-rose-300/40 bg-rose-500/10 px-3 py-2 text-sm text-rose-100">
           {submitError}
         </p>
       ) : null}
 
-      <Button type="submit" disabled={isSubmitting} className="w-full sm:w-auto">
+      <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-slate-950 hover:bg-slate-100 sm:w-auto">
         {isSubmitting ? "Gönderiliyor..." : "Kaydı Gönder"}
       </Button>
     </form>

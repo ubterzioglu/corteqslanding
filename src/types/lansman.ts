@@ -30,27 +30,3 @@ export type LansmanRegistrationFormData = {
   website: string;
   description: string;
 };
-
-export type LansmanAdminAction = "list" | "update-status";
-
-export type LansmanAdminListRequest = {
-  action: "list";
-};
-
-export type LansmanAdminUpdateStatusRequest = {
-  action: "update-status";
-  id: string;
-  status: Extract<LansmanRegistrationStatus, "approved" | "rejected">;
-};
-
-export type LansmanAdminRequest =
-  | LansmanAdminListRequest
-  | LansmanAdminUpdateStatusRequest;
-
-export type LansmanAdminListResponse = {
-  registrations: LansmanRegistration[];
-};
-
-export type LansmanAdminUpdateStatusResponse = {
-  registration: LansmanRegistration;
-};

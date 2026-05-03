@@ -4,6 +4,12 @@ import heroPoster from "../../inflans.jpeg";
 import logo from "../../logo.png";
 import mascot from "../../maskot.png";
 
+const launchPanelClass =
+  "rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,#123f74_0%,#17588f_54%,#18a6d0_100%)] p-7 text-white shadow-[0_24px_80px_rgba(7,26,51,0.22)]";
+
+const launchGlassClass =
+  "rounded-[1.5rem] border border-white/15 bg-white/10 p-5 backdrop-blur";
+
 const LansmanPage = () => {
   const benefitCards = [
     {
@@ -109,31 +115,31 @@ const LansmanPage = () => {
 
       <div className="container mx-auto space-y-8 px-4 pb-20 lg:px-6">
         <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(300px,0.95fr)]">
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
+          <div className={launchPanelClass}>
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
               Bu lansmanda neden yer almalısın?
             </p>
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {benefitCards.map((item) => (
-                <article key={item.title} className="rounded-[1.5rem] border border-slate-200 bg-slate-50/70 p-5">
-                  <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
+                <article key={item.title} className={launchGlassClass}>
+                  <h2 className="text-lg font-bold text-white">{item.title}</h2>
+                  <p className="mt-2 text-sm leading-7 text-slate-100">{item.body}</p>
                 </article>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-[linear-gradient(180deg,#ffffff_0%,#f6fbff_100%)] p-7 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-emerald-700">
+          <div className={launchPanelClass}>
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
               Lansmanda konuşacağımız başlıklar
             </p>
             <ul className="mt-5 space-y-3">
               {agendaItems.map((item, index) => (
-                <li key={item} className="flex gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">
+                <li key={item} className="flex gap-3 rounded-[1.5rem] border border-white/15 bg-white/10 px-4 py-4 backdrop-blur">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
                     {index + 1}
                   </span>
-                  <span className="text-sm leading-7 text-slate-700">{item}</span>
+                  <span className="text-sm leading-7 text-slate-100">{item}</span>
                 </li>
               ))}
             </ul>
@@ -141,7 +147,7 @@ const LansmanPage = () => {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-          <div className="rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,#071a33,#0d4d88_54%,#0aa0c8)] p-7 text-white shadow-[0_24px_80px_rgba(7,26,51,0.22)]">
+          <div className={launchPanelClass}>
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
@@ -156,21 +162,21 @@ const LansmanPage = () => {
             <p className="mt-5 max-w-xl text-sm leading-8 text-slate-100/90">
               Etki alanın, kitlen ve içerik gücün CorteQS ekosistemi için değerli. Eğer diaspora odaklı yeni bir network modelinin erken parçası olmak istiyorsan bu lansman doğru başlangıç noktası.
             </p>
-            <div className="mt-6 rounded-[1.5rem] border border-white/15 bg-white/10 p-5 backdrop-blur">
+            <div className={`mt-6 ${launchGlassClass}`}>
               <p className="text-sm leading-7 text-slate-100">
                 CorteQS Influencer Partner Programı; güçlü içerik üreticilerini sadece görünürlük tarafında değil, yönlendirme, etkinlik ve marka iş birlikleri tarafında da sürdürülebilir bir büyüme modeline dahil etmeyi hedefler.
               </p>
             </div>
           </div>
 
-          <div id="lansman-formu" className="rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] sm:p-5">
-            <div className="rounded-[1.5rem] bg-slate-50/70 p-4 sm:p-6">
+          <div id="lansman-formu" className={`${launchPanelClass} p-3 sm:p-5`}>
+            <div className="rounded-[1.5rem] border border-white/15 bg-white/10 p-4 backdrop-blur sm:p-6">
               <div className="mb-5 space-y-2">
-                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-sky-700">
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
                   Katılım başvurusu
                 </p>
-                <h2 className="text-2xl font-black text-slate-900">Yerini ayırt, erken giren avantajı yakala</h2>
-                <p className="text-sm leading-7 text-slate-600">
+                <h2 className="text-2xl font-black text-white">Yerini ayırt, erken giren avantajı yakala</h2>
+                <p className="text-sm leading-7 text-slate-100">
                   Başvurunu bırak; ekibimiz inceleyip seninle hızlıca iletişime geçsin.
                 </p>
               </div>
