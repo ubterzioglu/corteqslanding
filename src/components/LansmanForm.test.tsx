@@ -18,13 +18,16 @@ vi.mock("@/lib/lansman", () => ({
 
 describe("LansmanForm", () => {
   it("shows validation errors for required fields and invalid phone", async () => {
-    render(<LansmanForm />);
+    const { container } = render(<LansmanForm />);
 
     fireEvent.click(screen.getByRole("button", { name: /kaydı gönder/i }));
 
     expect(await screen.findByText("Ad alanı zorunludur.")).toBeInTheDocument();
     expect(screen.getByText("Soyad alanı zorunludur.")).toBeInTheDocument();
     expect(screen.getByText("Telefon alanı zorunludur.")).toBeInTheDocument();
+    expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
+    expect(screen.getByLabelText("YouTube URL")).toBeInTheDocument();
+    expect(screen.queryByLabelText("X / Twitter URL")).not.toBeInTheDocument();
   });
 
   it("disables submit while request is pending and shows success after submit", async () => {
@@ -44,6 +47,9 @@ describe("LansmanForm", () => {
     fireEvent.change(screen.getByLabelText("Telefon"), {
       target: { value: "+491701234567" },
     });
+    fireEvent.change(screen.getByLabelText("YouTube URL"), {
+      target: { value: "https://youtube.com/@adalovelace" },
+    });
 
     fireEvent.click(screen.getByRole("button", { name: /kaydı gönder/i }));
 
@@ -56,5 +62,10 @@ describe("LansmanForm", () => {
     });
 
     expect(onSuccess).toHaveBeenCalledTimes(1);
+    expect(createRegistrationMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        youtube: "https://youtube.com/@adalovelace",
+      }),
+    );
   });
 });

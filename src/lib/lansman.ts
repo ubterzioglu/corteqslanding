@@ -58,7 +58,7 @@ function validateRegistrationInput(data: LansmanRegistrationFormData) {
     phone,
     linkedin: validateOptionalUrl(data.linkedin),
     instagram: validateOptionalUrl(data.instagram),
-    twitter: validateOptionalUrl(data.twitter),
+    youtube: validateOptionalUrl(data.youtube),
     website: validateOptionalUrl(data.website),
     description: normalizeOptionalText(data.description),
   };

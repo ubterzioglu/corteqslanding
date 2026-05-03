@@ -9,10 +9,14 @@ vi.mock("@/components/LansmanForm", () => ({
 
 describe("LansmanPage", () => {
   it("renders the redesigned launch content without the pending list", () => {
-    render(<LansmanPage />);
+    const { container } = render(<LansmanPage />);
 
     expect(screen.getByText(/Influencer Partner modeliyle global diaspora ağına davetlisin/i)).toBeInTheDocument();
     expect(screen.getByText("Lansman form mock")).toBeInTheDocument();
     expect(screen.queryByText(/Onay Bekleyenler/i)).not.toBeInTheDocument();
+    expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
+    expect(screen.getByText(/Yerini ayırt, erken giren avantajı yakala/i)).toBeInTheDocument();
+    expect(screen.getByText(/Platform şekillenirken sahnede yerini al/i)).toBeInTheDocument();
+    expect(container.firstChild).toHaveClass("min-h-screen", "overflow-hidden");
   });
 });

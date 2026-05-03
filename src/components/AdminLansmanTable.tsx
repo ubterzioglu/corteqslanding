@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Globe, Instagram, Linkedin, Youtube } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +18,13 @@ const statusLabels: Record<LansmanRegistrationStatus, string> = {
   approved: "Onaylandı",
   rejected: "Reddedildi",
 };
+
+const socialPlatforms = [
+  { key: "linkedin", label: "LinkedIn", Icon: Linkedin },
+  { key: "instagram", label: "Instagram", Icon: Instagram },
+  { key: "youtube", label: "YouTube", Icon: Youtube },
+  { key: "website", label: "Website", Icon: Globe },
+] as const;
 
 const AdminLansmanTable = () => {
   const [rows, setRows] = useState<LansmanRegistration[]>([]);
@@ -100,12 +108,9 @@ const AdminLansmanTable = () => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Ad Soyad</TableHead>
+                <TableHead>Kayıt</TableHead>
                 <TableHead>Telefon</TableHead>
-                <TableHead>LinkedIn</TableHead>
-                <TableHead>Instagram</TableHead>
-                <TableHead>X / Twitter</TableHead>
-                <TableHead>Website</TableHead>
+                <TableHead>Sosyal</TableHead>
                 <TableHead>Açıklama</TableHead>
                 <TableHead>Durum</TableHead>
                 <TableHead>Tarih</TableHead>
@@ -117,22 +122,57 @@ const AdminLansmanTable = () => {
                 const isUpdating = updatingId === row.id;
                 return (
                   <TableRow key={row.id}>
-                    <TableCell>{`${row.first_name} ${row.last_name}`}</TableCell>
-                    <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.linkedin || "-"}</TableCell>
-                    <TableCell>{row.instagram || "-"}</TableCell>
-                    <TableCell>{row.twitter || "-"}</TableCell>
-                    <TableCell>{row.website || "-"}</TableCell>
-                    <TableCell>{row.description || "-"}</TableCell>
-                    <TableCell>{statusLabels[row.status]}</TableCell>
+                    <TableCell className="min-w-[180px]">
+                      <div className="font-medium text-foreground">{`${row.first_name} ${row.last_name}`}</div>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">{row.phone}</TableCell>
                     <TableCell>
-                      {new Date(row.created_at).toLocaleString("tr-TR")}
+                      <div className="flex items-center gap-2">
+                        {socialPlatforms.map(({ key, label, Icon }) => {
+                          const href = row[key];
+                          const isActive = Boolean(href);
+                          return isActive ? (
+                            <a
+                              key={key}
+                              href={href}
+                              target="_blank"
+                              rel="noreferrer"
+                              aria-label={label}
+                              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-emerald-400/40 bg-emerald-500/15 text-emerald-300 transition hover:bg-emerald-500/25 hover:text-emerald-200"
+                            >
+                              <Icon className="h-4 w-4" />
+                            </a>
+                          ) : (
+                            <span
+                              key={key}
+                              aria-label={`${label} yok`}
+                              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-rose-400/35 bg-rose-500/10 text-rose-300"
+                            >
+                              <Icon className="h-4 w-4" />
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </TableCell>
+                    <TableCell className="max-w-[240px]">
+                      <p className="line-clamp-1 text-sm text-foreground/90">{row.description || "-"}</p>
+                    </TableCell>
+                    <TableCell>{statusLabels[row.status]}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sm">
+                      {new Date(row.created_at).toLocaleString("tr-TR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
                         <Button
                           type="button"
                           size="sm"
+                          className="h-9 px-3"
                           onClick={() => void handleStatusUpdate(row.id, "approved")}
                           disabled={isUpdating || row.status === "approved"}
                         >
@@ -142,6 +182,7 @@ const AdminLansmanTable = () => {
                           type="button"
                           size="sm"
                           variant="destructive"
+                          className="h-9 px-3"
                           onClick={() => void handleStatusUpdate(row.id, "rejected")}
                           disabled={isUpdating || row.status === "rejected"}
                         >
