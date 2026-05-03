@@ -6,6 +6,8 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 
 - Public landing page forms writing to `public.submissions`
 - Admin panel at `/admin`
+- Standalone lansman registration page at `/lansman`
+- Lightweight lansman admin gate at `/admin/lansman`
 - Supabase Auth based admin access with `public.admin_users`
 - Supabase Edge Function for email notifications
 - Reference workflow docs under [`referans/README.md`](/c:/.temp_private/corteqslanding/referans/README.md)
@@ -16,15 +18,19 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 2. Provide the Supabase client env vars in `.env.local`.
 3. Apply Supabase migrations.
 4. Create at least one admin auth user and insert its UUID into `public.admin_users`.
-5. Deploy the Edge Function and set its secrets.
+5. Deploy the Edge Functions and set their secrets.
 
 ## Required app env
 
 ```env
 VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
+VITE_SUPABASE_ANON_KEY=your_anon_key
 VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
+VITE_ADMIN_PASSWORD=your_lansman_admin_password
 ```
+
+`VITE_SUPABASE_ANON_KEY` is the preferred client env for new frontend modules. `VITE_SUPABASE_PUBLISHABLE_KEY` remains supported as a compatibility fallback.
 
 ## Server-only secret
 
@@ -42,12 +48,14 @@ supabase secrets set MAIL_FROM=...
 supabase secrets set MAIL_TO_ADMIN=...
 supabase secrets set MAIL_REPLY_TO=...
 supabase secrets set MAIL_SEND_CONFIRMATION=true
+supabase secrets set LANSMAN_ADMIN_PASSWORD=...
 ```
 
-## Deploying the mail function
+## Deploying Edge Functions
 
 ```bash
 supabase functions deploy send-submission-email
+supabase functions deploy lansman-admin
 ```
 
 ## Docker / Coolify deployment
@@ -64,9 +72,11 @@ If Coolify is using Nixpacks instead of the `Dockerfile`, the repo now also prov
 Required runtime environment variables in Coolify:
 
 ```env
+VITE_SUPABASE_ANON_KEY=your_anon_key
 VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
 VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
+VITE_ADMIN_PASSWORD=your_lansman_admin_password
 RAG_API_SECRET=your_rag_api_secret
 ```
 
@@ -77,3 +87,4 @@ The container serves the built Vite app with nginx and writes `/env-config.js` o
 - Form submission must succeed even if email delivery fails.
 - Non-admin authenticated users cannot read submissions.
 - The admin panel supports filtering, CSV export, status updates, and internal notes.
+- `/admin/lansman` uses a temporary frontend password gate and server-side Edge Function password check for MVP use.

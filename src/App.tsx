@@ -15,6 +15,7 @@ import CommercialIndexPage from "./pages/CommercialIndexPage.tsx";
 import CommercialDocumentPage from "./pages/CommercialDocumentPage.tsx";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
+import AdminLansmanPage from "@/pages/AdminLansmanPage.tsx";
 import AdminReferralPage from "@/pages/admin/AdminReferralPage";
 import AdminReferralSourcesPage from "@/pages/admin/AdminReferralSourcesPage";
 import AdminReferralGroupsPage from "@/pages/admin/AdminReferralGroupsPage";
@@ -28,6 +29,7 @@ import Founding1000Page from "./pages/Founding1000Page.tsx";
 import BloggerContestPage from "./pages/BloggerContestPage.tsx";
 import VloggerContestPage from "./pages/VloggerContestPage.tsx";
 import ScrollTopButton from "@/components/ScrollTopButton";
+import LansmanPage from "./pages/LansmanPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,8 @@ const App = () => (
             <Route path="/commercial" element={<CommercialIndexPage />} />
             <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
             <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
+            <Route path="/lansman" element={<LansmanPage />} />
+            <Route path="/admin/lansman" element={<AdminLansmanPage />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<Navigate to="/admin/members" replace />} />
               <Route path="members" element={<AdminMembersPage />} />
