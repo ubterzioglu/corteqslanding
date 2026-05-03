@@ -12,12 +12,15 @@ describe("LansmanPage", () => {
     const { container } = render(<LansmanPage />);
 
     expect(screen.getByText(/Influencer Partner modeliyle global diaspora ağına davetlisin/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Erken dönem görünür partner çağrısı/i)).not.toBeInTheDocument();
     expect(screen.getByText("Lansman form mock")).toBeInTheDocument();
     expect(screen.queryByText(/Onay Bekleyenler/i)).not.toBeInTheDocument();
     expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
     expect(screen.queryByText(/Formu doldur!/i)).not.toBeInTheDocument();
     expect(screen.getByText(/Bu lansmanda neden yer almalısın\?/i)).toBeInTheDocument();
-    expect(screen.getByText(/Lansmanda konuşacağımız başlıklar/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Lansmanda konuşacağımız başlıklar/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Lansmanda konuşulacak konular nelerdir \?/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Lansmana Kayıt Ol/i })).toBeInTheDocument();
     expect(container.firstChild).toHaveClass("min-h-screen", "overflow-hidden");
   });
 });
