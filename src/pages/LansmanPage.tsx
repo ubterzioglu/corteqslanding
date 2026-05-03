@@ -115,7 +115,7 @@ const LansmanPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto space-y-6 px-4 pb-20 lg:max-w-5xl lg:px-6">
+      <div className="container mx-auto space-y-6 px-4 pb-20 pt-14 lg:max-w-5xl lg:px-6 lg:pt-16">
         <section className="space-y-6">
           <Accordion type="single" collapsible className="space-y-6">
             <AccordionItem
