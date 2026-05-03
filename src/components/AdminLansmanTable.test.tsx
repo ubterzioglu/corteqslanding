@@ -22,8 +22,8 @@ describe("AdminLansmanTable", () => {
         initials: "AL",
         phone: "+491701234567",
         linkedin: "https://linkedin.com/in/ada",
-        instagram: null,
-        twitter: null,
+        instagram: "https://instagram.com/ada",
+        youtube: null,
         website: null,
         description: "Kurucu topluluk üyesi",
         status: "pending",
@@ -37,8 +37,8 @@ describe("AdminLansmanTable", () => {
       initials: "AL",
       phone: "+491701234567",
       linkedin: "https://linkedin.com/in/ada",
-      instagram: null,
-      twitter: null,
+      instagram: "https://instagram.com/ada",
+      youtube: null,
       website: null,
       description: "Kurucu topluluk üyesi",
       status: "approved",
@@ -50,6 +50,11 @@ describe("AdminLansmanTable", () => {
     await waitFor(() => {
       expect(screen.getByText("Ada Lovelace")).toBeInTheDocument();
     });
+
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://linkedin.com/in/ada");
+    expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", "https://instagram.com/ada");
+    expect(screen.getByLabelText("YouTube yok")).toBeInTheDocument();
+    expect(screen.queryByText("X / Twitter")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Onayla" }));
 
@@ -70,7 +75,7 @@ describe("AdminLansmanTable", () => {
         phone: "+905551112233",
         linkedin: null,
         instagram: null,
-        twitter: null,
+        youtube: null,
         website: null,
         description: null,
         status: "pending",
@@ -85,7 +90,7 @@ describe("AdminLansmanTable", () => {
       phone: "+905551112233",
       linkedin: null,
       instagram: null,
-      twitter: null,
+      youtube: null,
       website: null,
       description: null,
       status: "rejected",

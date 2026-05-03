@@ -14,15 +14,15 @@ const initialValues: LansmanRegistrationFormData = {
   phone: "",
   linkedin: "",
   instagram: "",
-  twitter: "",
+  youtube: "",
   website: "",
   description: "",
 };
 
 const optionalUrlFields: Array<keyof Pick<
   LansmanRegistrationFormData,
-  "linkedin" | "instagram" | "twitter" | "website"
->> = ["linkedin", "instagram", "twitter", "website"];
+  "linkedin" | "instagram" | "youtube" | "website"
+>> = ["linkedin", "instagram", "youtube", "website"];
 
 interface LansmanFormProps {
   onSuccess?: () => void;
@@ -120,7 +120,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="first_name" className="text-sm font-medium text-white">
             Ad
@@ -165,7 +165,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         {renderFieldError("phone")}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="linkedin" className="text-sm font-medium text-white">
             LinkedIn URL
@@ -195,17 +195,17 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="twitter" className="text-sm font-medium text-white">
-            X / Twitter URL
+          <label htmlFor="youtube" className="text-sm font-medium text-white">
+            YouTube URL
           </label>
           <Input
-            id="twitter"
-            value={values.twitter}
-            onChange={(event) => updateValue("twitter", event.target.value)}
-            placeholder="https://x.com/ornek"
-            aria-invalid={Boolean(errors.twitter)}
+            id="youtube"
+            value={values.youtube}
+            onChange={(event) => updateValue("youtube", event.target.value)}
+            placeholder="https://youtube.com/@ornek"
+            aria-invalid={Boolean(errors.youtube)}
           />
-          {renderFieldError("twitter")}
+          {renderFieldError("youtube")}
         </div>
 
         <div className="space-y-2">

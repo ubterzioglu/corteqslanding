@@ -8,7 +8,7 @@ export type LansmanRegistration = {
   phone: string;
   linkedin: string | null;
   instagram: string | null;
-  twitter: string | null;
+  youtube: string | null;
   website: string | null;
   description: string | null;
   status: LansmanRegistrationStatus;
@@ -26,7 +26,7 @@ export type LansmanRegistrationFormData = {
   phone: string;
   linkedin: string;
   instagram: string;
-  twitter: string;
+  youtube: string;
   website: string;
   description: string;
 };
