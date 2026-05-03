@@ -13,9 +13,6 @@ import logo from "../../logo.png";
 const launchPanelClass =
   "rounded-[2rem] border border-slate-200/90 bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(247,243,239,0.94)_54%,rgba(240,248,255,0.98)_100%)] p-7 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.08)]";
 
-const launchGlassClass =
-  "rounded-[1.5rem] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,245,242,0.88))] p-5 shadow-sm";
-
 const heroCtaClass =
   "min-w-[210px] justify-center rounded-full border border-orange-200/45 bg-[linear-gradient(135deg,#f59e0b_0%,#f97316_52%,#fb923c_100%)] px-6 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(249,115,22,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-orange-100 hover:bg-[linear-gradient(135deg,#fbbf24_0%,#f97316_50%,#fdba74_100%)] hover:text-white";
 
@@ -144,14 +141,17 @@ const LansmanPage = () => {
                 </span>
               </AccordionTrigger>
               <AccordionContent className="pt-5">
-                <div className="space-y-4">
+                <ul className="space-y-3">
                   {benefitCards.map((item) => (
-                    <article key={item.title} className={launchGlassClass}>
-                      <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
-                    </article>
+                    <li key={item.title} className="flex items-start gap-3">
+                      <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-[linear-gradient(135deg,#0C3558_0%,#1A94AD_100%)]" />
+                      <div>
+                        <h2 className="text-base font-bold text-slate-900">{item.title}</h2>
+                        <p className="mt-1 text-[13px] leading-6 text-slate-600">{item.body}</p>
+                      </div>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </AccordionContent>
             </AccordionItem>
 
@@ -170,16 +170,13 @@ const LansmanPage = () => {
                 </span>
               </AccordionTrigger>
               <AccordionContent className="pt-5">
-                <ul className="space-y-3">
+                <ul className="space-y-2.5">
                   {agendaItems.map((item, index) => (
-                    <li
-                      key={item}
-                      className="flex gap-3 rounded-[1.5rem] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,245,242,0.88))] px-4 py-4 shadow-sm"
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0C3558_0%,#1A94AD_100%)] text-sm font-bold text-white shadow-sm">
+                    <li key={item} className="flex items-start gap-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0C3558_0%,#1A94AD_100%)] text-[11px] font-bold text-white shadow-sm">
                         {index + 1}
                       </span>
-                      <span className="text-sm leading-7 text-slate-700">{item}</span>
+                      <span className="pt-0.5 text-[13px] leading-6 text-slate-700">{item}</span>
                     </li>
                   ))}
                 </ul>
