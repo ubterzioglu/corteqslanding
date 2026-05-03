@@ -87,7 +87,12 @@ function validateRegistrationInput(data: LansmanRegistrationFormData) {
   }
 
   if (!isValidWhatsappPhone(phone)) {
-    throw new Error("WhatsApp numarasını ülke kodu ile girin. Ornek: +491701234567");
+    throw new Error("WhatsApp numarasını ülke kodu ile girin. Örnek: +491701234567");
+  }
+
+  const instagram = normalizeOptionalHandle(data.instagram);
+  if (!instagram) {
+    throw new Error("Instagram kullanıcı adı zorunludur.");
   }
 
   return {
@@ -95,7 +100,7 @@ function validateRegistrationInput(data: LansmanRegistrationFormData) {
     last_name: lastName,
     phone,
     linkedin: normalizeOptionalHandle(data.linkedin),
-    instagram: normalizeOptionalHandle(data.instagram),
+    instagram,
     youtube: normalizeOptionalHandle(data.youtube),
     website: validateOptionalUrl(data.website),
     description: normalizeOptionalText(data.description),

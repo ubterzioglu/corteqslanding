@@ -51,9 +51,13 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
     }
 
     if (!values.phone.trim()) {
-      nextErrors.phone = "WhatsApp numarasi zorunludur.";
+      nextErrors.phone = "WhatsApp numarası zorunludur.";
     } else if (!isValidWhatsappPhone(values.phone)) {
-      nextErrors.phone = "WhatsApp numarasini uluslararasi formatta girin. Ornek: +491701234567";
+      nextErrors.phone = "WhatsApp numarasını uluslararası formatta girin. Örnek: +491701234567";
+    }
+
+    if (!values.instagram.trim()) {
+      nextErrors.instagram = "Instagram kullanıcı adı zorunludur.";
     }
 
     for (const field of optionalUrlFields) {
@@ -112,12 +116,13 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
     >
       <div>
         <h2 className="text-lg font-semibold text-white">Lansman Kaydı</h2>
-        <p className="text-sm text-slate-100">
-          Zorunlu alanlar: isim, soyisim ve WhatsApp numarası.
-        </p>
       </div>
 
       <div className="space-y-4">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-100">
+          Zorunlu alanlar
+        </p>
+
         <div className="space-y-2">
           <label htmlFor="first_name" className="text-sm font-medium text-white">
             Ad
@@ -160,26 +165,6 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
           WhatsApp uyumlu uluslararası format kullanın.
         </p>
         {renderFieldError("phone")}
-      </div>
-
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <label htmlFor="linkedin" className="text-sm font-medium text-white">
-            LinkedIn
-          </label>
-          <Input
-            id="linkedin"
-            value={values.linkedin}
-            onChange={(event) => updateValue("linkedin", event.target.value)}
-            placeholder="/in sonrasini yazin (opsiyonel)"
-            aria-invalid={Boolean(errors.linkedin)}
-          />
-          <p className="text-xs text-slate-200">
-            Sadece LinkedIn kullanici adinizi yazin, link yazmayin. Opsiyonel.
-          </p>
-          {renderFieldError("linkedin")}
-        </div>
-
         <div className="space-y-2">
           <label htmlFor="instagram" className="text-sm font-medium text-white">
             Instagram
@@ -188,13 +173,36 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
             id="instagram"
             value={values.instagram}
             onChange={(event) => updateValue("instagram", event.target.value)}
-            placeholder="Kullanici adinizi yazin (opsiyonel)"
+            placeholder="Kullanıcı adınızı yazın"
             aria-invalid={Boolean(errors.instagram)}
           />
           <p className="text-xs text-slate-200">
-            Sadece Instagram kullanici adinizi yazin, link yazmayin. Opsiyonel.
+            Sadece Instagram kullanıcı adınızı yazın, link yazmayın.
           </p>
           {renderFieldError("instagram")}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-100">
+          Opsiyonel
+        </p>
+
+        <div className="space-y-2">
+          <label htmlFor="linkedin" className="text-sm font-medium text-white">
+            LinkedIn
+          </label>
+          <Input
+            id="linkedin"
+            value={values.linkedin}
+            onChange={(event) => updateValue("linkedin", event.target.value)}
+            placeholder="/in sonrasını yazın (opsiyonel)"
+            aria-invalid={Boolean(errors.linkedin)}
+          />
+          <p className="text-xs text-slate-200">
+            Sadece LinkedIn kullanıcı adınızı yazın, link yazmayın. Opsiyonel.
+          </p>
+          {renderFieldError("linkedin")}
         </div>
 
         <div className="space-y-2">
@@ -205,11 +213,11 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
             id="youtube"
             value={values.youtube}
             onChange={(event) => updateValue("youtube", event.target.value)}
-            placeholder="Kanal adinizi yazin (opsiyonel)"
+            placeholder="Kanal adınızı yazın (opsiyonel)"
             aria-invalid={Boolean(errors.youtube)}
           />
           <p className="text-xs text-slate-200">
-            Sadece YouTube kanal adinizi yazin, link yazmayin. Opsiyonel.
+            Sadece YouTube kanal adınızı yazın, link yazmayın. Opsiyonel.
           </p>
           {renderFieldError("youtube")}
         </div>
