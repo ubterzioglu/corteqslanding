@@ -31,21 +31,14 @@ export type LansmanRegistrationFormData = {
   description: string;
 };
 
-export type LansmanPendingPublicRow = Pick<
-  LansmanRegistration,
-  "id" | "initials" | "status" | "created_at"
->;
-
 export type LansmanAdminAction = "list" | "update-status";
 
 export type LansmanAdminListRequest = {
   action: "list";
-  password: string;
 };
 
 export type LansmanAdminUpdateStatusRequest = {
   action: "update-status";
-  password: string;
   id: string;
   status: Extract<LansmanRegistrationStatus, "approved" | "rejected">;
 };

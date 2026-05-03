@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabase";
 import type {
   LansmanAdminListResponse,
   LansmanAdminUpdateStatusResponse,
-  LansmanPendingPublicRow,
   LansmanRegistration,
   LansmanRegistrationFormData,
   LansmanRegistrationInsert,
@@ -13,8 +12,6 @@ import type {
 
 const phonePattern = /^\+[1-9]\d{7,14}$/;
 const optionalUrlSchema = z.string().trim().url("Geçerli bir URL girin.");
-const adminPasswordStorageKey = "corteqs.lansman.admin.password";
-
 export function normalizePhone(phone: string) {
   return phone.replace(/[\s\-().]/g, "");
 }
@@ -87,28 +84,10 @@ export async function createRegistration(data: LansmanRegistrationFormData) {
   return inserted as LansmanRegistration;
 }
 
-export async function getPendingRegistrations() {
-  const { data, error } = await supabase
-    .from("lansman_pending_public")
-    .select("id, initials, status, created_at")
-    .order("created_at", { ascending: false });
-
-  if (error) throw error;
-  return (data ?? []) as LansmanPendingPublicRow[];
-}
-
 export async function getAllRegistrations() {
-  const password = typeof window !== "undefined"
-    ? window.sessionStorage.getItem(adminPasswordStorageKey)?.trim()
-    : "";
-  if (!password) {
-    throw new Error("Admin oturumu bulunamadı.");
-  }
-
   const { data, error } = await supabase.functions.invoke("lansman-admin", {
     body: {
       action: "list",
-      password,
     },
   });
 
@@ -124,17 +103,9 @@ export async function updateRegistrationStatus(
     throw new Error("Geçersiz durum güncellemesi.");
   }
 
-  const password = typeof window !== "undefined"
-    ? window.sessionStorage.getItem(adminPasswordStorageKey)?.trim()
-    : "";
-  if (!password) {
-    throw new Error("Admin oturumu bulunamadı.");
-  }
-
   const { data, error } = await supabase.functions.invoke("lansman-admin", {
     body: {
       action: "update-status",
-      password,
       id,
       status,
     },

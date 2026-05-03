@@ -7,7 +7,7 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 - Public landing page forms writing to `public.submissions`
 - Admin panel at `/admin`
 - Standalone lansman registration page at `/lansman`
-- Lightweight lansman admin gate at `/admin/lansman`
+- Lansman admin screen at `/admin/lansman` under the shared admin shell
 - Supabase Auth based admin access with `public.admin_users`
 - Supabase Edge Function for email notifications
 - Reference workflow docs under [`referans/README.md`](/c:/.temp_private/corteqslanding/referans/README.md)
@@ -27,7 +27,6 @@ VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
 VITE_SUPABASE_ANON_KEY=your_anon_key
 VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
-VITE_ADMIN_PASSWORD=your_lansman_admin_password
 ```
 
 `VITE_SUPABASE_ANON_KEY` is the preferred client env for new frontend modules. `VITE_SUPABASE_PUBLISHABLE_KEY` remains supported as a compatibility fallback.
@@ -48,7 +47,6 @@ supabase secrets set MAIL_FROM=...
 supabase secrets set MAIL_TO_ADMIN=...
 supabase secrets set MAIL_REPLY_TO=...
 supabase secrets set MAIL_SEND_CONFIRMATION=true
-supabase secrets set LANSMAN_ADMIN_PASSWORD=...
 ```
 
 ## Deploying Edge Functions
@@ -76,7 +74,6 @@ VITE_SUPABASE_ANON_KEY=your_anon_key
 VITE_SUPABASE_URL=https://injprdrsklkxgnaiixzh.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key
 VITE_SUPABASE_PROJECT_ID=injprdrsklkxgnaiixzh
-VITE_ADMIN_PASSWORD=your_lansman_admin_password
 RAG_API_SECRET=your_rag_api_secret
 ```
 
@@ -87,4 +84,4 @@ The container serves the built Vite app with nginx and writes `/env-config.js` o
 - Form submission must succeed even if email delivery fails.
 - Non-admin authenticated users cannot read submissions.
 - The admin panel supports filtering, CSV export, status updates, and internal notes.
-- `/admin/lansman` uses a temporary frontend password gate and server-side Edge Function password check for MVP use.
+- `/admin/lansman` now uses the same Supabase admin session as the rest of `/admin`.
