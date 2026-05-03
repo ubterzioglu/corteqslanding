@@ -1,4 +1,5 @@
 import LansmanForm from "@/components/LansmanForm";
+import { useEffect } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -19,6 +20,16 @@ const heroCtaClass =
   "min-w-[210px] justify-center rounded-full border border-orange-200/45 bg-[linear-gradient(135deg,#f59e0b_0%,#f97316_52%,#fb923c_100%)] px-6 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(249,115,22,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-orange-100 hover:bg-[linear-gradient(135deg,#fbbf24_0%,#f97316_50%,#fdba74_100%)] hover:text-white";
 
 const LansmanPage = () => {
+  useEffect(() => {
+    const previousTitle = document.title;
+
+    document.title = "CorteQS Lansman";
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, []);
+
   const benefitCards = [
     {
       title: "Yeni gelir modeli",
