@@ -16,7 +16,7 @@ const launchGlassClass =
   "rounded-[1.5rem] border border-white/15 bg-white/10 p-5 backdrop-blur";
 
 const heroCtaClass =
-  "min-w-[210px] justify-center rounded-full border border-white/30 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.08))] px-6 text-sm text-white shadow-[0_14px_40px_rgba(7,26,51,0.28)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/70 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.28),rgba(125,211,252,0.16))] hover:text-white";
+  "min-w-[210px] justify-center rounded-full border border-orange-200/45 bg-[linear-gradient(135deg,#f59e0b_0%,#f97316_52%,#fb923c_100%)] px-6 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(249,115,22,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-orange-100 hover:bg-[linear-gradient(135deg,#fbbf24_0%,#f97316_50%,#fdba74_100%)] hover:text-white";
 
 const LansmanPage = () => {
   const benefitCards = [
@@ -122,9 +122,14 @@ const LansmanPage = () => {
               value="benefits-panel"
               className={`${launchPanelClass} overflow-hidden py-0`}
             >
-              <AccordionTrigger className="px-0 py-0 hover:no-underline">
-                <span className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
-                  Bu lansmanda neden yer almalısın?
+              <AccordionTrigger className="min-h-[92px] px-0 py-0 hover:no-underline">
+                <span className="flex items-center gap-4 text-left">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-[0_12px_26px_rgba(7,26,51,0.18)]">
+                    <img src={logo} alt="" className="h-8 w-8 rounded-full object-contain" />
+                  </span>
+                  <span className="text-base font-semibold text-cyan-50 sm:text-lg">
+                    Bu lansmanda neden yer almalısın?
+                  </span>
                 </span>
               </AccordionTrigger>
               <AccordionContent className="pt-5">
@@ -143,9 +148,14 @@ const LansmanPage = () => {
               value="agenda-panel"
               className={`${launchPanelClass} overflow-hidden py-0`}
             >
-              <AccordionTrigger className="px-0 py-0 hover:no-underline">
-                <span className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
-                  Lansmanda konuşulacak konular nelerdir ?
+              <AccordionTrigger className="min-h-[92px] px-0 py-0 hover:no-underline">
+                <span className="flex items-center gap-4 text-left">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-[0_12px_26px_rgba(7,26,51,0.18)]">
+                    <img src={logo} alt="" className="h-8 w-8 rounded-full object-contain" />
+                  </span>
+                  <span className="text-base font-semibold text-cyan-50 sm:text-lg">
+                    Lansmanda konuşulacak konular nelerdir ?
+                  </span>
                 </span>
               </AccordionTrigger>
               <AccordionContent className="pt-5">
