@@ -1,4 +1,10 @@
 import LansmanForm from "@/components/LansmanForm";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import heroPoster from "../../yeniinffffffff.png";
 import logo from "../../logo.png";
@@ -115,59 +121,53 @@ const LansmanPage = () => {
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
               Bu lansmanda neden yer almalısın?
             </p>
-            <div className="mt-5 space-y-4">
+            <Accordion type="single" collapsible className="mt-5 space-y-4">
               {benefitCards.map((item) => (
-                <article key={item.title} className={launchGlassClass}>
-                  <h2 className="text-lg font-bold text-white">{item.title}</h2>
-                  <p className="mt-2 text-sm leading-7 text-slate-100">{item.body}</p>
-                </article>
+                <AccordionItem
+                  key={item.title}
+                  value={item.title}
+                  className={`${launchGlassClass} overflow-hidden border-white/15 py-0`}
+                >
+                  <AccordionTrigger className="px-5 py-4 text-left text-lg font-bold text-white hover:no-underline">
+                    {item.title}
+                  </AccordionTrigger>
+                  <AccordionContent className="px-5 pb-5 pt-0 text-sm leading-7 text-slate-100">
+                    {item.body}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </div>
 
           <div className={launchPanelClass}>
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
               Lansmanda konuşacağımız başlıklar
             </p>
-            <ul className="mt-5 space-y-3">
+            <Accordion type="single" collapsible className="mt-5 space-y-3">
               {agendaItems.map((item, index) => (
-                <li key={item} className="flex gap-3 rounded-[1.5rem] border border-white/15 bg-white/10 px-4 py-4 backdrop-blur">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
-                    {index + 1}
-                  </span>
-                  <span className="text-sm leading-7 text-slate-100">{item}</span>
-                </li>
+                <AccordionItem
+                  key={item}
+                  value={`agenda-${index + 1}`}
+                  className="overflow-hidden rounded-[1.5rem] border border-white/15 bg-white/10 px-4 backdrop-blur"
+                >
+                  <AccordionTrigger className="gap-3 py-4 text-left text-sm font-medium text-slate-100 hover:no-underline">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
+                      {index + 1}
+                    </span>
+                    <span>{item}</span>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-4 pl-11 pr-3 pt-0 text-sm leading-7 text-slate-100/90">
+                    {item}
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </ul>
+            </Accordion>
           </div>
         </section>
 
         <section id="lansman-formu">
-          <div className={`${launchPanelClass} p-4 sm:p-6`}>
-            <div className="rounded-[1.75rem] border border-white/15 bg-white/10 p-5 backdrop-blur sm:p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
-                    Erken partner avantajı
-                  </p>
-                  <h2 className="max-w-2xl text-2xl font-black leading-tight text-white sm:text-3xl">
-                    Formu doldur!
-                  </h2>
-                  <p className="max-w-3xl text-sm leading-7 text-slate-100">
-                    Kayıt linkini ileteceğiz! Etki alanın, kitlen ve içerik gücün CorteQS ekosistemi için değerli. CorteQS Influencer Partner Programı güçlü içerik üreticilerini görünürlük, yönlendirme, etkinlik ve marka iş birlikleri tarafında sürdürülebilir büyümeye dahil etmeyi hedefler.
-                  </p>
-                </div>
-                <img src={logo} alt="" className="hidden h-12 w-auto sm:block" />
-              </div>
-              <div className={`mt-5 ${launchGlassClass}`}>
-                <p className="text-sm leading-7 text-slate-100">
-                  Platform şekillenirken sahnede yerini al ve diaspora odaklı yeni network modelinin erken parçası ol.
-                </p>
-              </div>
-              <div className="mt-6">
-                <LansmanForm />
-              </div>
-            </div>
+          <div className={`${launchPanelClass} p-5 sm:p-6`}>
+            <LansmanForm />
           </div>
         </section>
       </div>

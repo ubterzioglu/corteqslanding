@@ -35,6 +35,44 @@ export function validateOptionalUrl(value: string) {
   return optionalUrlSchema.parse(trimmed);
 }
 
+export function normalizeOptionalHandle(value: string) {
+  return normalizeOptionalText(value);
+}
+
+export function buildLansmanSocialHref(
+  platform: "linkedin" | "instagram" | "youtube" | "website",
+  value: string | null,
+) {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  if (platform === "linkedin") {
+    const handle = trimmed.replace(/^https?:\/\/(www\.)?linkedin\.com\/in\//i, "").replace(/^@/, "");
+    return `https://www.linkedin.com/in/${handle}`;
+  }
+
+  if (platform === "instagram") {
+    const handle = trimmed.replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/^@/, "");
+    return `https://www.instagram.com/${handle}`;
+  }
+
+  if (platform === "youtube") {
+    const handle = trimmed
+      .replace(/^https?:\/\/(www\.)?youtube\.com\//i, "")
+      .replace(/^@/, "")
+      .replace(/^channel\//i, "");
+    return `https://www.youtube.com/@${handle}`;
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return validateOptionalUrl(trimmed);
+  }
+
+  return validateOptionalUrl(`https://${trimmed}`);
+}
+
 function validateRegistrationInput(data: LansmanRegistrationFormData) {
   const firstName = data.first_name.trim();
   const lastName = data.last_name.trim();
@@ -49,16 +87,16 @@ function validateRegistrationInput(data: LansmanRegistrationFormData) {
   }
 
   if (!isValidWhatsappPhone(phone)) {
-    throw new Error("Telefon numarasını ülke kodu ile girin. Örn: +491701234567");
+    throw new Error("WhatsApp numarasını ülke kodu ile girin. Ornek: +491701234567");
   }
 
   return {
     first_name: firstName,
     last_name: lastName,
     phone,
-    linkedin: validateOptionalUrl(data.linkedin),
-    instagram: validateOptionalUrl(data.instagram),
-    youtube: validateOptionalUrl(data.youtube),
+    linkedin: normalizeOptionalHandle(data.linkedin),
+    instagram: normalizeOptionalHandle(data.instagram),
+    youtube: normalizeOptionalHandle(data.youtube),
     website: validateOptionalUrl(data.website),
     description: normalizeOptionalText(data.description),
   };

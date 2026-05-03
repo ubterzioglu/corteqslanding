@@ -15,8 +15,9 @@ describe("LansmanPage", () => {
     expect(screen.getByText("Lansman form mock")).toBeInTheDocument();
     expect(screen.queryByText(/Onay Bekleyenler/i)).not.toBeInTheDocument();
     expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
-    expect(screen.getByText(/Yerini ayırt, erken giren avantajı yakala/i)).toBeInTheDocument();
-    expect(screen.getByText(/Platform şekillenirken sahnede yerini al/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Formu doldur!/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Bu lansmanda neden yer almalısın\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Lansmanda konuşacağımız başlıklar/i)).toBeInTheDocument();
     expect(container.firstChild).toHaveClass("min-h-screen", "overflow-hidden");
   });
 });

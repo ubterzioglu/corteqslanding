@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllRegistrations, updateRegistrationStatus } from "@/lib/lansman";
+import { buildLansmanSocialHref, getAllRegistrations, updateRegistrationStatus } from "@/lib/lansman";
 import type { LansmanRegistration, LansmanRegistrationStatus } from "@/types/lansman";
 
 const statusLabels: Record<LansmanRegistrationStatus, string> = {
@@ -129,7 +129,7 @@ const AdminLansmanTable = () => {
                     <TableCell>
                       <div className="flex items-center gap-2">
                         {socialPlatforms.map(({ key, label, Icon }) => {
-                          const href = row[key];
+                          const href = buildLansmanSocialHref(key, row[key]);
                           const isActive = Boolean(href);
                           return isActive ? (
                             <a

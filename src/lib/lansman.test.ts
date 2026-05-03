@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  buildLansmanSocialHref,
   buildInitials,
   isValidWhatsappPhone,
   updateRegistrationStatus,
@@ -27,6 +28,21 @@ describe("lansman helpers", () => {
     );
     expect(() => validateOptionalUrl("instagram.com/user")).toThrow(
       "Geçerli bir URL girin.",
+    );
+  });
+
+  it("builds clickable social links from stored handles", () => {
+    expect(buildLansmanSocialHref("linkedin", "ada-lovelace")).toBe(
+      "https://www.linkedin.com/in/ada-lovelace",
+    );
+    expect(buildLansmanSocialHref("instagram", "@adalovelace")).toBe(
+      "https://www.instagram.com/adalovelace",
+    );
+    expect(buildLansmanSocialHref("youtube", "AdaChannel")).toBe(
+      "https://www.youtube.com/@AdaChannel",
+    );
+    expect(buildLansmanSocialHref("website", "example.com")).toBe(
+      "https://example.com",
     );
   });
 
