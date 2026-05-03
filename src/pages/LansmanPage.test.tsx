@@ -9,6 +9,7 @@ vi.mock("@/components/LansmanForm", () => ({
 
 describe("LansmanPage", () => {
   it("renders the redesigned launch content without the pending list", () => {
+    const previousTitle = document.title;
     const { container } = render(<LansmanPage />);
 
     expect(screen.getByText(/Influencer Partner modeliyle global diaspora ağına davetlisin/i)).toBeInTheDocument();
@@ -21,6 +22,9 @@ describe("LansmanPage", () => {
     expect(screen.queryByText(/Lansmanda konuşacağımız başlıklar/i)).not.toBeInTheDocument();
     expect(screen.getByText(/Lansmanda konuşulacak konular nelerdir \?/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Lansmana Kayıt Ol/i })).toBeInTheDocument();
+    expect(document.title).toBe("CorteQS Lansman");
     expect(container.firstChild).toHaveClass("min-h-screen", "overflow-hidden");
+
+    document.title = previousTitle;
   });
 });
