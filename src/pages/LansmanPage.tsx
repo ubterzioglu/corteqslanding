@@ -11,10 +11,10 @@ import heroPoster from "../../yeniinffffffff.png";
 import logo from "../../logo.png";
 
 const launchPanelClass =
-  "rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,#123f74_0%,#17588f_54%,#18a6d0_100%)] p-7 text-white shadow-[0_24px_80px_rgba(7,26,51,0.22)]";
+  "rounded-[2rem] border border-slate-200/90 bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(247,243,239,0.94)_54%,rgba(240,248,255,0.98)_100%)] p-7 text-slate-900 shadow-[0_24px_80px_rgba(15,23,42,0.08)]";
 
 const launchGlassClass =
-  "rounded-[1.5rem] border border-white/15 bg-white/10 p-5 backdrop-blur";
+  "rounded-[1.5rem] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,245,242,0.88))] p-5 shadow-sm";
 
 const heroCtaClass =
   "min-w-[210px] justify-center rounded-full border border-orange-200/45 bg-[linear-gradient(135deg,#f59e0b_0%,#f97316_52%,#fb923c_100%)] px-6 text-sm font-semibold text-white shadow-[0_16px_40px_rgba(249,115,22,0.35)] transition duration-300 hover:-translate-y-0.5 hover:border-orange-100 hover:bg-[linear-gradient(135deg,#fbbf24_0%,#f97316_50%,#fdba74_100%)] hover:text-white";
@@ -64,27 +64,27 @@ const LansmanPage = () => {
   ];
 
   return (
-    <div className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#062446_0%,#0b3b67_36%,#0f5f8f_72%,#1183b0_100%)] text-white">
+    <div className="min-h-screen overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f7f3ef_52%,#ffffff_100%)] text-slate-900">
       <div className="relative isolate">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(15,118,110,0.16),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(249,115,22,0.14),_transparent_28%),linear-gradient(135deg,rgba(7,26,51,0.95),rgba(13,77,136,0.86)_52%,rgba(10,160,200,0.72))]" />
-        <div className="absolute left-[-10rem] top-40 -z-10 h-80 w-80 rounded-full bg-emerald-400/15 blur-3xl" />
-        <div className="absolute right-[-6rem] top-20 -z-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(12,53,88,0.12),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(233,122,31,0.12),_transparent_26%),linear-gradient(180deg,rgba(255,255,255,0.88),rgba(255,255,255,0))]" />
+        <div className="absolute left-[-10rem] top-32 -z-10 h-72 w-72 rounded-full bg-cyan-200/35 blur-3xl" />
+        <div className="absolute right-[-6rem] top-16 -z-10 h-64 w-64 rounded-full bg-amber-200/35 blur-3xl" />
 
         <div className="container mx-auto px-4 pb-8 pt-5 lg:px-6 lg:pb-10 lg:pt-6">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.98fr)_minmax(280px,0.82fr)] lg:items-center">
-            <div className="space-y-5 text-white">
-              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur">
+            <div className="space-y-5 text-slate-900">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-slate-200/90 bg-white/90 px-3 py-1.5 shadow-sm">
                 <img src={logo} alt="CorteQS" className="h-6 w-auto" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-700">
                   CorteQS Lansman Daveti
                 </span>
               </div>
 
               <div className="space-y-4">
-                <h1 className="max-w-2xl text-[2.35rem] font-black leading-[1.02] tracking-tight sm:text-[2.9rem] lg:text-[3.2rem]">
+                <h1 className="max-w-2xl text-[2.35rem] font-black leading-[1.02] tracking-tight text-slate-900 sm:text-[2.9rem] lg:text-[3.2rem]">
                   Influencer Partner modeliyle global diaspora ağına davetlisin
                 </h1>
-                <p className="max-w-xl text-sm leading-6 text-slate-100/90 sm:text-base">
+                <p className="max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
                   Seni sadece bir davetli olarak değil, erken dönem görünür partnerlerimizden biri olarak lansmanda aramızda görmek istiyoruz. CorteQS; toplulukları, danışmanları, işletmeleri ve içerik üreticilerini aynı büyüme ağı içinde bir araya getiriyor.
                 </p>
               </div>
@@ -93,7 +93,7 @@ const LansmanPage = () => {
                 {promiseItems.map((item) => (
                   <div
                     key={item}
-                    className="rounded-3xl border border-white/15 bg-white/10 px-4 py-2.5 text-sm leading-5 text-slate-100 backdrop-blur"
+                    className="rounded-3xl border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,245,242,0.9))] px-4 py-2.5 text-sm leading-5 text-slate-700 shadow-sm"
                   >
                     {item}
                   </div>
@@ -114,7 +114,7 @@ const LansmanPage = () => {
 
             <div className="relative mx-auto w-full max-w-[420px] lg:max-w-[470px]">
               <div className="absolute inset-x-12 -top-3 h-16 rounded-full bg-orange-300/25 blur-3xl" />
-              <div className="relative overflow-hidden rounded-[1.8rem] border border-white/45 bg-white/90 p-2.5 shadow-[0_26px_72px_rgba(7,26,51,0.22)] backdrop-blur">
+              <div className="relative overflow-hidden rounded-[1.8rem] border border-slate-200/90 bg-white p-2.5 shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
                 <img
                   src={heroPoster}
                   alt="CorteQS influencer partner lansman afişi"
@@ -135,10 +135,10 @@ const LansmanPage = () => {
             >
               <AccordionTrigger className="min-h-[92px] px-0 py-0 hover:no-underline">
                 <span className="flex items-center gap-4 text-left">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-[0_12px_26px_rgba(7,26,51,0.18)]">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-[linear-gradient(135deg,rgba(43,139,230,0.12),rgba(233,122,31,0.08))] shadow-[0_12px_26px_rgba(15,23,42,0.08)]">
                     <img src={logo} alt="" className="h-8 w-8 rounded-full object-contain" />
                   </span>
-                  <span className="text-base font-semibold text-cyan-50 sm:text-lg">
+                  <span className="text-base font-semibold text-slate-900 sm:text-lg">
                     Bu lansmanda neden yer almalısın?
                   </span>
                 </span>
@@ -147,8 +147,8 @@ const LansmanPage = () => {
                 <div className="space-y-4">
                   {benefitCards.map((item) => (
                     <article key={item.title} className={launchGlassClass}>
-                      <h2 className="text-lg font-bold text-white">{item.title}</h2>
-                      <p className="mt-2 text-sm leading-7 text-slate-100">{item.body}</p>
+                      <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
+                      <p className="mt-2 text-sm leading-7 text-slate-600">{item.body}</p>
                     </article>
                   ))}
                 </div>
@@ -161,10 +161,10 @@ const LansmanPage = () => {
             >
               <AccordionTrigger className="min-h-[92px] px-0 py-0 hover:no-underline">
                 <span className="flex items-center gap-4 text-left">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 shadow-[0_12px_26px_rgba(7,26,51,0.18)]">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-slate-200/80 bg-[linear-gradient(135deg,rgba(43,139,230,0.12),rgba(233,122,31,0.08))] shadow-[0_12px_26px_rgba(15,23,42,0.08)]">
                     <img src={logo} alt="" className="h-8 w-8 rounded-full object-contain" />
                   </span>
-                  <span className="text-base font-semibold text-cyan-50 sm:text-lg">
+                  <span className="text-base font-semibold text-slate-900 sm:text-lg">
                     Lansmanda konuşulacak konular nelerdir ?
                   </span>
                 </span>
@@ -174,12 +174,12 @@ const LansmanPage = () => {
                   {agendaItems.map((item, index) => (
                     <li
                       key={item}
-                      className="flex gap-3 rounded-[1.5rem] border border-white/15 bg-white/10 px-4 py-4 backdrop-blur"
+                      className="flex gap-3 rounded-[1.5rem] border border-slate-200/80 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(248,245,242,0.88))] px-4 py-4 shadow-sm"
                     >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0C3558_0%,#1A94AD_100%)] text-sm font-bold text-white shadow-sm">
                         {index + 1}
                       </span>
-                      <span className="text-sm leading-7 text-slate-100">{item}</span>
+                      <span className="text-sm leading-7 text-slate-700">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -189,7 +189,7 @@ const LansmanPage = () => {
         </section>
 
         <section id="lansman-formu">
-          <div className={`${launchPanelClass} p-5 sm:p-6`}>
+          <div className={`mx-auto max-w-2xl ${launchPanelClass} p-4 sm:p-5`}>
             <LansmanForm />
           </div>
         </section>
