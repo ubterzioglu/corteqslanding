@@ -19,10 +19,7 @@ const initialValues: LansmanRegistrationFormData = {
   description: "",
 };
 
-const optionalUrlFields: Array<keyof Pick<
-  LansmanRegistrationFormData,
-  "linkedin" | "instagram" | "youtube" | "website"
->> = ["linkedin", "instagram", "youtube", "website"];
+const optionalUrlFields: Array<keyof Pick<LansmanRegistrationFormData, "website">> = ["website"];
 
 interface LansmanFormProps {
   onSuccess?: () => void;
@@ -54,9 +51,9 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
     }
 
     if (!values.phone.trim()) {
-      nextErrors.phone = "Telefon alanı zorunludur.";
+      nextErrors.phone = "WhatsApp numarasi zorunludur.";
     } else if (!isValidWhatsappPhone(values.phone)) {
-      nextErrors.phone = "Telefon numarasını uluslararası formatta girin. Örn: +491701234567";
+      nextErrors.phone = "WhatsApp numarasini uluslararasi formatta girin. Ornek: +491701234567";
     }
 
     for (const field of optionalUrlFields) {
@@ -111,12 +108,12 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="space-y-4 rounded-[1.5rem] border border-white/15 bg-white/5 p-4 text-white backdrop-blur"
+      className="space-y-4 text-white"
     >
       <div>
         <h2 className="text-lg font-semibold text-white">Lansman Kaydı</h2>
         <p className="text-sm text-slate-100">
-          Bilgilerinizi bırakın, başvurunuzu inceleyelim.
+          Zorunlu alanlar: isim, soyisim ve WhatsApp numarası.
         </p>
       </div>
 
@@ -150,7 +147,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
 
       <div className="space-y-2">
         <label htmlFor="phone" className="text-sm font-medium text-white">
-          Telefon
+          WhatsApp Numarası
         </label>
         <Input
           id="phone"
@@ -168,43 +165,52 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
       <div className="space-y-4">
         <div className="space-y-2">
           <label htmlFor="linkedin" className="text-sm font-medium text-white">
-            LinkedIn URL
+            LinkedIn
           </label>
           <Input
             id="linkedin"
             value={values.linkedin}
             onChange={(event) => updateValue("linkedin", event.target.value)}
-            placeholder="https://linkedin.com/in/ornek"
+            placeholder="/in sonrasini yazin (opsiyonel)"
             aria-invalid={Boolean(errors.linkedin)}
           />
+          <p className="text-xs text-slate-200">
+            Sadece LinkedIn kullanici adinizi yazin, link yazmayin. Opsiyonel.
+          </p>
           {renderFieldError("linkedin")}
         </div>
 
         <div className="space-y-2">
           <label htmlFor="instagram" className="text-sm font-medium text-white">
-            Instagram URL
+            Instagram
           </label>
           <Input
             id="instagram"
             value={values.instagram}
             onChange={(event) => updateValue("instagram", event.target.value)}
-            placeholder="https://instagram.com/ornek"
+            placeholder="Kullanici adinizi yazin (opsiyonel)"
             aria-invalid={Boolean(errors.instagram)}
           />
+          <p className="text-xs text-slate-200">
+            Sadece Instagram kullanici adinizi yazin, link yazmayin. Opsiyonel.
+          </p>
           {renderFieldError("instagram")}
         </div>
 
         <div className="space-y-2">
           <label htmlFor="youtube" className="text-sm font-medium text-white">
-            YouTube URL
+            YouTube
           </label>
           <Input
             id="youtube"
             value={values.youtube}
             onChange={(event) => updateValue("youtube", event.target.value)}
-            placeholder="https://youtube.com/@ornek"
+            placeholder="Kanal adinizi yazin (opsiyonel)"
             aria-invalid={Boolean(errors.youtube)}
           />
+          <p className="text-xs text-slate-200">
+            Sadece YouTube kanal adinizi yazin, link yazmayin. Opsiyonel.
+          </p>
           {renderFieldError("youtube")}
         </div>
 
@@ -216,16 +222,19 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
             id="website"
             value={values.website}
             onChange={(event) => updateValue("website", event.target.value)}
-            placeholder="https://example.com"
+            placeholder="https://example.com (opsiyonel)"
             aria-invalid={Boolean(errors.website)}
           />
+          <p className="text-xs text-slate-200">
+            Web siteniz varsa tam adresini yazabilirsiniz. Opsiyonel.
+          </p>
           {renderFieldError("website")}
         </div>
       </div>
 
       <div className="space-y-2">
         <label htmlFor="description" className="text-sm font-medium text-white">
-          Kısa Açıklama
+          Sorular ve Yorumlar
         </label>
         <Textarea
           id="description"
@@ -247,7 +256,7 @@ const LansmanForm = ({ onSuccess }: LansmanFormProps) => {
         </p>
       ) : null}
 
-      <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-slate-950 hover:bg-slate-100 sm:w-auto">
+      <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-slate-950 hover:bg-slate-100">
         {isSubmitting ? "Gönderiliyor..." : "Kaydı Gönder"}
       </Button>
     </form>

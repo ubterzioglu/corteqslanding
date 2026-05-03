@@ -21,8 +21,8 @@ describe("AdminLansmanTable", () => {
         last_name: "Lovelace",
         initials: "AL",
         phone: "+491701234567",
-        linkedin: "https://linkedin.com/in/ada",
-        instagram: "https://instagram.com/ada",
+        linkedin: "ada",
+        instagram: "ada",
         youtube: null,
         website: null,
         description: "Kurucu topluluk üyesi",
@@ -36,8 +36,8 @@ describe("AdminLansmanTable", () => {
       last_name: "Lovelace",
       initials: "AL",
       phone: "+491701234567",
-      linkedin: "https://linkedin.com/in/ada",
-      instagram: "https://instagram.com/ada",
+      linkedin: "ada",
+      instagram: "ada",
       youtube: null,
       website: null,
       description: "Kurucu topluluk üyesi",
@@ -51,8 +51,8 @@ describe("AdminLansmanTable", () => {
       expect(screen.getByText("Ada Lovelace")).toBeInTheDocument();
     });
 
-    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://linkedin.com/in/ada");
-    expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", "https://instagram.com/ada");
+    expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute("href", "https://www.linkedin.com/in/ada");
+    expect(screen.getByRole("link", { name: "Instagram" })).toHaveAttribute("href", "https://www.instagram.com/ada");
     expect(screen.getByLabelText("YouTube yok")).toBeInTheDocument();
     expect(screen.queryByText("X / Twitter")).not.toBeInTheDocument();
 

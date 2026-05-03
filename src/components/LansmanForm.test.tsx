@@ -24,10 +24,12 @@ describe("LansmanForm", () => {
 
     expect(await screen.findByText("Ad alanı zorunludur.")).toBeInTheDocument();
     expect(screen.getByText("Soyad alanı zorunludur.")).toBeInTheDocument();
-    expect(screen.getByText("Telefon alanı zorunludur.")).toBeInTheDocument();
+    expect(screen.getByText("WhatsApp numarasi zorunludur.")).toBeInTheDocument();
     expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
-    expect(screen.getByLabelText("YouTube URL")).toBeInTheDocument();
+    expect(screen.getByLabelText("YouTube")).toBeInTheDocument();
     expect(screen.queryByLabelText("X / Twitter URL")).not.toBeInTheDocument();
+    expect(screen.getByText(/Zorunlu alanlar: isim, soyisim ve WhatsApp numarası./i)).toBeInTheDocument();
+    expect(screen.getByLabelText("Sorular ve Yorumlar")).toBeInTheDocument();
   });
 
   it("disables submit while request is pending and shows success after submit", async () => {
@@ -44,11 +46,11 @@ describe("LansmanForm", () => {
 
     fireEvent.change(screen.getByLabelText("Ad"), { target: { value: "Ada" } });
     fireEvent.change(screen.getByLabelText("Soyad"), { target: { value: "Lovelace" } });
-    fireEvent.change(screen.getByLabelText("Telefon"), {
+    fireEvent.change(screen.getByLabelText("WhatsApp Numarası"), {
       target: { value: "+491701234567" },
     });
-    fireEvent.change(screen.getByLabelText("YouTube URL"), {
-      target: { value: "https://youtube.com/@adalovelace" },
+    fireEvent.change(screen.getByLabelText("YouTube"), {
+      target: { value: "adalovelace" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /kaydı gönder/i }));
@@ -64,7 +66,7 @@ describe("LansmanForm", () => {
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(createRegistrationMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        youtube: "https://youtube.com/@adalovelace",
+        youtube: "adalovelace",
       }),
     );
   });
