@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildLansmanSocialHref,
   buildInitials,
+  createRegistration,
   isValidWhatsappPhone,
   updateRegistrationStatus,
   validateOptionalUrl,
@@ -50,5 +51,20 @@ describe("lansman helpers", () => {
     await expect(
       updateRegistrationStatus("test-id", "pending"),
     ).rejects.toThrow("Geçersiz durum güncellemesi.");
+  });
+
+  it("requires instagram for lansman registrations", async () => {
+    await expect(
+      createRegistration({
+        first_name: "Ada",
+        last_name: "Lovelace",
+        phone: "+491701234567",
+        linkedin: "",
+        instagram: "",
+        youtube: "",
+        website: "",
+        description: "",
+      }),
+    ).rejects.toThrow("Instagram kullanıcı adı zorunludur.");
   });
 });

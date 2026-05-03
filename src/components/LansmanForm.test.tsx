@@ -24,15 +24,17 @@ describe("LansmanForm", () => {
 
     expect(await screen.findByText("Ad alanı zorunludur.")).toBeInTheDocument();
     expect(screen.getByText("Soyad alanı zorunludur.")).toBeInTheDocument();
-    expect(screen.getByText("WhatsApp numarasi zorunludur.")).toBeInTheDocument();
+    expect(screen.getByText("WhatsApp numarası zorunludur.")).toBeInTheDocument();
+    expect(screen.getByText("Instagram kullanıcı adı zorunludur.")).toBeInTheDocument();
     expect(container.querySelector('[class*="sm:grid-cols-2"]')).toBeNull();
     expect(screen.getByLabelText("YouTube")).toBeInTheDocument();
     expect(screen.queryByLabelText("X / Twitter URL")).not.toBeInTheDocument();
-    expect(screen.getByText(/Zorunlu alanlar: isim, soyisim ve WhatsApp numarası./i)).toBeInTheDocument();
+    expect(screen.getByText("Zorunlu alanlar")).toBeInTheDocument();
+    expect(screen.getByText("Opsiyonel")).toBeInTheDocument();
     expect(screen.getByLabelText("Sorular ve Yorumlar")).toBeInTheDocument();
   });
 
-  it("disables submit while request is pending and shows success after submit", async () => {
+  it("allows submit when Instagram is filled and YouTube is empty", async () => {
     let resolveRequest: (() => void) | undefined;
     createRegistrationMock.mockImplementation(
       () =>
@@ -49,7 +51,7 @@ describe("LansmanForm", () => {
     fireEvent.change(screen.getByLabelText("WhatsApp Numarası"), {
       target: { value: "+491701234567" },
     });
-    fireEvent.change(screen.getByLabelText("YouTube"), {
+    fireEvent.change(screen.getByLabelText("Instagram"), {
       target: { value: "adalovelace" },
     });
 
@@ -66,7 +68,8 @@ describe("LansmanForm", () => {
     expect(onSuccess).toHaveBeenCalledTimes(1);
     expect(createRegistrationMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        youtube: "adalovelace",
+        instagram: "adalovelace",
+        youtube: "",
       }),
     );
   });
