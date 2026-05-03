@@ -15,6 +15,9 @@ const launchPanelClass =
 const launchGlassClass =
   "rounded-[1.5rem] border border-white/15 bg-white/10 p-5 backdrop-blur";
 
+const heroCtaClass =
+  "min-w-[210px] justify-center rounded-full border border-white/30 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.08))] px-6 text-sm text-white shadow-[0_14px_40px_rgba(7,26,51,0.28)] backdrop-blur transition duration-300 hover:-translate-y-0.5 hover:border-cyan-200/70 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.28),rgba(125,211,252,0.16))] hover:text-white";
+
 const LansmanPage = () => {
   const benefitCards = [
     {
@@ -56,33 +59,30 @@ const LansmanPage = () => {
         <div className="absolute left-[-10rem] top-40 -z-10 h-80 w-80 rounded-full bg-emerald-400/15 blur-3xl" />
         <div className="absolute right-[-6rem] top-20 -z-10 h-72 w-72 rounded-full bg-orange-300/20 blur-3xl" />
 
-        <div className="container mx-auto px-4 pb-10 pt-6 lg:px-6 lg:pb-14 lg:pt-8">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.92fr)] lg:items-center">
-            <div className="space-y-6 text-white">
-              <div className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur">
-                <img src={logo} alt="CorteQS" className="h-8 w-auto" />
-                <span className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-100">
+        <div className="container mx-auto px-4 pb-8 pt-5 lg:px-6 lg:pb-10 lg:pt-6">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,0.98fr)_minmax(280px,0.82fr)] lg:items-center">
+            <div className="space-y-5 text-white">
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 backdrop-blur">
+                <img src={logo} alt="CorteQS" className="h-6 w-auto" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-100">
                   CorteQS Lansman Daveti
                 </span>
               </div>
 
-              <div className="space-y-5">
-                <p className="max-w-xl text-sm font-semibold uppercase tracking-[0.28em] text-cyan-100/90">
-                  Erken dönem görünür partner çağrısı
-                </p>
-                <h1 className="max-w-3xl text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl lg:text-[4.5rem]">
+              <div className="space-y-4">
+                <h1 className="max-w-2xl text-[2.35rem] font-black leading-[1.02] tracking-tight sm:text-[2.9rem] lg:text-[3.2rem]">
                   Influencer Partner modeliyle global diaspora ağına davetlisin
                 </h1>
-                <p className="max-w-2xl text-base leading-7 text-slate-100/92 sm:text-lg">
+                <p className="max-w-xl text-sm leading-6 text-slate-100/90 sm:text-base">
                   Seni sadece bir davetli olarak değil, erken dönem görünür partnerlerimizden biri olarak lansmanda aramızda görmek istiyoruz. CorteQS; toplulukları, danışmanları, işletmeleri ve içerik üreticilerini aynı büyüme ağı içinde bir araya getiriyor.
                 </p>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {promiseItems.map((item) => (
                   <div
                     key={item}
-                    className="rounded-3xl border border-white/15 bg-white/10 px-4 py-3 text-sm leading-6 text-slate-100 backdrop-blur"
+                    className="rounded-3xl border border-white/15 bg-white/10 px-4 py-2.5 text-sm leading-5 text-slate-100 backdrop-blur"
                   >
                     {item}
                   </div>
@@ -90,10 +90,10 @@ const LansmanPage = () => {
               </div>
 
               <div className="flex flex-wrap items-center gap-3">
-                <Button asChild size="lg" className="rounded-full bg-white px-7 text-slate-950 hover:bg-slate-100">
-                  <a href="#lansman-formu">Yerini Ayırt</a>
+                <Button asChild size="lg" className={heroCtaClass}>
+                  <a href="#lansman-formu">Lansmana Kayıt Ol</a>
                 </Button>
-                <Button asChild size="lg" variant="outline" className="rounded-full border-white/35 bg-white/5 px-7 text-white hover:bg-white/10 hover:text-white">
+                <Button asChild size="lg" variant="outline" className={heroCtaClass}>
                   <a href="https://corteqs.net/" target="_blank" rel="noreferrer">
                     CorteQS Hakkında
                   </a>
@@ -101,13 +101,13 @@ const LansmanPage = () => {
               </div>
             </div>
 
-            <div className="relative mx-auto w-full max-w-xl">
-              <div className="absolute inset-x-12 -top-4 h-20 rounded-full bg-orange-300/25 blur-3xl" />
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/45 bg-white/90 p-3 shadow-[0_30px_90px_rgba(7,26,51,0.24)] backdrop-blur">
+            <div className="relative mx-auto w-full max-w-[420px] lg:max-w-[470px]">
+              <div className="absolute inset-x-12 -top-3 h-16 rounded-full bg-orange-300/25 blur-3xl" />
+              <div className="relative overflow-hidden rounded-[1.8rem] border border-white/45 bg-white/90 p-2.5 shadow-[0_26px_72px_rgba(7,26,51,0.22)] backdrop-blur">
                 <img
                   src={heroPoster}
                   alt="CorteQS influencer partner lansman afişi"
-                  className="w-full rounded-[1.5rem] object-cover"
+                  className="w-full rounded-[1.35rem] object-cover"
                 />
               </div>
             </div>
@@ -117,52 +117,54 @@ const LansmanPage = () => {
 
       <div className="container mx-auto space-y-6 px-4 pb-20 lg:max-w-5xl lg:px-6">
         <section className="space-y-6">
-          <div className={launchPanelClass}>
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
-              Bu lansmanda neden yer almalısın?
-            </p>
-            <Accordion type="single" collapsible className="mt-5 space-y-4">
-              {benefitCards.map((item) => (
-                <AccordionItem
-                  key={item.title}
-                  value={item.title}
-                  className={`${launchGlassClass} overflow-hidden border-white/15 py-0`}
-                >
-                  <AccordionTrigger className="px-5 py-4 text-left text-lg font-bold text-white hover:no-underline">
-                    {item.title}
-                  </AccordionTrigger>
-                  <AccordionContent className="px-5 pb-5 pt-0 text-sm leading-7 text-slate-100">
-                    {item.body}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+          <Accordion type="single" collapsible className="space-y-6">
+            <AccordionItem
+              value="benefits-panel"
+              className={`${launchPanelClass} overflow-hidden py-0`}
+            >
+              <AccordionTrigger className="px-0 py-0 hover:no-underline">
+                <span className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
+                  Bu lansmanda neden yer almalısın?
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="pt-5">
+                <div className="space-y-4">
+                  {benefitCards.map((item) => (
+                    <article key={item.title} className={launchGlassClass}>
+                      <h2 className="text-lg font-bold text-white">{item.title}</h2>
+                      <p className="mt-2 text-sm leading-7 text-slate-100">{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
 
-          <div className={launchPanelClass}>
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
-              Lansmanda konuşacağımız başlıklar
-            </p>
-            <Accordion type="single" collapsible className="mt-5 space-y-3">
-              {agendaItems.map((item, index) => (
-                <AccordionItem
-                  key={item}
-                  value={`agenda-${index + 1}`}
-                  className="overflow-hidden rounded-[1.5rem] border border-white/15 bg-white/10 px-4 backdrop-blur"
-                >
-                  <AccordionTrigger className="gap-3 py-4 text-left text-sm font-medium text-slate-100 hover:no-underline">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
-                      {index + 1}
-                    </span>
-                    <span>{item}</span>
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-4 pl-11 pr-3 pt-0 text-sm leading-7 text-slate-100/90">
-                    {item}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+            <AccordionItem
+              value="agenda-panel"
+              className={`${launchPanelClass} overflow-hidden py-0`}
+            >
+              <AccordionTrigger className="px-0 py-0 hover:no-underline">
+                <span className="text-sm font-semibold uppercase tracking-[0.22em] text-cyan-100">
+                  Lansmanda konuşulacak konular nelerdir ?
+                </span>
+              </AccordionTrigger>
+              <AccordionContent className="pt-5">
+                <ul className="space-y-3">
+                  {agendaItems.map((item, index) => (
+                    <li
+                      key={item}
+                      className="flex gap-3 rounded-[1.5rem] border border-white/15 bg-white/10 px-4 py-4 backdrop-blur"
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-900">
+                        {index + 1}
+                      </span>
+                      <span className="text-sm leading-7 text-slate-100">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </section>
 
         <section id="lansman-formu">
