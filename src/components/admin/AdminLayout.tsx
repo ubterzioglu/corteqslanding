@@ -27,7 +27,7 @@ export function useAdminOutletContext() {
 
 const navItems = [
   { to: "/admin/members", label: "Üye Takibi" },
-  { to: "/admin/referral", label: "Referral Kod Oluştur" },
+  { to: "/admin/referral", label: "Ref Kod" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
 ];
 
@@ -371,7 +371,7 @@ const AdminLayout = () => {
                         type="button"
                         className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
                       >
-                        Admin Panel
+                      Dashboard
                         <ChevronDown className="h-3.5 w-3.5" />
                       </button>
                     </div>
