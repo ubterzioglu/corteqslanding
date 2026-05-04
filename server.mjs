@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { createReadStream } from "node:fs";
-import { access, mkdir, readFile, stat, writeFile } from "node:fs/promises";
+import { access, mkdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -81,16 +81,29 @@ const normalizeRequestPath = (requestUrl) => {
   return normalizedPath;
 };
 
-const streamFile = async (res, filePath) => {
+const hasFileExtension = (requestPath) =>
+  path.posix.extname(requestPath) !== "";
+
+const getCacheHeaders = (requestPath, filePath) => {
+  if (path.basename(filePath) === "env-config.js" || path.basename(filePath) === "index.html") {
+    return { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" };
+  }
+
+  if (requestPath.startsWith("/assets/")) {
+    return { "Cache-Control": "public, max-age=31536000, immutable" };
+  }
+
+  return {};
+};
+
+const streamFile = async (res, filePath, requestPath = "/") => {
   const extension = path.extname(filePath).toLowerCase();
   const contentType = mimeTypes.get(extension) ?? "application/octet-stream";
 
   res.writeHead(200, {
     ...securityHeaders,
     "Content-Type": contentType,
-    ...(path.basename(filePath) === "env-config.js"
-      ? { "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate" }
-      : {}),
+    ...getCacheHeaders(requestPath, filePath),
   });
 
   createReadStream(filePath).pipe(res);
@@ -157,29 +170,28 @@ const serveApp = async (req, res) => {
         const fileStats = await stat(candidatePath);
 
         if (fileStats.isFile()) {
-          await streamFile(res, candidatePath);
+          await streamFile(res, candidatePath, requestPath);
           return;
         }
 
         if (fileStats.isDirectory()) {
           const nestedIndex = path.join(candidatePath, "index.html");
           await access(nestedIndex);
-          await streamFile(res, nestedIndex);
+          await streamFile(res, nestedIndex, requestPath);
           return;
         }
       } catch {
+        if (hasFileExtension(requestPath)) {
+          sendJson(res, 404, { error: "Not Found" });
+          return;
+        }
+
         // SPA fallback below.
       }
     }
 
     const appShell = path.join(distDir, "index.html");
-    const html = await readFile(appShell, "utf8");
-
-    res.writeHead(200, {
-      ...securityHeaders,
-      "Content-Type": "text/html; charset=utf-8",
-    });
-    res.end(html);
+    await streamFile(res, appShell, "/index.html");
   } catch (error) {
     console.error(error);
     sendJson(res, 500, { error: "Internal Server Error" });
