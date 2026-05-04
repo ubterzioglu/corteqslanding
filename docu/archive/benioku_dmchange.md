@@ -20,7 +20,7 @@ Guncellenen dosyalar:
 
 - `.env.local`
 - `README.md`
-- `database-info.md`
+- `docu/reference/database-info.md`
 - `supabase/config.toml`
 
 Deploy sonrasi kontrol notlari:

@@ -1,10 +1,16 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Link, NavLink, Outlet, useLocation, useNavigate, useOutletContext } from "react-router-dom";
-import { Download, Layers3, Plus, Share2 } from "lucide-react";
+import { Check, ChevronDown, Download, Layers3, Plus, Share2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -25,10 +31,6 @@ const navItems = [
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
   { to: "/admin/marquee", label: "Haber Bandı" },
-  ...advisorProfileSections.map((section) => ({
-    to: `/admin/advisors/${section.key}`,
-    label: section.label,
-  })),
   { to: "/admin/social-media", label: "Sosyal Medya" },
   { to: "/admin/about", label: "Güncellemeler" },
 ];
@@ -38,7 +40,7 @@ const externalNavItems = [
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+  `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
   }`;
 
@@ -169,6 +171,8 @@ const AdminLayout = () => {
     [navigate],
   );
 
+  const advisorMenuActive = location.pathname.startsWith("/admin/advisors/");
+
   if (!authenticated) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -239,39 +243,73 @@ const AdminLayout = () => {
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
               <span className="text-xs text-muted-foreground">{session?.user.email}</span>
             </div>
-            <nav className="flex flex-wrap gap-2">
-              {navItems.map((item) => (
-                <NavLink key={item.to} to={item.to} className={linkClass}>
-                  {item.label}
-                </NavLink>
+            <nav className="flex flex-wrap items-center gap-1">
+              {navItems.map((item, index) => (
+                <div key={item.to} className="flex items-center">
+                  {index > 0 ? <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" /> : null}
+                  <NavLink to={item.to} className={linkClass}>
+                    {item.label}
+                  </NavLink>
+                </div>
               ))}
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className={`${linkClass({ isActive: advisorMenuActive })} inline-flex items-center gap-1`}
+                    >
+                      Diğer Kayıtlar
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {advisorProfileSections.map((section) => {
+                      const href = `/admin/advisors/${section.key}`;
+                      const isActive = location.pathname === href;
+
+                      return (
+                        <DropdownMenuItem key={section.key} asChild>
+                          <Link to={href} className="flex items-center justify-between gap-3">
+                            <span>{section.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               {externalNavItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={linkClass({ isActive: false })}
-                >
-                  {item.label}
-                </a>
+                <div key={item.href} className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <a href={item.href} className={linkClass({ isActive: false })}>
+                    {item.label}
+                  </a>
+                </div>
               ))}
               {location.pathname.startsWith("/admin/referral/sources") && (
-                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                <Link to="/admin/referral" className="rounded-md px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted">
                   {"<- Referral"}
                 </Link>
               )}
               {location.pathname.startsWith("/admin/referral/groups") && (
-                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                <Link to="/admin/referral" className="rounded-md px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted">
                   {"<- Referral"}
                 </Link>
               )}
               {location.pathname.startsWith("/admin/referral/types") && (
-                <Link to="/admin/referral" className="rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted">
+                <Link to="/admin/referral" className="rounded-md px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted">
                   {"<- Referral"}
                 </Link>
               )}
-              <button onClick={() => void handleLogout()} className={linkClass({ isActive: false })}>
-                Çıkış
-              </button>
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <button onClick={() => void handleLogout()} className={linkClass({ isActive: false })}>
+                  Çıkış
+                </button>
+              </div>
             </nav>
           </div>
         </div>
