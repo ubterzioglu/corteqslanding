@@ -27,7 +27,6 @@ export function useAdminOutletContext() {
 
 const navItems = [
   { to: "/admin/members", label: "Üye Takibi" },
-  { to: "/admin/lansman", label: "Lansman Katılım" },
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
 ];
@@ -38,8 +37,18 @@ const otherActionNavItems = [
   { to: "/admin/about", label: "Güncellemeler" },
 ];
 
-const externalNavItems = [
+const otherRecordNavItems = [
+  { to: "/admin/lansman", label: "Lansman Katılım" },
+];
+
+const adminPanelNavItems = [
   { href: "https://dashboard.corteqs.net/", label: "WikiDash" },
+  { href: "https://dashboard.corteqs.net/todolist", label: "TODO Listesi" },
+  { href: "https://dashboard.corteqs.net/toplantiozet", label: "Toplantı Özetleri" },
+  { href: "https://dashboard.corteqs.net/insankaynaklari", label: "IK Dökümanları" },
+  { href: "https://dashboard.corteqs.net/arge", label: "ARGE Dökümanları" },
+  { href: "https://dashboard.corteqs.net/links", label: "Dosyalar ve Linkler" },
+  { href: "https://dashboard.corteqs.net/", label: "Dashboard Anasayfa" },
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -60,6 +69,9 @@ const AdminLayout = () => {
   const [password, setPassword] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+  const [otherActionsMenuOpen, setOtherActionsMenuOpen] = useState(false);
+  const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
+  const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -174,7 +186,9 @@ const AdminLayout = () => {
     [navigate],
   );
 
-  const advisorMenuActive = location.pathname.startsWith("/admin/advisors/");
+  const advisorMenuActive =
+    location.pathname.startsWith("/admin/advisors/") ||
+    otherRecordNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
 
   if (!authenticated) {
@@ -258,17 +272,27 @@ const AdminLayout = () => {
               ))}
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                <DropdownMenu>
+                <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>
                   <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      className={`${linkClass({ isActive: otherActionsMenuActive })} inline-flex items-center gap-1`}
+                    <div
+                      onMouseEnter={() => setOtherActionsMenuOpen(true)}
+                      onMouseLeave={() => setOtherActionsMenuOpen(false)}
                     >
-                      Diğer İşlemler
-                      <ChevronDown className="h-3.5 w-3.5" />
-                    </button>
+                      <button
+                        type="button"
+                        className={`${linkClass({ isActive: otherActionsMenuActive })} inline-flex items-center gap-1`}
+                      >
+                        Diğer İşlemler
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuContent
+                    align="start"
+                    className="w-48"
+                    onMouseEnter={() => setOtherActionsMenuOpen(true)}
+                    onMouseLeave={() => setOtherActionsMenuOpen(false)}
+                  >
                     {otherActionNavItems.map((item) => {
                       const isActive = location.pathname === item.to;
 
@@ -286,17 +310,39 @@ const AdminLayout = () => {
               </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                <DropdownMenu>
+                <DropdownMenu open={advisorMenuOpen} onOpenChange={setAdvisorMenuOpen}>
                   <DropdownMenuTrigger asChild>
-                    <button
-                      type="button"
-                      className={`${linkClass({ isActive: advisorMenuActive })} inline-flex items-center gap-1`}
+                    <div
+                      onMouseEnter={() => setAdvisorMenuOpen(true)}
+                      onMouseLeave={() => setAdvisorMenuOpen(false)}
                     >
-                      Diğer Kayıtlar
-                      <ChevronDown className="h-3.5 w-3.5" />
-                    </button>
+                      <button
+                        type="button"
+                        className={`${linkClass({ isActive: advisorMenuActive })} inline-flex items-center gap-1`}
+                      >
+                        Diğer Kayıtlar
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-48">
+                  <DropdownMenuContent
+                    align="start"
+                    className="w-48"
+                    onMouseEnter={() => setAdvisorMenuOpen(true)}
+                    onMouseLeave={() => setAdvisorMenuOpen(false)}
+                  >
+                    {otherRecordNavItems.map((item) => {
+                      const isActive = location.pathname === item.to;
+
+                      return (
+                        <DropdownMenuItem key={item.to} asChild>
+                          <Link to={item.to} className="flex items-center justify-between gap-3">
+                            <span>{item.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
                     {advisorProfileSections.map((section) => {
                       const href = `/admin/advisors/${section.key}`;
                       const isActive = location.pathname === href;
@@ -313,14 +359,44 @@ const AdminLayout = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
-              {externalNavItems.map((item) => (
-                <div key={item.href} className="flex items-center">
-                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                  <a href={item.href} className={linkClass({ isActive: false })}>
-                    {item.label}
-                  </a>
-                </div>
-              ))}
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <DropdownMenu open={adminPanelMenuOpen} onOpenChange={setAdminPanelMenuOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <div
+                      onMouseEnter={() => setAdminPanelMenuOpen(true)}
+                      onMouseLeave={() => setAdminPanelMenuOpen(false)}
+                    >
+                      <button
+                        type="button"
+                        className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
+                      >
+                        Admin Panel
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="start"
+                    className="w-56"
+                    onMouseEnter={() => setAdminPanelMenuOpen(true)}
+                    onMouseLeave={() => setAdminPanelMenuOpen(false)}
+                  >
+                    {adminPanelNavItems.map((item) => (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-between gap-3"
+                        >
+                          <span>{item.label}</span>
+                        </a>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               {location.pathname.startsWith("/admin/referral/sources") && (
                 <Link to="/admin/referral" className="rounded-md px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-muted">
                   {"<- Referral"}
