@@ -1,7 +1,7 @@
 // src/lib/muhasebe-format.ts
 // Formatlama yardımcıları — TR locale, para birimi, tarih
 
-import type { CurrencyCode } from '@/types/muhasebe';
+import { CURRENCY_CODES, type CurrencyCode, type CurrencyTotals } from '@/types/muhasebe';
 
 /**
  * TR locale ile para birimini formatlar.
@@ -37,6 +37,25 @@ export function formatCompact(amount: number, currency: CurrencyCode = 'TRY'): s
     maximumFractionDigits: 1,
   }).format(amount);
   return `${formatted} ${currency}`;
+}
+
+export function formatCurrencySummary(
+  totals: CurrencyTotals,
+  options: { hideZero?: boolean; minimumFractionDigits?: number } = {},
+): string {
+  const { hideZero = true, minimumFractionDigits = 2 } = options;
+
+  const parts = CURRENCY_CODES
+    .filter((currency) => !hideZero || totals[currency] !== 0)
+    .map(
+      (currency) =>
+        `${currency}: ${formatCurrency(totals[currency], currency, {
+          showCode: true,
+          minimumFractionDigits,
+        })}`,
+    );
+
+  return parts.length > 0 ? parts.join(' · ') : '—';
 }
 
 /** ISO tarih (YYYY-MM-DD) → "22.04.2026" */

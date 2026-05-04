@@ -48,7 +48,13 @@ import {
   useUpdateExpense,
   useDeleteExpense,
 } from '@/hooks/useMuhasebe';
-import { formatCurrency, formatDateTR, safeMuhasebeHref } from '@/lib/muhasebe-format';
+import { aggregateCurrencyTotals } from '@/lib/muhasebe-aggregations';
+import {
+  formatCurrency,
+  formatCurrencySummary,
+  formatDateTR,
+  safeMuhasebeHref,
+} from '@/lib/muhasebe-format';
 import {
   EXPENSE_CATEGORY_LABELS,
   EXPENSE_STATUS_LABELS,
@@ -93,13 +99,7 @@ export default function GiderlerPage() {
     });
   }, [expenses, search, personFilter, statusFilter, categoryFilter]);
 
-  const totalTry = useMemo(
-    () =>
-      filtered
-        .filter((e) => e.currency === 'TRY')
-        .reduce((sum, e) => sum + Number(e.amount), 0),
-    [filtered],
-  );
+  const totalsByCurrency = useMemo(() => aggregateCurrencyTotals(filtered), [filtered]);
 
   const handleNew = () => {
     setEditing(null);
@@ -130,7 +130,7 @@ export default function GiderlerPage() {
         <CardHeader>
           <CardTitle>Filtreler</CardTitle>
           <CardDescription>
-            {filtered.length} kayıt · Toplam (TRY): {formatCurrency(totalTry, 'TRY')}
+            {filtered.length} kayıt · Toplamlar: {formatCurrencySummary(totalsByCurrency)}
           </CardDescription>
         </CardHeader>
         <CardContent>
