@@ -30,6 +30,9 @@ const navItems = [
   { to: "/admin/lansman", label: "Lansman Katılım" },
   { to: "/admin/referral", label: "Referral Kod Oluştur" },
   { to: "/admin/muhasebe", label: "Muhasebe" },
+];
+
+const otherActionNavItems = [
   { to: "/admin/marquee", label: "Haber Bandı" },
   { to: "/admin/social-media", label: "Sosyal Medya" },
   { to: "/admin/about", label: "Güncellemeler" },
@@ -172,6 +175,7 @@ const AdminLayout = () => {
   );
 
   const advisorMenuActive = location.pathname.startsWith("/admin/advisors/");
+  const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
 
   if (!authenticated) {
     return (
@@ -252,6 +256,34 @@ const AdminLayout = () => {
                   </NavLink>
                 </div>
               ))}
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className={`${linkClass({ isActive: otherActionsMenuActive })} inline-flex items-center gap-1`}
+                    >
+                      Diğer İşlemler
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-48">
+                    {otherActionNavItems.map((item) => {
+                      const isActive = location.pathname === item.to;
+
+                      return (
+                        <DropdownMenuItem key={item.to} asChild>
+                          <Link to={item.to} className="flex items-center justify-between gap-3">
+                            <span>{item.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu>
