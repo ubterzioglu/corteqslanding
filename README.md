@@ -66,6 +66,8 @@ If Coolify is using Nixpacks instead of the `Dockerfile`, the repo now also prov
 - runtime `/env-config.js` generation
 - `/api/chat` proxying for `RAG_API_SECRET`
 - `nixpacks.toml` so Coolify builds with `npm run build` and starts with `npm run start`
+- strict asset handling so missing chunks return `404` instead of `index.html`
+- `npm run verify:release` to validate built assets locally and against a live base URL
 
 Required runtime environment variables in Coolify:
 
@@ -78,6 +80,14 @@ RAG_API_SECRET=your_rag_api_secret
 ```
 
 The container serves the built Vite app with nginx and writes `/env-config.js` on startup so frontend runtime config works without committing `.env`. `RAG_API_SECRET` is used only on the server-side nginx proxy for `/api/chat` and must not be exposed with a `VITE_` prefix.
+
+Deploy `dist/` atomically: publish the new `index.html` together with the hashed `/assets/*` files from the same build. Do not switch the app shell before its referenced assets are available.
+
+After a deployment, verify the published release with:
+
+```bash
+BASE_URL=https://corteqs.net npm run verify:release
+```
 
 ## Notes
 
