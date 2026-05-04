@@ -39,6 +39,9 @@ export type PaymentMethod =
 
 export type PersonType = 'burak' | 'baris' | 'ortak';
 
+export const CURRENCY_CODES = ['TRY', 'USD', 'EUR', 'GBP', 'QAR'] as const;
+export type CurrencyTotals = Record<CurrencyCode, number>;
+
 // ---------------------------------------------------------------------
 // DB Row tipleri (supabase tablo şemasıyla birebir)
 // ---------------------------------------------------------------------
@@ -130,6 +133,44 @@ export interface CashflowMonth {
   income_pending_try: number;
 }
 
+export interface MuhasebeKpiSummary {
+  total_expense_by_currency: CurrencyTotals;
+  total_income_by_currency: CurrencyTotals;
+  net_by_currency: CurrencyTotals;
+  pending_expense_by_currency: CurrencyTotals;
+  pending_income_by_currency: CurrencyTotals;
+  total_records: number;
+}
+
+export interface PersonSummaryByCurrency {
+  person: PersonType;
+  record_count: number;
+  total_by_currency: CurrencyTotals;
+  paid_by_currency: CurrencyTotals;
+  pending_by_currency: CurrencyTotals;
+}
+
+export interface CategorySummaryByCurrency {
+  category: ExpenseCategory;
+  record_count: number;
+  total_by_currency: CurrencyTotals;
+}
+
+export interface CashflowMonthByCurrency {
+  year_num: number;
+  month_num: number;
+  income_by_currency: CurrencyTotals;
+  expense_by_currency: CurrencyTotals;
+  net_by_currency: CurrencyTotals;
+  burak_expense_by_currency: CurrencyTotals;
+  baris_expense_by_currency: CurrencyTotals;
+  ortak_expense_by_currency: CurrencyTotals;
+  expense_paid_by_currency: CurrencyTotals;
+  expense_pending_by_currency: CurrencyTotals;
+  income_collected_by_currency: CurrencyTotals;
+  income_pending_by_currency: CurrencyTotals;
+}
+
 // ---------------------------------------------------------------------
 // LABEL MAP'LERİ (Excel'deki TR metinleri birebir koruyor)
 // ---------------------------------------------------------------------
@@ -200,8 +241,6 @@ export const MONTH_LABELS_TR = [
   'Kasım',
   'Aralık',
 ] as const;
-
-export const CURRENCY_CODES: CurrencyCode[] = ['TRY', 'USD', 'EUR', 'GBP', 'QAR'];
 
 // Tatlı renk skalası, kategori dağılım grafikleri için
 export const CATEGORY_COLORS = [

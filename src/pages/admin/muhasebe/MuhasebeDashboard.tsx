@@ -1,7 +1,7 @@
 // src/pages/admin/muhasebe/MuhasebeDashboard.tsx
-// Ana muhasebe dashboard — Excel'deki "Dashboard" sekmesinin karşılığı
+// Ana muhasebe dashboard — çoklu para birimi destekli özet panel
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   TrendingDown,
   TrendingUp,
@@ -37,145 +37,156 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { KpiCard } from '@/components/admin/muhasebe/KpiCard';
 import {
-  useCashflowMonthly,
-  useCategorySummary,
-  useKpiSummary,
-  usePersonSummary,
-} from '@/hooks/useMuhasebe';
+  aggregateCashflowMonthly,
+  aggregateExpenseByCategory,
+  aggregateExpenseByPerson,
+  aggregateKpiSummary,
+  getCurrencyTotal,
+} from '@/lib/muhasebe-aggregations';
 import { formatCurrency } from '@/lib/muhasebe-format';
+import { useExpenses, useIncomes } from '@/hooks/useMuhasebe';
 import {
   CATEGORY_COLORS,
+  CURRENCY_CODES,
   EXPENSE_CATEGORY_LABELS,
   MONTH_LABELS_TR,
   PERSON_LABELS,
+  type CurrencyCode,
   type ExpenseCategory,
-  type PersonType,
 } from '@/types/muhasebe';
 
 export default function MuhasebeDashboard() {
-  const { data: kpi, isLoading: kpiLoading } = useKpiSummary();
-  const { data: byPerson = [], isLoading: personLoading } = usePersonSummary();
-  const { data: byCategory = [], isLoading: catLoading } = useCategorySummary();
-  const { data: cashflow = [], isLoading: cashflowLoading } = useCashflowMonthly();
+  const { data: expenses = [], isLoading: expensesLoading } = useExpenses();
+  const { data: incomes = [], isLoading: incomesLoading } = useIncomes();
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>('TRY');
+  const currentYear = new Date().getFullYear();
+  const isLoading = expensesLoading || incomesLoading;
 
-  // Tüm kişileri her zaman göster (kayıt olmasa bile satır görünsün)
-  const personRows = useMemo(() => {
-    const all: PersonType[] = ['burak', 'baris', 'ortak'];
-    return all.map((p) => {
-      const found = byPerson.find((r) => r.person === p);
-      return (
-        found ?? {
-          person: p,
-          record_count: 0,
-          total_try: 0,
-          paid_try: 0,
-          pending_try: 0,
-        }
-      );
-    });
-  }, [byPerson]);
+  const kpi = useMemo(() => aggregateKpiSummary(expenses, incomes), [expenses, incomes]);
 
-  // Tüm gider kategorilerini her zaman göster
-  const categoryRows = useMemo(() => {
-    const all = Object.keys(EXPENSE_CATEGORY_LABELS) as ExpenseCategory[];
-    return all.map((c) => {
-      const found = byCategory.find((r) => r.category === c);
-      return (
-        found ?? {
-          category: c,
-          record_count: 0,
-          total_try: 0,
-        }
-      );
-    });
-  }, [byCategory]);
+  const personRows = useMemo(
+    () => aggregateExpenseByPerson(expenses),
+    [expenses],
+  );
 
-  // Chart data — recharts formatına dönüştür
-  const chartData = useMemo(() => {
-    return cashflow.map((row) => ({
-      month: MONTH_LABELS_TR[row.month_num - 1],
-      Gelir: row.income_try,
-      Gider: row.expense_try,
-      Net: row.net_try,
-    }));
-  }, [cashflow]);
+  const categoryRows = useMemo(
+    () =>
+      aggregateExpenseByCategory(
+        expenses,
+        Object.keys(EXPENSE_CATEGORY_LABELS) as ExpenseCategory[],
+      ),
+    [expenses],
+  );
+
+  const cashflow = useMemo(
+    () => aggregateCashflowMonthly(expenses, incomes, currentYear),
+    [currentYear, expenses, incomes],
+  );
+
+  const chartData = useMemo(
+    () =>
+      cashflow.map((row) => ({
+        month: MONTH_LABELS_TR[row.month_num - 1],
+        Gelir: getCurrencyTotal(row.income_by_currency, selectedCurrency),
+        Gider: getCurrencyTotal(row.expense_by_currency, selectedCurrency),
+        Net: getCurrencyTotal(row.net_by_currency, selectedCurrency),
+      })),
+    [cashflow, selectedCurrency],
+  );
 
   return (
     <div className="space-y-6">
-      {/* Başlık */}
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">
-          CorteQS — Finansal Takip Paneli
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Şirket kurulana kadar geçici muhasebe · Burak &amp; Barış
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">
+            CorteQS — Finansal Takip Paneli
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Şirket kurulana kadar geçici muhasebe · Burak &amp; Barış
+          </p>
+        </div>
+
+        <Tabs
+          value={selectedCurrency}
+          onValueChange={(value) => setSelectedCurrency(value as CurrencyCode)}
+        >
+          <TabsList>
+            {CURRENCY_CODES.map((currency) => (
+              <TabsTrigger key={currency} value={currency}>
+                {currency}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
       </div>
 
-      {/* KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <KpiCard
           title="Toplam Gider"
-          subtitle="Tüm Zamanlar / TRY"
+          subtitle={`Tüm Zamanlar / ${selectedCurrency}`}
           icon={TrendingDown}
-          amount={kpi?.total_expense_try ?? 0}
+          amount={getCurrencyTotal(kpi.total_expense_by_currency, selectedCurrency)}
+          currency={selectedCurrency}
           tone="negative"
-          isLoading={kpiLoading}
+          isLoading={isLoading}
         />
         <KpiCard
           title="Toplam Gelir"
-          subtitle="Tüm Zamanlar / TRY"
+          subtitle={`Tüm Zamanlar / ${selectedCurrency}`}
           icon={TrendingUp}
-          amount={kpi?.total_income_try ?? 0}
+          amount={getCurrencyTotal(kpi.total_income_by_currency, selectedCurrency)}
+          currency={selectedCurrency}
           tone="positive"
-          isLoading={kpiLoading}
+          isLoading={isLoading}
         />
         <KpiCard
           title="Net Pozisyon"
-          subtitle="Gelir − Gider / TRY"
+          subtitle={`Gelir − Gider / ${selectedCurrency}`}
           icon={Wallet}
-          amount={kpi?.net_position_try ?? 0}
-          isLoading={kpiLoading}
+          amount={getCurrencyTotal(kpi.net_by_currency, selectedCurrency)}
+          currency={selectedCurrency}
+          isLoading={isLoading}
         />
         <KpiCard
           title="Bekleyen Gider"
-          subtitle="Henüz ödenmeyen / TRY"
+          subtitle={`Henüz ödenmeyen / ${selectedCurrency}`}
           icon={Clock}
-          amount={kpi?.pending_expense_try ?? 0}
+          amount={getCurrencyTotal(kpi.pending_expense_by_currency, selectedCurrency)}
+          currency={selectedCurrency}
           tone="warning"
-          isLoading={kpiLoading}
+          isLoading={isLoading}
         />
         <KpiCard
           title="Bekleyen Tahsilat"
-          subtitle="Henüz tahsil edilmeyen / TRY"
+          subtitle={`Henüz tahsil edilmeyen / ${selectedCurrency}`}
           icon={CircleDollarSign}
-          amount={kpi?.pending_income_try ?? 0}
+          amount={getCurrencyTotal(kpi.pending_income_by_currency, selectedCurrency)}
+          currency={selectedCurrency}
           tone="warning"
-          isLoading={kpiLoading}
+          isLoading={isLoading}
         />
         <KpiCard
           title="Toplam Kayıt"
           subtitle="Gider + Gelir girişi"
           icon={Receipt}
-          amount={kpi?.total_records ?? 0}
+          amount={kpi.total_records}
           displayAsCount
-          isLoading={kpiLoading}
+          isLoading={isLoading}
         />
       </div>
 
-      {/* Chart — Aylık Nakit Akışı */}
       <Card>
         <CardHeader>
           <CardTitle>Aylık Nakit Akışı</CardTitle>
           <CardDescription>
-            Yalnızca TRY işlemleri üzerinden hesaplanmaktadır.
+            {currentYear} yılı için {selectedCurrency} işlemleri üzerinden hesaplanmaktadır.
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {cashflowLoading ? (
+          {isLoading ? (
             <div className="h-[320px] animate-pulse rounded bg-muted" />
           ) : (
             <div className="h-[320px]">
@@ -193,7 +204,7 @@ export default function MuhasebeDashboard() {
                     }
                   />
                   <Tooltip
-                    formatter={(v) => formatCurrency(v as number, 'TRY')}
+                    formatter={(v) => formatCurrency(v as number, selectedCurrency)}
                     contentStyle={{ fontSize: 12 }}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
@@ -213,16 +224,14 @@ export default function MuhasebeDashboard() {
         </CardContent>
       </Card>
 
-      {/* Kişi + Kategori Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Kişi Bazlı Giderler */}
         <Card>
           <CardHeader>
             <CardTitle>👤 Kişi Bazlı Giderler</CardTitle>
-            <CardDescription>TRY cinsinden toplam ve ödendi durumu</CardDescription>
+            <CardDescription>{selectedCurrency} cinsinden toplam ve ödendi durumu</CardDescription>
           </CardHeader>
           <CardContent>
-            {personLoading ? (
+            {isLoading ? (
               <div className="space-y-2">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="h-10 animate-pulse rounded bg-muted" />
@@ -233,7 +242,7 @@ export default function MuhasebeDashboard() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Kişi</TableHead>
-                    <TableHead className="text-right">Toplam Gider</TableHead>
+                    <TableHead className="text-right">{`Toplam Gider (${selectedCurrency})`}</TableHead>
                     <TableHead className="text-right">Ödendi</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -244,10 +253,16 @@ export default function MuhasebeDashboard() {
                         {PERSON_LABELS[row.person]}
                       </TableCell>
                       <TableCell className="text-right tabular-nums">
-                        {formatCurrency(row.total_try, 'TRY')}
+                        {formatCurrency(
+                          getCurrencyTotal(row.total_by_currency, selectedCurrency),
+                          selectedCurrency,
+                        )}
                       </TableCell>
                       <TableCell className="text-right tabular-nums text-emerald-600 dark:text-emerald-400">
-                        {formatCurrency(row.paid_try, 'TRY')}
+                        {formatCurrency(
+                          getCurrencyTotal(row.paid_by_currency, selectedCurrency),
+                          selectedCurrency,
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -257,14 +272,13 @@ export default function MuhasebeDashboard() {
           </CardContent>
         </Card>
 
-        {/* Kategori Bazlı Giderler */}
         <Card>
           <CardHeader>
             <CardTitle>📂 Kategori Bazlı Giderler</CardTitle>
-            <CardDescription>TRY cinsinden toplam ve kayıt sayısı</CardDescription>
+            <CardDescription>{selectedCurrency} cinsinden toplam ve kayıt sayısı</CardDescription>
           </CardHeader>
           <CardContent>
-            {catLoading ? (
+            {isLoading ? (
               <div className="space-y-2">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div key={i} className="h-10 animate-pulse rounded bg-muted" />
@@ -276,7 +290,7 @@ export default function MuhasebeDashboard() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>Kategori</TableHead>
-                      <TableHead className="text-right">Toplam</TableHead>
+                      <TableHead className="text-right">{`Toplam (${selectedCurrency})`}</TableHead>
                       <TableHead className="text-right">Kayıt</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -296,7 +310,10 @@ export default function MuhasebeDashboard() {
                           </span>
                         </TableCell>
                         <TableCell className="text-right tabular-nums">
-                          {formatCurrency(row.total_try, 'TRY')}
+                          {formatCurrency(
+                            getCurrencyTotal(row.total_by_currency, selectedCurrency),
+                            selectedCurrency,
+                          )}
                         </TableCell>
                         <TableCell className="text-right tabular-nums text-muted-foreground">
                           {row.record_count}

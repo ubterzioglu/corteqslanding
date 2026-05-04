@@ -1,5 +1,5 @@
 // src/pages/admin/muhasebe/NakitAkisiPage.tsx
-// Aylık nakit akışı — Excel'deki "Nakit Akışı" sekmesinin karşılığı
+// Aylık nakit akışı — seçili para birimi üzerinden pivot görünümü
 
 import { useMemo, useState, Fragment } from 'react';
 import {
@@ -36,23 +36,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { useCashflowMonthly } from '@/hooks/useMuhasebe';
+import { useExpenses, useIncomes } from '@/hooks/useMuhasebe';
+import { aggregateCashflowMonthly, getCurrencyTotal } from '@/lib/muhasebe-aggregations';
 import { formatCurrency } from '@/lib/muhasebe-format';
-import { MONTH_LABELS_TR } from '@/types/muhasebe';
+import { CURRENCY_CODES, MONTH_LABELS_TR, type CurrencyCode } from '@/types/muhasebe';
 
-// Pivot tablodaki satır tanımı
 type RowKey =
-  | 'income_try'
-  | 'expense_try'
-  | 'net_try'
-  | 'burak_try'
-  | 'baris_try'
-  | 'ortak_try'
-  | 'expense_paid_try'
-  | 'expense_pending_try'
-  | 'income_collected_try'
-  | 'income_pending_try';
+  | 'income_by_currency'
+  | 'expense_by_currency'
+  | 'net_by_currency'
+  | 'burak_expense_by_currency'
+  | 'baris_expense_by_currency'
+  | 'ortak_expense_by_currency'
+  | 'expense_paid_by_currency'
+  | 'expense_pending_by_currency'
+  | 'income_collected_by_currency'
+  | 'income_pending_by_currency';
 
 interface RowDef {
   key: RowKey;
@@ -62,16 +63,16 @@ interface RowDef {
 }
 
 const ROW_DEFS: RowDef[] = [
-  { key: 'income_try',           label: 'Toplam Gelir (TRY)',  section: 'summary' },
-  { key: 'expense_try',          label: 'Toplam Gider (TRY)',  section: 'summary' },
-  { key: 'net_try',              label: 'Net Nakit Akışı',     section: 'summary', emphasize: true },
-  { key: 'burak_try',            label: 'Burak Giderleri',     section: 'persons' },
-  { key: 'baris_try',            label: 'Barış Giderleri',     section: 'persons' },
-  { key: 'ortak_try',            label: 'Ortak Giderler',      section: 'persons' },
-  { key: 'expense_paid_try',     label: 'Ödendi (Gider)',      section: 'expense_status' },
-  { key: 'expense_pending_try',  label: 'Bekliyor (Gider)',    section: 'expense_status' },
-  { key: 'income_collected_try', label: 'Tahsil Edildi (Gelir)', section: 'income_status' },
-  { key: 'income_pending_try',   label: 'Bekliyor (Gelir)',    section: 'income_status' },
+  { key: 'income_by_currency', label: 'Toplam Gelir', section: 'summary' },
+  { key: 'expense_by_currency', label: 'Toplam Gider', section: 'summary' },
+  { key: 'net_by_currency', label: 'Net Nakit Akışı', section: 'summary', emphasize: true },
+  { key: 'burak_expense_by_currency', label: 'Burak Giderleri', section: 'persons' },
+  { key: 'baris_expense_by_currency', label: 'Barış Giderleri', section: 'persons' },
+  { key: 'ortak_expense_by_currency', label: 'Ortak Giderler', section: 'persons' },
+  { key: 'expense_paid_by_currency', label: 'Ödendi (Gider)', section: 'expense_status' },
+  { key: 'expense_pending_by_currency', label: 'Bekliyor (Gider)', section: 'expense_status' },
+  { key: 'income_collected_by_currency', label: 'Tahsil Edildi (Gelir)', section: 'income_status' },
+  { key: 'income_pending_by_currency', label: 'Bekliyor (Gelir)', section: 'income_status' },
 ];
 
 const SECTION_LABELS: Record<RowDef['section'], string | null> = {
@@ -84,57 +85,42 @@ const SECTION_LABELS: Record<RowDef['section'], string | null> = {
 export default function NakitAkisiPage() {
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+  const [selectedCurrency, setSelectedCurrency] = useState<CurrencyCode>('TRY');
+  const { data: expenses = [], isLoading: expensesLoading } = useExpenses();
+  const { data: incomes = [], isLoading: incomesLoading } = useIncomes();
+  const isLoading = expensesLoading || incomesLoading;
 
-  const { data: cashflow = [], isLoading } = useCashflowMonthly(selectedYear);
-
-  // Seçilebilecek yıllar: mevcut yıl ± 2
   const yearOptions = useMemo(() => {
     const years: number[] = [];
     for (let y = currentYear - 2; y <= currentYear + 1; y++) years.push(y);
     return years;
   }, [currentYear]);
 
-  // Her ay için bir obje; eksik aylar 0 ile doldurulur
-  const monthlyData = useMemo(() => {
-    const base = Array.from({ length: 12 }, (_, i) => ({
-      month_num: i + 1,
-      income_try: 0,
-      expense_try: 0,
-      net_try: 0,
-      burak_try: 0,
-      baris_try: 0,
-      ortak_try: 0,
-      expense_paid_try: 0,
-      expense_pending_try: 0,
-      income_collected_try: 0,
-      income_pending_try: 0,
-    }));
-    cashflow.forEach((row) => {
-      const idx = row.month_num - 1;
-      if (idx >= 0 && idx < 12) {
-        base[idx] = { ...row };
-      }
-    });
-    return base;
-  }, [cashflow]);
+  const monthlyData = useMemo(
+    () => aggregateCashflowMonthly(expenses, incomes, selectedYear),
+    [expenses, incomes, selectedYear],
+  );
 
   const totals = useMemo(() => {
     const t = {} as Record<RowKey, number>;
     ROW_DEFS.forEach((def) => {
-      t[def.key] = monthlyData.reduce((sum, m) => sum + (m[def.key] ?? 0), 0);
+      t[def.key] = monthlyData.reduce(
+        (sum, month) => sum + getCurrencyTotal(month[def.key], selectedCurrency),
+        0,
+      );
     });
     return t;
-  }, [monthlyData]);
+  }, [monthlyData, selectedCurrency]);
 
   const chartData = useMemo(
     () =>
-      monthlyData.map((m) => ({
-        month: MONTH_LABELS_TR[m.month_num - 1],
-        Gelir: m.income_try,
-        Gider: m.expense_try,
-        Net: m.net_try,
+      monthlyData.map((month) => ({
+        month: MONTH_LABELS_TR[month.month_num - 1],
+        Gelir: getCurrencyTotal(month.income_by_currency, selectedCurrency),
+        Gider: getCurrencyTotal(month.expense_by_currency, selectedCurrency),
+        Net: getCurrencyTotal(month.net_by_currency, selectedCurrency),
       })),
-    [monthlyData],
+    [monthlyData, selectedCurrency],
   );
 
   return (
@@ -143,31 +129,48 @@ export default function NakitAkisiPage() {
         <div>
           <h1 className="text-2xl font-bold tracking-tight">Nakit Akışı</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Aylık özet · Yalnızca TRY işlemleri üzerinden hesaplanır
+            Aylık özet · {selectedCurrency} işlemleri üzerinden hesaplanır
           </p>
         </div>
 
-        <Select
-          value={String(selectedYear)}
-          onValueChange={(v) => setSelectedYear(Number(v))}
-        >
-          <SelectTrigger className="w-[140px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {yearOptions.map((y) => (
-              <SelectItem key={y} value={String(y)}>
-                {y}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-3 flex-wrap">
+          <Tabs
+            value={selectedCurrency}
+            onValueChange={(value) => setSelectedCurrency(value as CurrencyCode)}
+          >
+            <TabsList>
+              {CURRENCY_CODES.map((currency) => (
+                <TabsTrigger key={currency} value={currency}>
+                  {currency}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+
+          <Select
+            value={String(selectedYear)}
+            onValueChange={(v) => setSelectedYear(Number(v))}
+          >
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {yearOptions.map((year) => (
+                <SelectItem key={year} value={String(year)}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Aylık Trend</CardTitle>
-          <CardDescription>Gelir, gider ve net nakit akışı</CardDescription>
+          <CardDescription>
+            {selectedYear} yılı için gelir, gider ve net nakit akışı ({selectedCurrency})
+          </CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -188,7 +191,7 @@ export default function NakitAkisiPage() {
                     }
                   />
                   <Tooltip
-                    formatter={(v) => formatCurrency(v as number, 'TRY')}
+                    formatter={(v) => formatCurrency(v as number, selectedCurrency)}
                     contentStyle={{ fontSize: 12 }}
                   />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
@@ -212,7 +215,7 @@ export default function NakitAkisiPage() {
         <CardHeader>
           <CardTitle>Pivot Tablo</CardTitle>
           <CardDescription>
-            {selectedYear} yılı için aylık dökümü
+            {selectedYear} yılı için aylık döküm ({selectedCurrency})
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
@@ -223,9 +226,9 @@ export default function NakitAkisiPage() {
                   <TableHead className="sticky left-0 bg-background z-10 min-w-[200px]">
                     Kalem
                   </TableHead>
-                  {MONTH_LABELS_TR.map((m) => (
-                    <TableHead key={m} className="text-right whitespace-nowrap">
-                      {m}
+                  {MONTH_LABELS_TR.map((month) => (
+                    <TableHead key={month} className="text-right whitespace-nowrap">
+                      {month}
                     </TableHead>
                   ))}
                   <TableHead className="text-right whitespace-nowrap font-bold bg-muted/50">
@@ -237,13 +240,12 @@ export default function NakitAkisiPage() {
                 {ROW_DEFS.map((def, idx) => {
                   const sectionLabel = SECTION_LABELS[def.section];
                   const prevSection = idx > 0 ? ROW_DEFS[idx - 1].section : null;
-                  const showSectionHeader =
-                    sectionLabel && def.section !== prevSection;
+                  const showSectionHeader = sectionLabel && def.section !== prevSection;
 
                   return (
                     <Fragment key={def.key}>
                       {showSectionHeader && (
-                        <TableRow key={`${def.key}-sep`} className="hover:bg-transparent">
+                        <TableRow className="hover:bg-transparent">
                           <TableCell
                             colSpan={14}
                             className="bg-muted/30 text-xs font-semibold uppercase tracking-wider text-muted-foreground py-2"
@@ -256,17 +258,17 @@ export default function NakitAkisiPage() {
                         <TableCell className="sticky left-0 bg-background z-10 whitespace-nowrap">
                           {def.label}
                         </TableCell>
-                        {monthlyData.map((m) => {
-                          const value = m[def.key] ?? 0;
+                        {monthlyData.map((month) => {
+                          const value = getCurrencyTotal(month[def.key], selectedCurrency);
                           return (
                             <TableCell
-                              key={`${def.key}-${m.month_num}`}
+                              key={`${def.key}-${month.month_num}`}
                               className="text-right tabular-nums whitespace-nowrap"
                             >
                               {value === 0 ? (
                                 <span className="text-muted-foreground">—</span>
                               ) : (
-                                formatCurrency(value, 'TRY', {
+                                formatCurrency(value, selectedCurrency, {
                                   minimumFractionDigits: 0,
                                 })
                               )}
@@ -277,7 +279,7 @@ export default function NakitAkisiPage() {
                           {totals[def.key] === 0 ? (
                             <span className="text-muted-foreground">—</span>
                           ) : (
-                            formatCurrency(totals[def.key], 'TRY', {
+                            formatCurrency(totals[def.key], selectedCurrency, {
                               minimumFractionDigits: 0,
                             })
                           )}
@@ -293,8 +295,7 @@ export default function NakitAkisiPage() {
       </Card>
 
       <p className="text-xs text-muted-foreground text-center">
-        * Nakit akışı yalnızca TRY işlemleri üzerinden hesaplanmaktadır. USD/EUR için
-        ayrı sütun eklenebilir.
+        * Her para birimi yalnızca kendi içinde toplanır; kur dönüşümü uygulanmaz.
       </p>
     </div>
   );

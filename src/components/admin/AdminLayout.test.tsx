@@ -63,7 +63,7 @@ describe("AdminLayout", () => {
       expect(screen.getByText("Members Content")).toBeInTheDocument();
     });
 
-    expect(screen.getByRole("link", { name: "Lansman Katılım" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Diğer Kayıtlar/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Yeni kayıt ekle/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Referral oluştur/i })).toBeInTheDocument();
   });
@@ -75,7 +75,7 @@ describe("AdminLayout", () => {
       expect(screen.getByText("Lansman Content")).toBeInTheDocument();
     });
 
-    expect(screen.getByRole("link", { name: "Lansman Katılım" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Diğer Kayıtlar/i })).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Yeni kayıt ekle/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Referral oluştur/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Export \/ Import/i })).not.toBeInTheDocument();
