@@ -382,6 +382,9 @@ const AdminReferralPage = () => {
                           <span className="text-xs text-muted-foreground">
                             {new Date(referral.created_at).toLocaleString("tr-TR")} · {referral.source_code}/{referral.group_code}/{referral.type_code}
                           </span>
+                          <span className="max-w-[70ch] truncate text-xs text-muted-foreground">
+                            Not: {referral.note?.trim() || "Yok"}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge variant={referral.is_active ? "outline" : "secondary"}>{referral.is_active ? "Aktif" : "Pasif"}</Badge>
