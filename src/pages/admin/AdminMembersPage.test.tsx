@@ -4,9 +4,11 @@ import { describe, expect, it, vi } from "vitest";
 
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 
+const toast = vi.fn();
+
 vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
-    toast: vi.fn(),
+    toast,
   }),
 }));
 
