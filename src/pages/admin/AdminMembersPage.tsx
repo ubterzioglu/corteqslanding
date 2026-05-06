@@ -188,15 +188,35 @@ const AdminMembersPage = () => {
   const debouncedFullname = useDebouncedValue(fullnameInput);
   const debouncedEmail = useDebouncedValue(emailInput);
   const debouncedCity = useDebouncedValue(cityInput);
+  const fullnameParam = searchParams.get("fullname") ?? "";
+  const emailParam = searchParams.get("email") ?? "";
+  const cityParam = searchParams.get("city") ?? "";
 
   useEffect(() => {
+    if (
+      debouncedFullname === fullnameParam &&
+      debouncedEmail === emailParam &&
+      debouncedCity === cityParam
+    ) {
+      return;
+    }
+
     const next = new URLSearchParams(searchParams);
     if (debouncedFullname) next.set("fullname", debouncedFullname); else next.delete("fullname");
     if (debouncedEmail) next.set("email", debouncedEmail); else next.delete("email");
     if (debouncedCity) next.set("city", debouncedCity); else next.delete("city");
     next.set("page", "1");
     setSearchParams(next, { replace: true });
-  }, [debouncedCity, debouncedEmail, debouncedFullname, searchParams, setSearchParams]);
+  }, [
+    cityParam,
+    debouncedCity,
+    debouncedEmail,
+    debouncedFullname,
+    emailParam,
+    fullnameParam,
+    searchParams,
+    setSearchParams,
+  ]);
 
   const updateParam = (key: string, value: string | null) => {
     const next = new URLSearchParams(searchParams);
