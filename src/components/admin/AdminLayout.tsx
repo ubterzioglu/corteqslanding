@@ -42,13 +42,26 @@ const otherRecordNavItems = [
 ];
 
 const adminPanelNavItems = [
-  { href: "https://dashboard.corteqs.net/", label: "WikiDash" },
-  { href: "https://dashboard.corteqs.net/todolist", label: "TODO Listesi" },
-  { href: "https://dashboard.corteqs.net/toplantiozet", label: "Toplantı Özetleri" },
-  { href: "https://dashboard.corteqs.net/insankaynaklari", label: "IK Dökümanları" },
-  { href: "https://dashboard.corteqs.net/arge", label: "ARGE Dökümanları" },
-  { href: "https://dashboard.corteqs.net/links", label: "Dosyalar ve Linkler" },
-  { href: "https://dashboard.corteqs.net/", label: "Dashboard Anasayfa" },
+  { key: "wiki", href: "https://dashboard.corteqs.net/", label: "WikiDash" },
+  {
+    key: "meetings-actions",
+    href: "https://dashboard.corteqs.net/toplantiozet",
+    label: "Toplantılar / Aksiyonlar",
+  },
+  {
+    key: "legacy-todo",
+    href: "https://dashboard.corteqs.net/todolist",
+    label: "TODO Listesi (Legacy)",
+  },
+  {
+    key: "legacy-meetings",
+    href: "https://dashboard.corteqs.net/toplantiozet",
+    label: "Toplantı Özetleri (Legacy)",
+  },
+  { key: "hr", href: "https://dashboard.corteqs.net/insankaynaklari", label: "IK Dökümanları" },
+  { key: "r-and-d", href: "https://dashboard.corteqs.net/arge", label: "ARGE Dökümanları" },
+  { key: "links", href: "https://dashboard.corteqs.net/links", label: "Dosyalar ve Linkler" },
+  { key: "dashboard-home", href: "https://dashboard.corteqs.net/", label: "Dashboard Anasayfa" },
 ];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
@@ -383,7 +396,7 @@ const AdminLayout = () => {
                     onMouseLeave={() => setAdminPanelMenuOpen(false)}
                   >
                     {adminPanelNavItems.map((item) => (
-                      <DropdownMenuItem key={item.href} asChild>
+                      <DropdownMenuItem key={item.key} asChild>
                         <a
                           href={item.href}
                           target="_blank"

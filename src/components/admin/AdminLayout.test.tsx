@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
@@ -80,5 +80,29 @@ describe("AdminLayout", () => {
     expect(screen.queryByRole("button", { name: /Referral oluştur/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Export \/ Import/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Toplu işlem/i })).not.toBeInTheDocument();
+  });
+
+  it("shows merged meetings hub and keeps legacy dashboard links", async () => {
+    renderAdminLayout("/admin/members");
+
+    await waitFor(() => {
+      expect(screen.getByText("Members Content")).toBeInTheDocument();
+    });
+
+    const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
+    fireEvent.mouseEnter(dashboardButton);
+
+    expect((await screen.findByText("Toplantılar / Aksiyonlar")).closest("a")).toHaveAttribute(
+      "href",
+      "https://dashboard.corteqs.net/toplantiozet",
+    );
+    expect(screen.getByText("TODO Listesi (Legacy)").closest("a")).toHaveAttribute(
+      "href",
+      "https://dashboard.corteqs.net/todolist",
+    );
+    expect(screen.getByText("Toplantı Özetleri (Legacy)").closest("a")).toHaveAttribute(
+      "href",
+      "https://dashboard.corteqs.net/toplantiozet",
+    );
   });
 });
