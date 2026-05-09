@@ -47,6 +47,7 @@ function renderAdminLayout(pathname: string) {
     <MemoryRouter initialEntries={[pathname]}>
       <Routes>
         <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<div>Admin Home Content</div>} />
           <Route path="members" element={<div>Members Content</div>} />
           <Route path="lansman" element={<div>Lansman Content</div>} />
         </Route>
@@ -56,6 +57,18 @@ function renderAdminLayout(pathname: string) {
 }
 
 describe("AdminLayout", () => {
+  it("shows external header links and renders index content on /admin", async () => {
+    renderAdminLayout("/admin");
+
+    await waitFor(() => {
+      expect(screen.getByText("Admin Home Content")).toBeInTheDocument();
+    });
+
+    expect(screen.getByRole("link", { name: "Engine" })).toHaveAttribute("href", "https://eng.corteqs.net");
+    expect(screen.getByRole("link", { name: "Globe" })).toHaveAttribute("href", "https://globe.corteqs.ret");
+    expect(screen.getByRole("link", { name: "Founders" })).toHaveAttribute("href", "https://corteqs.net/founders");
+  });
+
   it("shows global actions on the members page", async () => {
     renderAdminLayout("/admin/members");
 

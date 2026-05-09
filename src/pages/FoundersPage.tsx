@@ -172,7 +172,7 @@ const FoundersPage = () => {
                       Founders
                     </p>
                     <h1 className="mt-2 text-[1.4rem] font-black tracking-tight text-[#071c3f] md:text-[1.55rem] md:leading-none lg:text-[1.75rem] xl:text-[1.9rem]">
-                      CorteQS Global Türk Diaspora Network Ağı
+                      CorteQS Global Türk Diaspora Network
                     </h1>
                     <p className="mt-3 text-sm leading-7 text-slate-600 md:text-[15px]">
                       CorteQS’in arkasında; stratejiyi, teknoloji disiplinini ve topluluk sezgisini aynı zeminde

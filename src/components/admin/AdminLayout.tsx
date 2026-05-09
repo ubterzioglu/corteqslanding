@@ -5,6 +5,7 @@ import { Check, ChevronDown, Download, Layers3, Plus, Share2 } from "lucide-reac
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { externalAdminNavItems, primaryAdminNavItems } from "@/components/admin/admin-navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,12 +25,6 @@ type AdminOutletContext = {
 export function useAdminOutletContext() {
   return useOutletContext<AdminOutletContext>();
 }
-
-const navItems = [
-  { to: "/admin/members", label: "Üye Takibi" },
-  { to: "/admin/referral", label: "Ref Kod" },
-  { to: "/admin/muhasebe", label: "Muhasebe" },
-];
 
 const otherActionNavItems = [
   { to: "/admin/marquee", label: "Haber Bandı" },
@@ -275,12 +270,25 @@ const AdminLayout = () => {
               <span className="text-xs text-muted-foreground">{session?.user.email}</span>
             </div>
             <nav className="flex flex-wrap items-center gap-1">
-              {navItems.map((item, index) => (
+              {primaryAdminNavItems.map((item, index) => (
                 <div key={item.to} className="flex items-center">
                   {index > 0 ? <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" /> : null}
                   <NavLink to={item.to} className={linkClass}>
                     {item.label}
                   </NavLink>
+                </div>
+              ))}
+              {externalAdminNavItems.map((item) => (
+                <div key={item.href} className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={linkClass({ isActive: false })}
+                  >
+                    {item.label}
+                  </a>
                 </div>
               ))}
               <div className="flex items-center">

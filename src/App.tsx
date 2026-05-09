@@ -24,6 +24,7 @@ import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
 import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
+import AdminHomePage from "@/pages/admin/AdminHomePage";
 import { muhasebeRoutes } from "@/pages/admin/muhasebe/routes";
 import Founding1000Page from "./pages/Founding1000Page.tsx";
 import BloggerContestPage from "./pages/BloggerContestPage.tsx";
@@ -56,7 +57,7 @@ const App = () => (
             <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
             <Route path="/lansman" element={<LansmanPage />} />
             <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Navigate to="/admin/members" replace />} />
+              <Route index element={<AdminHomePage />} />
               <Route path="members" element={<AdminMembersPage />} />
               <Route path="lansman" element={<AdminLansmanPage />} />
               <Route path="referral" element={<AdminReferralPage />} />
