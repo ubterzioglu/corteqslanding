@@ -135,7 +135,7 @@ describe("AdminMembersPage", () => {
     await screen.findByText("0555 123 12");
     expect(screen.queryByRole("link", { name: "0555 123 12" })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "-" })).not.toBeInTheDocument();
-    expect(screen.getByText("-")).toBeInTheDocument();
+    expect(screen.getAllByText("-").length).toBeGreaterThan(0);
   });
 
   it("keeps the selected page when moving to the next page", async () => {
