@@ -148,28 +148,28 @@ const FoundersPage = () => {
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
           <section className="mb-10">
-            <div className="mx-auto max-w-5xl md:pl-28">
-              <div className="relative rounded-[2rem] border border-[#0f6fc2]/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(241,248,255,0.96),rgba(255,248,237,0.96))] px-6 py-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] md:min-h-[168px] md:px-10 md:py-8">
-                <div className="mb-5 flex justify-center md:absolute md:-left-28 md:top-1/2 md:mb-0 md:-translate-y-1/2">
-                  <div className="rounded-[1.9rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(233,245,255,0.94),rgba(255,245,227,0.96))] px-5 py-5 shadow-[0_26px_60px_rgba(10,79,150,0.18),0_0_0_1px_rgba(15,111,194,0.06)]">
+            <div className="mx-auto max-w-5xl">
+              <div className="rounded-[2rem] border border-[#0f6fc2]/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(241,248,255,0.96),rgba(255,248,237,0.96))] px-6 py-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] md:px-8 md:py-8">
+                <div className="flex flex-col items-center gap-5 text-center md:flex-row md:items-center md:gap-7 md:text-left">
+                  <div className="shrink-0 rounded-[1.75rem] border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(232,245,255,0.95),rgba(255,244,223,0.98))] p-4 shadow-[0_22px_50px_rgba(10,79,150,0.14),0_10px_20px_rgba(255,191,71,0.10)]">
                     <img
                       src={foundersLogo}
                       alt="CorteQS kurucular logosu"
-                      className="h-20 w-auto object-contain md:h-[118px]"
+                      className="h-20 w-auto rounded-[1.2rem] object-contain md:h-[112px]"
                     />
                   </div>
-                </div>
-                <div className="text-center md:text-left">
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#0f6fc2]">
-                    Founders
-                  </p>
-                  <h1 className="mt-2 text-[1.65rem] font-black tracking-tight text-[#071c3f] md:text-[2rem] md:leading-none lg:text-[2.2rem]">
-                    Diasporayı bağlantıdan ekosisteme taşıyan kurucu bakışı
-                  </h1>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 md:text-[15px]">
-                    CorteQS’in arkasında; stratejiyi, teknoloji disiplinini ve topluluk sezgisini aynı zeminde
-                    buluşturan iki farklı ama birbirini tamamlayan kurucu perspektifi var.
-                  </p>
+                  <div className="max-w-3xl">
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#0f6fc2]">
+                      Founders
+                    </p>
+                    <h1 className="mt-2 text-[1.65rem] font-black tracking-tight text-[#071c3f] md:text-[1.9rem] md:leading-none lg:text-[2.05rem]">
+                      Diasporayı bağlantıdan ekosisteme taşıyan kurucu bakışı
+                    </h1>
+                    <p className="mt-3 text-sm leading-7 text-slate-600 md:text-[15px]">
+                      CorteQS’in arkasında; stratejiyi, teknoloji disiplinini ve topluluk sezgisini aynı zeminde
+                      buluşturan iki farklı ama birbirini tamamlayan kurucu perspektifi var.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
