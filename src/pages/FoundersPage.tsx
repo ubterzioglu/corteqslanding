@@ -147,13 +147,29 @@ const FoundersPage = () => {
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <section className="mb-8 flex justify-center">
-            <div className="rounded-[2rem] border border-[#0f6fc2]/10 bg-white px-6 py-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-              <img
-                src={foundersLogo}
-                alt="CorteQS kurucular logosu"
-                className="h-16 w-auto object-contain md:h-20"
-              />
+          <section className="mb-10">
+            <div className="mx-auto max-w-5xl rounded-[2rem] border border-[#0f6fc2]/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(241,248,255,0.96),rgba(255,248,237,0.96))] px-6 py-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] md:px-8 md:py-7">
+              <div className="flex flex-col items-center gap-5 text-center md:flex-row md:items-center md:justify-start md:gap-7 md:text-left">
+                <div className="shrink-0 rounded-[1.5rem] border border-[#0f6fc2]/10 bg-white px-4 py-4 shadow-[0_18px_40px_rgba(15,111,194,0.10)]">
+                  <img
+                    src={foundersLogo}
+                    alt="CorteQS kurucular logosu"
+                    className="h-16 w-auto object-contain md:h-20"
+                  />
+                </div>
+                <div className="max-w-2xl">
+                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#0f6fc2]">
+                    Founders
+                  </p>
+                  <h1 className="mt-2 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
+                    Diasporayı bağlantıdan ekosisteme taşıyan kurucu bakışı
+                  </h1>
+                  <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base">
+                    CorteQS’in arkasında; stratejiyi, teknoloji disiplinini ve topluluk sezgisini aynı zeminde
+                    buluşturan iki farklı ama birbirini tamamlayan kurucu perspektifi var.
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 
