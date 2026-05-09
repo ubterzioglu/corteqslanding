@@ -30,6 +30,7 @@ import BloggerContestPage from "./pages/BloggerContestPage.tsx";
 import VloggerContestPage from "./pages/VloggerContestPage.tsx";
 import ScrollTopButton from "@/components/ScrollTopButton";
 import LansmanPage from "./pages/LansmanPage.tsx";
+import FoundersPage from "./pages/FoundersPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
             <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
             <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
             <Route path="/hakkimizda" element={<AboutPage />} />
+            <Route path="/founders" element={<FoundersPage />} />
             <Route path="/radar" element={<RadarPage />} />
             <Route path="/commercial" element={<CommercialIndexPage />} />
             <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
