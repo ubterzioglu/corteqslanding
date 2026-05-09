@@ -86,6 +86,22 @@ const founderProfiles: FounderProfile[] = [
   },
 ];
 
+const founderCardClasses = [
+  "border-[#0f6fc2]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(241,248,255,0.97),rgba(235,246,255,0.94))]",
+  "border-[#47b000]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(248,252,241,0.97),rgba(238,250,233,0.94))]",
+] as const;
+
+const strengthCardClasses = [
+  "border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(236,248,255,0.86),rgba(229,244,255,0.82))]",
+  "border-[#47b000]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(245,251,236,0.86),rgba(236,248,230,0.82))]",
+] as const;
+
+const sectionCardClasses = [
+  "border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(231,244,255,0.86))]",
+  "border-[#ff8a00]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,247,236,0.92),rgba(255,239,220,0.86))]",
+  "border-[#47b000]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,251,236,0.92),rgba(236,248,230,0.86))]",
+] as const;
+
 const FounderPortrait = ({
   src,
   alt,
@@ -179,7 +195,7 @@ const FoundersPage = () => {
             {founderProfiles.map((founder, index) => (
               <article
                 key={founder.name}
-                className="rounded-[2rem] border border-[#0f6fc2]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(245,250,255,0.96),rgba(249,252,244,0.94))] p-6 shadow-[0_24px_60px_rgba(15,23,42,0.07)] md:p-8"
+                className={`rounded-[2rem] border p-6 shadow-[0_24px_60px_rgba(15,23,42,0.07)] md:p-8 ${founderCardClasses[index % founderCardClasses.length]}`}
               >
                 <div className="grid gap-8">
                   <div>
@@ -200,7 +216,7 @@ const FoundersPage = () => {
                       {founder.summary}
                     </p>
 
-                    <div className="mt-6 rounded-2xl border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(236,248,255,0.86),rgba(239,251,235,0.82))] p-4">
+                    <div className={`mt-6 rounded-2xl border p-4 ${strengthCardClasses[index % strengthCardClasses.length]}`}>
                       <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
                         Ayırt Edici Güçler
                       </div>
@@ -219,7 +235,7 @@ const FoundersPage = () => {
                     {founder.sections.map((section) => (
                       <div
                         key={section.title}
-                        className="rounded-[1.6rem] border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(245,251,236,0.86))] p-5"
+                        className={`rounded-[1.6rem] border p-5 ${sectionCardClasses[(index + founder.sections.indexOf(section)) % sectionCardClasses.length]}`}
                       >
                         <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
                         <p className="mt-3 text-sm leading-7 text-slate-600">
