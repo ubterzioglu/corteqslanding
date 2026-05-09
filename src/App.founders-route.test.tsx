@@ -35,6 +35,7 @@ describe("App founders routing", () => {
     expect(screen.getByAltText("CorteQS kurucular logosu")).toBeInTheDocument();
     expect(screen.getByAltText("Burak Akçakanat profil fotoğrafı")).toBeInTheDocument();
     expect(screen.getByAltText("Umut Barış Terzioğlu profil fotoğrafı")).toBeInTheDocument();
+    expect(screen.queryByText("Coğrafi Bağlam")).not.toBeInTheDocument();
     expect(screen.queryByText("Kurucu Tezi")).not.toBeInTheDocument();
     expect(screen.queryByText("Kurucu Perspektifi")).not.toBeInTheDocument();
   });

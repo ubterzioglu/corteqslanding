@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import burakPhoto from "../../burak.png";
 import foundersLogo from "../../foundersicinlogo.png";
 import ubtPhoto from "../../ubt.png";
 
@@ -11,7 +12,6 @@ type FounderProfile = {
   name: string;
   role: string;
   summary: string;
-  regions: string[];
   strengths: string[];
   sections: FounderSection[];
   imageSrc?: string;
@@ -25,14 +25,13 @@ const founderProfiles: FounderProfile[] = [
     role: "Kurucu Ortak",
     summary:
       "Reel sektör, uluslararası büyüme, insan davranışı ve stratejik yapılanma başlıklarını aynı potada buluşturan çok katmanlı bir iş geliştirici ve kurucu.",
-    regions: ["Avustralya", "Amerika", "Dubai", "Doha", "İstanbul", "MENA / GCC"],
     strengths: [
       "Uluslararası pazar deneyimi",
       "Stratejik büyüme ve yapılanma",
       "İnsan ve davranış bilimleri bakışı",
       "Kurumsal yönetim ve liderlik danışmanlığı",
     ],
-    imageSrc: "/burak.png",
+    imageSrc: burakPhoto,
     imageAlt: "Burak Akçakanat profil fotoğrafı",
     fallbackInitials: "BA",
     sections: [
@@ -58,7 +57,6 @@ const founderProfiles: FounderProfile[] = [
     role: "Kurucu Ortak",
     summary:
       "Mühendislik disiplini, kalite güvencesi, otomasyon, süreç optimizasyonu ve ölçeklenebilir sistemler odağından gelen kurucu ve operasyonel yapı tasarımcısı.",
-    regions: ["Türkiye", "Almanya", "Global kurumsal sistemler"],
     strengths: [
       "Yazılım kalite güvencesi ve test yönetimi",
       "Süreç optimizasyonu ve otomasyon",
@@ -203,28 +201,6 @@ const FoundersPage = () => {
 
                     <div
                       className={`mt-6 rounded-2xl border p-4 ${
-                        index === 0 ? "border-white/15 bg-white/10" : "border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(247,243,239,0.86))]"
-                      }`}
-                    >
-                      <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${index === 0 ? "text-white/70" : "text-muted-foreground"}`}>
-                        Coğrafi Bağlam
-                      </div>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {founder.regions.map((region) => (
-                          <span
-                            key={region}
-                            className={`rounded-full px-3 py-1 text-xs font-medium ${
-                              index === 0 ? "bg-white/10 text-white" : "bg-primary/10 text-primary"
-                            }`}
-                          >
-                            {region}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div
-                      className={`mt-4 rounded-2xl border p-4 ${
                         index === 0 ? "border-white/15 bg-black/10" : "border-border/70 bg-white/70"
                       }`}
                     >
