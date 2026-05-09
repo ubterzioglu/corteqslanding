@@ -104,8 +104,8 @@ const FounderPortrait = ({
       <div
         className={`flex aspect-[4/5] w-full items-center justify-center rounded-[1.75rem] border text-3xl font-black tracking-[0.18em] ${
           dark
-            ? "border-white/15 bg-white/10 text-white"
-            : "border-primary/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(242,247,246,0.92))] text-primary"
+            ? "border-[#ffbf47]/25 bg-[linear-gradient(180deg,rgba(255,191,71,0.18),rgba(255,115,0,0.14),rgba(255,255,255,0.06))] text-white"
+            : "border-[#0f6fc2]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(229,244,255,0.95),rgba(237,250,232,0.92))] text-[#0a2f63]"
         }`}
         aria-label={alt}
       >
@@ -118,7 +118,7 @@ const FounderPortrait = ({
     <img
       src={src}
       alt={alt}
-      className="aspect-[4/5] w-full rounded-[1.75rem] border border-white/10 object-cover shadow-[0_24px_60px_rgba(15,23,42,0.18)]"
+      className="aspect-[4/5] w-full rounded-[1.75rem] border border-[#ffbf47]/18 object-cover shadow-[0_24px_60px_rgba(15,23,42,0.18)]"
       onError={() => setHasError(true)}
     />
   );
@@ -136,25 +136,25 @@ const FoundersPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#f8f4ee_0%,#fffdf9_38%,#f2f7f6_100%)]">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#041634_0%,#0b2f63_24%,#0f7cc1_52%,#fff3db_76%,#fff9ef_100%)]">
       <main className="relative overflow-hidden">
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-[36rem] opacity-90"
           aria-hidden="true"
           style={{
             background:
-              "radial-gradient(circle at 10% 14%, rgba(17,94,89,0.16), transparent 28%), radial-gradient(circle at 88% 10%, rgba(217,119,6,0.18), transparent 24%), linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0))",
+              "radial-gradient(circle at 12% 12%, rgba(37,153,225,0.34), transparent 26%), radial-gradient(circle at 84% 10%, rgba(255,133,10,0.32), transparent 22%), radial-gradient(circle at 75% 82%, rgba(96,202,0,0.18), transparent 24%)",
           }}
         />
         <div
           className="pointer-events-none absolute left-1/2 top-28 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl"
           aria-hidden="true"
-          style={{ background: "rgba(20, 120, 110, 0.12)" }}
+          style={{ background: "rgba(16, 128, 210, 0.22)" }}
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
           <section className="mb-8 flex justify-center">
-            <div className="rounded-[2rem] border border-white/70 bg-white/82 px-6 py-5 shadow-[0_24px_60px_rgba(15,23,42,0.05)] backdrop-blur">
+            <div className="rounded-[2rem] border border-[#ffbf47]/45 bg-[linear-gradient(145deg,rgba(3,19,47,0.92),rgba(9,48,98,0.92),rgba(16,123,194,0.88))] px-6 py-5 shadow-[0_24px_60px_rgba(2,10,26,0.35)] backdrop-blur">
               <img
                 src={foundersLogo}
                 alt="CorteQS kurucular logosu"
@@ -169,8 +169,8 @@ const FoundersPage = () => {
                 key={founder.name}
                 className={`rounded-[2rem] border border-border/70 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8 ${
                   index === 0
-                    ? "bg-[linear-gradient(160deg,rgba(18,58,60,0.98),rgba(24,88,84,0.95),rgba(241,120,58,0.90))] text-white"
-                    : "bg-white/88 backdrop-blur"
+                    ? "border-[#ffb13b]/35 bg-[linear-gradient(165deg,rgba(3,19,47,0.98),rgba(9,47,99,0.96),rgba(255,115,0,0.84))] text-white"
+                    : "border-[#0f6fc2]/20 bg-[linear-gradient(180deg,rgba(255,250,240,0.98),rgba(240,248,255,0.96),rgba(238,250,233,0.94))] backdrop-blur"
                 }`}
               >
                 <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
@@ -186,8 +186,8 @@ const FoundersPage = () => {
                     <span
                       className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] ${
                         index === 0
-                          ? "border-white/20 bg-white/10 text-white/80"
-                          : "border-primary/20 bg-primary/10 text-primary"
+                          ? "border-[#ffbf47]/30 bg-white/10 text-[#ffe2a6]"
+                          : "border-[#0f6fc2]/20 bg-[#0f6fc2]/10 text-[#0a4f96]"
                       }`}
                     >
                       {founder.role}
@@ -201,16 +201,18 @@ const FoundersPage = () => {
 
                     <div
                       className={`mt-6 rounded-2xl border p-4 ${
-                        index === 0 ? "border-white/15 bg-black/10" : "border-border/70 bg-white/70"
+                        index === 0
+                          ? "border-[#ffbf47]/20 bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(255,179,59,0.08))]"
+                          : "border-[#0f6fc2]/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(236,248,255,0.86),rgba(239,251,235,0.82))]"
                       }`}
                     >
-                      <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${index === 0 ? "text-white/70" : "text-muted-foreground"}`}>
+                      <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${index === 0 ? "text-[#ffe2a6]" : "text-[#0a4f96]"}`}>
                         Ayırt Edici Güçler
                       </div>
                       <div className="mt-3 grid gap-2">
                         {founder.strengths.map((strength) => (
                           <div key={strength} className="flex items-start gap-3">
-                            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${index === 0 ? "bg-white" : "bg-accent"}`} />
+                            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${index === 0 ? "bg-[#ffbf47]" : "bg-[#47b000]"}`} />
                             <p className={`text-sm leading-6 ${index === 0 ? "text-white/82" : "text-muted-foreground"}`}>{strength}</p>
                           </div>
                         ))}
@@ -224,8 +226,8 @@ const FoundersPage = () => {
                         key={section.title}
                         className={`rounded-[1.6rem] border p-5 ${
                           index === 0
-                            ? "border-white/15 bg-white/10"
-                            : "border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,245,242,0.88))]"
+                            ? "border-[#ffbf47]/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,191,71,0.08))]"
+                            : "border-[#0f6fc2]/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(245,251,236,0.86))]"
                         }`}
                       >
                         <h3 className={`text-lg font-bold ${index === 0 ? "text-white" : "text-foreground"}`}>{section.title}</h3>
