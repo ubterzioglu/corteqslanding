@@ -90,23 +90,17 @@ const FounderPortrait = ({
   src,
   alt,
   initials,
-  dark,
 }: {
   src?: string;
   alt: string;
   initials: string;
-  dark: boolean;
 }) => {
   const [hasError, setHasError] = useState(false);
 
   if (!src || hasError) {
     return (
       <div
-        className={`flex aspect-[4/5] w-full items-center justify-center rounded-[1.75rem] border text-3xl font-black tracking-[0.18em] ${
-          dark
-            ? "border-[#ffbf47]/25 bg-[linear-gradient(180deg,rgba(255,191,71,0.18),rgba(255,115,0,0.14),rgba(255,255,255,0.06))] text-white"
-            : "border-[#0f6fc2]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(229,244,255,0.95),rgba(237,250,232,0.92))] text-[#0a2f63]"
-        }`}
+        className="flex h-44 w-44 items-center justify-center rounded-full border border-[#0f6fc2]/15 bg-[radial-gradient(circle_at_30%_30%,rgba(255,191,71,0.28),rgba(15,111,194,0.10),rgba(255,255,255,0.96))] text-3xl font-black tracking-[0.18em] text-[#0a2f63] shadow-[0_20px_50px_rgba(15,111,194,0.20)]"
         aria-label={alt}
       >
         {initials}
@@ -118,7 +112,7 @@ const FounderPortrait = ({
     <img
       src={src}
       alt={alt}
-      className="aspect-[4/5] w-full rounded-[1.75rem] border border-[#ffbf47]/18 object-cover shadow-[0_24px_60px_rgba(15,23,42,0.18)]"
+      className="h-44 w-44 rounded-full border-4 border-white object-cover shadow-[0_18px_45px_rgba(10,79,150,0.24),0_0_0_10px_rgba(255,191,71,0.14)]"
       onError={() => setHasError(true)}
     />
   );
@@ -136,25 +130,25 @@ const FoundersPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#041634_0%,#0b2f63_24%,#0f7cc1_52%,#fff3db_76%,#fff9ef_100%)]">
+    <div className="min-h-screen bg-white">
       <main className="relative overflow-hidden">
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[36rem] opacity-90"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] opacity-90"
           aria-hidden="true"
           style={{
             background:
-              "radial-gradient(circle at 12% 12%, rgba(37,153,225,0.34), transparent 26%), radial-gradient(circle at 84% 10%, rgba(255,133,10,0.32), transparent 22%), radial-gradient(circle at 75% 82%, rgba(96,202,0,0.18), transparent 24%)",
+              "radial-gradient(circle at 12% 14%, rgba(37,153,225,0.18), transparent 24%), radial-gradient(circle at 84% 10%, rgba(255,133,10,0.16), transparent 20%), radial-gradient(circle at 72% 78%, rgba(96,202,0,0.12), transparent 22%)",
           }}
         />
         <div
-          className="pointer-events-none absolute left-1/2 top-28 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl"
+          className="pointer-events-none absolute left-1/2 top-16 h-64 w-64 -translate-x-1/2 rounded-full blur-3xl"
           aria-hidden="true"
-          style={{ background: "rgba(16, 128, 210, 0.22)" }}
+          style={{ background: "rgba(16, 128, 210, 0.12)" }}
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
           <section className="mb-8 flex justify-center">
-            <div className="rounded-[2rem] border border-[#ffbf47]/45 bg-[linear-gradient(145deg,rgba(3,19,47,0.92),rgba(9,48,98,0.92),rgba(16,123,194,0.88))] px-6 py-5 shadow-[0_24px_60px_rgba(2,10,26,0.35)] backdrop-blur">
+            <div className="rounded-[2rem] border border-[#0f6fc2]/10 bg-white px-6 py-5 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
               <img
                 src={foundersLogo}
                 alt="CorteQS kurucular logosu"
@@ -163,57 +157,40 @@ const FoundersPage = () => {
             </div>
           </section>
 
-          <section className="space-y-8">
+          <section className="grid gap-8 xl:grid-cols-2">
             {founderProfiles.map((founder, index) => (
               <article
                 key={founder.name}
-                className={`rounded-[2rem] border border-border/70 p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8 ${
-                  index === 0
-                    ? "border-[#ffb13b]/35 bg-[linear-gradient(165deg,rgba(3,19,47,0.98),rgba(9,47,99,0.96),rgba(255,115,0,0.84))] text-white"
-                    : "border-[#0f6fc2]/20 bg-[linear-gradient(180deg,rgba(255,250,240,0.98),rgba(240,248,255,0.96),rgba(238,250,233,0.94))] backdrop-blur"
-                }`}
+                className="rounded-[2rem] border border-[#0f6fc2]/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(245,250,255,0.96),rgba(249,252,244,0.94))] p-6 shadow-[0_24px_60px_rgba(15,23,42,0.07)] md:p-8"
               >
-                <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+                <div className="grid gap-8">
                   <div>
-                    <div className="mb-6">
+                    <div className="mb-6 flex justify-center">
                       <FounderPortrait
                         src={founder.imageSrc}
                         alt={founder.imageAlt}
                         initials={founder.fallbackInitials}
-                        dark={index === 0}
                       />
                     </div>
-                    <span
-                      className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] ${
-                        index === 0
-                          ? "border-[#ffbf47]/30 bg-white/10 text-[#ffe2a6]"
-                          : "border-[#0f6fc2]/20 bg-[#0f6fc2]/10 text-[#0a4f96]"
-                      }`}
-                    >
+                    <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
                       {founder.role}
                     </span>
-                    <h2 className={`mt-4 text-3xl font-black tracking-tight md:text-4xl ${index === 0 ? "text-white" : "text-foreground"}`}>
+                    <h2 className="mt-4 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
                       {founder.name}
                     </h2>
-                    <p className={`mt-4 text-base leading-8 ${index === 0 ? "text-white/82" : "text-muted-foreground"}`}>
+                    <p className="mt-4 text-base leading-8 text-slate-600">
                       {founder.summary}
                     </p>
 
-                    <div
-                      className={`mt-6 rounded-2xl border p-4 ${
-                        index === 0
-                          ? "border-[#ffbf47]/20 bg-[linear-gradient(180deg,rgba(0,0,0,0.12),rgba(255,179,59,0.08))]"
-                          : "border-[#0f6fc2]/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(236,248,255,0.86),rgba(239,251,235,0.82))]"
-                      }`}
-                    >
-                      <div className={`text-xs font-semibold uppercase tracking-[0.22em] ${index === 0 ? "text-[#ffe2a6]" : "text-[#0a4f96]"}`}>
+                    <div className="mt-6 rounded-2xl border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(236,248,255,0.86),rgba(239,251,235,0.82))] p-4">
+                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
                         Ayırt Edici Güçler
                       </div>
                       <div className="mt-3 grid gap-2">
                         {founder.strengths.map((strength) => (
                           <div key={strength} className="flex items-start gap-3">
-                            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${index === 0 ? "bg-[#ffbf47]" : "bg-[#47b000]"}`} />
-                            <p className={`text-sm leading-6 ${index === 0 ? "text-white/82" : "text-muted-foreground"}`}>{strength}</p>
+                            <span className={`mt-1 h-2.5 w-2.5 shrink-0 rounded-full ${index % 2 === 0 ? "bg-[#ff8a00]" : "bg-[#47b000]"}`} />
+                            <p className="text-sm leading-6 text-slate-600">{strength}</p>
                           </div>
                         ))}
                       </div>
@@ -224,14 +201,10 @@ const FoundersPage = () => {
                     {founder.sections.map((section) => (
                       <div
                         key={section.title}
-                        className={`rounded-[1.6rem] border p-5 ${
-                          index === 0
-                            ? "border-[#ffbf47]/20 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,191,71,0.08))]"
-                            : "border-[#0f6fc2]/14 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(245,251,236,0.86))]"
-                        }`}
+                        className="rounded-[1.6rem] border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(245,251,236,0.86))] p-5"
                       >
-                        <h3 className={`text-lg font-bold ${index === 0 ? "text-white" : "text-foreground"}`}>{section.title}</h3>
-                        <p className={`mt-3 text-sm leading-7 ${index === 0 ? "text-white/82" : "text-muted-foreground"}`}>
+                        <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
+                        <p className="mt-3 text-sm leading-7 text-slate-600">
                           {section.body}
                         </p>
                       </div>
