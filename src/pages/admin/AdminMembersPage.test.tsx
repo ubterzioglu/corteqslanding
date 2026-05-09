@@ -62,6 +62,10 @@ const mockRows: MockSubmission[] = Array.from({ length: 45 }, (_, index) => ({
   contact_email_reached: false,
 }));
 
+mockRows[0].phone = "+49 123 456 789";
+mockRows[1].phone = "0555 123 12";
+mockRows[2].phone = "";
+
 function applyFilters(data: MockSubmission[]) {
   return {
     ilike: () => applyFilters(data),
@@ -116,6 +120,24 @@ function renderPage(initialEntry = "/admin/members?page=1&pageSize=20") {
 }
 
 describe("AdminMembersPage", () => {
+  it("renders a WhatsApp link for valid phone numbers", async () => {
+    renderPage();
+
+    const phoneLink = await screen.findByRole("link", { name: "+49 123 456 789" });
+    expect(phoneLink).toHaveAttribute("href", "https://wa.me/49123456789");
+    expect(phoneLink).toHaveAttribute("target", "_blank");
+    expect(phoneLink).toHaveAttribute("rel", "noreferrer");
+  });
+
+  it("renders plain text for invalid or empty phone numbers", async () => {
+    renderPage();
+
+    await screen.findByText("0555 123 12");
+    expect(screen.queryByRole("link", { name: "0555 123 12" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "-" })).not.toBeInTheDocument();
+    expect(screen.getByText("-")).toBeInTheDocument();
+  });
+
   it("keeps the selected page when moving to the next page", async () => {
     renderPage();
 

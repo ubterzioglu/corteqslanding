@@ -26,6 +26,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { isValidWhatsappPhone, normalizePhone } from "@/lib/lansman";
 import {
   categoryOptions,
   getCategoryLabel,
@@ -40,7 +41,6 @@ import { normalizeTurkishText } from "@/lib/text-normalization";
 
 const DEFAULT_PAGE_SIZE = 20;
 const AI_CHAT_REFERRAL_SOURCE = "ai-chat";
-const WHATSAPP_REFERRAL_SOURCE = "whatsapp";
 
 type MemberSourceType = "form" | "chatbot" | "wa";
 type AdminMemberRow = Omit<Submission, "source_type"> & {
@@ -69,8 +69,14 @@ function getSubmissionSourceType(submission: Submission): MemberSourceType {
   return "form";
 }
 
-function isWhatsappReferralSource(source: string | null) {
-  return source === WHATSAPP_REFERRAL_SOURCE;
+function buildWhatsappHref(phone: string | null) {
+  const trimmedPhone = phone?.trim();
+  if (!trimmedPhone) return null;
+
+  const normalizedPhone = normalizePhone(trimmedPhone);
+  if (!isValidWhatsappPhone(normalizedPhone)) return null;
+
+  return `https://wa.me/${normalizedPhone.replace(/^\+/, "")}`;
 }
 
 function getSourceLabel(sourceType: MemberSourceType) {
@@ -588,19 +594,9 @@ const AdminMembersPage = () => {
       {
         accessorKey: "email",
         header: "E-posta",
-        cell: ({ row }) => {
-          if (editingRowId !== row.original.id || !rowDraft) {
-            return <span className="text-xs">{row.original.email}</span>;
-          }
-          return (
-            <Input
-              className="h-8 text-xs"
-              value={rowDraft.email}
-              onClick={(event) => event.stopPropagation()}
-              onChange={(event) => setRowDraft((current) => (current ? { ...current, email: event.target.value } : current))}
-            />
-          );
-        },
+        cell: ({ row }) => (
+          <span className="text-xs">{row.original.email}</span>
+        ),
       },
       {
         accessorKey: "referral_code",
@@ -608,15 +604,28 @@ const AdminMembersPage = () => {
         cell: ({ row }) => <span className="font-mono text-xs">{row.original.referral_code || "-"}</span>,
       },
       {
-        accessorKey: "referral_source",
-        header: "Referral Kaynağı",
-        cell: ({ row }) => (
-          isWhatsappReferralSource(row.original.referral_source) ? (
-            <Badge className={getSourceBadgeClass("wa")}>WhatsApp</Badge>
-          ) : (
-            <span className="text-xs">{getReferralSourceLabel(row.original.referral_source)}</span>
-          )
-        ),
+        accessorKey: "phone",
+        header: "Telefon",
+        cell: ({ row }) => {
+          const phone = row.original.phone?.trim() || "-";
+          const whatsappHref = buildWhatsappHref(row.original.phone);
+
+          if (!whatsappHref) {
+            return <span className="text-xs">{phone}</span>;
+          }
+
+          return (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs text-emerald-700 underline-offset-2 hover:underline"
+              onClick={(event) => event.stopPropagation()}
+            >
+              {phone}
+            </a>
+          );
+        },
       },
       {
         id: "actions",
