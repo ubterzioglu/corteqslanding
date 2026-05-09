@@ -29,6 +29,7 @@ describe("App founders routing", () => {
   it("renders the founders page on /founders", () => {
     render(<App />);
 
+    expect(screen.getByRole("heading", { name: "CorteQS Global Türk Diaspora Network" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Burak Akçakanat" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Umut Barış Terzioğlu" })).toBeInTheDocument();
     expect(screen.getAllByText("Profesyonel Arka Plan")).toHaveLength(2);
