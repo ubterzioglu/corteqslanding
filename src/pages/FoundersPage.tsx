@@ -178,7 +178,7 @@ const FoundersPage = () => {
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#0f6fc2]">
                       Founders
                     </p>
-                    <h1 className="mt-2 text-[1.65rem] font-black tracking-tight text-[#071c3f] md:text-[1.9rem] md:leading-none lg:text-[2.05rem]">
+                    <h1 className="mt-2 text-[1.4rem] font-black tracking-tight text-[#071c3f] md:text-[1.55rem] md:leading-none lg:text-[1.75rem] xl:text-[1.9rem]">
                       Diasporayı bağlantıdan ekosisteme taşıyan kurucu bakışı
                     </h1>
                     <p className="mt-3 text-sm leading-7 text-slate-600 md:text-[15px]">
