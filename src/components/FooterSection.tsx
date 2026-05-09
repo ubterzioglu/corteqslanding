@@ -1,8 +1,19 @@
 import { useState } from "react";
-import { Mail, Copy, Check, MessageCircle, Linkedin, Instagram, Twitter, Facebook } from "lucide-react";
+import { Mail, Copy, Check, MessageCircle, Linkedin, Instagram, Facebook, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import RegisterInterestForm from "./RegisterInterestForm";
+
+const XLogo = ({ className }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    className={className}
+    fill="currentColor"
+  >
+    <path d="M18.244 2H21.5l-7.11 8.127L22.75 22h-6.548l-5.13-6.703L5.21 22H1.95l7.604-8.69L1.5 2H8.21l4.636 6.116L18.244 2Zm-1.14 18.05h1.804L7.23 3.845H5.294L17.104 20.05Z" />
+  </svg>
+);
 
 const FooterSection = () => {
   const { toast } = useToast();
@@ -77,7 +88,7 @@ const FooterSection = () => {
 
             <div className="mt-8">
               <p className="text-sm text-white/70 mb-3">Bizi Sosyal Medyada Takip Edin</p>
-              <div className="mx-auto grid max-w-xl grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="mx-auto grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                 <a
                   href="https://www.linkedin.com/company/corteqs-global"
                   target="_blank"
@@ -115,8 +126,18 @@ const FooterSection = () => {
                   aria-label="CorteQS X"
                   className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-neutral-800"
                 >
-                  <Twitter className="w-5 h-5" />
+                  <XLogo className="w-5 h-5" />
                   X
+                </a>
+                <a
+                  href="https://t.me/corteqs"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="CorteQS Telegram"
+                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#229ED9] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#1b8fc5]"
+                >
+                  <Send className="w-5 h-5" />
+                  Telegram
                 </a>
               </div>
             </div>
