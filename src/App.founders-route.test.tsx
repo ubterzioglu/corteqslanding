@@ -32,6 +32,9 @@ describe("App founders routing", () => {
     expect(screen.getByRole("heading", { name: "Burak Akçakanat" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Umut Barış Terzioğlu" })).toBeInTheDocument();
     expect(screen.getAllByText("Profesyonel Arka Plan")).toHaveLength(2);
+    expect(screen.getByAltText("CorteQS kurucular logosu")).toBeInTheDocument();
+    expect(screen.getByAltText("Burak Akçakanat profil fotoğrafı")).toBeInTheDocument();
+    expect(screen.getByAltText("Umut Barış Terzioğlu profil fotoğrafı")).toBeInTheDocument();
     expect(screen.queryByText("Kurucu Tezi")).not.toBeInTheDocument();
     expect(screen.queryByText("Kurucu Perspektifi")).not.toBeInTheDocument();
   });

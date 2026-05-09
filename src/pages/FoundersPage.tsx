@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import foundersLogo from "../../foundersicinlogo.png";
+import ubtPhoto from "../../ubt.png";
 
 type FounderSection = {
   title: string;
@@ -12,6 +14,9 @@ type FounderProfile = {
   regions: string[];
   strengths: string[];
   sections: FounderSection[];
+  imageSrc?: string;
+  imageAlt: string;
+  fallbackInitials: string;
 };
 
 const founderProfiles: FounderProfile[] = [
@@ -27,6 +32,9 @@ const founderProfiles: FounderProfile[] = [
       "İnsan ve davranış bilimleri bakışı",
       "Kurumsal yönetim ve liderlik danışmanlığı",
     ],
+    imageSrc: "/burak.png",
+    imageAlt: "Burak Akçakanat profil fotoğrafı",
+    fallbackInitials: "BA",
     sections: [
       {
         title: "Profesyonel Arka Plan",
@@ -57,6 +65,9 @@ const founderProfiles: FounderProfile[] = [
       "Kurumsal sistem güvenilirliği",
       "Topluluk ihtiyacını teknik disiplinle birleştirme",
     ],
+    imageSrc: ubtPhoto,
+    imageAlt: "Umut Barış Terzioğlu profil fotoğrafı",
+    fallbackInitials: "UBT",
     sections: [
       {
         title: "Profesyonel Arka Plan",
@@ -76,6 +87,44 @@ const founderProfiles: FounderProfile[] = [
     ],
   },
 ];
+
+const FounderPortrait = ({
+  src,
+  alt,
+  initials,
+  dark,
+}: {
+  src?: string;
+  alt: string;
+  initials: string;
+  dark: boolean;
+}) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (!src || hasError) {
+    return (
+      <div
+        className={`flex aspect-[4/5] w-full items-center justify-center rounded-[1.75rem] border text-3xl font-black tracking-[0.18em] ${
+          dark
+            ? "border-white/15 bg-white/10 text-white"
+            : "border-primary/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(242,247,246,0.92))] text-primary"
+        }`}
+        aria-label={alt}
+      >
+        {initials}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className="aspect-[4/5] w-full rounded-[1.75rem] border border-white/10 object-cover shadow-[0_24px_60px_rgba(15,23,42,0.18)]"
+      onError={() => setHasError(true)}
+    />
+  );
+};
 
 const FoundersPage = () => {
   useEffect(() => {
@@ -106,6 +155,16 @@ const FoundersPage = () => {
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <section className="mb-8 flex justify-center">
+            <div className="rounded-[2rem] border border-white/70 bg-white/82 px-6 py-5 shadow-[0_24px_60px_rgba(15,23,42,0.05)] backdrop-blur">
+              <img
+                src={foundersLogo}
+                alt="CorteQS kurucular logosu"
+                className="h-16 w-auto object-contain md:h-20"
+              />
+            </div>
+          </section>
+
           <section className="space-y-8">
             {founderProfiles.map((founder, index) => (
               <article
@@ -118,6 +177,14 @@ const FoundersPage = () => {
               >
                 <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
                   <div>
+                    <div className="mb-6">
+                      <FounderPortrait
+                        src={founder.imageSrc}
+                        alt={founder.imageAlt}
+                        initials={founder.fallbackInitials}
+                        dark={index === 0}
+                      />
+                    </div>
                     <span
                       className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] ${
                         index === 0
