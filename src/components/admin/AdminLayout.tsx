@@ -5,7 +5,13 @@ import { Check, ChevronDown, Download, Layers3, Plus, Share2 } from "lucide-reac
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { externalAdminNavItems, primaryAdminNavItems } from "@/components/admin/admin-navigation";
+import {
+  adminPanelNavItems,
+  externalAdminNavItems,
+  otherActionNavItems,
+  otherRecordNavItems,
+  primaryAdminNavItems,
+} from "@/components/admin/admin-navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,44 +26,12 @@ import { advisorProfileSections } from "@/lib/resource-links";
 
 type AdminOutletContext = {
   session: Session;
+  onLogout: () => Promise<void>;
 };
 
 export function useAdminOutletContext() {
   return useOutletContext<AdminOutletContext>();
 }
-
-const otherActionNavItems = [
-  { to: "/admin/marquee", label: "Haber Bandı" },
-  { to: "/admin/social-media", label: "Sosyal Medya" },
-  { to: "/admin/about", label: "Güncellemeler" },
-];
-
-const otherRecordNavItems = [
-  { to: "/admin/lansman", label: "Lansman Katılım" },
-];
-
-const adminPanelNavItems = [
-  { key: "wiki", href: "https://dashboard.corteqs.net/", label: "WikiDash" },
-  {
-    key: "meetings-actions",
-    href: "https://dashboard.corteqs.net/toplantiozet",
-    label: "Toplantılar / Aksiyonlar",
-  },
-  {
-    key: "legacy-todo",
-    href: "https://dashboard.corteqs.net/todolist",
-    label: "TODO Listesi (Legacy)",
-  },
-  {
-    key: "legacy-meetings",
-    href: "https://dashboard.corteqs.net/toplantiozet",
-    label: "Toplantı Özetleri (Legacy)",
-  },
-  { key: "hr", href: "https://dashboard.corteqs.net/insankaynaklari", label: "IK Dökümanları" },
-  { key: "r-and-d", href: "https://dashboard.corteqs.net/arge", label: "ARGE Dökümanları" },
-  { key: "links", href: "https://dashboard.corteqs.net/links", label: "Dosyalar ve Linkler" },
-  { key: "dashboard-home", href: "https://dashboard.corteqs.net/", label: "Dashboard Anasayfa" },
-];
 
 const linkClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
@@ -454,7 +428,7 @@ const AdminLayout = () => {
             ))}
           </div>
         ) : null}
-        {session && <Outlet context={{ session }} />}
+        {session && <Outlet context={{ session, onLogout: handleLogout }} />}
       </main>
     </div>
   );
