@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import burakPhoto from "../../burak.png";
 import foundersLogo from "../../foundersicinlogo.png";
 import ubtPhoto from "../../ubt.png";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 type FounderSection = {
   title: string;
@@ -189,62 +190,72 @@ const FoundersPage = () => {
             </div>
           </section>
 
-          <section className="grid gap-8 xl:grid-cols-2">
-            {founderProfiles.map((founder, index) => (
-              <article
-                key={founder.name}
-                className={`rounded-[2rem] border p-6 shadow-[0_24px_60px_rgba(15,23,42,0.07)] md:p-8 ${founderCardClass}`}
-              >
-                <div className="grid gap-8">
-                  <div>
-                    <div className="mb-6 flex justify-center">
-                      <FounderPortrait
-                        src={founder.imageSrc}
-                        alt={founder.imageAlt}
-                        initials={founder.fallbackInitials}
-                      />
-                    </div>
-                    <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
-                      {founder.role}
-                    </span>
-                    <h2 className="mt-4 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
-                      {founder.name}
-                    </h2>
-                    <p className="mt-4 text-base leading-8 text-slate-600">
-                      {founder.summary}
-                    </p>
-
-                    <div className={`mt-6 rounded-2xl border p-4 ${strengthCardClass}`}>
-                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
-                        Ayırt Edici Güçler
+          <section>
+            <Accordion type="multiple" className="grid gap-8 xl:grid-cols-2">
+              {founderProfiles.map((founder) => (
+                <AccordionItem
+                  key={founder.name}
+                  value={founder.name}
+                  className={`overflow-hidden rounded-[2rem] border p-0 shadow-[0_24px_60px_rgba(15,23,42,0.07)] ${founderCardClass}`}
+                >
+                  <AccordionTrigger className="px-6 py-6 text-left hover:no-underline md:px-8 md:py-8">
+                    <div className="w-full">
+                      <div className="mb-6 flex justify-center">
+                        <FounderPortrait
+                          src={founder.imageSrc}
+                          alt={founder.imageAlt}
+                          initials={founder.fallbackInitials}
+                        />
                       </div>
-                      <div className="mt-3 grid gap-2">
-                        {founder.strengths.map((strength) => (
-                          <div key={strength} className="flex items-start gap-3">
-                            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#ff8a00]" />
-                            <p className="text-sm leading-6 text-slate-600">{strength}</p>
+                      <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
+                        {founder.role}
+                      </span>
+                      <h2 className="mt-4 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
+                        {founder.name}
+                      </h2>
+                    </div>
+                  </AccordionTrigger>
+
+                  <AccordionContent className="px-6 pb-6 pt-0 md:px-8 md:pb-8">
+                    <div className="grid gap-8">
+                      <div>
+                        <p className="text-base leading-8 text-slate-600">
+                          {founder.summary}
+                        </p>
+
+                        <div className={`mt-6 rounded-2xl border p-4 ${strengthCardClass}`}>
+                          <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
+                            Ayırt Edici Güçler
+                          </div>
+                          <div className="mt-3 grid gap-2">
+                            {founder.strengths.map((strength) => (
+                              <div key={strength} className="flex items-start gap-3">
+                                <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#ff8a00]" />
+                                <p className="text-sm leading-6 text-slate-600">{strength}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-4">
+                        {founder.sections.map((section) => (
+                          <div
+                            key={section.title}
+                            className={`rounded-[1.6rem] border p-5 ${sectionCardClass}`}
+                          >
+                            <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
+                            <p className="mt-3 text-sm leading-7 text-slate-600">
+                              {section.body}
+                            </p>
                           </div>
                         ))}
                       </div>
                     </div>
-                  </div>
-
-                  <div className="grid gap-4">
-                    {founder.sections.map((section) => (
-                      <div
-                        key={section.title}
-                        className={`rounded-[1.6rem] border p-5 ${sectionCardClass}`}
-                      >
-                        <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
-                        <p className="mt-3 text-sm leading-7 text-slate-600">
-                          {section.body}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </section>
         </div>
       </main>
