@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Outlet } from "react-router-dom";
 
@@ -32,12 +32,46 @@ describe("App founders routing", () => {
     expect(screen.getByRole("heading", { name: "CorteQS Global Türk Diaspora Network" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Burak Akçakanat" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Umut Barış Terzioğlu" })).toBeInTheDocument();
-    expect(screen.getAllByText("Profesyonel Arka Plan")).toHaveLength(2);
     expect(screen.getByAltText("CorteQS kurucular logosu")).toBeInTheDocument();
     expect(screen.getByAltText("Burak Akçakanat profil fotoğrafı")).toBeInTheDocument();
     expect(screen.getByAltText("Umut Barış Terzioğlu profil fotoğrafı")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Burak Akçakanat LinkedIn profili" })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/burakakcakanat/",
+    );
+    expect(screen.getByRole("link", { name: "Umut Barış Terzioğlu LinkedIn profili" })).toHaveAttribute(
+      "href",
+      "https://www.linkedin.com/in/ubterzioglu",
+    );
+    expect(screen.queryByText("Profesyonel Arka Plan")).not.toBeInTheDocument();
+    expect(screen.queryByText("Stratejik ve Yatırımcı Perspektifi")).not.toBeInTheDocument();
     expect(screen.queryByText("Coğrafi Bağlam")).not.toBeInTheDocument();
     expect(screen.queryByText("Kurucu Tezi")).not.toBeInTheDocument();
     expect(screen.queryByText("Kurucu Perspektifi")).not.toBeInTheDocument();
+
+    const burakAccordionButton = screen.getByRole("button", { name: /Kurucu Ortak Burak Akçakanat/i });
+    const umutAccordionButton = screen.getByRole("button", { name: /Kurucu Ortak Umut Barış Terzioğlu/i });
+
+    expect(burakAccordionButton).toHaveAttribute("data-state", "closed");
+    expect(umutAccordionButton).toHaveAttribute("data-state", "closed");
+
+    fireEvent.click(umutAccordionButton);
+
+    expect(umutAccordionButton).toHaveAttribute("data-state", "open");
+    expect(screen.getByText("Kalite güvencesini ürün güvenine dönüştüren sistem yaklaşımı")).toBeInTheDocument();
+    expect(screen.getByText("Test stratejisini operasyonel disiplinle birleştiren mühendislik refleksi")).toBeInTheDocument();
+    expect(screen.getByText("Süreç darboğazlarını görünür kılan ve sadeleştiren optimizasyon bakışı")).toBeInTheDocument();
+    expect(screen.getByText("Tekrarlayan işleri ölçeklenebilir otomasyona çevirme becerisi")).toBeInTheDocument();
+    expect(screen.getByText("Kurumsal yapılarda güvenilirlik, izlenebilirlik ve sürdürülebilirlik odağı")).toBeInTheDocument();
+    expect(screen.getByText("Teknik mimariyi topluluk ihtiyaçlarıyla hizalama yetkinliği")).toBeInTheDocument();
+    expect(screen.getByText("Büyüme sırasında kalite standardını koruyan sistem tasarım anlayışı")).toBeInTheDocument();
+    expect(screen.getByText("Dağınık bilgi ve insan akışını düzenli operasyonlara dönüştürme disiplini")).toBeInTheDocument();
+    expect(screen.getByText("Diaspora problemlerini ölçülebilir, uygulanabilir ürün mantığıyla ele alma yaklaşımı")).toBeInTheDocument();
+
+    fireEvent.click(burakAccordionButton);
+
+    expect(burakAccordionButton).toHaveAttribute("data-state", "open");
+    expect(screen.getByText("Uluslararası pazar geliştirme")).toBeInTheDocument();
+    expect(screen.getByText("Sürdürülebilir büyüme modelleri")).toBeInTheDocument();
   });
 });

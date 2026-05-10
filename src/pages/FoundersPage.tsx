@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Linkedin } from "lucide-react";
 import burakPhoto from "../../burak.png";
 import foundersLogo from "../../foundersicinlogo.png";
 import ubtPhoto from "../../ubt.png";
@@ -14,6 +15,7 @@ type FounderProfile = {
   role: string;
   summary: string;
   strengths: string[];
+  linkedinUrl: string;
   sections: FounderSection[];
   imageSrc?: string;
   imageAlt: string;
@@ -37,6 +39,7 @@ const founderProfiles: FounderProfile[] = [
       "Network yapılanmaları",
       "Sürdürülebilir büyüme modelleri",
     ],
+    linkedinUrl: "https://www.linkedin.com/in/burakakcakanat/",
     imageSrc: burakPhoto,
     imageAlt: "Burak Akçakanat profil fotoğrafı",
     fallbackInitials: "BA",
@@ -64,11 +67,17 @@ const founderProfiles: FounderProfile[] = [
     summary:
       "Mühendislik disiplini, kalite güvencesi, otomasyon, süreç optimizasyonu ve ölçeklenebilir sistemler odağından gelen kurucu ve operasyonel yapı tasarımcısı.",
     strengths: [
-      "Yazılım kalite güvencesi ve test yönetimi",
-      "Süreç optimizasyonu ve otomasyon",
-      "Kurumsal sistem güvenilirliği",
-      "Topluluk ihtiyacını teknik disiplinle birleştirme",
+      "Kalite güvencesini ürün güvenine dönüştüren sistem yaklaşımı",
+      "Test stratejisini operasyonel disiplinle birleştiren mühendislik refleksi",
+      "Süreç darboğazlarını görünür kılan ve sadeleştiren optimizasyon bakışı",
+      "Tekrarlayan işleri ölçeklenebilir otomasyona çevirme becerisi",
+      "Kurumsal yapılarda güvenilirlik, izlenebilirlik ve sürdürülebilirlik odağı",
+      "Teknik mimariyi topluluk ihtiyaçlarıyla hizalama yetkinliği",
+      "Büyüme sırasında kalite standardını koruyan sistem tasarım anlayışı",
+      "Dağınık bilgi ve insan akışını düzenli operasyonlara dönüştürme disiplini",
+      "Diaspora problemlerini ölçülebilir, uygulanabilir ürün mantığıyla ele alma yaklaşımı",
     ],
+    linkedinUrl: "https://www.linkedin.com/in/ubterzioglu",
     imageSrc: ubtPhoto,
     imageAlt: "Umut Barış Terzioğlu profil fotoğrafı",
     fallbackInitials: "UBT",
@@ -100,6 +109,9 @@ const strengthCardClass =
 
 const sectionCardClass =
   "border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(239,248,255,0.92),rgba(231,244,255,0.86))]";
+
+const linkedinButtonClass =
+  "group inline-flex items-center justify-center gap-2 rounded-full border border-[#0f6fc2]/20 bg-[linear-gradient(135deg,#f7fbff_0%,#e7f4ff_38%,#d7ecff_100%)] px-5 py-2.5 text-sm font-semibold text-[#0a4f96] shadow-[0_16px_36px_rgba(15,111,194,0.16),inset_0_1px_0_rgba(255,255,255,0.88)] transition duration-300 hover:-translate-y-0.5 hover:border-[#0f6fc2]/35 hover:bg-[linear-gradient(135deg,#ffffff_0%,#dff1ff_48%,#cde7ff_100%)] hover:text-[#083d75] hover:shadow-[0_20px_42px_rgba(15,111,194,0.22),0_0_0_6px_rgba(15,111,194,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f6fc2]/35 focus-visible:ring-offset-2";
 
 const FounderPortrait = ({
   src,
@@ -191,22 +203,36 @@ const FoundersPage = () => {
           </section>
 
           <section>
-            <Accordion type="multiple" className="grid gap-8 xl:grid-cols-2">
+            <Accordion type="multiple" defaultValue={[]} className="grid gap-8 xl:grid-cols-2">
               {founderProfiles.map((founder) => (
                 <AccordionItem
                   key={founder.name}
                   value={founder.name}
                   className={`overflow-hidden rounded-[2rem] border p-0 shadow-[0_24px_60px_rgba(15,23,42,0.07)] ${founderCardClass}`}
                 >
-                  <AccordionTrigger className="px-6 py-6 text-left hover:no-underline md:px-8 md:py-8">
-                    <div className="w-full">
-                      <div className="mb-6 flex justify-center">
+                  <div className="px-6 pt-6 md:px-8 md:pt-8">
+                    <div className="mb-6 flex justify-center">
+                      <div className="flex flex-col items-center gap-4">
                         <FounderPortrait
                           src={founder.imageSrc}
                           alt={founder.imageAlt}
                           initials={founder.fallbackInitials}
                         />
+                        <a
+                          href={founder.linkedinUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={`${founder.name} LinkedIn profili`}
+                          className={linkedinButtonClass}
+                        >
+                          <Linkedin className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                          LinkedIn
+                        </a>
                       </div>
+                    </div>
+                  </div>
+                  <AccordionTrigger className="px-6 pb-6 pt-0 text-left hover:no-underline md:px-8 md:pb-8">
+                    <div className="w-full">
                       <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
                         {founder.role}
                       </span>
