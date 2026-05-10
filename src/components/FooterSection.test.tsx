@@ -14,6 +14,16 @@ vi.mock("@/components/RegisterInterestForm", () => ({
   default: () => null,
 }));
 
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    from: () => ({
+      select: () => ({
+        order: () => new Promise(() => {}),
+      }),
+    }),
+  },
+}));
+
 describe("FooterSection", () => {
   it("does not expose a visible founders link", () => {
     const { container } = render(

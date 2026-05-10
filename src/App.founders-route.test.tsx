@@ -58,15 +58,15 @@ describe("App founders routing", () => {
     fireEvent.click(umutAccordionButton);
 
     expect(umutAccordionButton).toHaveAttribute("data-state", "open");
-    expect(screen.getByText("Kalite güvencesini ürün güvenine dönüştüren sistem yaklaşımı")).toBeInTheDocument();
-    expect(screen.getByText("Test stratejisini operasyonel disiplinle birleştiren mühendislik refleksi")).toBeInTheDocument();
-    expect(screen.getByText("Süreç darboğazlarını görünür kılan ve sadeleştiren optimizasyon bakışı")).toBeInTheDocument();
-    expect(screen.getByText("Tekrarlayan işleri ölçeklenebilir otomasyona çevirme becerisi")).toBeInTheDocument();
-    expect(screen.getByText("Kurumsal yapılarda güvenilirlik, izlenebilirlik ve sürdürülebilirlik odağı")).toBeInTheDocument();
-    expect(screen.getByText("Teknik mimariyi topluluk ihtiyaçlarıyla hizalama yetkinliği")).toBeInTheDocument();
-    expect(screen.getByText("Büyüme sırasında kalite standardını koruyan sistem tasarım anlayışı")).toBeInTheDocument();
-    expect(screen.getByText("Dağınık bilgi ve insan akışını düzenli operasyonlara dönüştürme disiplini")).toBeInTheDocument();
-    expect(screen.getByText("Diaspora problemlerini ölçülebilir, uygulanabilir ürün mantığıyla ele alma yaklaşımı")).toBeInTheDocument();
+    expect(screen.getByText("Ürün güveni odaklı kalite yaklaşımı")).toBeInTheDocument();
+    expect(screen.getByText("Disiplinli test stratejisi")).toBeInTheDocument();
+    expect(screen.getByText("Süreç optimizasyonu bakışı")).toBeInTheDocument();
+    expect(screen.getByText("Ölçeklenebilir otomasyon becerisi")).toBeInTheDocument();
+    expect(screen.getByText("Kurumsal güvenilirlik odağı")).toBeInTheDocument();
+    expect(screen.getByText("Topluluk uyumlu teknik mimari")).toBeInTheDocument();
+    expect(screen.getByText("Kaliteyi koruyan sistem tasarımı")).toBeInTheDocument();
+    expect(screen.getByText("Operasyonel düzen kurma disiplini")).toBeInTheDocument();
+    expect(screen.getByText("Diaspora ihtiyaçlarına ürün yaklaşımı")).toBeInTheDocument();
 
     fireEvent.click(burakAccordionButton);
 

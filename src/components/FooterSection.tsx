@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { Mail, Copy, Check, MessageCircle, Linkedin, Instagram, Facebook, Send } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Mail, Copy, Check, MessageCircle, Linkedin, Instagram, Facebook, Send, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 import RegisterInterestForm from "./RegisterInterestForm";
 
 const XLogo = ({ className }: { className?: string }) => (
@@ -15,11 +17,63 @@ const XLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
+type SocialPlatform = Database["public"]["Tables"]["social_media_links"]["Row"]["platform"];
+
+type SocialCircleItem = {
+  key: string;
+  label: string;
+  href: string | null;
+  accentClassName: string;
+  icon: (className: string) => JSX.Element;
+  onClick?: () => void;
+};
+
+const SOCIAL_FALLBACKS: Partial<Record<SocialPlatform, string>> = {
+  LinkedIn: "https://www.linkedin.com/company/corteqs-global/",
+  Facebook: "https://www.facebook.com/corteqs",
+  Instagram: "https://www.instagram.com/corteqssocial/",
+  "Twitter (X)": "https://x.com/corteqsx",
+};
+
+const socialCircleBaseClass =
+  "group relative flex h-[4.35rem] w-[4.35rem] items-center justify-center rounded-full border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] text-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_35px_rgba(0,0,0,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[#18231f]";
+
+const socialCircleInnerClass =
+  "pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/10 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),rgba(255,255,255,0.015)_52%,rgba(255,255,255,0)_100%)]";
+
 const FooterSection = () => {
   const { toast } = useToast();
   const [formOpen, setFormOpen] = useState(false);
   const [supportFormOpen, setSupportFormOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [socialLinks, setSocialLinks] = useState<Partial<Record<SocialPlatform, string>>>({});
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadSocialLinks = async () => {
+      const { data, error } = await supabase
+        .from("social_media_links")
+        .select("platform, link")
+        .order("created_at", { ascending: false });
+
+      if (error || !isMounted || !data) return;
+
+      const nextLinks: Partial<Record<SocialPlatform, string>> = {};
+      for (const row of data) {
+        if (!row.link || nextLinks[row.platform]) continue;
+        nextLinks[row.platform] = row.link;
+      }
+
+      setSocialLinks(nextLinks);
+    };
+
+    void loadSocialLinks();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText("info@corteqs.net");
@@ -27,6 +81,66 @@ const FooterSection = () => {
     toast({ title: "Kopyalandı!", description: "E-posta adresi panoya kopyalandı." });
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const socialCircleItems: SocialCircleItem[] = [
+    {
+      key: "linkedin",
+      label: "CorteQS LinkedIn",
+      href: socialLinks.LinkedIn || SOCIAL_FALLBACKS.LinkedIn || null,
+      accentClassName: "text-[#58adff] group-hover:text-[#7bc0ff] group-hover:shadow-[0_0_22px_rgba(88,173,255,0.35)]",
+      icon: (className) => <Linkedin className={className} />,
+    },
+    {
+      key: "facebook",
+      label: "CorteQS Facebook",
+      href: socialLinks.Facebook || SOCIAL_FALLBACKS.Facebook || null,
+      accentClassName: "text-[#5b8dff] group-hover:text-[#78a3ff] group-hover:shadow-[0_0_22px_rgba(91,141,255,0.35)]",
+      icon: (className) => <Facebook className={className} />,
+    },
+    {
+      key: "instagram",
+      label: "CorteQS Instagram",
+      href: socialLinks.Instagram || SOCIAL_FALLBACKS.Instagram || null,
+      accentClassName: "text-[#ff69bd] group-hover:text-[#ff8fd0] group-hover:shadow-[0_0_22px_rgba(255,105,189,0.35)]",
+      icon: (className) => <Instagram className={className} />,
+    },
+    {
+      key: "x",
+      label: "CorteQS X",
+      href: socialLinks["Twitter (X)"] || SOCIAL_FALLBACKS["Twitter (X)"] || null,
+      accentClassName: "text-white/80 group-hover:text-white group-hover:shadow-[0_0_22px_rgba(255,255,255,0.18)]",
+      icon: (className) => <XLogo className={className} />,
+    },
+    {
+      key: "support",
+      label: "CorteQS Destek",
+      href: null,
+      onClick: () => setSupportFormOpen(true),
+      accentClassName: "text-[#ff9f43] group-hover:text-[#ffb768] group-hover:shadow-[0_0_22px_rgba(255,159,67,0.35)]",
+      icon: (className) => <MessageCircle className={className} />,
+    },
+    {
+      key: "youtube",
+      label: "CorteQS YouTube",
+      href: socialLinks.YouTube || null,
+      accentClassName: "text-[#ff6a68] group-hover:text-[#ff8f8d] group-hover:shadow-[0_0_22px_rgba(255,106,104,0.35)]",
+      icon: (className) => <Youtube className={className} />,
+    },
+    {
+      key: "telegram",
+      label: "CorteQS Telegram",
+      href: "https://t.me/corteqs",
+      accentClassName: "text-[#30b9ff] group-hover:text-[#67cdff] group-hover:shadow-[0_0_22px_rgba(48,185,255,0.35)]",
+      icon: (className) => <Send className={className} />,
+    },
+    {
+      key: "whatsapp",
+      label: "CorteQS WhatsApp",
+      href: "https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD",
+      accentClassName: "text-[#4df28f] group-hover:text-[#79f5a8] group-hover:shadow-[0_0_22px_rgba(77,242,143,0.35)]",
+      icon: (className) => <MessageCircle className={className} />,
+    },
+  ];
 
   return (
     <footer className="relative overflow-hidden py-16 lg:py-20">
@@ -88,57 +202,40 @@ const FooterSection = () => {
 
             <div className="mt-8">
               <p className="text-sm text-white/70 mb-3">Bizi Sosyal Medyada Takip Edin</p>
-              <div className="mx-auto grid max-w-2xl grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-                <a
-                  href="https://www.linkedin.com/company/corteqs-global"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CorteQS LinkedIn"
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#0A66C2] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#0a5cb0]"
-                >
-                  <Linkedin className="w-5 h-5" />
-                  LinkedIn
-                </a>
-                <a
-                  href="https://www.facebook.com/corteqs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CorteQS Facebook"
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1877F2] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#166fe5]"
-                >
-                  <Facebook className="w-5 h-5" />
-                  Facebook
-                </a>
-                <a
-                  href="https://www.instagram.com/corteqsturk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CorteQS Instagram"
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-tr from-[#feda75] via-[#d62976] to-[#4f5bd5] px-4 py-3 font-semibold text-white shadow-md transition-all hover:opacity-90"
-                >
-                  <Instagram className="w-5 h-5" />
-                  Instagram
-                </a>
-                <a
-                  href="https://x.com/turksdiaspora"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CorteQS X"
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-neutral-800"
-                >
-                  <XLogo className="w-5 h-5" />
-                  X
-                </a>
-                <a
-                  href="https://t.me/corteqs"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="CorteQS Telegram"
-                  className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#229ED9] px-4 py-3 font-semibold text-white shadow-md transition-all hover:bg-[#1b8fc5]"
-                >
-                  <Send className="w-5 h-5" />
-                  Telegram
-                </a>
+              <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-3 rounded-[2rem] border border-white/10 bg-[linear-gradient(90deg,rgba(18,44,37,0.58),rgba(38,42,29,0.48),rgba(44,40,24,0.56))] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_28px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl sm:gap-4 sm:px-6">
+                {socialCircleItems.map((item) => {
+                  const icon = item.icon(`h-7 w-7 ${item.accentClassName}`);
+
+                  if (!item.href) {
+                    return (
+                      <button
+                        key={item.key}
+                        type="button"
+                        aria-label={item.label}
+                        aria-disabled={!item.onClick}
+                        onClick={item.onClick}
+                        className={`${socialCircleBaseClass} ${!item.onClick ? "cursor-default opacity-50 hover:translate-y-0 hover:border-white/12 hover:text-white/75" : ""}`}
+                      >
+                        <span className={socialCircleInnerClass} aria-hidden />
+                        <span className="relative z-10">{icon}</span>
+                      </button>
+                    );
+                  }
+
+                  return (
+                    <a
+                      key={item.key}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={item.label}
+                      className={socialCircleBaseClass}
+                    >
+                      <span className={socialCircleInnerClass} aria-hidden />
+                      <span className="relative z-10">{icon}</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
