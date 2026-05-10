@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildSubmissionSearchText,
+  formatBytes,
   getCategoryLabel,
   getFormTypeLabel,
+  getSubmissionDocuments,
+  getSubmissionDocumentsBucketLevel,
   getStatusLabel,
   type UploadedDocument,
   toSubmissionInsert,
@@ -132,5 +135,33 @@ describe("submission helpers", () => {
     if (!invalid.ok) {
       expect(invalid.message).toContain("desteklenmeyen format");
     }
+  });
+
+  it("parses documents and falls back to legacy single-document fields", () => {
+    expect(
+      getSubmissionDocuments({
+        documents: [{ url: "https://example.com/cv.pdf", name: "cv.pdf", sizeBytes: 2048 }],
+        document_url: null,
+        document_name: null,
+      }),
+    ).toEqual([{ url: "https://example.com/cv.pdf", name: "cv.pdf", sizeBytes: 2048, contentType: null }]);
+
+    expect(
+      getSubmissionDocuments({
+        documents: [],
+        document_url: "https://example.com/legacy.pdf",
+        document_name: "legacy.pdf",
+      }),
+    ).toEqual([{ url: "https://example.com/legacy.pdf", name: "legacy.pdf", sizeBytes: null, contentType: null }]);
+  });
+
+  it("classifies bucket usage thresholds and formats sizes", () => {
+    expect(getSubmissionDocumentsBucketLevel(0.2)).toBe("normal");
+    expect(getSubmissionDocumentsBucketLevel(0.7)).toBe("info");
+    expect(getSubmissionDocumentsBucketLevel(0.85)).toBe("warning");
+    expect(getSubmissionDocumentsBucketLevel(0.95)).toBe("critical");
+    expect(formatBytes(0)).toBe("0 B");
+    expect(formatBytes(1024)).toBe("1 KB");
+    expect(formatBytes(1536)).toBe("1.5 KB");
   });
 });

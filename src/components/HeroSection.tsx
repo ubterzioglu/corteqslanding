@@ -179,12 +179,12 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative hidden lg:flex lg:h-full lg:items-stretch" aria-hidden>
-            <div className="flex h-full w-full items-center justify-center rounded-[2rem]">
+          <div className="relative hidden lg:flex lg:min-h-[30rem] lg:items-start lg:justify-center" aria-hidden>
+            <div className="flex h-full w-full items-start justify-center rounded-[2rem] pt-2 xl:pt-0">
               <img
                 src={heroLandmarks}
                 alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
-                className="h-full w-full object-contain [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)]"
+                className="h-auto max-h-[28rem] w-full object-contain object-top [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_58%,transparent_94%)]"
                 width={1480}
                 height={860}
               />

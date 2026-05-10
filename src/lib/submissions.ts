@@ -8,7 +8,17 @@ export type SubmissionFormMode = "register" | "support" | "backer";
 export type UploadedDocument = {
   url: string;
   name: string;
+  sizeBytes?: number | null;
+  contentType?: string | null;
 };
+export type SubmissionDocumentsBucketStats = {
+  bucketId: string;
+  fileCount: number;
+  totalBytes: number;
+  fileSizeLimit: number;
+  usageRatio: number;
+};
+export type SubmissionDocumentsBucketLevel = "normal" | "info" | "warning" | "critical";
 export type ReferralValidationStatus = "missing" | "not_found" | "inactive" | "expired" | "out_of_window" | "valid";
 
 export const allowedSubmissionDocumentTypes = [
@@ -191,6 +201,56 @@ export function validateSubmissionDocuments(files: File[], currentFiles: File[] 
   return { ok: true as const, files: merged };
 }
 
+function parseUploadedDocument(input: unknown): UploadedDocument | null {
+  if (!input || typeof input !== "object") return null;
+
+  const url = "url" in input && typeof input.url === "string" ? input.url : "";
+  const name = "name" in input && typeof input.name === "string" ? input.name : "";
+  const sizeBytes =
+    "sizeBytes" in input && typeof input.sizeBytes === "number" && Number.isFinite(input.sizeBytes)
+      ? input.sizeBytes
+      : null;
+  const contentType =
+    "contentType" in input && typeof input.contentType === "string" ? input.contentType : null;
+
+  if (!url || !name) return null;
+
+  return { url, name, sizeBytes, contentType };
+}
+
+export function getSubmissionDocuments(
+  submission: Pick<Submission, "documents" | "document_url" | "document_name">,
+): UploadedDocument[] {
+  const documents = Array.isArray(submission.documents)
+    ? submission.documents.map(parseUploadedDocument).filter((document): document is UploadedDocument => Boolean(document))
+    : [];
+
+  if (documents.length > 0) return documents;
+
+  if (submission.document_url && submission.document_name) {
+    return [{ url: submission.document_url, name: submission.document_name, sizeBytes: null, contentType: null }];
+  }
+
+  return [];
+}
+
+export function formatBytes(bytes: number) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const value = bytes / 1024 ** exponent;
+  const digits = value >= 10 || exponent === 0 || Number.isInteger(value) ? 0 : 1;
+  return `${value.toFixed(digits)} ${units[exponent]}`;
+}
+
+export function getSubmissionDocumentsBucketLevel(usageRatio: number): SubmissionDocumentsBucketLevel {
+  if (usageRatio >= 0.95) return "critical";
+  if (usageRatio >= 0.85) return "warning";
+  if (usageRatio >= 0.7) return "info";
+  return "normal";
+}
+
 export async function uploadSubmissionDocuments(files: File[]): Promise<UploadedDocument[]> {
   if (!files.length) return [];
 
@@ -207,10 +267,41 @@ export async function uploadSubmissionDocuments(files: File[]): Promise<Uploaded
     if (error) throw error;
 
     const { data } = supabase.storage.from("submission-documents").getPublicUrl(path);
-    uploadedDocs.push({ url: data.publicUrl, name: file.name });
+    uploadedDocs.push({
+      url: data.publicUrl,
+      name: file.name,
+      sizeBytes: file.size,
+      contentType: file.type || null,
+    });
   }
 
   return uploadedDocs;
+}
+
+export async function getSubmissionDocumentsBucketStats(): Promise<SubmissionDocumentsBucketStats> {
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data, error } = await supabase.rpc("get_submission_documents_bucket_stats");
+
+  if (error) throw error;
+
+  const row = Array.isArray(data) ? data[0] : null;
+  if (!row) {
+    return {
+      bucketId: "submission-documents",
+      fileCount: 0,
+      totalBytes: 0,
+      fileSizeLimit: 0,
+      usageRatio: 0,
+    };
+  }
+
+  return {
+    bucketId: row.bucket_id ?? "submission-documents",
+    fileCount: Number(row.file_count ?? 0),
+    totalBytes: Number(row.total_bytes ?? 0),
+    fileSizeLimit: Number(row.file_size_limit ?? 0),
+    usageRatio: Number(row.usage_ratio ?? 0),
+  };
 }
 
 export function toSubmissionInsert(

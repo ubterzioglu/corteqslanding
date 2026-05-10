@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import AdminMembersPage from "@/pages/admin/AdminMembersPage";
 
@@ -24,7 +24,7 @@ type MockSubmission = {
   field: string;
   offers_needs: string;
   form_type: "advisor" | "investor" | "talent" | "business";
-  category: "diaspora" | "startup" | "student" | "other";
+  category: "danisman" | "startup" | "student" | "other";
   status: "new" | "contacted" | "archived";
   referral_source: string | null;
   referral_code: string | null;
@@ -35,36 +35,49 @@ type MockSubmission = {
   contact_whatsapp_reached: boolean;
   contact_instagram_reached: boolean;
   contact_email_reached: boolean;
+  document_url: string | null;
+  document_name: string | null;
+  documents: Array<{ url: string; name: string; sizeBytes?: number; contentType?: string }>;
 };
 
-const mockRows: MockSubmission[] = Array.from({ length: 45 }, (_, index) => ({
-  id: `member-${index + 1}`,
-  created_at: new Date(Date.UTC(2026, 4, 1, 12, 0, index)).toISOString(),
-  updated_at: new Date(Date.UTC(2026, 4, 1, 12, 0, index)).toISOString(),
-  fullname: `Member ${index + 1}`,
-  email: `member${index + 1}@corteqs.test`,
-  phone: "+49123456789",
-  country: "Germany",
-  city: "Berlin",
-  field: "AI",
-  offers_needs: "Support",
-  form_type: "advisor",
-  category: "diaspora",
-  status: "new",
-  referral_source: null,
-  referral_code: null,
-  whatsapp_interest: false,
-  contest_interest: false,
-  source_type: "form",
-  contact_phone_reached: false,
-  contact_whatsapp_reached: false,
-  contact_instagram_reached: false,
-  contact_email_reached: false,
-}));
+const createMockRows = (): MockSubmission[] =>
+  Array.from({ length: 45 }, (_, index) => ({
+    id: `member-${index + 1}`,
+    created_at: new Date(Date.UTC(2026, 4, 1, 12, 0, index)).toISOString(),
+    updated_at: new Date(Date.UTC(2026, 4, 1, 12, 0, index)).toISOString(),
+    fullname: `Member ${index + 1}`,
+    email: `member${index + 1}@corteqs.test`,
+    phone: "+49123456789",
+    country: "Germany",
+    city: "Berlin",
+    field: "AI",
+    offers_needs: "Support",
+    form_type: "advisor",
+    category: "other",
+    status: "new",
+    referral_source: null,
+    referral_code: null,
+    whatsapp_interest: false,
+    contest_interest: false,
+    source_type: "form",
+    contact_phone_reached: false,
+    contact_whatsapp_reached: false,
+    contact_instagram_reached: false,
+    contact_email_reached: false,
+    document_url: null,
+    document_name: null,
+    documents: [],
+  }));
 
-mockRows[0].phone = "+49 123 456 789";
-mockRows[1].phone = "0555 123 12";
-mockRows[2].phone = "";
+let mockRows: MockSubmission[] = [];
+let mockBucketStats = {
+  bucket_id: "submission-documents",
+  file_count: 12,
+  total_bytes: 8_912_896,
+  file_size_limit: 10_485_760,
+  usage_ratio: 0.85,
+};
+let mockBucketStatsError: Error | null = null;
 
 function applyFilters(data: MockSubmission[]) {
   return {
@@ -106,6 +119,17 @@ vi.mock("@/integrations/supabase/client", () => ({
         },
       };
     },
+    rpc: (fn: string) => {
+      if (fn !== "get_submission_documents_bucket_stats") {
+        throw new Error(`Unexpected rpc ${fn}`);
+      }
+
+      if (mockBucketStatsError) {
+        return Promise.resolve({ data: null, error: mockBucketStatsError });
+      }
+
+      return Promise.resolve({ data: [mockBucketStats], error: null });
+    },
   },
 }));
 
@@ -118,6 +142,39 @@ function renderPage(initialEntry = "/admin/members?page=1&pageSize=20") {
     </MemoryRouter>,
   );
 }
+
+beforeEach(() => {
+  toast.mockReset();
+  mockRows = createMockRows();
+  mockRows[0].phone = "+49 123 456 789";
+  mockRows[0].documents = [
+    {
+      url: "https://example.com/member-1-cv.pdf",
+      name: "member-1-cv.pdf",
+      sizeBytes: 2_048,
+      contentType: "application/pdf",
+    },
+    {
+      url: "https://example.com/member-1-portfolio.pdf",
+      name: "member-1-portfolio.pdf",
+      sizeBytes: 4_096,
+      contentType: "application/pdf",
+    },
+  ];
+  mockRows[1].phone = "0555 123 12";
+  mockRows[1].document_url = "https://example.com/legacy-doc.pdf";
+  mockRows[1].document_name = "legacy-doc.pdf";
+  mockRows[2].phone = "";
+  mockRows[2].documents = [];
+  mockBucketStats = {
+    bucket_id: "submission-documents",
+    file_count: 12,
+    total_bytes: 8_912_896,
+    file_size_limit: 10_485_760,
+    usage_ratio: 0.85,
+  };
+  mockBucketStatsError = null;
+});
 
 describe("AdminMembersPage", () => {
   it("renders a WhatsApp link for valid phone numbers", async () => {
@@ -152,5 +209,57 @@ describe("AdminMembersPage", () => {
     });
 
     expect(screen.getByRole("button", { name: "Önceki" })).toBeEnabled();
+  });
+
+  it("shows uploaded documents for the selected submission", async () => {
+    renderPage();
+
+    expect(await screen.findByText("Yüklenen Dokümanlar")).toBeInTheDocument();
+    expect(screen.getByText("member-1-cv.pdf")).toBeInTheDocument();
+    expect(screen.getByText("member-1-portfolio.pdf")).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Aç" })[0]).toHaveAttribute("href", "https://example.com/member-1-cv.pdf");
+  });
+
+  it("falls back to legacy single-document fields when documents json is empty", async () => {
+    mockRows[0].documents = [];
+    mockRows[0].document_url = "https://example.com/legacy-doc.pdf";
+    mockRows[0].document_name = "legacy-doc.pdf";
+
+    renderPage();
+
+    expect(await screen.findByText("legacy-doc.pdf")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Aç" })).toHaveAttribute("href", "https://example.com/legacy-doc.pdf");
+  });
+
+  it("shows bucket usage summary with warning status when usage is near the limit", async () => {
+    renderPage();
+
+    const summary = await screen.findByTestId("documents-bucket-summary");
+    expect(summary).toHaveTextContent("Yüklenen Doküman Kapasitesi");
+    expect(summary).toHaveTextContent("Uyarı");
+    expect(summary).toHaveTextContent("8.5 MB");
+    expect(summary).toHaveTextContent("10 MB");
+    expect(summary).toHaveTextContent("%85");
+    expect(summary).toHaveTextContent("12");
+  });
+
+  it("shows a critical status when usage crosses the critical threshold", async () => {
+    mockBucketStats = {
+      ...mockBucketStats,
+      total_bytes: 9_961_472,
+      usage_ratio: 0.95,
+    };
+
+    renderPage();
+
+    expect(await screen.findByText("Kritik")).toBeInTheDocument();
+    expect(screen.getByText("%95")).toBeInTheDocument();
+  });
+
+  it("shows a fallback message when bucket stats cannot be fetched", async () => {
+    mockBucketStatsError = new Error("rpc failed");
+    renderPage();
+
+    expect(await screen.findByText("Doküman kapasite özeti şu anda alınamıyor.")).toBeInTheDocument();
   });
 });

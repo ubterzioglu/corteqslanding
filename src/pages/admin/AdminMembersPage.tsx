@@ -6,7 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Check, Instagram, Mail, MessageCircle, Pencil, Phone, Trash2, X } from "lucide-react";
+import { Check, ExternalLink, Instagram, Mail, MessageCircle, Pencil, Phone, RefreshCcw, Trash2, X } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,12 +29,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { isValidWhatsappPhone, normalizePhone } from "@/lib/lansman";
 import {
   categoryOptions,
+  formatBytes,
   getCategoryLabel,
+  getSubmissionDocuments,
+  getSubmissionDocumentsBucketLevel,
+  getSubmissionDocumentsBucketStats,
   getFormTypeLabel,
   getReferralSourceLabel,
   getStatusLabel,
   referralSourceOptions,
   type Submission,
+  type SubmissionDocumentsBucketStats,
   type SubmissionStatus,
 } from "@/lib/submissions";
 import { normalizeTurkishText } from "@/lib/text-normalization";
@@ -141,6 +146,20 @@ const contactChannelOptions: Array<{
   { key: "contact_email_reached", label: "Mail", Icon: Mail },
 ];
 
+const documentsBucketLevelStyles = {
+  normal: "border-slate-200 bg-slate-50 text-slate-700 dark:border-slate-800 dark:bg-slate-950/40 dark:text-slate-200",
+  info: "border-sky-200 bg-sky-50 text-sky-700 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-200",
+  warning: "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200",
+  critical: "border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-200",
+} as const;
+
+const documentsBucketLevelLabels = {
+  normal: "Normal",
+  info: "Yaklaşıyor",
+  warning: "Uyarı",
+  critical: "Kritik",
+} as const;
+
 const AdminMembersPage = () => {
   const { toast } = useToast();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -160,6 +179,9 @@ const AdminMembersPage = () => {
   const [rowDraft, setRowDraft] = useState<RowDraft | null>(null);
   const [isDetailEditing, setIsDetailEditing] = useState(false);
   const [detailDraft, setDetailDraft] = useState<DetailDraft | null>(null);
+  const [documentsBucketStats, setDocumentsBucketStats] = useState<SubmissionDocumentsBucketStats | null>(null);
+  const [documentsBucketLoading, setDocumentsBucketLoading] = useState(true);
+  const [documentsBucketError, setDocumentsBucketError] = useState("");
 
   const [createOpen, setCreateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
@@ -263,9 +285,32 @@ const AdminMembersPage = () => {
     setMemberCountsLoading(false);
   }, []);
 
+  const fetchDocumentsBucketStats = useCallback(async () => {
+    setDocumentsBucketLoading(true);
+    try {
+      const nextStats = await getSubmissionDocumentsBucketStats();
+      setDocumentsBucketStats(nextStats);
+      setDocumentsBucketError("");
+    } catch (error) {
+      console.error(error);
+      setDocumentsBucketError("Doküman kapasite özeti şu anda alınamıyor.");
+    } finally {
+      setDocumentsBucketLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     void fetchMemberCounts();
   }, [fetchMemberCounts]);
+
+  useEffect(() => {
+    void fetchDocumentsBucketStats();
+    const intervalId = window.setInterval(() => {
+      void fetchDocumentsBucketStats();
+    }, 60_000);
+
+    return () => window.clearInterval(intervalId);
+  }, [fetchDocumentsBucketStats]);
 
   useEffect(() => {
     let cancelled = false;
@@ -837,6 +882,9 @@ const AdminMembersPage = () => {
     : false;
   const selectedIsAdvisor = selectedSubmission?.category === "danisman";
   const totalMemberCount = formMemberCount + chatbotMemberCount + waMemberCount;
+  const selectedDocuments = selectedSubmission ? getSubmissionDocuments(selectedSubmission) : [];
+  const documentsBucketLevel = getSubmissionDocumentsBucketLevel(documentsBucketStats?.usageRatio ?? 0);
+  const documentsUsagePercent = Math.round((documentsBucketStats?.usageRatio ?? 0) * 100);
 
   return (
     <div className="space-y-6">
@@ -872,6 +920,64 @@ const AdminMembersPage = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div
+            className={`rounded-lg border p-3 ${documentsBucketLevelStyles[documentsBucketLevel]}`}
+            data-testid="documents-bucket-summary"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-semibold">Yüklenen Doküman Kapasitesi</span>
+                  <Badge variant="outline" className={documentsBucketLevelStyles[documentsBucketLevel]}>
+                    {documentsBucketLevelLabels[documentsBucketLevel]}
+                  </Badge>
+                </div>
+                <p className="text-xs opacity-90">
+                  `submission-documents` bucket kullanımı bu ekranda her 60 saniyede bir yenilenir.
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2 bg-white/70 text-xs dark:bg-background/40"
+                onClick={() => void fetchDocumentsBucketStats()}
+                disabled={documentsBucketLoading}
+              >
+                <RefreshCcw className="h-3.5 w-3.5" />
+                Yenile
+              </Button>
+            </div>
+            {documentsBucketError ? (
+              <p className="mt-3 text-xs font-medium">{documentsBucketError}</p>
+            ) : (
+              <div className="mt-3 grid gap-2 sm:grid-cols-4">
+                <div className="rounded-md border border-current/10 bg-white/60 px-3 py-2 dark:bg-background/30">
+                  <div className="text-[11px] font-medium opacity-80">Toplam Kullanım</div>
+                  <div className="text-sm font-semibold">
+                    {documentsBucketLoading ? "..." : formatBytes(documentsBucketStats?.totalBytes ?? 0)}
+                  </div>
+                </div>
+                <div className="rounded-md border border-current/10 bg-white/60 px-3 py-2 dark:bg-background/30">
+                  <div className="text-[11px] font-medium opacity-80">Bucket Limiti</div>
+                  <div className="text-sm font-semibold">
+                    {documentsBucketLoading ? "..." : formatBytes(documentsBucketStats?.fileSizeLimit ?? 0)}
+                  </div>
+                </div>
+                <div className="rounded-md border border-current/10 bg-white/60 px-3 py-2 dark:bg-background/30">
+                  <div className="text-[11px] font-medium opacity-80">Doluluk</div>
+                  <div className="text-sm font-semibold">
+                    {documentsBucketLoading ? "..." : `%${documentsUsagePercent}`}
+                  </div>
+                </div>
+                <div className="rounded-md border border-current/10 bg-white/60 px-3 py-2 dark:bg-background/30">
+                  <div className="text-[11px] font-medium opacity-80">Dosya Adedi</div>
+                  <div className="text-sm font-semibold">
+                    {documentsBucketLoading ? "..." : documentsBucketStats?.fileCount ?? 0}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <p className="text-xs text-muted-foreground">
             Filtreler iki satırda düzenlendi. Dropdown alanlarının üstündeki etiketler hangi veriyi filtrelediğini gösterir.
           </p>
@@ -1208,6 +1314,34 @@ const AdminMembersPage = () => {
                     </div>
                   )}
                 </div>
+                <div className="rounded-lg border bg-muted/20 p-3">
+                  <div className="mb-2 text-sm font-medium">Yüklenen Dokümanlar</div>
+                  {selectedDocuments.length ? (
+                    <div className="space-y-2">
+                      {selectedDocuments.map((document, index) => (
+                        <div
+                          key={`${document.url}-${index}`}
+                          className="flex flex-wrap items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-xs"
+                        >
+                          <div className="min-w-0">
+                            <div className="truncate font-medium text-foreground">{document.name}</div>
+                            {document.sizeBytes ? (
+                              <div className="text-muted-foreground">{formatBytes(document.sizeBytes)}</div>
+                            ) : null}
+                          </div>
+                          <Button asChild variant="outline" size="sm" className="h-8 gap-1 text-xs">
+                            <a href={document.url} target="_blank" rel="noreferrer">
+                              Aç
+                              <ExternalLink className="h-3.5 w-3.5" />
+                            </a>
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">Bu kayda bağlı yüklenmiş doküman bulunmuyor.</p>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2">
                   <Button size="sm" onClick={() => void saveDetailEdit()} disabled={detailBusy}>
                     Kaydet
@@ -1266,6 +1400,34 @@ const AdminMembersPage = () => {
                         })}
                       </div>
                     </div>
+                  )}
+                </div>
+                <div className="rounded-lg border bg-muted/20 p-3">
+                  <div className="mb-2 text-sm font-medium">Yüklenen Dokümanlar</div>
+                  {selectedDocuments.length ? (
+                    <div className="space-y-2">
+                      {selectedDocuments.map((document, index) => (
+                        <div
+                          key={`${document.url}-${index}`}
+                          className="flex flex-wrap items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-xs"
+                        >
+                          <div className="min-w-0">
+                            <div className="truncate font-medium text-foreground">{document.name}</div>
+                            {document.sizeBytes ? (
+                              <div className="text-muted-foreground">{formatBytes(document.sizeBytes)}</div>
+                            ) : null}
+                          </div>
+                          <Button asChild variant="outline" size="sm" className="h-8 gap-1 text-xs">
+                            <a href={document.url} target="_blank" rel="noreferrer">
+                              Aç
+                              <ExternalLink className="h-3.5 w-3.5" />
+                            </a>
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground">Bu kayda bağlı yüklenmiş doküman bulunmuyor.</p>
                   )}
                 </div>
                 <div className="flex flex-wrap gap-2">

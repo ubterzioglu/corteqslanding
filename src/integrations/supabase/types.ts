@@ -1001,6 +1001,16 @@ export type Database = {
       };
     };
     Functions: {
+      get_submission_documents_bucket_stats: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          bucket_id: string;
+          file_count: number;
+          file_size_limit: number;
+          total_bytes: number;
+          usage_ratio: number;
+        }[];
+      };
       validate_and_bind_referral_code: {
         Args: { input_code: string; reference_time?: string };
         Returns: {
