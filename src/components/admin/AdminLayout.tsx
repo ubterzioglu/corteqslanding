@@ -257,49 +257,55 @@ const AdminLayout = () => {
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
               <span className="text-xs text-muted-foreground">{session?.user.email}</span>
             </div>
-            <nav className="flex flex-wrap items-center gap-1">
-              {primaryAdminNavItems.map((item, index) => (
-                <div key={item.to} className="flex items-center">
-                  {index > 0 ? <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" /> : null}
-                  <NavLink to={item.to} className={linkClass}>
-                    {item.label}
+<nav className="flex flex-wrap items-center gap-1">
+                <div className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <NavLink to="/admin" className={linkClass}>
+                    Admin Ana Sayfa
                   </NavLink>
                 </div>
-              ))}
-              <div className="flex items-center">
-                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                <DropdownMenu open={externalLinksMenuOpen} onOpenChange={setExternalLinksMenuOpen}>
-                  <DropdownMenuTrigger asChild>
-                    <div
+                {primaryAdminNavItems.map((item, index) => (
+                  <div key={item.to} className="flex items-center">
+                    <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                    <NavLink to={item.to} className={linkClass}>
+                      {item.label}
+                    </NavLink>
+                  </div>
+                ))}
+                <div className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <DropdownMenu open={externalLinksMenuOpen} onOpenChange={setExternalLinksMenuOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <div
+                        onMouseEnter={() => setExternalLinksMenuOpen(true)}
+                        onMouseLeave={() => setExternalLinksMenuOpen(false)}
+                      >
+                        <button
+                          type="button"
+                          className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
+                        >
+                          Dış Bağlantılar
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="start"
+                      className="w-48"
                       onMouseEnter={() => setExternalLinksMenuOpen(true)}
                       onMouseLeave={() => setExternalLinksMenuOpen(false)}
                     >
-                      <button
-                        type="button"
-                        className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
-                      >
-                        Dış Bağlantılar
-                        <ChevronDown className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="start"
-                    className="w-48"
-                    onMouseEnter={() => setExternalLinksMenuOpen(true)}
-                    onMouseLeave={() => setExternalLinksMenuOpen(false)}
-                  >
-                    {externalAdminNavItems.map((item) => (
-                      <DropdownMenuItem key={item.href} asChild>
-                        <a href={item.href} target="_blank" rel="noreferrer" className="flex items-center gap-3">
-                          <item.icon className="h-4 w-4" />
-                          <span>{item.label}</span>
-                        </a>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+                      {externalAdminNavItems.map((item) => (
+                        <DropdownMenuItem key={item.href} asChild>
+                          <a href={item.href} target="_blank" rel="noreferrer" className="flex items-center gap-3">
+                            <item.icon className="h-4 w-4" />
+                            <span>{item.label}</span>
+                          </a>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>
