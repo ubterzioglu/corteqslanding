@@ -1,5 +1,6 @@
 import { ArrowRight, ExternalLink, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import logo from "../../../logo.png";
 
 import {
   adminPanelNavItems,
@@ -61,6 +62,13 @@ const AdminHomePage = () => {
       <Card className="border-primary/15 bg-gradient-to-r from-white via-sky-50/70 to-amber-50/50 shadow-sm">
         <CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
           <div className="flex min-w-0 flex-wrap items-center gap-3">
+            <a
+              href="https://corteqs.net"
+              className="flex h-11 w-11 items-center justify-center rounded-2xl border border-primary/15 bg-white/90 p-2 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              aria-label="CorteQS ana siteye git"
+            >
+              <img src={logo} alt="CorteQS" className="h-full w-full object-contain" />
+            </a>
             <div className="inline-flex items-center rounded-full border border-primary/15 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
               CorteQS Admin Hub
             </div>
