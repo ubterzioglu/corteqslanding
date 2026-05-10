@@ -57,6 +57,11 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Command Center")).toBeInTheDocument();
     expect(screen.getByText("Dosyalar ve Linkler")).toBeInTheDocument();
     expect(screen.getByText("MVP Listesi")).toBeInTheDocument();
+    expect(screen.getByText("Kortex — CTO, Pitch & PRD Dokumanlari")).toBeInTheDocument();
+    expect(screen.getByText("Roadmap")).toBeInTheDocument();
+    expect(screen.getByText("Ambassador")).toBeInTheDocument();
+    expect(screen.getByText("Cap Table V2 — Hisse Yapisi")).toBeInTheDocument();
+    expect(screen.getByText("Proje Takibi Sablonu")).toBeInTheDocument();
     expect(screen.queryByText("IK Dökümanları")).not.toBeInTheDocument();
     expect(screen.queryByText("ARGE Dökümanları")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Çıkış/i })).toBeInTheDocument();

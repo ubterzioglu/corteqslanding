@@ -384,7 +384,7 @@ const AdminLayout = () => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent
                     align="start"
-                    className="w-56"
+                    className="max-h-[70vh] w-72 overflow-y-auto"
                     onMouseEnter={() => setAdminPanelMenuOpen(true)}
                     onMouseLeave={() => setAdminPanelMenuOpen(false)}
                   >

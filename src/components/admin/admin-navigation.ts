@@ -1,5 +1,6 @@
-import { BookOpen, FolderKanban, Globe, ListChecks, Network, Rocket, Sparkles } from "lucide-react";
+import { BookOpen, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
 import { Megaphone, MonitorPlay, Radio, ScrollText } from "lucide-react";
+import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 
 export const primaryAdminNavItems = [
   { to: "/admin/members", label: "Üye Takibi", icon: Network },
@@ -23,9 +24,19 @@ export const otherRecordNavItems = [
   { to: "/admin/lansman", label: "Lansman Katılım", icon: MonitorPlay },
 ] as const;
 
-export const adminPanelNavItems = [
+export const workspaceAdminNavItems = [
   { key: "workspace-home", to: "/admin/workspace", label: "Dashboard Merkezi", icon: BookOpen },
   { key: "command-center", to: "/admin/workspace/command-center", label: "Command Center", icon: ListChecks },
   { key: "links", to: "/admin/workspace/resources", label: "Dosyalar ve Linkler", icon: FolderKanban },
   { key: "mvp", to: "/admin/workspace/mvp", label: "MVP Listesi", icon: Rocket },
+] as const;
+
+export const adminPanelNavItems = [
+  ...workspaceAdminNavItems,
+  ...workspaceDocPages.map((page) => ({
+    key: `doc-${page.slug}`,
+    to: `/admin/workspace/docs/${page.slug}`,
+    label: page.title,
+    icon: ScrollTextIcon,
+  })),
 ] as const;

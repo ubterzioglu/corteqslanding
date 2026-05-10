@@ -18,7 +18,7 @@ export type WorkspaceDocPage = {
 export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "kortexdocs",
-    title: "Kortex Docs",
+    title: "Kortex — CTO, Pitch & PRD Dokumanlari",
     description: "Teknik omurga, pitch anlatısı ve PRD hattını tek admin alanında toplayan referans sayfa.",
     badge: ["CTO Handoff", "Investor Pitch", "PRD"],
     sections: [
@@ -150,7 +150,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   },
   {
     slug: "captable",
-    title: "Cap Table",
+    title: "Cap Table V2 — Hisse Yapisi",
     description: "Kurucu hisse yapisi, ESOP kurgusu ve seyrelme senaryolari icin referans panel.",
     badge: ["Founders", "ESOP", "Vesting"],
     sections: [
@@ -275,6 +275,70 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
             <li>Sorumlu, tarih, dosya ve not alanlari canli veriyle doldurulmalidir.</li>
             <li>Placeholder kampanya turleri netlestikce ekipler ayni panel uzerinden hizalanir.</li>
             <li>Admin ici konumlandirma sayesinde growth calismalari ayri repo bagimliligindan kurtulur.</li>
+          </ul>
+        ),
+      },
+    ],
+  },
+  {
+    slug: "projetakibi",
+    title: "Proje Takibi Sablonu",
+    description: "Ekiplerin is parcasi, sahiplik ve teslim mantigini hizalamak icin kullandigi yonetim cercevesi.",
+    badge: ["Tracking", "Ownership", "Execution"],
+    sections: [
+      {
+        id: "tracking-model",
+        title: "Takip Mantigi",
+        accentColor: "#1A6DC2",
+        content: (
+          <ul className="space-y-2 text-sm leading-7 text-slate-700">
+            <li>Proje takibi, gorevleri yalniz listelemek yerine sahiplik ve teslim baglamiyla ele alir.</li>
+            <li>Her kalem is parcasi, oncelik, sorumlu ve durum ekseninde okunur.</li>
+            <li>Bu panel command center ve operasyon modulleri arasinda yonetsel kopru gorevi gorur.</li>
+          </ul>
+        ),
+      },
+      {
+        id: "execution-rhythm",
+        title: "Calisma Ritmi",
+        accentColor: "#34A853",
+        content: (
+          <ul className="space-y-2 text-sm leading-7 text-slate-700">
+            <li>Gunluk akis, haftalik kontrol ve karar noktalarinin ayni dilden izlenmesi hedeflenir.</li>
+            <li>Dagitik notlarin ve gecici takiplerin tek merkezde toplanmasi operasyonel netlik saglar.</li>
+            <li>Boylece ayri dashboard bagimliligi olmadan surec devamliligi korunur.</li>
+          </ul>
+        ),
+      },
+      {
+        id: "next-steps",
+        title: "Uygulama Onerisi",
+        accentColor: "#FBBC04",
+        content: (
+          <ul className="space-y-2 text-sm leading-7 text-slate-700">
+            <li>Takip sablonu command center, kaynak merkezi ve MVP backlog ile paralel okunmalidir.</li>
+            <li>Yuksek riskli isler icin sahip, tarih ve bagimlilik zorunlu hale getirilmelidir.</li>
+            <li>Bu sayfa wiki hafizasini korurken yeni admin isletim modeline baglanir.</li>
+          </ul>
+        ),
+      },
+    ],
+  },
+  {
+    slug: "captablev2",
+    title: "Cap Table V2",
+    description: "Cap table iceriginin kisaltilmis erisim etiketi; ayni hisse yapisi dokumanina ikinci giris noktasi saglar.",
+    badge: ["Alias", "Equity", "Reference"],
+    sections: [
+      {
+        id: "alias-note",
+        title: "Ayni Dokuman, Ikinci Giris",
+        accentColor: "#1A6DC2",
+        content: (
+          <ul className="space-y-2 text-sm leading-7 text-slate-700">
+            <li>Bu baslik eski wiki akisini bozmamak icin korunur.</li>
+            <li>Icerik, hisse yapisi ve ESOP mantigini anlatan ana cap table dokumaninin ikinci erisimidir.</li>
+            <li>Yeni sistemde bilgi kaybi olmadan eski baslik aliskanligi devam eder.</li>
           </ul>
         ),
       },

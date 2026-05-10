@@ -41,6 +41,15 @@ const dashboardDescriptions: Record<string, string> = {
   "Command Center": "Tüm komut ve kontrol işlemlerini tek merkezden yönetin.",
   "Dosyalar ve Linkler": "Operasyon icin paylasilan link, dosya, IK ve ARGE kayitlarini acin.",
   "MVP Listesi": "MVP backlog ve sahipliklerini yeni sistem icinden takip edin.",
+  "Kortex — CTO, Pitch & PRD Dokumanlari": "Teknik omurga, pitch ve PRD referanslarini admin ici okuyun.",
+  Roadmap: "MVP'den seed-ready seviyesine uzanan urun ve buyume planini acin.",
+  Ambassador: "Sehir bazli topluluk buyume ve saha dagitimi modelini goruntuleyin.",
+  "Cap Table V2 — Hisse Yapisi": "Kurucu hisse yapisi, ESOP ve dilution notlarini acin.",
+  "Ekip ve Butce": "Rol yapisi, ucret bantlari ve ekip planlama bilgisini inceleyin.",
+  "Dijital Pazarlama": "Icerik ve kampanya operasyonunu anlatan paneli acin.",
+  "WhatsApp Bot": "Topluluk, opt-in ve bot operasyon fikrini acin.",
+  "Proje Takibi Sablonu": "Sahiplik ve teslim odakli takip cercevesini inceleyin.",
+  "Cap Table V2": "Eski wiki aliskanligi icin korunan ikinci cap table girisini acin.",
 };
 
 const advisorRecordItems = advisorProfileSections.map((section) => ({

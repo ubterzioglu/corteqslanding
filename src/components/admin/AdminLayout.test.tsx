@@ -111,5 +111,7 @@ describe("AdminLayout", () => {
       "href",
       "/admin/workspace/command-center",
     );
+    expect(await screen.findByText("Kortex — CTO, Pitch & PRD Dokumanlari")).toBeInTheDocument();
+    expect(await screen.findByText("Proje Takibi Sablonu")).toBeInTheDocument();
   });
 });
