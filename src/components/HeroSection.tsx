@@ -57,10 +57,21 @@ const HeroSection = () => {
   } as const;
 
   return (
-    <section className="relative flex min-h-[78vh] items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
+    <section className="relative flex min-h-[calc(100vh-4rem)] items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30 pt-8 lg:pt-10">
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div
+          className="absolute inset-y-0 right-0 hidden w-[58%] bg-no-repeat lg:block xl:w-[60%]"
+          style={{
+            backgroundImage: `url(${heroLandmarks})`,
+            backgroundPosition: "right center",
+            backgroundSize: "contain",
+          }}
+        />
+      </div>
+
       <div className="container relative z-10 mx-auto max-w-[1320px] px-4 py-12 md:py-14">
-        <div className="grid items-center gap-4 lg:grid-cols-[minmax(0,0.98fr)_minmax(620px,1.02fr)] xl:gap-5">
-          <div className="flex max-w-[36rem] flex-col justify-center">
+        <div className="max-w-[760px] lg:max-w-[560px] lg:-translate-y-6 xl:max-w-[590px] xl:-translate-y-8">
+          <div className="flex max-w-[36rem] flex-col justify-center rounded-[2rem] border border-white/80 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.93)_38%,rgba(255,255,255,0.82)_62%,rgba(255,255,255,0.58)_82%,rgba(255,255,255,0.18)_100%)] p-4 shadow-[0_20px_55px_-36px_rgba(15,23,42,0.32)] backdrop-blur-xl sm:p-5 lg:max-w-[34rem] lg:px-6">
             <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
               <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />
               <h1 className="text-2xl font-extrabold leading-[0.95] text-foreground md:text-4xl">
@@ -75,7 +86,9 @@ const HeroSection = () => {
               <br />
               Ücretsiz kayıt ol! Ağını genişlet!
             </p>
+          </div>
 
+          <div className="mt-3 max-w-[760px] space-y-2.5 lg:max-w-[540px] xl:max-w-[590px]">
             <div className="grid w-full max-w-lg gap-2.5 sm:grid-cols-2">
               <a
                 href="#kaydol"
@@ -119,7 +132,7 @@ const HeroSection = () => {
               </a>
             </div>
 
-            <div className="mt-2.5 flex max-w-lg flex-col gap-2.5">
+            <div className="flex max-w-lg flex-col gap-2.5">
               <Link
                 to="/founding-1000"
                 className={`${heroFeaturedCardClass} group relative flex-col text-[12px] font-semibold md:text-[13px]`}
@@ -176,18 +189,6 @@ const HeroSection = () => {
                   <span className="relative z-10">🎥 Vlogger Yarışması →</span>
                 </Link>
               </div>
-            </div>
-          </div>
-
-          <div className="relative hidden lg:flex lg:min-h-[36rem] lg:items-center lg:justify-start" aria-hidden>
-            <div className="flex h-full w-full items-center justify-start overflow-visible rounded-[2rem]">
-              <img
-                src={heroLandmarks}
-                alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
-                className="h-auto w-[118%] max-w-[920px] translate-x-[-7%] object-contain object-center [filter:brightness(0.99)_saturate(1.01)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_72%,transparent_98%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_72%,transparent_98%)] xl:w-[122%] xl:translate-x-[-9%] 2xl:w-[124%] 2xl:translate-x-[-10%]"
-                width={1480}
-                height={860}
-              />
             </div>
           </div>
         </div>

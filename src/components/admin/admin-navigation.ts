@@ -1,5 +1,5 @@
-import { Globe, Network, Sparkles } from "lucide-react";
-import { BarChart3, Megaphone, MonitorPlay, Radio, ScrollText, Terminal } from "lucide-react";
+import { BookOpen, FolderKanban, Globe, ListChecks, Network, Rocket, Sparkles } from "lucide-react";
+import { Megaphone, MonitorPlay, Radio, ScrollText } from "lucide-react";
 
 export const primaryAdminNavItems = [
   { to: "/admin/members", label: "Üye Takibi", icon: Network },
@@ -24,13 +24,8 @@ export const otherRecordNavItems = [
 ] as const;
 
 export const adminPanelNavItems = [
-  { key: "wiki", href: "https://dashboard.corteqs.net/", label: "WikiDash", icon: BarChart3 },
-  {
-    key: "command-center",
-    href: "https://dashboard.corteqs.net/commandcenter",
-    label: "Command Center",
-    icon: Terminal,
-  },
-  { key: "links", href: "https://dashboard.corteqs.net/links", label: "Dosyalar ve Linkler", icon: Globe },
-  { key: "dashboard-home", href: "https://dashboard.corteqs.net/", label: "Dashboard Anasayfa", icon: BarChart3 },
+  { key: "workspace-home", to: "/admin/workspace", label: "Dashboard Merkezi", icon: BookOpen },
+  { key: "command-center", to: "/admin/workspace/command-center", label: "Command Center", icon: ListChecks },
+  { key: "links", to: "/admin/workspace/resources", label: "Dosyalar ve Linkler", icon: FolderKanban },
+  { key: "mvp", to: "/admin/workspace/mvp", label: "MVP Listesi", icon: Rocket },
 ] as const;

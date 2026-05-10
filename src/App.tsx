@@ -25,6 +25,13 @@ import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
 import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
 import AdminHomePage from "@/pages/admin/AdminHomePage";
+import AdminWorkspaceHomePage from "@/pages/admin/workspace/AdminWorkspaceHomePage";
+import AdminCommandCenterPage from "@/pages/admin/workspace/AdminCommandCenterPage";
+import AdminResourcesPage from "@/pages/admin/workspace/AdminResourcesPage";
+import AdminTodoWorkspacePage from "@/pages/admin/workspace/AdminTodoWorkspacePage";
+import AdminMeetingNotesWorkspacePage from "@/pages/admin/workspace/AdminMeetingNotesWorkspacePage";
+import AdminMvpWorkspacePage from "@/pages/admin/workspace/AdminMvpWorkspacePage";
+import AdminWorkspaceDocPage from "@/pages/admin/workspace/AdminWorkspaceDocPage";
 import { muhasebeRoutes } from "@/pages/admin/muhasebe/routes";
 import Founding1000Page from "./pages/Founding1000Page.tsx";
 import BloggerContestPage from "./pages/BloggerContestPage.tsx";
@@ -71,6 +78,18 @@ const App = () => (
               </Route>
               <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
               <Route path="about" element={<AdminAboutPage />} />
+              <Route path="workspace" element={<AdminWorkspaceHomePage />} />
+              <Route path="workspace/command-center" element={<AdminCommandCenterPage />} />
+              <Route path="workspace/resources" element={<AdminResourcesPage />} />
+              <Route path="workspace/resources/arge" element={<Navigate to="/admin/workspace/resources?section=arge" replace />} />
+              <Route
+                path="workspace/resources/insankaynaklari"
+                element={<Navigate to="/admin/workspace/resources?section=insankaynaklari" replace />}
+              />
+              <Route path="workspace/todos" element={<AdminTodoWorkspacePage />} />
+              <Route path="workspace/meeting-notes" element={<AdminMeetingNotesWorkspacePage />} />
+              <Route path="workspace/mvp" element={<AdminMvpWorkspacePage />} />
+              <Route path="workspace/docs/:slug" element={<AdminWorkspaceDocPage />} />
               {muhasebeRoutes}
             </Route>
             <Route path="/reset-password" element={<ResetPasswordPage />} />

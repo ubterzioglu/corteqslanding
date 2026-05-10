@@ -173,6 +173,7 @@ const AdminLayout = () => {
     location.pathname.startsWith("/admin/advisors/") ||
     otherRecordNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
+  const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
 
   if (!authenticated) {
     return (
@@ -374,9 +375,9 @@ const AdminLayout = () => {
                     >
                       <button
                         type="button"
-                        className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
+                        className={`${linkClass({ isActive: adminPanelMenuActive })} inline-flex items-center gap-1`}
                       >
-                      Dashboard
+                        Dashboard
                         <ChevronDown className="h-3.5 w-3.5" />
                       </button>
                     </div>
@@ -389,14 +390,10 @@ const AdminLayout = () => {
                   >
                     {adminPanelNavItems.map((item) => (
                       <DropdownMenuItem key={item.key} asChild>
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="flex items-center justify-between gap-3"
-                        >
+                        <Link to={item.to} className="flex items-center justify-between gap-3">
                           <span>{item.label}</span>
-                        </a>
+                          {location.pathname === item.to ? <Check className="h-4 w-4 text-primary" /> : null}
+                        </Link>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>

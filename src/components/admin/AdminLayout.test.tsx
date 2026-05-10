@@ -50,6 +50,7 @@ function renderAdminLayout(pathname: string) {
           <Route index element={<div>Admin Home Content</div>} />
           <Route path="members" element={<div>Members Content</div>} />
           <Route path="lansman" element={<div>Lansman Content</div>} />
+          <Route path="workspace/command-center" element={<div>Workspace Command Center</div>} />
         </Route>
       </Routes>
     </MemoryRouter>,
@@ -96,7 +97,7 @@ describe("AdminLayout", () => {
     expect(screen.queryByRole("button", { name: /Toplu işlem/i })).not.toBeInTheDocument();
   });
 
-  it("shows the command center dashboard link", async () => {
+  it("shows internal dashboard workspace links", async () => {
     renderAdminLayout("/admin/members");
 
     await waitFor(() => {
@@ -108,7 +109,7 @@ describe("AdminLayout", () => {
 
     expect((await screen.findByText("Command Center")).closest("a")).toHaveAttribute(
       "href",
-      "https://dashboard.corteqs.net/commandcenter",
+      "/admin/workspace/command-center",
     );
   });
 });

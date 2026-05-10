@@ -37,10 +37,10 @@ const otherRecordDescriptions: Record<string, string> = {
 };
 
 const dashboardDescriptions: Record<string, string> = {
-  WikiDash: "Merkezi dashboard ana sayfası ve genel bilgi alanı.",
+  "Dashboard Merkezi": "Cordocu iceriklerinin bu repo icinde toplandigi yeni admin workspace.",
   "Command Center": "Tüm komut ve kontrol işlemlerini tek merkezden yönetin.",
-  "Dosyalar ve Linkler": "Operasyon için paylaşılan link ve dosya merkezine gider.",
-  "Dashboard Anasayfa": "Dashboard giriş ekranını ayrı sekmede açar.",
+  "Dosyalar ve Linkler": "Operasyon icin paylasilan link, dosya, IK ve ARGE kayitlarini acin.",
+  "MVP Listesi": "MVP backlog ve sahipliklerini yeni sistem icinden takip edin.",
 };
 
 const advisorRecordItems = advisorProfileSections.map((section) => ({
@@ -256,10 +256,10 @@ const AdminHomePage = () => {
                           </CardHeader>
                           <CardContent className="p-3 pt-0">
                             <Button asChild variant="outline" size="sm" className="w-full justify-between text-xs">
-                              <a href={item.href} target="_blank" rel="noreferrer">
-                                Dashboard'a Git
+                              <Link to={item.to}>
+                                Ekrani Ac
                                 <ExternalLink className="h-3.5 w-3.5" />
-                              </a>
+                              </Link>
                             </Button>
                           </CardContent>
                         </Card>
