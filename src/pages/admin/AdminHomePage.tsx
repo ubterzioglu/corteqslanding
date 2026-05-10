@@ -39,8 +39,6 @@ const otherRecordDescriptions: Record<string, string> = {
 const dashboardDescriptions: Record<string, string> = {
   WikiDash: "Merkezi dashboard ana sayfası ve genel bilgi alanı.",
   "Command Center": "Tüm komut ve kontrol işlemlerini tek merkezden yönetin.",
-  "IK Dökümanları": "İnsan kaynakları dokümantasyon alanına gider.",
-  "ARGE Dökümanları": "Araştırma ve geliştirme dokümanlarını açar.",
   "Dosyalar ve Linkler": "Operasyon için paylaşılan link ve dosya merkezine gider.",
   "Dashboard Anasayfa": "Dashboard giriş ekranını ayrı sekmede açar.",
 };

@@ -55,6 +55,8 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("WikiDash")).toBeInTheDocument();
     expect(screen.getByText("Command Center")).toBeInTheDocument();
+    expect(screen.queryByText("IK Dökümanları")).not.toBeInTheDocument();
+    expect(screen.queryByText("ARGE Dökümanları")).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Çıkış/i })).toBeInTheDocument();
   });
 

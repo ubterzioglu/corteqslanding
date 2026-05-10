@@ -207,9 +207,9 @@ const FooterSection = () => {
               <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-white/55">
                 Bizi Sosyal Medyada Takip Edin
               </p>
-              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-4 rounded-[1.75rem] border border-white/8 bg-[linear-gradient(90deg,rgba(17,35,31,0.9)_0%,rgba(22,33,29,0.94)_36%,rgba(39,39,24,0.9)_100%)] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_0_rgba(255,209,122,0.04),0_24px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:gap-5 sm:px-6 sm:py-4">
+              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.75rem] bg-[linear-gradient(90deg,rgba(17,35,31,0.9)_0%,rgba(22,33,29,0.94)_36%,rgba(39,39,24,0.9)_100%)] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03),0_24px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl sm:gap-4 sm:px-5 sm:py-3">
                 {socialCircleItems.map((item) => {
-                  const icon = item.icon(`h-7 w-7 transition duration-300 ${item.accentClassName}`);
+                  const icon = item.icon(`h-6 w-6 transition duration-300 ${item.accentClassName}`);
 
                   if (!item.href) {
                     return (
