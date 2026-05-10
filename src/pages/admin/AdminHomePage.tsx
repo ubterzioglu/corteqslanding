@@ -38,22 +38,6 @@ const otherRecordDescriptions: Record<string, string> = {
   "Lansman Katılım": "Lansman kayıtlarını, filtreleri ve form cevaplarını inceleyin.",
 };
 
-const dashboardDescriptions: Record<string, string> = {
-  "Dashboard Merkezi": "Cordocu iceriklerinin bu repo icinde toplandigi yeni admin workspace.",
-  "Command Center": "Tüm komut ve kontrol işlemlerini tek merkezden yönetin.",
-  "Dosyalar ve Linkler": "Operasyon icin paylasilan link, dosya, IK ve ARGE kayitlarini acin.",
-  "MVP Listesi": "MVP backlog ve sahipliklerini yeni sistem icinden takip edin.",
-  "Kortex — CTO, Pitch & PRD Dokumanlari": "Teknik omurga, pitch ve PRD referanslarini admin ici okuyun.",
-  Roadmap: "MVP'den seed-ready seviyesine uzanan urun ve buyume planini acin.",
-  Ambassador: "Sehir bazli topluluk buyume ve saha dagitimi modelini goruntuleyin.",
-  "Cap Table V2 — Hisse Yapisi": "Kurucu hisse yapisi, ESOP ve dilution notlarini acin.",
-  "Ekip ve Butce": "Rol yapisi, ucret bantlari ve ekip planlama bilgisini inceleyin.",
-  "Dijital Pazarlama": "Icerik ve kampanya operasyonunu anlatan paneli acin.",
-  "WhatsApp Bot": "Topluluk, opt-in ve bot operasyon fikrini acin.",
-  "Proje Takibi Sablonu": "Sahiplik ve teslim odakli takip cercevesini inceleyin.",
-  "Cap Table V2": "Eski wiki aliskanligi icin korunan ikinci cap table girisini acin.",
-};
-
 const advisorRecordItems = advisorProfileSections.map((section) => ({
   to: `/admin/advisors/${section.key}`,
   label: section.label,
@@ -69,17 +53,16 @@ const renderDashboardCard = (item: {
   icon: ComponentType<{ className?: string }>;
 }) => (
   <Card key={item.key} className="border-slate-200 bg-white shadow-none">
-    <CardHeader className="space-y-2 p-3 pb-2">
-      <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-violet-100 bg-violet-50 text-violet-700">
-        <item.icon className="h-3.5 w-3.5" />
-      </div>
-      <div className="space-y-1">
-        <CardTitle className="text-sm text-slate-950">{item.label}</CardTitle>
-        <CardDescription className="text-[11px] leading-5 text-slate-600">{dashboardDescriptions[item.label]}</CardDescription>
+    <CardHeader className="p-3 pb-2">
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-violet-100 bg-violet-50 text-violet-700">
+          <item.icon className="h-3.5 w-3.5" />
+        </div>
+        <CardTitle className="text-[13px] leading-5 text-slate-950">{item.label}</CardTitle>
       </div>
     </CardHeader>
     <CardContent className="p-3 pt-0">
-      <Button asChild variant="outline" size="sm" className="w-full justify-between text-xs">
+      <Button asChild variant="outline" size="sm" className="h-8 w-full justify-between px-2.5 text-[11px]">
         <Link to={item.to}>
           Ekrani Ac
           <ExternalLink className="h-3.5 w-3.5" />
@@ -240,11 +223,11 @@ const AdminHomePage = () => {
             <p className="text-xs text-slate-600">Yeni workspace araçları ve wiki dökümanlarına tek panelden ulaşın.</p>
           </div>
           <Card className="border-slate-200 bg-white shadow-sm">
-            <CardContent className="space-y-4 p-3">
+            <CardContent className="space-y-3 p-3">
               <div className="grid gap-2 sm:grid-cols-2">{workspaceAdminNavItems.map(renderDashboardCard)}</div>
 
-              <div className="space-y-3">
-                <div className="border-t border-slate-200 pt-3">
+              <div className="space-y-2.5">
+                <div className="border-t border-slate-200 pt-2.5">
                   <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">Diger Dokumanlar</div>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">{adminPanelDocNavItems.map(renderDashboardCard)}</div>
