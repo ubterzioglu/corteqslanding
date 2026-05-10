@@ -95,7 +95,7 @@ describe("AdminLayout", () => {
     expect(screen.queryByRole("button", { name: /Toplu işlem/i })).not.toBeInTheDocument();
   });
 
-  it("shows merged meetings hub and keeps legacy dashboard links", async () => {
+  it("shows merged meetings hub and the command center dashboard link", async () => {
     renderAdminLayout("/admin/members");
 
     await waitFor(() => {
@@ -109,13 +109,9 @@ describe("AdminLayout", () => {
       "href",
       "https://dashboard.corteqs.net/toplantiozet",
     );
-    expect(screen.getByText("TODO Listesi (Legacy)").closest("a")).toHaveAttribute(
+    expect(screen.getByText("Command Center").closest("a")).toHaveAttribute(
       "href",
-      "https://dashboard.corteqs.net/todolist",
-    );
-    expect(screen.getByText("Toplantı Özetleri (Legacy)").closest("a")).toHaveAttribute(
-      "href",
-      "https://dashboard.corteqs.net/toplantiozet",
+      "https://dashboard.corteqs.net/commandcenter",
     );
   });
 });

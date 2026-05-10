@@ -1,5 +1,5 @@
 import { Globe, Network, Sparkles } from "lucide-react";
-import { BarChart3, Megaphone, MonitorPlay, Radio, ScrollText, Users } from "lucide-react";
+import { BarChart3, Megaphone, MonitorPlay, Radio, ScrollText, Terminal, Users } from "lucide-react";
 
 export const primaryAdminNavItems = [
   { to: "/admin/members", label: "Üye Takibi", icon: Network },
@@ -32,16 +32,10 @@ export const adminPanelNavItems = [
     icon: Users,
   },
   {
-    key: "legacy-todo",
-    href: "https://dashboard.corteqs.net/todolist",
-    label: "TODO Listesi (Legacy)",
-    icon: ScrollText,
-  },
-  {
-    key: "legacy-meetings",
-    href: "https://dashboard.corteqs.net/toplantiozet",
-    label: "Toplantı Özetleri (Legacy)",
-    icon: Users,
+    key: "command-center",
+    href: "https://dashboard.corteqs.net/commandcenter",
+    label: "Command Center",
+    icon: Terminal,
   },
   { key: "hr", href: "https://dashboard.corteqs.net/insankaynaklari", label: "IK Dökümanları", icon: Users },
   { key: "r-and-d", href: "https://dashboard.corteqs.net/arge", label: "ARGE Dökümanları", icon: BarChart3 },

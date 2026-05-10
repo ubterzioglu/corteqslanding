@@ -9,6 +9,7 @@ import {
   primaryAdminNavItems,
 } from "@/components/admin/admin-navigation";
 import { useAdminOutletContext } from "@/components/admin/AdminLayout";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { advisorProfileSections } from "@/lib/resource-links";
@@ -38,8 +39,7 @@ const otherRecordDescriptions: Record<string, string> = {
 const dashboardDescriptions: Record<string, string> = {
   WikiDash: "Merkezi dashboard ana sayfası ve genel bilgi alanı.",
   "Toplantılar / Aksiyonlar": "Toplantı özetleri ile aksiyon takibini birlikte açar.",
-  "TODO Listesi (Legacy)": "Eski görev yönetim ekranına hızlı erişim sağlar.",
-  "Toplantı Özetleri (Legacy)": "Legacy toplantı özetleri görünümünü açar.",
+  "Command Center": "Tüm komut ve kontrol işlemlerini tek merkezden yönetin.",
   "IK Dökümanları": "İnsan kaynakları dokümantasyon alanına gider.",
   "ARGE Dökümanları": "Araştırma ve geliştirme dokümanlarını açar.",
   "Dosyalar ve Linkler": "Operasyon için paylaşılan link ve dosya merkezine gider.",
@@ -52,209 +52,229 @@ const advisorRecordItems = advisorProfileSections.map((section) => ({
   description: `${section.label} profil bağlantılarını ve içeriklerini yönetin.`,
 }));
 
+const sectionLabelClassName = "text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500";
+
 const AdminHomePage = () => {
   const { session, onLogout } = useAdminOutletContext();
 
   return (
-    <div className="space-y-6">
-      <Card className="border-primary/15 bg-gradient-to-br from-white via-sky-50/70 to-amber-50/60 shadow-sm">
-        <CardHeader className="space-y-3">
-          <div className="inline-flex w-fit items-center rounded-full border border-primary/15 bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
-            CorteQS Admin Hub
+    <div className="space-y-4">
+      <Card className="border-primary/15 bg-gradient-to-r from-white via-sky-50/70 to-amber-50/50 shadow-sm">
+        <CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
+          <div className="flex min-w-0 flex-wrap items-center gap-3">
+            <div className="inline-flex items-center rounded-full border border-primary/15 bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.28em] text-primary shadow-sm">
+              CorteQS Admin Hub
+            </div>
+            <div className="text-xs text-slate-600">
+              Giriş yapan kullanıcı: <span className="font-semibold text-slate-900">{session.user.email}</span>
+            </div>
           </div>
-          <div className="space-y-2">
-            <CardTitle className="text-2xl font-semibold tracking-tight text-slate-950">
-              Admin merkezine hoş geldiniz
-            </CardTitle>
-            <CardDescription className="max-w-3xl text-sm leading-6 text-slate-600">
-              Header’da gördüğünüz tüm alanlar burada da erişilebilir. İç modülleri yönetin, dış sistemlere geçin ve
-              oturum işlemlerini tek sayfadan tamamlayın.
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200/70 pt-5">
-          <div className="text-sm text-slate-600">
-            Giriş yapan kullanıcı: <span className="font-semibold text-slate-900">{session.user.email}</span>
-          </div>
-          <Button variant="outline" className="gap-2" onClick={() => void onLogout()}>
-            <LogOut className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="gap-2" onClick={() => void onLogout()}>
+            <LogOut className="h-3.5 w-3.5" />
             Çıkış
           </Button>
         </CardContent>
       </Card>
 
-      <section className="space-y-3">
-        <div className="space-y-1">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Ana Menü</h2>
-          <p className="text-sm text-slate-600">Header’daki ilk erişim alanlarının landing karşılığı.</p>
-        </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {primaryAdminNavItems.map((item) => (
-            <Card key={item.to} className="border-slate-200 bg-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <CardHeader className="space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm">
-                  <item.icon className="h-5 w-5" />
-                </div>
-                <div className="space-y-1">
-                  <CardTitle className="text-lg text-slate-950">{item.label}</CardTitle>
-                  <CardDescription className="text-sm leading-6 text-slate-600">
-                    {internalAdminLinkDescriptions[item.label]}
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <Button asChild className="w-full justify-between">
-                  <Link to={item.to}>
-                    Ekranı Aç
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+        <div className="space-y-4">
+          <section className="space-y-2">
+            <div className="space-y-1">
+              <h2 className={sectionLabelClassName}>Ana Menü</h2>
+              <p className="text-xs text-slate-600">En sık kullanılan admin modüllerine hızlı erişim.</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {primaryAdminNavItems.map((item) => (
+                <Card
+                  key={item.to}
+                  className="border-slate-200 bg-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <CardHeader className="space-y-3 p-4 pb-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm">
+                      <item.icon className="h-4 w-4" />
+                    </div>
+                    <div className="space-y-1">
+                      <CardTitle className="text-base text-slate-950">{item.label}</CardTitle>
+                      <CardDescription className="text-xs leading-5 text-slate-600">
+                        {internalAdminLinkDescriptions[item.label]}
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-4 pt-0">
+                    <Button asChild size="sm" className="w-full justify-between text-xs">
+                      <Link to={item.to}>
+                        Ekranı Aç
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
 
-      <section className="space-y-3">
-        <div className="space-y-1">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Dış Bağlantılar</h2>
-          <p className="text-sm text-slate-600">Engine, Globe ve Founders için hızlı çıkış verin.</p>
+          <section className="space-y-2">
+            <div className="space-y-1">
+              <h2 className={sectionLabelClassName}>Dış Bağlantılar</h2>
+              <p className="text-xs text-slate-600">Harici platformlara tek satırlık kompakt çıkışlar.</p>
+            </div>
+            <div className="grid gap-3">
+              {externalAdminNavItems.map((item, index) => (
+                <Card
+                  key={item.href}
+                  className={`border shadow-sm ${
+                    index === 0
+                      ? "border-sky-200 bg-sky-50/70"
+                      : index === 1
+                        ? "border-emerald-200 bg-emerald-50/70"
+                        : "border-amber-200 bg-amber-50/70"
+                  }`}
+                >
+                  <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-slate-950">{item.label}</h3>
+                      <p className="mt-1 text-xs leading-5 text-slate-600">{externalAdminLinkDescriptions[item.label]}</p>
+                    </div>
+                    <Button asChild variant="outline" size="sm" className="justify-between bg-white/90 text-xs sm:min-w-36">
+                      <a href={item.href} target="_blank" rel="noreferrer">
+                        Bağlantıyı Aç
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {externalAdminNavItems.map((item, index) => (
-            <Card
-              key={item.href}
-              className={`border shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md ${
-                index === 0
-                  ? "border-sky-200 bg-sky-50/70"
-                  : index === 1
-                    ? "border-emerald-200 bg-emerald-50/70"
-                    : "border-amber-200 bg-amber-50/70"
-              }`}
-            >
-              <CardHeader className="space-y-1">
-                <CardTitle className="text-lg text-slate-950">{item.label}</CardTitle>
-                <CardDescription className="text-sm leading-6 text-slate-600">
-                  {externalAdminLinkDescriptions[item.label]}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button asChild variant="outline" className="w-full justify-between bg-white/90">
-                  <a href={item.href} target="_blank" rel="noreferrer">
-                    Bağlantıyı Aç
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
 
-      <section className="grid gap-6 xl:grid-cols-2">
-        <Card className="border-slate-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg text-slate-950">Diğer İşlemler</CardTitle>
-            <CardDescription>Header dropdown’undaki tüm işlem ekranları burada listelenir.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            {otherActionNavItems.map((item) => (
-              <div key={item.to} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">{otherActionDescriptions[item.label]}</p>
-                  </div>
-                </div>
-                <Button asChild variant="ghost" className="mt-3 w-full justify-between">
-                  <Link to={item.to}>
-                    Sayfayı Aç
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        <section className="space-y-2">
+          <div className="space-y-1">
+            <h2 className={sectionLabelClassName}>Kısayol Panelleri</h2>
+            <p className="text-xs text-slate-600">Uzun listeler akordeon kartlara taşındı, ekran daha kısa kaldı.</p>
+          </div>
+          <Card className="border-slate-200 bg-white shadow-sm">
+            <CardContent className="p-2 sm:p-3">
+              <Accordion type="multiple" defaultValue={["dashboard"]} className="space-y-2">
+                <AccordionItem value="other-actions" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-3">
+                  <AccordionTrigger className="py-3 text-left hover:no-underline">
+                    <div className="space-y-1">
+                      <div className="text-sm font-semibold text-slate-950">Diğer İşlemler</div>
+                      <div className="text-xs text-slate-600">Haber bandı, sosyal medya ve güncelleme ekranları.</div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-3">
+                    <div className="grid gap-2">
+                      {otherActionNavItems.map((item) => (
+                        <div key={item.to} className="rounded-xl border border-slate-200 bg-white p-3">
+                          <div className="flex items-start gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700">
+                              <item.icon className="h-3.5 w-3.5" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
+                              <p className="mt-0.5 text-xs leading-5 text-slate-600">{otherActionDescriptions[item.label]}</p>
+                            </div>
+                          </div>
+                          <Button asChild variant="ghost" size="sm" className="mt-2 h-8 w-full justify-between px-2 text-xs">
+                            <Link to={item.to}>
+                              Sayfayı Aç
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
 
-        <Card className="border-slate-200 bg-white shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-lg text-slate-950">Diğer Kayıtlar</CardTitle>
-            <CardDescription>Lansman ve danışman profili kayıt ekranlarını tek alanda toplayın.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            {otherRecordNavItems.map((item) => (
-              <div key={item.to} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700">
-                    <item.icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">{otherRecordDescriptions[item.label]}</p>
-                  </div>
-                </div>
-                <Button asChild variant="ghost" className="mt-3 w-full justify-between">
-                  <Link to={item.to}>
-                    Sayfayı Aç
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            ))}
+                <AccordionItem value="other-records" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-3">
+                  <AccordionTrigger className="py-3 text-left hover:no-underline">
+                    <div className="space-y-1">
+                      <div className="text-sm font-semibold text-slate-950">Diğer Kayıtlar</div>
+                      <div className="text-xs text-slate-600">Lansman ve danışman profili ekranlarını açın.</div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-3">
+                    <div className="grid gap-2">
+                      {otherRecordNavItems.map((item) => (
+                        <div key={item.to} className="rounded-xl border border-slate-200 bg-white p-3">
+                          <div className="flex items-start gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700">
+                              <item.icon className="h-3.5 w-3.5" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
+                              <p className="mt-0.5 text-xs leading-5 text-slate-600">{otherRecordDescriptions[item.label]}</p>
+                            </div>
+                          </div>
+                          <Button asChild variant="ghost" size="sm" className="mt-2 h-8 w-full justify-between px-2 text-xs">
+                            <Link to={item.to}>
+                              Sayfayı Aç
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </Button>
+                        </div>
+                      ))}
 
-            {advisorRecordItems.map((item) => (
-              <div key={item.to} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p>
-                </div>
-                <Button asChild variant="ghost" className="mt-3 w-full justify-between">
-                  <Link to={item.to}>
-                    Sayfayı Aç
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </section>
+                      {advisorRecordItems.map((item) => (
+                        <div key={item.to} className="rounded-xl border border-slate-200 bg-white p-3">
+                          <div className="min-w-0">
+                            <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
+                            <p className="mt-0.5 text-xs leading-5 text-slate-600">{item.description}</p>
+                          </div>
+                          <Button asChild variant="ghost" size="sm" className="mt-2 h-8 w-full justify-between px-2 text-xs">
+                            <Link to={item.to}>
+                              Sayfayı Aç
+                              <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
 
-      <section className="space-y-3">
-        <div className="space-y-1">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Dashboard</h2>
-          <p className="text-sm text-slate-600">Header altındaki dashboard linklerinin tamamı burada da görünür.</p>
-        </div>
-        <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-4">
-          {adminPanelNavItems.map((item) => (
-            <Card key={item.key} className="border-slate-200 bg-white shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md">
-              <CardHeader className="space-y-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-violet-100 bg-violet-50 text-violet-700 shadow-sm">
-                  <item.icon className="h-4.5 w-4.5" />
-                </div>
-                <div className="space-y-1">
-                  <CardTitle className="text-base text-slate-950">{item.label}</CardTitle>
-                  <CardDescription className="text-sm leading-6 text-slate-600">
-                    {dashboardDescriptions[item.label]}
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <Button asChild variant="outline" className="w-full justify-between">
-                  <a href={item.href} target="_blank" rel="noreferrer">
-                    Dashboard'a Git
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+                <AccordionItem value="dashboard" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-3">
+                  <AccordionTrigger className="py-3 text-left hover:no-underline">
+                    <div className="space-y-1">
+                      <div className="text-sm font-semibold text-slate-950">Dashboard</div>
+                      <div className="text-xs text-slate-600">Harici dashboard araçlarını daha küçük kartlarla açın.</div>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-3">
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {adminPanelNavItems.map((item) => (
+                        <Card key={item.key} className="border-slate-200 bg-white shadow-none">
+                          <CardHeader className="space-y-2 p-3 pb-2">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-violet-100 bg-violet-50 text-violet-700">
+                              <item.icon className="h-3.5 w-3.5" />
+                            </div>
+                            <div className="space-y-1">
+                              <CardTitle className="text-sm text-slate-950">{item.label}</CardTitle>
+                              <CardDescription className="text-[11px] leading-5 text-slate-600">
+                                {dashboardDescriptions[item.label]}
+                              </CardDescription>
+                            </div>
+                          </CardHeader>
+                          <CardContent className="p-3 pt-0">
+                            <Button asChild variant="outline" size="sm" className="w-full justify-between text-xs">
+                              <a href={item.href} target="_blank" rel="noreferrer">
+                                Dashboard'a Git
+                                <ExternalLink className="h-3.5 w-3.5" />
+                              </a>
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </CardContent>
+          </Card>
+        </section>
+      </div>
     </div>
   );
 };
