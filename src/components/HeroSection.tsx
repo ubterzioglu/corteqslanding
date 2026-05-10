@@ -57,10 +57,10 @@ const HeroSection = () => {
   } as const;
 
   return (
-    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
-      <div className="container relative z-10 mx-auto px-4 py-14 md:py-16">
-        <div className="grid items-stretch gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] xl:gap-12">
-          <div className="flex flex-col justify-center">
+    <section className="relative flex min-h-[78vh] items-center overflow-hidden bg-gradient-to-br from-background via-card to-secondary/30">
+      <div className="container relative z-10 mx-auto max-w-[1280px] px-4 py-12 md:py-14">
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(520px,0.98fr)] xl:gap-8">
+          <div className="flex max-w-[36rem] flex-col justify-center">
             <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
               <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />
               <h1 className="text-2xl font-extrabold leading-[0.95] text-foreground md:text-4xl">
@@ -179,12 +179,12 @@ const HeroSection = () => {
             </div>
           </div>
 
-          <div className="relative hidden lg:flex lg:min-h-[34rem] lg:items-end lg:justify-start" aria-hidden>
-            <div className="flex h-full w-full items-end justify-start overflow-visible rounded-[2rem] pl-2 pt-8 xl:pl-4 xl:pt-10">
+          <div className="relative hidden lg:flex lg:min-h-[30rem] lg:items-center lg:justify-center" aria-hidden>
+            <div className="flex h-full w-full items-center justify-center overflow-visible rounded-[2rem] pt-4 xl:pt-6">
               <img
                 src={heroLandmarks}
                 alt="CorteQS Diaspora Connect - Almanya ve Avrupa'daki Türk Diaspora Ağı ve Şehir Rehberi"
-                className="h-auto w-[118%] max-w-none translate-x-[-7%] translate-y-[2%] object-contain object-bottom [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_96%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_96%)] xl:w-[124%] xl:translate-x-[-10%] xl:translate-y-[4%] 2xl:w-[128%] 2xl:translate-x-[-12%]"
+                className="h-auto w-[102%] max-w-[760px] translate-x-[-3%] object-contain object-center [filter:brightness(0.98)_saturate(1.02)_contrast(1.0)] [mask-image:radial-gradient(ellipse_at_center,black_62%,transparent_96%)] [-webkit-mask-image:radial-gradient(ellipse_at_center,black_62%,transparent_96%)] xl:w-[108%] xl:translate-x-[-5%] 2xl:w-[112%] 2xl:translate-x-[-6%]"
                 width={1480}
                 height={860}
               />
