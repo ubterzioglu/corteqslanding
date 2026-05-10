@@ -24,12 +24,14 @@ const founderProfiles: FounderProfile[] = [
     name: "Burak Akçakanat",
     role: "Kurucu Ortak",
     summary:
-      "Reel sektör, uluslararası büyüme, insan davranışı ve stratejik yapılanma başlıklarını aynı potada buluşturan çok katmanlı bir iş geliştirici ve kurucu.",
+      "35 yılı aşan üretim, ticaret, girişimcilik, danışmanlık ve uluslararası iş geliştirme deneyimini farklı sektörler ve coğrafyalarda doğrudan saha pratiğiyle inşa eden kurucu, stratejik danışman ve büyüme partneri.",
     strengths: [
-      "Uluslararası pazar deneyimi",
-      "Stratejik büyüme ve yapılanma",
-      "İnsan ve davranış bilimleri bakışı",
-      "Kurumsal yönetim ve liderlik danışmanlığı",
+      "Uluslararası pazar geliştirme ve büyüme stratejileri",
+      "Şirket yapılanması, ölçeklenme ve operasyonel dönüşüm",
+      "İnsan davranışı, topluluk dinamikleri ve karar mekanizmaları analizi",
+      "Kurumsal yönetim, liderlik ve organizasyonel gelişim",
+      "Türkiye, GCC ve MENA ekseninde iş geliştirme ve bölgesel penetrasyon deneyimi",
+      "Yeni nesil fonksiyonel networkler ve dijital ekosistem tasarımı",
     ],
     imageSrc: burakPhoto,
     imageAlt: "Burak Akçakanat profil fotoğrafı",
@@ -38,17 +40,17 @@ const founderProfiles: FounderProfile[] = [
       {
         title: "Profesyonel Arka Plan",
         body:
-          "Profesyonel yolculuğunu tek bir sektör veya ülke ile sınırlamadan; üretim, ithalat, ticaret, perakende, danışmanlık ve kurumsal yapılanma gibi farklı alanlarda sahadan deneyimleyerek inşa etti. Bu çizgi, işlerin yalnızca fikirle değil; operasyon, finans, organizasyon, güven ve sürdürülebilir uygulama disipliniyle büyüdüğünü gösteren güçlü bir zemin oluşturdu.",
+          "35 yılı aşan üretim, ticaret, girişimcilik, danışmanlık ve uluslararası iş geliştirme deneyimini farklı sektörler ve coğrafyalarda doğrudan saha pratiğiyle inşa etti. Üretimden perakendeye, danışmanlıktan kurumsal yapılanmaya uzanan çok katmanlı iş deneyimi; operasyon, finans, organizasyon ve stratejik büyüme alanlarında güçlü bir perspektif geliştirmesini sağladı. Amerika, Asya-Pasifik, Avustralya ve GCC bölgelerindeki iş ve yaşam deneyimleri sayesinde farklı kültürler, pazar dinamikleri ve iş yapış modelleri üzerine uluslararası bir bakış açısı kazandı. Kurucu, stratejik danışman ve büyüme partneri kimliğiyle; şirketlerin pazara giriş, ölçeklenme, yeniden yapılanma ve bölgesel genişleme süreçlerinde aktif rol aldı. Aynı zamanda teknoloji, topluluk ve iş geliştirmeyi bir araya getiren yeni nesil fonksiyonel network yapıları ve dijital ekosistem modelleri üzerine çalışmaktadır.",
       },
       {
         title: "CorteQS Vizyonu ile Bağlantısı",
         body:
-          "CorteQS’i yalnızca bir network ürünü değil; global Türk diasporasını şehir bazlı, kategori bazlı ve güven odaklı bir ekonomik ve sosyal dayanışma ekolojisine dönüştürebilecek uzun vadeli bir dijital altyapı olarak görüyor. Platformun bireyleri, profesyonelleri, işletmeleri, yatırımcıları, içerik üreticilerini ve kurumları daha sistemli bir bağ içinde buluşturmasını temel değer önerisi olarak konumluyor.",
+          "CorteQS’i yalnızca bir networking platformu olarak değil; global Türk diasporasını şehir, sektör ve güven temelli bağlantılar etrafında organize edebilecek yeni nesil bir dijital ekosistem olarak konumlandırıyor. Platformun; bireyleri, profesyonelleri, yatırımcıları, işletmeleri, içerik üreticilerini ve kurumları aynı altyapıda daha sistematik biçimde bir araya getirerek ekonomik, sosyal ve profesyonel etkileşimi güçlendirmesini hedefliyor. CorteQS’in uzun vadede; diaspora ekonomisi, topluluk bazlı ticaret, profesyonel erişim, bölgesel büyüme ve dijital aidiyet kavramlarını yeniden tanımlayan ölçeklenebilir bir platform altyapısına dönüşebileceğine inanıyor.",
       },
       {
         title: "Stratejik ve Yatırımcı Perspektifi",
         body:
-          "Qualtron Sinclair yaklaşımıyla CorteQS’e; Türkiye, BAE, Katar, Suudi Arabistan ve daha geniş MENA bölgesine uzanan bir büyüme partnerliği mantığıyla bakıyor. Net problem alanı, dağınık ama büyük diaspora kitlesi, şehir bazlı ölçeklenme ve çoklu gelir modeli potansiyeli sayesinde CorteQS’in üyelikten premium görünürlüğe, etkinliklerden sponsorluklara uzanan geniş bir ekosisteme dönüşebileceğine inanıyor.",
+          "Qualtron Sinclair yaklaşımıyla CorteQS’e yalnızca bir topluluk ürünü olarak değil; yüksek ölçeklenme potansiyeline sahip, çok katmanlı bir dijital büyüme altyapısı olarak bakıyor. Türkiye, BAE, Katar, Suudi Arabistan ve daha geniş MENA bölgesine uzanan stratejik genişleme perspektifiyle; CorteQS’in şehir bazlı yapılanma modeli, güçlü diaspora dinamiği ve çoklu gelir potansiyeli sayesinde önemli bir network-effect ekonomisi oluşturabileceğini öngörüyor. Üyelik sistemleri, premium görünürlük modelleri, sponsorluk yapıları, etkinlik ekonomisi, yerel ticaret entegrasyonları, dijital servisler ve topluluk bazlı iş geliştirme mekanizmalarıyla CorteQS’in uzun vadeli sürdürülebilir bir ekosisteme dönüşmesini hedefliyor.",
       },
     ],
   },
