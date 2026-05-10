@@ -36,10 +36,13 @@ const SOCIAL_FALLBACKS: Partial<Record<SocialPlatform, string>> = {
 };
 
 const socialCircleBaseClass =
-  "group relative flex h-[4.35rem] w-[4.35rem] items-center justify-center rounded-full border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] text-white/75 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_18px_35px_rgba(0,0,0,0.18)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-white/24 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-[#18231f]";
+  "group relative flex h-[4.9rem] w-[4.9rem] items-center justify-center rounded-full border border-white/14 bg-[radial-gradient(circle_at_50%_22%,rgba(255,255,255,0.055),rgba(255,255,255,0.015)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_10px_24px_rgba(0,0,0,0.22)] transition duration-300 hover:-translate-y-0.5 hover:border-white/24 hover:bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.09),rgba(255,255,255,0.02)_44%,rgba(0,0,0,0.04)_100%)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#16221d]";
 
 const socialCircleInnerClass =
-  "pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/10 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),rgba(255,255,255,0.015)_52%,rgba(255,255,255,0)_100%)]";
+  "pointer-events-none absolute inset-[0.33rem] rounded-full border border-white/10 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.03),rgba(255,255,255,0.008)_54%,rgba(255,255,255,0)_100%)]";
+
+const socialCircleOuterGlowClass =
+  "pointer-events-none absolute inset-[-0.22rem] rounded-full border border-white/8 opacity-80 transition duration-300 group-hover:border-white/16";
 
 const FooterSection = () => {
   const { toast } = useToast();
@@ -201,10 +204,12 @@ const FooterSection = () => {
             </div>
 
             <div className="mt-8">
-              <p className="text-sm text-white/70 mb-3">Bizi Sosyal Medyada Takip Edin</p>
-              <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-3 rounded-[2rem] border border-white/10 bg-[linear-gradient(90deg,rgba(18,44,37,0.58),rgba(38,42,29,0.48),rgba(44,40,24,0.56))] px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_28px_60px_rgba(0,0,0,0.24)] backdrop-blur-xl sm:gap-4 sm:px-6">
+              <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-white/55">
+                Bizi Sosyal Medyada Takip Edin
+              </p>
+              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-4 rounded-[1.75rem] border border-white/8 bg-[linear-gradient(90deg,rgba(17,35,31,0.9)_0%,rgba(22,33,29,0.94)_36%,rgba(39,39,24,0.9)_100%)] px-5 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),inset_0_-1px_0_rgba(255,209,122,0.04),0_24px_50px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:gap-5 sm:px-6 sm:py-4">
                 {socialCircleItems.map((item) => {
-                  const icon = item.icon(`h-7 w-7 ${item.accentClassName}`);
+                  const icon = item.icon(`h-7 w-7 transition duration-300 ${item.accentClassName}`);
 
                   if (!item.href) {
                     return (
@@ -216,6 +221,7 @@ const FooterSection = () => {
                         onClick={item.onClick}
                         className={`${socialCircleBaseClass} ${!item.onClick ? "cursor-default opacity-50 hover:translate-y-0 hover:border-white/12 hover:text-white/75" : ""}`}
                       >
+                        <span className={socialCircleOuterGlowClass} aria-hidden />
                         <span className={socialCircleInnerClass} aria-hidden />
                         <span className="relative z-10">{icon}</span>
                       </button>
@@ -231,6 +237,7 @@ const FooterSection = () => {
                       aria-label={item.label}
                       className={socialCircleBaseClass}
                     >
+                      <span className={socialCircleOuterGlowClass} aria-hidden />
                       <span className={socialCircleInnerClass} aria-hidden />
                       <span className="relative z-10">{icon}</span>
                     </a>
