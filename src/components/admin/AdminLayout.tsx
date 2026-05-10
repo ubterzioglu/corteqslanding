@@ -57,6 +57,7 @@ const AdminLayout = () => {
   const [otherActionsMenuOpen, setOtherActionsMenuOpen] = useState(false);
   const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
   const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
+  const [externalLinksMenuOpen, setExternalLinksMenuOpen] = useState(false);
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -265,19 +266,40 @@ const AdminLayout = () => {
                   </NavLink>
                 </div>
               ))}
-              {externalAdminNavItems.map((item) => (
-                <div key={item.href} className="flex items-center">
-                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={linkClass({ isActive: false })}
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <DropdownMenu open={externalLinksMenuOpen} onOpenChange={setExternalLinksMenuOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <div
+                      onMouseEnter={() => setExternalLinksMenuOpen(true)}
+                      onMouseLeave={() => setExternalLinksMenuOpen(false)}
+                    >
+                      <button
+                        type="button"
+                        className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
+                      >
+                        Dış Bağlantılar
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="start"
+                    className="w-48"
+                    onMouseEnter={() => setExternalLinksMenuOpen(true)}
+                    onMouseLeave={() => setExternalLinksMenuOpen(false)}
                   >
-                    {item.label}
-                  </a>
-                </div>
-              ))}
+                    {externalAdminNavItems.map((item) => (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <a href={item.href} target="_blank" rel="noreferrer" className="flex items-center gap-3">
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </a>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>

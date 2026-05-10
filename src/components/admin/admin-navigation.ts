@@ -1,4 +1,4 @@
-import { BookOpen, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
+import { BookOpen, ExternalLink, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
 import { Megaphone, MonitorPlay, Radio, ScrollText } from "lucide-react";
 import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 
@@ -9,9 +9,9 @@ export const primaryAdminNavItems = [
 ] as const;
 
 export const externalAdminNavItems = [
-  { href: "https://eng.corteqs.net", label: "Engine" },
-  { href: "https://globe.corteqs.ret", label: "Globe" },
-  { href: "https://corteqs.net/founders", label: "Founders" },
+  { href: "https://eng.corteqs.net", label: "Engine", icon: ExternalLink },
+  { href: "https://globe.corteqs.net", label: "Globe", icon: ExternalLink },
+  { href: "https://corteqs.net/founders", label: "Founders", icon: ExternalLink },
 ] as const;
 
 export const otherActionNavItems = [
