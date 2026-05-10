@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { Search } from "lucide-react";
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
@@ -48,6 +49,18 @@ const AdminReferralPage = () => {
   const [editingValidFrom, setEditingValidFrom] = useState("");
   const [editingValidUntil, setEditingValidUntil] = useState("");
   const [busyById, setBusyById] = useState<Record<string, boolean>>({});
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredReferralCodes = useMemo(() => {
+    if (!searchQuery.trim()) return referralCodes;
+    const q = searchQuery.toLowerCase();
+    return referralCodes.filter((referral) => {
+      const note = (referral.note ?? "").toLowerCase();
+      const code = referral.code.toLowerCase();
+      const sourceGroupType = `${referral.source_code}/${referral.group_code}/${referral.type_code}`.toLowerCase();
+      return note.includes(q) || code.includes(q) || sourceGroupType.includes(q);
+    });
+  }, [referralCodes, searchQuery]);
 
   const now = new Date();
   const defaultFrom = now.toISOString().slice(0, 10);
@@ -365,11 +378,25 @@ const AdminReferralPage = () => {
           <CardDescription>Son 100 kod, kullanim ve kayit raporu. Hard delete sadece kullanilmamis kodlarda calisir.</CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Not, kod veya kaynak ara..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
           {loading ? (
             <p className="text-sm text-muted-foreground">Yukleniyor...</p>
           ) : (
             <Accordion type="single" collapsible className="w-full">
-              {referralCodes.map((referral) => {
+              {filteredReferralCodes.length === 0 && (
+                <div className="py-6 text-center text-sm text-muted-foreground">
+                  {searchQuery.trim() ? "Aramanızla eşleşen kayıt bulunamadı." : "Henüz referral kodu yok."}
+                </div>
+              )}
+              {filteredReferralCodes.map((referral) => {
                 const today = new Date().toISOString().slice(0, 10);
                 const isExpired = referral.valid_until < today;
                 const usages = usageMap[referral.id] ?? [];
