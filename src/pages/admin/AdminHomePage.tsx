@@ -62,10 +62,10 @@ const renderDashboardCard = (item: {
       </div>
     </CardHeader>
     <CardContent className="p-3 pt-0">
-      <Button asChild variant="outline" size="sm" className="h-8 w-full justify-between px-2.5 text-[11px]">
+      <Button asChild variant="outline" size="xs" className="h-6 px-2 text-xs">
         <Link to={item.to}>
-          Ekrani Ac
-          <ExternalLink className="h-3.5 w-3.5" />
+          Ekranı Aç
+          <ArrowRight className="h-3 w-3 ml-1" />
         </Link>
       </Button>
     </CardContent>
@@ -220,10 +220,10 @@ const AdminHomePage = () => {
                               <p className="mt-0.5 text-xs leading-5 text-slate-600">{otherRecordDescriptions[item.label]}</p>
                             </div>
                           </div>
-                          <Button asChild variant="ghost" size="sm" className="mt-2 h-8 w-full justify-between px-2 text-xs">
+                          <Button asChild variant="ghost" size="xs" className="mt-2 h-6 px-2 text-xs">
                             <Link to={item.to}>
                               Sayfayı Aç
-                              <ArrowRight className="h-3.5 w-3.5" />
+                              <ArrowRight className="h-3 w-3 ml-1" />
                             </Link>
                           </Button>
                         </div>
@@ -235,10 +235,10 @@ const AdminHomePage = () => {
                             <h3 className="text-sm font-semibold text-slate-900">{item.label}</h3>
                             <p className="mt-0.5 text-xs leading-5 text-slate-600">{item.description}</p>
                           </div>
-                          <Button asChild variant="ghost" size="sm" className="mt-2 h-8 w-full justify-between px-2 text-xs">
+                          <Button asChild variant="ghost" size="xs" className="mt-2 h-6 px-2 text-xs">
                             <Link to={item.to}>
                               Sayfayı Aç
-                              <ArrowRight className="h-3.5 w-3.5" />
+                              <ArrowRight className="h-3 w-3 ml-1" />
                             </Link>
                           </Button>
                         </div>
