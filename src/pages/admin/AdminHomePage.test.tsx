@@ -34,7 +34,6 @@ describe("AdminHomePage", () => {
   it("shows all header areas on the admin landing page", () => {
     renderAdminHomePage();
 
-    expect(screen.getByRole("link", { name: /CorteQS ana siteye git/i })).toHaveAttribute("href", "https://corteqs.net");
     expect(screen.getByText("Üye Takibi")).toBeInTheDocument();
     expect(screen.getByText("Ref Kod")).toBeInTheDocument();
     expect(screen.getByText("Muhasebe")).toBeInTheDocument();

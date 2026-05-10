@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Link, NavLink, Outlet, useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { Check, ChevronDown, Download, Layers3, Plus, Share2 } from "lucide-react";
+import logo from "../../../logo.png";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -240,6 +241,15 @@ const AdminLayout = () => {
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
+              <a
+                href="https://corteqs.net"
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background p-1.5 shadow-sm transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md"
+                aria-label="CorteQS ana siteye git"
+              >
+                <img src={logo} alt="CorteQS" className="h-full w-full object-contain" />
+              </a>
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
               <span className="text-xs text-muted-foreground">{session?.user.email}</span>
             </div>

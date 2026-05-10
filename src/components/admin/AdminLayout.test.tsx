@@ -64,6 +64,7 @@ describe("AdminLayout", () => {
       expect(screen.getByText("Admin Home Content")).toBeInTheDocument();
     });
 
+    expect(screen.getByRole("link", { name: /CorteQS ana siteye git/i })).toHaveAttribute("href", "https://corteqs.net");
     expect(screen.getByRole("link", { name: "Engine" })).toHaveAttribute("href", "https://eng.corteqs.net");
     expect(screen.getByRole("link", { name: "Globe" })).toHaveAttribute("href", "https://globe.corteqs.ret");
     expect(screen.getByRole("link", { name: "Founders" })).toHaveAttribute("href", "https://corteqs.net/founders");
