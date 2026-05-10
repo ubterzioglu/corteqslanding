@@ -26,12 +26,6 @@ export const otherRecordNavItems = [
 export const adminPanelNavItems = [
   { key: "wiki", href: "https://dashboard.corteqs.net/", label: "WikiDash", icon: BarChart3 },
   {
-    key: "meetings-actions",
-    href: "https://dashboard.corteqs.net/toplantiozet",
-    label: "Toplantılar / Aksiyonlar",
-    icon: Users,
-  },
-  {
     key: "command-center",
     href: "https://dashboard.corteqs.net/commandcenter",
     label: "Command Center",

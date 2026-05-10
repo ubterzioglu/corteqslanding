@@ -95,7 +95,7 @@ describe("AdminLayout", () => {
     expect(screen.queryByRole("button", { name: /Toplu işlem/i })).not.toBeInTheDocument();
   });
 
-  it("shows merged meetings hub and the command center dashboard link", async () => {
+  it("shows the command center dashboard link", async () => {
     renderAdminLayout("/admin/members");
 
     await waitFor(() => {
@@ -105,11 +105,7 @@ describe("AdminLayout", () => {
     const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
     fireEvent.mouseEnter(dashboardButton);
 
-    expect((await screen.findByText("Toplantılar / Aksiyonlar")).closest("a")).toHaveAttribute(
-      "href",
-      "https://dashboard.corteqs.net/toplantiozet",
-    );
-    expect(screen.getByText("Command Center").closest("a")).toHaveAttribute(
+    expect((await screen.findByText("Command Center")).closest("a")).toHaveAttribute(
       "href",
       "https://dashboard.corteqs.net/commandcenter",
     );

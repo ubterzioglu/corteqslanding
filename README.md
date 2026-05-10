@@ -95,4 +95,4 @@ BASE_URL=https://corteqs.net npm run verify:release
 - Non-admin authenticated users cannot read submissions.
 - The admin panel supports filtering, CSV export, status updates, and internal notes.
 - `/admin/lansman` now uses the same Supabase admin session as the rest of `/admin`.
-- The admin shell links the external dashboard's merged meeting workflow through `Toplantılar / Aksiyonlar` and now exposes `Command Center` as the dedicated follow-up dashboard entry.
+- The admin shell exposes `Command Center` as the dedicated external dashboard entry alongside the remaining dashboard tools.

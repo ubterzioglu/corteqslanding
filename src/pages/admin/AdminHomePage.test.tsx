@@ -45,14 +45,16 @@ describe("AdminHomePage", () => {
     expect(externalLinks[1]).toHaveAttribute("href", "https://globe.corteqs.ret");
     expect(externalLinks[2]).toHaveAttribute("href", "https://corteqs.net/founders");
     expect(screen.getByText("Diğer İşlemler")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Diğer İşlemler"));
     expect(screen.getByText("Haber Bandı")).toBeInTheDocument();
     expect(screen.getByText("Sosyal Medya")).toBeInTheDocument();
     expect(screen.getByText("Güncellemeler")).toBeInTheDocument();
     expect(screen.getByText("Diğer Kayıtlar")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Diğer Kayıtlar"));
     expect(screen.getByText("Lansman Katılım")).toBeInTheDocument();
     expect(screen.getByText("Dashboard")).toBeInTheDocument();
     expect(screen.getByText("WikiDash")).toBeInTheDocument();
-    expect(screen.getByText("Toplantılar / Aksiyonlar")).toBeInTheDocument();
+    expect(screen.getByText("Command Center")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Çıkış/i })).toBeInTheDocument();
   });
 
