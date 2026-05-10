@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { AlertTriangle, Pencil, Plus, Save, Search, Trash2, X } from 'lucide-react'
 import AccordionCard from '@/components/dashboard/AccordionCard'
+import burakAvatar from '../../../../burak.png'
+import ubtAvatar from '../../../../ubt.png'
 import {
   COMMAND_CENTER_PRIORITY_OPTIONS,
   createCommandCenterItem,
@@ -1562,9 +1564,9 @@ function AssigneeAvatar({ assignee }: { assignee: string }) {
   const normalizedAssignee = normalizeTodoAssignee(assignee)
   const src =
     normalizedAssignee === normalizeTodoAssignee('Burak')
-      ? '/kafaburak.png'
+      ? burakAvatar
       : normalizedAssignee === normalizeTodoAssignee('UBT')
-        ? '/kafaubt.png'
+        ? ubtAvatar
         : null
 
   if (!src) {

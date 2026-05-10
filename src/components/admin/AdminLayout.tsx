@@ -7,11 +7,13 @@ import logo from "../../../logo.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import {
+  adminPanelDocNavItems,
   adminPanelNavItems,
   externalAdminNavItems,
   otherActionNavItems,
   otherRecordNavItems,
   primaryAdminNavItems,
+  workspaceAdminNavItems,
 } from "@/components/admin/admin-navigation";
 import {
   DropdownMenu,
@@ -388,7 +390,21 @@ const AdminLayout = () => {
                     onMouseEnter={() => setAdminPanelMenuOpen(true)}
                     onMouseLeave={() => setAdminPanelMenuOpen(false)}
                   >
-                    {adminPanelNavItems.map((item) => (
+                    {workspaceAdminNavItems.map((item) => (
+                      <DropdownMenuItem key={item.key} asChild>
+                        <Link to={item.to} className="flex items-center justify-between gap-3">
+                          <span>{item.label}</span>
+                          {location.pathname === item.to ? <Check className="h-4 w-4 text-primary" /> : null}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                    <div className="px-3 py-2">
+                      <div className="border-t border-border/70" />
+                      <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                        Diger Dokumanlar
+                      </p>
+                    </div>
+                    {adminPanelDocNavItems.map((item) => (
                       <DropdownMenuItem key={item.key} asChild>
                         <Link to={item.to} className="flex items-center justify-between gap-3">
                           <span>{item.label}</span>

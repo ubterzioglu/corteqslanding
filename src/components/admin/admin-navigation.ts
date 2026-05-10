@@ -31,12 +31,11 @@ export const workspaceAdminNavItems = [
   { key: "mvp", to: "/admin/workspace/mvp", label: "MVP Listesi", icon: Rocket },
 ] as const;
 
-export const adminPanelNavItems = [
-  ...workspaceAdminNavItems,
-  ...workspaceDocPages.map((page) => ({
-    key: `doc-${page.slug}`,
-    to: `/admin/workspace/docs/${page.slug}`,
-    label: page.title,
-    icon: ScrollTextIcon,
-  })),
-] as const;
+export const adminPanelDocNavItems = workspaceDocPages.map((page) => ({
+  key: `doc-${page.slug}`,
+  to: `/admin/workspace/docs/${page.slug}`,
+  label: page.title,
+  icon: ScrollTextIcon,
+})) as const;
+
+export const adminPanelNavItems = [...workspaceAdminNavItems, ...adminPanelDocNavItems] as const;

@@ -1,12 +1,14 @@
+import type { ComponentType } from "react";
 import { ArrowRight, ExternalLink, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import {
-  adminPanelNavItems,
+  adminPanelDocNavItems,
   externalAdminNavItems,
   otherActionNavItems,
   otherRecordNavItems,
   primaryAdminNavItems,
+  workspaceAdminNavItems,
 } from "@/components/admin/admin-navigation";
 import { useAdminOutletContext } from "@/components/admin/AdminLayout";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -60,6 +62,33 @@ const advisorRecordItems = advisorProfileSections.map((section) => ({
 
 const sectionLabelClassName = "text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500";
 
+const renderDashboardCard = (item: {
+  key: string;
+  to: string;
+  label: string;
+  icon: ComponentType<{ className?: string }>;
+}) => (
+  <Card key={item.key} className="border-slate-200 bg-white shadow-none">
+    <CardHeader className="space-y-2 p-3 pb-2">
+      <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-violet-100 bg-violet-50 text-violet-700">
+        <item.icon className="h-3.5 w-3.5" />
+      </div>
+      <div className="space-y-1">
+        <CardTitle className="text-sm text-slate-950">{item.label}</CardTitle>
+        <CardDescription className="text-[11px] leading-5 text-slate-600">{dashboardDescriptions[item.label]}</CardDescription>
+      </div>
+    </CardHeader>
+    <CardContent className="p-3 pt-0">
+      <Button asChild variant="outline" size="sm" className="w-full justify-between text-xs">
+        <Link to={item.to}>
+          Ekrani Ac
+          <ExternalLink className="h-3.5 w-3.5" />
+        </Link>
+      </Button>
+    </CardContent>
+  </Card>
+);
+
 const AdminHomePage = () => {
   const { session, onLogout } = useAdminOutletContext();
 
@@ -82,12 +111,12 @@ const AdminHomePage = () => {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-        <div className="space-y-4">
+      <div className="grid gap-4 xl:grid-cols-[1.02fr_0.98fr]">
+        <section className="space-y-4">
           <section className="space-y-2">
             <div className="space-y-1">
-              <h2 className={sectionLabelClassName}>Ana Menü</h2>
-              <p className="text-xs text-slate-600">En sık kullanılan admin modüllerine hızlı erişim.</p>
+              <h2 className={sectionLabelClassName}>Admin İşlemleri</h2>
+              <p className="text-xs text-slate-600">Operasyonel admin ekranlarını tek kolonda toplayın.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {primaryAdminNavItems.map((item) => (
@@ -119,49 +148,9 @@ const AdminHomePage = () => {
             </div>
           </section>
 
-          <section className="space-y-2">
-            <div className="space-y-1">
-              <h2 className={sectionLabelClassName}>Dış Bağlantılar</h2>
-              <p className="text-xs text-slate-600">Harici platformlara tek satırlık kompakt çıkışlar.</p>
-            </div>
-            <div className="grid gap-3">
-              {externalAdminNavItems.map((item, index) => (
-                <Card
-                  key={item.href}
-                  className={`border shadow-sm ${
-                    index === 0
-                      ? "border-sky-200 bg-sky-50/70"
-                      : index === 1
-                        ? "border-emerald-200 bg-emerald-50/70"
-                        : "border-amber-200 bg-amber-50/70"
-                  }`}
-                >
-                  <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="min-w-0">
-                      <h3 className="text-sm font-semibold text-slate-950">{item.label}</h3>
-                      <p className="mt-1 text-xs leading-5 text-slate-600">{externalAdminLinkDescriptions[item.label]}</p>
-                    </div>
-                    <Button asChild variant="outline" size="sm" className="justify-between bg-white/90 text-xs sm:min-w-36">
-                      <a href={item.href} target="_blank" rel="noreferrer">
-                        Bağlantıyı Aç
-                        <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-        </div>
-
-        <section className="space-y-2">
-          <div className="space-y-1">
-            <h2 className={sectionLabelClassName}>Kısayol Panelleri</h2>
-            <p className="text-xs text-slate-600">Uzun listeler akordeon kartlara taşındı, ekran daha kısa kaldı.</p>
-          </div>
           <Card className="border-slate-200 bg-white shadow-sm">
             <CardContent className="p-2 sm:p-3">
-              <Accordion type="multiple" defaultValue={["dashboard"]} className="space-y-2">
+              <Accordion type="multiple" className="space-y-2">
                 <AccordionItem value="other-actions" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-3">
                   <AccordionTrigger className="py-3 text-left hover:no-underline">
                     <div className="space-y-1">
@@ -240,47 +229,64 @@ const AdminHomePage = () => {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-
-                <AccordionItem value="dashboard" className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/70 px-3">
-                  <AccordionTrigger className="py-3 text-left hover:no-underline">
-                    <div className="space-y-1">
-                      <div className="text-sm font-semibold text-slate-950">Dashboard</div>
-                      <div className="text-xs text-slate-600">Harici dashboard araçlarını daha küçük kartlarla açın.</div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="pb-3">
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      {adminPanelNavItems.map((item) => (
-                        <Card key={item.key} className="border-slate-200 bg-white shadow-none">
-                          <CardHeader className="space-y-2 p-3 pb-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-violet-100 bg-violet-50 text-violet-700">
-                              <item.icon className="h-3.5 w-3.5" />
-                            </div>
-                            <div className="space-y-1">
-                              <CardTitle className="text-sm text-slate-950">{item.label}</CardTitle>
-                              <CardDescription className="text-[11px] leading-5 text-slate-600">
-                                {dashboardDescriptions[item.label]}
-                              </CardDescription>
-                            </div>
-                          </CardHeader>
-                          <CardContent className="p-3 pt-0">
-                            <Button asChild variant="outline" size="sm" className="w-full justify-between text-xs">
-                              <Link to={item.to}>
-                                Ekrani Ac
-                                <ExternalLink className="h-3.5 w-3.5" />
-                              </Link>
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
               </Accordion>
             </CardContent>
           </Card>
         </section>
+
+        <section className="space-y-2">
+          <div className="space-y-1">
+            <h2 className={sectionLabelClassName}>Dashboard</h2>
+            <p className="text-xs text-slate-600">Yeni workspace araçları ve wiki dökümanlarına tek panelden ulaşın.</p>
+          </div>
+          <Card className="border-slate-200 bg-white shadow-sm">
+            <CardContent className="space-y-4 p-3">
+              <div className="grid gap-2 sm:grid-cols-2">{workspaceAdminNavItems.map(renderDashboardCard)}</div>
+
+              <div className="space-y-3">
+                <div className="border-t border-slate-200 pt-3">
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">Diger Dokumanlar</div>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2">{adminPanelDocNavItems.map(renderDashboardCard)}</div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
       </div>
+
+      <section className="space-y-2">
+        <div className="space-y-1">
+          <h2 className={sectionLabelClassName}>Dış Bağlantılar</h2>
+          <p className="text-xs text-slate-600">Harici platformlara tek satırlık kompakt çıkışlar.</p>
+        </div>
+        <div className="grid gap-3">
+          {externalAdminNavItems.map((item, index) => (
+            <Card
+              key={item.href}
+              className={`border shadow-sm ${
+                index === 0
+                  ? "border-sky-200 bg-sky-50/70"
+                  : index === 1
+                    ? "border-emerald-200 bg-emerald-50/70"
+                    : "border-amber-200 bg-amber-50/70"
+              }`}
+            >
+              <CardContent className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold text-slate-950">{item.label}</h3>
+                  <p className="mt-1 text-xs leading-5 text-slate-600">{externalAdminLinkDescriptions[item.label]}</p>
+                </div>
+                <Button asChild variant="outline" size="sm" className="justify-between bg-white/90 text-xs sm:min-w-36">
+                  <a href={item.href} target="_blank" rel="noreferrer">
+                    Bağlantıyı Aç
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

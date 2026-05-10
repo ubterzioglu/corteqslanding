@@ -36,13 +36,13 @@ const SOCIAL_FALLBACKS: Partial<Record<SocialPlatform, string>> = {
 };
 
 const socialCircleBaseClass =
-  "group relative flex h-[4.9rem] w-[4.9rem] items-center justify-center rounded-full border border-white/14 bg-[radial-gradient(circle_at_50%_22%,rgba(255,255,255,0.055),rgba(255,255,255,0.015)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_10px_24px_rgba(0,0,0,0.22)] transition duration-300 hover:-translate-y-0.5 hover:border-white/24 hover:bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.09),rgba(255,255,255,0.02)_44%,rgba(0,0,0,0.04)_100%)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#16221d]";
+  "group relative flex h-[4.45rem] w-[4.45rem] items-center justify-center rounded-full border border-white/12 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.045),rgba(255,255,255,0.012)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_18px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/18 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a241d]";
 
 const socialCircleInnerClass =
-  "pointer-events-none absolute inset-[0.33rem] rounded-full border border-white/10 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.03),rgba(255,255,255,0.008)_54%,rgba(255,255,255,0)_100%)]";
+  "pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/11 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.022),rgba(255,255,255,0.006)_54%,rgba(255,255,255,0)_100%)]";
 
 const socialCircleOuterGlowClass =
-  "pointer-events-none absolute inset-[-0.22rem] rounded-full border border-white/8 opacity-80 transition duration-300 group-hover:border-white/16";
+  "pointer-events-none absolute inset-[-0.18rem] rounded-full border border-white/8 opacity-80 transition duration-300 group-hover:border-white/14";
 
 const FooterSection = () => {
   const { toast } = useToast();
@@ -207,9 +207,9 @@ const FooterSection = () => {
               <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-white/55">
                 Bizi Sosyal Medyada Takip Edin
               </p>
-              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.75rem] bg-[linear-gradient(90deg,rgba(17,35,31,0.9)_0%,rgba(22,33,29,0.94)_36%,rgba(39,39,24,0.9)_100%)] px-4 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03),0_24px_50px_rgba(0,0,0,0.24)] backdrop-blur-xl sm:gap-4 sm:px-5 sm:py-3">
+              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.15rem] bg-[linear-gradient(90deg,rgba(19,35,31,0.95)_0%,rgba(24,33,28,0.96)_42%,rgba(58,54,33,0.9)_100%)] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02),0_16px_34px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:gap-3.5 sm:px-4 sm:py-2.5">
                 {socialCircleItems.map((item) => {
-                  const icon = item.icon(`h-6 w-6 transition duration-300 ${item.accentClassName}`);
+                  const icon = item.icon(`h-[1.55rem] w-[1.55rem] transition duration-300 ${item.accentClassName}`);
 
                   if (!item.href) {
                     return (
