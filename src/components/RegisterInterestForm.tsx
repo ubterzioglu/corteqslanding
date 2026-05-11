@@ -430,7 +430,7 @@ const RegisterInterestForm = ({
                 </ul>
               ) : (
                 <p className="mt-2 text-xs text-muted-foreground">
-                  CV, portföy, sertifika veya tanıtım dökümanlarınızı ekleyin. Dosya başına maks. 10 MB.
+                  CV, portföy, sertifika veya tanıtım dökümanlarınızı ekleyin. Dosya başına maks. 50 MB.
                 </p>
               )}
             </div>

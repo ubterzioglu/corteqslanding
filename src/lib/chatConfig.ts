@@ -294,7 +294,7 @@ export function getStepMessage(step: ChatStep, data: ChatCollectedData): { conte
 
     case "documents":
       return {
-        content: "CV, portf\u00f6y veya sertifika y\u00fcklemek ister misin?\n(PDF, DOC, DOCX, JPG, PNG, WEBP \u2014 dosya ba\u015f\u0131na maks. 10 MB, en fazla 5 dosya)",
+        content: "CV, portf\u00f6y veya sertifika y\u00fcklemek ister misin?\n(PDF, DOC, DOCX, JPG, PNG, WEBP \u2014 dosya ba\u015f\u0131na maks. 50 MB, en fazla 5 dosya)",
         quickReplies: [SKIP_REPLY],
       };
 

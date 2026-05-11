@@ -73,8 +73,8 @@ let mockRows: MockSubmission[] = [];
 let mockBucketStats = {
   bucket_id: "submission-documents",
   file_count: 12,
-  total_bytes: 8_912_896,
-  file_size_limit: 10_485_760,
+  total_bytes: 44_564_480,
+  file_size_limit: 52_428_800,
   usage_ratio: 0.85,
 };
 let mockBucketStatsError: Error | null = null;
@@ -169,8 +169,8 @@ beforeEach(() => {
   mockBucketStats = {
     bucket_id: "submission-documents",
     file_count: 12,
-    total_bytes: 8_912_896,
-    file_size_limit: 10_485_760,
+    total_bytes: 44_564_480,
+    file_size_limit: 52_428_800,
     usage_ratio: 0.85,
   };
   mockBucketStatsError = null;
@@ -237,8 +237,8 @@ describe("AdminMembersPage", () => {
     const summary = await screen.findByTestId("documents-bucket-summary");
     expect(summary).toHaveTextContent("Yüklenen Doküman Kapasitesi");
     expect(summary).toHaveTextContent("Uyarı");
-    expect(summary).toHaveTextContent("8.5 MB");
-    expect(summary).toHaveTextContent("10 MB");
+    expect(summary).toHaveTextContent("43 MB");
+    expect(summary).toHaveTextContent("50 MB");
     expect(summary).toHaveTextContent("%85");
     expect(summary).toHaveTextContent("12");
   });
@@ -246,7 +246,7 @@ describe("AdminMembersPage", () => {
   it("shows a critical status when usage crosses the critical threshold", async () => {
     mockBucketStats = {
       ...mockBucketStats,
-      total_bytes: 9_961_472,
+      total_bytes: 49_807_360,
       usage_ratio: 0.95,
     };
 

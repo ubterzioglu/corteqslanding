@@ -30,7 +30,7 @@ export const allowedSubmissionDocumentTypes = [
   "image/webp",
 ] as const;
 
-export const maxSubmissionDocumentBytes = 10 * 1024 * 1024;
+export const maxSubmissionDocumentBytes = 50 * 1024 * 1024;
 export const maxSubmissionDocumentCount = 5;
 
 export const categoryOptions = [
@@ -182,7 +182,7 @@ export function validateSubmissionDocuments(files: File[], currentFiles: File[] 
     if (file.size > maxSubmissionDocumentBytes) {
       return {
         ok: false as const,
-        message: `"${file.name}" çok büyük. Dosya başına maks. 10 MB.`,
+        message: `"${file.name}" çok büyük. Dosya başına maks. 50 MB.`,
       };
     }
 
