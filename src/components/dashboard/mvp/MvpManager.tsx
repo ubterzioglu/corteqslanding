@@ -242,7 +242,7 @@ export default function MvpManager() {
                     </select>
                   </label>
                   <div className="flex items-end sm:col-span-2 lg:col-span-5">
-                    <button type="submit" disabled={isSubmitting} className="w-full rounded-xl bg-primary-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-primary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:opacity-60">
+                    <button type="submit" disabled={isSubmitting} className="w-full rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-60">
                       <Plus size={16} className="mr-1 inline" aria-hidden="true" />
                       {isSubmitting ? 'Kaydediliyor...' : 'Yeni ekle'}
                     </button>

@@ -42,7 +42,7 @@ export default function AccordionCard({
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => setOpenId(isOpen ? null : item.id)}
-              className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-[rgba(66,133,244,0.03)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-inset"
+              className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-[rgba(66,133,244,0.03)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
               style={{ borderLeft: `3px solid ${accentColor}` }}
             >
               <span className="flex-1 text-sm font-semibold text-gray-900">
