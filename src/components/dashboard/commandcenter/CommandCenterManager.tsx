@@ -34,7 +34,6 @@ import {
   TODO_ASSIGNEES,
   TODO_CATEGORIES,
   TODO_STATUSES,
-  formatTodoDate,
   normalizeTodoAssignee,
 } from '@/lib/dashboard/todo-items'
 
@@ -87,6 +86,23 @@ function formatDeletedAt(value: string | null): string {
   return date.toLocaleString('tr-TR', {
     dateStyle: 'short',
     timeStyle: 'short',
+  })
+}
+
+function formatCreatedAt(value: string | null): string {
+  if (!value) {
+    return '10.05.26'
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return '10.05.26'
+  }
+
+  return date.toLocaleDateString('tr-TR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: '2-digit',
   })
 }
 
@@ -793,7 +809,7 @@ export default function CommandCenterManager({
                   </colgroup>
                   <thead className="border-b border-[rgba(66,133,244,0.08)] bg-[rgba(66,133,244,0.02)]">
                     <tr>
-                      {['Prio', 'Acil', 'Kategori', 'Tarih', 'Başlık & Detay', 'Kim', 'Durum', 'Tarih', 'İşlem'].map((column) => (
+                      {['Prio', 'Acil', 'Kategori', 'Tarih', 'Başlık & Detay', 'Kim', 'Durum', 'Eklenme', 'İşlem'].map((column) => (
                         <th
                           key={column}
                           scope="col"
@@ -1079,7 +1095,7 @@ export default function CommandCenterManager({
                             <StatusBadge status={item.status} />
                           </td>
                           <td className="whitespace-nowrap px-2.5 py-3 align-middle text-gray-600">
-                            {formatTodoDate(item.dueDate)}
+                            {formatCreatedAt(item.createdAt)}
                           </td>
                           <td className="whitespace-nowrap px-1.5 py-3 align-middle pr-4">
                             <div className="flex flex-nowrap items-center justify-center gap-1.5">
@@ -1310,7 +1326,7 @@ export default function CommandCenterManager({
                             <MobileInfoPair label="Tarih" value={dateGroupInfo.label} />
                             <MobileInfoPair label="Kim" value={item.assignee} assignee={item.assignee} />
                             <MobileInfoPair label="Durum" value={getCommandCenterStatusLabel(item.status)} />
-                            <MobileInfoPair label="Tarih" value={formatTodoDate(item.dueDate)} />
+                            <MobileInfoPair label="Eklenme" value={formatCreatedAt(item.createdAt)} />
                           </div>
                         </>
                       )}
@@ -1441,7 +1457,7 @@ function DeletedItemsList({ items }: { items: CommandCenterItem[] }) {
           </colgroup>
           <thead className="border-b border-red-100 bg-red-50/70">
             <tr>
-              {['Prio', 'Tip', 'Kategori', 'Başlık & Detay', 'Kim', 'Durum', 'Tarih', 'Silinme'].map(
+              {['Prio', 'Tip', 'Kategori', 'Başlık & Detay', 'Kim', 'Durum', 'Eklenme', 'Silinme'].map(
                 (column) => (
                   <th
                     key={column}
@@ -1486,7 +1502,7 @@ function DeletedItemsList({ items }: { items: CommandCenterItem[] }) {
                   <StatusBadge status={item.status} />
                 </td>
                 <td className="whitespace-nowrap px-2.5 py-3 text-[12px] text-gray-600">
-                  {formatTodoDate(item.dueDate)}
+                  {formatCreatedAt(item.createdAt)}
                 </td>
                 <td className="whitespace-nowrap px-2.5 py-3 text-[12px] text-gray-600">
                   {formatDeletedAt(item.deletedAt)}
@@ -1524,7 +1540,7 @@ function DeletedItemsList({ items }: { items: CommandCenterItem[] }) {
                 assignee={item.assignee}
               />
               <MobileInfoPair label="Durum" value={getCommandCenterStatusLabel(item.status)} />
-              <MobileInfoPair label="Tarih" value={formatTodoDate(item.dueDate)} />
+              <MobileInfoPair label="Eklenme" value={formatCreatedAt(item.createdAt)} />
               <MobileInfoPair label="Silinme" value={formatDeletedAt(item.deletedAt)} />
             </div>
           </div>

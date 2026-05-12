@@ -37,7 +37,7 @@ type MockSubmission = {
   contact_email_reached: boolean;
   document_url: string | null;
   document_name: string | null;
-  documents: Array<{ url: string; name: string; sizeBytes?: number; contentType?: string }>;
+  documents: Array<{ url: string | null; path?: string | null; name: string; sizeBytes?: number; contentType?: string }>;
 };
 
 const createMockRows = (): MockSubmission[] =>
@@ -78,6 +78,7 @@ let mockBucketStats = {
   usage_ratio: 0.85,
 };
 let mockBucketStatsError: Error | null = null;
+const windowOpen = vi.fn();
 
 function applyFilters(data: MockSubmission[]) {
   return {
@@ -130,6 +131,15 @@ vi.mock("@/integrations/supabase/client", () => ({
 
       return Promise.resolve({ data: [mockBucketStats], error: null });
     },
+    storage: {
+      from: () => ({
+        createSignedUrl: (path: string) =>
+          Promise.resolve({
+            data: { signedUrl: `https://signed.example.com/${path}` },
+            error: null,
+          }),
+      }),
+    },
   },
 }));
 
@@ -145,17 +155,21 @@ function renderPage(initialEntry = "/admin/members?page=1&pageSize=20") {
 
 beforeEach(() => {
   toast.mockReset();
+  windowOpen.mockReset();
+  vi.stubGlobal("open", windowOpen);
   mockRows = createMockRows();
   mockRows[0].phone = "+49 123 456 789";
   mockRows[0].documents = [
     {
-      url: "https://example.com/member-1-cv.pdf",
+      url: null,
+      path: "member-1-cv.pdf",
       name: "member-1-cv.pdf",
       sizeBytes: 2_048,
       contentType: "application/pdf",
     },
     {
-      url: "https://example.com/member-1-portfolio.pdf",
+      url: null,
+      path: "member-1-portfolio.pdf",
       name: "member-1-portfolio.pdf",
       sizeBytes: 4_096,
       contentType: "application/pdf",
@@ -217,7 +231,14 @@ describe("AdminMembersPage", () => {
     expect(await screen.findByText("Yüklenen Dokümanlar")).toBeInTheDocument();
     expect(screen.getByText("member-1-cv.pdf")).toBeInTheDocument();
     expect(screen.getByText("member-1-portfolio.pdf")).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Aç" })[0]).toHaveAttribute("href", "https://example.com/member-1-cv.pdf");
+    fireEvent.click(screen.getAllByRole("button", { name: "Aç" })[0]);
+    await waitFor(() => {
+      expect(windowOpen).toHaveBeenCalledWith(
+        "https://signed.example.com/member-1-cv.pdf",
+        "_blank",
+        "noopener,noreferrer",
+      );
+    });
   });
 
   it("falls back to legacy single-document fields when documents json is empty", async () => {
@@ -228,7 +249,14 @@ describe("AdminMembersPage", () => {
     renderPage();
 
     expect(await screen.findByText("legacy-doc.pdf")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Aç" })).toHaveAttribute("href", "https://example.com/legacy-doc.pdf");
+    fireEvent.click(screen.getByRole("button", { name: "Aç" }));
+    await waitFor(() => {
+      expect(windowOpen).toHaveBeenCalledWith(
+        "https://example.com/legacy-doc.pdf",
+        "_blank",
+        "noopener,noreferrer",
+      );
+    });
   });
 
   it("shows bucket usage summary with warning status when usage is near the limit", async () => {

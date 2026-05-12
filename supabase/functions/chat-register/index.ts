@@ -1,28 +1,161 @@
-const ALLOWED_ORIGINS = [
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
+import { z } from "https://esm.sh/zod@3.25.76";
+
+const ALLOWED_ORIGINS = new Set([
   "https://corteqs.net",
   "https://www.corteqs.net",
   "http://localhost:5173",
   "http://localhost:4173",
-];
+]);
+const MAX_BODY_BYTES = 24_000;
+const RATE_LIMIT_MAX = 15;
+const RATE_LIMIT_WINDOW_SECONDS = 600;
 
-function getCorsHeaders(req: Request): Record<string, string> {
-  const origin = req.headers.get("Origin") ?? "";
-  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    "Access-Control-Allow-Origin": allowOrigin,
+const MessageSchema = z.object({
+  role: z.enum(["user", "assistant"]),
+  content: z.string().trim().min(1).max(2_000),
+});
+
+const CollectedSchema = z.object({
+  category: z.string().trim().max(80).optional(),
+  fullname: z.string().trim().max(160).optional(),
+  country: z.string().trim().max(120).optional(),
+  city: z.string().trim().max(120).optional(),
+  business: z.string().trim().max(160).optional(),
+  field: z.string().trim().max(160).optional(),
+  email: z.string().trim().max(160).optional(),
+  phone: z.string().trim().max(40).optional(),
+  offers_needs: z.string().trim().max(2_000).optional(),
+  referral_code: z.string().trim().max(64).optional(),
+  contest_interest: z.boolean().optional(),
+}).partial();
+
+const RequestSchema = z.object({
+  messages: z.array(MessageSchema).min(1).max(30),
+  collected: CollectedSchema.optional(),
+});
+
+const ResponseSchema = z.object({
+  message: z.string().trim().min(1).max(2_000),
+  extracted: CollectedSchema.optional(),
+  request_upload: z.boolean().optional(),
+  status: z.enum(["in_progress", "ready_to_submit", "submit"]),
+});
+
+function buildCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin");
+  const headers: Record<string, string> = {
     "Access-Control-Allow-Headers":
       "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Vary": "Origin",
   };
+
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+
+  return headers;
 }
 
-const SYSTEM_PROMPT = `Sen CorteQS Diaspora Connect platformunun akıllı, çevik ve girişken kayıt asistanısın.
-Görevin: Kullanıcıyla TÜRKÇE, sıcak ve samimi bir sohbet kurarak hem kayıt bilgilerini toplamak hem de **arz & taleplerini** olabildiğince zengin biçimde yakalamak.
+function jsonResponse(body: unknown, status: number, corsHeaders: Record<string, string>) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  });
+}
 
-PLATFORM FELSEFESİ (çok önemli):
-CorteQS bir **diaspora network ve eşleştirme** platformudur. Her türlü arz/talep (ürün satışı, hizmet, iş ilanı, ortaklık, danışmanlık ihtiyacı, sponsor arayışı, bağış vs.) kıymetli bir matching sinyalidir ve mutlaka detaylıca kaydedilir.
+function getClientKey(req: Request): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim() || "unknown";
+  }
 
-Toplanması gereken alanlar:
+  return req.headers.get("cf-connecting-ip")
+    ?? req.headers.get("x-real-ip")
+    ?? "unknown";
+}
+
+async function readJsonWithLimit(req: Request, maxBytes: number) {
+  const text = await req.text();
+  if (new TextEncoder().encode(text).length > maxBytes) {
+    throw new Error("PAYLOAD_TOO_LARGE");
+  }
+
+  return JSON.parse(text);
+}
+
+async function enforceRateLimit(req: Request, scope: string, maxRequests: number, windowSeconds: number) {
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("RATE_LIMIT_CONFIG_MISSING");
+  }
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+  const clientKey = getClientKey(req);
+  const now = Date.now();
+  const windowMs = windowSeconds * 1000;
+  const windowStartedAt = new Date(Math.floor(now / windowMs) * windowMs).toISOString();
+
+  const { data: existing, error: fetchError } = await supabase
+    .from("edge_rate_limits")
+    .select("request_count, window_started_at")
+    .eq("scope", scope)
+    .eq("client_key", clientKey)
+    .maybeSingle();
+
+  if (fetchError) throw fetchError;
+
+  if (!existing) {
+    const { error: insertError } = await supabase.from("edge_rate_limits").insert({
+      scope,
+      client_key: clientKey,
+      window_started_at: windowStartedAt,
+      request_count: 1,
+    });
+    if (insertError) throw insertError;
+    return;
+  }
+
+  const sameWindow = existing.window_started_at === windowStartedAt;
+  const nextCount = sameWindow ? Number(existing.request_count ?? 0) + 1 : 1;
+
+  if (sameWindow && nextCount > maxRequests) {
+    throw new Error("RATE_LIMITED");
+  }
+
+  const { error: updateError } = await supabase
+    .from("edge_rate_limits")
+    .update({
+      request_count: nextCount,
+      window_started_at: windowStartedAt,
+    })
+    .eq("scope", scope)
+    .eq("client_key", clientKey);
+
+  if (updateError) throw updateError;
+}
+
+function redactSensitiveText(value: string, fullname?: string): string {
+  let nextValue = value
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[redacted-email]")
+    .replace(/\+?\d[\d\s().-]{7,}\d/g, "[redacted-phone]");
+
+  if (fullname) {
+    nextValue = nextValue.replaceAll(fullname, "[redacted-name]");
+  }
+
+  return nextValue;
+}
+
+const SYSTEM_PROMPT = `Sen CorteQS Diaspora Connect platformunun kayit asistanisin.
+Gorevin: kullaniciyla Turkce, kisa ve net bir sohbet kurarak kayit bilgilerini toplamak.
+
+Toplanmasi gereken alanlar:
 1. category — danisman | isletme | dernek | vakif | radyo-tv | blogger-vlogger | sehir-elcisi | bireysel
 2. fullname
 3. country
@@ -34,83 +167,56 @@ Toplanması gereken alanlar:
 9. referral_code
 
 Kurallar:
-- Her zaman Türkçe konuş.
-- Kısa, doğal mesajlar ver.
-- Kullanıcının cevabından mümkün olduğu kadar çok alan çıkar.
-- Telefon ülke kodu yoksa düzeltme iste.
-- E-posta geçersizse düzeltme iste.
-- Tüm zorunlu alanlar tamamlandıysa status="ready_to_submit" dön.
-- Kullanıcı onay verirse status="submit" dön.
-
-Her zaman "chat_response" tool'unu çağır.`;
+- Her zaman Turkce konus.
+- Kisa ve dogal mesajlar ver.
+- Kullanici cevabindan mumkun oldugu kadar cok alan cikar.
+- Telefon ulke kodu yoksa duzeltme iste.
+- E-posta gecersizse duzeltme iste.
+- Tum zorunlu alanlar tamamlandiysa status="ready_to_submit" don.
+- Kullanici onay verirse status="submit" don.
+- Sadece istenen JSON tool argumanlarini don.`;
 
 Deno.serve(async (req) => {
-  const corsHeaders = getCorsHeaders(req);
+  const corsHeaders = buildCorsHeaders(req);
+  const origin = req.headers.get("Origin");
 
   if (req.method === "OPTIONS") {
+    if (origin && !ALLOWED_ORIGINS.has(origin)) {
+      return jsonResponse({ error: "Origin not allowed" }, 403, corsHeaders);
+    }
     return new Response(null, { headers: corsHeaders });
   }
 
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return jsonResponse({ error: "Origin not allowed" }, 403, corsHeaders);
+  }
+
+  if (req.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405, corsHeaders);
+  }
+
   try {
-    const { messages, collected } = await req.json();
+    await enforceRateLimit(req, "chat-register", RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_SECONDS);
+
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
     if (!lovableApiKey) throw new Error("LOVABLE_API_KEY is not configured");
 
-    const collectedSummary = collected
-      ? `\n\nŞu ana kadar toplanan bilgiler: ${JSON.stringify(collected)}`
+    const parsedRequest = RequestSchema.parse(await readJsonWithLimit(req, MAX_BODY_BYTES));
+    const sanitizedCollected = parsedRequest.collected
+      ? {
+          ...parsedRequest.collected,
+          fullname: undefined,
+          email: undefined,
+          phone: undefined,
+        }
+      : undefined;
+    const sanitizedMessages = parsedRequest.messages.map((message) => ({
+      ...message,
+      content: redactSensitiveText(message.content, parsedRequest.collected?.fullname),
+    }));
+    const collectedSummary = sanitizedCollected
+      ? `\n\nSu ana kadar toplanan bilgiler: ${JSON.stringify(sanitizedCollected)}`
       : "";
-
-    const tools = [
-      {
-        type: "function",
-        function: {
-          name: "chat_response",
-          description: "Kullanıcıya verilecek sohbet cevabı ve çıkarılan alanlar.",
-          parameters: {
-            type: "object",
-            properties: {
-              message: { type: "string" },
-              extracted: {
-                type: "object",
-                properties: {
-                  category: {
-                    type: "string",
-                    enum: [
-                      "danisman",
-                      "isletme",
-                      "dernek",
-                      "vakif",
-                      "radyo-tv",
-                      "blogger-vlogger",
-                      "sehir-elcisi",
-                      "bireysel",
-                    ],
-                  },
-                  fullname: { type: "string" },
-                  country: { type: "string" },
-                  city: { type: "string" },
-                  business: { type: "string" },
-                  field: { type: "string" },
-                  email: { type: "string" },
-                  phone: { type: "string" },
-                  offers_needs: { type: "string" },
-                  referral_code: { type: "string" },
-                  contest_interest: { type: "boolean" },
-                },
-                additionalProperties: false,
-              },
-              request_upload: { type: "boolean" },
-              status: {
-                type: "string",
-                enum: ["in_progress", "ready_to_submit", "submit"],
-              },
-            },
-            required: ["message", "status"],
-            additionalProperties: false,
-          },
-        },
-      },
-    ];
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -120,8 +226,58 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         model: "openai/gpt-5-mini",
-        messages: [{ role: "system", content: SYSTEM_PROMPT + collectedSummary }, ...messages],
-        tools,
+        messages: [{ role: "system", content: SYSTEM_PROMPT + collectedSummary }, ...sanitizedMessages],
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "chat_response",
+              description: "Kullaniciya verilecek sohbet cevabi ve cikarilan alanlar.",
+              parameters: {
+                type: "object",
+                properties: {
+                  message: { type: "string" },
+                  extracted: {
+                    type: "object",
+                    properties: {
+                      category: {
+                        type: "string",
+                        enum: [
+                          "danisman",
+                          "isletme",
+                          "dernek",
+                          "vakif",
+                          "radyo-tv",
+                          "blogger-vlogger",
+                          "sehir-elcisi",
+                          "bireysel",
+                        ],
+                      },
+                      fullname: { type: "string" },
+                      country: { type: "string" },
+                      city: { type: "string" },
+                      business: { type: "string" },
+                      field: { type: "string" },
+                      email: { type: "string" },
+                      phone: { type: "string" },
+                      offers_needs: { type: "string" },
+                      referral_code: { type: "string" },
+                      contest_interest: { type: "boolean" },
+                    },
+                    additionalProperties: false,
+                  },
+                  request_upload: { type: "boolean" },
+                  status: {
+                    type: "string",
+                    enum: ["in_progress", "ready_to_submit", "submit"],
+                  },
+                },
+                required: ["message", "status"],
+                additionalProperties: false,
+              },
+            },
+          },
+        ],
         tool_choice: { type: "function", function: { name: "chat_response" } },
       }),
     });
@@ -129,34 +285,37 @@ Deno.serve(async (req) => {
     if (!response.ok) {
       const text = await response.text();
       console.error("AI gateway error:", response.status, text);
-      return new Response(JSON.stringify({ error: "AI hatası" }), {
-        status: response.status >= 400 && response.status < 600 ? response.status : 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
-      });
+      return jsonResponse({ error: "AI hatasi" }, response.status >= 400 && response.status < 600 ? response.status : 500, corsHeaders);
     }
 
     const data = await response.json();
     const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) {
-      return new Response(
-        JSON.stringify({
-          message: "Bir şeyler ters gitti, tekrar dener misiniz?",
+    if (!toolCall?.function?.arguments) {
+      return jsonResponse(
+        {
+          message: "Bir seyler ters gitti, tekrar dener misiniz?",
           status: "in_progress",
-        }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
+        },
+        200,
+        corsHeaders,
       );
     }
 
-    const args = JSON.parse(toolCall.function.arguments);
-    return new Response(JSON.stringify(args), {
-      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
-    });
+    const args = ResponseSchema.parse(JSON.parse(toolCall.function.arguments));
+    return jsonResponse(args, 200, corsHeaders);
   } catch (error) {
     console.error("chat-register error:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
-    );
+
+    if (error instanceof z.ZodError) {
+      return jsonResponse({ error: "Invalid request payload" }, 400, corsHeaders);
+    }
+    if (error instanceof Error && error.message === "PAYLOAD_TOO_LARGE") {
+      return jsonResponse({ error: "Payload too large" }, 413, corsHeaders);
+    }
+    if (error instanceof Error && error.message === "RATE_LIMITED") {
+      return jsonResponse({ error: "Too many requests" }, 429, corsHeaders);
+    }
+
+    return jsonResponse({ error: "Internal server error" }, 500, corsHeaders);
   }
 });
-

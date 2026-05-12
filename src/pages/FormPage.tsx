@@ -65,13 +65,14 @@ const FormPage = () => {
     try {
       const payload = toSubmissionInsert(values, "register", consent);
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
-      const notificationPayload = { ...payload, created_at: new Date().toISOString() };
-      const { error } = await supabase.from("submissions").insert(payload);
+      const { data: inserted, error } = await supabase.from("submissions").insert(payload).select("id").single();
 
       if (error) throw error;
 
       try {
-        await notifySubmission(notificationPayload);
+        if (inserted?.id) {
+          await notifySubmission(inserted.id);
+        }
       } catch (notificationError) {
         console.error("Mail notification error:", notificationError);
       }

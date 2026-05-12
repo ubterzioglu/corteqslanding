@@ -463,12 +463,13 @@ export function useChatMachine() {
       payload.source_type = "chatbot";
       payload.referral_source = payload.referral_source || "ai-chat";
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
-      const { error } = await supabase.from("submissions").insert(payload);
+      const { data: inserted, error } = await supabase.from("submissions").insert(payload).select("id").single();
       if (error) throw error;
 
-      const notificationPayload = { ...payload, created_at: new Date().toISOString() };
       try {
-        await notifySubmission(notificationPayload);
+        if (inserted?.id) {
+          await notifySubmission(inserted.id);
+        }
       } catch (notificationError) {
         console.error("Mail notification error:", notificationError);
       }

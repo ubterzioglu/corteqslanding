@@ -31,6 +31,7 @@ import {
   categoryOptions,
   formatBytes,
   getCategoryLabel,
+  getSubmissionDocumentAccessUrl,
   getSubmissionDocuments,
   getSubmissionDocumentsBucketLevel,
   getSubmissionDocumentsBucketStats,
@@ -98,6 +99,11 @@ function getSourceBadgeClass(sourceType: MemberSourceType) {
     return "border-sky-300 bg-sky-100 text-sky-800 hover:bg-sky-100 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-200";
   }
   return "border-slate-300 bg-slate-100 text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200";
+}
+
+function sanitizeCsvCell(value: unknown): string {
+  const stringValue = String(value ?? "");
+  return /^[=+\-@]/.test(stringValue) ? `'${stringValue}` : stringValue;
 }
 
 function toSubmissionMemberRow(submission: Submission): AdminMemberRow {
@@ -182,6 +188,7 @@ const AdminMembersPage = () => {
   const [documentsBucketStats, setDocumentsBucketStats] = useState<SubmissionDocumentsBucketStats | null>(null);
   const [documentsBucketLoading, setDocumentsBucketLoading] = useState(true);
   const [documentsBucketError, setDocumentsBucketError] = useState("");
+  const [openingDocumentKey, setOpeningDocumentKey] = useState<string | null>(null);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
@@ -757,18 +764,18 @@ const AdminMembersPage = () => {
   const exportCSV = () => {
     const headers = ["Tarih", "Kayıt Kaynağı", "Tür", "Kategori", "Durum", "Ad Soyad", "Ülke", "Şehir", "E-posta", "Telefon", "Referral Kaynağı", "Referral Kodu"];
     const csvRows = rows.map((submission) => [
-      new Date(submission.created_at).toLocaleDateString("tr-TR"),
-      getSourceLabel(submission.source_type),
-      submission.form_type,
-      submission.category || "",
-      submission.status,
-      submission.fullname,
-      submission.country,
-      submission.city,
-      submission.email,
-      submission.phone,
-      submission.referral_source || "",
-      submission.referral_code || "",
+      sanitizeCsvCell(new Date(submission.created_at).toLocaleDateString("tr-TR")),
+      sanitizeCsvCell(getSourceLabel(submission.source_type)),
+      sanitizeCsvCell(submission.form_type),
+      sanitizeCsvCell(submission.category || ""),
+      sanitizeCsvCell(submission.status),
+      sanitizeCsvCell(submission.fullname),
+      sanitizeCsvCell(submission.country),
+      sanitizeCsvCell(submission.city),
+      sanitizeCsvCell(submission.email),
+      sanitizeCsvCell(submission.phone),
+      sanitizeCsvCell(submission.referral_source || ""),
+      sanitizeCsvCell(submission.referral_code || ""),
     ]);
 
     const csvContent = [headers, ...csvRows].map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -882,9 +889,31 @@ const AdminMembersPage = () => {
     : false;
   const selectedIsAdvisor = selectedSubmission?.category === "danisman";
   const totalMemberCount = formMemberCount + chatbotMemberCount + waMemberCount;
-  const selectedDocuments = selectedSubmission ? getSubmissionDocuments(selectedSubmission) : [];
+  const selectedDocuments = useMemo(
+    () => (selectedSubmission ? getSubmissionDocuments(selectedSubmission) : []),
+    [selectedSubmission],
+  );
   const documentsBucketLevel = getSubmissionDocumentsBucketLevel(documentsBucketStats?.usageRatio ?? 0);
   const documentsUsagePercent = Math.round((documentsBucketStats?.usageRatio ?? 0) * 100);
+
+  const openSubmissionDocument = useCallback(async (documentKey: string, documentIndex: number) => {
+    const document = selectedDocuments[documentIndex];
+    if (!document) return;
+
+    setOpeningDocumentKey(documentKey);
+    try {
+      const resolvedUrl = await getSubmissionDocumentAccessUrl(document);
+      window.open(resolvedUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      toast({
+        title: "Doküman açılamadı",
+        description: error instanceof Error ? error.message : "Lütfen tekrar deneyin.",
+        variant: "destructive",
+      });
+    } finally {
+      setOpeningDocumentKey((current) => (current === documentKey ? null : current));
+    }
+  }, [selectedDocuments, toast]);
 
   return (
     <div className="space-y-6">
@@ -1318,9 +1347,12 @@ const AdminMembersPage = () => {
                   <div className="mb-2 text-sm font-medium">Yüklenen Dokümanlar</div>
                   {selectedDocuments.length ? (
                     <div className="space-y-2">
-                      {selectedDocuments.map((document, index) => (
+                      {selectedDocuments.map((document, index) => {
+                        const documentKey = `${document.path ?? document.url ?? document.name}-${index}`;
+
+                        return (
                         <div
-                          key={`${document.url}-${index}`}
+                          key={documentKey}
                           className="flex flex-wrap items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-xs"
                         >
                           <div className="min-w-0">
@@ -1329,14 +1361,18 @@ const AdminMembersPage = () => {
                               <div className="text-muted-foreground">{formatBytes(document.sizeBytes)}</div>
                             ) : null}
                           </div>
-                          <Button asChild variant="outline" size="sm" className="h-8 gap-1 text-xs">
-                            <a href={document.url} target="_blank" rel="noreferrer">
-                              Aç
-                              <ExternalLink className="h-3.5 w-3.5" />
-                            </a>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 gap-1 text-xs"
+                            disabled={openingDocumentKey === documentKey}
+                            onClick={() => void openSubmissionDocument(documentKey, index)}
+                          >
+                            Aç
+                            <ExternalLink className="h-3.5 w-3.5" />
                           </Button>
                         </div>
-                      ))}
+                      )})}
                     </div>
                   ) : (
                     <p className="text-xs text-muted-foreground">Bu kayda bağlı yüklenmiş doküman bulunmuyor.</p>
@@ -1406,9 +1442,12 @@ const AdminMembersPage = () => {
                   <div className="mb-2 text-sm font-medium">Yüklenen Dokümanlar</div>
                   {selectedDocuments.length ? (
                     <div className="space-y-2">
-                      {selectedDocuments.map((document, index) => (
+                      {selectedDocuments.map((document, index) => {
+                        const documentKey = `${document.path ?? document.url ?? document.name}-${index}`;
+
+                        return (
                         <div
-                          key={`${document.url}-${index}`}
+                          key={documentKey}
                           className="flex flex-wrap items-center justify-between gap-2 rounded-md border bg-background px-3 py-2 text-xs"
                         >
                           <div className="min-w-0">
@@ -1417,14 +1456,18 @@ const AdminMembersPage = () => {
                               <div className="text-muted-foreground">{formatBytes(document.sizeBytes)}</div>
                             ) : null}
                           </div>
-                          <Button asChild variant="outline" size="sm" className="h-8 gap-1 text-xs">
-                            <a href={document.url} target="_blank" rel="noreferrer">
-                              Aç
-                              <ExternalLink className="h-3.5 w-3.5" />
-                            </a>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="h-8 gap-1 text-xs"
+                            disabled={openingDocumentKey === documentKey}
+                            onClick={() => void openSubmissionDocument(documentKey, index)}
+                          >
+                            Aç
+                            <ExternalLink className="h-3.5 w-3.5" />
                           </Button>
                         </div>
-                      ))}
+                      )})}
                     </div>
                   ) : (
                     <p className="text-xs text-muted-foreground">Bu kayda bağlı yüklenmiş doküman bulunmuyor.</p>

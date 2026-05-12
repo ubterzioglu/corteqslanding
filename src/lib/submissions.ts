@@ -6,8 +6,9 @@ export type SubmissionInsert = TablesInsert<"submissions">;
 export type SubmissionStatus = Submission["status"];
 export type SubmissionFormMode = "register" | "support" | "backer";
 export type UploadedDocument = {
-  url: string;
+  url: string | null;
   name: string;
+  path?: string | null;
   sizeBytes?: number | null;
   contentType?: string | null;
 };
@@ -204,8 +205,9 @@ export function validateSubmissionDocuments(files: File[], currentFiles: File[] 
 function parseUploadedDocument(input: unknown): UploadedDocument | null {
   if (!input || typeof input !== "object") return null;
 
-  const url = "url" in input && typeof input.url === "string" ? input.url : "";
+  const url = "url" in input && typeof input.url === "string" ? input.url : null;
   const name = "name" in input && typeof input.name === "string" ? input.name : "";
+  const path = "path" in input && typeof input.path === "string" ? input.path : null;
   const sizeBytes =
     "sizeBytes" in input && typeof input.sizeBytes === "number" && Number.isFinite(input.sizeBytes)
       ? input.sizeBytes
@@ -213,9 +215,9 @@ function parseUploadedDocument(input: unknown): UploadedDocument | null {
   const contentType =
     "contentType" in input && typeof input.contentType === "string" ? input.contentType : null;
 
-  if (!url || !name) return null;
+  if (!name || (!url && !path)) return null;
 
-  return { url, name, sizeBytes, contentType };
+  return { url, name, path, sizeBytes, contentType };
 }
 
 export function getSubmissionDocuments(
@@ -228,10 +230,31 @@ export function getSubmissionDocuments(
   if (documents.length > 0) return documents;
 
   if (submission.document_url && submission.document_name) {
-    return [{ url: submission.document_url, name: submission.document_name, sizeBytes: null, contentType: null }];
+    return [{ url: submission.document_url, path: null, name: submission.document_name, sizeBytes: null, contentType: null }];
   }
 
   return [];
+}
+
+export async function getSubmissionDocumentAccessUrl(document: UploadedDocument): Promise<string> {
+  if (document.path) {
+    const { supabase } = await import("@/integrations/supabase/client");
+    const { data, error } = await supabase.storage
+      .from("submission-documents")
+      .createSignedUrl(document.path, 300);
+
+    if (error || !data?.signedUrl) {
+      throw error ?? new Error("Doküman için signed URL üretilemedi.");
+    }
+
+    return data.signedUrl;
+  }
+
+  if (document.url) {
+    return document.url;
+  }
+
+  throw new Error("Doküman yolu bulunamadı.");
 }
 
 export function formatBytes(bytes: number) {
@@ -266,10 +289,10 @@ export async function uploadSubmissionDocuments(files: File[]): Promise<Uploaded
 
     if (error) throw error;
 
-    const { data } = supabase.storage.from("submission-documents").getPublicUrl(path);
     uploadedDocs.push({
-      url: data.publicUrl,
+      url: null,
       name: file.name,
+      path,
       sizeBytes: file.size,
       contentType: file.type || null,
     });

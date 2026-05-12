@@ -9,6 +9,11 @@ const __dirname = path.dirname(__filename);
 const distDir = path.join(__dirname, "dist");
 const ragApiUrl = "https://rag.corteqs.net/api/chat";
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
+const maxProxyBodyBytes = 32 * 1024;
+const ragProxyTimeoutMs = 15_000;
+const ragRateLimitWindowMs = 60_000;
+const ragRateLimitMaxRequests = 12;
+const ragRateLimitStore = new Map();
 
 const mimeTypes = new Map([
   [".css", "text/css; charset=utf-8"],
@@ -29,6 +34,10 @@ const mimeTypes = new Map([
 ]);
 
 const securityHeaders = {
+  "Content-Security-Policy":
+    "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.unsplash.com https://*.supabase.co https://*.supabase.in; font-src 'self' data:; media-src 'self' blob: https://videos.pexels.com; connect-src 'self' https://rag.corteqs.net https://*.supabase.co https://*.supabase.in; form-action 'self'; upgrade-insecure-requests",
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Resource-Policy": "same-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
@@ -43,6 +52,33 @@ const sendJson = (res, statusCode, payload) => {
     "Content-Type": "application/json; charset=utf-8",
   });
   res.end(JSON.stringify(payload));
+};
+
+const getClientIp = (req) => {
+  const forwardedFor = req.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.trim()) {
+    return forwardedFor.split(",")[0].trim();
+  }
+
+  return req.socket.remoteAddress ?? "unknown";
+};
+
+const consumeRateLimit = (clientIp) => {
+  const now = Date.now();
+  const entry = ragRateLimitStore.get(clientIp);
+
+  if (!entry || now - entry.windowStart >= ragRateLimitWindowMs) {
+    ragRateLimitStore.set(clientIp, { windowStart: now, requestCount: 1 });
+    return true;
+  }
+
+  if (entry.requestCount >= ragRateLimitMaxRequests) {
+    return false;
+  }
+
+  entry.requestCount += 1;
+  ragRateLimitStore.set(clientIp, entry);
+  return true;
 };
 
 const ensureDistExists = async () => {
@@ -115,33 +151,66 @@ const handleRagProxy = async (req, res) => {
     return;
   }
 
+  const contentType = req.headers["content-type"] ?? "";
+  if (!contentType.toLowerCase().startsWith("application/json")) {
+    sendJson(res, 415, { error: "Unsupported Media Type" });
+    return;
+  }
+
+  if (!consumeRateLimit(getClientIp(req))) {
+    sendJson(res, 429, { error: "Too Many Requests" });
+    return;
+  }
+
   if (!process.env.RAG_API_SECRET) {
-    sendJson(res, 500, { error: "RAG_API_SECRET missing" });
+    sendJson(res, 500, { error: "Proxy is not configured" });
     return;
   }
 
   const chunks = [];
+  let totalBytes = 0;
   for await (const chunk of req) {
+    totalBytes += chunk.length;
+    if (totalBytes > maxProxyBodyBytes) {
+      sendJson(res, 413, { error: "Payload Too Large" });
+      return;
+    }
     chunks.push(chunk);
   }
 
-  const upstream = await fetch(ragApiUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${process.env.RAG_API_SECRET}`,
-      "Content-Type": req.headers["content-type"] ?? "application/json",
-    },
-    body: Buffer.concat(chunks),
-  });
+  const abortController = new AbortController();
+  const timeout = setTimeout(() => abortController.abort(), ragProxyTimeoutMs);
 
-  const body = Buffer.from(await upstream.arrayBuffer());
-  const responseHeaders = {
-    ...securityHeaders,
-    "Content-Type": upstream.headers.get("content-type") ?? "application/json; charset=utf-8",
-  };
+  try {
+    const upstream = await fetch(ragApiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RAG_API_SECRET}`,
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: Buffer.concat(chunks),
+      signal: abortController.signal,
+    });
 
-  res.writeHead(upstream.status, responseHeaders);
-  res.end(body);
+    const body = Buffer.from(await upstream.arrayBuffer());
+    const responseHeaders = {
+      ...securityHeaders,
+      "Content-Type": upstream.headers.get("content-type") ?? "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+    };
+
+    res.writeHead(upstream.status, responseHeaders);
+    res.end(body);
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      sendJson(res, 504, { error: "Upstream Timeout" });
+      return;
+    }
+
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+  }
 };
 
 const serveApp = async (req, res) => {

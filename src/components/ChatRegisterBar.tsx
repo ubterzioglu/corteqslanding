@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
 import { notifySubmission } from "@/lib/mail";
-import { uploadSubmissionDocuments } from "@/lib/submissions";
+import { uploadSubmissionDocuments, validateSubmissionDocuments } from "@/lib/submissions";
 
 type MatchPreview = {
   id: string;
@@ -156,6 +156,7 @@ const ChatRegisterBar = () => {
     category?: string;
     persist?: boolean;
   }): Promise<MatchPreview[]> => {
+    if (!consent) return [];
     if (!payload.offers_needs || payload.offers_needs.trim().length < 5) return [];
     try {
       const { data, error } = await supabase.functions.invoke<{ matches: MatchPreview[] }>("find-matches", {
@@ -171,15 +172,20 @@ const ChatRegisterBar = () => {
 
   const handleFiles = (files: FileList | null) => {
     if (!files?.length) return;
-    const merged = [...docs];
+    const nextFiles = Array.from(files);
+    const validation = validateSubmissionDocuments(nextFiles, docs);
 
-    for (const file of Array.from(files)) {
-      if (!merged.some((current) => current.name === file.name && current.size === file.size)) {
-        merged.push(file);
-      }
+    if (!validation.ok) {
+      toast({
+        title: "Dosya eklenemedi",
+        description: validation.message,
+        variant: "destructive",
+      });
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
     }
 
-    setDocs(merged.slice(0, 5));
+    setDocs(validation.files);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -213,7 +219,9 @@ const ChatRegisterBar = () => {
       if (error) throw error;
 
       try {
-        await notifySubmission({ ...insertData, created_at: new Date().toISOString() });
+        if (inserted?.id) {
+          await notifySubmission(inserted.id);
+        }
       } catch (notificationError) {
         console.error("Mail notification error:", notificationError);
       }
@@ -265,6 +273,18 @@ const ChatRegisterBar = () => {
   const handleSend = async (overrideText?: string) => {
     const text = (overrideText ?? input).trim();
     if (!text || loading || submitted) return;
+
+    if (!consent) {
+      setMessages((current) => [
+        ...current,
+        {
+          role: "assistant",
+          content:
+            "AI destekli kayıt için önce kişisel veriler ve üçüncü taraf AI işleme onay kutusunu işaretlemen gerekiyor.",
+        },
+      ]);
+      return;
+    }
 
     const userMsg: ChatMsg = { role: "user", content: text };
     const newHistory = [...messages, userMsg];
@@ -423,16 +443,21 @@ const ChatRegisterBar = () => {
                               <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/80 to-accent/80">
                                 <Users className="h-3.5 w-3.5 text-primary-foreground" />
                               </div>
-                              <p className="truncate text-sm font-semibold text-foreground">{match.fullname}</p>
+                              <p className="truncate text-sm font-semibold text-foreground">{match.fullname || "Potansiyel eşleşme"}</p>
                             </div>
                             <span className="shrink-0 rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary">
                               %{Math.round(match.score)}
                             </span>
                           </div>
-                          <div className="mb-1.5 flex items-center gap-1 text-[11px] text-muted-foreground">
-                            <MapPin className="h-3 w-3" />
-                            <span className="truncate">{match.city}, {match.country} · {match.field}</span>
-                          </div>
+                          {(match.city || match.country || match.field) ? (
+                            <div className="mb-1.5 flex items-center gap-1 text-[11px] text-muted-foreground">
+                              <MapPin className="h-3 w-3" />
+                              <span className="truncate">
+                                {[match.city, match.country].filter(Boolean).join(", ") || "Konum paylaşılmıyor"}
+                                {match.field ? ` · ${match.field}` : ""}
+                              </span>
+                            </div>
+                          ) : null}
                           <p className="text-xs leading-snug text-foreground/80">{match.reason}</p>
                         </div>
                       ))}
@@ -523,7 +548,7 @@ const ChatRegisterBar = () => {
             <div className="mt-3 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
               <label className="flex cursor-pointer items-start gap-2 text-xs text-muted-foreground">
                 <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} disabled={submitted} className="mt-0.5 rounded border-input" />
-                <span className="leading-relaxed">Kişisel bilgilerimin CorteQS ile paylaşılmasını onaylıyorum.</span>
+                <span className="leading-relaxed">Kişisel verilerimin CorteQS ve gerekli AI altyapıları tarafından kayıt ve eşleştirme amacıyla işlenmesini onaylıyorum.</span>
               </label>
               {canSubmit && (
                 <button

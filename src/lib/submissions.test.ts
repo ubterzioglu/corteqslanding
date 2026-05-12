@@ -45,7 +45,7 @@ describe("submission helpers", () => {
   });
 
   it("normalizes referral fields consistently", () => {
-    const documents: UploadedDocument[] = [{ url: "https://example.com/cv.pdf", name: "cv.pdf" }];
+    const documents: UploadedDocument[] = [{ url: null, path: "uploads/cv.pdf", name: "cv.pdf" }];
     const submission = toSubmissionInsert(
       {
         category: "danisman",
@@ -59,7 +59,7 @@ describe("submission helpers", () => {
       referral_source: "whatsapp",
       referral_detail: "Berlin Diaspora",
       referral_code: " abc42 ",
-        document_url: "https://example.com/cv.pdf",
+        document_url: "",
         document_name: "cv.pdf",
         documents: documents as unknown as FormDataEntryValue,
       },
@@ -140,11 +140,11 @@ describe("submission helpers", () => {
   it("parses documents and falls back to legacy single-document fields", () => {
     expect(
       getSubmissionDocuments({
-        documents: [{ url: "https://example.com/cv.pdf", name: "cv.pdf", sizeBytes: 2048 }],
+        documents: [{ url: null, path: "uploads/cv.pdf", name: "cv.pdf", sizeBytes: 2048 }],
         document_url: null,
         document_name: null,
       }),
-    ).toEqual([{ url: "https://example.com/cv.pdf", name: "cv.pdf", sizeBytes: 2048, contentType: null }]);
+    ).toEqual([{ url: null, path: "uploads/cv.pdf", name: "cv.pdf", sizeBytes: 2048, contentType: null }]);
 
     expect(
       getSubmissionDocuments({
@@ -152,7 +152,7 @@ describe("submission helpers", () => {
         document_url: "https://example.com/legacy.pdf",
         document_name: "legacy.pdf",
       }),
-    ).toEqual([{ url: "https://example.com/legacy.pdf", name: "legacy.pdf", sizeBytes: null, contentType: null }]);
+    ).toEqual([{ url: "https://example.com/legacy.pdf", path: null, name: "legacy.pdf", sizeBytes: null, contentType: null }]);
   });
 
   it("classifies bucket usage thresholds and formats sizes", () => {

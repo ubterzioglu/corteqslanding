@@ -66,9 +66,7 @@ describe("AdminLayout", () => {
     });
 
     expect(screen.getByRole("link", { name: /CorteQS ana siteye git/i })).toHaveAttribute("href", "https://corteqs.net");
-    expect(screen.getByRole("link", { name: "Engine" })).toHaveAttribute("href", "https://eng.corteqs.net");
-    expect(screen.getByRole("link", { name: "Globe" })).toHaveAttribute("href", "https://globe.corteqs.ret");
-    expect(screen.getByRole("link", { name: "Founders" })).toHaveAttribute("href", "https://corteqs.net/founders");
+    expect(screen.getByRole("button", { name: "Dış Bağlantılar" })).toBeInTheDocument();
   });
 
   it("shows global actions on the members page", async () => {

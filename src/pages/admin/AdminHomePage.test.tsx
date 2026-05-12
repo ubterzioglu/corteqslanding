@@ -58,12 +58,13 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Ambassador")).toBeInTheDocument();
     expect(screen.getByText("Cap Table V2 — Hisse Yapisi")).toBeInTheDocument();
     expect(screen.getByText("Proje Takibi Sablonu")).toBeInTheDocument();
+    fireEvent.click(screen.getByText("Dış Bağlantılar"));
     expect(screen.getByText("Engine")).toBeInTheDocument();
     expect(screen.getByText("Globe")).toBeInTheDocument();
     expect(screen.getByText("Founders")).toBeInTheDocument();
     const externalLinks = screen.getAllByRole("link", { name: /Bağlantıyı Aç/i });
     expect(externalLinks[0]).toHaveAttribute("href", "https://eng.corteqs.net");
-    expect(externalLinks[1]).toHaveAttribute("href", "https://globe.corteqs.ret");
+    expect(externalLinks[1]).toHaveAttribute("href", "https://globe.corteqs.net");
     expect(externalLinks[2]).toHaveAttribute("href", "https://corteqs.net/founders");
     expect(screen.queryByText("IK Dökümanları")).not.toBeInTheDocument();
     expect(screen.queryByText("ARGE Dökümanları")).not.toBeInTheDocument();

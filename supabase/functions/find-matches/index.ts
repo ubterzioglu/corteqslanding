@@ -1,56 +1,135 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.4";
+import { z } from "https://esm.sh/zod@3.25.76";
 
-const ALLOWED_ORIGINS = [
+const ALLOWED_ORIGINS = new Set([
   "https://corteqs.net",
   "https://www.corteqs.net",
   "http://localhost:5173",
   "http://localhost:4173",
-];
+]);
+const MAX_BODY_BYTES = 16_000;
+const RATE_LIMIT_MAX = 8;
+const RATE_LIMIT_WINDOW_SECONDS = 600;
 
-function getCorsHeaders(req: Request): Record<string, string> {
-  const origin = req.headers.get("Origin") ?? "";
-  const allowOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    "Access-Control-Allow-Origin": allowOrigin,
-    "Access-Control-Allow-Headers":
-      "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-    "Vary": "Origin",
-  };
-}
+const RequestSchema = z.object({
+  sourceSubmissionId: z.string().uuid().optional(),
+  offers_needs: z.string().trim().min(5).max(2_000),
+  field: z.string().trim().max(160).optional(),
+  city: z.string().trim().max(120).optional(),
+  country: z.string().trim().max(120).optional(),
+  category: z.string().trim().max(80).optional(),
+  persist: z.boolean().optional(),
+});
+
+const AiMatchSchema = z.object({
+  id: z.string().uuid(),
+  score: z.number().min(0).max(100),
+  reason: z.string().trim().min(1).max(500),
+});
 
 type Candidate = {
   id: string;
-  fullname: string;
-  city: string;
-  country: string;
   field: string;
   category: string | null;
   offers_needs: string | null;
-  created_at: string;
-};
-
-type RankedMatch = {
-  id: string;
-  score: number;
-  reason: string;
-};
-
-type EnrichedMatch = {
-  id: string;
-  fullname: string;
-  city: string;
-  country: string;
-  field: string;
-  category: string | null;
-  score: number;
-  reason: string;
 };
 
 const STOPWORDS = new Set([
-  "ve", "ile", "bir", "bu", "şu", "de", "da", "mi", "mı", "mu", "mü", "ben", "sen", "biz",
-  "için", "ama", "veya", "ya", "ki", "den", "dan", "çok", "az", "the", "a",
+  "ve", "ile", "bir", "bu", "su", "de", "da", "mi", "mi", "mu", "mu", "ben", "sen", "biz",
+  "icin", "ama", "veya", "ya", "ki", "den", "dan", "cok", "az", "the", "a",
   "an", "and", "or", "of", "to", "in", "on", "at", "is", "are", "with", "for", "my", "i",
 ]);
+
+function buildCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get("Origin");
+  const headers: Record<string, string> = {
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
+  };
+
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+
+  return headers;
+}
+
+function jsonResponse(body: unknown, status: number, corsHeaders: Record<string, string>) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json; charset=utf-8",
+    },
+  });
+}
+
+function getClientKey(req: Request): string {
+  const forwardedFor = req.headers.get("x-forwarded-for");
+  if (forwardedFor) {
+    return forwardedFor.split(",")[0]?.trim() || "unknown";
+  }
+
+  return req.headers.get("cf-connecting-ip")
+    ?? req.headers.get("x-real-ip")
+    ?? "unknown";
+}
+
+async function readJsonWithLimit(req: Request, maxBytes: number) {
+  const text = await req.text();
+  if (new TextEncoder().encode(text).length > maxBytes) {
+    throw new Error("PAYLOAD_TOO_LARGE");
+  }
+
+  return JSON.parse(text);
+}
+
+async function enforceRateLimit(supabase: ReturnType<typeof createClient>, req: Request, scope: string, maxRequests: number, windowSeconds: number) {
+  const clientKey = getClientKey(req);
+  const now = Date.now();
+  const windowMs = windowSeconds * 1000;
+  const windowStartedAt = new Date(Math.floor(now / windowMs) * windowMs).toISOString();
+
+  const { data: existing, error: fetchError } = await supabase
+    .from("edge_rate_limits")
+    .select("request_count, window_started_at")
+    .eq("scope", scope)
+    .eq("client_key", clientKey)
+    .maybeSingle();
+
+  if (fetchError) throw fetchError;
+
+  if (!existing) {
+    const { error: insertError } = await supabase.from("edge_rate_limits").insert({
+      scope,
+      client_key: clientKey,
+      window_started_at: windowStartedAt,
+      request_count: 1,
+    });
+    if (insertError) throw insertError;
+    return;
+  }
+
+  const sameWindow = existing.window_started_at === windowStartedAt;
+  const nextCount = sameWindow ? Number(existing.request_count ?? 0) + 1 : 1;
+
+  if (sameWindow && nextCount > maxRequests) {
+    throw new Error("RATE_LIMITED");
+  }
+
+  const { error: updateError } = await supabase
+    .from("edge_rate_limits")
+    .update({
+      request_count: nextCount,
+      window_started_at: windowStartedAt,
+    })
+    .eq("scope", scope)
+    .eq("client_key", clientKey);
+
+  if (updateError) throw updateError;
+}
 
 function tokenize(text: string): string[] {
   if (!text) return [];
@@ -65,40 +144,37 @@ function keywordScore(query: string, candidate: Candidate): number {
   const queryTokens = new Set(tokenize(query));
   if (!queryTokens.size) return 0;
 
-  const candidateText = [
-    candidate.offers_needs,
-    candidate.field,
-    candidate.category,
-    candidate.city,
-    candidate.country,
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const candidateText = [candidate.offers_needs, candidate.field, candidate.category].filter(Boolean).join(" ");
   const candidateTokens = new Set(tokenize(candidateText));
 
   let overlap = 0;
   for (const token of queryTokens) {
     if (candidateTokens.has(token)) overlap += 1;
   }
+
   return overlap / queryTokens.size;
 }
 
 Deno.serve(async (req) => {
-  const corsHeaders = getCorsHeaders(req);
+  const corsHeaders = buildCorsHeaders(req);
+  const origin = req.headers.get("Origin");
 
   if (req.method === "OPTIONS") {
+    if (origin && !ALLOWED_ORIGINS.has(origin)) {
+      return jsonResponse({ error: "Origin not allowed" }, 403, corsHeaders);
+    }
     return new Response(null, { headers: corsHeaders });
   }
 
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return jsonResponse({ error: "Origin not allowed" }, 403, corsHeaders);
+  }
+
+  if (req.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405, corsHeaders);
+  }
+
   try {
-    const { sourceSubmissionId, offers_needs, field, city, country, category, persist } = await req.json();
-
-    if (!offers_needs || typeof offers_needs !== "string" || offers_needs.trim().length < 5) {
-      return new Response(JSON.stringify({ matches: [] }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
-      });
-    }
-
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
@@ -108,37 +184,48 @@ Deno.serve(async (req) => {
     }
 
     const supabase = createClient(supabaseUrl, serviceKey);
+    await enforceRateLimit(supabase, req, "find-matches", RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_SECONDS);
+
+    const payload = RequestSchema.parse(await readJsonWithLimit(req, MAX_BODY_BYTES));
+
     let query = supabase
       .from("submissions")
-      .select("id, fullname, city, country, field, category, offers_needs, created_at")
+      .select("id, field, category, offers_needs")
       .not("offers_needs", "is", null)
       .order("created_at", { ascending: false })
       .limit(200);
 
-    if (sourceSubmissionId) {
-      query = query.neq("id", sourceSubmissionId);
+    if (payload.sourceSubmissionId) {
+      query = query.neq("id", payload.sourceSubmissionId);
     }
 
     const { data: candidates, error } = await query;
     if (error) throw error;
 
-    const queryText = [offers_needs, field, city, country, category].filter(Boolean).join(" ");
-    const scored = (candidates as Candidate[])
+    const queryText = [
+      payload.offers_needs,
+      payload.field,
+      payload.city,
+      payload.country,
+      payload.category,
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    const scored = ((candidates ?? []) as Candidate[])
       .map((candidate) => ({ candidate, score: keywordScore(queryText, candidate) }))
       .filter((entry) => entry.score > 0)
       .sort((left, right) => right.score - left.score)
       .slice(0, 20);
 
     if (!scored.length) {
-      return new Response(JSON.stringify({ matches: [] }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
-      });
+      return jsonResponse({ matches: [] }, 200, corsHeaders);
     }
 
-    const candidatesForAI = scored.map((entry, idx) => ({
-      idx,
+    const candidatesForAI = scored.map((entry) => ({
       id: entry.candidate.id,
-      profile: `${entry.candidate.fullname} (${entry.candidate.city}, ${entry.candidate.country}) — ${entry.candidate.category ?? "-"} / ${entry.candidate.field}`,
+      category: entry.candidate.category,
+      field: entry.candidate.field,
       offers_needs: entry.candidate.offers_needs,
       keyword_score: Math.round(entry.score * 100),
     }));
@@ -154,11 +241,11 @@ Deno.serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "Sen bir diaspora ağında arz/talep eşleştirme asistanısın. Kullanıcının arz/talebine en uygun 5 adayı seç. Türkçe kısa gerekçe yaz.",
+            content: "Sen bir diaspora aginda arz/talep eslestirme asistanisin. Kisisel veri aciklama. En uygun 5 adayi sec ve Turkce kisa gerekce yaz.",
           },
           {
             role: "user",
-            content: `Kullanıcının arz/talebi:\n${queryText}\n\nAdaylar:\n${JSON.stringify(candidatesForAI, null, 2)}`,
+            content: `Arz/talep:\n${queryText}\n\nAdaylar:\n${JSON.stringify(candidatesForAI, null, 2)}`,
           },
         ],
         tools: [
@@ -166,7 +253,7 @@ Deno.serve(async (req) => {
             type: "function",
             function: {
               name: "rank_matches",
-              description: "En uygun 5 eşleşmeyi döndür.",
+              description: "En uygun 5 eslesmeyi dondur.",
               parameters: {
                 type: "object",
                 properties: {
@@ -202,32 +289,37 @@ Deno.serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
-    const args = JSON.parse(aiData.choices[0].message.tool_calls[0].function.arguments);
+    const toolCallArgs = aiData.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+    if (!toolCallArgs) {
+      return jsonResponse({ matches: [] }, 200, corsHeaders);
+    }
+
+    const args = z.object({ matches: z.array(AiMatchSchema).max(5) }).parse(JSON.parse(toolCallArgs));
     const candidateMap = new Map(scored.map((entry) => [entry.candidate.id, entry.candidate]));
 
-    const enriched = (args.matches as RankedMatch[])
+    const enriched = args.matches
       .map((match) => {
         const candidate = candidateMap.get(match.id);
         if (!candidate) return null;
         return {
           id: candidate.id,
-          fullname: candidate.fullname,
-          city: candidate.city,
-          country: candidate.country,
+          fullname: "Potansiyel eslesme",
+          city: "",
+          country: "",
           field: candidate.field,
           category: candidate.category,
           score: match.score,
           reason: match.reason,
         };
       })
-      .filter((match): match is EnrichedMatch => Boolean(match));
+      .filter(Boolean);
 
-    if (persist && sourceSubmissionId) {
+    if (payload.persist && payload.sourceSubmissionId) {
       const rows = enriched.map((match) => ({
-        source_submission_id: sourceSubmissionId,
-        matched_submission_id: match.id,
-        match_score: match.score,
-        match_reason: match.reason,
+        source_submission_id: payload.sourceSubmissionId,
+        matched_submission_id: match!.id,
+        match_score: match!.score,
+        match_reason: match!.reason,
       }));
 
       if (rows.length) {
@@ -239,15 +331,20 @@ Deno.serve(async (req) => {
       }
     }
 
-    return new Response(JSON.stringify({ matches: enriched }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
-    });
+    return jsonResponse({ matches: enriched }, 200, corsHeaders);
   } catch (error) {
     console.error("find-matches error:", error);
-    return new Response(
-      JSON.stringify({ error: "Internal server error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" } },
-    );
+
+    if (error instanceof z.ZodError) {
+      return jsonResponse({ error: "Invalid request payload" }, 400, corsHeaders);
+    }
+    if (error instanceof Error && error.message === "PAYLOAD_TOO_LARGE") {
+      return jsonResponse({ error: "Payload too large" }, 413, corsHeaders);
+    }
+    if (error instanceof Error && error.message === "RATE_LIMITED") {
+      return jsonResponse({ error: "Too many requests" }, 429, corsHeaders);
+    }
+
+    return jsonResponse({ error: "Internal server error" }, 500, corsHeaders);
   }
 });
-
