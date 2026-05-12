@@ -10,6 +10,7 @@ const ALLOWED_ORIGINS = new Set([
 const MAX_BODY_BYTES = 24_000;
 const RATE_LIMIT_MAX = 15;
 const RATE_LIMIT_WINDOW_SECONDS = 600;
+const GEMINI_MODEL = "models/gemini-2.5-flash";
 
 const MessageSchema = z.object({
   role: z.enum(["user", "assistant"]),
@@ -41,6 +42,51 @@ const ResponseSchema = z.object({
   request_upload: z.boolean().optional(),
   status: z.enum(["in_progress", "ready_to_submit", "submit"]),
 });
+
+const ChatResponseFunctionSchema = {
+  name: "chat_response",
+  description: "Kullaniciya verilecek sohbet cevabi ve cikarilan alanlar.",
+  parameters: {
+    type: "OBJECT",
+    properties: {
+      message: { type: "STRING" },
+      extracted: {
+        type: "OBJECT",
+        properties: {
+          category: {
+            type: "STRING",
+            enum: [
+              "danisman",
+              "isletme",
+              "dernek",
+              "vakif",
+              "radyo-tv",
+              "blogger-vlogger",
+              "sehir-elcisi",
+              "bireysel",
+            ],
+          },
+          fullname: { type: "STRING" },
+          country: { type: "STRING" },
+          city: { type: "STRING" },
+          business: { type: "STRING" },
+          field: { type: "STRING" },
+          email: { type: "STRING" },
+          phone: { type: "STRING" },
+          offers_needs: { type: "STRING" },
+          referral_code: { type: "STRING" },
+          contest_interest: { type: "BOOLEAN" },
+        },
+      },
+      request_upload: { type: "BOOLEAN" },
+      status: {
+        type: "STRING",
+        enum: ["in_progress", "ready_to_submit", "submit"],
+      },
+    },
+    required: ["message", "status"],
+  },
+};
 
 function buildCorsHeaders(req: Request): Record<string, string> {
   const origin = req.headers.get("Origin");
@@ -152,6 +198,25 @@ function redactSensitiveText(value: string, fullname?: string): string {
   return nextValue;
 }
 
+function toGeminiContents(messages: z.infer<typeof MessageSchema>[]) {
+  return messages.map((message) => ({
+    role: message.role === "assistant" ? "model" : "user",
+    parts: [{ text: message.content }],
+  }));
+}
+
+function extractFunctionArgs(payload: unknown, functionName: string) {
+  const functionCall =
+    (payload as { candidates?: Array<{ content?: { parts?: Array<{ functionCall?: { name?: string; args?: unknown } }> } }> })
+      ?.candidates?.[0]?.content?.parts?.find((part) => part.functionCall?.name === functionName)?.functionCall;
+
+  if (!functionCall) {
+    return null;
+  }
+
+  return functionCall.args ?? null;
+}
+
 const SYSTEM_PROMPT = `Sen CorteQS Diaspora Connect platformunun kayit asistanisin.
 Gorevin: kullaniciyla Turkce, kisa ve net bir sohbet kurarak kayit bilgilerini toplamak.
 
@@ -198,8 +263,8 @@ Deno.serve(async (req) => {
   try {
     await enforceRateLimit(req, "chat-register", RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_SECONDS);
 
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
-    if (!lovableApiKey) throw new Error("LOVABLE_API_KEY is not configured");
+    const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
+    if (!geminiApiKey) throw new Error("GEMINI_API_KEY is not configured");
 
     const parsedRequest = RequestSchema.parse(await readJsonWithLimit(req, MAX_BODY_BYTES));
     const sanitizedCollected = parsedRequest.collected
@@ -218,67 +283,28 @@ Deno.serve(async (req) => {
       ? `\n\nSu ana kadar toplanan bilgiler: ${JSON.stringify(sanitizedCollected)}`
       : "";
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/${GEMINI_MODEL}:generateContent`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
+        "x-goog-api-key": geminiApiKey,
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
-        model: "openai/gpt-5-mini",
-        messages: [{ role: "system", content: SYSTEM_PROMPT + collectedSummary }, ...sanitizedMessages],
+        systemInstruction: {
+          parts: [{ text: SYSTEM_PROMPT + collectedSummary }],
+        },
+        contents: toGeminiContents(sanitizedMessages),
         tools: [
           {
-            type: "function",
-            function: {
-              name: "chat_response",
-              description: "Kullaniciya verilecek sohbet cevabi ve cikarilan alanlar.",
-              parameters: {
-                type: "object",
-                properties: {
-                  message: { type: "string" },
-                  extracted: {
-                    type: "object",
-                    properties: {
-                      category: {
-                        type: "string",
-                        enum: [
-                          "danisman",
-                          "isletme",
-                          "dernek",
-                          "vakif",
-                          "radyo-tv",
-                          "blogger-vlogger",
-                          "sehir-elcisi",
-                          "bireysel",
-                        ],
-                      },
-                      fullname: { type: "string" },
-                      country: { type: "string" },
-                      city: { type: "string" },
-                      business: { type: "string" },
-                      field: { type: "string" },
-                      email: { type: "string" },
-                      phone: { type: "string" },
-                      offers_needs: { type: "string" },
-                      referral_code: { type: "string" },
-                      contest_interest: { type: "boolean" },
-                    },
-                    additionalProperties: false,
-                  },
-                  request_upload: { type: "boolean" },
-                  status: {
-                    type: "string",
-                    enum: ["in_progress", "ready_to_submit", "submit"],
-                  },
-                },
-                required: ["message", "status"],
-                additionalProperties: false,
-              },
-            },
+            functionDeclarations: [ChatResponseFunctionSchema],
           },
         ],
-        tool_choice: { type: "function", function: { name: "chat_response" } },
+        toolConfig: {
+          functionCallingConfig: {
+            mode: "ANY",
+            allowedFunctionNames: ["chat_response"],
+          },
+        },
       }),
     });
 
@@ -289,8 +315,8 @@ Deno.serve(async (req) => {
     }
 
     const data = await response.json();
-    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall?.function?.arguments) {
+    const rawArgs = extractFunctionArgs(data, "chat_response");
+    if (!rawArgs) {
       return jsonResponse(
         {
           message: "Bir seyler ters gitti, tekrar dener misiniz?",
@@ -301,7 +327,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    const args = ResponseSchema.parse(JSON.parse(toolCall.function.arguments));
+    const args = ResponseSchema.parse(rawArgs);
     return jsonResponse(args, 200, corsHeaders);
   } catch (error) {
     console.error("chat-register error:", error);

@@ -93,7 +93,7 @@ The strongest recurring pattern is a mismatch between the frontend admin model a
 
 - Supabase Auth / Postgres / Storage / Edge Functions
 - Resend
-- `https://ai.gateway.lovable.dev/v1/chat/completions`
+- Google Gemini API (`generativelanguage.googleapis.com`)
 - `https://rag.corteqs.net/api/chat`
 
 ### Deployment/runtime surfaces
@@ -276,7 +276,7 @@ The closest issue to Critical is the public AI matching flow leaking member data
 - Affected tables/functions/buckets/routes:
   - `chat-register`
   - `find-matches`
-  - external service `ai.gateway.lovable.dev`
+  - external service Google Gemini API
 - Evidence:
   - `ChatRegisterBar` sends conversation history and collected fields to `chat-register` during normal conversation, not only after consented submit.
   - `chat-register` appends `JSON.stringify(collected)` to the system prompt and forwards it to the external AI gateway.
@@ -534,8 +534,8 @@ The closest issue to Critical is the public AI matching flow leaking member data
 | Function | verify_jwt | Uses service role? | External calls? | Main risk | Recommendation |
 |---|---|---|---|---|---|
 | `send-submission-email` | Not explicitly set in repo | No | Resend | mail abuse / spam / no proof-of-insert | bind to real submission ids and rate-limit |
-| `chat-register` | `true` | No | `ai.gateway.lovable.dev` | public AI abuse and pre-consent PII transfer | minimize data, gate by consent, rate-limit |
-| `find-matches` | `true` | Yes | `ai.gateway.lovable.dev` | service-role data disclosure to public visitors | make admin/owner-only and minimize return data |
+| `chat-register` | `true` | No | Google Gemini API | public AI abuse and pre-consent PII transfer | minimize data, gate by consent, rate-limit |
+| `find-matches` | `true` | Yes | Google Gemini API | service-role data disclosure to public visitors | make admin/owner-only and minimize return data |
 | `lansman-admin` | `false` | Yes | No | unnecessary unauthenticated surface | remove from deploy or require JWT |
 
 ## AI / RAG data flow review
@@ -716,4 +716,3 @@ The closest issue to Critical is the public AI matching flow leaking member data
 - CSV formula payload in `fullname` and `referral_code`
 - malformed URLs in `resource_entries`
 - future-proof test for any path using `dangerouslySetInnerHTML`
-

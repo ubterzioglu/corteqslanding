@@ -16,6 +16,9 @@ dist-ssr
 secret.md
 secret_ignore.md
 supabase/.temp/
+remote.env.generated
+1111.txt
+.kilo/
 
 # Editor directories and files
 .vscode/*

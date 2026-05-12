@@ -10,6 +10,7 @@ const ALLOWED_ORIGINS = new Set([
 const MAX_BODY_BYTES = 16_000;
 const RATE_LIMIT_MAX = 8;
 const RATE_LIMIT_WINDOW_SECONDS = 600;
+const GEMINI_MODEL = "models/gemini-2.5-flash";
 
 const RequestSchema = z.object({
   sourceSubmissionId: z.string().uuid().optional(),
@@ -26,6 +27,30 @@ const AiMatchSchema = z.object({
   score: z.number().min(0).max(100),
   reason: z.string().trim().min(1).max(500),
 });
+
+const RankMatchesFunctionSchema = {
+  name: "rank_matches",
+  description: "En uygun 5 eslesmeyi dondur.",
+  parameters: {
+    type: "OBJECT",
+    properties: {
+      matches: {
+        type: "ARRAY",
+        maxItems: 5,
+        items: {
+          type: "OBJECT",
+          properties: {
+            id: { type: "STRING" },
+            score: { type: "NUMBER" },
+            reason: { type: "STRING" },
+          },
+          required: ["id", "score", "reason"],
+        },
+      },
+    },
+    required: ["matches"],
+  },
+};
 
 type Candidate = {
   id: string;
@@ -155,6 +180,18 @@ function keywordScore(query: string, candidate: Candidate): number {
   return overlap / queryTokens.size;
 }
 
+function extractFunctionArgs(payload: unknown, functionName: string) {
+  const functionCall =
+    (payload as { candidates?: Array<{ content?: { parts?: Array<{ functionCall?: { name?: string; args?: unknown } }> } }> })
+      ?.candidates?.[0]?.content?.parts?.find((part) => part.functionCall?.name === functionName)?.functionCall;
+
+  if (!functionCall) {
+    return null;
+  }
+
+  return functionCall.args ?? null;
+}
+
 Deno.serve(async (req) => {
   const corsHeaders = buildCorsHeaders(req);
   const origin = req.headers.get("Origin");
@@ -177,10 +214,10 @@ Deno.serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    const geminiApiKey = Deno.env.get("GEMINI_API_KEY");
 
-    if (!supabaseUrl || !serviceKey || !lovableApiKey) {
-      throw new Error("Missing one of SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY or LOVABLE_API_KEY");
+    if (!supabaseUrl || !serviceKey || !geminiApiKey) {
+      throw new Error("Missing one of SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY or GEMINI_API_KEY");
     }
 
     const supabase = createClient(supabaseUrl, serviceKey);
@@ -230,55 +267,35 @@ Deno.serve(async (req) => {
       keyword_score: Math.round(entry.score * 100),
     }));
 
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/${GEMINI_MODEL}:generateContent`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${lovableApiKey}`,
+        "x-goog-api-key": geminiApiKey,
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          {
-            role: "system",
-            content: "Sen bir diaspora aginda arz/talep eslestirme asistanisin. Kisisel veri aciklama. En uygun 5 adayi sec ve Turkce kisa gerekce yaz.",
-          },
+        systemInstruction: {
+          parts: [{
+            text: "Sen bir diaspora aginda arz/talep eslestirme asistanisin. Kisisel veri aciklama. En uygun 5 adayi sec ve Turkce kisa gerekce yaz.",
+          }],
+        },
+        contents: [
           {
             role: "user",
-            content: `Arz/talep:\n${queryText}\n\nAdaylar:\n${JSON.stringify(candidatesForAI, null, 2)}`,
+            parts: [{ text: `Arz/talep:\n${queryText}\n\nAdaylar:\n${JSON.stringify(candidatesForAI, null, 2)}` }],
           },
         ],
         tools: [
           {
-            type: "function",
-            function: {
-              name: "rank_matches",
-              description: "En uygun 5 eslesmeyi dondur.",
-              parameters: {
-                type: "object",
-                properties: {
-                  matches: {
-                    type: "array",
-                    maxItems: 5,
-                    items: {
-                      type: "object",
-                      properties: {
-                        id: { type: "string" },
-                        score: { type: "number" },
-                        reason: { type: "string" },
-                      },
-                      required: ["id", "score", "reason"],
-                      additionalProperties: false,
-                    },
-                  },
-                },
-                required: ["matches"],
-                additionalProperties: false,
-              },
-            },
+            functionDeclarations: [RankMatchesFunctionSchema],
           },
         ],
-        tool_choice: { type: "function", function: { name: "rank_matches" } },
+        toolConfig: {
+          functionCallingConfig: {
+            mode: "ANY",
+            allowedFunctionNames: ["rank_matches"],
+          },
+        },
       }),
     });
 
@@ -289,12 +306,12 @@ Deno.serve(async (req) => {
     }
 
     const aiData = await aiResponse.json();
-    const toolCallArgs = aiData.choices?.[0]?.message?.tool_calls?.[0]?.function?.arguments;
+    const toolCallArgs = extractFunctionArgs(aiData, "rank_matches");
     if (!toolCallArgs) {
       return jsonResponse({ matches: [] }, 200, corsHeaders);
     }
 
-    const args = z.object({ matches: z.array(AiMatchSchema).max(5) }).parse(JSON.parse(toolCallArgs));
+    const args = z.object({ matches: z.array(AiMatchSchema).max(5) }).parse(toolCallArgs);
     const candidateMap = new Map(scored.map((entry) => [entry.candidate.id, entry.candidate]));
 
     const enriched = args.matches

@@ -36,7 +36,7 @@ Bu dosya bir "proje ozeti + audit kapsam dokumani" olarak okunmalidir. Buradaki 
 - Mail:
   - Resend
 - AI / harici API:
-  - `ai.gateway.lovable.dev`
+  - Google Gemini API
   - harici RAG endpoint: `https://rag.corteqs.net/api/chat`
 - Deployment:
   - Docker
@@ -131,7 +131,7 @@ Repo icinde gorülen degiskenler:
 - `MAIL_TO_ADMIN`
 - `MAIL_REPLY_TO`
 - `MAIL_SEND_CONFIRMATION`
-- `LOVABLE_API_KEY`
+- `GEMINI_API_KEY`
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 
