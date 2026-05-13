@@ -19,7 +19,7 @@ import { advisorProfileSections } from "@/lib/resource-links";
 const internalAdminLinkDescriptions: Record<string, string> = {
   "Üye Takibi": "Üyeleri, başvuruları ve günlük operasyonları tek ekrandan yönetin.",
   "Ref Kod": "Referral akışını, kaynakları ve kullanım performansını takip edin.",
-  Muhasebe: "Gelir, gider ve nakit akışı ekranlarına hızlıca geçin.",
+  Dosyalar: "Genel kaynakları, CV kayıtlarını ve bağlantıları tek ekrandan yönetin.",
 };
 
 const externalAdminLinkDescriptions: Record<string, string> = {
@@ -29,6 +29,7 @@ const externalAdminLinkDescriptions: Record<string, string> = {
 };
 
 const otherActionDescriptions: Record<string, string> = {
+  Muhasebe: "Gelir, gider ve nakit akışı ekranlarına hızlıca geçin.",
   "Haber Bandı": "Site içindeki kayan haber alanını ve görünür metinleri yönetin.",
   "Sosyal Medya": "Sosyal medya linkleri ve dış ağ bağlantılarını düzenleyin.",
   Güncellemeler: "Hakkımızda ve güncelleme içeriklerini admin panelinden kontrol edin.",

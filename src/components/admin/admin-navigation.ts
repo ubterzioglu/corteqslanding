@@ -5,7 +5,7 @@ import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 export const primaryAdminNavItems = [
   { to: "/admin/members", label: "Üye Takibi", icon: Network },
   { to: "/admin/referral", label: "Ref Kod", icon: Sparkles },
-  { to: "/admin/muhasebe", label: "Muhasebe", icon: Globe },
+  { to: "/admin/workspace/resources", label: "Dosyalar", icon: FolderKanban },
 ] as const;
 
 export const externalAdminNavItems = [
@@ -15,6 +15,7 @@ export const externalAdminNavItems = [
 ] as const;
 
 export const otherActionNavItems = [
+  { to: "/admin/muhasebe", label: "Muhasebe", icon: Globe },
   { to: "/admin/marquee", label: "Haber Bandı", icon: Radio },
   { to: "/admin/social-media", label: "Sosyal Medya", icon: Megaphone },
   { to: "/admin/about", label: "Güncellemeler", icon: ScrollText },

@@ -39,9 +39,10 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Dış Bağlantılar")).toBeInTheDocument();
     expect(screen.getByText("Üye Takibi")).toBeInTheDocument();
     expect(screen.getByText("Ref Kod")).toBeInTheDocument();
-    expect(screen.getByText("Muhasebe")).toBeInTheDocument();
+    expect(screen.getByText("Dosyalar")).toBeInTheDocument();
     expect(screen.getByText("Diğer İşlemler")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Diğer İşlemler"));
+    expect(screen.getByText("Muhasebe")).toBeInTheDocument();
     expect(screen.getByText("Haber Bandı")).toBeInTheDocument();
     expect(screen.getByText("Sosyal Medya")).toBeInTheDocument();
     expect(screen.getByText("Güncellemeler")).toBeInTheDocument();
