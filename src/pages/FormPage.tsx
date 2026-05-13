@@ -150,6 +150,17 @@ const FormPage = () => {
       </div>
 
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
+        <div className="mb-6">
+          <a
+            href="https://corteqs.net/aiform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/10 px-5 py-3 text-primary font-semibold shadow-lg shadow-primary/20 transition-all hover:bg-primary/20 hover:border-primary/40"
+          >
+            <span className="text-lg">🤖</span>
+            <span>Yapay Zeka Destekli Asistan</span>
+          </a>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="flex flex-wrap gap-2 mb-2">
             <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">

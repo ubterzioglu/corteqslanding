@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
-  ArrowLeft,
   ArrowRight,
   Video,
   Calendar,
@@ -16,6 +14,7 @@ import {
 } from "lucide-react";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
 import FooterSection from "@/components/FooterSection";
+import May19SharedHeader from "@/components/may19/May19SharedHeader";
 import magicBallHero from "@/assets/corteqs-magic-ball-hero.jpg";
 
 const themes = [
@@ -70,16 +69,7 @@ const VloggerContestPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Top nav */}
-      <div className="container mx-auto px-4 pt-6">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card/80 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur-sm transition-colors hover:bg-primary/10"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Ana sayfaya dön
-        </Link>
-      </div>
+      <May19SharedHeader />
 
       <section className="relative overflow-hidden bg-gradient-to-br from-background via-card to-secondary/40">
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,hsl(var(--accent)/0.08),hsl(var(--primary)/0.07),hsl(var(--background)))]" aria-hidden />

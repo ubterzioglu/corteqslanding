@@ -68,22 +68,24 @@ const CategoriesSection = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-6">
           {categories.map((cat) => (
             <div
               key={cat.title}
-              className="group flex h-full flex-col rounded-2xl border border-white/50 bg-background/90 p-8 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
+              className="group flex items-center justify-between rounded-2xl border border-white/50 bg-background/90 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:shadow-lg"
             >
-              <div className="mb-5 flex items-center gap-4">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                  <cat.icon className="h-7 w-7 text-primary" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <cat.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold leading-snug text-foreground">{cat.title}</h3>
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold leading-snug text-foreground">{cat.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{cat.desc}</p>
+                </div>
               </div>
-              <p className="mb-6 flex-1 text-sm leading-relaxed text-muted-foreground">{cat.desc}</p>
               <button
                 onClick={() => openForm(cat.defaultCategory)}
-                className="mt-auto w-full rounded-xl bg-primary/10 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
+                className="ml-4 rounded-xl bg-primary/10 px-6 py-2.5 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
               >
                 Kayıt Bırak / Takip Et →
               </button>
