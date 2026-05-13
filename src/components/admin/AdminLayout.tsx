@@ -41,21 +41,37 @@ const linkClass = ({
   variant = "default",
 }: {
   isActive: boolean;
-  variant?: "default" | "home" | "command-center";
+  variant?: "default" | "home" | "command-center" | "demo" | "members";
 }) => {
   if (variant === "home") {
     return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
       isActive
-        ? "bg-amber-500 text-amber-950"
-        : "bg-amber-100 text-amber-900 hover:bg-amber-200"
+        ? "bg-[#4285F4] text-white"
+        : "bg-[#E8F0FE] text-[#174EA6] hover:bg-[#D2E3FC]"
     }`;
   }
 
   if (variant === "command-center") {
     return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
       isActive
-        ? "bg-orange-500 text-white"
-        : "bg-orange-100 text-orange-900 hover:bg-orange-200"
+        ? "bg-[#EA4335] text-white"
+        : "bg-[#FCE8E6] text-[#C5221F] hover:bg-[#FAD2CF]"
+    }`;
+  }
+
+  if (variant === "demo") {
+    return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+      isActive
+        ? "bg-[#FBBC05] text-[#3C2F00]"
+        : "bg-[#FEF7E0] text-[#B06000] hover:bg-[#FEEFC3]"
+    }`;
+  }
+
+  if (variant === "members") {
+    return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+      isActive
+        ? "bg-[#34A853] text-white"
+        : "bg-[#E6F4EA] text-[#137333] hover:bg-[#CEEAD6]"
     }`;
   }
 
@@ -81,6 +97,7 @@ const AdminLayout = () => {
   const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
   const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
   const [externalLinksMenuOpen, setExternalLinksMenuOpen] = useState(false);
+  const demoUrl = "https://global-network-bridge.lovable.app/";
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -200,6 +217,8 @@ const AdminLayout = () => {
     otherRecordNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
+  const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
+  const secondaryPrimaryNavItems = primaryAdminNavItems.filter((item) => item.to !== "/admin/members");
 
   if (!authenticated) {
     return (
@@ -279,7 +298,7 @@ const AdminLayout = () => {
               </a>
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
             </div>
-<nav className="flex flex-wrap items-center gap-1">
+            <nav className="flex flex-wrap items-center gap-1">
                 <div className="flex items-center">
                   <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                   <NavLink to="/admin" className={({ isActive }) => linkClass({ isActive, variant: "home" })}>
@@ -295,7 +314,29 @@ const AdminLayout = () => {
                     Command Center
                   </NavLink>
                 </div>
-                {primaryAdminNavItems.map((item, index) => (
+                <div className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <a
+                    href={demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={linkClass({ isActive: false, variant: "demo" })}
+                  >
+                    Demo
+                  </a>
+                </div>
+                {membersNavItem ? (
+                  <div key={membersNavItem.to} className="flex items-center">
+                    <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                    <NavLink
+                      to={membersNavItem.to}
+                      className={({ isActive }) => linkClass({ isActive, variant: "members" })}
+                    >
+                      {membersNavItem.label}
+                    </NavLink>
+                  </div>
+                ) : null}
+                {secondaryPrimaryNavItems.map((item) => (
                   <div key={item.to} className="flex items-center">
                     <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                     <NavLink to={item.to} className={({ isActive }) => linkClass({ isActive })}>

@@ -66,6 +66,12 @@ describe("AdminLayout", () => {
     });
 
     expect(screen.getByRole("link", { name: /CorteQS ana siteye git/i })).toHaveAttribute("href", "https://corteqs.net");
+    expect(screen.getByRole("link", { name: "Demo" })).toHaveAttribute(
+      "href",
+      "https://global-network-bridge.lovable.app/",
+    );
+    expect(screen.getByRole("link", { name: "Demo" })).toHaveAttribute("target", "_blank");
+    expect(screen.getByRole("link", { name: "Üye Takibi" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Dış Bağlantılar" })).toBeInTheDocument();
   });
 
