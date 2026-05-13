@@ -36,13 +36,13 @@ const SOCIAL_FALLBACKS: Partial<Record<SocialPlatform, string>> = {
 };
 
 const socialCircleBaseClass =
-  "group relative flex h-12 w-12 items-center justify-center rounded-lg border border-white/12 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.045),rgba(255,255,255,0.012)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_4px_12px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/18 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a241d]";
+  "group relative flex h-[4.45rem] w-[4.45rem] items-center justify-center rounded-full border border-white/12 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.045),rgba(255,255,255,0.012)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_18px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/18 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a241d]";
 
 const socialCircleInnerClass =
-  "pointer-events-none absolute inset-[0.2rem] rounded-lg border border-white/11 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.022),rgba(255,255,255,0.006)_54%,rgba(255,255,255,0)_100%)]";
+  "pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/11 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.022),rgba(255,255,255,0.006)_54%,rgba(255,255,255,0)_100%)]";
 
 const socialCircleOuterGlowClass =
-  "pointer-events-none absolute inset-[-0.15rem] rounded-lg border border-white/8 opacity-80 transition duration-300 group-hover:border-white/14";
+  "pointer-events-none absolute inset-[-0.18rem] rounded-full border border-white/8 opacity-80 transition duration-300 group-hover:border-white/14";
 
 const FooterSection = () => {
   const { toast } = useToast();
@@ -117,9 +117,8 @@ const FooterSection = () => {
     {
       key: "support",
       label: "CorteQS Destek",
-      href: "https://corteqs.net/form",
-      target: "_blank",
-      rel: "noopener noreferrer",
+      href: null,
+      onClick: () => setSupportFormOpen(true),
       accentClassName: "text-[#ff9f43] group-hover:text-[#ffb768] group-hover:shadow-[0_0_22px_rgba(255,159,67,0.35)]",
       icon: (className) => <MessageCircle className={className} />,
     },
@@ -273,7 +272,8 @@ const FooterSection = () => {
         </div>
       </div>
 
-<RegisterInterestForm open={formOpen} onOpenChange={setFormOpen} />
+      <RegisterInterestForm open={formOpen} onOpenChange={setFormOpen} />
+      <RegisterInterestForm open={supportFormOpen} onOpenChange={setSupportFormOpen} mode="support" />
     </footer>
   );
 };

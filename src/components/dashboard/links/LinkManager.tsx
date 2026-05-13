@@ -21,8 +21,6 @@ import {
   createEmptyResourceFormState,
   getResourceSectionFromQuery,
   getStorageBucket,
-  MANUAL_RESOURCE_IMPORT_BATCH,
-  MANUAL_RESOURCE_SOURCE_FOLDER,
   mapResourceEntryRow,
   requiresStoredFile,
   requiresUrl,
@@ -48,7 +46,7 @@ const FILTER_BTN_CLS =
   'rounded-full border px-3 py-2 text-xs font-semibold tracking-wide transition-all'
 
 const SELECT_FIELDS =
-  'id, department, record_kind, added_by, title, description, url, storage_bucket, storage_path, file_name, person_first_name, person_last_name, person_role, linkedin_url, instagram_url, website_url, source_folder, source_subfolder, source_snapshot_date, import_batch, created_at'
+  'id, department, record_kind, added_by, title, description, url, storage_bucket, storage_path, file_name, person_first_name, person_last_name, person_role, linkedin_url, instagram_url, website_url, created_at'
 
 function normalizeOptionalText(value: string): string | null {
   const normalized = value.trim()
@@ -58,19 +56,6 @@ function normalizeOptionalText(value: string): string | null {
 function buildTitleFromCv(formState: ResourceFormState): string {
   const fullName = `${formState.personFirstName} ${formState.personLastName}`.trim()
   return fullName || formState.title.trim() || 'CV Kaydı'
-}
-
-function formatSnapshotDate(value: string | null): string {
-  if (!value) return 'Tarih yok'
-
-  const parsed = new Date(value)
-  if (Number.isNaN(parsed.getTime())) return value
-
-  return new Intl.DateTimeFormat('tr-TR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  }).format(parsed)
 }
 
 export default function LinkManager() {
@@ -143,9 +128,7 @@ export default function LinkManager() {
           (entry.fileName?.toLowerCase().includes(term) ?? false) ||
           (entry.personFirstName?.toLowerCase().includes(term) ?? false) ||
           (entry.personLastName?.toLowerCase().includes(term) ?? false) ||
-          (entry.personRole?.toLowerCase().includes(term) ?? false) ||
-          entry.sourceFolder.toLowerCase().includes(term) ||
-          (entry.sourceSubfolder?.toLowerCase().includes(term) ?? false)
+          (entry.personRole?.toLowerCase().includes(term) ?? false)
 
         return matchesDepartment && matchesKind && matchesAddedBy && matchesSearch
       }),
@@ -159,40 +142,6 @@ export default function LinkManager() {
     setSelectedKinds(new Set())
     setSelectedAddedBy(new Set())
     setSearchTerm('')
-  }
-
-  function toggleDepartmentFilter(section: ResourceSectionFilter) {
-    if (section === 'all') {
-      setSelectedDepartments(new Set())
-      return
-    }
-
-    setSelectedDepartments((current) => {
-      const next = new Set(current)
-      if (next.has(section)) {
-        next.delete(section)
-      } else {
-        next.add(section)
-      }
-      return next
-    })
-  }
-
-  function toggleKindFilter(kind: ResourceKindFilter) {
-    if (kind === 'all') {
-      setSelectedKinds(new Set())
-      return
-    }
-
-    setSelectedKinds((current) => {
-      const next = new Set(current)
-      if (next.has(kind)) {
-        next.delete(kind)
-      } else {
-        next.add(kind)
-      }
-      return next
-    })
   }
 
   function handleFormState<K extends keyof ResourceFormState>(key: K, value: ResourceFormState[K]) {
@@ -263,10 +212,6 @@ export default function LinkManager() {
         linkedin_url: formState.recordKind === 'CV' ? normalizeOptionalText(sanitizeUrl(formState.linkedinUrl)) : null,
         instagram_url: formState.recordKind === 'CV' ? normalizeOptionalText(sanitizeUrl(formState.instagramUrl)) : null,
         website_url: formState.recordKind === 'CV' ? normalizeOptionalText(sanitizeUrl(formState.websiteUrl)) : null,
-        source_folder: MANUAL_RESOURCE_SOURCE_FOLDER,
-        source_subfolder: null,
-        source_snapshot_date: null,
-        import_batch: MANUAL_RESOURCE_IMPORT_BATCH,
       }
 
       const { data, error: insertErr } = await supabase
@@ -621,10 +566,9 @@ export default function LinkManager() {
               <button
                 key={section}
                 type="button"
-                onClick={() => toggleDepartmentFilter(section)}
+                onClick={() => setSectionFilter(section)}
                 className={`${FILTER_BTN_CLS} ${
-                  (section === 'all' && selectedDepartments.size === 0) ||
-                  (section !== 'all' && selectedDepartments.has(section))
+                  sectionFilter === section
                     ? 'border-primary-300 bg-primary-50 text-primary-700'
                     : 'border-gray-200 bg-white text-gray-600 hover:border-primary-200 hover:text-primary-700'
                 }`}
@@ -642,10 +586,9 @@ export default function LinkManager() {
               <button
                 key={kind}
                 type="button"
-                onClick={() => toggleKindFilter(kind)}
+                onClick={() => setKindFilter(kind)}
                 className={`${FILTER_BTN_CLS} ${
-                  (kind === 'all' && selectedKinds.size === 0) ||
-                  (kind !== 'all' && selectedKinds.has(kind))
+                  kindFilter === kind
                     ? 'border-primary-300 bg-primary-50 text-primary-700'
                     : 'border-gray-200 bg-white text-gray-600 hover:border-primary-200 hover:text-primary-700'
                 }`}
@@ -732,11 +675,6 @@ export default function LinkManager() {
                         {entry.description && (
                           <p className="max-w-3xl text-sm text-gray-600">{entry.description}</p>
                         )}
-                        <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-                          <span>Kaynak klasör: {entry.sourceFolder}</span>
-                          {entry.sourceSubfolder ? <span>Alt klasör: {entry.sourceSubfolder}</span> : null}
-                          <span>Tarih: {formatSnapshotDate(entry.sourceSnapshotDate)}</span>
-                        </div>
                       </>
                     )}
                   </div>
@@ -835,18 +773,6 @@ export default function LinkManager() {
                         <p className="mt-1">{entry.fileName}</p>
                       </div>
                     )}
-
-                    <div className="rounded-xl bg-gray-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Kaynak</p>
-                      <p className="mt-1">{entry.sourceFolder}</p>
-                      <p className="text-xs text-gray-500">{entry.sourceSubfolder ?? 'Alt klasör yok'}</p>
-                    </div>
-
-                    <div className="rounded-xl bg-gray-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Import</p>
-                      <p className="mt-1">{formatSnapshotDate(entry.sourceSnapshotDate)}</p>
-                      <p className="text-xs text-gray-500">{entry.importBatch}</p>
-                    </div>
 
                     {entry.recordKind === 'CV' && (
                       <>

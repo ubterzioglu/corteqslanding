@@ -6,8 +6,6 @@ export type ResourceRecordKind = (typeof RESOURCE_RECORD_KINDS)[number]
 
 export const RESOURCE_ADDED_BY = ['Şahin', 'UBT', 'Baran', 'Burak', 'Diğer'] as const
 export type ResourceAddedBy = (typeof RESOURCE_ADDED_BY)[number]
-export const MANUAL_RESOURCE_SOURCE_FOLDER = 'Manuel Kayıt'
-export const MANUAL_RESOURCE_IMPORT_BATCH = 'manual-entry'
 
 export interface ResourceEntryRow {
   id: string
@@ -26,10 +24,6 @@ export interface ResourceEntryRow {
   linkedin_url: string | null
   instagram_url: string | null
   website_url: string | null
-  source_folder: string
-  source_subfolder: string | null
-  source_snapshot_date: string | null
-  import_batch: string
   created_at: string
 }
 
@@ -50,10 +44,6 @@ export interface ResourceEntry {
   linkedinUrl: string | null
   instagramUrl: string | null
   websiteUrl: string | null
-  sourceFolder: string
-  sourceSubfolder: string | null
-  sourceSnapshotDate: string | null
-  importBatch: string
   createdAt: string
 }
 
@@ -110,10 +100,6 @@ export function mapResourceEntryRow(row: ResourceEntryRow): ResourceEntry {
     linkedinUrl: row.linkedin_url,
     instagramUrl: row.instagram_url,
     websiteUrl: row.website_url,
-    sourceFolder: row.source_folder,
-    sourceSubfolder: row.source_subfolder,
-    sourceSnapshotDate: row.source_snapshot_date,
-    importBatch: row.import_batch,
     createdAt: row.created_at,
   }
 }

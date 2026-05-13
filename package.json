@@ -11,8 +11,6 @@
     "verify:release": "node scripts/verify-release.mjs",
     "import:command-center:may13": "node scripts/import-command-center-may13.mjs",
     "import:command-center:may13:write": "node scripts/import-command-center-may13.mjs --write",
-    "import:resources:drive-xlsx": "node scripts/import-resource-entries-from-drive-xlsx.mjs",
-    "import:resources:drive-xlsx:write": "node scripts/import-resource-entries-from-drive-xlsx.mjs --write",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
