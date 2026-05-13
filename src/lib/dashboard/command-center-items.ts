@@ -33,6 +33,7 @@ export interface CommandCenterItemRow {
   legacy_source_category: string | null
   legacy_source_title: string | null
   sort_order: number
+  archived_at: string | null
   deleted_at: string | null
   created_at?: string
   updated_at?: string
@@ -55,6 +56,7 @@ export interface CommandCenterItem {
   legacySourceCategory: string | null
   legacySourceTitle: string | null
   sortOrder: number
+  archivedAt: string | null
   deletedAt: string | null
   createdAt: string | null
   updatedAt: string | null
@@ -98,8 +100,12 @@ export interface CommandCenterItemsResult {
 }
 
 export interface CommandCenterItemCounts {
+  total: number
   todo: number
   meetingNote: number
+  burak: number
+  ubt: number
+  team: number
 }
 
 export interface CommandCenterCategoryOption {
@@ -140,7 +146,7 @@ export interface CommandCenterTopCategoryGroup {
 }
 
 export const COMMAND_CENTER_SELECT =
-  'id, item_type, title, detail, category_label, assignee, status, priority, due_date, urgent, legacy_source_type, legacy_source_code, legacy_source_date_label, legacy_source_category, legacy_source_title, sort_order, deleted_at, created_at, updated_at'
+  'id, item_type, title, detail, category_label, assignee, status, priority, due_date, urgent, legacy_source_type, legacy_source_code, legacy_source_date_label, legacy_source_category, legacy_source_title, sort_order, archived_at, deleted_at, created_at, updated_at'
 
 const STATUS_LABELS: Record<string, string> = {
   Baslanmadi: 'Başlanmadı',
@@ -203,6 +209,7 @@ export function mapCommandCenterRow(row: CommandCenterItemRow): CommandCenterIte
     legacySourceCategory: row.legacy_source_category,
     legacySourceTitle: row.legacy_source_title,
     sortOrder: row.sort_order,
+    archivedAt: row.archived_at,
     deletedAt: row.deleted_at,
     createdAt: row.created_at ?? null,
     updatedAt: row.updated_at ?? null,
@@ -625,6 +632,7 @@ export async function fetchCommandCenterItems(
     .from('command_center_items')
     .select(COMMAND_CENTER_SELECT, { count: 'exact' })
     .is('deleted_at', null)
+    .is('archived_at', null)
     .order('priority', { ascending: false })
     .order('item_type', { ascending: true })
     .order('sort_order', { ascending: true })
@@ -662,8 +670,38 @@ export async function fetchDeletedCommandCenterItems(
   let query = supabase
     .from('command_center_items')
     .select(COMMAND_CENTER_SELECT)
+    .is('archived_at', null)
     .not('deleted_at', 'is', null)
     .order('deleted_at', { ascending: false })
+    .order('priority', { ascending: false })
+    .order('item_type', { ascending: true })
+    .order('sort_order', { ascending: true })
+    .order('created_at', { ascending: false })
+
+  query = applyCommandCenterFilters(query, options)
+
+  const { data, error } = await query
+  if (error || !data) {
+    return []
+  }
+
+  return (data as CommandCenterItemRow[]).map(mapCommandCenterRow)
+}
+
+export async function fetchArchivedCommandCenterItems(
+  options?: FetchCommandCenterItemsOptions
+): Promise<CommandCenterItem[]> {
+  const supabase = getSupabaseBrowserClient()
+  if (!supabase) {
+    return []
+  }
+
+  let query = supabase
+    .from('command_center_items')
+    .select(COMMAND_CENTER_SELECT)
+    .is('deleted_at', null)
+    .not('archived_at', 'is', null)
+    .order('archived_at', { ascending: false })
     .order('priority', { ascending: false })
     .order('item_type', { ascending: true })
     .order('sort_order', { ascending: true })
@@ -692,6 +730,7 @@ export async function fetchCommandCenterCategoryOptions(options?: {
     .from('command_center_items')
     .select('category_label, item_type, legacy_source_category')
     .is('deleted_at', null)
+    .is('archived_at', null)
     .order('item_type', { ascending: true })
     .order('category_label', { ascending: true })
 
@@ -750,6 +789,7 @@ export async function fetchCommandCenterDateGroupOptions(options?: {
       'item_type, category_label, legacy_source_code, legacy_source_date_label, legacy_source_category'
     )
     .is('deleted_at', null)
+    .is('archived_at', null)
     .order('item_type', { ascending: true })
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
@@ -793,6 +833,7 @@ export async function fetchCommandCenterDateGroupOptions(options?: {
       legacy_source_category: row.legacy_source_category,
       legacy_source_title: null,
       sort_order: 0,
+      archived_at: null,
       deleted_at: null,
       created_at: undefined,
       updated_at: undefined,
@@ -1019,30 +1060,79 @@ export async function deleteCommandCenterItem(id: string): Promise<boolean> {
   return !error
 }
 
+export async function archiveCommandCenterItem(id: string): Promise<boolean> {
+  const supabase = getSupabaseBrowserClient()
+  if (!supabase) return false
+
+  const { error } = await supabase
+    .from('command_center_items')
+    .update({ archived_at: new Date().toISOString() })
+    .eq('id', id)
+    .is('deleted_at', null)
+    .is('archived_at', null)
+
+  return !error
+}
+
 export async function fetchCommandCenterItemCounts(): Promise<CommandCenterItemCounts> {
   const supabase = getSupabaseBrowserClient()
   if (!supabase) {
     return {
+      total: 0,
       todo: 0,
       meetingNote: 0,
+      burak: 0,
+      ubt: 0,
+      team: 0,
     }
   }
 
-  const [todoResult, meetingNoteResult] = await Promise.all([
+  const [totalResult, todoResult, meetingNoteResult, burakResult, ubtResult, teamResult] = await Promise.all([
+    supabase
+      .from('command_center_items')
+      .select('id', { count: 'exact', head: true })
+      .is('deleted_at', null)
+      .is('archived_at', null),
     supabase
       .from('command_center_items')
       .select('id', { count: 'exact', head: true })
       .eq('item_type', 'todo')
-      .is('deleted_at', null),
+      .is('deleted_at', null)
+      .is('archived_at', null),
     supabase
       .from('command_center_items')
       .select('id', { count: 'exact', head: true })
       .eq('item_type', 'meeting_note')
-      .is('deleted_at', null),
+      .is('deleted_at', null)
+      .is('archived_at', null),
+    supabase
+      .from('command_center_items')
+      .select('id', { count: 'exact', head: true })
+      .eq('item_type', 'todo')
+      .eq('assignee', 'Burak')
+      .is('deleted_at', null)
+      .is('archived_at', null),
+    supabase
+      .from('command_center_items')
+      .select('id', { count: 'exact', head: true })
+      .eq('item_type', 'todo')
+      .eq('assignee', 'UBT')
+      .is('deleted_at', null)
+      .is('archived_at', null),
+    supabase
+      .from('command_center_items')
+      .select('id', { count: 'exact', head: true })
+      .eq('item_type', 'meeting_note')
+      .is('deleted_at', null)
+      .is('archived_at', null),
   ])
 
   return {
+    total: totalResult.count ?? 0,
     todo: todoResult.count ?? 0,
     meetingNote: meetingNoteResult.count ?? 0,
+    burak: burakResult.count ?? 0,
+    ubt: ubtResult.count ?? 0,
+    team: teamResult.count ?? 0,
   }
 }

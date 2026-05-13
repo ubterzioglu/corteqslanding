@@ -105,7 +105,11 @@ describe("AdminLayout", () => {
     const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
     fireEvent.mouseEnter(dashboardButton);
 
-    expect((await screen.findByText("Command Center")).closest("a")).toHaveAttribute(
+    expect(screen.getAllByText("Command Center")[0].closest("a")).toHaveAttribute(
+      "href",
+      "/admin/workspace/command-center",
+    );
+    expect((await screen.findByRole("menuitem", { name: /Command Center/i })).closest("a")).toHaveAttribute(
       "href",
       "/admin/workspace/command-center",
     );

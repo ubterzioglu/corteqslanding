@@ -36,10 +36,33 @@ export function useAdminOutletContext() {
   return useOutletContext<AdminOutletContext>();
 }
 
-const linkClass = ({ isActive }: { isActive: boolean }) =>
-  `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+const linkClass = ({
+  isActive,
+  variant = "default",
+}: {
+  isActive: boolean;
+  variant?: "default" | "home" | "command-center";
+}) => {
+  if (variant === "home") {
+    return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+      isActive
+        ? "bg-amber-500 text-amber-950"
+        : "bg-amber-100 text-amber-900 hover:bg-amber-200"
+    }`;
+  }
+
+  if (variant === "command-center") {
+    return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+      isActive
+        ? "bg-orange-500 text-white"
+        : "bg-orange-100 text-orange-900 hover:bg-orange-200"
+    }`;
+  }
+
+  return `rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
     isActive ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted hover:text-foreground"
   }`;
+};
 
 const AdminLayout = () => {
   const { toast } = useToast();
@@ -255,19 +278,27 @@ const AdminLayout = () => {
                 <img src={logo} alt="CorteQS" className="h-full w-full object-contain" />
               </a>
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
-              <span className="text-xs text-muted-foreground">{session?.user.email}</span>
             </div>
 <nav className="flex flex-wrap items-center gap-1">
                 <div className="flex items-center">
                   <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                  <NavLink to="/admin" className={linkClass}>
+                  <NavLink to="/admin" className={({ isActive }) => linkClass({ isActive, variant: "home" })}>
                     Admin Ana Sayfa
+                  </NavLink>
+                </div>
+                <div className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <NavLink
+                    to="/admin/workspace/command-center"
+                    className={({ isActive }) => linkClass({ isActive, variant: "command-center" })}
+                  >
+                    Command Center
                   </NavLink>
                 </div>
                 {primaryAdminNavItems.map((item, index) => (
                   <div key={item.to} className="flex items-center">
                     <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                    <NavLink to={item.to} className={linkClass}>
+                    <NavLink to={item.to} className={({ isActive }) => linkClass({ isActive })}>
                       {item.label}
                     </NavLink>
                   </div>

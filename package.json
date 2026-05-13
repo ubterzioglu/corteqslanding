@@ -9,6 +9,8 @@
     "build:dev": "vite build --mode development",
     "start": "node server.mjs",
     "verify:release": "node scripts/verify-release.mjs",
+    "import:command-center:may13": "node scripts/import-command-center-may13.mjs",
+    "import:command-center:may13:write": "node scripts/import-command-center-may13.mjs --write",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",

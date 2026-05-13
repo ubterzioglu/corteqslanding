@@ -1,15 +1,17 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import { AlertTriangle, Pencil, Plus, Save, Search, Trash2, X } from 'lucide-react'
+import { AlertTriangle, Archive, Pencil, Plus, Save, Search, Trash2, X } from 'lucide-react'
 import AccordionCard from '@/components/dashboard/AccordionCard'
 import burakAvatar from '../../../../burak.png'
 import ubtAvatar from '../../../../ubt.png'
 import {
+  archiveCommandCenterItem,
   COMMAND_CENTER_PRIORITY_OPTIONS,
   createCommandCenterItem,
   createEmptyCommandCenterFormState,
   deleteCommandCenterItem,
+  fetchArchivedCommandCenterItems,
   fetchCommandCenterCategoryOptions,
   fetchDeletedCommandCenterItems,
   fetchCommandCenterDateGroupOptions,
@@ -147,10 +149,18 @@ export default function CommandCenterManager({
   const [urgentOnly, setUrgentOnly] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalCount, setTotalCount] = useState(0)
+  const [archivedItems, setArchivedItems] = useState<CommandCenterItem[]>([])
   const [deletedItems, setDeletedItems] = useState<CommandCenterItem[]>([])
   const [categoryOptions, setCategoryOptions] = useState<CommandCenterCategoryOption[]>([])
   const [dateGroupOptions, setDateGroupOptions] = useState<CommandCenterDateGroupOption[]>([])
-  const [itemCounts, setItemCounts] = useState({ todo: 0, meetingNote: 0 })
+  const [itemCounts, setItemCounts] = useState({
+    total: 0,
+    todo: 0,
+    meetingNote: 0,
+    burak: 0,
+    ubt: 0,
+    team: 0,
+  })
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formState, setFormState] = useState<CommandCenterFormState>(() =>
     createDefaultFormState(lockedItemType)
@@ -159,6 +169,18 @@ export default function CommandCenterManager({
     createEmptyCommandCenterFormState()
   )
   const activeItemType = lockedItemType
+  const guideItems = [
+    'Yeni kayıtlar aktif listede başlar, güncelliğini kaybedenleri arşivleyin.',
+    'Silme işlemi yalnız gerçekten kaldırılması gereken kayıtlar için kullanılmalı.',
+    'Todo kayıtlarında kısa ve net başlık, detayda ise aksiyon listesi yazın.',
+    'Toplantı notlarında konu kategorisi ve tarih etiketini mutlaka doldurun.',
+    'Kim alanı sorumluluğu, durum alanı ise ilerleme seviyesini netleştirir.',
+    'Acil işaretini sadece kısa vadede müdahale gerektiren maddelerde kullanın.',
+    'Prio değeri yükseldikçe kayıt üst sıralarda görünür ve dikkat çeker.',
+    'Arama ve filtrelerle aynı anda sadece ilgili akışa odaklanın.',
+    'Toplantı notları karar hafızasıdır; todo olmayan genel akış burada tutulur.',
+    'Arşiv kartı geçmiş işleri saklar, aktif ekranı gereksiz kalabalıktan korur.',
+  ]
 
   useEffect(() => {
     if (lockedItemType) {
@@ -231,14 +253,29 @@ export default function CommandCenterManager({
     void loadDeletedItems()
   }, [loadDeletedItems])
 
-  useEffect(() => {
-    async function loadCounts() {
-      const counts = await fetchCommandCenterItemCounts()
-      setItemCounts(counts)
-    }
-
-    void loadCounts()
+  const refreshCounts = useCallback(async function refreshCounts() {
+    const counts = await fetchCommandCenterItemCounts()
+    setItemCounts(counts)
   }, [])
+
+  const loadArchivedItems = useCallback(async function loadArchivedItems() {
+    try {
+      const archived = await fetchArchivedCommandCenterItems({
+        itemType: activeItemType,
+      })
+      setArchivedItems(archived)
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : 'Arşiv kayıtları yüklenemedi.')
+    }
+  }, [activeItemType])
+
+  useEffect(() => {
+    void loadArchivedItems()
+  }, [loadArchivedItems])
+
+  useEffect(() => {
+    void refreshCounts()
+  }, [refreshCounts])
 
   useEffect(() => {
     async function loadCategoryOptions() {
@@ -296,11 +333,8 @@ export default function CommandCenterManager({
       }
 
       resetCreateForm(lockedItemType ?? formState.itemType)
-      setItemCounts((current) => ({
-        ...current,
-        todo: current.todo + (created.itemType === 'todo' ? 1 : 0),
-        meetingNote: current.meetingNote + (created.itemType === 'meeting_note' ? 1 : 0),
-      }))
+      await refreshCounts()
+      await loadArchivedItems()
 
       if (currentPage !== 1) {
         setCurrentPage(1)
@@ -331,6 +365,8 @@ export default function CommandCenterManager({
       }
 
       cancelEdit()
+      await refreshCounts()
+      await loadArchivedItems()
       await loadItems()
     } catch (updateError) {
       setError(updateError instanceof Error ? updateError.message : 'Kayıt güncellenemedi.')
@@ -353,21 +389,14 @@ export default function CommandCenterManager({
         throw new Error('Kayıt silinemedi.')
       }
 
-      const deletedItem = items.find((item) => item.id === itemId)
-      if (deletedItem) {
-        setItemCounts((current) => ({
-          ...current,
-          todo: current.todo - (deletedItem.itemType === 'todo' ? 1 : 0),
-          meetingNote: current.meetingNote - (deletedItem.itemType === 'meeting_note' ? 1 : 0),
-        }))
-      }
+      await refreshCounts()
 
       if (editingId === itemId) {
         cancelEdit()
       }
 
       const nextPage = items.length === 1 && currentPage > 1 ? currentPage - 1 : currentPage
-      await loadDeletedItems()
+      await Promise.all([refreshCounts(), loadDeletedItems(), loadArchivedItems()])
 
       if (nextPage !== currentPage) {
         setCurrentPage(nextPage)
@@ -381,24 +410,90 @@ export default function CommandCenterManager({
     }
   }
 
+  async function handleArchive(itemId: string) {
+    if (typeof window !== 'undefined' && !window.confirm('Bu kayıt arşive taşınsın mı?')) {
+      return
+    }
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      const archived = await archiveCommandCenterItem(itemId)
+      if (!archived) {
+        throw new Error('Kayıt arşivlenemedi.')
+      }
+
+      if (editingId === itemId) {
+        cancelEdit()
+      }
+
+      const nextPage = items.length === 1 && currentPage > 1 ? currentPage - 1 : currentPage
+      await Promise.all([refreshCounts(), loadArchivedItems()])
+
+      if (nextPage !== currentPage) {
+        setCurrentPage(nextPage)
+      } else {
+        await loadItems()
+      }
+    } catch (archiveError) {
+      setError(archiveError instanceof Error ? archiveError.message : 'Kayıt arşivlenemedi.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
   const rangeStart = totalCount === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1
   const rangeEnd = Math.min(currentPage * PAGE_SIZE, totalCount)
   return (
     <section className="space-y-6" aria-labelledby="command-center-heading">
+      <AccordionCard
+        items={[
+          {
+            id: 'command-center-guide',
+            title: title || 'Command Center',
+            accentColor: '#1A6DC2',
+            children: (
+              <div className="space-y-4">
+                {description ? <p className="text-sm text-gray-500">{description}</p> : null}
+                <div className="rounded-2xl border border-[rgba(66,133,244,0.08)] bg-[rgba(66,133,244,0.03)] p-4">
+                  <ol className="grid gap-2 text-sm text-gray-700 md:grid-cols-2">
+                    {guideItems.map((item, index) => (
+                      <li key={item} className="flex items-start gap-2">
+                        <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[11px] font-semibold text-primary">
+                          {index + 1}
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            ),
+          },
+        ]}
+      />
+
       <div className="space-y-3">
-        {title ? (
-          <h2 id="command-center-heading" className="text-xl font-semibold text-gray-900">
-            {title}
-          </h2>
-        ) : null}
-        {description ? <p className="text-sm text-gray-500">{description}</p> : null}
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">
+            Toplam: {itemCounts.total}
+          </span>
           <span className="rounded-full bg-[rgba(26,109,194,0.12)] px-3 py-1 text-[#1A6DC2]">
             Todo: {itemCounts.todo}
           </span>
           <span className="rounded-full bg-[rgba(139,92,246,0.12)] px-3 py-1 text-[#8B5CF6]">
             Toplantı Notu: {itemCounts.meetingNote}
+          </span>
+          <span className="rounded-full bg-[rgba(249,115,22,0.14)] px-3 py-1 text-orange-700">
+            Kim: Burak {itemCounts.burak}
+          </span>
+          <span className="rounded-full bg-[rgba(14,165,233,0.14)] px-3 py-1 text-sky-700">
+            Kim: UBT {itemCounts.ubt}
+          </span>
+          <span className="rounded-full bg-[rgba(99,102,241,0.14)] px-3 py-1 text-indigo-700">
+            Kim: Takım {itemCounts.team}
           </span>
         </div>
       </div>
@@ -1111,6 +1206,16 @@ export default function CommandCenterManager({
                               </button>
                               <button
                                 type="button"
+                                onClick={() => void handleArchive(item.id)}
+                                disabled={isSubmitting || editingId !== null}
+                                className={`${BTN_CLS} border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100`}
+                                aria-label="Arşivle"
+                                title="Arşivle"
+                              >
+                                <Archive size={12} aria-hidden="true" />
+                              </button>
+                              <button
+                                type="button"
                                 onClick={() => void handleDelete(item.id)}
                                 disabled={isSubmitting}
                                 className={`${BTN_CLS} border border-red-200 bg-red-50 text-red-600 hover:bg-red-100`}
@@ -1369,6 +1474,16 @@ export default function CommandCenterManager({
                         )}
                         <button
                           type="button"
+                          onClick={() => void handleArchive(item.id)}
+                          disabled={isSubmitting || rowIsEditing}
+                          className={`${BTN_CLS} border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100`}
+                          aria-label="Arşivle"
+                          title="Arşivle"
+                        >
+                          <Archive size={12} aria-hidden="true" />
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => void handleDelete(item.id)}
                           disabled={isSubmitting}
                           className={`${BTN_CLS} border border-red-200 bg-red-50 text-red-600 hover:bg-red-100`}
@@ -1414,21 +1529,154 @@ export default function CommandCenterManager({
         )}
 
         {!isLoading && (
-          <AccordionCard
-            items={[
-              {
-                id: 'deleted-command-center-items',
-                title: 'Silinmiş Görevler',
-                badge: String(deletedItems.length),
-                accentColor: '#DC2626',
-                children: <DeletedItemsList items={deletedItems} />,
-              },
-            ]}
-            className="border-red-100 bg-red-50/30"
-          />
+          <div className="space-y-4">
+            <AccordionCard
+              items={[
+                {
+                  id: 'archived-command-center-items',
+                  title: 'Arşivlenen Kayıtlar',
+                  badge: String(archivedItems.length),
+                  accentColor: '#D97706',
+                  children: <ArchivedItemsList items={archivedItems} />,
+                },
+              ]}
+              className="border-amber-100 bg-amber-50/30"
+            />
+
+            <AccordionCard
+              items={[
+                {
+                  id: 'deleted-command-center-items',
+                  title: 'Silinmiş Görevler',
+                  badge: String(deletedItems.length),
+                  accentColor: '#DC2626',
+                  children: <DeletedItemsList items={deletedItems} />,
+                },
+              ]}
+              className="border-red-100 bg-red-50/30"
+            />
+          </div>
         )}
       </div>
     </section>
+  )
+}
+
+function ArchivedItemsList({ items }: { items: CommandCenterItem[] }) {
+  if (items.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-amber-200 bg-white/80 p-6 text-center text-sm text-gray-500">
+        Arşivlenen kayıt yok.
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="hidden overflow-hidden rounded-2xl border border-amber-100 bg-white shadow-[0_10px_20px_rgba(60,64,67,0.04)] md:block">
+        <table className="w-full table-fixed">
+          <colgroup>
+            <col className="w-[6%]" />
+            <col className="w-[10%]" />
+            <col className="w-[14%]" />
+            <col className="w-[34%]" />
+            <col className="w-[10%]" />
+            <col className="w-[10%]" />
+            <col className="w-[8%]" />
+            <col className="w-[12%]" />
+          </colgroup>
+          <thead className="border-b border-amber-100 bg-amber-50/70">
+            <tr>
+              {['Prio', 'Tip', 'Kategori', 'Başlık & Detay', 'Kim', 'Durum', 'Eklenme', 'Arşiv'].map(
+                (column) => (
+                  <th
+                    key={column}
+                    scope="col"
+                    className="px-2.5 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-gray-500 first:pl-4 last:pr-4"
+                  >
+                    {column}
+                  </th>
+                )
+              )}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-amber-50">
+            {items.map((item) => (
+              <tr key={item.id} className="align-middle">
+                <td className="pl-4 pr-2 py-3">
+                  <span className="inline-flex min-w-[28px] items-center justify-center rounded-full bg-[rgba(217,119,6,0.1)] px-2 py-1 text-[10px] font-semibold leading-none text-amber-700">
+                    {item.priority}
+                  </span>
+                </td>
+                <td className="px-2.5 py-3 text-[12px] font-medium text-gray-700">
+                  {getCommandCenterItemLabel(item.itemType)}
+                </td>
+                <td className="px-2.5 py-3">
+                  <CategoryBadge item={item} />
+                </td>
+                <td className="px-2.5 py-3 text-gray-600">
+                  <div className="space-y-1">
+                    <p className="text-[13px] font-medium text-gray-900">{item.title}</p>
+                    <p className="text-[12px] leading-5 text-gray-700">{getItemDetail(item.detail)}</p>
+                  </div>
+                </td>
+                <td className="px-2.5 py-3 text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <AssigneeAvatar assignee={item.assignee} />
+                    <span className="text-[12px] text-gray-700">
+                      {getCommandCenterAssigneeLabel(item.assignee)}
+                    </span>
+                  </div>
+                </td>
+                <td className="px-2.5 py-3">
+                  <StatusBadge status={item.status} />
+                </td>
+                <td className="whitespace-nowrap px-2.5 py-3 text-[12px] text-gray-600">
+                  {formatCreatedAt(item.createdAt)}
+                </td>
+                <td className="whitespace-nowrap px-2.5 py-3 text-[12px] text-gray-600">
+                  {formatDeletedAt(item.archivedAt)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="space-y-3 md:hidden">
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className="space-y-3 rounded-2xl border border-amber-100 bg-white p-4 shadow-[0_10px_20px_rgba(60,64,67,0.04)]"
+          >
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex min-w-[28px] items-center justify-center rounded-full bg-[rgba(217,119,6,0.1)] px-2 py-1 text-[10px] font-semibold leading-none text-amber-700">
+                  {item.priority}
+                </span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-500">
+                  {getCommandCenterItemLabel(item.itemType)}
+                </span>
+              </div>
+              <h3 className="text-[15px] font-semibold text-gray-900">{item.title}</h3>
+              <p className="text-[13px] leading-5 text-gray-700">{getItemDetail(item.detail)}</p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <MobileInfoPair label="Kategori" value={getCommandCenterTopCategoryLabel(item)} />
+              <MobileInfoPair
+                label="Kim"
+                value={getCommandCenterAssigneeLabel(item.assignee)}
+                assignee={item.assignee}
+              />
+              <MobileInfoPair label="Durum" value={getCommandCenterStatusLabel(item.status)} />
+              <MobileInfoPair label="Eklenme" value={formatCreatedAt(item.createdAt)} />
+              <MobileInfoPair label="Arşiv" value={formatDeletedAt(item.archivedAt)} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 

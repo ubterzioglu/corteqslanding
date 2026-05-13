@@ -510,9 +510,22 @@ export default function LinkManager() {
   return (
     <section className="space-y-6" aria-labelledby="link-manager-heading">
       <div className="space-y-2">
-        <h2 id="link-manager-heading" className="text-xl font-semibold text-gray-900">
-          Birleşik Kaynak Merkezi
-        </h2>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 id="link-manager-heading" className="text-xl font-semibold text-gray-900">
+            Birleşik Kaynak Merkezi
+          </h2>
+          <a
+            href={safeHref(
+              'https://drive.google.com/drive/folders/1TYFEdjDPOLOMWAf_MScs6XJXRW9FHh-r?usp=drive_link'
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-100"
+          >
+            <ExternalLink size={14} aria-hidden="true" />
+            Drive Klasör Kısayolu
+          </a>
+        </div>
         <p className="max-w-3xl text-sm text-gray-500">
           Genel linkleri, İK CV kayıtlarını ve ARGE dosya-linklerini tek akışta yönetin.
         </p>
@@ -700,7 +713,7 @@ export default function LinkManager() {
                         className={`${BTN_CLS} border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100`}
                       >
                         <ExternalLink size={14} aria-hidden="true" />
-                        Aç
+                        URL
                       </a>
                     ) : null}
 
@@ -734,9 +747,10 @@ export default function LinkManager() {
                           href={safeHref(entry.url)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-1 inline-flex items-center gap-1 text-primary-600 hover:text-primary-700"
+                          className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-100"
                         >
-                          {entry.url}
+                          <ExternalLink size={12} aria-hidden="true" />
+                          URL
                         </a>
                       </div>
                     )}
