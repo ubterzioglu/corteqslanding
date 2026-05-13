@@ -86,8 +86,7 @@ const NotFound = () => {
           to="/"
           className="mt-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
         >
-          <ArrowLeft className="h-3 w-3" />
-          corteqs.net
+          ← corteqs.net
         </Link>
       </div>
     </div>

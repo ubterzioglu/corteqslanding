@@ -160,7 +160,7 @@ const ChatBot = () => {
             </span>
           </div>
           <h2 className="mb-3 text-2xl font-bold leading-tight text-foreground md:text-4xl">
-            Sorularını Sor, <span className="text-accent">İstersen Kaydını da Bırak</span>
+            Sorularını Sor! <span className="text-accent">Kaydını Bırak!</span>
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
             Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.

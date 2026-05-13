@@ -49,7 +49,7 @@ export default function SiteHeader() {
             <img
               src={logo}
               alt="CorteQS"
-              className="h-11 w-11 rounded-full border border-orange-100 bg-white object-contain p-1.5"
+              className="h-14 w-14 rounded-full border border-orange-100 bg-white object-contain p-2 shadow-lg shadow-orange-200/30 hover:shadow-xl hover:shadow-orange-200/40 transition-shadow"
             />
           </Link>
 
