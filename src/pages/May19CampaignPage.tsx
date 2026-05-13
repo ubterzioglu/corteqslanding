@@ -376,7 +376,8 @@ export default function May19CampaignPage() {
           </div>
         </section>
 
-        <section id="modules" className="mx-auto mt-10 max-w-5xl">
+        <section id="katilim-formu" className="scroll-mt-28">
+          <div id="modules" className="mx-auto mt-10 max-w-5xl">
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as Kind)}>
             <TabsList className="grid h-auto w-full grid-cols-1 gap-2 bg-transparent p-0 sm:grid-cols-3">
               <TabsTrigger
@@ -429,6 +430,7 @@ export default function May19CampaignPage() {
               </div>
             </TabsContent>
           </Tabs>
+          </div>
         </section>
 
         <section className="mx-auto mt-10 max-w-5xl rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(15,23,42,0.98)_0%,rgba(30,41,59,0.96)_42%,rgba(17,94,89,0.94)_100%)] px-6 py-8 text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)]">

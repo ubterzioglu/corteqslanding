@@ -9,6 +9,7 @@ import {
   Pencil,
   Plus,
   Save,
+  Search,
   Trash2,
   Upload,
   X,
@@ -67,8 +68,10 @@ export default function LinkManager() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingState, setEditingState] = useState<ResourceFormState>(createEmptyResourceFormState)
-  const [sectionFilter, setSectionFilter] = useState<ResourceSectionFilter>('all')
-  const [kindFilter, setKindFilter] = useState<ResourceKindFilter>('all')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [selectedDepartments, setSelectedDepartments] = useState<Set<ResourceDepartment>>(new Set())
+  const [selectedKinds, setSelectedKinds] = useState<Set<ResourceRecordKind>>(new Set())
+  const [selectedAddedBy, setSelectedAddedBy] = useState<Set<string>>(new Set())
 
   const supabase = getSupabaseBrowserClient()
   const isEditing = editingId !== null
@@ -104,18 +107,42 @@ export default function LinkManager() {
   }, [loadEntries])
 
   useEffect(() => {
-    setSectionFilter(getResourceSectionFromQuery(searchParams.get('section') ?? undefined))
+    const section = getResourceSectionFromQuery(searchParams.get('section') ?? undefined)
+    if (section !== 'all') {
+      setSelectedDepartments(new Set([section]))
+    }
   }, [searchParams])
 
   const filteredEntries = useMemo(
     () =>
       entries.filter((entry) => {
-        const matchesSection = sectionFilter === 'all' || entry.department === sectionFilter
-        const matchesKind = kindFilter === 'all' || entry.recordKind === kindFilter
-        return matchesSection && matchesKind
+        const matchesDepartment = selectedDepartments.size === 0 || selectedDepartments.has(entry.department)
+        const matchesKind = selectedKinds.size === 0 || selectedKinds.has(entry.recordKind)
+        const matchesAddedBy = selectedAddedBy.size === 0 || selectedAddedBy.has(entry.addedBy)
+
+        const term = searchTerm.toLowerCase().trim()
+        const matchesSearch =
+          term === '' ||
+          entry.title.toLowerCase().includes(term) ||
+          (entry.description?.toLowerCase().includes(term) ?? false) ||
+          (entry.fileName?.toLowerCase().includes(term) ?? false) ||
+          (entry.personFirstName?.toLowerCase().includes(term) ?? false) ||
+          (entry.personLastName?.toLowerCase().includes(term) ?? false) ||
+          (entry.personRole?.toLowerCase().includes(term) ?? false)
+
+        return matchesDepartment && matchesKind && matchesAddedBy && matchesSearch
       }),
-    [entries, kindFilter, sectionFilter]
+    [entries, selectedDepartments, selectedKinds, selectedAddedBy, searchTerm]
   )
+
+  const hasActiveFilters = selectedDepartments.size > 0 || selectedKinds.size > 0 || selectedAddedBy.size > 0 || searchTerm.trim() !== ''
+
+  function clearAllFilters() {
+    setSelectedDepartments(new Set())
+    setSelectedKinds(new Set())
+    setSelectedAddedBy(new Set())
+    setSearchTerm('')
+  }
 
   function handleFormState<K extends keyof ResourceFormState>(key: K, value: ResourceFormState[K]) {
     setFormState((state) => ({ ...state, [key]: value }))
