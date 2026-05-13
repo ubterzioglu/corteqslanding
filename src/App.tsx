@@ -39,6 +39,8 @@ import VloggerContestPage from "./pages/VloggerContestPage.tsx";
 import ScrollTopButton from "@/components/ScrollTopButton";
 import LansmanPage from "./pages/LansmanPage.tsx";
 import FoundersPage from "./pages/FoundersPage.tsx";
+import May19CampaignPage from "./pages/May19CampaignPage.tsx";
+import May19MapPage from "./pages/May19MapPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -98,6 +100,8 @@ const App = () => (
             <Route path="/founding-1000" element={<Founding1000Page />} />
             <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
             <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
+            <Route path="/19051919" element={<May19CampaignPage />} />
+            <Route path="/19051919/harita" element={<May19MapPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

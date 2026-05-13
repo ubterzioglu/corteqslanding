@@ -1,0 +1,4100 @@
+[
+  {
+    "table_name": "admin_users",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "admin_users",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "platform",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "whatsapp",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "contacted_whatsapp",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "contacted_instagram",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "contacted_email",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "advisor_social_media_links",
+    "column_name": "contacted_phone",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "content",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "created_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_cards",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "file_path",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "file_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "created_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_files",
+    "column_name": "card_id",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "url",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "created_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "arge_links",
+    "column_name": "card_id",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "full_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "reach_count",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "reach_description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "organized_events",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "known_professionals",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "first_week_plan",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "weekly_hours",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "motivation",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "city_ambassador_applications",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "item_type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "detail",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "category_label",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "assignee",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "due_date",
+    "data_type": "date",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "urgent",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "legacy_source_type",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "legacy_source_code",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "legacy_source_date_label",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "legacy_source_category",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "legacy_source_title",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "sort_order",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "priority",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_items",
+    "column_name": "deleted_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "command_center_item_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "legacy_table",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "legacy_row_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "migration_batch",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "command_center_legacy_map",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_categories",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_categories",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_categories",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_categories",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "platform",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "whatsapp",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "contacted_whatsapp",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "contacted_instagram",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "contacted_email",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "consultant_social_media_links",
+    "column_name": "contacted_phone",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "contact",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "telefon",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "websitesi",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "tur",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "sorumlu",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "durum",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "durum_dm",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "durum_customer",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "yorumlar",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contacts",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "platform",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "whatsapp",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "contacted_whatsapp",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "contacted_instagram",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "contacted_email",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "contributor_social_media_links",
+    "column_name": "contacted_phone",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "country_tr",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "city_slug",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "priority",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "last_scan_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "scan_count",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_city_scan_queue",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "username",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "instagram_url",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "display_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "bio",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "country_tr",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "city_slug",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "language",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "subcategory",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "relevance_score",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "confidence_score",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "diaspora_usefulness",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "classification_reason",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "source_query",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "source_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "source_title",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "source_snippet",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "review_notes",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "first_seen_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "last_seen_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "last_checked_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "raw_payload",
+    "data_type": "jsonb",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_instagram_accounts",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "country_tr",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "city_slug",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "started_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "finished_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "queries_executed",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "brave_results_checked",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "instagram_urls_found",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "valid_candidates",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "inserted_records",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "duplicate_records",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "needs_review_records",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "error_message",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "diaspora_scan_runs",
+    "column_name": "raw_report",
+    "data_type": "jsonb",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "slug",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "label",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "short_description",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "icon_key",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "default_expanded",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "sort_order",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "doc_categories",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "draft_notlar",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "draft_notlar",
+    "column_name": "icerik",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "draft_notlar",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "scope",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "client_key",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "window_started_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "request_count",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "edge_rate_limits",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "event_date",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "start_time",
+    "data_type": "time without time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "end_time",
+    "data_type": "time without time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "location",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "online_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "price",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "max_attendees",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "cover_image",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "tags",
+    "data_type": "ARRAY",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "organizer_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "events",
+    "column_name": "featured",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "events",
+    "column_name": "organizer_type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "expense_date",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "person",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "category",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "amount",
+    "data_type": "numeric",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "currency",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "status",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "payment_method",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "invoice_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "note",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "is_virtual_card",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "expenses",
+    "column_name": "created_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "gorev",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "durum",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "atanan",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "baslangic",
+    "data_type": "date",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "bitis",
+    "data_type": "date",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "aciklama",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "gorevler",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "income_date",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "source",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "category",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "amount",
+    "data_type": "numeric",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "currency",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "status",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "note",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "incomes",
+    "column_name": "created_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "platform",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "whatsapp",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "contacted_whatsapp",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "contacted_instagram",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "contacted_email",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "influencer_social_media_links",
+    "column_name": "contacted_phone",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "role",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "message",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "referral_code",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "source",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "organization",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "interest_area",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "supply_demand",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "heard_from",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "interest_registrations",
+    "column_name": "attachment_urls",
+    "data_type": "ARRAY",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "first_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "last_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "initials",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "linkedin",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "twitter",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "website",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "lansman_registrations",
+    "column_name": "youtube",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "links",
+    "column_name": "type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "slug",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "summary",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "detail_content",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "image_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "image_alt",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "metric_value",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "link_enabled",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "sort_order",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "published_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "news_post_id",
+    "data_type": "bigint",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "marquee_items",
+    "column_name": "external_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "source_submission_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "matched_submission_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "match_type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "match_score",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "match_reason",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "notified_source",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "notified_target",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "matches",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "content",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "date",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "source",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "sort_order",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "meeting_notes",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "konu",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "sub",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "ayrinti",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "mvp_level",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "is_seed",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "mvp_items",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "id",
+    "data_type": "bigint",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "summary",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "source_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "source_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "original_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "image_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "language",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "published_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "unique_hash",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "news_posts",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "message",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "related_id",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "is_read",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "notifications",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "full_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "avatar_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "onboarding_completed",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "profiles",
+    "column_name": "account_type",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "content",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "source",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "metadata",
+    "data_type": "jsonb",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "embedding",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "rag_documents",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "referral_code_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "submission_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "used_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "full_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_code_usages",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "source_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "type_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "source_code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "type_code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "month_num",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "year_short",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "random_part",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "note",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "is_used",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "used_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "created_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "group_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "group_code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "valid_from",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "valid_until",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes",
+    "column_name": "usage_count",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "code_prefix",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "type_key",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "type_char",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "source_key",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "source_char",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "referral_date",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "month_char",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "year_short",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "random_part",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "check_char",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "note",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "is_used",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "used_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "used_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "created_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "referral_codes_legacy",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_groups",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_groups",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_groups",
+    "column_name": "code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_groups",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_groups",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_sources",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_sources",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_sources",
+    "column_name": "code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_sources",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_sources",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_types",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_types",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_types",
+    "column_name": "code",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_types",
+    "column_name": "is_active",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "referral_types",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "department",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "record_kind",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "storage_bucket",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "storage_path",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "file_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "person_first_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "person_last_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "person_role",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "linkedin_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "instagram_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "website_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "resource_entries",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "request_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "consultant_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "message",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "price",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "estimated_duration",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "scope",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "payment_terms",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_proposals",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "subcategory",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "title",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "budget_min",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "budget_max",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "preferred_time",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "urgency",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "attachment_urls",
+    "data_type": "ARRAY",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "service_requests",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "platform",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "link",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "added_by",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "social_media_links",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "form_type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "fullname",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "business",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "field",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "contest_interest",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "linkedin",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "instagram",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "tiktok",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "facebook",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "twitter",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "website",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "consent",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "notes",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "reviewed_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "reviewed_by",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "company_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "donation_amount",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "donation_currency",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "whatsapp_interest",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "referral_source",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "referral_detail",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "referral_code",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "document_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "document_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "offers_needs",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "documents",
+    "data_type": "jsonb",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "referral_code_id",
+    "data_type": "uuid",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "contact_phone_reached",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "contact_whatsapp_reached",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "contact_instagram_reached",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "contact_email_reached",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "source_type",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "source_external_id",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "submissions",
+    "column_name": "notification_sent_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "konu",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "kim",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "ne_zaman",
+    "data_type": "date",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "ayrinti",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "durum",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todo_items",
+    "column_name": "acil",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "id",
+    "data_type": "bigint",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "konu",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "durum",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "tarih",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "gorev",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "sorumlu",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "todos",
+    "column_name": "zaman",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "first_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "last_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "role",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "file_path",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "file_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "linkedin_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "instagram_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "user_cvs",
+    "column_name": "website_url",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "user_roles",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_roles",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "user_roles",
+    "column_name": "role",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "v_muhasebe_by_category",
+    "column_name": "category",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_category",
+    "column_name": "record_count",
+    "data_type": "bigint",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_category",
+    "column_name": "total_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_person",
+    "column_name": "person",
+    "data_type": "USER-DEFINED",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_person",
+    "column_name": "record_count",
+    "data_type": "bigint",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_person",
+    "column_name": "total_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_person",
+    "column_name": "paid_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_by_person",
+    "column_name": "pending_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "year_num",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "month_num",
+    "data_type": "integer",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "income_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "expense_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "net_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "burak_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "baris_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "ortak_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "expense_paid_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "expense_pending_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "income_collected_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_cashflow_monthly",
+    "column_name": "income_pending_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "total_expense_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "total_income_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "net_position_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "pending_expense_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "pending_income_try",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "v_muhasebe_kpi",
+    "column_name": "total_records",
+    "data_type": "bigint",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_messages",
+    "column_name": "id",
+    "data_type": "bigint",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_messages",
+    "column_name": "wa_id",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_messages",
+    "column_name": "message_text",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_messages",
+    "column_name": "reply_text",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_messages",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_tasks",
+    "column_name": "id",
+    "data_type": "bigint",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_tasks",
+    "column_name": "wa_id",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_tasks",
+    "column_name": "task",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_tasks",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_tasks",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "id",
+    "data_type": "bigint",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "wa_id",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "current_step",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "surname",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "note",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "funnel_interest",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "organization",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "occupation_interest",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "email",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "phone",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "discovery_source",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "referral_code",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "whatsapp_group_interest",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "privacy_consent",
+    "data_type": "boolean",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "registration_status",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "registration_completed_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "wa_users",
+    "column_name": "conversation_mode",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "arrival_date",
+    "data_type": "date",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "adults",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "children",
+    "data_type": "integer",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "has_pet",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "pet_details",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_baby_seat",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_airport_transfer",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_car_rental",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_flight_discount",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "notes",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_mentor",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "mentor_type",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_orders",
+    "column_name": "needs_sim_card",
+    "data_type": "boolean",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "order_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "provider_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "price",
+    "data_type": "numeric",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "message",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "details",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "welcome_pack_proposals",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "user_id",
+    "data_type": "uuid",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "slug",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "group_name",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "category",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "country",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "city",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "mode",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "hero_image",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "tagline",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "call_to_action_text",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "conditions",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "whatsapp_link",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "admin_name",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "admin_contact",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "description",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "status",
+    "data_type": "text",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "rejection_reason",
+    "data_type": "text",
+    "is_nullable": "YES"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "created_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  },
+  {
+    "table_name": "whatsapp_landings",
+    "column_name": "updated_at",
+    "data_type": "timestamp with time zone",
+    "is_nullable": "NO"
+  }
+]
