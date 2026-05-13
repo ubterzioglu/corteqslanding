@@ -15,25 +15,25 @@ const navLinks = [
     label: "Kayıt Ol!",
     to: "/19051919#katilim-formu",
     className:
-      "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffedd5_100%)] text-orange-700 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50",
+      "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffedd5_100%)] text-orange-700 shadow-[0_14px_32px_rgba(251,146,60,0.25)] hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_18px_38px_rgba(251,146,60,0.32)]",
   },
   {
     label: "Founding 1000",
     to: "/founding-1000",
     className:
-      "border-amber-200 bg-[linear-gradient(135deg,#fffbea_0%,#fef3c7_100%)] text-amber-800 hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50",
+      "border-amber-200 bg-[linear-gradient(135deg,#fffbea_0%,#fef3c7_100%)] text-amber-800 shadow-[0_14px_32px_rgba(245,158,11,0.25)] hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50 hover:shadow-[0_18px_38px_rgba(245,158,11,0.32)]",
   },
   {
     label: "Blogger Yarışması",
     to: "/blogger-yarismasi",
     className:
-      "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#fed7aa_100%)] text-orange-800 hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50",
+      "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#fed7aa_100%)] text-orange-800 shadow-[0_14px_32px_rgba(234,88,12,0.25)] hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_18px_38px_rgba(234,88,12,0.32)]",
   },
   {
     label: "Vlogger Yarışması",
     to: "/vlogger-yarismasi",
     className:
-      "border-cyan-200 bg-[linear-gradient(135deg,#ecfeff_0%,#cffafe_100%)] text-cyan-800 hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-cyan-50",
+      "border-cyan-200 bg-[linear-gradient(135deg,#ecfeff_0%,#cffafe_100%)] text-cyan-800 shadow-[0_14px_32px_rgba(6,182,212,0.25)] hover:-translate-y-0.5 hover:border-cyan-300 hover:bg-cyan-50 hover:shadow-[0_18px_38px_rgba(6,182,212,0.32)]",
   },
 ] as const;
 
@@ -63,10 +63,16 @@ export default function SiteHeader() {
               href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
               target="_blank"
               rel="noopener noreferrer"
-              className={`${internalNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50`}
+              className={`${internalNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
             >
               Whatsapp Topluluğu
             </a>
+            <Link
+              to="/"
+              className={`${internalNavClass} border-slate-300 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]`}
+            >
+              Ana Sayfa
+            </Link>
           </div>
         </div>
       </div>

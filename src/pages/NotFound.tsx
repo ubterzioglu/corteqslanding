@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { ArrowLeft, Compass, Globe, Home } from "lucide-react";
+import { Compass, Globe, Home } from "lucide-react";
+import maskot from "@/assets/maskotanasayfa.png";
 
 const NotFound = () => {
   const location = useLocation();
@@ -24,15 +25,12 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 mx-auto max-w-2xl px-4 text-center">
-        <Link to="/" className="inline-block">
-          <img
-            src="/sharedx/maillogo.png"
-            alt="CorteQS Logo"
-            className="mx-auto mb-8 h-20 w-auto"
-          />
-        </Link>
-
         <div className="relative mb-6 inline-block">
+          <img
+            src={maskot}
+            alt="CorteQS"
+            className="mx-auto mb-2 h-28 w-auto"
+          />
           <span className="bg-gradient-to-br from-primary to-accent bg-clip-text text-[120px] font-extrabold leading-none text-transparent md:text-[160px]">
             404
           </span>
