@@ -37,6 +37,7 @@ import Founding1000Page from "./pages/Founding1000Page.tsx";
 import BloggerContestPage from "./pages/BloggerContestPage.tsx";
 import VloggerContestPage from "./pages/VloggerContestPage.tsx";
 import ScrollTopButton from "@/components/ScrollTopButton";
+import PublicLayout from "@/components/PublicLayout";
 import LansmanPage from "./pages/LansmanPage.tsx";
 import FoundersPage from "./pages/FoundersPage.tsx";
 import May19CampaignPage from "./pages/May19CampaignPage.tsx";
@@ -52,19 +53,30 @@ const App = () => (
       <BrowserRouter>
         <>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/hakkimizda" element={<AboutPage />} />
+              <Route path="/founders" element={<FoundersPage />} />
+              <Route path="/radar" element={<RadarPage />} />
+              <Route path="/commercial" element={<CommercialIndexPage />} />
+              <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
+              <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
+              <Route path="/lansman" element={<LansmanPage />} />
+              <Route path="/founding-1000" element={<Founding1000Page />} />
+              <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
+              <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
+              <Route path="/19051919" element={<May19CampaignPage />} />
+              <Route path="/19051919/harita" element={<May19MapPage />} />
+              <Route path="/form" element={<FormPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
             <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
             <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />
             <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
             <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
             <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
-            <Route path="/hakkimizda" element={<AboutPage />} />
-            <Route path="/founders" element={<FoundersPage />} />
-            <Route path="/radar" element={<RadarPage />} />
-            <Route path="/commercial" element={<CommercialIndexPage />} />
-            <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />
-            <Route path="/diaspora/:slug" element={<DiasporaDetailPage />} />
-            <Route path="/lansman" element={<LansmanPage />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminHomePage />} />
               <Route path="members" element={<AdminMembersPage />} />
@@ -94,16 +106,6 @@ const App = () => (
               <Route path="workspace/docs/:slug" element={<AdminWorkspaceDocPage />} />
               {muhasebeRoutes}
             </Route>
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/form"         element={<FormPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/founding-1000" element={<Founding1000Page />} />
-            <Route path="/blogger-yarismasi" element={<BloggerContestPage />} />
-            <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
-            <Route path="/19051919" element={<May19CampaignPage />} />
-            <Route path="/19051919/harita" element={<May19MapPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
           </Routes>
           <ScrollTopButton />
         </>

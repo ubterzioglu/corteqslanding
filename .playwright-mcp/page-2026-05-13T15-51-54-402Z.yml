@@ -1,0 +1,581 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e5]:
+    - link "CorteQS CorteQS Türk Diasporası Platformu" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img "CorteQS" [ref=e7]
+      - generic [ref=e8]:
+        - generic [ref=e9]: CorteQS
+        - generic [ref=e10]: Türk Diasporası Platformu
+    - generic [ref=e11]:
+      - link "19 Mayıs Etkinlikleri" [ref=e12] [cursor=pointer]:
+        - /url: /19051919
+      - link "Kayıt Ol!" [ref=e13] [cursor=pointer]:
+        - /url: /19051919#katilim-formu
+      - link "Founding 1000" [ref=e14] [cursor=pointer]:
+        - /url: /founding-1000
+      - link "Blogger Yarışması" [ref=e15] [cursor=pointer]:
+        - /url: /blogger-yarismasi
+      - link "Vlogger Yarışması" [ref=e16] [cursor=pointer]:
+        - /url: /vlogger-yarismasi
+      - link "Whatsapp Topluluğu" [ref=e17] [cursor=pointer]:
+        - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+  - generic [ref=e18]:
+    - main [ref=e19]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - img "CorteQS Logo" [ref=e26]
+            - heading "Türk Diasporasını Birleştiren Platform" [level=1] [ref=e27]
+          - paragraph [ref=e28]:
+            - text: Dünyanın her yerindeki Türkleri tek çatı altında buluşturur.
+            - text: Bağlan, keşfet, birlikte büyü!
+            - text: Ücretsiz kayıt ol! Ağını genişlet!
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - link "Ücretsiz Kayıt Ol →" [ref=e31] [cursor=pointer]:
+              - /url: "#kaydol"
+              - generic [ref=e32]: Ücretsiz Kayıt Ol →
+            - link "WhatsApp Grubuna Katıl →" [ref=e33] [cursor=pointer]:
+              - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+              - generic [ref=e34]: WhatsApp Grubuna Katıl →
+          - generic [ref=e35]:
+            - link "Erken Erişim 🌍 Founding 1000'e Katıl → Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar" [ref=e36] [cursor=pointer]:
+              - /url: /founding-1000
+              - generic [ref=e37]: Erken Erişim
+              - generic [ref=e38]: 🌍 Founding 1000'e Katıl →
+              - generic [ref=e39]: Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
+            - generic [ref=e40]:
+              - link "✍️ Blogger Yarışması →" [ref=e41] [cursor=pointer]:
+                - /url: /blogger-yarismasi
+                - generic [ref=e42]: ✍️ Blogger Yarışması →
+              - link "🎥 Vlogger Yarışması →" [ref=e43] [cursor=pointer]:
+                - /url: /vlogger-yarismasi
+                - generic [ref=e44]: 🎥 Vlogger Yarışması →
+      - article "CorteQS Nedir?" [ref=e48]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - figure [ref=e51]:
+              - img "CorteQS Logo" [ref=e52]
+            - generic [ref=e53]:
+              - generic [ref=e54]: Platform
+              - heading "CorteQS Nedir?" [level=2] [ref=e55]
+              - list [ref=e56]:
+                - listitem [ref=e57]: 🌍 Global Türk diasporasını tek platformda toplar
+                - listitem [ref=e58]: 📍 Şehir bazlı network (Berlin, Londra, Dubai vb.)
+                - listitem [ref=e59]: 🤝 İnsan, işletme ve toplulukları buluşturur
+                - listitem [ref=e60]: 🧭 Yeni şehirde “nereden başlayacağım?” sorununu çözer
+                - listitem [ref=e61]: 🏠 Relocation sürecini kolaylaştırır
+                - listitem [ref=e62]: 💼 İş, proje ve işbirliği fırsatları sunar
+                - listitem [ref=e63]: 👥 Güven temelli bağlantılar kurmanı sağlar
+                - listitem [ref=e64]: 📢 Bilgi paylaşımı ve deneyim aktarımını hızlandırır
+                - listitem [ref=e65]: 🎯 Profesyonel network oluşturmayı destekler
+                - listitem [ref=e66]: 🌐 Global ama lokal odaklı topluluklar yaratır
+          - generic [ref=e67]:
+            - generic [ref=e68]:
+              - heading "Kimler İçin?" [level=2] [ref=e69]
+              - list [ref=e70]:
+                - listitem [ref=e71]:
+                  - generic [ref=e72]: 🌍 Relocation desteği arayan Türkler
+                - listitem [ref=e73]:
+                  - generic [ref=e74]: 🤝 Diaspora ile bağ kurmak isteyen expatlar
+                - listitem [ref=e75]:
+                  - generic [ref=e76]: 🧑‍⚕️ Hizmet sunan danışman, doktor, avukatlar
+                - listitem [ref=e77]:
+                  - generic [ref=e78]: 🏢 Türk müşteriye ulaşmak isteyen işletmeler
+                - listitem [ref=e79]:
+                  - generic [ref=e80]: 🏛️ Dernek, vakıf ve STK’lar
+                - listitem [ref=e81]:
+                  - generic [ref=e82]: 🎥 İçerik üreticileri ve bloggerlar
+                - listitem [ref=e83]:
+                  - generic [ref=e84]: 🧑‍🤝‍🧑 Sosyal çevre arayan bireyler
+                - listitem [ref=e85]:
+                  - generic [ref=e86]: 💼 İş ve kariyer fırsatı arayanlar
+                - listitem [ref=e87]:
+                  - generic [ref=e88]: 🧑‍💻 Freelance ve proje arayanlar
+                - listitem [ref=e89]:
+                  - generic [ref=e90]: 📍 Yerel bilgi ve tavsiye arayanlar
+            - figure [ref=e91]:
+              - img "CorteQS ana sayfa maskotu" [ref=e92]
+      - generic [ref=e93]:
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - paragraph [ref=e97]: CorteQS Radar
+            - heading "Türk Diaspora Haberleri / İstatistikler / Duyurular" [level=2] [ref=e98]
+            - paragraph [ref=e99]: Dünya genelindeki Türk topluluklarından sayılar, gelişmeler ve platform duyuruları.
+          - link "Tüm Radar" [ref=e100] [cursor=pointer]:
+            - /url: /radar
+            - text: Tüm Radar
+            - img
+        - generic [ref=e102]:
+          - link [ref=e103] [cursor=pointer]:
+            - /url: /diaspora/turk-diasporasi-164-ulke
+            - article [ref=e104]:
+              - generic [ref=e105]:
+                - img "CorteQS küresel diaspora ağı" [ref=e106]
+                - generic [ref=e108]: 164 ülke
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - img [ref=e112]
+                    - text: İstatistik
+                  - time [ref=e115]: 01 Oca 1970
+                - heading "Türk diasporası 164 ülkede görünür" [level=3] [ref=e116]
+                - paragraph [ref=e117]: CorteQS, şehir bazlı bağlantılarla küresel Türk topluluğunu tek ekosistemde toplamayı hedefliyor.
+                - generic [ref=e118]:
+                  - text: Detay
+                  - img [ref=e119]
+          - article [ref=e121]:
+            - generic [ref=e122]:
+              - img "CorteQS diaspora bağlantı görseli" [ref=e123]
+              - generic [ref=e125]: 8.8 milyon
+            - generic [ref=e126]:
+              - generic [ref=e127]:
+                - generic [ref=e128]:
+                  - img [ref=e129]
+                  - text: İstatistik
+                - time [ref=e132]: 01 Oca 1970
+              - heading "8.8 milyon kişilik küresel topluluk" [level=3] [ref=e133]
+              - paragraph [ref=e134]: Yurt dışında yaşayan Türkler için şehir, meslek ve ihtiyaç bazlı bağlantı alanı kuruluyor.
+          - link [ref=e135] [cursor=pointer]:
+            - /url: /diaspora/erken-kayit-duyurusu
+            - article [ref=e136]:
+              - img "CorteQS erken kayıt duyurusu" [ref=e138]
+              - generic [ref=e139]:
+                - generic [ref=e140]:
+                  - generic [ref=e141]:
+                    - img [ref=e142]
+                    - text: Duyuru
+                  - time [ref=e145]: 01 Oca 1970
+                - heading "Erken kayıt ve şehir elçisi başvuruları açık" [level=3] [ref=e146]
+                - paragraph [ref=e147]: Platform açılışı öncesi danışman, işletme, içerik üreticisi ve şehir elçisi adayları kayıt bırakabiliyor.
+                - generic [ref=e148]:
+                  - text: Detay
+                  - img [ref=e149]
+          - link [ref=e151] [cursor=pointer]:
+            - /url: /diaspora/turk-diasporasi-164-ulke
+            - article [ref=e152]:
+              - generic [ref=e153]:
+                - img "CorteQS küresel diaspora ağı" [ref=e154]
+                - generic [ref=e156]: 164 ülke
+              - generic [ref=e157]:
+                - generic [ref=e158]:
+                  - generic [ref=e159]:
+                    - img [ref=e160]
+                    - text: İstatistik
+                  - time [ref=e163]: 01 Oca 1970
+                - heading "Türk diasporası 164 ülkede görünür" [level=3] [ref=e164]
+                - paragraph [ref=e165]: CorteQS, şehir bazlı bağlantılarla küresel Türk topluluğunu tek ekosistemde toplamayı hedefliyor.
+                - generic [ref=e166]:
+                  - text: Detay
+                  - img [ref=e167]
+          - article [ref=e169]:
+            - generic [ref=e170]:
+              - img "CorteQS diaspora bağlantı görseli" [ref=e171]
+              - generic [ref=e173]: 8.8 milyon
+            - generic [ref=e174]:
+              - generic [ref=e175]:
+                - generic [ref=e176]:
+                  - img [ref=e177]
+                  - text: İstatistik
+                - time [ref=e180]: 01 Oca 1970
+              - heading "8.8 milyon kişilik küresel topluluk" [level=3] [ref=e181]
+              - paragraph [ref=e182]: Yurt dışında yaşayan Türkler için şehir, meslek ve ihtiyaç bazlı bağlantı alanı kuruluyor.
+          - link [ref=e183] [cursor=pointer]:
+            - /url: /diaspora/erken-kayit-duyurusu
+            - article [ref=e184]:
+              - img "CorteQS erken kayıt duyurusu" [ref=e186]
+              - generic [ref=e187]:
+                - generic [ref=e188]:
+                  - generic [ref=e189]:
+                    - img [ref=e190]
+                    - text: Duyuru
+                  - time [ref=e193]: 01 Oca 1970
+                - heading "Erken kayıt ve şehir elçisi başvuruları açık" [level=3] [ref=e194]
+                - paragraph [ref=e195]: Platform açılışı öncesi danışman, işletme, içerik üreticisi ve şehir elçisi adayları kayıt bırakabiliyor.
+                - generic [ref=e196]:
+                  - text: Detay
+                  - img [ref=e197]
+      - article [ref=e201]:
+        - generic [ref=e202]:
+          - generic [ref=e203]: Hakkımızda
+          - heading "Diasporanın Gücünü Keşfedin" [level=2] [ref=e204]
+          - paragraph [ref=e205]:
+            - text: Her kategoride uzmanlaşmış
+            - strong [ref=e206]: profesyonelleri, girişimleri, işletmeleri, kurumları ve içerik üreticilerini
+            - text: benzersiz bir çatı altında topluyoruz.
+          - generic [ref=e207]:
+            - generic [ref=e208]:
+              - img [ref=e209]
+              - generic [ref=e212]: 164 Ülke
+            - generic [ref=e213]:
+              - img [ref=e214]
+              - generic [ref=e219]: 8.8 Milyon Türk
+            - generic [ref=e220]:
+              - img [ref=e221]
+              - generic [ref=e225]: 120.000+ Kuruluş
+            - generic [ref=e226]:
+              - img [ref=e227]
+              - generic [ref=e231]: 35.000+ Türk Girişimi
+            - generic [ref=e232]:
+              - img [ref=e233]
+              - generic [ref=e236]: 50.000+ Öğrenci
+            - generic [ref=e237]:
+              - img [ref=e238]
+              - generic [ref=e240]: 10.000+ Akademisyen
+            - generic [ref=e241]:
+              - img [ref=e242]
+              - generic [ref=e247]: 5.000+ STK
+            - generic [ref=e248]:
+              - img [ref=e249]
+              - generic [ref=e255]: 2.000+ Medya & Yayın Platformu
+            - generic [ref=e256]:
+              - img [ref=e257]
+              - generic [ref=e259]: 1.000+ Kültürel Etkinlik (yıllık)
+            - generic [ref=e260]:
+              - img [ref=e261]
+              - generic [ref=e266]: 500+ Profesyonel Ağ & Topluluk
+        - figure [ref=e267]:
+          - img "Diaspora topluluğu buluşması" [ref=e268]
+      - generic [ref=e272]:
+        - generic [ref=e274]: Yardım Merkezi
+        - heading "Sıkça Sorulan Sorular CorteQS Nasıl Çalışır?" [level=2] [ref=e275]:
+          - text: Sıkça Sorulan Sorular
+          - text: CorteQS Nasıl Çalışır?
+        - generic [ref=e276]:
+          - heading "CorteQS nedir ve nasıl çalışır?" [level=3] [ref=e278]:
+            - button "CorteQS nedir ve nasıl çalışır?" [ref=e279] [cursor=pointer]:
+              - text: CorteQS nedir ve nasıl çalışır?
+              - img [ref=e280]
+          - heading "Yurtdışına taşınmak için CorteQS nasıl yardımcı olur?" [level=3] [ref=e283]:
+            - button "Yurtdışına taşınmak için CorteQS nasıl yardımcı olur?" [ref=e284] [cursor=pointer]:
+              - text: Yurtdışına taşınmak için CorteQS nasıl yardımcı olur?
+              - img [ref=e285]
+          - heading "CorteQS'te nasıl danışman bulabilirim?" [level=3] [ref=e288]:
+            - button "CorteQS'te nasıl danışman bulabilirim?" [ref=e289] [cursor=pointer]:
+              - text: CorteQS'te nasıl danışman bulabilirim?
+              - img [ref=e290]
+          - heading "İşletmemi CorteQS'e nasıl eklerim?" [level=3] [ref=e293]:
+            - button "İşletmemi CorteQS'e nasıl eklerim?" [ref=e294] [cursor=pointer]:
+              - text: İşletmemi CorteQS'e nasıl eklerim?
+              - img [ref=e295]
+          - heading "CorteQS şehir elçisi (Ambassador) nedir, nasıl olunur?" [level=3] [ref=e298]:
+            - button "CorteQS şehir elçisi (Ambassador) nedir, nasıl olunur?" [ref=e299] [cursor=pointer]:
+              - text: CorteQS şehir elçisi (Ambassador) nedir, nasıl olunur?
+              - img [ref=e300]
+          - heading "CorteQS üzerinden etkinliklere nasıl katılabilirim?" [level=3] [ref=e303]:
+            - button "CorteQS üzerinden etkinliklere nasıl katılabilirim?" [ref=e304] [cursor=pointer]:
+              - text: CorteQS üzerinden etkinliklere nasıl katılabilirim?
+              - img [ref=e305]
+          - heading "CorteQS ücretsiz mi?" [level=3] [ref=e308]:
+            - button "CorteQS ücretsiz mi?" [ref=e309] [cursor=pointer]:
+              - text: CorteQS ücretsiz mi?
+              - img [ref=e310]
+          - heading "CorteQS hangi ülkelerde ve şehirlerde aktif?" [level=3] [ref=e313]:
+            - button "CorteQS hangi ülkelerde ve şehirlerde aktif?" [ref=e314] [cursor=pointer]:
+              - text: CorteQS hangi ülkelerde ve şehirlerde aktif?
+              - img [ref=e315]
+          - heading "CorteQS ile iş veya müşteri bulabilir miyim?" [level=3] [ref=e318]:
+            - button "CorteQS ile iş veya müşteri bulabilir miyim?" [ref=e319] [cursor=pointer]:
+              - text: CorteQS ile iş veya müşteri bulabilir miyim?
+              - img [ref=e320]
+          - heading "CorteQS'e nasıl katılabilirim?" [level=3] [ref=e323]:
+            - button "CorteQS'e nasıl katılabilirim?" [ref=e324] [cursor=pointer]:
+              - text: CorteQS'e nasıl katılabilirim?
+              - img [ref=e325]
+          - heading "Almanya'ya taşınmak istiyorum, CorteQS relocation sürecinde nasıl yardımcı olur?" [level=3] [ref=e328]:
+            - button "Almanya'ya taşınmak istiyorum, CorteQS relocation sürecinde nasıl yardımcı olur?" [ref=e329] [cursor=pointer]:
+              - text: Almanya'ya taşınmak istiyorum, CorteQS relocation sürecinde nasıl yardımcı olur?
+              - img [ref=e330]
+          - heading "CorteQS'te doğrulanmış hizmet sağlayıcılarını nasıl bulabilirim?" [level=3] [ref=e333]:
+            - button "CorteQS'te doğrulanmış hizmet sağlayıcılarını nasıl bulabilirim?" [ref=e334] [cursor=pointer]:
+              - text: CorteQS'te doğrulanmış hizmet sağlayıcılarını nasıl bulabilirim?
+              - img [ref=e335]
+      - generic [ref=e339]:
+        - generic [ref=e340]:
+          - text: Kategoriler
+          - heading "Corteqs'de Yerinizi Belirleyin" [level=2] [ref=e341]
+          - paragraph [ref=e342]: Kategorinize tıklayın, platform açıldığında ilk siz haberdar olun.
+        - generic [ref=e343]:
+          - generic [ref=e344]:
+            - generic [ref=e345]:
+              - img [ref=e347]
+              - heading "Danışmanlar" [level=3] [ref=e350]
+            - paragraph [ref=e351]: Vergi, emlak, vize, iş kurma, kariyer, doktorlar ve daha birçok alanda uzman profesyoneller ağı.
+            - button "Kayıt Bırak / Takip Et →" [ref=e352] [cursor=pointer]
+          - generic [ref=e353]:
+            - generic [ref=e354]:
+              - img [ref=e356]
+              - heading "İşletmeler & Şirketler" [level=3] [ref=e360]
+            - paragraph [ref=e361]: Diasporadaki Türk işletmeleri, şirketleri ve girişimcileri — marketler, klinikler, restoranlar, kafeler, butikler, ajanslar, kuaförler, atölyeler, turizm ofisleri ve daha fazlasını keşfedin, iş birliği yapın.
+            - button "Kayıt Bırak / Takip Et →" [ref=e362] [cursor=pointer]
+          - generic [ref=e363]:
+            - generic [ref=e364]:
+              - img [ref=e366]
+              - heading "Kuruluşlar" [level=3] [ref=e368]
+            - paragraph [ref=e369]: Dernekler, vakıflar, radyo ve TV kuruluşları. Topluluk yapılarına katılın veya kaydedin.
+            - button "Kayıt Bırak / Takip Et →" [ref=e370] [cursor=pointer]
+          - generic [ref=e371]:
+            - generic [ref=e372]:
+              - img [ref=e374]
+              - heading "Blogger & Vlogger" [level=3] [ref=e377]
+            - paragraph [ref=e378]: Diaspora hikayelerini anlatan içerik üreticileri ağına katılın, sesinizi duyurun.
+            - button "Kayıt Bırak / Takip Et →" [ref=e379] [cursor=pointer]
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - img [ref=e383]
+              - heading "Şehir Elçisi / City Business Partner" [level=3] [ref=e388]
+            - paragraph [ref=e389]: Şehrinde diaspora ağını temsil et, yerel iş partneri ol. VIP olduğunda sabit gelir.
+            - button "Kayıt Bırak / Takip Et →" [ref=e390] [cursor=pointer]
+          - generic [ref=e391]:
+            - generic [ref=e392]:
+              - img [ref=e394]
+              - heading "Bireysel Kullanıcı" [level=3] [ref=e397]
+            - paragraph [ref=e398]: Platform hizmetlerinden faydalanmak isteyen bireyler için. Danışman bulun, etkinliklere katılın.
+            - button "Kayıt Bırak / Takip Et →" [ref=e399] [cursor=pointer]
+        - paragraph [ref=e401]:
+          - text: "İletişim:"
+          - link "info@corteqs.net" [ref=e402] [cursor=pointer]:
+            - /url: mailto:info@corteqs.net
+      - generic [ref=e405]:
+        - generic [ref=e406]:
+          - paragraph [ref=e407]: Küresel Ağ
+          - heading "Türk Diasporasının Olduğu Her Şehirde" [level=2] [ref=e408]
+          - paragraph [ref=e409]: Berlin'den Sydney'e, New York'tan Dubai'ye. Dünyanın dört bir yanındaki Türk topluluğuyla bağlantı kurun.
+        - generic [ref=e410]:
+          - generic [ref=e411]:
+            - generic [ref=e412]: Şehir
+            - generic [ref=e413]: Ülke
+            - generic [ref=e414]: Diaspora
+            - generic [ref=e415]: Kısa Bilgi
+            - generic [ref=e416]: Aksiyon
+          - generic [ref=e417]:
+            - generic [ref=e418]:
+              - generic [ref=e419]:
+                - generic [ref=e420]: 🇩🇪
+                - heading "Berlin" [level=3] [ref=e422]:
+                  - img [ref=e423]
+                  - text: Berlin
+              - generic [ref=e426]: Almanya
+              - generic [ref=e427]:
+                - img [ref=e428]
+                - generic [ref=e433]: 200.000+
+                - generic [ref=e434]: Türk
+              - paragraph [ref=e435]: Avrupa'nın en büyük Türk diaspora topluluğunun kalbi. Kültürel çeşitlilik ve girişimcilik merkezi.
+              - button "AI Sohbet" [ref=e437] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e438]
+            - generic [ref=e440]:
+              - generic [ref=e441]:
+                - generic [ref=e442]: 🇬🇧
+                - heading "Londra" [level=3] [ref=e444]:
+                  - img [ref=e445]
+                  - text: Londra
+              - generic [ref=e448]: Birleşik Krallık
+              - generic [ref=e449]:
+                - img [ref=e450]
+                - generic [ref=e455]: 150.000+
+                - generic [ref=e456]: Türk
+              - paragraph [ref=e457]: Finans ve yaratıcı endüstrilerin merkezinde güçlü bir Türk profesyonel ağı.
+              - button "AI Sohbet" [ref=e459] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e460]
+            - generic [ref=e462]:
+              - generic [ref=e463]:
+                - generic [ref=e464]: 🇺🇸
+                - heading "New York" [level=3] [ref=e466]:
+                  - img [ref=e467]
+                  - text: New York
+              - generic [ref=e470]: ABD
+              - generic [ref=e471]:
+                - img [ref=e472]
+                - generic [ref=e477]: 120.000+
+                - generic [ref=e478]: Türk
+              - paragraph [ref=e479]: Manhattan'dan Brooklyn'e uzanan dinamik Türk-Amerikan iş ve sanat topluluğu.
+              - button "AI Sohbet" [ref=e481] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e482]
+            - generic [ref=e484]:
+              - generic [ref=e485]:
+                - generic [ref=e486]: 🇫🇷
+                - heading "Paris" [level=3] [ref=e488]:
+                  - img [ref=e489]
+                  - text: Paris
+              - generic [ref=e492]: Fransa
+              - generic [ref=e493]:
+                - img [ref=e494]
+                - generic [ref=e499]: 90.000+
+                - generic [ref=e500]: Türk
+              - paragraph [ref=e501]: Sanat, moda ve gastronomide etkin Türk diasporasının Avrupa'daki köprüsü.
+              - button "AI Sohbet" [ref=e503] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e504]
+            - generic [ref=e506]:
+              - generic [ref=e507]:
+                - generic [ref=e508]: 🇳🇱
+                - heading "Amsterdam" [level=3] [ref=e510]:
+                  - img [ref=e511]
+                  - text: Amsterdam
+              - generic [ref=e514]: Hollanda
+              - generic [ref=e515]:
+                - img [ref=e516]
+                - generic [ref=e521]: 80.000+
+                - generic [ref=e522]: Türk
+              - paragraph [ref=e523]: Uluslararası iş dünyası ve teknoloji ekosisteminde aktif Türk merkezi.
+              - button "AI Sohbet" [ref=e525] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e526]
+            - generic [ref=e528]:
+              - generic [ref=e529]:
+                - generic [ref=e530]: 🇦🇪
+                - heading "Dubai" [level=3] [ref=e532]:
+                  - img [ref=e533]
+                  - text: Dubai
+              - generic [ref=e536]: BAE
+              - generic [ref=e537]:
+                - img [ref=e538]
+                - generic [ref=e543]: 70.000+
+                - generic [ref=e544]: Türk
+              - paragraph [ref=e545]: Ortadoğu'nun iş başkentinde hızla büyüyen Türk girişimci ve profesyonel topluluğu.
+              - button "AI Sohbet" [ref=e547] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e548]
+            - generic [ref=e550]:
+              - generic [ref=e551]:
+                - generic [ref=e552]: 🇨🇦
+                - heading "Toronto" [level=3] [ref=e554]:
+                  - img [ref=e555]
+                  - text: Toronto
+              - generic [ref=e558]: Kanada
+              - generic [ref=e559]:
+                - img [ref=e560]
+                - generic [ref=e565]: 60.000+
+                - generic [ref=e566]: Türk
+              - paragraph [ref=e567]: Kuzey Amerika'nın çok kültürlü merkezinde güçlü Türk-Kanadalı ağı.
+              - button "AI Sohbet" [ref=e569] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e570]
+            - generic [ref=e572]:
+              - generic [ref=e573]:
+                - generic [ref=e574]: 🇦🇺
+                - heading "Sydney" [level=3] [ref=e576]:
+                  - img [ref=e577]
+                  - text: Sydney
+              - generic [ref=e580]: Avustralya
+              - generic [ref=e581]:
+                - img [ref=e582]
+                - generic [ref=e587]: 50.000+
+                - generic [ref=e588]: Türk
+              - paragraph [ref=e589]: Pasifik'teki en büyük Türk diasporası. İş, eğitim ve topluluk hayatının merkezi.
+              - button "AI Sohbet" [ref=e591] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e592]
+            - generic [ref=e594]:
+              - generic [ref=e595]:
+                - generic [ref=e596]: 🇹🇷
+                - heading "İstanbul" [level=3] [ref=e598]:
+                  - img [ref=e599]
+                  - text: İstanbul
+              - generic [ref=e602]: Türkiye
+              - generic [ref=e603]:
+                - img [ref=e604]
+                - generic [ref=e609]: Köprü Şehir
+                - generic [ref=e610]: Türk
+              - paragraph [ref=e611]: Dünya diasporasını anavatana bağlayan stratejik buluşma noktası.
+              - button "AI Sohbet" [ref=e613] [cursor=pointer]:
+                - text: AI Sohbet
+                - img [ref=e614]
+          - paragraph [ref=e617]:
+            - text: Radarımızdaki Şehirler:Dortmund, Münih, Hamburg, Frankfurt, Köln, Lyon, Brüksel, Viyana, Zürih, Rotterdam, Stockholm, Kopenhag, Madrid, Stuttgart, Düsseldorf, Manchester, Milano, Los Angeles, Chicago, Miami, Montreal, Vancouver, São Paulo, Tokyo, Singapur, Abu Dabi, Doha, Melbourne, Essen, Nürnberg. Bu şehirler için de topluluk ilgisini topluyoruz. Şehrin listede yoksa
+            - link "kaydını bırak" [ref=e618] [cursor=pointer]:
+              - /url: "#kaydol"
+            - text: ve şehrini radarımıza alalım.
+      - generic [ref=e620]:
+        - generic [ref=e621]:
+          - generic [ref=e622]:
+            - img [ref=e623]
+            - generic [ref=e625]: Yapay Zeka Destekli Asistan
+          - heading "Sorularını Sor, İstersen Kaydını da Bırak" [level=2] [ref=e626]
+          - paragraph [ref=e627]: Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
+          - generic [ref=e628]:
+            - generic [ref=e629]: Sohbet yerine klasik form mu istiyorsun?
+            - button "Ben Form Dolduracağım" [ref=e630] [cursor=pointer]:
+              - img [ref=e631]
+              - text: Ben Form Dolduracağım
+        - generic [ref=e634]:
+          - generic [ref=e636]:
+            - generic [ref=e637]:
+              - img [ref=e640]
+              - generic [ref=e644]:
+                - paragraph [ref=e645]: CorteQS Asistanı
+                - paragraph [ref=e646]: Sorulara cevap verir, istediğinde kayda geçer
+            - generic [ref=e647]:
+              - paragraph [ref=e648]: İlerleme
+              - generic [ref=e649]:
+                - progressbar [ref=e650]
+                - generic [ref=e652]: "%0"
+          - generic [ref=e654]:
+            - img [ref=e656]
+            - generic [ref=e660]: Merhaba! Ben CorteQS Asistanı. CorteQS hakkında sorularını yanıtlayabilirim ya da istersen kaydını sohbet içinde tamamlayabilirim.
+          - button "Kayıt Ol 🚀" [ref=e663] [cursor=pointer]
+          - generic [ref=e665]:
+            - textbox "Mesajını yaz..." [ref=e666]
+            - button "Gönder" [disabled] [ref=e667]:
+              - img [ref=e668]
+    - contentinfo [ref=e671]:
+      - generic [ref=e676]:
+        - generic [ref=e677]:
+          - heading "Yakında Açılıyoruz!" [level=2] [ref=e678]
+          - paragraph [ref=e679]: Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
+          - link "info@corteqs.net" [ref=e680] [cursor=pointer]:
+            - /url: mailto:info@corteqs.net
+            - img [ref=e681]
+            - generic [ref=e684]: info@corteqs.net
+          - generic [ref=e685]:
+            - button "Kategorine Kayıt ve Takip İçin →" [ref=e686] [cursor=pointer]
+            - button "Teknik, Org, Yatırım Görüşmeleri için →" [ref=e687] [cursor=pointer]
+            - link "WhatsApp Grubuna Katıl →" [ref=e688] [cursor=pointer]:
+              - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+              - img [ref=e689]
+              - text: WhatsApp Grubuna Katıl →
+          - generic [ref=e691]:
+            - paragraph [ref=e692]: Bizi Sosyal Medyada Takip Edin
+            - generic [ref=e693]:
+              - link "CorteQS LinkedIn" [ref=e694] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/corteqs-global/
+                - img [ref=e696]
+              - link "CorteQS Facebook" [ref=e700] [cursor=pointer]:
+                - /url: https://www.facebook.com/corteqs
+                - img [ref=e702]
+              - link "CorteQS Instagram" [ref=e704] [cursor=pointer]:
+                - /url: https://www.instagram.com/corteqssocial/
+                - img [ref=e706]
+              - link "CorteQS X" [ref=e709] [cursor=pointer]:
+                - /url: https://x.com/corteqsx
+                - img [ref=e711]
+              - button "CorteQS Destek" [ref=e713] [cursor=pointer]:
+                - img [ref=e715]
+              - button "CorteQS YouTube" [disabled] [ref=e717]:
+                - img [ref=e719]
+              - link "CorteQS Telegram" [ref=e722] [cursor=pointer]:
+                - /url: https://t.me/corteqs
+                - img [ref=e724]
+              - link "CorteQS WhatsApp" [ref=e727] [cursor=pointer]:
+                - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+                - img [ref=e729]
+        - generic [ref=e731]:
+          - generic [ref=e732]:
+            - generic [ref=e733]: © 2026 CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+            - link "Hakkımızda" [ref=e734] [cursor=pointer]:
+              - /url: /hakkimizda
+          - generic [ref=e735]:
+            - link "info@corteqs.net" [ref=e736] [cursor=pointer]:
+              - /url: mailto:info@corteqs.net
+            - button "Kopyala" [ref=e737] [cursor=pointer]:
+              - img [ref=e738]
+  - button "Yukarı çık":
+    - generic:
+      - img
+      - generic: UP

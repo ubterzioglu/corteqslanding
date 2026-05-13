@@ -1,0 +1,172 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e5]:
+    - link "CorteQS CorteQS Türk Diasporası Platformu" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img "CorteQS" [ref=e7]
+      - generic [ref=e8]:
+        - generic [ref=e9]: CorteQS
+        - generic [ref=e10]: Türk Diasporası Platformu
+    - generic [ref=e11]:
+      - link "19 Mayıs Etkinlikleri" [ref=e12] [cursor=pointer]:
+        - /url: /19051919
+      - link "Kayıt Ol!" [ref=e13] [cursor=pointer]:
+        - /url: /19051919#katilim-formu
+      - link "Founding 1000" [ref=e14] [cursor=pointer]:
+        - /url: /founding-1000
+      - link "Blogger Yarışması" [ref=e15] [cursor=pointer]:
+        - /url: /blogger-yarismasi
+      - link "Vlogger Yarışması" [ref=e16] [cursor=pointer]:
+        - /url: /vlogger-yarismasi
+      - link "Whatsapp Topluluğu" [ref=e17] [cursor=pointer]:
+        - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+  - generic [ref=e18]:
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]: Hakkımızda
+            - heading "Türk Diasporası artık dağınık değil. Birleşiyor." [level=1] [ref=e25]:
+              - text: Türk Diasporası artık dağınık değil.
+              - generic [ref=e26]: Birleşiyor.
+            - paragraph [ref=e27]: "CorteQS ile hedef net: bağlantı kur, görünür ol, fırsat yarat.Dünyanın dört bir yanındaki Türkleri daha organize, daha görünür ve daha güçlü bir topluluk yapısında buluşturuyoruz."
+            - generic [ref=e28]:
+              - link "WhatsApp Topluluğuna Katıl" [ref=e29] [cursor=pointer]:
+                - /url: https://chat.whatsapp.com/JDMyCOx0m2w3lqejP7vA6M
+                - img [ref=e30]
+                - text: WhatsApp Topluluğuna Katıl
+              - link "Katıl ve Parçası Ol" [ref=e32] [cursor=pointer]:
+                - /url: /#kaydol
+                - text: Katıl ve Parçası Ol
+                - img [ref=e33]
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - img [ref=e38]
+              - generic [ref=e41]: Kapsam
+              - generic [ref=e42]: 164 ülke
+            - generic [ref=e43]:
+              - img [ref=e45]
+              - generic [ref=e50]: Potansiyel ağ
+              - generic [ref=e51]: 8.8 milyon Türk
+            - generic [ref=e52]:
+              - img [ref=e54]
+              - generic [ref=e57]: Odak
+              - generic [ref=e58]: Şehir + kategori
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e65]: Yaklaşım
+              - generic [ref=e66]: AI destekli eşleşme
+        - generic [ref=e67]:
+          - article [ref=e68]:
+            - generic [ref=e70]:
+              - img [ref=e72]
+              - heading "Bağlantı Kur" [level=2] [ref=e77]
+              - paragraph [ref=e78]: Bulunduğun şehirde ya da hedeflediğin ülkede doğru insanlara, güvenilir topluluklara ve seni hızlandıracak ilişkilere daha kısa sürede ulaş.
+          - article [ref=e79]:
+            - generic [ref=e81]:
+              - img [ref=e83]
+              - heading "Görünür Ol" [level=2] [ref=e85]
+              - paragraph [ref=e86]: Uzmanlığını, girişimini, üretimini veya topluluk katkını dijital vitrine taşı. Profilin yalnızca görünmesin, anlamlı fırsatlara da dönüşsün.
+          - article [ref=e87]:
+            - generic [ref=e89]:
+              - img [ref=e91]
+              - heading "Fırsat Yarat" [level=2] [ref=e93]
+              - paragraph [ref=e94]: İş ortaklığı, müşteri, kariyer, danışmanlık, freelance ve remote fırsatlarını tek tek kovalamak yerine doğru ağ içinde doğal olarak üret.
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - generic [ref=e97]:
+              - text: CorteQS Ne Yapar?
+              - heading "Görünürlüğü gerçek değere dönüştüren diaspora altyapısı" [level=2] [ref=e98]
+            - paragraph [ref=e99]: Bu yapı sadece bir rehber değil. İlişki, güven, fırsat ve bilgi akışını aynı platformda birleştiren büyüme zemini.
+          - generic [ref=e100]:
+            - generic [ref=e102]:
+              - generic [ref=e103]: "01"
+              - paragraph [ref=e104]: Global Türk diasporasını tek platformda toplar
+            - generic [ref=e106]:
+              - generic [ref=e107]: "02"
+              - paragraph [ref=e108]: "Şehir bazlı network sunar: Berlin, Londra, Dubai ve daha fazlası"
+            - generic [ref=e110]:
+              - generic [ref=e111]: "03"
+              - paragraph [ref=e112]: İnsanları, işletmeleri ve toplulukları buluşturur
+            - generic [ref=e114]:
+              - generic [ref=e115]: "04"
+              - paragraph [ref=e116]: Yeni şehirde nereden başlayacağını netleştirir
+            - generic [ref=e118]:
+              - generic [ref=e119]: "05"
+              - paragraph [ref=e120]: Relocation sürecini daha kolay ve yönetilebilir hale getirir
+            - generic [ref=e122]:
+              - generic [ref=e123]: "06"
+              - paragraph [ref=e124]: İş, proje ve iş birliği fırsatlarını görünür kılar
+            - generic [ref=e126]:
+              - generic [ref=e127]: "07"
+              - paragraph [ref=e128]: Güven temelli bağlantılar kurmanı sağlar
+            - generic [ref=e130]:
+              - generic [ref=e131]: "08"
+              - paragraph [ref=e132]: Bilgi paylaşımını ve deneyim aktarımını hızlandırır
+            - generic [ref=e134]:
+              - generic [ref=e135]: "09"
+              - paragraph [ref=e136]: Profesyonel network oluşturmayı destekler
+            - generic [ref=e138]:
+              - generic [ref=e139]: "10"
+              - paragraph [ref=e140]: Global ama lokal odaklı topluluklar yaratır
+        - generic [ref=e141]:
+          - article [ref=e142]:
+            - text: Kısaca
+            - heading "Doğru insan + doğru zaman + doğru platform" [level=2] [ref=e143]
+            - paragraph [ref=e144]: CorteQS, diasporadaki enerjiyi sadece görünür kılmakla kalmaz; onu organize eder, eşleştirir ve büyümeye dönüştürür.
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - generic [ref=e147]: Neden şimdi?
+                - paragraph [ref=e148]: Çünkü diaspora güçlü ama parçalı. Bilgi, çevre ve fırsatlar var; eksik olan bunları ortak bir sistemde bir araya getirmek.
+              - generic [ref=e149]:
+                - generic [ref=e150]: CorteQS’in farkı
+                - paragraph [ref=e151]: Şehir bazlı yapı, kategori odaklı görünürlük, topluluk güveni ve AI destekli eşleşme mantığını aynı deneyimde toplaması.
+          - article [ref=e152]:
+            - text: Kimler İçin?
+            - heading "Tek bir kitleye değil, ekosistemin tamamına hizmet eder" [level=2] [ref=e153]
+            - generic [ref=e154]:
+              - generic [ref=e155]:
+                - heading "Profesyoneller İçin" [level=3] [ref=e156]
+                - generic [ref=e157]:
+                  - paragraph [ref=e160]: Uzmanlığını doğru topluluğa gösterme
+                  - paragraph [ref=e163]: Doğru müşteri ve iş ortaklarına ulaşma
+                  - paragraph [ref=e166]: Kariyer ve danışmanlık fırsatlarını artırma
+                  - paragraph [ref=e169]: Güven temelli görünürlük kazanma
+              - generic [ref=e170]:
+                - heading "Girişimler ve İşletmeler İçin" [level=3] [ref=e171]
+                - generic [ref=e172]:
+                  - paragraph [ref=e175]: Diaspora içinde daha hızlı keşfedilme
+                  - paragraph [ref=e178]: Ülke ve şehir bazlı büyüme alanları bulma
+                  - paragraph [ref=e181]: Yeni iş birlikleri ve dağıtım kanalları açma
+                  - paragraph [ref=e184]: Topluluk içinden güvenli talep yakalama
+              - generic [ref=e185]:
+                - heading "Topluluk ve Bireyler İçin" [level=3] [ref=e186]
+                - generic [ref=e187]:
+                  - paragraph [ref=e190]: Bilgiye daha hızlı ve düzenli erişme
+                  - paragraph [ref=e193]: Yeni şehirlerde daha kolay yön bulma
+                  - paragraph [ref=e196]: Güvenilir çevre ve dayanışma ağı kurma
+                  - paragraph [ref=e199]: Sosyal ve profesyonel hayatı aynı zeminde büyütme
+        - generic [ref=e200]:
+          - text: Katılım Çağrısı
+          - heading "Global Türk gücünü birlikte organize edelim" [level=2] [ref=e201]
+          - paragraph [ref=e202]: Eğer sen de görünür olmak, doğru insanlara ulaşmak, topluluk içinde fırsat üretmek ve bu yapının bir parçası olmak istiyorsan şimdi katıl.
+          - generic [ref=e203]:
+            - link "WhatsApp Topluluğuna Katıl" [ref=e204] [cursor=pointer]:
+              - /url: https://chat.whatsapp.com/JDMyCOx0m2w3lqejP7vA6M
+              - img [ref=e205]
+              - text: WhatsApp Topluluğuna Katıl
+            - link "Web Sitesine Git" [ref=e207] [cursor=pointer]:
+              - /url: https://corteqs.net
+              - text: Web Sitesine Git
+              - img [ref=e208]
+            - link "İletişime Geç" [ref=e210] [cursor=pointer]:
+              - /url: mailto:info@corteqs.net
+              - img [ref=e211]
+              - text: İletişime Geç
+    - contentinfo [ref=e214]: © 2026 CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+  - button "Yukarı çık":
+    - generic:
+      - img
+      - generic: UP

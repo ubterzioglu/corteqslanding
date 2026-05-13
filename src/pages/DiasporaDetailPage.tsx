@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, CalendarDays } from "lucide-react";
+import { useParams } from "react-router-dom";
+import { CalendarDays } from "lucide-react";
 
 import NotFound from "@/pages/NotFound";
 import {
@@ -10,7 +10,6 @@ import {
   type MarqueeItemRow,
   type MarqueeItemType,
 } from "@/lib/marquee";
-import { Button } from "@/components/ui/button";
 
 const getType = (type: string): MarqueeItemType =>
   type === "news" || type === "stat" || type === "announcement" ? type : "announcement";
@@ -86,14 +85,7 @@ const DiasporaDetailPage = () => {
   return (
     <main className="min-h-screen bg-background">
       <section className="border-b border-border bg-secondary/40">
-        <div className="container mx-auto px-4 py-8">
-          <Button asChild variant="outline" size="sm">
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4" />
-              Ana sayfaya dön
-            </Link>
-          </Button>
-        </div>
+        <div className="container mx-auto px-4 py-8" />
       </section>
 
       <article className="container mx-auto max-w-5xl px-4 py-10">

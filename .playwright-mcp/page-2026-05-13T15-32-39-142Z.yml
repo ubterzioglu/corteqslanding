@@ -1,0 +1,135 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - link "CorteQS CorteQS 19 Mayıs Kampanyası" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img "CorteQS" [ref=e8]
+        - generic [ref=e9]:
+          - generic [ref=e10]: CorteQS
+          - generic [ref=e11]: 19 Mayıs Kampanyası
+      - generic [ref=e12]:
+        - link "19 Mayıs Etkinlikleri" [ref=e13] [cursor=pointer]:
+          - /url: /19051919
+        - link "Kayıt Ol!" [ref=e14] [cursor=pointer]:
+          - /url: /19051919#katilim-formu
+        - link "Founding 1000" [ref=e15] [cursor=pointer]:
+          - /url: /founding-1000
+        - link "Blogger Yarışması" [ref=e16] [cursor=pointer]:
+          - /url: /blogger-yarismasi
+        - link "Vlogger Yarışması" [ref=e17] [cursor=pointer]:
+          - /url: /vlogger-yarismasi
+        - link "Whatsapp Topluluğu" [ref=e18] [cursor=pointer]:
+          - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+    - banner [ref=e19]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: 🇹🇷
+          - text: 19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI
+        - heading "19 Mayıs Global Diaspora Buluşması" [level=1] [ref=e28]:
+          - text: 19 Mayıs
+          - generic [ref=e29]: Global Diaspora Buluşması
+        - paragraph [ref=e30]: Bayram coşkusunu dünyanın dört bir yanındaki Türklerle aynı ekranda topluyoruz. Haritada yerini işaretle, diasporayı güçlendirecek fikrini paylaş ve 19 Mayıs anını bir sonraki yayına hazırlamaya başla.
+        - generic [ref=e31]:
+          - link "Modüllere İn" [ref=e32] [cursor=pointer]:
+            - /url: /19051919#modules
+          - link "Global Harita" [ref=e33] [cursor=pointer]:
+            - /url: /19051919/harita
+    - main [ref=e34]:
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - img [ref=e38]
+          - generic [ref=e41]: 5 Kıta
+        - generic [ref=e42]:
+          - img [ref=e43]
+          - generic [ref=e45]: 19 Mayıs Bayram Haftası
+        - generic [ref=e46]:
+          - img [ref=e47]
+          - generic [ref=e50]: Frontend Demo Fazı
+      - generic [ref=e53]:
+        - tablist [ref=e54]:
+          - tab "1. Dünya Üzerinde Yerini İşaretle" [selected] [ref=e55] [cursor=pointer]:
+            - generic [ref=e56]:
+              - img [ref=e57]
+              - generic [ref=e60]: 1. Dünya Üzerinde Yerini İşaretle
+          - tab "2. 19 Kelimelik Fikrini Gönder" [ref=e61] [cursor=pointer]:
+            - generic [ref=e62]:
+              - img [ref=e63]
+              - generic [ref=e65]: 2. 19 Kelimelik Fikrini Gönder
+          - tab "3. 19 Mayıs Anını Paylaş" [ref=e66] [cursor=pointer]:
+            - generic [ref=e67]:
+              - img [ref=e68]
+              - generic [ref=e71]: 3. 19 Mayıs Anını Paylaş
+        - tabpanel "1. Dünya Üzerinde Yerini İşaretle" [ref=e72]:
+          - generic [ref=e73]:
+            - generic [ref=e74]:
+              - img "Global diaspora haritası" [ref=e75]
+              - generic [ref=e77]: 19 MAYIS
+              - generic [ref=e78]:
+                - generic [ref=e79]: Modül 01
+                - heading "Global Haritada Kendini İşaretle" [level=3] [ref=e80]:
+                  - text: Global Haritada
+                  - generic [ref=e81]: Kendini İşaretle
+                - paragraph [ref=e82]: Dünya üzerindeki yerini seç, 19 Mayıs haftasında diaspora akışına kendi şehrini ekle.
+            - generic [ref=e83]:
+              - generic [ref=e84]:
+                - generic [ref=e85]: Ad Soyad
+                - textbox [ref=e86]
+              - generic [ref=e87]:
+                - generic [ref=e88]: E-posta
+                - textbox [ref=e89]
+              - generic [ref=e90]:
+                - generic [ref=e91]: Ülke
+                - textbox [ref=e92]
+              - generic [ref=e93]:
+                - generic [ref=e94]: Şehir
+                - textbox [ref=e95]
+              - generic [ref=e96]:
+                - generic [ref=e97]: Kısa mesaj
+                - textbox [ref=e98]
+              - generic [ref=e99]:
+                - generic [ref=e100]: Sosyal medya
+                - textbox "@kullaniciadi" [ref=e101]
+              - generic [ref=e102]:
+                - checkbox "Backend açıldığında harita üzerinde görünmek istiyorum." [checked] [ref=e103] [cursor=pointer]:
+                  - generic:
+                    - img
+                - generic [ref=e104]: Backend açıldığında harita üzerinde görünmek istiyorum.
+              - generic [ref=e105]:
+                - button "Haritada Yerimi İşaretle" [ref=e106] [cursor=pointer]
+                - link "Ön Kayıt Formu" [ref=e107] [cursor=pointer]:
+                  - /url: /form
+      - generic [ref=e109]:
+        - generic [ref=e110]:
+          - generic [ref=e111]:
+            - img [ref=e112]
+            - text: 19 Mayıs Haftası
+          - heading "Frontend hazır, veri akışı bir sonraki fazda eklenecek." [level=2] [ref=e114]
+          - paragraph [ref=e115]: Şu anda kampanya deneyimini görüyor, modülleri inceliyor ve akışın nasıl çalışacağını test ediyoruz. Admin moderasyonu, veritabanı ve canlı yayın bağlantıları ayrı backend fazında açılacak.
+        - generic [ref=e116]:
+          - link "Haritayı Aç" [ref=e117] [cursor=pointer]:
+            - /url: /19051919/harita
+            - img
+            - text: Haritayı Aç
+          - button "Sonraki Faz Notu" [ref=e118] [cursor=pointer]:
+            - img
+            - text: Sonraki Faz Notu
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - img [ref=e121]
+          - heading "Harita Modülü" [level=3] [ref=e124]
+          - paragraph [ref=e125]: Statik globe deneyimiyle şehirleri gösteriyoruz; approved pinler ikinci aşamada bağlanacak.
+        - generic [ref=e126]:
+          - img [ref=e127]
+          - heading "Fikir Havuzu" [level=3] [ref=e129]
+          - paragraph [ref=e130]: Diasporayı güçlendirecek fikirler için arayüz hazır; veri kayıt ve moderasyon sonra açılacak.
+        - generic [ref=e131]:
+          - img [ref=e132]
+          - heading "Anı Paylaşımı" [level=3] [ref=e134]
+          - paragraph [ref=e135]: Fotoğraf ve video akışı için link tabanlı UX burada hazırlandı; upload/storage sonra eklenecek.
+  - button "Yukarı çık":
+    - generic:
+      - img
+      - generic: UP

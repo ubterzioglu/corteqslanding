@@ -106,13 +106,6 @@ const AboutPage = () => {
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <Link
-            to="/"
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-white/75 px-4 py-2 text-sm font-semibold text-primary shadow-sm backdrop-blur transition-colors hover:bg-white"
-          >
-            ← Ana Sayfaya Dön
-          </Link>
-
           <section className="mb-14 rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-[0_30px_80px_rgba(16,24,40,0.08)] backdrop-blur-xl md:p-10">
             <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
               <div>

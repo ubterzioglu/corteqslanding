@@ -1,0 +1,264 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e5]:
+    - link "CorteQS CorteQS Türk Diasporası Platformu" [ref=e6] [cursor=pointer]:
+      - /url: /
+      - img "CorteQS" [ref=e7]
+      - generic [ref=e8]:
+        - generic [ref=e9]: CorteQS
+        - generic [ref=e10]: Türk Diasporası Platformu
+    - generic [ref=e11]:
+      - link "19 Mayıs Etkinlikleri" [ref=e12] [cursor=pointer]:
+        - /url: /19051919
+      - link "Kayıt Ol!" [ref=e13] [cursor=pointer]:
+        - /url: /19051919#katilim-formu
+      - link "Founding 1000" [ref=e14] [cursor=pointer]:
+        - /url: /founding-1000
+      - link "Blogger Yarışması" [ref=e15] [cursor=pointer]:
+        - /url: /blogger-yarismasi
+      - link "Vlogger Yarışması" [ref=e16] [cursor=pointer]:
+        - /url: /vlogger-yarismasi
+      - link "Whatsapp Topluluğu" [ref=e17] [cursor=pointer]:
+        - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+  - generic [ref=e18]:
+    - main [ref=e19]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - img [ref=e25]
+              - generic [ref=e27]: 🌍 CorteQS Founding 1000
+            - heading "Global Türk diasporasının dijital haritasında erken yerinizi alın." [level=2] [ref=e28]
+            - paragraph [ref=e29]: CorteQS, dünyanın farklı şehirlerine yayılmış Türk işletmelerini, danışmanları, klinikleri, doktorları, avukatları, emlak danışmanlarını, relocation uzmanlarını, marketleri, restoranları, dernekleri, vakıfları, okulları, medya kuruluşlarını, içerik üreticilerini ve profesyonelleri şehir şehir görünür kılmak için kuruluyor.
+            - button "Founding 1000'e Katıl" [ref=e31] [cursor=pointer]:
+              - text: Founding 1000'e Katıl
+              - img [ref=e32]
+          - generic [ref=e35]:
+            - img "CorteQS global diaspora şehir ağı" [ref=e36]
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - img [ref=e39]
+                - generic [ref=e44]: "5"
+                - generic [ref=e45]: Kıta
+              - generic [ref=e46]:
+                - img [ref=e47]
+                - generic [ref=e52]: "1000"
+                - generic [ref=e53]: Founding User
+              - generic [ref=e54]:
+                - img [ref=e55]
+                - generic [ref=e61]: "200"
+                - generic [ref=e62]: Her Kıtadan İlk
+              - generic [ref=e63]:
+                - img [ref=e64]
+                - generic [ref=e66]: 29 Ekim
+                - generic [ref=e67]: Full Açılış
+        - generic [ref=e68]:
+          - generic [ref=e69]: ⏳
+          - paragraph [ref=e70]: "Kontenjan sınırlı: Her kıtadan yalnızca ilk 200 katılımcı Founding Verified User avantajından yararlanabilecek."
+        - generic [ref=e71]:
+          - generic [ref=e72]: 🎁
+          - paragraph [ref=e73]:
+            - text: "Founding 1000 özel referral kodu:"
+            - code [ref=e74]: GGVBLA-M7SDSR
+            - text: — Bu sayfadan kayıt olduğunuzda kod otomatik tanımlanır.
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - heading "Kimler Katılabilir?" [level=3] [ref=e77]
+            - paragraph [ref=e78]: CorteQS Founding 1000 programı, global Türk diasporasına hizmet veren veya diaspora içinde görünür olmak isteyen işletme, danışman, kurum, topluluk ve profesyoneller için tasarlandı.
+          - generic [ref=e79]:
+            - generic [ref=e80]:
+              - img [ref=e82]
+              - heading "Sağlık" [level=4] [ref=e86]
+              - paragraph [ref=e87]: Doktorlar, klinikler, diş hekimleri, psikologlar, sağlık merkezleri
+            - generic [ref=e88]:
+              - img [ref=e90]
+              - heading "Hukuk & Finans" [level=4] [ref=e94]
+              - paragraph [ref=e95]: Avukatlar, hukuk danışmanları, muhasebeciler, vergi & finansal danışmanlar
+            - generic [ref=e96]:
+              - img [ref=e98]
+              - heading "Emlak & Relocation" [level=4] [ref=e101]
+              - paragraph [ref=e102]: Emlak danışmanları, relocation, taşınma, vize ve göçmenlik danışmanları
+            - generic [ref=e103]:
+              - img [ref=e105]
+              - heading "Eğitim & Kariyer" [level=4] [ref=e108]
+              - paragraph [ref=e109]: Okullar, eğitim & kariyer danışmanları, dil okulları, öğrenci danışmanları
+            - generic [ref=e110]:
+              - img [ref=e112]
+              - heading "İşletmeler & Hizmetler" [level=4] [ref=e117]
+              - paragraph [ref=e118]: Restoranlar, marketler, ajanslar, turizm, hizmet & yerel işletmeler
+            - generic [ref=e119]:
+              - img [ref=e121]
+              - heading "Kuruluşlar & Topluluklar" [level=4] [ref=e123]
+              - paragraph [ref=e124]: Dernekler, vakıflar, kültür merkezleri, medya kuruluşları, topluluk yapıları
+            - generic [ref=e125]:
+              - img [ref=e127]
+              - heading "İçerik Üreticileri" [level=4] [ref=e130]
+              - paragraph [ref=e131]: Diaspora, şehir, kültür, iş, yaşam ve deneyim odaklı içerik üreticileri
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - heading "Founding Verified User Avantajları" [level=3] [ref=e134]
+            - paragraph [ref=e135]: "Erken katılan, erken konumlanır. İşte size özel ayrıcalıklar:"
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - img [ref=e139]
+              - paragraph [ref=e142]: CorteQS Founding Verified User Badge
+            - generic [ref=e143]:
+              - img [ref=e145]
+              - paragraph [ref=e148]: Ülke, şehir ve kategori bazlı erken görünürlük
+            - generic [ref=e149]:
+              - img [ref=e151]
+              - paragraph [ref=e154]: CorteQS kategori vitrininde yer alma hakkı
+            - generic [ref=e155]:
+              - img [ref=e157]
+              - paragraph [ref=e159]: Ana sayfa carousel alanında 6 ay görünürlük
+            - generic [ref=e160]:
+              - img [ref=e162]
+              - paragraph [ref=e167]: Platform tam açıldığında ilk yayınlanan profiller arasında
+            - generic [ref=e168]:
+              - img [ref=e170]
+              - paragraph [ref=e175]: Global Türk diasporasının erken dönem dijital index'inde yer
+            - generic [ref=e176]:
+              - img [ref=e178]
+              - paragraph [ref=e183]: İşletmeni / uzmanlığını farklı şehirlerdeki Türklerle buluştur
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - heading "Erken Dönem Üyelik" [level=3] [ref=e186]
+            - paragraph [ref=e187]: Founding 1000'e özel — sınırlı kontenjan.
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - generic [ref=e191]: ⭐ Founding 1000 Özel
+              - generic [ref=e192]:
+                - paragraph [ref=e193]: Founding 1000 Özel Yıllık Üyelik
+                - generic [ref=e194]:
+                  - generic [ref=e195]: €99
+                  - generic [ref=e196]: / yıl
+              - generic [ref=e197]:
+                - generic [ref=e198]:
+                  - generic [ref=e199]: Standart üyelik
+                  - generic [ref=e200]: Aylık €10
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Yıllık normal değer
+                  - generic [ref=e203]: €120
+                - generic [ref=e204]:
+                  - generic [ref=e205]: Founding 1000 özel
+                  - generic [ref=e206]: €99
+              - paragraph [ref=e208]: + €399 değerinde kategori vitrini ve ana sayfa carousel görünürlüğü 6 ay boyunca dahil.
+              - paragraph [ref=e209]: "Önemli: 6 aylık görünürlük periyodu, CorteQS'in 29 Ekim full açılış tarihinden itibaren başlar."
+              - button "Founding 1000'e Katıl" [ref=e210] [cursor=pointer]:
+                - text: Founding 1000'e Katıl
+                - img [ref=e211]
+            - paragraph [ref=e213]: CorteQS, 29 Ekim full açılış öncesinde kısım kısım açılmaya başlayacaktır. Founding 1000 üyelerine sunulan kategori vitrini ve ana sayfa carousel görünürlüğü, 29 Ekim full açılış tarihinden itibaren geçerli olacaktır.
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - heading "Neden Şimdi Katılmalısınız?" [level=3] [ref=e216]
+            - paragraph [ref=e217]: Çünkü CorteQS henüz erken aşamada. Bugün katılanlar, platform büyüdüğünde sadece kullanıcı değil; ülkelerinde, şehirlerinde ve kategorilerinde ilk görünen, ilk tanınan ve ilk konumlanan kişi ve kurumlar olacak.
+          - generic [ref=e218]:
+            - generic [ref=e219]:
+              - img [ref=e220]
+              - generic [ref=e222]: 🇩🇪 Berlin'de bir doktor
+            - generic [ref=e223]:
+              - img [ref=e224]
+              - generic [ref=e226]: 🇦🇪 Dubai'de bir emlak danışmanı
+            - generic [ref=e227]:
+              - img [ref=e228]
+              - generic [ref=e230]: 🇬🇧 Londra'da bir hukuk ofisi
+            - generic [ref=e231]:
+              - img [ref=e232]
+              - generic [ref=e234]: 🇨🇦 Toronto'da bir dernek
+            - generic [ref=e235]:
+              - img [ref=e236]
+              - generic [ref=e238]: 🇶🇦 Doha'da bir restoran
+            - generic [ref=e239]:
+              - img [ref=e240]
+              - generic [ref=e242]: 🇳🇱 Amsterdam'da bir içerik üreticisi
+            - generic [ref=e243]:
+              - img [ref=e244]
+              - generic [ref=e246]: 🇺🇸 New York'ta bir Türk girişimci
+        - generic [ref=e247]:
+          - heading "5 Kıta, 1000 Kurucu Katılımcı" [level=3] [ref=e249]
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]: 🇪🇺
+              - generic [ref=e253]: Avrupa
+              - generic [ref=e254]: İlk 200
+            - generic [ref=e255]:
+              - generic [ref=e256]: 🌏
+              - generic [ref=e257]: Asya
+              - generic [ref=e258]: İlk 200
+            - generic [ref=e259]:
+              - generic [ref=e260]: 🌍
+              - generic [ref=e261]: Afrika
+              - generic [ref=e262]: İlk 200
+            - generic [ref=e263]:
+              - generic [ref=e264]: 🌎
+              - generic [ref=e265]: Amerika
+              - generic [ref=e266]: İlk 200
+            - generic [ref=e267]:
+              - generic [ref=e268]: 🇦🇺
+              - generic [ref=e269]: Okyanusya
+              - generic [ref=e270]: İlk 200
+          - paragraph [ref=e271]: Amerika bölgesi, Kuzey ve Güney Amerika'yı kapsar.
+        - generic [ref=e272]:
+          - img [ref=e273]
+          - heading "Ülkenizde, şehrinizde ve kategorinizde ilk görünenlerden biri olun." [level=3] [ref=e277]
+          - paragraph [ref=e278]: CorteQS Founding 1000'e katılın ve global Türk diasporasının dijital haritasında erken pozisyon alın.
+          - button "Founding 1000'e Katıl" [ref=e279] [cursor=pointer]:
+            - text: Founding 1000'e Katıl
+            - img [ref=e280]
+    - contentinfo [ref=e282]:
+      - generic [ref=e287]:
+        - generic [ref=e288]:
+          - heading "Yakında Açılıyoruz!" [level=2] [ref=e289]
+          - paragraph [ref=e290]: Dünyanın neresinde olursanız olun, Corteqs Diaspora Connect sizi güçlü bir toplulukla buluşturacak.
+          - link "info@corteqs.net" [ref=e291] [cursor=pointer]:
+            - /url: mailto:info@corteqs.net
+            - img [ref=e292]
+            - generic [ref=e295]: info@corteqs.net
+          - generic [ref=e296]:
+            - button "Kategorine Kayıt ve Takip İçin →" [ref=e297] [cursor=pointer]
+            - button "Teknik, Org, Yatırım Görüşmeleri için →" [ref=e298] [cursor=pointer]
+            - link "WhatsApp Grubuna Katıl →" [ref=e299] [cursor=pointer]:
+              - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+              - img [ref=e300]
+              - text: WhatsApp Grubuna Katıl →
+          - generic [ref=e302]:
+            - paragraph [ref=e303]: Bizi Sosyal Medyada Takip Edin
+            - generic [ref=e304]:
+              - link "CorteQS LinkedIn" [ref=e305] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/corteqs-global/
+                - img [ref=e307]
+              - link "CorteQS Facebook" [ref=e311] [cursor=pointer]:
+                - /url: https://www.facebook.com/corteqs
+                - img [ref=e313]
+              - link "CorteQS Instagram" [ref=e315] [cursor=pointer]:
+                - /url: https://www.instagram.com/corteqssocial/
+                - img [ref=e317]
+              - link "CorteQS X" [ref=e320] [cursor=pointer]:
+                - /url: https://x.com/corteqsx
+                - img [ref=e322]
+              - button "CorteQS Destek" [ref=e324] [cursor=pointer]:
+                - img [ref=e326]
+              - button "CorteQS YouTube" [disabled] [ref=e328]:
+                - img [ref=e330]
+              - link "CorteQS Telegram" [ref=e333] [cursor=pointer]:
+                - /url: https://t.me/corteqs
+                - img [ref=e335]
+              - link "CorteQS WhatsApp" [ref=e338] [cursor=pointer]:
+                - /url: https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD
+                - img [ref=e340]
+        - generic [ref=e342]:
+          - generic [ref=e343]:
+            - generic [ref=e344]: © 2026 CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
+            - link "Hakkımızda" [ref=e345] [cursor=pointer]:
+              - /url: /hakkimizda
+          - generic [ref=e346]:
+            - link "info@corteqs.net" [ref=e347] [cursor=pointer]:
+              - /url: mailto:info@corteqs.net
+            - button "Kopyala" [ref=e348] [cursor=pointer]:
+              - img [ref=e349]
+  - button "Yukarı çık":
+    - generic:
+      - img
+      - generic: UP

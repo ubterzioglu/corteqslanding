@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft, RadioTower } from "lucide-react";
+import { RadioTower } from "lucide-react";
 
 import MarqueeItemCard from "@/components/MarqueeItemCard";
-import { Button } from "@/components/ui/button";
 import { fallbackMarqueeItems, listPublicMarqueeItems, type MarqueeItemRow } from "@/lib/marquee";
 
 const sortNewestFirst = (items: MarqueeItemRow[]) =>
@@ -61,14 +59,7 @@ const RadarPage = () => {
     <main className="min-h-screen bg-background">
       <section className="border-b border-border bg-[linear-gradient(90deg,hsl(var(--background)),hsl(var(--secondary)),hsl(var(--background)))]">
         <div className="container mx-auto px-4 py-8 md:py-12">
-          <Button asChild variant="outline" size="sm">
-            <Link to="/">
-              <ArrowLeft className="h-4 w-4" />
-              Ana sayfaya dön
-            </Link>
-          </Button>
-
-          <div className="mt-8 max-w-3xl space-y-4">
+          <div className="mt-0 max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
               <RadioTower className="h-4 w-4" />
               CorteQS Radar
