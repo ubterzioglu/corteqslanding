@@ -75,6 +75,8 @@ create policy "Admins can delete submission documents"
 
 drop policy if exists "command_center_items_select_authenticated" on public.command_center_items;
 drop policy if exists "command_center_items_write_authenticated" on public.command_center_items;
+drop policy if exists "command_center_items_select_admin" on public.command_center_items;
+drop policy if exists "command_center_items_write_admin" on public.command_center_items;
 
 create policy "command_center_items_select_admin"
 on public.command_center_items
@@ -91,6 +93,8 @@ with check (public.is_admin(auth.uid()));
 
 drop policy if exists "resource_entries_select_authenticated" on public.resource_entries;
 drop policy if exists "resource_entries_write_authenticated" on public.resource_entries;
+drop policy if exists "resource_entries_select_admin" on public.resource_entries;
+drop policy if exists "resource_entries_write_admin" on public.resource_entries;
 
 create policy "resource_entries_select_admin"
 on public.resource_entries
@@ -107,6 +111,8 @@ with check (public.is_admin(auth.uid()));
 
 drop policy if exists "mvp_items_select_authenticated" on public.mvp_items;
 drop policy if exists "mvp_items_write_authenticated" on public.mvp_items;
+drop policy if exists "mvp_items_select_admin" on public.mvp_items;
+drop policy if exists "mvp_items_write_admin" on public.mvp_items;
 
 create policy "mvp_items_select_admin"
 on public.mvp_items
@@ -152,6 +158,7 @@ with check (
 );
 
 drop policy if exists "advisor_social_media_links_select_public" on public.advisor_social_media_links;
+drop policy if exists "advisor_social_media_links_select_admin" on public.advisor_social_media_links;
 create policy "advisor_social_media_links_select_admin"
   on public.advisor_social_media_links
   for select
@@ -159,6 +166,7 @@ create policy "advisor_social_media_links_select_admin"
   using (public.is_admin(auth.uid()));
 
 drop policy if exists "consultant_social_media_links_select_public" on public.consultant_social_media_links;
+drop policy if exists "consultant_social_media_links_select_admin" on public.consultant_social_media_links;
 create policy "consultant_social_media_links_select_admin"
   on public.consultant_social_media_links
   for select
@@ -166,6 +174,7 @@ create policy "consultant_social_media_links_select_admin"
   using (public.is_admin(auth.uid()));
 
 drop policy if exists "influencer_social_media_links_select_public" on public.influencer_social_media_links;
+drop policy if exists "influencer_social_media_links_select_admin" on public.influencer_social_media_links;
 create policy "influencer_social_media_links_select_admin"
   on public.influencer_social_media_links
   for select
@@ -173,6 +182,7 @@ create policy "influencer_social_media_links_select_admin"
   using (public.is_admin(auth.uid()));
 
 drop policy if exists "contributor_social_media_links_select_public" on public.contributor_social_media_links;
+drop policy if exists "contributor_social_media_links_select_admin" on public.contributor_social_media_links;
 create policy "contributor_social_media_links_select_admin"
   on public.contributor_social_media_links
   for select
@@ -180,6 +190,7 @@ create policy "contributor_social_media_links_select_admin"
   using (public.is_admin(auth.uid()));
 
 drop policy if exists "Authenticated users can read matches" on public.matches;
+drop policy if exists "Admins can read matches" on public.matches;
 drop policy if exists "Admins can read matches" on public.matches;
 create policy "Admins can read matches"
 on public.matches
@@ -189,4 +200,3 @@ using (public.is_admin(auth.uid()));
 
 create index if not exists idx_edge_rate_limits_updated_at
   on public.edge_rate_limits(updated_at);
-
