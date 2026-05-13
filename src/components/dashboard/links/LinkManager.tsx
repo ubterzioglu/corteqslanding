@@ -740,21 +740,6 @@ export default function LinkManager() {
                   </div>
                 ) : (
                   <div className="grid gap-3 text-sm text-gray-600 md:grid-cols-2 xl:grid-cols-3">
-                    {entry.url && (
-                      <div className="rounded-xl bg-gray-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">URL</p>
-                        <a
-                          href={safeHref(entry.url)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-2 inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-600 transition-colors hover:bg-blue-100"
-                        >
-                          <ExternalLink size={12} aria-hidden="true" />
-                          URL
-                        </a>
-                      </div>
-                    )}
-
                     {entry.fileName && (
                       <div className="rounded-xl bg-gray-50 px-4 py-3">
                         <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Dosya</p>
