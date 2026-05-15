@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Compass, Globe, Home } from "lucide-react";
-import maskot from "@/assets/maskotanasayfa.png";
+import maskot from "../../maskotanasayfa.png";
 
 const NotFound = () => {
   const location = useLocation();
