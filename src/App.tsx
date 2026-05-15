@@ -45,6 +45,8 @@ import May19MapPage from "./pages/May19MapPage.tsx";
 import AddWhatsAppPage from "./pages/AddWhatsAppPage.tsx";
 import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
 import AIFormPage from "./pages/AIFormPage.tsx";
+import AdminMay19IdeaPage from "@/pages/admin/AdminMay19IdeaPage";
+import AdminMay19MomentPage from "@/pages/admin/AdminMay19MomentPage";
 
 const queryClient = new QueryClient();
 
@@ -105,6 +107,8 @@ const App = () => (
               </Route>
               <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
               <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
+              <Route path="may19/kelime" element={<AdminMay19IdeaPage />} />
+              <Route path="may19/ani" element={<AdminMay19MomentPage />} />
               <Route path="about" element={<AdminAboutPage />} />
               <Route path="workspace" element={<AdminWorkspaceHomePage />} />
               <Route path="workspace/command-center" element={<AdminCommandCenterPage />} />

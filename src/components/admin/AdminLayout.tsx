@@ -10,6 +10,7 @@ import {
   adminPanelDocNavItems,
   adminPanelNavItems,
   externalAdminNavItems,
+  may19RecordNavItems,
   otherActionNavItems,
   otherRecordNavItems,
   primaryAdminNavItems,
@@ -213,7 +214,8 @@ const AdminLayout = () => {
 
   const advisorMenuActive =
     location.pathname.startsWith("/admin/advisors/") ||
-    otherRecordNavItems.some((item) => location.pathname === item.to);
+    otherRecordNavItems.some((item) => location.pathname === item.to) ||
+    may19RecordNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
   const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
@@ -405,6 +407,24 @@ const AdminLayout = () => {
                     onMouseLeave={() => setAdvisorMenuOpen(false)}
                   >
                     {otherRecordNavItems.map((item) => {
+                      const isActive = location.pathname === item.to;
+
+                      return (
+                        <DropdownMenuItem key={item.to} asChild>
+                          <Link to={item.to} className="flex items-center justify-between gap-3">
+                            <span>{item.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                    <div className="px-3 py-2">
+                      <div className="border-t border-border/70" />
+                      <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                        19 Mayıs
+                      </p>
+                    </div>
+                    {may19RecordNavItems.map((item) => {
                       const isActive = location.pathname === item.to;
 
                       return (

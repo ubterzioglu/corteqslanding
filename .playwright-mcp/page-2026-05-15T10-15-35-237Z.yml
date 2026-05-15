@@ -1,0 +1,17 @@
+- generic [ref=e2]:
+  - region "Notifications (F8)":
+    - list
+  - region "Notifications alt+T"
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - heading "Admin Giriş" [level=3] [ref=e6]
+      - paragraph [ref=e7]: Kayıtlara erişmek için yetkili hesabınızla giriş yapın.
+    - generic [ref=e9]:
+      - textbox "E-posta" [ref=e10]
+      - textbox "Şifre" [ref=e11]
+      - button "Giriş Yap" [ref=e12] [cursor=pointer]
+      - button "Şifremi unuttum" [ref=e13] [cursor=pointer]
+  - button "Yukarı çık":
+    - generic:
+      - img
+      - generic: UP

@@ -49,6 +49,8 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Diğer Kayıtlar")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Diğer Kayıtlar"));
     expect(screen.getByText("Lansman Katılım")).toBeInTheDocument();
+    expect(screen.getByText("19 Mayıs Kelime")).toBeInTheDocument();
+    expect(screen.getByText("19 Mayıs Anı")).toBeInTheDocument();
     expect(screen.getByText("Dashboard Merkezi")).toBeInTheDocument();
     expect(screen.getByText("Command Center")).toBeInTheDocument();
     expect(screen.getByText("Dosyalar ve Linkler")).toBeInTheDocument();

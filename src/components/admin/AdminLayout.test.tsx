@@ -94,6 +94,13 @@ describe("AdminLayout", () => {
     expect(screen.getByRole("button", { name: /Diğer Kayıtlar/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Yeni kayıt ekle/i })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Referral oluştur/i })).toBeInTheDocument();
+
+    const otherRecordsButton = screen.getByRole("button", { name: /Diğer Kayıtlar/i });
+    fireEvent.mouseEnter(otherRecordsButton);
+
+    expect(await screen.findByText("19 Mayıs")).toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /19 Mayıs Kelime/i })).toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /19 Mayıs Anı/i })).toBeInTheDocument();
   });
 
   it("hides global actions outside the members page", async () => {

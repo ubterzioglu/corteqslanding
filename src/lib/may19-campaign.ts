@@ -1,7 +1,9 @@
 import { supabase } from "@/integrations/supabase/client";
-import type { TablesInsert } from "@/integrations/supabase/types";
+import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
 export type May19SubmissionKind = "idea" | "moment";
+export type May19SubmissionStatus = "pending" | "approved" | "rejected";
+export type May19SubmissionRow = Tables<"may19_campaign_submissions">;
 
 export type SubmitMay19CampaignInput = {
   kind: May19SubmissionKind;
@@ -70,6 +72,49 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
   };
 
   const { error } = await supabase.from("may19_campaign_submissions").insert(payload);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function listMay19CampaignEntries(
+  kind: May19SubmissionKind,
+  status: May19SubmissionStatus,
+) {
+  const { data, error } = await supabase
+    .from("may19_campaign_submissions")
+    .select("*")
+    .eq("kind", kind)
+    .eq("status", status)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []) as May19SubmissionRow[];
+}
+
+export async function updateMay19CampaignEntry(
+  id: string,
+  updates: Pick<TablesUpdate<"may19_campaign_submissions">, "status" | "review_notes">,
+) {
+  const { error } = await supabase
+    .from("may19_campaign_submissions")
+    .update(updates)
+    .eq("id", id);
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function deleteMay19CampaignEntry(id: string) {
+  const { error } = await supabase
+    .from("may19_campaign_submissions")
+    .delete()
+    .eq("id", id);
 
   if (error) {
     throw error;
