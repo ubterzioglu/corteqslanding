@@ -20,8 +20,18 @@ describe("May19CampaignPage", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByText(/Global Diaspora Buluşması/i)).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /Global Harita/i })[0]).toHaveAttribute("href", "/19051919/harita");
+    expect(screen.getByText(/19 Mayıs Coşkusunu Birlikte Yaşayalım!/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/1\. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol\./i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/2\. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun\./i),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/3\. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt\./i),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Modüllere İn/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /Global Harita/i })).not.toBeInTheDocument();
   });
 
   it("keeps submit actions frontend-only and shows a toast", async () => {

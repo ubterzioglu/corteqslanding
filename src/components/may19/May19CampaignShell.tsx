@@ -28,24 +28,18 @@ export default function May19CampaignShell({
 }: May19CampaignShellProps) {
   return (
     <div className="bg-[linear-gradient(180deg,#fffaf5_0%,#fff_28%,#f8fbff_100%)] text-slate-950">
-      <header className="relative overflow-hidden border-b border-orange-100 bg-[linear-gradient(135deg,#0f172a_0%,#1e293b_38%,#0b3f52_100%)] text-white">
-        <div className="absolute inset-0">
-          <div className="absolute -left-16 top-12 h-56 w-56 rounded-full bg-orange-400/25 blur-3xl" />
-          <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-cyan-300/20 blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 h-44 w-44 rounded-full bg-rose-400/20 blur-3xl" />
-        </div>
-
-        <div className="container relative mx-auto px-4 pb-12 pt-5 lg:px-6 lg:pb-16">
+      <header className="border-b border-rose-100/80 bg-[linear-gradient(180deg,#fffaf5_0%,#fff6f6_54%,#fff_100%)]">
+        <div className="container mx-auto px-4 pb-10 pt-5 lg:px-6 lg:pb-12">
           <div className="max-w-4xl pt-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-300/30 bg-rose-400/10 px-4 py-2 text-xs font-semibold tracking-[0.18em] text-rose-100">
+            <div className="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-[linear-gradient(135deg,#fff_0%,#fff5f5_100%)] px-4 py-2 text-xs font-bold tracking-[0.18em] text-rose-700 shadow-[0_10px_30px_rgba(244,63,94,0.16)]">
               <span aria-hidden="true">🇹🇷</span>
               {eyebrow}
             </div>
 
-            <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-200 sm:text-base">
+            <p className="mt-5 max-w-3xl whitespace-pre-line text-sm leading-8 text-slate-700 sm:text-base">
               {description}
             </p>
 

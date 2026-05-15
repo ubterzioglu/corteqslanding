@@ -418,6 +418,19 @@ const AdminLayout = () => {
                         </DropdownMenuItem>
                       );
                     })}
+                    {advisorProfileSections.map((section) => {
+                      const href = `/admin/advisors/${section.key}`;
+                      const isActive = location.pathname === href;
+
+                      return (
+                        <DropdownMenuItem key={section.key} asChild>
+                          <Link to={href} className="flex items-center justify-between gap-3">
+                            <span>{section.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
                     <div className="px-3 py-2">
                       <div className="border-t border-border/70" />
                       <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
@@ -431,19 +444,6 @@ const AdminLayout = () => {
                         <DropdownMenuItem key={item.to} asChild>
                           <Link to={item.to} className="flex items-center justify-between gap-3">
                             <span>{item.label}</span>
-                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
-                          </Link>
-                        </DropdownMenuItem>
-                      );
-                    })}
-                    {advisorProfileSections.map((section) => {
-                      const href = `/admin/advisors/${section.key}`;
-                      const isActive = location.pathname === href;
-
-                      return (
-                        <DropdownMenuItem key={section.key} asChild>
-                          <Link to={href} className="flex items-center justify-between gap-3">
-                            <span>{section.label}</span>
                             {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
                           </Link>
                         </DropdownMenuItem>

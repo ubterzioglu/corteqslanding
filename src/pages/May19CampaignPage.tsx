@@ -400,17 +400,10 @@ export default function May19CampaignPage() {
   return (
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
-      title={
-        <>
-          19 Mayıs
-          <span className="block bg-[linear-gradient(135deg,#fda4af_0%,#fdba74_46%,#67e8f9_100%)] bg-clip-text text-transparent">
-            Global Diaspora Buluşması
-          </span>
-        </>
-      }
-      description="Bayram coşkusunu dünyanın dört bir yanındaki Türklerle aynı ekranda topluyoruz. Haritada yerini işaretle, diasporayı güçlendirecek fikrini paylaş ve 19 Mayıs anını bir sonraki yayına hazırlamaya başla."
-      primaryCta={{ label: "Modüllere İn", to: "/19051919#modules" }}
-      secondaryCta={{ label: "Global Harita", to: "/19051919/harita" }}
+      title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
+      description={`1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.
+2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.
+3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
         <section className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-white/80 px-6 py-5 shadow-[0_18px_55px_rgba(15,23,42,0.06)] backdrop-blur">

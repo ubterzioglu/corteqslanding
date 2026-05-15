@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
 
 describe("May19CampaignShell", () => {
-  it("renders the shared campaign header links", () => {
+  it("renders eyebrow, title, description and children", () => {
     render(
       <MemoryRouter>
         <May19CampaignShell eyebrow="19 Mayıs" title="Test Başlık" description="Test açıklama">
@@ -14,27 +14,28 @@ describe("May19CampaignShell", () => {
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: /corteqs/i })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: /19 mayıs etkinlikleri/i })).toHaveAttribute("href", "/19051919");
-    expect(screen.getByRole("link", { name: /kayıt ol!/i })).toHaveAttribute("href", "/19051919#katilim-formu");
-    expect(screen.getByRole("link", { name: /founding 1000/i })).toHaveAttribute("href", "/founding-1000");
-    expect(screen.getByRole("link", { name: /blogger yarışması/i })).toHaveAttribute("href", "/blogger-yarismasi");
-    expect(screen.getByRole("link", { name: /vlogger yarışması/i })).toHaveAttribute("href", "/vlogger-yarismasi");
+    expect(screen.getByText("19 Mayıs")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Test Başlık" })).toBeInTheDocument();
+    expect(screen.getByText("Test açıklama")).toBeInTheDocument();
+    expect(screen.getByText("Test içerik")).toBeInTheDocument();
   });
 
-  it("keeps the WhatsApp community link external and safe", () => {
+  it("renders CTA links only when CTA props are provided", () => {
     render(
       <MemoryRouter>
-        <May19CampaignShell eyebrow="19 Mayıs" title="Test Başlık" description="Test açıklama">
+        <May19CampaignShell
+          eyebrow="19 Mayıs"
+          title="Test Başlık"
+          description="Test açıklama"
+          primaryCta={{ label: "Modüllere İn", to: "/19051919#modules" }}
+          secondaryCta={{ label: "Global Harita", to: "/19051919/harita" }}
+        >
           <div>Test içerik</div>
         </May19CampaignShell>
       </MemoryRouter>,
     );
 
-    const whatsappLink = screen.getByRole("link", { name: /whatsapp topluluğu/i });
-
-    expect(whatsappLink).toHaveAttribute("href", "https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD");
-    expect(whatsappLink).toHaveAttribute("target", "_blank");
-    expect(whatsappLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(screen.getByRole("link", { name: /Modüllere İn/i })).toHaveAttribute("href", "/19051919#modules");
+    expect(screen.getByRole("link", { name: /Global Harita/i })).toHaveAttribute("href", "/19051919/harita");
   });
 });

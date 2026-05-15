@@ -553,28 +553,37 @@ export default function LinkManager() {
   }
 
   return (
-    <section className="space-y-6" aria-labelledby="link-manager-heading">
-      <div className="space-y-2">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <h2 id="link-manager-heading" className="text-xl font-semibold text-gray-900">
-            Birleşik Kaynak Merkezi
-          </h2>
-          <a
-            href={safeHref(
-              'https://drive.google.com/drive/folders/1TYFEdjDPOLOMWAf_MScs6XJXRW9FHh-r?usp=drive_link'
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-100"
-          >
-            <ExternalLink size={14} aria-hidden="true" />
-            Drive Klasör Kısayolu
-          </a>
+<section className="space-y-6" aria-labelledby="link-manager-heading">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 id="link-manager-heading" className="text-xl font-semibold text-gray-900">
+              Birleşik Kaynak Merkezi
+            </h2>
+            <a
+              href={safeHref(
+                'https://drive.google.com/drive/folders/1TYFEdjDPOLOMWAf_MScs6XJXRW9FHh-r?usp=drive_link'
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-100"
+            >
+              <ExternalLink size={14} aria-hidden="true" />
+              Drive Klasör Kısayolu
+            </a>
+          </div>
+          
+          {/* Son Güncelleme Tarihi kutusu */}
+          <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Son Güncelleme Tarihi:</span>
+              <span className="text-sm font-semibold text-gray-700">13.05.26</span>
+            </div>
+          </div>
+          
+          <p className="max-w-3xl text-sm text-gray-500">
+            Genel linkleri, İK CV kayıtlarını ve ARGE dosya-linklerini tek akışta yönetin.
+          </p>
         </div>
-        <p className="max-w-3xl text-sm text-gray-500">
-          Genel linkleri, İK CV kayıtlarını ve ARGE dosya-linklerini tek akışta yönetin.
-        </p>
-      </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="docs-surface p-4 sm:p-5">
