@@ -1,26 +1,19 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import May19CampaignPage from "@/pages/May19CampaignPage";
 
-const toastSpy = vi.fn();
-
-vi.mock("@/hooks/use-toast", () => ({
-  useToast: () => ({
-    toast: toastSpy,
-  }),
-}));
-
 describe("May19CampaignPage", () => {
-  it("renders the campaign page and links to the map", () => {
+  it("renders simplified hero and vertical module links", () => {
     render(
       <MemoryRouter>
         <May19CampaignPage />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText(/19 Mayıs Coşkusunu Birlikte Yaşayalım!/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /19 Mayıs Coşkusunu Birlikte Yaşayalım!/i })).toBeInTheDocument();
+
     expect(
       screen.getByText(/1\. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol\./i),
     ).toBeInTheDocument();
@@ -30,30 +23,21 @@ describe("May19CampaignPage", () => {
     expect(
       screen.getByText(/3\. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt\./i),
     ).toBeInTheDocument();
+
     expect(screen.queryByRole("link", { name: /Modüllere İn/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: /Global Harita/i })).not.toBeInTheDocument();
-  });
 
-  it("keeps submit actions frontend-only and shows a toast", async () => {
-    vi.useFakeTimers();
-
-    render(
-      <MemoryRouter>
-        <May19CampaignPage />
-      </MemoryRouter>,
+    expect(screen.getByRole("link", { name: /1\. Dünya Üzerinde Yerini İşaretle/i })).toHaveAttribute(
+      "href",
+      "https://globe.corteqs.net",
     );
-
-    fireEvent.click(screen.getByRole("button", { name: /Haritada Yerimi İşaretle/i }));
-    act(() => {
-      vi.advanceTimersByTime(300);
-    });
-
-    expect(toastSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: "Yakında aktif",
-      }),
+    expect(screen.getByRole("link", { name: /2\. 19 Kelimelik Fikrini Gönder/i })).toHaveAttribute(
+      "href",
+      "/190519idea",
     );
-
-    vi.useRealTimers();
+    expect(screen.getByRole("link", { name: /3\. 19 Mayıs Anını Paylaş/i })).toHaveAttribute(
+      "href",
+      "/190519",
+    );
   });
 });

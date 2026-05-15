@@ -122,14 +122,6 @@ const FooterSection = () => {
       icon: (className) => <XLogo className={className} />,
     },
     {
-      key: "support",
-      label: "CorteQS Destek",
-      href: null,
-      onClick: () => setSupportFormOpen(true),
-      accentClassName: "text-[#ff9f43] group-hover:text-[#ffb768] group-hover:shadow-[0_0_22px_rgba(255,159,67,0.35)]",
-      icon: (className) => <MessageCircle className={className} />,
-    },
-    {
       key: "youtube",
       label: "CorteQS YouTube",
       href: socialLinks.YouTube || SOCIAL_FALLBACKS.YouTube || null,
@@ -221,7 +213,7 @@ const FooterSection = () => {
               <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-white/55">
                 Bizi Sosyal Medyada Takip Edin
               </p>
-              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.4rem] bg-[linear-gradient(90deg,rgba(19,35,31,0.88)_0%,rgba(24,33,28,0.9)_42%,rgba(58,54,33,0.84)_100%)] px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_18px_38px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:gap-3.5 sm:px-4.5 sm:py-3">
+              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 sm:gap-3.5">
                 {socialCircleItems.map((item) => {
                   const icon = item.icon(`h-[1.55rem] w-[1.55rem] transition duration-300 ${item.accentClassName}`);
 

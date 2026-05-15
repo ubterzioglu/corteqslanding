@@ -1,451 +1,91 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Camera,
-  Lightbulb,
-  Loader2,
-  MapPin,
-} from "lucide-react";
-
+import { ExternalLink, Lightbulb, Camera, Globe } from "lucide-react";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import globePinsImage from "@/assets/may19-globe-pins.png";
-import ideasImage from "@/assets/may19-ideas.jpg";
-import momentsImage from "@/assets/may19-moments.jpg";
-import { submitMay19CampaignEntry } from "@/lib/may19-campaign";
+import heroLandmarks from "../../denemeremake.png";
 
-type Kind = "map_pin" | "idea" | "moment";
-
-type FormState = {
-  fullName: string;
-  email: string;
-  country: string;
-  city: string;
-  socialHandle: string;
-  title: string;
-  description: string;
-  message: string;
-  link: string;
-  consent: boolean;
-  showOnMap: boolean;
-};
-
-const initialFormState: FormState = {
-  fullName: "",
-  email: "",
-  country: "",
-  city: "",
-  socialHandle: "",
-  title: "",
-  description: "",
-  message: "",
-  link: "",
-  consent: false,
-  showOnMap: true,
-};
-
-const ideaExamples = [
-  "Global Türk gençleri için mentorluk ağı",
-  "Yurt dışındaki Türk işletmeleri haritası",
-  "Türk öğrenciler için şehir rehberleri",
-  "Diaspora kadın girişimciler ağı",
+const moduleCards = [
+  {
+    id: "module-1",
+    title: "1. Dünya Üzerinde Yerini İşaretle",
+    description:
+      "Global diaspora haritasında yerini aç, şehrini görünür yap ve topluluğa katıl.",
+    href: "https://globe.corteqs.net",
+    external: true,
+    Icon: Globe,
+    badgeClass: "bg-cyan-100 text-cyan-700",
+  },
+  {
+    id: "module-2",
+    title: "2. 19 Kelimelik Fikrini Gönder",
+    description:
+      "Diasporayı güçlendirecek kısa fikrini paylaş; ekip hızlıca değerlendirip akışa alır.",
+    href: "/190519idea",
+    external: false,
+    Icon: Lightbulb,
+    badgeClass: "bg-amber-100 text-amber-700",
+  },
+  {
+    id: "module-3",
+    title: "3. 19 Mayıs Anını Paylaş",
+    description:
+      "19 Mayıs’a dair anını veya kısa notunu ilet; seçilen içerikler global yayına hazırlanır.",
+    href: "/190519",
+    external: false,
+    Icon: Camera,
+    badgeClass: "bg-orange-100 text-orange-700",
+  },
 ];
-
-const momentExamples = [
-  "Berlin'den 19 Mayıs selamları.",
-  "Melbourne'daki Türk gençleriyle bir bayram anı.",
-  "Londra'da diaspora buluşmasından kısa bir kesit.",
-];
-
-const inputClass = "h-10 rounded-xl border-slate-200 bg-white/90";
-const sectionCardClass =
-  "rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur sm:p-5";
-
-function ModuleVisual({ kind }: { kind: Kind }) {
-  if (kind === "map_pin") {
-    return (
-      <div className="relative min-h-[280px] overflow-hidden rounded-[1.5rem] border border-rose-200">
-        <img src={globePinsImage} alt="Global diaspora haritası" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,rgba(15,23,42,0.64)_75%,rgba(15,23,42,0.88)_100%)]" />
-        <div className="absolute right-0 top-0 rounded-bl-2xl bg-rose-500 px-3 py-1 text-[10px] font-extrabold text-white">
-          19 MAYIS
-        </div>
-        <div className="relative flex h-full flex-col justify-end p-5 text-white">
-          <div className="inline-flex w-fit items-center gap-1 rounded-full bg-cyan-300/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-cyan-100">
-            Modül 01
-          </div>
-          <h3 className="mt-3 text-2xl font-black leading-tight">
-            Global Haritada
-            <span className="block text-rose-300">Kendini İşaretle</span>
-          </h3>
-          <p className="mt-2 text-xs leading-6 text-slate-200">
-            Dünya üzerindeki yerini seç, 19 Mayıs haftasında diaspora akışına kendi şehrini ekle.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (kind === "idea") {
-    return (
-      <div className="relative min-h-[280px] overflow-hidden rounded-[1.5rem] border border-amber-200">
-        <img src={ideasImage} alt="19 Mayıs fikirleri" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(120,53,15,0.1)_0%,rgba(120,53,15,0.55)_60%,rgba(120,53,15,0.88)_100%)]" />
-        <div className="absolute right-0 top-0 rounded-bl-2xl bg-amber-400 px-3 py-1 text-[10px] font-extrabold text-amber-950">
-          COŞKU HAFTASI
-        </div>
-        <div className="relative flex h-full flex-col justify-end p-5 text-white">
-          <div className="inline-flex w-fit items-center gap-1 rounded-full bg-amber-200/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-100">
-            Modül 02
-          </div>
-          <h3 className="mt-3 text-2xl font-black leading-tight">
-            Diasporayı Güçlendirecek
-            <span className="block text-amber-300">19 Fikir</span>
-          </h3>
-          <p className="mt-2 text-xs leading-6 text-amber-50">
-            Kampanya haftasında ses getirecek fikirleri simdiden toplayalim; moderasyon sonrasi yayina alalim.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative min-h-[280px] overflow-hidden rounded-[1.5rem] border border-orange-200">
-      <img src={momentsImage} alt="19 Mayıs anları" className="absolute inset-0 h-full w-full object-cover" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(76,5,25,0.12)_0%,rgba(76,5,25,0.55)_58%,rgba(76,5,25,0.88)_100%)]" />
-      <div className="absolute right-0 top-0 rounded-bl-2xl bg-orange-500 px-3 py-1 text-[10px] font-extrabold text-white">
-        BAYRAM ANI
-      </div>
-      <div className="relative flex h-full flex-col justify-end p-5 text-white">
-        <div className="inline-flex w-fit items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
-          Modül 03
-        </div>
-        <h3 className="mt-3 text-2xl font-black leading-tight">
-          19 Mayıs ve
-          <span className="block text-amber-300">Diaspora Anını Gönder</span>
-        </h3>
-        <p className="mt-2 text-xs leading-6 text-orange-50">
-          Fotografini, videonu ya da kisa notunu simdi gonder; moderasyon sonrasi kampanyaya ekleyelim.
-        </p>
-      </div>
-    </div>
-  );
-}
 
 export default function May19CampaignPage() {
-  const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState<Kind>("map_pin");
-  const [forms, setForms] = useState<Record<Kind, FormState>>({
-    map_pin: initialFormState,
-    idea: initialFormState,
-    moment: initialFormState,
-  });
-  const [submittingKind, setSubmittingKind] = useState<Kind | null>(null);
-
-  const updateForm = <K extends keyof FormState>(kind: Kind, field: K, value: FormState[K]) => {
-    setForms((current) => ({
-      ...current,
-      [kind]: {
-        ...current[kind],
-        [field]: value,
-      },
-    }));
-  };
-
-  const handleDisabledSubmit = (kind: Kind) => {
-    setSubmittingKind(kind);
-    window.setTimeout(() => {
-      setSubmittingKind((current) => (current === kind ? null : current));
-      toast({
-        title: "Yakında aktif",
-        description: "19 Mayıs gönderim altyapısı bir sonraki backend fazında açılacak.",
-      });
-    }, 250);
-  };
-
-  const handleCampaignSubmit = async (kind: Extract<Kind, "idea" | "moment">) => {
-    const form = forms[kind];
-    setSubmittingKind(kind);
-
-    try {
-      await submitMay19CampaignEntry({
-        kind,
-        fullName: form.fullName,
-        email: form.email,
-        country: form.country,
-        city: form.city,
-        socialHandle: form.socialHandle,
-        title: form.title,
-        description: form.description,
-        message: form.message,
-        link: form.link,
-        consent: form.consent,
-      });
-
-      setForms((current) => ({
-        ...current,
-        [kind]: initialFormState,
-      }));
-
-      toast({
-        title: kind === "idea" ? "Fikrin alindi" : "Anin alindi",
-        description:
-          kind === "idea"
-            ? "19 Mayis fikrin moderasyon listesine eklendi."
-            : "19 Mayis anin moderasyon listesine eklendi.",
-      });
-    } catch (error) {
-      toast({
-        title: "Gonderim tamamlanamadi",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Gonderim sirasinda bir sorun olustu. Lutfen tekrar deneyin.",
-        variant: "destructive",
-      });
-    } finally {
-      setSubmittingKind((current) => (current === kind ? null : current));
-    }
-  };
-
-  const renderForm = (kind: Kind) => {
-    const form = forms[kind];
-
-    return (
-      <div className="grid grid-cols-2 gap-3">
-        {kind === "idea" ? (
-          <details className="col-span-2 rounded-xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs text-slate-700">
-            <summary className="cursor-pointer font-semibold text-amber-800">Fikir örnekleri</summary>
-            <ul className="mt-2 list-disc space-y-1 pl-4">
-              {ideaExamples.map((example) => (
-                <li key={example}>{example}</li>
-              ))}
-            </ul>
-          </details>
-        ) : null}
-
-        {kind === "moment" ? (
-          <details className="col-span-2 rounded-xl border border-orange-200 bg-orange-50/80 px-3 py-2 text-xs text-slate-700">
-            <summary className="cursor-pointer font-semibold text-orange-800">Örnek içerikler</summary>
-            <ul className="mt-2 list-disc space-y-1 pl-4">
-              {momentExamples.map((example) => (
-                <li key={example}>{example}</li>
-              ))}
-            </ul>
-          </details>
-        ) : null}
-
-        <div className={kind === "map_pin" || kind === "moment" ? "col-span-2" : ""}>
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Ad Soyad</Label>
-          <Input
-            className={inputClass}
-            value={form.fullName}
-            onChange={(event) => updateForm(kind, "fullName", event.target.value)}
-          />
-        </div>
-        <div className={kind === "idea" ? "" : "col-span-2 sm:col-span-1"}>
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">E-posta</Label>
-          <Input
-            type="email"
-            className={inputClass}
-            value={form.email}
-            onChange={(event) => updateForm(kind, "email", event.target.value)}
-          />
-        </div>
-        <div>
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Ülke</Label>
-          <Input
-            className={inputClass}
-            value={form.country}
-            onChange={(event) => updateForm(kind, "country", event.target.value)}
-          />
-        </div>
-        <div>
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Şehir</Label>
-          <Input
-            className={inputClass}
-            value={form.city}
-            onChange={(event) => updateForm(kind, "city", event.target.value)}
-          />
-        </div>
-
-        {kind !== "map_pin" ? (
-          <div className="col-span-2">
-            <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
-              {kind === "idea" ? "Fikir başlığı" : "İçerik başlığı"}
-            </Label>
-            <Input
-              className={inputClass}
-              value={form.title}
-              onChange={(event) => updateForm(kind, "title", event.target.value)}
-            />
-          </div>
-        ) : null}
-
-        <div className="col-span-2">
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
-            {kind === "map_pin" ? "Kısa mesaj" : kind === "idea" ? "Fikir açıklaması" : "Kısa açıklama"}
-          </Label>
-          <Textarea
-            rows={3}
-            className="rounded-xl border-slate-200 bg-white/90 text-sm"
-            value={kind === "map_pin" ? form.message : form.description}
-            onChange={(event) =>
-              updateForm(kind, kind === "map_pin" ? "message" : "description", event.target.value)
-            }
-          />
-        </div>
-
-        {kind === "idea" ? (
-          <div className="col-span-2">
-            <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Diasporayı nasıl güçlendirir?</Label>
-            <Textarea
-              rows={2}
-              className="rounded-xl border-slate-200 bg-white/90 text-sm"
-              value={form.message}
-              onChange={(event) => updateForm(kind, "message", event.target.value)}
-            />
-          </div>
-        ) : null}
-
-        {kind !== "map_pin" ? (
-          <div className="col-span-2">
-            <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
-              Google Drive veya sosyal medya post linki
-            </Label>
-            <Input
-              className={inputClass}
-              value={form.link}
-              onChange={(event) => updateForm(kind, "link", event.target.value)}
-              placeholder="https://drive.google.com/... veya https://instagram.com/p/..."
-            />
-          </div>
-        ) : null}
-
-        <div className="col-span-2">
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Sosyal medya</Label>
-          <Input
-            className={inputClass}
-            value={form.socialHandle}
-            onChange={(event) => updateForm(kind, "socialHandle", event.target.value)}
-            placeholder="@kullaniciadi"
-          />
-        </div>
-
-        <label className="col-span-2 flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-700">
-          <Checkbox
-            checked={kind === "map_pin" ? form.showOnMap : form.consent}
-            onCheckedChange={(checked) =>
-              updateForm(kind, kind === "map_pin" ? "showOnMap" : "consent", Boolean(checked))
-            }
-            className="mt-0.5"
-          />
-          <span>
-            {kind === "map_pin"
-              ? "Backend açıldığında harita üzerinde görünmek istiyorum."
-              : "Bu içeriğin CorteQS tarafından incelenip kampanya içinde kullanılmasına izin veriyorum."}
-          </span>
-        </label>
-
-        <div className="col-span-2 flex flex-wrap gap-3 pt-2">
-          <Button
-            type="button"
-            size="sm"
-            onClick={() =>
-              kind === "map_pin" ? handleDisabledSubmit(kind) : void handleCampaignSubmit(kind)
-            }
-            className={
-              kind === "map_pin"
-                ? "bg-cyan-600 text-white hover:bg-cyan-700"
-                : kind === "idea"
-                  ? "bg-amber-500 text-white hover:bg-amber-600"
-                  : "bg-orange-500 text-white hover:bg-orange-600"
-            }
-          >
-            {submittingKind === kind ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-            {kind === "map_pin" ? "Haritada Yerimi İşaretle" : kind === "idea" ? "Fikrimi Gönder" : "Anımı Gönder"}
-          </Button>
-
-          <Button asChild type="button" variant="outline" size="sm" className="rounded-full">
-            <Link to="/form">Ön Kayıt Formu</Link>
-          </Button>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
       description={`Bayram coşkusunu dünyanın dört bir yanındaki Türklerle paylaşıyoruz. Global haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global kanallarına gönder.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
+      heroImageSrc={heroLandmarks}
+      heroImageAlt="CorteQS kahraman görseli"
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
-        <section id="katilim-formu" className="scroll-mt-28">
-          <div id="modules" className="mx-auto mt-10 max-w-5xl">
-          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as Kind)}>
-            <TabsList className="grid h-auto w-full grid-cols-1 gap-2 bg-transparent p-0 sm:grid-cols-3">
-              <TabsTrigger
-                value="map_pin"
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-3 data-[state=active]:bg-cyan-600 data-[state=active]:text-white"
-              >
-                <span className="flex flex-col items-center gap-1 text-center">
-                  <MapPin className="h-4 w-4" />
-                  <span className="text-xs font-semibold leading-tight">1. Dünya Üzerinde Yerini İşaretle</span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="idea"
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-3 data-[state=active]:bg-amber-500 data-[state=active]:text-white"
-              >
-                <span className="flex flex-col items-center gap-1 text-center">
-                  <Lightbulb className="h-4 w-4" />
-                  <span className="text-xs font-semibold leading-tight">2. 19 Kelimelik Fikrini Gönder</span>
-                </span>
-              </TabsTrigger>
-              <TabsTrigger
-                value="moment"
-                className="rounded-2xl border border-slate-200 bg-white px-4 py-3 data-[state=active]:bg-orange-500 data-[state=active]:text-white"
-              >
-                <span className="flex flex-col items-center gap-1 text-center">
-                  <Camera className="h-4 w-4" />
-                  <span className="text-xs font-semibold leading-tight">3. 19 Mayıs Anını Paylaş</span>
-                </span>
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="map_pin">
-              <div className={`${sectionCardClass} mt-4 grid gap-5 md:grid-cols-[minmax(260px,0.94fr)_minmax(0,1.12fr)]`}>
-                <ModuleVisual kind="map_pin" />
-                {renderForm("map_pin")}
+        <section id="modules" className="mx-auto max-w-5xl space-y-4">
+          {moduleCards.map((item) => {
+            const body = (
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_14px_40px_rgba(15,23,42,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_50px_rgba(15,23,42,0.1)]">
+                <div className="flex items-start gap-4">
+                  <div className={`rounded-xl p-2.5 ${item.badgeClass}`}>
+                    <item.Icon className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
+                    <p className="mt-1 text-sm leading-7 text-slate-600">{item.description}</p>
+                    <p className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Modüle git
+                      <ExternalLink className="h-4 w-4" />
+                    </p>
+                  </div>
+                </div>
               </div>
-            </TabsContent>
+            );
 
-            <TabsContent value="idea">
-              <div className={`${sectionCardClass} mt-4 grid gap-5 md:grid-cols-[minmax(260px,0.94fr)_minmax(0,1.12fr)]`}>
-                <ModuleVisual kind="idea" />
-                {renderForm("idea")}
-              </div>
-            </TabsContent>
+            if (item.external) {
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  {body}
+                </a>
+              );
+            }
 
-            <TabsContent value="moment">
-              <div className={`${sectionCardClass} mt-4 grid gap-5 md:grid-cols-[minmax(260px,0.94fr)_minmax(0,1.12fr)]`}>
-                <ModuleVisual kind="moment" />
-                {renderForm("moment")}
-              </div>
-            </TabsContent>
-          </Tabs>
-          </div>
+            return (
+              <a key={item.id} href={item.href} className="block">
+                {body}
+              </a>
+            );
+          })}
         </section>
-
-
       </main>
     </May19CampaignShell>
   );
