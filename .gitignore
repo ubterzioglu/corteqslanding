@@ -7,29 +7,72 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build output
 dist
 dist-ssr
+
+# Environment files
+.env
+.env.local
+.env.*.local
 *.local
 
-.env
+# Secrets
 secret.md
 secret_ignore.md
-supabase/.temp/
 remote.env.generated
-1111.txt
+
+# Coverage
+coverage/
+
+# Playwright
+playwright-report/
+test-results/
+blob-report/
+.playwright-mcp/
+
+# Supabase
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+
+# Runtime config
+env-config.js
+
+# TLS certificates
+*.pem
+*.key
+*.crt
+
+# Archive
+_archive/
+
+# Package managers
+.pnpm-store/
+
+# Agent / tool directories
 .kilo/
+.omc/
+
+# OS files
+.DS_Store
+Thumbs.db
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Misc
+1111.txt
 
 # Reference directory (Lovable exports)
 referans/

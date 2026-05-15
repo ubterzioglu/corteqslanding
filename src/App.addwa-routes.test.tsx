@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import App from "@/App";
 
 vi.mock("@/pages/AddWhatsAppPage.tsx", () => ({
-  default: () => {
+  default: function MockAddWA() {
     const location = useLocation();
     return <div>{`AddWA Route ${location.pathname}${location.search}`}</div>;
   },

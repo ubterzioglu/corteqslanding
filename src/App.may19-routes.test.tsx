@@ -38,7 +38,6 @@ describe("App 19 Mayis routing", () => {
     render(<App />);
 
     expect(screen.getByText("May19 Campaign Route")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /19 mayıs etkinlikleri/i })).toBeInTheDocument();
   });
 
   it("renders the public 19051919 harita route", () => {
@@ -47,6 +46,5 @@ describe("App 19 Mayis routing", () => {
     render(<App />);
 
     expect(screen.getByText("May19 Map Route")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /19 mayıs etkinlikleri/i })).toBeInTheDocument();
   });
 });

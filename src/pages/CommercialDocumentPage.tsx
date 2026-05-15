@@ -7,11 +7,7 @@ import { getCommercialDocumentBySlug } from "@/lib/commercial-documents";
 const CommercialDocumentPage = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  if (!slug) {
-    return <Navigate to="/commercial" replace />;
-  }
-
-  const document = getCommercialDocumentBySlug(slug);
+  const document = slug ? getCommercialDocumentBySlug(slug) : undefined;
   const standalonePath = document?.standalonePath;
 
   useEffect(() => {
@@ -21,6 +17,10 @@ const CommercialDocumentPage = () => {
       window.location.replace(standalonePath);
     }
   }, [standalonePath]);
+
+  if (!slug) {
+    return <Navigate to="/commercial" replace />;
+  }
 
   if (!document) {
     return <Navigate to="/404" replace />;
