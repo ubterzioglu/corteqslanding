@@ -66,6 +66,14 @@ const HeroSection = () => {
       <div className="relative z-10 mx-auto w-full max-w-[1780px] px-4 py-12 md:px-6 md:py-14 2xl:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,36rem)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[minmax(0,38rem)_minmax(0,1fr)] 2xl:grid-cols-[minmax(0,42rem)_minmax(0,1fr)] 2xl:gap-12">
           <div className="max-w-[760px] lg:-translate-y-4 xl:-translate-y-6 2xl:-translate-y-8">
+            <div className="mb-3 flex">
+              <span className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] px-4 py-2 text-center text-[10.5px] font-bold text-slate-500 shadow-[0_14px_32px_rgba(148,163,184,0.16)] sm:text-[11px]">
+                <span>19 Mayıs Etkinlikleri</span>
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
+                  Yakında!
+                </span>
+              </span>
+            </div>
             <div className="flex max-w-[36rem] flex-col justify-center rounded-[2rem] border border-white/80 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.93)_38%,rgba(255,255,255,0.82)_62%,rgba(255,255,255,0.58)_82%,rgba(255,255,255,0.18)_100%)] p-4 shadow-[0_20px_55px_-36px_rgba(15,23,42,0.32)] backdrop-blur-xl sm:p-5 lg:max-w-[34rem] lg:px-6 2xl:max-w-[38rem]">
               <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
                 <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />

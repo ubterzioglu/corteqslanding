@@ -8,12 +8,6 @@ const uniformNavClass =
 
 const navLinks = [
   {
-    label: "19 Mayıs Etkinlikleri",
-    disabledLabel: "Yakında!",
-    className:
-      "cursor-not-allowed border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] text-slate-500 shadow-[0_14px_32px_rgba(148,163,184,0.16)]",
-  },
-  {
     label: "Kayıt Ol!",
     href: "https://corteqs.net/form",
     className:
@@ -40,9 +34,6 @@ const navLinks = [
 ] as const;
 
 export default function SiteHeader() {
-  const disabledItem = navLinks[0];
-  const primaryNavLinks = navLinks.slice(1);
-
   return (
     <div className="sticky top-0 z-50 border-b border-orange-100/90 bg-[linear-gradient(180deg,#fffdf9_0%,#fff8f0_100%)] backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4 lg:px-6">
@@ -59,7 +50,7 @@ export default function SiteHeader() {
               />
             </div>
             <div className="text-left leading-tight">
-              <div className="bg-[linear-gradient(135deg,#2563eb_0%,#1d4ed8_22%,#f59e0b_52%,#f97316_72%,#16a34a_100%)] bg-clip-text text-[1.1rem] font-black tracking-[0.24em] text-transparent drop-shadow-[0_6px_16px_rgba(37,99,235,0.18)] sm:text-[1.22rem]">
+              <div className="text-[1.1rem] font-black tracking-[0.24em] text-slate-900 sm:text-[1.22rem]">
                 CorteQS
               </div>
               <div className="text-[0.72rem] font-semibold tracking-[0.04em] text-slate-800 sm:text-[0.76rem]">
@@ -70,7 +61,7 @@ export default function SiteHeader() {
 
           <div className="flex min-w-0 flex-1 flex-col items-end gap-2">
             <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
-              {primaryNavLinks.map((item) =>
+              {navLinks.map((item) =>
                 "to" in item ? (
                   <Link
                     key={item.label}
@@ -103,18 +94,6 @@ export default function SiteHeader() {
               >
                 Ana Sayfa
               </Link>
-            </div>
-
-            <div className="flex w-full justify-end">
-              <span
-                aria-disabled="true"
-                className={`${internalNavClass} gap-2 ${disabledItem.className}`}
-              >
-                <span>{disabledItem.label}</span>
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
-                  {disabledItem.disabledLabel}
-                </span>
-              </span>
             </div>
           </div>
         </div>
