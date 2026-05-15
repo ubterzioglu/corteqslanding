@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "@/assets/corteqs-logo.png";
+import logo from "../../0logomail.png";
 
 const internalNavClass =
   "inline-flex min-h-[44px] items-center justify-center rounded-full border px-4 py-2 text-center text-[11px] font-bold tracking-[0.01em] transition sm:text-xs";
@@ -44,18 +44,20 @@ export default function SiteHeader() {
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <Link
             to="/"
-            className="inline-flex w-fit items-center gap-3 rounded-[1.4rem] border border-white/80 bg-white px-3 py-2 shadow-[0_18px_45px_rgba(15,23,42,0.1)] transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex w-fit items-center gap-3 rounded-[1.75rem] border border-white/80 bg-white px-4 py-3 shadow-[0_22px_50px_rgba(15,23,42,0.09)] transition-transform duration-200 hover:-translate-y-0.5"
           >
-            <img
-              src={logo}
-              alt="CorteQS"
-              className="h-14 w-14 rounded-2xl border border-slate-100 bg-white object-contain p-2 shadow-[0_10px_24px_rgba(15,23,42,0.1)]"
-            />
+            <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ring-1 ring-slate-100">
+              <img
+                src={logo}
+                alt="CorteQS"
+                className="h-[42px] w-[42px] rounded-full object-cover"
+              />
+            </div>
             <div className="pr-2 text-left">
               <div className="text-[0.65rem] font-bold uppercase tracking-[0.34em] text-slate-400">
                 CorteQS
               </div>
-              <div className="text-sm font-black tracking-[0.08em] text-slate-900 sm:text-base">
+              <div className="text-sm font-black tracking-[0.08em] text-slate-900 sm:text-[1.05rem]">
                 Diaspora Network
               </div>
             </div>
