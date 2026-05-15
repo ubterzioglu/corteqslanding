@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import logo from "../../0logomail.png";
 
 const internalNavClass =
-  "inline-flex min-h-[44px] items-center justify-center rounded-full border px-4 py-2 text-center text-[11px] font-bold tracking-[0.01em] transition sm:text-xs";
+  "inline-flex min-h-[42px] flex-none items-center justify-center rounded-full border px-3 py-2 text-center text-[10px] font-bold tracking-[0.01em] transition sm:min-h-[44px] sm:text-[10.5px]";
 const uniformNavClass =
-  "min-w-[156px] whitespace-nowrap px-3 text-[10.5px] sm:min-w-[168px] sm:px-4 sm:text-[11px]";
+  "min-w-[128px] whitespace-nowrap px-3 sm:min-w-[142px] sm:px-3.5";
 
 const navLinks = [
   {
@@ -43,10 +43,10 @@ export default function SiteHeader() {
   return (
     <div className="sticky top-0 z-50 border-b border-orange-100/90 bg-[linear-gradient(180deg,#fffdf9_0%,#fff8f0_100%)] backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4 lg:px-6">
-        <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+        <div className="flex items-center justify-between gap-4 overflow-hidden">
           <Link
             to="/"
-            className="inline-flex w-fit items-center gap-3 transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex w-fit shrink-0 items-center gap-3 transition-transform duration-200 hover:-translate-y-0.5"
           >
             <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ring-1 ring-slate-100">
               <img
@@ -55,17 +55,17 @@ export default function SiteHeader() {
                 className="h-[42px] w-[42px] rounded-full object-cover"
               />
             </div>
-            <div className="text-left">
-              <div className="bg-[linear-gradient(135deg,#1d4ed8_0%,#0f766e_32%,#f97316_72%,#dc2626_100%)] bg-clip-text text-[0.92rem] font-black tracking-[0.28em] text-transparent sm:text-[1rem]">
+            <div className="text-left leading-tight">
+              <div className="bg-[linear-gradient(135deg,#2563eb_0%,#1d4ed8_22%,#f59e0b_52%,#f97316_72%,#16a34a_100%)] bg-clip-text text-[1.1rem] font-black tracking-[0.24em] text-transparent drop-shadow-[0_6px_16px_rgba(37,99,235,0.18)] sm:text-[1.22rem]">
                 CorteQS
               </div>
-              <div className="text-sm font-black tracking-[0.02em] text-slate-900 sm:text-[1.02rem]">
+              <div className="text-[0.72rem] font-semibold tracking-[0.04em] text-slate-800 sm:text-[0.76rem]">
                 Global Türk Diaspora Network
               </div>
             </div>
           </Link>
 
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-2 overflow-x-auto whitespace-nowrap pb-1">
             {navLinks.map((item) =>
               "to" in item ? (
                 <Link
