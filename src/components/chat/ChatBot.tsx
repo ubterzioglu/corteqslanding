@@ -17,6 +17,8 @@ type ChatBotProps = {
   classicFormLayout?: "inline" | "stacked";
   topLogoSrc?: string;
   topLogoAlt?: string;
+  shellVariant?: "gradient" | "plain";
+  showIntro?: boolean;
 };
 
 const ChatBot = ({
@@ -25,6 +27,8 @@ const ChatBot = ({
   classicFormLayout = "inline",
   topLogoSrc,
   topLogoAlt = "CorteQS Logo",
+  shellVariant = "gradient",
+  showIntro = true,
 }: ChatBotProps) => {
   const {
     state,
@@ -167,60 +171,72 @@ const ChatBot = ({
     </button>
   );
 
+  const useGradientShell = shellVariant === "gradient";
+  const introContent = showIntro ? (
+    <div className="mx-auto mb-10 max-w-4xl text-center">
+      {topLogoSrc ? (
+        <div className="mb-5 flex justify-center">
+          <img src={topLogoSrc} alt={topLogoAlt} className="h-20 w-auto sm:h-24" />
+        </div>
+      ) : null}
+      <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
+        <Sparkles className="h-4 w-4 text-primary" />
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary">
+          Yapay Zeka Destekli Asistan
+        </span>
+      </div>
+      <h2 className="mb-3 text-2xl font-bold leading-tight text-foreground md:text-4xl">
+        Sorularını Sor! <span className="text-accent">Kaydını Bırak!</span>
+      </h2>
+      <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+        Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
+      </p>
+      {classicFormLayout === "stacked" ? (
+        <div className="mt-6 flex flex-col items-center justify-center gap-3">
+          <span className="text-sm text-muted-foreground">
+            Sohbet yerine klasik form mu istiyorsun?
+          </span>
+          {classicFormButton}
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <span className="text-sm text-muted-foreground">
+            Sohbet yerine klasik form mu istiyorsun?
+          </span>
+          {classicFormButton}
+        </div>
+      )}
+    </div>
+  ) : null;
+
   return (
     <section
       id="kaydol"
-      className="relative overflow-hidden py-16 lg:py-24"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--accent) / 0.06) 50%, hsl(var(--background)) 100%)",
-      }}
+      className={`relative overflow-hidden ${useGradientShell ? "py-16 lg:py-24" : ""}`}
+      style={
+        useGradientShell
+          ? {
+              background:
+                "linear-gradient(135deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--accent) / 0.06) 50%, hsl(var(--background)) 100%)",
+            }
+          : undefined
+      }
     >
-      <div
-        className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full opacity-30 blur-3xl"
-        style={{ background: "hsl(var(--accent))" }}
-      />
-      <div
-        className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full opacity-20 blur-3xl"
-        style={{ background: "hsl(var(--primary))" }}
-      />
+      {useGradientShell ? (
+        <>
+          <div
+            className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full opacity-30 blur-3xl"
+            style={{ background: "hsl(var(--accent))" }}
+          />
+          <div
+            className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full opacity-20 blur-3xl"
+            style={{ background: "hsl(var(--primary))" }}
+          />
+        </>
+      ) : null}
 
-      <div className="container relative z-10 mx-auto px-4">
-        <div className="mx-auto mb-10 max-w-4xl text-center">
-          {topLogoSrc ? (
-            <div className="mb-5 flex justify-center">
-              <img src={topLogoSrc} alt={topLogoAlt} className="h-20 w-auto sm:h-24" />
-            </div>
-          ) : null}
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-              Yapay Zeka Destekli Asistan
-            </span>
-          </div>
-          <h2 className="mb-3 text-2xl font-bold leading-tight text-foreground md:text-4xl">
-            Sorularını Sor! <span className="text-accent">Kaydını Bırak!</span>
-          </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
-            Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
-          </p>
-          {classicFormLayout === "stacked" ? (
-            <div className="mt-6 flex flex-col items-center justify-center gap-3">
-              <span className="text-sm text-muted-foreground">
-                Sohbet yerine klasik form mu istiyorsun?
-              </span>
-              {classicFormButton}
-            </div>
-          ) : (
-            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <span className="text-sm text-muted-foreground">
-                Sohbet yerine klasik form mu istiyorsun?
-              </span>
-              {classicFormButton}
-            </div>
-          )}
-        </div>
-
+      <div className={`relative z-10 mx-auto px-4 ${useGradientShell ? "container" : "max-w-2xl py-10 sm:py-12"}`}>
+        {introContent}
         <ChatWindow
           state={state}
           onSendMessage={handleSendMessage}
