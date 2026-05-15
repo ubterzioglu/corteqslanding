@@ -1,12 +1,10 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Camera,
-  Calendar,
   Lightbulb,
   Loader2,
   MapPin,
-  UserPlus,
 } from "lucide-react";
 
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
@@ -150,15 +148,6 @@ export default function May19CampaignPage() {
     moment: initialFormState,
   });
   const [submittingKind, setSubmittingKind] = useState<Kind | null>(null);
-
-  const statItems = useMemo(
-    () => [
-      { icon: MapPin, label: "5 Kıta" },
-      { icon: Calendar, label: "19 Mayıs Bayram Haftası" },
-      { icon: UserPlus, label: "Fikir ve Anı Akışı Açık" },
-    ],
-    [],
-  );
 
   const updateForm = <K extends keyof FormState>(kind: Kind, field: K, value: FormState[K]) => {
     setForms((current) => ({
@@ -396,20 +385,9 @@ export default function May19CampaignPage() {
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
-      description={`Bayram coşkusunu dünyanın dört bir yanındaki Türklerle paylaşıyoruz. Global haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global kanallarına gönder.`}
+      description={`Bayram coşkusunu dünyanın dört bir yanındaki Türklerle paylaşıyoruz. Global haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global kanallarına gönder.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
-        <section className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-white/80 px-6 py-5 shadow-[0_18px_55px_rgba(15,23,42,0.06)] backdrop-blur">
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
-            {statItems.map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-2">
-                <Icon className="h-4 w-4 text-rose-500" />
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <section id="katilim-formu" className="scroll-mt-28">
           <div id="modules" className="mx-auto mt-10 max-w-5xl">
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as Kind)}>
