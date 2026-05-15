@@ -3,6 +3,8 @@ import logo from "../../0logomail.png";
 
 const internalNavClass =
   "inline-flex min-h-[44px] items-center justify-center rounded-full border px-4 py-2 text-center text-[11px] font-bold tracking-[0.01em] transition sm:text-xs";
+const uniformNavClass =
+  "min-w-[156px] whitespace-nowrap px-3 text-[10.5px] sm:min-w-[168px] sm:px-4 sm:text-[11px]";
 
 const navLinks = [
   {
@@ -66,11 +68,19 @@ export default function SiteHeader() {
           <div className="flex flex-wrap items-center gap-2.5">
             {navLinks.map((item) =>
               "to" in item ? (
-                <Link key={item.label} to={item.to} className={`${internalNavClass} ${item.className}`}>
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
+                >
                   {item.label}
                 </Link>
               ) : "href" in item ? (
-                <a key={item.label} href={item.href} className={`${internalNavClass} ${item.className}`}>
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
+                >
                   {item.label}
                 </a>
               ) : (
@@ -90,13 +100,13 @@ export default function SiteHeader() {
               href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
               target="_blank"
               rel="noopener noreferrer"
-              className={`${internalNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
+              className={`${internalNavClass} ${uniformNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
             >
               Whatsapp Topluluğu
             </a>
             <Link
               to="/"
-              className={`${internalNavClass} border-slate-300 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]`}
+              className={`${internalNavClass} ${uniformNavClass} border-slate-300 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]`}
             >
               Ana Sayfa
             </Link>
