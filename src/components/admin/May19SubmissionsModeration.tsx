@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
+  createMay19CampaignFileSignedUrl,
   deleteMay19CampaignEntry,
   listMay19CampaignEntries,
   updateMay19CampaignEntry,
@@ -121,6 +122,19 @@ export default function May19SubmissionsModeration({ kind }: May19SubmissionsMod
     }
   };
 
+  const handleOpenFile = async (storageBucket: string, storagePath: string) => {
+    try {
+      const signedUrl = await createMay19CampaignFileSignedUrl(storageBucket, storagePath);
+      window.open(signedUrl, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      toast({
+        title: "Dosya acilamadi",
+        description: error instanceof Error ? error.message : "Beklenmeyen hata",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -201,6 +215,18 @@ export default function May19SubmissionsModeration({ kind }: May19SubmissionsMod
                         <ExternalLink className="h-4 w-4" />
                         Gönderi linkini aç
                       </a>
+                    ) : null}
+
+                    {row.storage_bucket && row.storage_path ? (
+                      <button
+                        type="button"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                        onClick={() => void handleOpenFile(row.storage_bucket!, row.storage_path!)}
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        Yuklenen dosyayi ac
+                        {row.file_name ? ` (${row.file_name})` : ""}
+                      </button>
                     ) : null}
                   </div>
 

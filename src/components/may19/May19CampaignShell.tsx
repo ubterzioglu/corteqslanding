@@ -51,13 +51,15 @@ export default function May19CampaignShell({
         {headerPoeticImageSrc ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-35 mix-blend-multiply"
+            className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] opacity-28 lg:block"
             style={{
               backgroundImage: `url(${headerPoeticImageSrc})`,
               backgroundPosition: "right center",
               backgroundRepeat: "no-repeat",
-              backgroundSize: "contain",
-              filter: "blur(0.6px)",
+              backgroundSize: "cover",
+              mixBlendMode: "soft-light",
+              WebkitMaskImage: "linear-gradient(to left, transparent 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,1) 52%)",
+              maskImage: "linear-gradient(to left, transparent 0%, rgba(0,0,0,0.7) 24%, rgba(0,0,0,1) 52%)",
             }}
           />
         ) : null}

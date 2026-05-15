@@ -17,6 +17,9 @@ export type SubmitMay19CampaignInput = {
   message?: string;
   link?: string;
   consent: boolean;
+  storageBucket?: string;
+  storagePath?: string;
+  fileName?: string;
 };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -36,6 +39,9 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
   const message = normalizeOptional(input.message);
   const socialHandle = normalizeOptional(input.socialHandle);
   const link = normalizeOptional(input.link);
+  const storageBucket = normalizeOptional(input.storageBucket);
+  const storagePath = normalizeOptional(input.storagePath);
+  const fileName = normalizeOptional(input.fileName);
 
   if (!fullName || !email || !country || !city || !title || !description) {
     throw new Error("Lutfen zorunlu alanlari doldurun.");
@@ -68,6 +74,9 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
     description,
     message,
     link,
+    storage_bucket: storageBucket,
+    storage_path: storagePath,
+    file_name: fileName,
     consent: input.consent,
   };
 
@@ -76,6 +85,49 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
   if (error) {
     throw error;
   }
+}
+
+const may19BucketByKind: Record<May19SubmissionKind, string> = {
+  idea: "19051919_fikir",
+  moment: "19051919_memory",
+};
+
+export async function uploadMay19CampaignFile(kind: May19SubmissionKind, file: File) {
+  const bucket = may19BucketByKind[kind];
+  const ext = file.name.includes(".") ? file.name.split(".").pop() : "";
+  const safeExt = ext ? `.${ext.toLowerCase()}` : "";
+  const path = `${kind}/${crypto.randomUUID()}${safeExt}`;
+
+  const { error } = await supabase.storage.from(bucket).upload(path, file, {
+    upsert: false,
+    contentType: file.type || undefined,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return {
+    storageBucket: bucket,
+    storagePath: path,
+    fileName: file.name,
+  };
+}
+
+export async function createMay19CampaignFileSignedUrl(
+  storageBucket: string,
+  storagePath: string,
+  expiresInSeconds = 300,
+) {
+  const { data, error } = await supabase.storage
+    .from(storageBucket)
+    .createSignedUrl(storagePath, expiresInSeconds);
+
+  if (error) {
+    throw error;
+  }
+
+  return data.signedUrl;
 }
 
 export async function listMay19CampaignEntries(

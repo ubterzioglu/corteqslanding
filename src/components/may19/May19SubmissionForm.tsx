@@ -7,7 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { submitMay19CampaignEntry, type May19SubmissionKind } from "@/lib/may19-campaign";
+import {
+  submitMay19CampaignEntry,
+  uploadMay19CampaignFile,
+  type May19SubmissionKind,
+} from "@/lib/may19-campaign";
 
 type FormState = {
   fullName: string;
@@ -45,6 +49,7 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
   const { toast } = useToast();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const update = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -55,6 +60,12 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
+      let uploadedMeta: { storageBucket: string; storagePath: string; fileName: string } | null = null;
+
+      if (selectedFile) {
+        uploadedMeta = await uploadMay19CampaignFile(kind, selectedFile);
+      }
+
       await submitMay19CampaignEntry({
         kind,
         fullName: form.fullName,
@@ -67,9 +78,13 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
         message: form.message,
         link: form.link,
         consent: form.consent,
+        storageBucket: uploadedMeta?.storageBucket,
+        storagePath: uploadedMeta?.storagePath,
+        fileName: uploadedMeta?.fileName,
       });
 
       setForm(initialFormState);
+      setSelectedFile(null);
       toast({
         title: kind === "idea" ? "Fikrin alindi" : "Anin alindi",
         description:
@@ -137,6 +152,23 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
             {kind === "idea" ? "Diasporayı nasıl güçlendirir?" : "Anına kısa not"}
           </Label>
           <Textarea rows={2} className="rounded-xl border-slate-200 bg-white/90 text-sm" value={form.message} onChange={(event) => update("message", event.target.value)} />
+        </div>
+
+        <div className="col-span-2">
+          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
+            {kind === "idea" ? "Dosya (opsiyonel)" : "Foto/Video (opsiyonel)"}
+          </Label>
+          <Input
+            type="file"
+            accept={kind === "idea" ? ".pdf,image/*,video/mp4" : "image/*,video/mp4,video/quicktime"}
+            className={inputClass}
+            onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
+          />
+          <p className="mt-1 text-xs text-slate-500">
+            {kind === "idea"
+              ? "19051919_fikir bucket'a yuklenir (max 5 MB)."
+              : "19051919_memory bucket'a yuklenir (max 15 MB)."}
+          </p>
         </div>
 
         <div className="col-span-2">

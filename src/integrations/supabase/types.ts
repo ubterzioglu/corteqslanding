@@ -117,6 +117,7 @@ export type Database = {
           created_at: string;
           description: string;
           email: string;
+          file_name: string | null;
           full_name: string;
           id: string;
           kind: string;
@@ -124,6 +125,8 @@ export type Database = {
           message: string | null;
           review_notes: string | null;
           social_handle: string | null;
+          storage_bucket: string | null;
+          storage_path: string | null;
           status: string;
           title: string;
           updated_at: string;
@@ -135,6 +138,7 @@ export type Database = {
           created_at?: string;
           description: string;
           email: string;
+          file_name?: string | null;
           full_name: string;
           id?: string;
           kind: string;
@@ -142,6 +146,8 @@ export type Database = {
           message?: string | null;
           review_notes?: string | null;
           social_handle?: string | null;
+          storage_bucket?: string | null;
+          storage_path?: string | null;
           status?: string;
           title: string;
           updated_at?: string;
@@ -153,6 +159,7 @@ export type Database = {
           created_at?: string;
           description?: string;
           email?: string;
+          file_name?: string | null;
           full_name?: string;
           id?: string;
           kind?: string;
@@ -160,6 +167,8 @@ export type Database = {
           message?: string | null;
           review_notes?: string | null;
           social_handle?: string | null;
+          storage_bucket?: string | null;
+          storage_path?: string | null;
           status?: string;
           title?: string;
           updated_at?: string;
