@@ -14,11 +14,17 @@ import { askRag } from "@/lib/ragApi";
 type ChatBotProps = {
   classicFormMode?: "modal" | "route";
   classicFormHref?: string;
+  classicFormLayout?: "inline" | "stacked";
+  topLogoSrc?: string;
+  topLogoAlt?: string;
 };
 
 const ChatBot = ({
   classicFormMode = "modal",
   classicFormHref = "/form",
+  classicFormLayout = "inline",
+  topLogoSrc,
+  topLogoAlt = "CorteQS Logo",
 }: ChatBotProps) => {
   const {
     state,
@@ -181,6 +187,11 @@ const ChatBot = ({
 
       <div className="container relative z-10 mx-auto px-4">
         <div className="mx-auto mb-10 max-w-4xl text-center">
+          {topLogoSrc ? (
+            <div className="mb-5 flex justify-center">
+              <img src={topLogoSrc} alt={topLogoAlt} className="h-20 w-auto sm:h-24" />
+            </div>
+          ) : null}
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5">
             <Sparkles className="h-4 w-4 text-primary" />
             <span className="text-xs font-semibold uppercase tracking-wider text-primary">
@@ -193,12 +204,21 @@ const ChatBot = ({
           <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
             Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
           </p>
-          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <span className="text-sm text-muted-foreground">
-              Sohbet yerine klasik form mu istiyorsun?
-            </span>
-            {classicFormButton}
-          </div>
+          {classicFormLayout === "stacked" ? (
+            <div className="mt-6 flex flex-col items-center justify-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                Sohbet yerine klasik form mu istiyorsun?
+              </span>
+              {classicFormButton}
+            </div>
+          ) : (
+            <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <span className="text-sm text-muted-foreground">
+                Sohbet yerine klasik form mu istiyorsun?
+              </span>
+              {classicFormButton}
+            </div>
+          )}
         </div>
 
         <ChatWindow

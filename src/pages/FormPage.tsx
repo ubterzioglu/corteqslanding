@@ -138,15 +138,15 @@ const FormPage = () => {
       <div className="relative h-48 overflow-hidden">
         <img src={heroNetworkLight} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
-        <div className="absolute bottom-0 left-0 right-0 p-6 max-w-2xl mx-auto">
-          <Link to="/">
-            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-12 w-auto" />
+        <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-2xl p-6 text-center">
+          <Link to="/" className="inline-flex justify-center">
+            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-4 h-20 w-auto sm:h-24" />
           </Link>
           <h1 className="text-foreground text-2xl font-bold">İlginizi Kaydedin</h1>
           <p className="text-muted-foreground">
             🚀 Yakında açılıyoruz! İlk erişim için bilgilerinizi bırakın.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex justify-center">
             <Link
               to="/aiform"
               className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-background/85 px-4 py-2.5 text-sm font-semibold text-primary shadow-sm transition-all hover:border-primary hover:bg-primary/5"
