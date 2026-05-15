@@ -1,7 +1,7 @@
 # CorteQS Landing Remix Notları
 
 ## Özet
-- `referans/done.md` yönü baz alınarak landing arayüzü görsel olarak yenilendi.
+- Önceki referans notları baz alınarak landing arayüzü görsel olarak yenilendi.
 - Mevcut backend akışları korunarak yalnız frontend sunumu güncellendi.
 - SEO/GEO için `index.html` içindeki meta, canonical, OG/Twitter, JSON-LD ve izleme script'leri korunmuştur.
 
