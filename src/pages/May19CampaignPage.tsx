@@ -3,14 +3,9 @@ import { Link } from "react-router-dom";
 import {
   Camera,
   Calendar,
-  Flag,
-  Globe,
-  Heart,
   Lightbulb,
   Loader2,
   MapPin,
-  PartyPopper,
-  Sparkles,
   UserPlus,
 } from "lucide-react";
 
@@ -401,9 +396,7 @@ export default function May19CampaignPage() {
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
-      description={`1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.
-2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.
-3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
+      description={`Bayram coşkusunu dünyanın dört bir yanındaki Türklerle paylaşıyoruz. Global haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global kanallarına gönder.`}
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
         <section className="mx-auto max-w-5xl rounded-[2rem] border border-slate-200 bg-white/80 px-6 py-5 shadow-[0_18px_55px_rgba(15,23,42,0.06)] backdrop-blur">
@@ -474,71 +467,7 @@ export default function May19CampaignPage() {
           </div>
         </section>
 
-        <section className="mx-auto mt-10 max-w-5xl rounded-[2rem] border border-slate-200 bg-[linear-gradient(135deg,rgba(15,23,42,0.98)_0%,rgba(30,41,59,0.96)_42%,rgba(17,94,89,0.94)_100%)] px-6 py-8 text-white shadow-[0_30px_90px_rgba(15,23,42,0.18)]">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-cyan-100">
-                <Flag className="h-3.5 w-3.5 text-rose-300" />
-                19 Mayıs Haftası
-              </div>
-              <h2 className="mt-4 text-2xl font-black sm:text-3xl">
-                Fikir ve anı gonderimleri aktif, harita fazi sirada.
-              </h2>
-              <p className="mt-3 text-sm leading-7 text-slate-200">
-                19 kelimelik fikirlerini ve 19 Mayis anilarini simdi birakabilirsin. Harita pinleri,
-                canli gorsel akisi ve yayin moderasyonu bir sonraki backend asamasinda tamamlanacak.
-              </p>
-            </div>
 
-            <div className="flex flex-wrap gap-3">
-              <Button asChild size="lg" className="rounded-full bg-white text-slate-900 hover:bg-slate-100">
-                <Link to="/19051919/harita">
-                  <Globe className="mr-2 h-4 w-4" />
-                  Haritayı Aç
-                </Link>
-              </Button>
-              <Button
-                type="button"
-                size="lg"
-                variant="outline"
-                className="rounded-full border-white/20 bg-white/10 text-white hover:bg-white/20 hover:text-white"
-                onClick={() =>
-                  toast({
-                    title: "Backend fazı bekleniyor",
-                    description: "Harita pinleri ve canli harita verisi sonraki adimda baglanacak.",
-                  })
-                }
-              >
-                <PartyPopper className="mr-2 h-4 w-4" />
-                Sonraki Faz Notu
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto mt-10 grid max-w-5xl gap-4 md:grid-cols-3">
-          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <MapPin className="h-5 w-5 text-cyan-600" />
-            <h3 className="mt-3 text-lg font-bold text-slate-950">Harita Modülü</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Statik globe deneyimiyle şehirleri gösteriyoruz; approved pinler ikinci aşamada bağlanacak.
-            </p>
-          </div>
-          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <Sparkles className="h-5 w-5 text-amber-500" />
-            <h3 className="mt-3 text-lg font-bold text-slate-950">Fikir Havuzu</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Diasporayi guclendirecek fikirler simdi kayda dusuyor ve admin moderasyonuna gidiyor.
-            </p>
-          </div>
-          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
-            <Heart className="h-5 w-5 text-rose-500" />
-            <h3 className="mt-3 text-lg font-bold text-slate-950">Anı Paylaşımı</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Link tabanli ani gonderimleri aktif; gorsel depolama ve yayin akisi sonraki fazda genisleyecek.
-            </p>
-          </div>
-        </section>
       </main>
     </May19CampaignShell>
   );
