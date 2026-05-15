@@ -66,11 +66,39 @@ const HeroSection = () => {
       <div className="relative z-10 mx-auto w-full max-w-[1780px] px-4 py-12 md:px-6 md:py-14 2xl:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,36rem)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[minmax(0,38rem)_minmax(0,1fr)] 2xl:grid-cols-[minmax(0,42rem)_minmax(0,1fr)] 2xl:gap-12">
           <div className="max-w-[760px] lg:-translate-y-4 xl:-translate-y-6 2xl:-translate-y-8">
-            <div className="mb-3 flex">
-              <span className="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-full border border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] px-4 py-2 text-center text-[10.5px] font-bold text-slate-500 shadow-[0_14px_32px_rgba(148,163,184,0.16)] sm:text-[11px]">
-                <span>19 Mayıs Etkinlikleri</span>
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
+            <div className="mb-3 flex max-w-lg">
+              <span
+                aria-disabled="true"
+                className={`${heroFeaturedCardClass} relative flex-col overflow-hidden rounded-[1.35rem] text-[12px] font-semibold md:text-[13px] 2xl:max-w-[38rem]`}
+                style={{
+                  background:
+                    "linear-gradient(135deg, #fff6f6 0%, #ffffff 26%, #ffe3e3 58%, #f6b1b1 100%)",
+                  borderColor: "rgba(220, 38, 38, 0.28)",
+                  color: "#7f1d1d",
+                  boxShadow:
+                    "0 18px 40px rgba(220, 38, 38, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85)",
+                }}
+              >
+                <span
+                  className="pointer-events-none absolute inset-0 opacity-100"
+                  aria-hidden
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.18) 34%, rgba(255,255,255,0) 100%)",
+                  }}
+                />
+                <span
+                  className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/90"
+                  aria-hidden
+                />
+                <span className="absolute -right-1 -top-2 rounded-full bg-[#991b1b] px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.18em] text-white shadow-[0_10px_20px_rgba(153,27,27,0.32)]">
                   Yakında!
+                </span>
+                <span className="relative z-10 text-[0.95rem] font-black tracking-[0.03em] text-[#b91c1c]">
+                  19 Mayıs Etkinlikleri
+                </span>
+                <span className="relative z-10 mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#7f1d1d]/80">
+                  Premium Etkinlik Akışı Hazırlanıyor
                 </span>
               </span>
             </div>
