@@ -22,6 +22,11 @@ export type SubmissionDocumentsBucketStats = {
 export type SubmissionDocumentsBucketLevel = "normal" | "info" | "warning" | "critical";
 export type ReferralValidationStatus = "missing" | "not_found" | "inactive" | "expired" | "out_of_window" | "valid";
 
+type ErrorWithMessage = {
+  message?: string;
+  code?: string;
+};
+
 export const allowedSubmissionDocumentTypes = [
   "application/pdf",
   "application/msword",
@@ -400,4 +405,51 @@ export async function validateReferralCodeBeforeSubmit(referralCode: string | nu
   }
 
   return result?.normalized_code ?? normalized;
+}
+
+export function getReadableErrorMessage(error: unknown, fallback: string) {
+  if (error instanceof Error && error.message.trim() !== "") return error.message;
+  if (error && typeof error === "object" && "message" in error) {
+    const maybeMessage = (error as ErrorWithMessage).message;
+    if (typeof maybeMessage === "string" && maybeMessage.trim() !== "") return maybeMessage;
+  }
+  return fallback;
+}
+
+function getMissingColumnName(error: unknown): string | null {
+  const message =
+    error instanceof Error
+      ? error.message
+      : error && typeof error === "object" && "message" in error && typeof (error as ErrorWithMessage).message === "string"
+        ? (error as ErrorWithMessage).message ?? ""
+        : "";
+
+  const match = message.match(/column ["']?([a-zA-Z0-9_]+)["']? .* does not exist/i);
+  return match?.[1] ?? null;
+}
+
+export async function insertSubmissionWithCompatibility(payload: SubmissionInsert) {
+  const { supabase } = await import("@/integrations/supabase/client");
+  let currentPayload: Record<string, unknown> = { ...payload };
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const { data, error } = await supabase
+      .from("submissions")
+      .insert(currentPayload as SubmissionInsert)
+      .select("id")
+      .single();
+
+    if (!error) return data;
+
+    const missingColumn = getMissingColumnName(error);
+    if (missingColumn && missingColumn in currentPayload) {
+      const { [missingColumn]: _removed, ...nextPayload } = currentPayload;
+      currentPayload = nextPayload;
+      continue;
+    }
+
+    throw error;
+  }
+
+  throw new Error("Kayıt gönderimi sürüm uyumluluğu nedeniyle tamamlanamadı.");
 }

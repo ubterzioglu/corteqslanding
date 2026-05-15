@@ -5,14 +5,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import corteqsLogo from "../../0logomail.png";
 import { notifySubmission } from "@/lib/mail";
 import {
   categoryOptions,
+  getReadableErrorMessage,
   getReferralDetailLabel,
   getReferralDetailPlaceholder,
+  insertSubmissionWithCompatibility,
   isReferralDetailRequired,
   referralSourceOptions,
   shouldShowReferralDetail,
@@ -66,9 +67,7 @@ const FormPage = () => {
     try {
       const payload = toSubmissionInsert(values, "register", consent);
       payload.referral_code = await validateReferralCodeBeforeSubmit(payload.referral_code);
-      const { data: inserted, error } = await supabase.from("submissions").insert(payload).select("id").single();
-
-      if (error) throw error;
+      const inserted = await insertSubmissionWithCompatibility(payload);
 
       try {
         if (inserted?.id) {
@@ -93,7 +92,7 @@ const FormPage = () => {
       setSelectedCat("");
     } catch (err: unknown) {
       console.error("Submission error:", err);
-      const message = err instanceof Error ? err.message : "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.";
+      const message = getReadableErrorMessage(err, "Lütfen tekrar deneyin veya info@corteqs.net adresine yazın.");
       toast({
         title: "Bir hata oluştu",
         description: message,

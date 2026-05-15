@@ -1,133 +1,191 @@
-# Tech Stack – CorteQS Landing
+# CorteQS Landing – Teknik Dokümantasyon
 
-Übersicht des aktuell im Repository verwendeten Technologie-Stacks (Stand: 2026-04-24).
+Bu doküman, `corteqs_landing` reposunun mevcut teknik mimarisini (frontend, backend, veri modeli, güvenlik, test ve deployment) uçtan uca anlatır.
 
-## Projektart
+## 1) Sistem Özeti
 
-- Single Page Application (SPA) mit Admin-Bereich
-- Landing Page mit Formularerfassung, Admin-Panel unter `/admin`
-- Deployment via Docker/Nginx (Coolify-kompatibel)
+- Proje tipi: React + Vite tabanlı SPA.
+- Ana domain: `https://corteqs.net`
+- Public alan: Landing, yarışma/kampanya sayfaları, form/AI form, WhatsApp landing akışı.
+- Admin alanı: `/admin` altında yönetim paneli (üyeler, referral, sosyal medya, workspace, moderasyon ekranları).
+- Veri ve auth: Supabase (Postgres + Auth + Storage + Edge Functions).
 
-## Frontend
+## 2) Teknoloji Stack
 
-### Core
-- **React** `18.3.1` (inkl. `react-dom` mit Hydration)
-- **TypeScript** `5.8.3` (mit `allowJs`, lockerem strict-Modus: `noImplicitAny: false`, `strictNullChecks: false`)
-- **Vite** `5.4.19` (Build- und Dev-Server, Port `8080`)
-- **@vitejs/plugin-react-swc** `3.11.0` (SWC-basierter React-Plugin)
-- **lovable-tagger** `1.1.13` (nur in Development-Mode)
+### Frontend çekirdek
+- React `18.3.1`
+- TypeScript `5.8.3`
+- Vite `5.4.19`
+- Router: `react-router-dom 6.30.1`
+- Data cache/state: `@tanstack/react-query 5.83.0`
+- Tablo katmanı: `@tanstack/react-table 8.21.3`
 
-### Routing & State
-- **react-router-dom** `6.30.1` (BrowserRouter, verschachtelte Routen für Admin)
-- **@tanstack/react-query** `5.83.0` (Server-State)
-- **@tanstack/react-table** `8.21.3` (Tabellen im Admin)
+### UI katmanı
+- Tailwind CSS `3.4.17`
+- shadcn/ui + Radix primitives
+- Icon: `lucide-react`
+- Form: `react-hook-form`, `zod`
+- Toast: `sonner` + custom toaster
 
-### UI / Styling
-- **Tailwind CSS** `3.4.17` mit `tailwindcss-animate` und `@tailwindcss/typography`
-- **PostCSS** `8.5.6` + **Autoprefixer** `10.4.21`
-- **shadcn/ui** (style: `default`, baseColor: `slate`, CSS-Variablen aktiviert) – siehe `components.json`
-- **Radix UI** – umfangreiches Primitives-Set (Accordion, Dialog, Dropdown, Popover, Select, Tabs, Toast, Tooltip, Navigation-Menu, Sidebar etc.)
-- **lucide-react** `0.462.0` (Icons)
-- **class-variance-authority**, **clsx**, **tailwind-merge** (Utility-First Patterns)
-- **next-themes** `0.3.0` (Theme-Switching)
-- **sonner** `1.7.4` (Toasts), **vaul** `0.9.9` (Drawer), **cmdk** `1.1.1` (Command Palette)
-- **Inter** Font (via `fontFamily.sans` in Tailwind)
+### Backend/BaaS
+- Supabase JS SDK `2.101.1`
+- Supabase Postgres migrations: `supabase/migrations/*`
+- Supabase Edge Functions:
+  - `send-submission-email`
+  - `chat-register`
+  - `find-matches`
+  - `lansman-admin` (deprecated, 410 döner)
 
-### Formulare & Validierung
-- **react-hook-form** `7.61.1`
-- **@hookform/resolvers** `3.10.0`
-- **zod** `3.25.76` (Schema-Validierung)
-- **input-otp** `1.4.2`
+### Test ve kalite
+- Vitest + Testing Library + jsdom
+- Playwright (E2E altyapısı mevcut)
+- ESLint (flat config)
 
-### Daten- und UI-Komponenten
-- **recharts** `2.15.4` (Charts)
-- **embla-carousel-react** `8.6.0` (Carousel)
-- **react-day-picker** `8.10.1` + **date-fns** `3.6.0`
-- **react-resizable-panels** `2.1.9`
+## 3) Uygulama Mimarisi
 
-## Backend / BaaS
+### Route mimarisi
+- Public route’lar `src/App.tsx` içinde `PublicLayout` altında:
+  - `/`, `/hakkimizda`, `/form`, `/aiform`, `/addwa`, `/lansman`, `/19051919`, `/19051919/harita`, yarışma ve commercial route’ları.
+- Admin route’lar `src/App.tsx` içinde `AdminLayout` altında:
+  - `/admin/members`, `/admin/referral/*`, `/admin/whatsapp-landings`, `/admin/may19/*`, `/admin/workspace/*`, vb.
 
-- **Supabase** (`@supabase/supabase-js` `2.101.1`)
-  - Postgres-DB mit Migrationen unter `supabase/migrations/`
-  - **Supabase Auth** für Admin-Zugang (`public.admin_users`)
-  - **Edge Functions** (Deno):
-    - `send-submission-email` (E-Mail-Benachrichtigungen via Resend)
-    - `chat-register` (verify_jwt = true)
-    - `find-matches` (verify_jwt = true)
-- **Resend** (Transactional Mail via `RESEND_API_KEY`)
+### Katmanlar
+- `src/pages/*`: Route seviyesinde sayfalar.
+- `src/components/*`: Sayfa içi bileşenler ve UI parçaları.
+- `src/lib/*`: İş kuralları ve servis fonksiyonları (`submissions`, `whatsapp-landings`, `may19-campaign`, `admin`, `mail`).
+- `src/integrations/supabase/*`: Typed Supabase client + DB tipleri.
 
-## Testing
+### Runtime config yaklaşımı
+- Frontend, Supabase bilgilerini iki kaynaktan alır:
+  - Build-time: `import.meta.env.VITE_*`
+  - Runtime: `window.__APP_CONFIG__` (`env-config.js` ile enjekte edilir)
+- Bu sayede yeniden build almadan ortam değişkeni güncellenebilir.
 
-- **Vitest** `3.2.4` (Unit/Integration, `jsdom` Environment, Setup unter `src/test/setup.ts`)
-- **@testing-library/react** `16.0.0` + **@testing-library/jest-dom** `6.6.0`
-- **jsdom** `20.0.3`
-- **Playwright** `1.57.0` via `lovable-agent-playwright-config` (E2E)
+## 4) Veri Modeli ve Ana Akışlar
 
-## Linting & Code-Qualität
+### Temel tablolar
+- `public.submissions`:
+  - Ana kayıt havuzu (form, chatbot, wa kaynakları).
+  - `source_type`: `form | chatbot | wa`
+  - Referral alanları, doküman metadata’sı, durum alanları (`new/contacted/archived`) içerir.
+- `public.admin_users`:
+  - Admin yetki kontrolü için allow-list tablosu.
+- `public.may19_campaign_submissions`:
+  - 19 Mayıs fikir/anı gönderimleri.
+- `public.whatsapp_landings` ve `public.whatsapp_join_requests`:
+  - WhatsApp topluluk landing’leri ve katılım talepleri.
+- `public.referral_*` tabloları:
+  - Source/group/type/code ve kullanım kayıtları.
+- `public.matches`:
+  - AI eşleşme sonuçlarının kalıcı kaydı.
+- `public.edge_rate_limits`:
+  - Edge Function rate-limit durum tablosu.
 
-- **ESLint** `9.32.0` (Flat Config) mit:
-  - `typescript-eslint` `8.38.0`
-  - `eslint-plugin-react-hooks` `5.2.0`
-  - `eslint-plugin-react-refresh` `0.4.20`
+### Kayıt akışı (public form)
+1. Form verisi frontend’de normalize edilir (`toSubmissionInsert`).
+2. Referral kod varsa `validate_and_bind_referral_code` RPC doğrulanır.
+3. Doküman varsa `submission-documents` bucket’ına yüklenir.
+4. `submissions` insert edilir.
+5. Asenkron mail bildirimi `send-submission-email` function ile tetiklenir.
 
-## Build & Deployment
+### AI kayıt akışı
+1. Kullanıcı `chat-register` function ile sohbet eder.
+2. Gemini fonksiyon çağrısı ile alanlar (`category`, `fullname`, `email`, vb.) çıkarılır.
+3. Kullanıcı onayından sonra kayıt `submissions` tablosuna `source_type='chatbot'` ile yazılır.
+4. İsteğe bağlı eşleşme için `find-matches` çağrılır ve `matches` tablosuna persist edilir.
 
-- **Dockerfile** (Multi-Stage):
-  - Stage 1: `node:22-alpine` → `npm ci` + `npm run build`
-  - Stage 2: `nginx:1.27-alpine` serviert `/usr/share/nginx/html`
-- **Nginx**-Konfiguration mit Security-Headern (X-Frame-Options, HSTS, CSP-nahe Header, Referrer-Policy, Permissions-Policy)
-- **Runtime-Env-Injection**: `docker-entrypoint-env.sh` schreibt `/env-config.js` beim Container-Start (ermöglicht env ohne Rebuild)
-- Zielplattform: **Coolify** (laut README)
-- **Node.js**: `22` (im Docker-Build festgesetzt)
+### 19 Mayıs kampanya akışı
+- `submitMay19CampaignEntry` ile `may19_campaign_submissions` insert edilir.
+- Admin moderasyon sayfalarında status/review notes güncellenir.
 
-## Projektstruktur (relevant)
+## 5) Güvenlik Tasarımı
 
-```
+### RLS ve erişim
+- `submissions` insert anon/auth için açık; select/update admin kısıtlı.
+- Admin erişimi `public.is_admin(auth.uid())` ve `admin_users` tablosu ile korunur.
+- Hassas storage bucket (`submission-documents`) public değil; select/delete admin kısıtlı.
+
+### Edge function güvenliği
+- `supabase/config.toml` içinde function’larda `verify_jwt = true`.
+- Origin allow-list kontrolü var.
+- Body size limit ve IP tabanlı rate-limit var (`edge_rate_limits` üzerinden).
+
+### Proxy ve transport güvenliği
+- Nginx ve node server tarafında güvenlik header’ları aktif:
+  - CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer/Permissions policy.
+- `/api/chat` sadece `POST` + `application/json` kabul eder.
+- `RAG_API_SECRET` yalnızca server tarafında kullanılır.
+
+## 6) Deployment ve Çalışma Ortamı
+
+### Docker (önerilen)
+- Multi-stage build:
+  - Build stage: `node:22-alpine`, `npm ci`, `npm run build`
+  - Runtime stage: `nginx:1.27-alpine`, static `dist` serve
+- `docker-entrypoint-env.sh`:
+  - `env-config.js` üretir
+  - nginx config içinde `__RAG_API_SECRET__` placeholder’ını set eder
+
+### Alternatif runtime (`server.mjs`)
+- `dist` klasörünü HTTP server ile sunar.
+- SPA fallback uygular.
+- `/api/chat` için upstream proxy + rate-limit + timeout uygular.
+- Asset cache politikası:
+  - `/assets/*`: immutable cache
+  - `index.html` ve `env-config.js`: no-store
+
+### Ortam değişkenleri
+- Frontend/runtime:
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_PUBLISHABLE_KEY`
+  - `VITE_SUPABASE_PROJECT_ID`
+- Server-only:
+  - `SUPABASE_SERVICE_ROLE_KEY`
+  - `RAG_API_SECRET`
+- Function secret’ları:
+  - `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_TO_ADMIN`, `MAIL_REPLY_TO`, `MAIL_SEND_CONFIRMATION`
+  - `GEMINI_API_KEY` (`chat-register` ve `find-matches` için)
+
+## 7) Test, Build ve Operasyon Komutları
+
+- Geliştirme: `npm run dev`
+- Build: `npm run build`
+- Local preview: `npm run preview`
+- Test: `npm test`
+- Watch test: `npm run test:watch`
+- Lint: `npm run lint`
+- Release doğrulama: `npm run verify:release`
+
+## 8) Önemli Tasarım Kararları
+
+- Public kayıt insert açık, admin görüntüleme kapalı: veri toplama + güvenli yönetim dengesi.
+- Runtime env injection: tek artifact ile çok ortam deploy.
+- AI akışında PII redaction ve kontrollü function-calling şeması.
+- Submission insert için geriye uyum mantığı (`insertSubmissionWithCompatibility`) ile şema drift riskinin azaltılması.
+- `lansman-admin` fonksiyonu bilinçli olarak deprecated (410), doğrudan RLS tabanlı tablo erişimi tercih ediliyor.
+
+## 9) Bilinen Riskler ve İzleme Önerileri
+
+- Şema drift: client tipleri ile prod migration seti senkron tutulmalı.
+- Edge function quota/rate-limit: `edge_rate_limits` tablosu düzenli izlenmeli.
+- Mail başarısızlığı: kayıt akışı mailden bağımsız, ancak delivery metriği (`notification_sent_at`) takip edilmeli.
+- CSP değişiklikleri: yeni üçüncü parti servis eklenirse CSP `connect-src`/`img-src` güncellenmeli.
+
+## 10) Dizin Referansı
+
+```text
 src/
-  components/           # App- und UI-Komponenten (inkl. shadcn/ui in components/ui)
-    admin/              # Admin-Layout
-    chat/               # Chatbot-Komponenten
-  hooks/                # Custom Hooks (useChatMachine, use-toast, use-mobile)
-  integrations/
-    supabase/client.ts  # Supabase-Client
-  lib/                  # admin, submissions, referral-codes, marquee, mail, utils
-  pages/                # Seiten-Komponenten
-    admin/              # Admin-Seiten
-  test/                 # Vitest Setup
+  App.tsx
+  pages/
+  components/
+  lib/
+  integrations/supabase/
 supabase/
-  migrations/           # SQL-Migrationen
-  functions/            # Edge Functions (Deno)
-  config.toml           # Supabase-Projektkonfiguration
+  migrations/
+  functions/
+  config.toml
+Dockerfile
+nginx.conf.template
+docker-entrypoint-env.sh
+server.mjs
 ```
-
-## Skripte (package.json)
-
-| Skript | Befehl |
-|---|---|
-| `dev` | `vite` |
-| `build` | `vite build` |
-| `build:dev` | `vite build --mode development` |
-| `lint` | `eslint .` |
-| `preview` | `vite preview` |
-| `test` | `vitest run` |
-| `test:watch` | `vitest` |
-
-## Aliase / Konventionen
-
-- Path-Alias: `@/* → ./src/*` (tsconfig + vite + components.json)
-- shadcn-Aliase: `@/components`, `@/components/ui`, `@/lib`, `@/lib/utils`, `@/hooks`
-- Dedupe in Vite für `react`, `react-dom`, JSX-Runtime und `@tanstack/react-query`/`query-core`
-- Dark-Mode via CSS-Klasse (`darkMode: ["class"]`)
-
-## Umgebungsvariablen
-
-### Frontend (VITE_*)
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_PUBLISHABLE_KEY`
-- `VITE_SUPABASE_PROJECT_ID`
-
-### Server-only
-- `SUPABASE_SERVICE_ROLE_KEY` (niemals mit `VITE_`-Prefix exposen)
-
-### Edge-Function-Secrets
-- `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_TO_ADMIN`, `MAIL_REPLY_TO`, `MAIL_SEND_CONFIRMATION`
