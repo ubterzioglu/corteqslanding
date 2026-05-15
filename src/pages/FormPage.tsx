@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
-import corteqsLogo from "@/assets/corteqs-logo-globe.png";
+import corteqsLogo from "../../0logomail.png";
 import { notifySubmission } from "@/lib/mail";
 import {
   categoryOptions,
@@ -110,7 +110,7 @@ const FormPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
           <div className="absolute bottom-0 left-0 right-0 p-6 max-w-2xl mx-auto">
             <Link to="/">
-              <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
+              <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-12 w-auto" />
             </Link>
           </div>
         </div>
@@ -140,7 +140,7 @@ const FormPage = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
         <div className="absolute bottom-0 left-0 right-0 p-6 max-w-2xl mx-auto">
           <Link to="/">
-            <img src={corteqsLogo} alt="CorteQS Logo" className="h-10 mb-3" />
+            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-12 w-auto" />
           </Link>
           <h1 className="text-foreground text-2xl font-bold">İlginizi Kaydedin</h1>
           <p className="text-muted-foreground">
@@ -159,15 +159,6 @@ const FormPage = () => {
 
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="flex flex-wrap gap-2 mb-2">
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
-              🎯 Yakında: AI Destekli Eşleştirme
-            </span>
-            <span className="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-semibold">
-              🌍 Yakında: 50+ Şehir Ağı
-            </span>
-          </div>
-
           <div>
             <Label htmlFor="category">Kategori / İlgi Alanı</Label>
             <select
