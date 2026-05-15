@@ -81,7 +81,7 @@ export default function SiteHeader() {
                 ),
               )}
               <a
-                href="https://wa.me/905302404995"
+                href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`${internalNavClass} ${uniformNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
