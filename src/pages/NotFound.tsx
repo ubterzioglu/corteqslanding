@@ -29,9 +29,9 @@ const NotFound = () => {
           <img
             src={maskot}
             alt="CorteQS"
-            className="mx-auto mb-2 h-28 w-auto"
+            className="mx-auto mb-2 h-40 w-auto"
           />
-          <span className="bg-gradient-to-br from-primary to-accent bg-clip-text text-[120px] font-extrabold leading-none text-transparent md:text-[160px]">
+          <span className="bg-gradient-to-br from-primary to-accent bg-clip-text text-[96px] font-extrabold leading-none text-transparent md:text-[132px]">
             404
           </span>
           <div className="absolute -right-4 -top-2 animate-pulse">
