@@ -37,7 +37,7 @@ describe("May19CampaignPage", () => {
     );
     expect(screen.getByRole("link", { name: /3\. 19 Mayıs Anını Paylaş/i })).toHaveAttribute(
       "href",
-      "/190519",
+      "/190519memory",
     );
   });
 });

@@ -7,6 +7,8 @@ type May19CampaignShellProps = {
   eyebrow: string;
   title: ReactNode;
   description: string;
+  headerBgImageSrc?: string;
+  headerPoeticImageSrc?: string;
   heroImageSrc?: string;
   heroImageAlt?: string;
   primaryCta?: {
@@ -24,15 +26,41 @@ export default function May19CampaignShell({
   eyebrow,
   title,
   description,
+  headerBgImageSrc,
+  headerPoeticImageSrc,
   heroImageSrc,
   heroImageAlt = "CorteQS Hero",
   primaryCta,
   secondaryCta,
   children,
 }: May19CampaignShellProps) {
+  const headerStyle = headerBgImageSrc
+    ? {
+        backgroundImage: `linear-gradient(180deg,rgba(255,250,245,0.92)_0%,rgba(255,246,246,0.9)_54%,rgba(255,255,255,0.94)_100%), url(${headerBgImageSrc})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }
+    : undefined;
+
   return (
     <div className="bg-[linear-gradient(180deg,#fffaf5_0%,#fff_28%,#f8fbff_100%)] text-slate-950">
-      <header className="border-b border-rose-100/80 bg-[linear-gradient(180deg,#fffaf5_0%,#fff6f6_54%,#fff_100%)]">
+      <header
+        className="relative overflow-hidden border-b border-rose-100/80 bg-[linear-gradient(180deg,#fffaf5_0%,#fff6f6_54%,#fff_100%)]"
+        style={headerStyle}
+      >
+        {headerPoeticImageSrc ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-35 mix-blend-multiply"
+            style={{
+              backgroundImage: `url(${headerPoeticImageSrc})`,
+              backgroundPosition: "right center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+              filter: "blur(0.6px)",
+            }}
+          />
+        ) : null}
         <div className="container mx-auto px-4 pb-10 pt-5 lg:px-6 lg:pb-12">
           <div className="grid items-center gap-6 pt-3 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.9fr)]">
             <div className="max-w-4xl">

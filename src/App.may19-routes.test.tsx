@@ -27,6 +27,30 @@ vi.mock("@/pages/May19MapPage.tsx", async () => {
   };
 });
 
+vi.mock("@/pages/May19IdeaPage.tsx", async () => {
+  const { default: May19CampaignShell } = await import("@/components/may19/May19CampaignShell");
+
+  return {
+    default: () => (
+      <May19CampaignShell eyebrow="Mock Eyebrow" title="Mock Idea Title" description="Mock idea description">
+        <div>May19 Idea Route</div>
+      </May19CampaignShell>
+    ),
+  };
+});
+
+vi.mock("@/pages/May19MomentPage.tsx", async () => {
+  const { default: May19CampaignShell } = await import("@/components/may19/May19CampaignShell");
+
+  return {
+    default: () => (
+      <May19CampaignShell eyebrow="Mock Eyebrow" title="Mock Moment Title" description="Mock moment description">
+        <div>May19 Moment Route</div>
+      </May19CampaignShell>
+    ),
+  };
+});
+
 describe("App 19 Mayis routing", () => {
   afterEach(() => {
     window.history.pushState({}, "", "/");
@@ -46,5 +70,21 @@ describe("App 19 Mayis routing", () => {
     render(<App />);
 
     expect(screen.getByText("May19 Map Route")).toBeInTheDocument();
+  });
+
+  it("renders the public 190519idea route", () => {
+    window.history.pushState({}, "", "/190519idea");
+
+    render(<App />);
+
+    expect(screen.getByText("May19 Idea Route")).toBeInTheDocument();
+  });
+
+  it("renders the public 190519memory route", () => {
+    window.history.pushState({}, "", "/190519memory");
+
+    render(<App />);
+
+    expect(screen.getByText("May19 Moment Route")).toBeInTheDocument();
   });
 });

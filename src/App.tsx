@@ -42,6 +42,8 @@ import LansmanPage from "./pages/LansmanPage.tsx";
 import FoundersPage from "./pages/FoundersPage.tsx";
 import May19CampaignPage from "./pages/May19CampaignPage.tsx";
 import May19MapPage from "./pages/May19MapPage.tsx";
+import May19IdeaPage from "./pages/May19IdeaPage.tsx";
+import May19MomentPage from "./pages/May19MomentPage.tsx";
 import AddWhatsAppPage from "./pages/AddWhatsAppPage.tsx";
 import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
 import AIFormPage from "./pages/AIFormPage.tsx";
@@ -78,6 +80,9 @@ const App = () => (
               <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
               <Route path="/19051919" element={<May19CampaignPage />} />
               <Route path="/19051919/harita" element={<May19MapPage />} />
+              <Route path="/190519idea" element={<May19IdeaPage />} />
+              <Route path="/190519memory" element={<May19MomentPage />} />
+              <Route path="/190519" element={<Navigate to="/190519memory" replace />} />
               <Route path="/addwa" element={<AddWhatsAppPage />} />
               <Route path="/aiform" element={<AIFormPage />} />
               <Route path="/form" element={<FormPage />} />

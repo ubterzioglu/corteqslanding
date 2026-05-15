@@ -1,6 +1,8 @@
 import { ExternalLink, Lightbulb, Camera, Globe } from "lucide-react";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
 import heroLandmarks from "../../denemeremake.png";
+import may19HeaderBg from "../../1905.png";
+import may19PoeticLayer from "../../last.png";
 
 const moduleCards = [
   {
@@ -28,7 +30,7 @@ const moduleCards = [
     title: "3. 19 Mayıs Anını Paylaş",
     description:
       "19 Mayıs’a dair anını veya kısa notunu ilet; seçilen içerikler global yayına hazırlanır.",
-    href: "/190519",
+    href: "/190519memory",
     external: false,
     Icon: Camera,
     badgeClass: "bg-orange-100 text-orange-700",
@@ -40,7 +42,9 @@ export default function May19CampaignPage() {
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
-      description={`Bayram coşkusunu dünyanın dört bir yanındaki Türklerle paylaşıyoruz. Global haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global kanallarına gönder.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
+      description={`19 Mayıs heyecanını tüm dünyadaki Türk diaspora topluluğumuzla birlikte yaşıyoruz. Yaşadığın yeri dünya haritasında işaretle, diasporamızı güçlendirecek fikrini paylaş ve 19 Mayıs anını CorteQS global ağında görünür kıl.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
+      headerBgImageSrc={may19HeaderBg}
+      headerPoeticImageSrc={may19PoeticLayer}
       heroImageSrc={heroLandmarks}
       heroImageAlt="CorteQS kahraman görseli"
     >
