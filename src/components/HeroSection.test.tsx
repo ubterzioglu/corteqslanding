@@ -13,6 +13,6 @@ describe("HeroSection", () => {
     );
 
     expect(screen.getByText("19 Mayıs Etkinlikleri")).toBeInTheDocument();
-    expect(screen.getByText("Yakında!")).toBeInTheDocument();
+    expect(screen.getAllByText("Yakında!").length).toBeGreaterThan(0);
   });
 });

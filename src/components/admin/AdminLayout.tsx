@@ -466,7 +466,7 @@ const AdminLayout = () => {
                     <div className="px-3 py-2">
                       <div className="border-t border-border/70" />
                       <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                        Diger Dokumanlar
+                        Diğer Dokümanlar
                       </p>
                     </div>
                     {adminPanelDocNavItems.map((item) => (
@@ -480,7 +480,7 @@ const AdminLayout = () => {
                     <div className="px-3 py-2">
                       <div className="border-t border-border/70" />
                       <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                        Dis Baglantilar
+                        Dış Bağlantılar
                       </p>
                     </div>
                     {externalAdminNavItems.map((item) => (

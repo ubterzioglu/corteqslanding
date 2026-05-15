@@ -109,6 +109,63 @@ export type Database = {
         };
         Relationships: [];
       };
+      may19_campaign_submissions: {
+        Row: {
+          city: string;
+          consent: boolean;
+          country: string;
+          created_at: string;
+          description: string;
+          email: string;
+          full_name: string;
+          id: string;
+          kind: string;
+          link: string | null;
+          message: string | null;
+          review_notes: string | null;
+          social_handle: string | null;
+          status: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          city: string;
+          consent?: boolean;
+          country: string;
+          created_at?: string;
+          description: string;
+          email: string;
+          full_name: string;
+          id?: string;
+          kind: string;
+          link?: string | null;
+          message?: string | null;
+          review_notes?: string | null;
+          social_handle?: string | null;
+          status?: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          city?: string;
+          consent?: boolean;
+          country?: string;
+          created_at?: string;
+          description?: string;
+          email?: string;
+          full_name?: string;
+          id?: string;
+          kind?: string;
+          link?: string | null;
+          message?: string | null;
+          review_notes?: string | null;
+          social_handle?: string | null;
+          status?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       whatsapp_join_requests: {
         Row: {
           created_at: string;

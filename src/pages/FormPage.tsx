@@ -32,6 +32,7 @@ const FormPage = () => {
   const [consent, setConsent] = useState(false);
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
+  const [referralCode, setReferralCode] = useState(prefilledReferralCode);
   const [referralSource, setReferralSource] = useState("");
   const [referralDetail, setReferralDetail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -86,6 +87,7 @@ const FormPage = () => {
       setConsent(false);
       setPhone("");
       setPhoneError("");
+      setReferralCode(prefilledReferralCode);
       setReferralSource("");
       setReferralDetail("");
       setSelectedCat("");
@@ -276,7 +278,8 @@ const FormPage = () => {
                   placeholder="Admin / davet kodu"
                   maxLength={32}
                   className="uppercase"
-                  value={prefilledReferralCode}
+                  value={referralCode}
+                  onChange={(event) => setReferralCode(event.target.value.toUpperCase())}
                   readOnly={Boolean(prefilledReferralCode)}
                 />
                 {prefilledReferralCode ? (

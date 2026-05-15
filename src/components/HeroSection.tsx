@@ -42,6 +42,18 @@ const HeroSection = () => {
       color: "#ffffff",
       boxShadow: "0 16px 36px rgba(24, 123, 151, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
+    addWhatsapp: {
+      background: "linear-gradient(135deg, #1FAF77 0%, #28C487 52%, #55D6A4 100%)",
+      borderColor: "rgba(23, 148, 101, 0.48)",
+      color: "#ffffff",
+      boxShadow: "0 16px 36px rgba(31, 175, 119, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+    },
+    addContent: {
+      background: "linear-gradient(135deg, #C24163 0%, #DE5B6D 52%, #F08A67 100%)",
+      borderColor: "rgba(194, 65, 99, 0.48)",
+      color: "#ffffff",
+      boxShadow: "0 16px 36px rgba(194, 65, 99, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+    },
     contest: {
       background: "linear-gradient(135deg, #15608C 0%, #0D3759 100%)",
       borderColor: "#15608C",
@@ -91,7 +103,7 @@ const HeroSection = () => {
                   className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/90"
                   aria-hidden
                 />
-                <span className="absolute -right-1 -top-2 rounded-full bg-[#991b1b] px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.18em] text-white shadow-[0_10px_20px_rgba(153,27,27,0.32)]">
+                <span className="absolute right-3 top-3 rounded-full bg-[linear-gradient(135deg,#b91c1c_0%,#991b1b_100%)] px-3 py-1 text-[8px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_20px_rgba(153,27,27,0.28)] sm:text-[8.5px]">
                   Yakında!
                 </span>
                 <span className="relative z-10 text-[0.95rem] font-black tracking-[0.03em] text-[#b91c1c]">
@@ -219,6 +231,42 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">🎥 Vlogger Yarışması →</span>
                   </Link>
+                  <span
+                    aria-disabled="true"
+                    className={`${heroCtaClass} cursor-not-allowed`}
+                    style={heroCardStyles.addWhatsapp}
+                  >
+                    <span
+                      className="pointer-events-none absolute inset-0 opacity-100"
+                      aria-hidden
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
+                      }}
+                    />
+                    <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-0.5 text-[8px] font-black uppercase tracking-[0.16em] text-emerald-700 shadow-sm sm:text-[8.5px]">
+                      Yakında!
+                    </span>
+                    <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
+                  </span>
+                  <span
+                    aria-disabled="true"
+                    className={`${heroCtaClass} cursor-not-allowed`}
+                    style={heroCardStyles.addContent}
+                  >
+                    <span
+                      className="pointer-events-none absolute inset-0 opacity-100"
+                      aria-hidden
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
+                      }}
+                    />
+                    <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2.5 py-0.5 text-[8px] font-black uppercase tracking-[0.16em] text-rose-700 shadow-sm sm:text-[8.5px]">
+                      Yakında!
+                    </span>
+                    <span className="relative z-10">✨ İçerik Ekle!</span>
+                  </span>
                 </div>
               </div>
             </div>

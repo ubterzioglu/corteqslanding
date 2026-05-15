@@ -77,7 +77,7 @@ describe("AdminLayout", () => {
     const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
     fireEvent.mouseEnter(dashboardButton);
 
-    expect(await screen.findByText("Dis Baglantilar")).toBeInTheDocument();
+    expect(await screen.findByText("Dış Bağlantılar")).toBeInTheDocument();
     expect((await screen.findByRole("menuitem", { name: /Engine/i })).closest("a")).toHaveAttribute(
       "href",
       "https://eng.corteqs.net",

@@ -36,13 +36,7 @@ const SOCIAL_FALLBACKS: Partial<Record<SocialPlatform, string>> = {
 };
 
 const socialCircleBaseClass =
-  "group relative flex h-[4.45rem] w-[4.45rem] items-center justify-center rounded-full border border-white/12 bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.045),rgba(255,255,255,0.012)_42%,rgba(0,0,0,0.02)_100%)] text-white/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_8px_18px_rgba(0,0,0,0.18)] transition duration-300 hover:-translate-y-0.5 hover:border-white/22 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/18 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a241d]";
-
-const socialCircleInnerClass =
-  "pointer-events-none absolute inset-[0.28rem] rounded-full border border-white/11 bg-[radial-gradient(circle_at_35%_28%,rgba(255,255,255,0.022),rgba(255,255,255,0.006)_54%,rgba(255,255,255,0)_100%)]";
-
-const socialCircleOuterGlowClass =
-  "pointer-events-none absolute inset-[-0.18rem] rounded-full border border-white/8 opacity-80 transition duration-300 group-hover:border-white/14";
+  "group relative flex h-[3.85rem] min-w-[3.85rem] items-center justify-center rounded-[1.15rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0.03)_100%)] text-white/78 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_10px_24px_rgba(0,0,0,0.22)] backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.05)_100%)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/18 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1a241d]";
 
 const FooterSection = () => {
   const { toast } = useToast();
@@ -207,7 +201,7 @@ const FooterSection = () => {
               <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.24em] text-white/55">
                 Bizi Sosyal Medyada Takip Edin
               </p>
-              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.15rem] bg-[linear-gradient(90deg,rgba(19,35,31,0.95)_0%,rgba(24,33,28,0.96)_42%,rgba(58,54,33,0.9)_100%)] px-3 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02),0_16px_34px_rgba(0,0,0,0.22)] backdrop-blur-xl sm:gap-3.5 sm:px-4 sm:py-2.5">
+              <div className="mx-auto flex max-w-max flex-wrap items-center justify-center gap-3 rounded-[1.4rem] bg-[linear-gradient(90deg,rgba(19,35,31,0.88)_0%,rgba(24,33,28,0.9)_42%,rgba(58,54,33,0.84)_100%)] px-3.5 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_18px_38px_rgba(0,0,0,0.2)] backdrop-blur-xl sm:gap-3.5 sm:px-4.5 sm:py-3">
                 {socialCircleItems.map((item) => {
                   const icon = item.icon(`h-[1.55rem] w-[1.55rem] transition duration-300 ${item.accentClassName}`);
 
@@ -219,10 +213,8 @@ const FooterSection = () => {
                         aria-label={item.label}
                         aria-disabled={!item.onClick}
                         onClick={item.onClick}
-                        className={`${socialCircleBaseClass} ${!item.onClick ? "cursor-default opacity-50 hover:translate-y-0 hover:border-white/12 hover:text-white/75" : ""}`}
+                        className={`${socialCircleBaseClass} ${!item.onClick ? "cursor-default opacity-50 hover:translate-y-0 hover:text-white/78" : ""}`}
                       >
-                        <span className={socialCircleOuterGlowClass} aria-hidden />
-                        <span className={socialCircleInnerClass} aria-hidden />
                         <span className="relative z-10">{icon}</span>
                       </button>
                     );
@@ -237,8 +229,6 @@ const FooterSection = () => {
                       aria-label={item.label}
                       className={socialCircleBaseClass}
                     >
-                      <span className={socialCircleOuterGlowClass} aria-hidden />
-                      <span className={socialCircleInnerClass} aria-hidden />
                       <span className="relative z-10">{icon}</span>
                     </a>
                   );

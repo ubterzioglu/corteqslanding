@@ -25,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import globePinsImage from "@/assets/may19-globe-pins.png";
 import ideasImage from "@/assets/may19-ideas.jpg";
 import momentsImage from "@/assets/may19-moments.jpg";
+import { submitMay19CampaignEntry } from "@/lib/may19-campaign";
 
 type Kind = "map_pin" | "idea" | "moment";
 
@@ -115,7 +116,7 @@ function ModuleVisual({ kind }: { kind: Kind }) {
             <span className="block text-amber-300">19 Fikir</span>
           </h3>
           <p className="mt-2 text-xs leading-6 text-amber-50">
-            Kampanya haftasında ses getirecek fikirleri toplayalım, sonra canlı sistemle yayına alalım.
+            Kampanya haftasında ses getirecek fikirleri simdiden toplayalim; moderasyon sonrasi yayina alalim.
           </p>
         </div>
       </div>
@@ -138,7 +139,7 @@ function ModuleVisual({ kind }: { kind: Kind }) {
           <span className="block text-amber-300">Diaspora Anını Gönder</span>
         </h3>
         <p className="mt-2 text-xs leading-6 text-orange-50">
-          Fotoğrafını, videonu ya da kısa notunu şimdi hazırla; backend bağlandığında doğrudan paylaşabilelim.
+          Fotografini, videonu ya da kisa notunu simdi gonder; moderasyon sonrasi kampanyaya ekleyelim.
         </p>
       </div>
     </div>
@@ -159,7 +160,7 @@ export default function May19CampaignPage() {
     () => [
       { icon: MapPin, label: "5 Kıta" },
       { icon: Calendar, label: "19 Mayıs Bayram Haftası" },
-      { icon: UserPlus, label: "Frontend Demo Fazı" },
+      { icon: UserPlus, label: "Fikir ve Anı Akışı Açık" },
     ],
     [],
   );
@@ -183,6 +184,51 @@ export default function May19CampaignPage() {
         description: "19 Mayıs gönderim altyapısı bir sonraki backend fazında açılacak.",
       });
     }, 250);
+  };
+
+  const handleCampaignSubmit = async (kind: Extract<Kind, "idea" | "moment">) => {
+    const form = forms[kind];
+    setSubmittingKind(kind);
+
+    try {
+      await submitMay19CampaignEntry({
+        kind,
+        fullName: form.fullName,
+        email: form.email,
+        country: form.country,
+        city: form.city,
+        socialHandle: form.socialHandle,
+        title: form.title,
+        description: form.description,
+        message: form.message,
+        link: form.link,
+        consent: form.consent,
+      });
+
+      setForms((current) => ({
+        ...current,
+        [kind]: initialFormState,
+      }));
+
+      toast({
+        title: kind === "idea" ? "Fikrin alindi" : "Anin alindi",
+        description:
+          kind === "idea"
+            ? "19 Mayis fikrin moderasyon listesine eklendi."
+            : "19 Mayis anin moderasyon listesine eklendi.",
+      });
+    } catch (error) {
+      toast({
+        title: "Gonderim tamamlanamadi",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Gonderim sirasinda bir sorun olustu. Lutfen tekrar deneyin.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmittingKind((current) => (current === kind ? null : current));
+    }
   };
 
   const renderForm = (kind: Kind) => {
@@ -328,7 +374,9 @@ export default function May19CampaignPage() {
           <Button
             type="button"
             size="sm"
-            onClick={() => handleDisabledSubmit(kind)}
+            onClick={() =>
+              kind === "map_pin" ? handleDisabledSubmit(kind) : void handleCampaignSubmit(kind)
+            }
             className={
               kind === "map_pin"
                 ? "bg-cyan-600 text-white hover:bg-cyan-700"
@@ -441,11 +489,11 @@ export default function May19CampaignPage() {
                 19 Mayıs Haftası
               </div>
               <h2 className="mt-4 text-2xl font-black sm:text-3xl">
-                Frontend hazır, veri akışı bir sonraki fazda eklenecek.
+                Fikir ve anı gonderimleri aktif, harita fazi sirada.
               </h2>
               <p className="mt-3 text-sm leading-7 text-slate-200">
-                Şu anda kampanya deneyimini görüyor, modülleri inceliyor ve akışın nasıl çalışacağını test ediyoruz.
-                Admin moderasyonu, veritabanı ve canlı yayın bağlantıları ayrı backend fazında açılacak.
+                19 kelimelik fikirlerini ve 19 Mayis anilarini simdi birakabilirsin. Harita pinleri,
+                canli gorsel akisi ve yayin moderasyonu bir sonraki backend asamasinda tamamlanacak.
               </p>
             </div>
 
@@ -464,7 +512,7 @@ export default function May19CampaignPage() {
                 onClick={() =>
                   toast({
                     title: "Backend fazı bekleniyor",
-                    description: "Canlı pinler, yükleme ve kayıt verisi sonraki adımda bağlanacak.",
+                    description: "Harita pinleri ve canli harita verisi sonraki adimda baglanacak.",
                   })
                 }
               >
@@ -487,14 +535,14 @@ export default function May19CampaignPage() {
             <Sparkles className="h-5 w-5 text-amber-500" />
             <h3 className="mt-3 text-lg font-bold text-slate-950">Fikir Havuzu</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Diasporayı güçlendirecek fikirler için arayüz hazır; veri kayıt ve moderasyon sonra açılacak.
+              Diasporayi guclendirecek fikirler simdi kayda dusuyor ve admin moderasyonuna gidiyor.
             </p>
           </div>
           <div className="rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-sm">
             <Heart className="h-5 w-5 text-rose-500" />
             <h3 className="mt-3 text-lg font-bold text-slate-950">Anı Paylaşımı</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Fotoğraf ve video akışı için link tabanlı UX burada hazırlandı; upload/storage sonra eklenecek.
+              Link tabanli ani gonderimleri aktif; gorsel depolama ve yayin akisi sonraki fazda genisleyecek.
             </p>
           </div>
         </section>
