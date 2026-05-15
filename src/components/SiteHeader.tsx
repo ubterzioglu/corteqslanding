@@ -44,7 +44,7 @@ export default function SiteHeader() {
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <Link
             to="/"
-            className="inline-flex w-fit items-center gap-3 rounded-[1.75rem] border border-white/80 bg-white px-4 py-3 shadow-[0_22px_50px_rgba(15,23,42,0.09)] transition-transform duration-200 hover:-translate-y-0.5"
+            className="inline-flex w-fit items-center gap-3 transition-transform duration-200 hover:-translate-y-0.5"
           >
             <div className="flex h-[58px] w-[58px] items-center justify-center rounded-full bg-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ring-1 ring-slate-100">
               <img
@@ -53,7 +53,7 @@ export default function SiteHeader() {
                 className="h-[42px] w-[42px] rounded-full object-cover"
               />
             </div>
-            <div className="pr-2 text-left">
+            <div className="text-left">
               <div className="text-[0.65rem] font-bold uppercase tracking-[0.34em] text-slate-400">
                 CorteQS
               </div>
