@@ -25,13 +25,13 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 mx-auto max-w-2xl px-4 text-center">
-        <div className="relative mb-6 inline-block">
+        <div className="relative mb-3 inline-block">
           <img
             src={maskot}
             alt="CorteQS"
-            className="mx-auto mb-2 h-40 w-auto"
+            className="mx-auto mb-1 h-56 w-auto"
           />
-          <span className="bg-gradient-to-br from-primary to-accent bg-clip-text text-[96px] font-extrabold leading-none text-transparent md:text-[132px]">
+          <span className="bg-gradient-to-br from-primary to-accent bg-clip-text text-[72px] font-extrabold leading-none text-transparent md:text-[104px]">
             404
           </span>
           <div className="absolute -right-4 -top-2 animate-pulse">
@@ -39,43 +39,27 @@ const NotFound = () => {
           </div>
         </div>
 
-        <h1 className="mb-3 text-2xl font-bold text-foreground md:text-3xl">
+        <h1 className="mb-2 text-xl font-bold text-foreground md:text-2xl">
           Bu sayfa <span className="text-accent">kayıp</span> — ama sen
           değilsin!
         </h1>
 
-        <p className="mx-auto mb-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
+        <p className="mx-auto mb-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
           <span className="block">Diaspora ağında yolunu bulamadık gibi görünüyor.</span>
           <span className="block">Ama endişelenme, ana sayfadan haritana ulaşabilirsin.</span>
         </p>
 
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-          {["Berlin", "Londra", "New York", "Paris"].map(
-            (city) => (
-              <span
-                key={city}
-                className="rounded-full border border-border/50 bg-muted/50 px-3 py-1"
-              >
-                {city}
-              </span>
-            )
-          )}
-          <span className="rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-primary">
-            + 50 şehir
-          </span>
-        </div>
-
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             to="/"
-            className="inline-flex w-64 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/90 px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
+            className="inline-flex w-60 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/90 px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
           >
             <Home className="h-4 w-4" />
             Ana Sayfaya Dön
           </Link>
           <Link
             to="/#kaydol"
-            className="inline-flex w-64 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-primary px-8 py-3 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
+            className="inline-flex w-60 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-accent to-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 hover:brightness-105"
           >
             <Globe className="h-4 w-4" />
             Kayıt Ol
@@ -84,7 +68,7 @@ const NotFound = () => {
 
         <Link
           to="/"
-          className="mt-8 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
+          className="mt-6 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
         >
           ← corteqs.net
         </Link>
