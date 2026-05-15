@@ -113,6 +113,24 @@ export default function LinkManager() {
     }
   }, [searchParams])
 
+  const sectionFilter: ResourceSectionFilter = useMemo(() => {
+    if (selectedDepartments.size !== 1) return 'all'
+    return Array.from(selectedDepartments)[0] ?? 'all'
+  }, [selectedDepartments])
+
+  const kindFilter: ResourceKindFilter = useMemo(() => {
+    if (selectedKinds.size !== 1) return 'all'
+    return Array.from(selectedKinds)[0] ?? 'all'
+  }, [selectedKinds])
+
+  function setSectionFilter(nextFilter: ResourceSectionFilter) {
+    setSelectedDepartments(nextFilter === 'all' ? new Set() : new Set([nextFilter]))
+  }
+
+  function setKindFilter(nextFilter: ResourceKindFilter) {
+    setSelectedKinds(nextFilter === 'all' ? new Set() : new Set([nextFilter]))
+  }
+
   const filteredEntries = useMemo(
     () =>
       entries.filter((entry) => {

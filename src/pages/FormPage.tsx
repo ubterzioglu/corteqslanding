@@ -107,12 +107,12 @@ const FormPage = () => {
   if (submitted) {
     return (
       <div className="min-h-screen flex flex-col">
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-60 overflow-hidden sm:h-64 md:h-72">
           <img src={heroNetworkLight} alt="" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
-          <div className="absolute bottom-0 left-0 right-0 p-6 max-w-2xl mx-auto">
+          <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-2xl px-6 pb-8 pt-12 sm:pb-10 md:pt-16">
             <Link to="/">
-              <img src={corteqsLogo} alt="CorteQS Logo" className="mb-3 h-12 w-auto" />
+              <img src={corteqsLogo} alt="CorteQS Logo" className="mb-4 h-14 w-auto sm:h-16" />
             </Link>
           </div>
         </div>
@@ -137,15 +137,15 @@ const FormPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-60 overflow-hidden sm:h-64 md:h-72">
         <img src={heroNetworkLight} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
-        <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-2xl p-6 text-center">
+        <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-2xl px-6 pb-8 pt-12 text-center sm:pb-10 md:pt-16">
           <Link to="/" className="inline-flex justify-center">
-            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-4 h-20 w-auto sm:h-24" />
+            <img src={corteqsLogo} alt="CorteQS Logo" className="mb-5 h-20 w-auto sm:h-24 md:h-28" />
           </Link>
           <h1 className="text-foreground text-2xl font-bold">İlginizi Kaydedin</h1>
-          <p className="text-muted-foreground">
+          <p className="mt-1 text-muted-foreground">
             🚀 Yakında açılıyoruz! İlk erişim için bilgilerinizi bırakın.
           </p>
           <div className="mt-4 flex justify-center">
@@ -159,7 +159,7 @@ const FormPage = () => {
         </div>
       </div>
 
-      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8">
+      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-10 sm:py-12">
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <Label htmlFor="category">Kategori / İlgi Alanı</Label>
