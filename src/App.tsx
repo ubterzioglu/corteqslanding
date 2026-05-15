@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -42,8 +42,16 @@ import LansmanPage from "./pages/LansmanPage.tsx";
 import FoundersPage from "./pages/FoundersPage.tsx";
 import May19CampaignPage from "./pages/May19CampaignPage.tsx";
 import May19MapPage from "./pages/May19MapPage.tsx";
+import AddWhatsAppPage from "./pages/AddWhatsAppPage.tsx";
+import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
 
 const queryClient = new QueryClient();
+
+const WhatsAppGroupDetailRedirect = () => {
+  const { id } = useParams<{ id: string }>();
+
+  return <Navigate to={`/addwa?group=${encodeURIComponent(id ?? "")}`} replace />;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -67,11 +75,14 @@ const App = () => (
               <Route path="/vlogger-yarismasi" element={<VloggerContestPage />} />
               <Route path="/19051919" element={<May19CampaignPage />} />
               <Route path="/19051919/harita" element={<May19MapPage />} />
+              <Route path="/addwa" element={<AddWhatsAppPage />} />
               <Route path="/form" element={<FormPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
+            <Route path="/whatsapp-groups" element={<Navigate to="/addwa" replace />} />
+            <Route path="/whatsapp-groups/:id" element={<WhatsAppGroupDetailRedirect />} />
             <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
             <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />
             <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
@@ -91,6 +102,7 @@ const App = () => (
                 <Route path=":profile" element={<AdminAdvisorLinksPage />} />
               </Route>
               <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
+              <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
               <Route path="about" element={<AdminAboutPage />} />
               <Route path="workspace" element={<AdminWorkspaceHomePage />} />
               <Route path="workspace/command-center" element={<AdminCommandCenterPage />} />

@@ -1,5 +1,5 @@
 import { BookOpen, ExternalLink, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
-import { Megaphone, MonitorPlay, Radio, ScrollText } from "lucide-react";
+import { Megaphone, MessageSquare, MonitorPlay, Radio, ScrollText } from "lucide-react";
 import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 
 export const primaryAdminNavItems = [
@@ -23,6 +23,7 @@ export const otherActionNavItems = [
 
 export const otherRecordNavItems = [
   { to: "/admin/lansman", label: "Lansman Katılım", icon: MonitorPlay },
+  { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları", icon: MessageSquare },
 ] as const;
 
 export const workspaceAdminNavItems = [

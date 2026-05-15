@@ -109,6 +109,108 @@ export type Database = {
         };
         Relationships: [];
       };
+      whatsapp_join_requests: {
+        Row: {
+          created_at: string;
+          email: string;
+          full_name: string;
+          id: string;
+          landing_id: string;
+          note: string | null;
+          phone: string | null;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          email: string;
+          full_name: string;
+          id?: string;
+          landing_id: string;
+          note?: string | null;
+          phone?: string | null;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          email?: string;
+          full_name?: string;
+          id?: string;
+          landing_id?: string;
+          note?: string | null;
+          phone?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      whatsapp_landings: {
+        Row: {
+          admin_contact: string | null;
+          admin_name: string | null;
+          call_to_action_text: string | null;
+          category: string;
+          city: string;
+          conditions: string | null;
+          country: string;
+          created_at: string;
+          description: string | null;
+          group_name: string;
+          hero_image: string | null;
+          id: string;
+          mode: string;
+          rejection_reason: string | null;
+          slug: string;
+          status: string;
+          tagline: string | null;
+          updated_at: string;
+          user_id: string;
+          whatsapp_link: string;
+        };
+        Insert: {
+          admin_contact?: string | null;
+          admin_name?: string | null;
+          call_to_action_text?: string | null;
+          category: string;
+          city: string;
+          conditions?: string | null;
+          country: string;
+          created_at?: string;
+          description?: string | null;
+          group_name: string;
+          hero_image?: string | null;
+          id?: string;
+          mode?: string;
+          rejection_reason?: string | null;
+          slug: string;
+          status?: string;
+          tagline?: string | null;
+          updated_at?: string;
+          user_id: string;
+          whatsapp_link: string;
+        };
+        Update: {
+          admin_contact?: string | null;
+          admin_name?: string | null;
+          call_to_action_text?: string | null;
+          category?: string;
+          city?: string;
+          conditions?: string | null;
+          country?: string;
+          created_at?: string;
+          description?: string | null;
+          group_name?: string;
+          hero_image?: string | null;
+          id?: string;
+          mode?: string;
+          rejection_reason?: string | null;
+          slug?: string;
+          status?: string;
+          tagline?: string | null;
+          updated_at?: string;
+          user_id?: string;
+          whatsapp_link?: string;
+        };
+        Relationships: [];
+      };
       advisor_social_media_links: {
         Row: {
           added_by: "UBT" | "Burak" | "Diğer";
