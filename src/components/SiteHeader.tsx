@@ -7,9 +7,9 @@ const internalNavClass =
 const navLinks = [
   {
     label: "19 Mayıs Etkinlikleri",
-    to: "/19051919",
+    disabledLabel: "Yakında!",
     className:
-      "border-rose-300 bg-[linear-gradient(135deg,#ef4444_0%,#f43f5e_55%,#fb7185_100%)] text-white shadow-[0_14px_32px_rgba(244,63,94,0.28)] hover:-translate-y-0.5 hover:shadow-[0_18px_38px_rgba(244,63,94,0.34)]",
+      "cursor-not-allowed border-slate-200 bg-[linear-gradient(135deg,#ffffff_0%,#f8fafc_100%)] text-slate-500 shadow-[0_14px_32px_rgba(148,163,184,0.16)]",
   },
   {
     label: "Kayıt Ol!",
@@ -44,21 +44,42 @@ export default function SiteHeader() {
         <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
           <Link
             to="/"
-            className="inline-flex w-fit items-center justify-center"
+            className="inline-flex w-fit items-center gap-3 rounded-[1.4rem] border border-white/80 bg-white px-3 py-2 shadow-[0_18px_45px_rgba(15,23,42,0.1)] transition-transform duration-200 hover:-translate-y-0.5"
           >
             <img
               src={logo}
               alt="CorteQS"
-              className="h-14 w-14 rounded-full border border-orange-100 bg-white object-contain p-2 shadow-lg shadow-orange-200/30 hover:shadow-xl hover:shadow-orange-200/40 transition-shadow"
+              className="h-14 w-14 rounded-2xl border border-slate-100 bg-white object-contain p-2 shadow-[0_10px_24px_rgba(15,23,42,0.1)]"
             />
+            <div className="pr-2 text-left">
+              <div className="text-[0.65rem] font-bold uppercase tracking-[0.34em] text-slate-400">
+                CorteQS
+              </div>
+              <div className="text-sm font-black tracking-[0.08em] text-slate-900 sm:text-base">
+                Diaspora Network
+              </div>
+            </div>
           </Link>
 
           <div className="flex flex-wrap items-center gap-2.5">
-            {navLinks.map((item) => (
-              <Link key={item.label} to={item.to} className={`${internalNavClass} ${item.className}`}>
-                {item.label}
-              </Link>
-            ))}
+            {navLinks.map((item) =>
+              "to" in item ? (
+                <Link key={item.label} to={item.to} className={`${internalNavClass} ${item.className}`}>
+                  {item.label}
+                </Link>
+              ) : (
+                <span
+                  key={item.label}
+                  aria-disabled="true"
+                  className={`${internalNavClass} gap-2 ${item.className}`}
+                >
+                  <span>{item.label}</span>
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-black uppercase tracking-[0.14em] text-slate-500">
+                    {item.disabledLabel}
+                  </span>
+                </span>
+              ),
+            )}
             <a
               href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
               target="_blank"
