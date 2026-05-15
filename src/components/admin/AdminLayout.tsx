@@ -96,7 +96,6 @@ const AdminLayout = () => {
   const [otherActionsMenuOpen, setOtherActionsMenuOpen] = useState(false);
   const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
   const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
-  const [externalLinksMenuOpen, setExternalLinksMenuOpen] = useState(false);
   const demoUrl = "https://global-network-bridge.lovable.app/";
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
@@ -344,40 +343,6 @@ const AdminLayout = () => {
                     </NavLink>
                   </div>
                 ))}
-                <div className="flex items-center">
-                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                  <DropdownMenu open={externalLinksMenuOpen} onOpenChange={setExternalLinksMenuOpen}>
-                    <DropdownMenuTrigger asChild>
-                      <div
-                        onMouseEnter={() => setExternalLinksMenuOpen(true)}
-                        onMouseLeave={() => setExternalLinksMenuOpen(false)}
-                      >
-                        <button
-                          type="button"
-                          className={`${linkClass({ isActive: false })} inline-flex items-center gap-1`}
-                        >
-                          Dış Bağlantılar
-                          <ChevronDown className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent
-                      align="start"
-                      className="w-48"
-                      onMouseEnter={() => setExternalLinksMenuOpen(true)}
-                      onMouseLeave={() => setExternalLinksMenuOpen(false)}
-                    >
-                      {externalAdminNavItems.map((item) => (
-                        <DropdownMenuItem key={item.href} asChild>
-                          <a href={item.href} target="_blank" rel="noreferrer" className="flex items-center gap-3">
-                            <item.icon className="h-4 w-4" />
-                            <span>{item.label}</span>
-                          </a>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>
@@ -510,6 +475,20 @@ const AdminLayout = () => {
                           <span>{item.label}</span>
                           {location.pathname === item.to ? <Check className="h-4 w-4 text-primary" /> : null}
                         </Link>
+                      </DropdownMenuItem>
+                    ))}
+                    <div className="px-3 py-2">
+                      <div className="border-t border-border/70" />
+                      <p className="pt-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                        Dis Baglantilar
+                      </p>
+                    </div>
+                    {externalAdminNavItems.map((item) => (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <a href={item.href} target="_blank" rel="noreferrer" className="flex items-center gap-3">
+                          <item.icon className="h-4 w-4" />
+                          <span>{item.label}</span>
+                        </a>
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>

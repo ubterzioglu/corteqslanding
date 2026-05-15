@@ -58,7 +58,7 @@ function renderAdminLayout(pathname: string) {
 }
 
 describe("AdminLayout", () => {
-  it("shows external header links and renders index content on /admin", async () => {
+  it("shows demo link in header and external links inside dashboard menu", async () => {
     renderAdminLayout("/admin");
 
     await waitFor(() => {
@@ -72,7 +72,16 @@ describe("AdminLayout", () => {
     );
     expect(screen.getByRole("link", { name: "Demo" })).toHaveAttribute("target", "_blank");
     expect(screen.getByRole("link", { name: "Üye Takibi" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Dış Bağlantılar" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Dış Bağlantılar" })).not.toBeInTheDocument();
+
+    const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
+    fireEvent.mouseEnter(dashboardButton);
+
+    expect(await screen.findByText("Dis Baglantilar")).toBeInTheDocument();
+    expect((await screen.findByRole("menuitem", { name: /Engine/i })).closest("a")).toHaveAttribute(
+      "href",
+      "https://eng.corteqs.net",
+    );
   });
 
   it("shows global actions on the members page", async () => {

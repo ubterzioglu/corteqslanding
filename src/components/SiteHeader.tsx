@@ -13,7 +13,7 @@ const navLinks = [
   },
   {
     label: "Kayıt Ol!",
-    to: "/19051919#katilim-formu",
+    href: "https://corteqs.net/form",
     className:
       "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#ffedd5_100%)] text-orange-700 shadow-[0_14px_32px_rgba(251,146,60,0.25)] hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_18px_38px_rgba(251,146,60,0.32)]",
   },
@@ -54,11 +54,11 @@ export default function SiteHeader() {
               />
             </div>
             <div className="text-left">
-              <div className="text-[0.65rem] font-bold uppercase tracking-[0.34em] text-slate-400">
+              <div className="bg-[linear-gradient(135deg,#1d4ed8_0%,#0f766e_32%,#f97316_72%,#dc2626_100%)] bg-clip-text text-[0.92rem] font-black tracking-[0.28em] text-transparent sm:text-[1rem]">
                 CorteQS
               </div>
-              <div className="text-sm font-black tracking-[0.08em] text-slate-900 sm:text-[1.05rem]">
-                Diaspora Network
+              <div className="text-sm font-black tracking-[0.02em] text-slate-900 sm:text-[1.02rem]">
+                Global Türk Diaspora Network
               </div>
             </div>
           </Link>
@@ -69,6 +69,10 @@ export default function SiteHeader() {
                 <Link key={item.label} to={item.to} className={`${internalNavClass} ${item.className}`}>
                   {item.label}
                 </Link>
+              ) : "href" in item ? (
+                <a key={item.label} href={item.href} className={`${internalNavClass} ${item.className}`}>
+                  {item.label}
+                </a>
               ) : (
                 <span
                   key={item.label}

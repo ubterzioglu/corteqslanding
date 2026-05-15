@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { FileText, Sparkles } from "lucide-react";
 import ChatWindow from "@/components/chat/ChatWindow";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
@@ -10,7 +11,15 @@ import {
 } from "@/lib/chatConfig";
 import { askRag } from "@/lib/ragApi";
 
-const ChatBot = () => {
+type ChatBotProps = {
+  classicFormMode?: "modal" | "route";
+  classicFormHref?: string;
+};
+
+const ChatBot = ({
+  classicFormMode = "modal",
+  classicFormHref = "/form",
+}: ChatBotProps) => {
   const {
     state,
     sendMessage,
@@ -133,6 +142,25 @@ const ChatBot = () => {
     selectQuickReply(value);
   };
 
+  const classicFormButton = classicFormMode === "route" ? (
+    <Link
+      to={classicFormHref}
+      className="inline-flex items-center gap-2 rounded-xl border-2 border-primary/30 bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5"
+    >
+      <FileText className="h-4 w-4 text-primary" />
+      Ben Form Dolduracağım
+    </Link>
+  ) : (
+    <button
+      type="button"
+      onClick={() => setClassicFormOpen(true)}
+      className="inline-flex items-center gap-2 rounded-xl border-2 border-primary/30 bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5"
+    >
+      <FileText className="h-4 w-4 text-primary" />
+      Ben Form Dolduracağım
+    </button>
+  );
+
   return (
     <section
       id="kaydol"
@@ -169,14 +197,7 @@ const ChatBot = () => {
             <span className="text-sm text-muted-foreground">
               Sohbet yerine klasik form mu istiyorsun?
             </span>
-            <button
-              type="button"
-              onClick={() => setClassicFormOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl border-2 border-primary/30 bg-card px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-primary hover:bg-primary/5"
-            >
-              <FileText className="h-4 w-4 text-primary" />
-              Ben Form Dolduracağım
-            </button>
+            {classicFormButton}
           </div>
         </div>
 
@@ -200,14 +221,16 @@ const ChatBot = () => {
         />
       </div>
 
-      <RegisterInterestForm
-        open={classicFormOpen}
-        onOpenChange={(open) => {
-          setClassicFormOpen(open);
-          if (!open) setPresetCity(undefined);
-        }}
-        defaultCity={presetCity}
-      />
+      {classicFormMode === "modal" ? (
+        <RegisterInterestForm
+          open={classicFormOpen}
+          onOpenChange={(open) => {
+            setClassicFormOpen(open);
+            if (!open) setPresetCity(undefined);
+          }}
+          defaultCity={presetCity}
+        />
+      ) : null}
     </section>
   );
 };

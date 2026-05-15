@@ -44,6 +44,7 @@ import May19CampaignPage from "./pages/May19CampaignPage.tsx";
 import May19MapPage from "./pages/May19MapPage.tsx";
 import AddWhatsAppPage from "./pages/AddWhatsAppPage.tsx";
 import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
+import AIFormPage from "./pages/AIFormPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +77,7 @@ const App = () => (
               <Route path="/19051919" element={<May19CampaignPage />} />
               <Route path="/19051919/harita" element={<May19MapPage />} />
               <Route path="/addwa" element={<AddWhatsAppPage />} />
+              <Route path="/aiform" element={<AIFormPage />} />
               <Route path="/form" element={<FormPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />

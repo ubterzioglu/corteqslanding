@@ -146,6 +146,14 @@ const FormPage = () => {
           <p className="text-muted-foreground">
             🚀 Yakında açılıyoruz! İlk erişim için bilgilerinizi bırakın.
           </p>
+          <div className="mt-4">
+            <Link
+              to="/aiform"
+              className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-background/85 px-4 py-2.5 text-sm font-semibold text-primary shadow-sm transition-all hover:border-primary hover:bg-primary/5"
+            >
+              Yapay Zeka Destekli Asistan ile kaydol
+            </Link>
+          </div>
         </div>
       </div>
 
