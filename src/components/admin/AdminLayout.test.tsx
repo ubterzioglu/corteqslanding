@@ -77,7 +77,8 @@ describe("AdminLayout", () => {
     const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
     fireEvent.mouseEnter(dashboardButton);
 
-    expect(await screen.findByText("Dış Bağlantılar")).toBeInTheDocument();
+    const externalLinksSubTrigger = await screen.findByText("Dış Bağlantılar");
+    fireEvent.click(externalLinksSubTrigger);
     expect((await screen.findByRole("menuitem", { name: /Engine/i })).closest("a")).toHaveAttribute(
       "href",
       "https://eng.corteqs.net",
@@ -98,7 +99,8 @@ describe("AdminLayout", () => {
     const otherRecordsButton = screen.getByRole("button", { name: /Diğer Kayıtlar/i });
     fireEvent.mouseEnter(otherRecordsButton);
 
-    expect(await screen.findByText("19 Mayıs")).toBeInTheDocument();
+    const may19SubTrigger = await screen.findByText("19 Mayıs");
+    fireEvent.click(may19SubTrigger);
     expect(await screen.findByRole("menuitem", { name: /19 Mayıs Kelime/i })).toBeInTheDocument();
     expect(await screen.findByRole("menuitem", { name: /19 Mayıs Anı/i })).toBeInTheDocument();
   });
@@ -135,7 +137,9 @@ describe("AdminLayout", () => {
       "href",
       "/admin/workspace/command-center",
     );
-    expect(await screen.findByText("Kortex — CTO, Pitch & PRD Dokumanlari")).toBeInTheDocument();
-    expect(await screen.findByText("Proje Takibi Sablonu")).toBeInTheDocument();
+    const docsSubTrigger = await screen.findByText("Diğer Dokümanlar");
+    fireEvent.click(docsSubTrigger);
+    expect(await screen.findByText(/Kortex .* CTO, Pitch & PRD/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Proje Takibi/i)).toBeInTheDocument();
   });
 });
