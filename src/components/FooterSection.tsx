@@ -164,7 +164,11 @@ const FooterSection = () => {
       >
         <source src="/videos/footer-community.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(9,36,38,0.88),rgba(12,24,31,0.72),rgba(0,0,0,0.82))]" aria-hidden />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(14,46,50,0.68),rgba(17,34,44,0.54),rgba(8,12,18,0.62))]" aria-hidden />
+      <div
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.06)_45%,rgba(255,255,255,0.02)_100%)]"
+        aria-hidden
+      />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,hsl(var(--primary)/0.34),transparent_32%),radial-gradient(circle_at_82%_70%,hsl(var(--accent)/0.28),transparent_34%)]" aria-hidden />
 
       <div className="container relative z-10 mx-auto px-4">
