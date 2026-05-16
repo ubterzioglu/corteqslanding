@@ -1,13 +1,13 @@
 import { ExternalLink, Lightbulb, Camera, Globe } from "lucide-react";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
 import heroLandmarks from "../../denemeremake.png";
-import may19HeaderBg from "../../1905.png";
+import may19HeaderBg from "../../newbg.png";
 import may19PoeticLayer from "../../last.png";
 
 const moduleCards = [
   {
     id: "module-1",
-    title: "1. Dünya Üzerinde Yerini İşaretle",
+    title: "Dünya Üzerinde Yerini İşaretle",
     description:
       "Global diaspora haritasında yerini aç, şehrini görünür yap ve topluluğa katıl.",
     href: "https://globe.corteqs.net",
@@ -17,7 +17,7 @@ const moduleCards = [
   },
   {
     id: "module-2",
-    title: "2. 19 Kelimelik Fikrini Gönder",
+    title: "19 Kelimelik Fikrini Gönder",
     description:
       "Diasporayı güçlendirecek kısa fikrini paylaş; ekip hızlıca değerlendirip akışa alır.",
     href: "/190519idea",
@@ -27,7 +27,7 @@ const moduleCards = [
   },
   {
     id: "module-3",
-    title: "3. 19 Mayıs Anını Paylaş",
+    title: "19 Mayıs Anını Paylaş",
     description:
       "19 Mayıs’a dair anını veya kısa notunu ilet; seçilen içerikler global yayına hazırlanır.",
     href: "/190519memory",
@@ -42,7 +42,7 @@ export default function May19CampaignPage() {
     <May19CampaignShell
       eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Coşkusunu Birlikte Yaşayalım!"
-      description={`19 Mayıs heyecanını tüm dünyadaki Türk diaspora topluluğumuzla birlikte yaşıyoruz. Yaşadığın yeri dünya haritasında işaretle, diasporamızı güçlendirecek fikrini paylaş ve 19 Mayıs anını CorteQS global ağında görünür kıl.\n\n19 Mayıs heyecanını tüm dünyadaki topluluklarımızla birlikte yaşıyoruz. Yaşadığın yeri Dünya haritasında işaretle, Diasporamızı güçlendirecek fikrini yaz ve bugüne ait fotoğraflarını sosyal medyamızda paylaş.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
+      description={`19 Mayıs ruhunu global Türk diasporasının dört bir yanına birlikte taşıyoruz. ❤️🌍\n\n19 Mayıs coşkusunu dünyanın dört bir yanındaki diaspora topluluğumuzla birlikte büyütüyoruz. 🌍🇹🇷\n\nGlobal haritada yerini işaretle, diasporayı güçlendirecek 19 fikrinden birini paylaş ve 19 Mayıs anını CorteQS global ağında ve kanallarında görünür kıl.\n\n1. Dünya üzerindeki yerini işaretleyerek diaspora haritasında görünür ol.\n2. 19 kelimelik fikrini paylaşarak topluluğa yeni bir katkı sun.\n3. 19 Mayıs anını göndererek bayram coşkusunu birlikte büyüt.`}
       headerBgImageSrc={may19HeaderBg}
       headerPoeticImageSrc={may19PoeticLayer}
       heroImageSrc={heroLandmarks}
@@ -61,7 +61,7 @@ export default function May19CampaignPage() {
                     <h2 className="text-lg font-bold text-slate-900">{item.title}</h2>
                     <p className="mt-1 text-sm leading-7 text-slate-600">{item.description}</p>
                     <p className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
-                      Modüle git
+                      Hadi katıl!
                       <ExternalLink className="h-4 w-4" />
                     </p>
                   </div>
