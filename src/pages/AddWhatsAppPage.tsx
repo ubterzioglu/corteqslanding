@@ -7,7 +7,6 @@ import {
   GraduationCap,
   HandHeart,
   Heart,
-  Layout,
   MapPin,
   MessageSquare,
   PlusCircle,
@@ -609,29 +608,64 @@ export default function AddWhatsAppPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdfa_0%,#fff7f1_100%)]">
-      <main className="container mx-auto px-4 pb-16 pt-10">
-        <section className="relative overflow-hidden rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#f8fafc_45%,#fff7ed_100%)] p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] md:p-10">
-          <Badge className="mb-4 border-0 bg-emerald-500/15 text-emerald-700">
-            <MessageSquare className="mr-1 h-3 w-3" />
-            WhatsApp Diaspora Agi
-          </Badge>
-          <h1 className="max-w-4xl text-3xl font-black leading-tight text-foreground md:text-5xl">
-            Diasporanin WhatsApp Gruplarini
-            <span className="block text-emerald-600">tek cati altinda bul ve paylas</span>
-          </h1>
-          <p className="mt-4 max-w-3xl text-base text-muted-foreground md:text-lg">
-            Alumni, doktor, hobi ve is gruplarini sehir bazinda kesfet. Istersen kendi grubunu ekle,
-            landing sayfasi olustur ve /addwa altinda paylas.
+    <div className="min-h-screen bg-[linear-gradient(180deg,#fffdfa_0%,#f9fafb_100%)]">
+      <main className="container mx-auto px-4 pb-16 pt-6">
+        <section className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h1 className="flex items-center gap-2 text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
+              <MessageSquare className="h-7 w-7 text-emerald-500" />
+              Mesajlaşma Grupları
+            </h1>
+            <p className="mt-2 text-sm text-slate-600 md:text-base">
+              Diasporanın WhatsApp ve Telegram gruplarını ülke ve şehir bazında filtrele.
+            </p>
+          </div>
+          <div className="grid w-full gap-2 sm:max-w-sm">
+            <select
+              value={countryFilter}
+              onChange={(event) => setCountryFilter(event.target.value)}
+              className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+            >
+              <option value="all">🌍 Tüm Ülkeler</option>
+              {countryOptions.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+            <select
+              value={cityFilter}
+              onChange={(event) => setCityFilter(event.target.value)}
+              className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+            >
+              <option value="all">📍 Tüm Şehirler</option>
+              {cityOptions.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden rounded-[1.5rem] border border-cyan-100 bg-[linear-gradient(120deg,#e8f6f4_0%,#f5f8fb_100%)] p-6 shadow-[0_18px_56px_rgba(15,23,42,0.08)] md:p-10">
+          <div className="mb-4 flex flex-wrap justify-center gap-2">
+            <Badge className="border-0 bg-emerald-100 text-emerald-700">WhatsApp</Badge>
+            <Badge className="border-0 bg-sky-100 text-sky-700">Telegram</Badge>
+            <Badge className="border-0 bg-orange-100 text-orange-700">Diaspora Ağı</Badge>
+          </div>
+          <h2 className="mx-auto max-w-5xl text-center text-3xl font-black leading-tight text-slate-900 md:text-5xl">
+            Diasporanın WhatsApp & Telegram Gruplarını
+            <span className="text-orange-500"> Tek Çatı Altında Bul</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-4xl text-center text-base leading-8 text-slate-600 md:text-2xl">
+            Alumni, doktor, hobi ve iş gruplarına saniyeler içinde katıl ya da kendi
+            WhatsApp/Telegram grubun için ücretsiz bir landing sayfası yayınla.
           </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Badge className="border border-emerald-200 bg-white text-emerald-700">
+          <div className="mt-6 flex justify-center">
+            <Badge className="border-0 bg-emerald-100 px-4 py-1.5 text-emerald-700">
               <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
-              Listeleme ve landing basvurusu ucretsiz
-            </Badge>
-            <Badge className="border border-slate-200 bg-white text-slate-700">
-              <Layout className="mr-1.5 h-3.5 w-3.5" />
-              Canonical route: /addwa
+              Grup listeleme ve landing page tamamen ücretsiz
             </Badge>
           </div>
         </section>
@@ -872,13 +906,31 @@ export default function AddWhatsAppPage() {
           </Dialog>
         </div>
 
+        <section className="relative mt-8 rounded-[1.5rem] border border-slate-200 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.12),transparent_46%),#ffffff] p-8 text-center shadow-[0_16px_48px_rgba(15,23,42,0.06)]">
+          <div className="mx-auto max-w-md rounded-3xl border border-dashed border-emerald-300 bg-white/90 p-7">
+            <PlusCircle className="mx-auto h-10 w-10 text-emerald-500" />
+            <h3 className="mt-3 text-2xl font-bold text-slate-900">Grubunuzu ekleyin</h3>
+            <p className="mt-2 text-sm text-slate-600">
+              Alumni, Doktor, Hobi ve daha fazlası. Kendi grubunu ücretsiz listele.
+            </p>
+            <Button
+              type="button"
+              className="mt-5 rounded-full bg-emerald-500 px-6 text-white hover:bg-emerald-600"
+              onClick={() => setDialogOpen(true)}
+            >
+              <PlusCircle className="mr-1.5 h-4 w-4" />
+              Grubunu Listele
+            </Button>
+          </div>
+        </section>
+
         <section className="mt-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-foreground">Kesfet</h2>
-              <p className="text-sm text-muted-foreground">Ulke, sehir ve anahtar kelime ile gruplari filtrele.</p>
+              <h2 className="text-3xl font-bold text-slate-900">Yayında Olan Gruplar</h2>
+              <p className="text-sm text-slate-600">Grup adı, kategori, şehir veya ülke ile arama yap.</p>
             </div>
-            <div className="grid w-full gap-3 sm:grid-cols-3 lg:max-w-4xl">
+            <div className="grid w-full gap-3 lg:max-w-md">
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -888,30 +940,6 @@ export default function AddWhatsAppPage() {
                   placeholder="Grup, sehir veya aciklama ara"
                 />
               </div>
-              <select
-                value={countryFilter}
-                onChange={(event) => setCountryFilter(event.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              >
-                <option value="all">Tum ulkeler</option>
-                {countryOptions.map((country) => (
-                  <option key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
-              </select>
-              <select
-                value={cityFilter}
-                onChange={(event) => setCityFilter(event.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              >
-                <option value="all">Tum sehirler</option>
-                {cityOptions.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
 
