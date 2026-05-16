@@ -43,11 +43,11 @@ export function validateFile(
   const ext = file.name.split(".").pop()?.toLowerCase();
 
   if (!ext || !allowed.has(ext)) {
-    return `Gecersiz dosya uzantisi. Izin verilen: ${Array.from(allowed).join(", ")}`;
+    return `Geçersiz dosya uzantısı. İzin verilen: ${Array.from(allowed).join(", ")}`;
   }
   if (file.size > maxSize) {
     const maxMB = Math.round(maxSize / (1024 * 1024));
-    return `Dosya boyutu ${maxMB}MB sinirini asiyor.`;
+    return `Dosya boyutu ${maxMB}MB sınırını aşıyor.`;
   }
   return null;
 }
@@ -65,26 +65,26 @@ export function validateArgeFile(file: File): string | null {
 
 export function validateTitle(value: string): string | null {
   if (value.length > MAX_TITLE_LENGTH) {
-    return `Baslik ${MAX_TITLE_LENGTH} karakterden uzun olamaz.`;
+    return `Başlık ${MAX_TITLE_LENGTH} karakterden uzun olamaz.`;
   }
   return null;
 }
 
 export function validateContent(value: string): string | null {
   if (value.length > MAX_CONTENT_LENGTH) {
-    return `Icerik ${MAX_CONTENT_LENGTH} karakterden uzun olamaz.`;
+    return `İçerik ${MAX_CONTENT_LENGTH} karakterden uzun olamaz.`;
   }
   return null;
 }
 
 const SUPABASE_ERROR_MAP: Record<string, string> = {
-  "duplicate key value violates unique constraint": "Bu kayit zaten mevcut.",
-  "violates row-level security policy": "Bu islem icin yetkiniz yok.",
-  "violates check constraint": "Girilen degerler gecersiz.",
-  "value too long": "Girilen metin cok uzun.",
-  "new row violates row-level security": "Bu islem icin yetkiniz yok.",
-  "could not find": "Kayit bulunamadi.",
-  "jwt expired": "Oturumunuz sona erdi. Lutfen tekrar giris yapin.",
+  "duplicate key value violates unique constraint": "Bu kayıt zaten mevcut.",
+  "violates row-level security policy": "Bu işlem için yetkiniz yok.",
+  "violates check constraint": "Girilen değerler geçersiz.",
+  "value too long": "Girilen metin çok uzun.",
+  "new row violates row-level security": "Bu işlem için yetkiniz yok.",
+  "could not find": "Kayıt bulunamadı.",
+  "jwt expired": "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
 };
 
 export function sanitizeError(error: unknown, fallbackMessage: string): string {

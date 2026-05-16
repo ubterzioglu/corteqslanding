@@ -150,10 +150,10 @@ export async function updateReferralCodeEditableFields(params: {
   const fromDate = new Date(params.valid_from);
   const untilDate = new Date(params.valid_until);
   if (Number.isNaN(fromDate.getTime()) || Number.isNaN(untilDate.getTime())) {
-    throw new Error("Gecerlilik tarihleri gecersiz.");
+    throw new Error("Geçerlilik tarihleri geçersiz.");
   }
   if (untilDate < fromDate) {
-    throw new Error("Bitis tarihi baslangic tarihinden once olamaz.");
+    throw new Error("Bitiş tarihi başlangıç tarihinden önce olamaz.");
   }
 
   const payload = {
@@ -201,7 +201,7 @@ export async function deleteReferralCodeHard(id: string): Promise<void> {
   if (usageCountResult.error) throw usageCountResult.error;
 
   if ((submissionCountResult.count ?? 0) > 0 || (usageCountResult.count ?? 0) > 0) {
-    throw new Error("Kullanilmis referral kodu hard delete edilemez.");
+    throw new Error("Kullanılmış referral kodu hard delete edilemez.");
   }
 
   const { error } = await supabase.from("referral_codes").delete().eq("id", id);

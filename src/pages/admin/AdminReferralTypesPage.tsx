@@ -73,10 +73,10 @@ const AdminReferralTypesPage = () => {
       const updated = await updateReferralType({ id, name: nextName });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       setDraftNames((current) => ({ ...current, [id]: updated.name }));
-      toast({ title: "Type guncellendi" });
+      toast({ title: "Type güncellendi" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Guncellenemedi";
-      toast({ title: "Type guncellenemedi", description: message, variant: "destructive" });
+      const message = error instanceof Error ? error.message : "Güncellenemedi";
+      toast({ title: "Type güncellenemedi", description: message, variant: "destructive" });
     }
   };
 
@@ -108,7 +108,7 @@ const AdminReferralTypesPage = () => {
                 <TableHead>Code</TableHead>
                 <TableHead>Durum</TableHead>
                 <TableHead>Tarih</TableHead>
-                <TableHead>Islem</TableHead>
+                <TableHead>İşlem</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

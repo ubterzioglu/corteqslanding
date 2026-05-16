@@ -26,7 +26,7 @@ const AdminReferralGroupsPage = () => {
       setDraftNames(Object.fromEntries(data.map((item) => [item.id, item.name])));
     } catch (error) {
       const message = error instanceof Error ? error.message : "Bilinmeyen hata";
-      toast({ title: "Group listesi yuklenemedi", description: message, variant: "destructive" });
+      toast({ title: "Group listesi yüklenemedi", description: message, variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -61,8 +61,8 @@ const AdminReferralGroupsPage = () => {
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       toast({ title: "Group silindi" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Guncellenemedi";
-      toast({ title: "Group guncellenemedi", description: message, variant: "destructive" });
+      const message = error instanceof Error ? error.message : "Güncellenemedi";
+      toast({ title: "Group güncellenemedi", description: message, variant: "destructive" });
     }
   };
 
@@ -73,10 +73,10 @@ const AdminReferralGroupsPage = () => {
       const updated = await updateReferralGroup({ id, name: nextName });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       setDraftNames((current) => ({ ...current, [id]: updated.name }));
-      toast({ title: "Group guncellendi" });
+      toast({ title: "Group güncellendi" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Guncellenemedi";
-      toast({ title: "Group guncellenemedi", description: message, variant: "destructive" });
+      const message = error instanceof Error ? error.message : "Güncellenemedi";
+      toast({ title: "Group güncellenemedi", description: message, variant: "destructive" });
     }
   };
 
@@ -85,10 +85,10 @@ const AdminReferralGroupsPage = () => {
       <Card>
         <CardHeader>
           <CardTitle>Group Management</CardTitle>
-          <CardDescription>Code alani 2 harf, uppercase ve immutable kabul edilir.</CardDescription>
+          <CardDescription>Code alanı 2 harf, uppercase ve immutable kabul edilir.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-[2fr_1fr_auto]">
-          <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Group adi" />
+          <Input value={name} onChange={(event) => setName(event.target.value)} placeholder="Group adı" />
           <Input value={code} onChange={(event) => setCode(event.target.value.toUpperCase())} placeholder="Code (OK)" maxLength={2} />
           <Button onClick={() => void handleCreate()} disabled={submitting || !name || !code}>
             {submitting ? "Ekleniyor..." : "Group Ekle"}
@@ -98,7 +98,7 @@ const AdminReferralGroupsPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Mevcut Group Kayitlari</CardTitle>
+          <CardTitle>Mevcut Group Kayıtları</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -108,14 +108,14 @@ const AdminReferralGroupsPage = () => {
                 <TableHead>Code</TableHead>
                 <TableHead>Durum</TableHead>
                 <TableHead>Tarih</TableHead>
-                <TableHead>Islem</TableHead>
+                <TableHead>İşlem</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
-                <TableRow><TableCell colSpan={5}>Yukleniyor...</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Yükleniyor...</TableCell></TableRow>
               ) : items.length === 0 ? (
-                <TableRow><TableCell colSpan={5}>Kayit yok.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={5}>Kayıt yok.</TableCell></TableRow>
               ) : (
                 items.map((item) => (
                   <TableRow key={item.id}>

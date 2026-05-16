@@ -6,7 +6,6 @@ import CategoriesSection from "@/components/CategoriesSection";
 import ChatBot from "@/components/chat/ChatBot";
 import FAQSection from "@/components/FAQSection";
 import CitiesSection from "@/components/CitiesSection";
-import FooterSection from "@/components/FooterSection";
 import SEOContentSection from "@/components/SEOContentSection";
 
 const Index = () => {
@@ -29,7 +28,6 @@ const Index = () => {
         <CitiesSection />
         <ChatBot />
       </main>
-      <FooterSection />
     </div>
   );
 };

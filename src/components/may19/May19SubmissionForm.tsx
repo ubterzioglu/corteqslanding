@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
+import { Loader2, Paperclip } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -44,6 +44,7 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
   const [form, setForm] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const update = <K extends keyof FormState>(field: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -77,7 +78,7 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
       setForm(initialFormState);
       setSelectedFile(null);
       toast({
-        title: kind === "idea" ? "Fikrin alindi" : "Anin alindi",
+        title: kind === "idea" ? "Fikrin alındı" : "Anın alındı",
         description:
           kind === "idea"
             ? "19 Mayıs fikrin moderasyon listesine eklendi."
@@ -85,11 +86,11 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
       });
     } catch (error) {
       toast({
-        title: "Gonderim tamamlanamadi",
+        title: "Gönderim tamamlanamadı",
         description:
           error instanceof Error
             ? error.message
-            : "Gonderim sirasinda bir sorun olustu. Lutfen tekrar deneyin.",
+            : "Gönderim sırasında bir sorun oluştu. Lütfen tekrar deneyin.",
         variant: "destructive",
       });
     } finally {
@@ -137,16 +138,28 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
             {kind === "idea" ? "Dosya (opsiyonel)" : "Foto/Video (opsiyonel)"}
           </Label>
-          <Input
+          <input
+            ref={fileInputRef}
             type="file"
             accept={kind === "idea" ? ".pdf,image/*,video/mp4" : "image/*,video/mp4,video/quicktime"}
-            className={inputClass}
+            className="hidden"
             onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
           />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            className="inline-flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50"
+          >
+            <Paperclip className="h-4 w-4 text-slate-500" />
+            Dosya Seç
+          </button>
+          <p className="mt-2 text-xs text-slate-600">
+            {selectedFile ? `Seçilen dosya: ${selectedFile.name}` : "Henüz dosya seçilmedi."}
+          </p>
           <p className="mt-1 text-xs text-slate-500">
             {kind === "idea"
-              ? "19051919_fikir bucket'a yuklenir (max 5 MB)."
-              : "19051919_memory bucket'a yuklenir (max 15 MB)."}
+              ? "19051919_fikir bucket'a yüklenir (max 5 MB)."
+              : "19051919_memory bucket'a yüklenir (max 15 MB)."}
           </p>
         </div>
 

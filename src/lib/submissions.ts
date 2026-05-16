@@ -384,7 +384,7 @@ export function getReferralValidationMessage(status: ReferralValidationStatus) {
   if (status === "expired") return "Referral kodunun suresi dolmus.";
   if (status === "out_of_window") return "Referral kodu bu tarihte kullanilamaz.";
   if (status === "missing") return "Referral kodu bos birakilamaz.";
-  return "Referral kodu gecersiz.";
+  return "Referral kodu geçersiz.";
 }
 
 export async function validateReferralCodeBeforeSubmit(referralCode: string | null | undefined) {

@@ -1,5 +1,4 @@
 import { ArrowRight, FileText } from "lucide-react";
-import FooterSection from "@/components/FooterSection";
 import { publicCommercialDocuments } from "@/lib/commercial-documents";
 
 const CommercialIndexPage = () => {
@@ -63,7 +62,6 @@ const CommercialIndexPage = () => {
         </div>
       </main>
 
-      <FooterSection />
     </div>
   );
 };

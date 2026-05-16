@@ -15,7 +15,6 @@ import {
   Globe2,
 } from "lucide-react";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
-import FooterSection from "@/components/FooterSection";
 import magicBallHero from "@/assets/corteqs-magic-ball-hero.jpg";
 
 const themes = [
@@ -354,8 +353,6 @@ const VloggerContestPage = () => {
           </div>
         </div>
       </section>
-
-      <FooterSection />
 
       <RegisterInterestForm
         open={formOpen}

@@ -50,7 +50,7 @@ const categoryMeta: Record<
   },
   doktor: {
     icon: Stethoscope,
-    label: "Doktor / Saglik",
+    label: "Doktor / Sağlık",
     chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
   },
   hobi: {
@@ -65,12 +65,12 @@ const categoryMeta: Record<
   },
   yatirim: {
     icon: TrendingUp,
-    label: "Yatirim & Girisim",
+    label: "Yatırım & Girişim",
     chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
   },
   girisim: {
     icon: TrendingUp,
-    label: "Yatirim & Girisim",
+    label: "Yatırım & Girişim",
     chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
   },
   akademik: {
@@ -80,7 +80,7 @@ const categoryMeta: Record<
   },
   dayanisma: {
     icon: HandHeart,
-    label: "Dayanisma",
+    label: "Dayanışma",
     chipClass: "border-rose-500/20 bg-rose-500/10 text-rose-700",
   },
   diger: {
@@ -260,8 +260,8 @@ export default function AddWhatsAppPage() {
     if (user) return true;
 
     toast({
-      title: "Giris gerekli",
-      description: "Mevcut giris ekrani yeni sekmede aciliyor. Giris yaptiktan sonra bu sekmeye geri donebilirsin.",
+      title: "Giriş gerekli",
+      description: "Mevcut giriş ekranı yeni sekmede açılıyor. Giriş yaptıktan sonra bu sekmeye geri dönebilirsin.",
     });
     window.open("/admin", "_blank", "noopener");
     return false;
@@ -275,7 +275,7 @@ export default function AddWhatsAppPage() {
     if (!groupForm.groupName.trim() || !groupForm.country.trim() || !groupForm.city.trim() || !groupForm.whatsappLink.trim()) {
       toast({
         title: "Eksik alan",
-        description: "Grup adi, ulke, sehir ve WhatsApp linki zorunludur.",
+        description: "Grup adı, ülke, şehir ve WhatsApp linki zorunludur.",
         variant: "destructive",
       });
       return;
@@ -293,7 +293,7 @@ export default function AddWhatsAppPage() {
     if (!groupForm.consent) {
       toast({
         title: "Onay gerekli",
-        description: "Basvuru icin KVKK/GDPR onay kutusunu isaretleyin.",
+        description: "Başvuru için KVKK/GDPR onay kutusunu işaretleyin.",
         variant: "destructive",
       });
       return;
@@ -323,17 +323,17 @@ export default function AddWhatsAppPage() {
       });
 
       toast({
-        title: "Basvurun alindi",
+        title: "Başvurun alındı",
         description: groupForm.createLanding
           ? "Landing sayfan admin onayindan sonra /addwa altinda gorunecek."
-          : "Grubun onay sonrasi listede yayinlanacak.",
+          : "Grubun onay sonrası listede yayınlanacak.",
       });
 
       setDialogOpen(false);
       resetGroupForm();
     } catch (error) {
       toast({
-        title: "Gonderilemedi",
+        title: "Gönderilemedi",
         description: error instanceof Error ? error.message : "Beklenmeyen hata",
         variant: "destructive",
       });
@@ -426,13 +426,13 @@ export default function AddWhatsAppPage() {
         <main className="container mx-auto max-w-5xl px-4 pb-16 pt-10">
           {loadingLanding ? (
             <div className="rounded-3xl border border-border bg-card p-10 text-center text-muted-foreground">
-              Landing yukleniyor...
+              Landing yükleniyor...
             </div>
           ) : !selectedLanding ? (
             <div className="rounded-3xl border border-border bg-card p-10 text-center">
-              <h1 className="text-2xl font-bold text-foreground">Landing sayfasi bulunamadi</h1>
+              <h1 className="text-2xl font-bold text-foreground">Landing sayfası bulunamadı</h1>
               <p className="mt-3 text-muted-foreground">
-                Bu slug icin yayinlanmis bir grup sayfasi yok veya henuz onaylanmamis olabilir.
+                Bu slug için yayınlanmış bir grup sayfası yok veya henüz onaylanmamış olabilir.
               </p>
               <Button className="mt-6" variant="outline" onClick={backToList}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
@@ -521,7 +521,7 @@ export default function AddWhatsAppPage() {
                               id="join-full-name"
                               value={joinForm.fullName}
                               onChange={(event) => updateJoinForm("fullName", event.target.value)}
-                              placeholder="Adiniz Soyadiniz"
+                              placeholder="Adınız Soyadınız"
                             />
                           </div>
                           <div className="space-y-1.5">
@@ -559,7 +559,7 @@ export default function AddWhatsAppPage() {
                             onClick={() => void handleJoinSubmit()}
                             disabled={submittingJoin}
                           >
-                            {submittingJoin ? "Gonderiliyor..." : "Talebi Gonder"}
+                            {submittingJoin ? "Gönderiliyor..." : "Talebi Gönder"}
                           </Button>
                         </div>
                       </DialogContent>
@@ -676,7 +676,7 @@ export default function AddWhatsAppPage() {
             <div>
               <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfasi da ac</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Ornek kartlar demo olarak gorunebilir. Gercek basvurular admin onayindan sonra listelenir.
+                Örnek kartlar demo olarak görünebilir. Gerçek başvurular admin onayından sonra listelenir.
               </p>
             </div>
           </div>
@@ -685,7 +685,7 @@ export default function AddWhatsAppPage() {
             <DialogTrigger asChild>
               <Button size="lg" className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
                 <PlusCircle className="h-4 w-4" />
-                Grubunu Listele + Landing Page Olustur
+                Grubunu Listele + Landing Page Oluştur
               </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
@@ -702,7 +702,7 @@ export default function AddWhatsAppPage() {
                       id="group-name"
                       value={groupForm.groupName}
                       onChange={(event) => updateGroupForm("groupName", event.target.value)}
-                      placeholder="Orn: Berlin Turk Girisimciler"
+                      placeholder="Örn: Berlin Türk Girişimciler"
                     />
                   </div>
 
@@ -716,12 +716,12 @@ export default function AddWhatsAppPage() {
                         className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                       >
                         <option value="alumni">Alumni</option>
-                        <option value="doktor">Doktor / Saglik</option>
+                        <option value="doktor">Doktor / Sağlık</option>
                         <option value="hobi">Hobi</option>
                         <option value="is">Is Grubu</option>
-                        <option value="yatirim">Yatirim & Girisim</option>
+                        <option value="yatirim">Yatırım & Girişim</option>
                         <option value="akademik">Akademik</option>
-                        <option value="dayanisma">Dayanisma</option>
+                        <option value="dayanisma">Dayanışma</option>
                         <option value="diger">Diğer</option>
                       </select>
                       {groupForm.category === "diger" ? (
@@ -729,7 +729,7 @@ export default function AddWhatsAppPage() {
                           className="mt-2"
                           value={groupForm.otherCategory}
                           onChange={(event) => updateGroupForm("otherCategory", event.target.value)}
-                          placeholder="Orn: Spor, Muzik, Aile"
+                          placeholder="Örn: Spor, Müzik, Aile"
                         />
                       ) : null}
                     </div>
@@ -746,7 +746,7 @@ export default function AddWhatsAppPage() {
 
                   <div className="grid gap-3 md:grid-cols-2">
                     <div>
-                      <Label htmlFor="country">Ulke *</Label>
+                      <Label htmlFor="country">Ülke *</Label>
                       <Input
                         id="country"
                         value={groupForm.country}
@@ -755,7 +755,7 @@ export default function AddWhatsAppPage() {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="city">Sehir *</Label>
+                      <Label htmlFor="city">Şehir *</Label>
                       <Input
                         id="city"
                         value={groupForm.city}
@@ -772,7 +772,7 @@ export default function AddWhatsAppPage() {
                       rows={3}
                       value={groupForm.description}
                       onChange={(event) => updateGroupForm("description", event.target.value)}
-                      placeholder="Grup hakkinda 1-2 cumle"
+                      placeholder="Grup hakkında 1-2 cümle"
                     />
                   </div>
                 </div>
@@ -785,9 +785,9 @@ export default function AddWhatsAppPage() {
                       className="mt-0.5"
                     />
                     <div>
-                      <p className="font-semibold text-foreground">Bu grup icin landing sayfasi da olustur</p>
+                      <p className="font-semibold text-foreground">Bu grup için landing sayfası da oluştur</p>
                       <p className="text-sm text-muted-foreground">
-                        Onay sonrasi grup sayfasi /addwa?group=slug adresinde yayinlanir.
+                        Onay sonrası grup sayfası /addwa?group=slug adresinde yayınlanır.
                       </p>
                     </div>
                   </label>
@@ -795,16 +795,16 @@ export default function AddWhatsAppPage() {
 
                 {groupForm.createLanding ? (
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">2. Landing Icerigi</h3>
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">2. Landing İçeriği</h3>
                     <div>
-                      <Label>Gorunum Tipi</Label>
+                      <Label>Görünüm Tipi</Label>
                       <div className="mt-2 flex flex-wrap gap-2">
                         <Button
                           type="button"
                           variant={groupForm.mode === "visual" ? "default" : "outline"}
                           onClick={() => updateGroupForm("mode", "visual")}
                         >
-                          Gorselli
+                          Görselli
                         </Button>
                         <Button
                           type="button"
@@ -818,7 +818,7 @@ export default function AddWhatsAppPage() {
 
                     {groupForm.mode === "visual" ? (
                       <div>
-                        <Label htmlFor="hero-image">Hero Gorsel URL</Label>
+                        <Label htmlFor="hero-image">Hero Görsel URL</Label>
                         <Input
                           id="hero-image"
                           value={groupForm.heroImage}
@@ -839,7 +839,7 @@ export default function AddWhatsAppPage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="cta-text">Cagri Metni</Label>
+                      <Label htmlFor="cta-text">Çağrı Metni</Label>
                       <Textarea
                         id="cta-text"
                         rows={4}
@@ -850,13 +850,13 @@ export default function AddWhatsAppPage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="conditions">Kosullar</Label>
+                      <Label htmlFor="conditions">Koşullar</Label>
                       <Textarea
                         id="conditions"
                         rows={4}
                         value={groupForm.conditions}
                         onChange={(event) => updateGroupForm("conditions", event.target.value)}
-                        placeholder={"Her satira bir kural yazin\nOrn: Grup ici reklam yasak"}
+                        placeholder={"Her satıra bir kural yazın\nÖrn: Grup içi reklam yasak"}
                       />
                     </div>
 
@@ -899,7 +899,7 @@ export default function AddWhatsAppPage() {
                   onClick={() => void handleGroupSubmit()}
                   disabled={submittingGroup}
                 >
-                  {submittingGroup ? "Gonderiliyor..." : "Basvuruyu Gonder"}
+                  {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
                 </Button>
               </div>
             </DialogContent>
@@ -946,11 +946,11 @@ export default function AddWhatsAppPage() {
           <div className="mt-6">
             {loadingList ? (
               <div className="rounded-[1.75rem] border border-border bg-card p-10 text-center text-muted-foreground">
-                Gruplar yukleniyor...
+                Gruplar yükleniyor...
               </div>
             ) : filteredLandings.length === 0 ? (
               <div className="rounded-[1.75rem] border border-dashed border-border bg-card p-10 text-center">
-                <h3 className="text-lg font-bold text-foreground">Filtreye uygun grup bulunamadi</h3>
+                <h3 className="text-lg font-bold text-foreground">Filtreye uygun grup bulunamadı</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Aramayı temizleyebilir veya ilk başvurulardan birini siz gönderebilirsiniz.
                 </p>
@@ -971,7 +971,7 @@ export default function AddWhatsAppPage() {
                           <Icon className="mr-1 h-3 w-3" />
                           {categoryMeta[landing.category].label}
                         </Badge>
-                        <span className="text-xs text-muted-foreground">{landing.dbId ? "Onayli" : "Demo"}</span>
+                        <span className="text-xs text-muted-foreground">{landing.dbId ? "Onaylı" : "Demo"}</span>
                       </div>
                       <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                         {landing.groupName}

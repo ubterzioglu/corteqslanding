@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import FooterSection from "@/components/FooterSection";
 import { getCommercialDocumentBySlug } from "@/lib/commercial-documents";
 
 const CommercialDocumentPage = () => {
@@ -106,7 +105,6 @@ const CommercialDocumentPage = () => {
         </div>
       </main>
 
-      <FooterSection />
     </div>
   );
 };

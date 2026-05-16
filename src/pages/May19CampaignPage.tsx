@@ -1,6 +1,5 @@
 import { ExternalLink, Lightbulb, Camera, Globe } from "lucide-react";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
-import FooterSection from "@/components/FooterSection";
 import heroLandmarks from "../../denemeremake.png";
 import may19HeaderBg from "../../newbg.png";
 import may19PoeticLayer from "../../last.png";
@@ -92,7 +91,6 @@ export default function May19CampaignPage() {
           })}
         </section>
       </main>
-      <FooterSection />
     </May19CampaignShell>
   );
 }

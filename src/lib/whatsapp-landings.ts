@@ -72,11 +72,11 @@ const DEMOS: WhatsAppLanding[] = [
     mode: "visual",
     heroImage:
       "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200&h=600&fit=crop",
-    tagline: "Almanya'daki ODTU ailesi tek cati altinda",
+    tagline: "Almanya'daki ODTÜ ailesi tek çatı altında",
     callToActionText:
-      "Mezun networking, kariyer firsatlari ve sehir bulusmalari icin aramiza katil.",
+      "Mezun networking, kariyer fırsatları ve şehir buluşmaları için aramıza katıl.",
     conditions:
-      "Sadece ODTU mezunlari\nMezuniyet yili ve bolum ile tanis\nReklam ve link spam yasak",
+      "Sadece ODTÜ mezunları\nMezuniyet yılı ve bölüm ile tanış\nReklam ve link spam yasak",
     whatsappLink: "https://chat.whatsapp.com/odtu-almanya",
     adminName: "Burak Yilmaz",
     adminContact: "+49 170 000 0000",
@@ -86,14 +86,14 @@ const DEMOS: WhatsAppLanding[] = [
   },
   {
     id: "doktor-londra",
-    groupName: "Londra Turk Doktorlar Networking",
+    groupName: "Londra Türk Doktorlar Networking",
     category: "doktor",
-    country: "Ingiltere",
+    country: "İngiltere",
     city: "Londra",
     mode: "text",
-    tagline: "NHS ve ozel sektorde Turk hekim dayanismasi",
+    tagline: "NHS ve özel sektörde Türk hekim dayanışması",
     callToActionText:
-      "Vaka tartismasi, brans referansi ve is ilanlari icin profesyonel bir hekim agi.",
+      "Vaka tartışması, branş referansı ve iş ilanları için profesyonel bir hekim ağı.",
     conditions:
       "Sadece doktorlar veya süreçteki hekimler\nKısa tanıtım gerekli\nHasta bilgisi paylaşımı yasak",
     whatsappLink: "https://chat.whatsapp.com/doktor-london",
@@ -105,18 +105,18 @@ const DEMOS: WhatsAppLanding[] = [
   },
   {
     id: "kitap-dubai",
-    groupName: "Dubai Turk Kitap Kulubu",
+    groupName: "Dubai Türk Kitap Kulübü",
     category: "hobi",
     country: "BAE",
     city: "Dubai",
     mode: "visual",
     heroImage:
       "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=600&fit=crop",
-    tagline: "Ayda bir kitap, ayda bir bulusma",
+    tagline: "Ayda bir kitap, ayda bir buluşma",
     callToActionText:
-      "Dubai'de yasayan Turk kitapseverler icin her ay secilen kitabi birlikte tartisiyoruz.",
+      "Dubai'de yaşayan Türk kitapseverler için her ay seçilen kitabı birlikte tartışıyoruz.",
     conditions:
-      "Aylik kitabi okuma sozu ver\nSpoiler uyarisina dikkat et\nGrup ici reklam yasak",
+      "Aylık kitabı okuma sözü ver\nSpoiler uyarısına dikkat et\nGrup içi reklam yasak",
     whatsappLink: "https://chat.whatsapp.com/kitap-dubai",
     adminName: "Selma Kaya",
     adminContact: "+971 50 000 0000",
@@ -170,7 +170,7 @@ async function getAuthenticatedUser() {
   } = await supabase.auth.getUser();
 
   if (error) throw error;
-  if (!user) throw new Error("Giris yapmalisin.");
+  if (!user) throw new Error("Giriş yapmalısın.");
   return user;
 }
 

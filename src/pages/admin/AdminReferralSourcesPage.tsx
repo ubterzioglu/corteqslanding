@@ -73,10 +73,10 @@ const AdminReferralSourcesPage = () => {
       const updated = await updateReferralSource({ id, name: nextName });
       setItems((current) => current.map((item) => (item.id === id ? updated : item)));
       setDraftNames((current) => ({ ...current, [id]: updated.name }));
-      toast({ title: "Source guncellendi" });
+      toast({ title: "Source güncellendi" });
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Guncellenemedi";
-      toast({ title: "Source guncellenemedi", description: message, variant: "destructive" });
+      const message = error instanceof Error ? error.message : "Güncellenemedi";
+      toast({ title: "Source güncellenemedi", description: message, variant: "destructive" });
     }
   };
 
@@ -108,7 +108,7 @@ const AdminReferralSourcesPage = () => {
                 <TableHead>Code</TableHead>
                 <TableHead>Durum</TableHead>
                 <TableHead>Tarih</TableHead>
-                <TableHead>Islem</TableHead>
+                <TableHead>İşlem</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

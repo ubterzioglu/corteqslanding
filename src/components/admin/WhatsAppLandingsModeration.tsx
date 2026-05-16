@@ -22,7 +22,7 @@ const statusBadgeClass: Record<LandingStatus, string> = {
 
 const statusLabel: Record<LandingStatus, string> = {
   pending: "Bekliyor",
-  approved: "Onaylandi",
+  approved: "Onaylandı",
   rejected: "Reddedildi",
 };
 
@@ -45,11 +45,11 @@ export default function WhatsAppLandingsModeration() {
   const handleStatus = async (dbId: string, status: LandingStatus) => {
     try {
       await setLandingStatus(dbId, status);
-      toast({ title: status === "approved" ? "Basvuru onaylandi" : "Basvuru reddedildi" });
+      toast({ title: status === "approved" ? "Başvuru onaylandı" : "Başvuru reddedildi" });
       await load(tab);
     } catch (error) {
       toast({
-        title: "Islem basarisiz",
+        title: "İşlem başarısız",
         description: error instanceof Error ? error.message : "Beklenmeyen hata",
         variant: "destructive",
       });
@@ -57,15 +57,15 @@ export default function WhatsAppLandingsModeration() {
   };
 
   const handleDelete = async (dbId: string) => {
-    if (!window.confirm("Bu basvuruyu silmek istediginize emin misiniz?")) return;
+    if (!window.confirm("Bu başvuruyu silmek istediğinize emin misiniz?")) return;
 
     try {
       await deleteLanding(dbId);
-      toast({ title: "Basvuru silindi" });
+      toast({ title: "Başvuru silindi" });
       await load(tab);
     } catch (error) {
       toast({
-        title: "Silme basarisiz",
+        title: "Silme başarısız",
         description: error instanceof Error ? error.message : "Beklenmeyen hata",
         variant: "destructive",
       });
@@ -78,10 +78,10 @@ export default function WhatsAppLandingsModeration() {
         <div className="space-y-1">
           <h2 className="flex items-center gap-2 text-xl font-bold text-foreground">
             <MessageSquare className="h-5 w-5 text-emerald-600" />
-            WhatsApp Grup Basvurulari
+            WhatsApp Grup Başvuruları
           </h2>
           <p className="text-sm text-muted-foreground">
-            Kullanici basvurularini inceleyin, onaylayin veya kaldirin.
+            Kullanıcı başvurularını inceleyin, onaylayın veya kaldırın.
           </p>
         </div>
         <Button variant="outline" size="sm" className="gap-1.5" onClick={() => void load(tab)}>
@@ -93,15 +93,15 @@ export default function WhatsAppLandingsModeration() {
       <Tabs value={tab} onValueChange={(value) => setTab(value as LandingStatus)}>
         <TabsList>
           <TabsTrigger value="pending">Bekleyen</TabsTrigger>
-          <TabsTrigger value="approved">Onayli</TabsTrigger>
+          <TabsTrigger value="approved">Onaylı</TabsTrigger>
           <TabsTrigger value="rejected">Reddedilen</TabsTrigger>
         </TabsList>
 
         <TabsContent value={tab} className="mt-4">
           {loading ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">Yukleniyor...</p>
+            <p className="py-8 text-center text-sm text-muted-foreground">Yükleniyor...</p>
           ) : rows.length === 0 ? (
-            <p className="py-8 text-center text-sm text-muted-foreground">Bu durumda kayit yok.</p>
+            <p className="py-8 text-center text-sm text-muted-foreground">Bu durumda kayıt yok.</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               {rows.map((row) => (
@@ -140,7 +140,7 @@ export default function WhatsAppLandingsModeration() {
                     <Link to={`/addwa?group=${encodeURIComponent(row.id)}`}>
                       <Button variant="outline" size="sm" className="gap-1.5">
                         <ExternalLink className="h-3.5 w-3.5" />
-                        Landing Onizle
+                        Landing Önizle
                       </Button>
                     </Link>
                     {row.status !== "approved" && row.dbId ? (

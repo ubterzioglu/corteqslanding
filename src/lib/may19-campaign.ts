@@ -66,22 +66,22 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
   const fileName = normalizeOptional(input.fileName);
 
   if (!fullName || !email || !country || !city || !title || !description) {
-    throw new Error("Lutfen zorunlu alanlari doldurun.");
+    throw new Error("Lütfen zorunlu alanları doldurun.");
   }
 
   if (!emailPattern.test(email)) {
-    throw new Error("Gecerli bir e-posta adresi girin.");
+    throw new Error("Geçerli bir e-posta adresi girin.");
   }
 
   if (!input.consent) {
-    throw new Error("Gonderim icin izin kutusunu isaretleyin.");
+    throw new Error("Gönderim için izin kutusunu işaretleyin.");
   }
 
   if (link) {
     try {
       new URL(link);
     } catch {
-      throw new Error("Paylasim linki gecerli bir URL olmali.");
+      throw new Error("Paylaşım linki geçerli bir URL olmalı.");
     }
   }
 

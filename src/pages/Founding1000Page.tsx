@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import Founding1000Section from "@/components/Founding1000Section";
-import FooterSection from "@/components/FooterSection";
 
 const Founding1000Page = () => {
   useEffect(() => {
@@ -12,7 +11,6 @@ const Founding1000Page = () => {
       <main id="main">
         <Founding1000Section />
       </main>
-      <FooterSection />
     </div>
   );
 };

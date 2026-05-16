@@ -28,33 +28,33 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kortex teknik, urun ve yatirimci anlatilarini tek cati altinda toplar.</li>
-            <li>Bu alan ekiplerin ayni sistemin farkli yuzlerini ortak dille gormesini saglar.</li>
-            <li>Admin ici erisim sayesinde artik ayri dashboard repo ihtiyaci kalmaz.</li>
+            <li>Kortex teknik, ürün ve yatırımcı anlatılarını tek çatı altında toplar.</li>
+            <li>Bu alan ekiplerin aynı sistemin farklı yüzlerini ortak dille görmesini sağlar.</li>
+            <li>Admin içi erişim sayesinde artık ayrı dashboard repo ihtiyacı kalmaz.</li>
           </ul>
         ),
       },
       {
         id: "cto",
-        title: "CTO Handoff Ozeti",
+        title: "CTO Handoff Özeti",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Temel mimari diaspora odakli hiyerarsik kesif modeline dayanir.</li>
-            <li>Supabase tabanli backend, auth, listing, search ve claim akislarini merkeze alir.</li>
-            <li>Guvenlik, rol bazli erisim ve olceklenebilirlik erken asamada planin parcasi kabul edilir.</li>
+            <li>Temel mimari diaspora odaklı hiyerarşik keşif modeline dayanır.</li>
+            <li>Supabase tabanlı backend, auth, listing, search ve claim akışlarını merkeze alır.</li>
+            <li>Güvenlik, rol bazlı erişim ve ölçeklenebilirlik erken aşamada planın parçası kabul edilir.</li>
           </ul>
         ),
       },
       {
         id: "pitch",
-        title: "Investor Pitch Ozeti",
+        title: "Investor Pitch Özeti",
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Vizyon: global Turk diasporasi icin merkezi super app olmak.</li>
+            <li>Vizyon: global Türk diasporası için merkezi süper app olmak.</li>
             <li>Problem: hizmet, topluluk ve fırsatlara dağınık erişim.</li>
-            <li>Cozum: discovery, community ve marketplace katmanlarini tek urunde birlestirmek.</li>
+            <li>Çözüm: discovery, community ve marketplace katmanlarını tek üründe birleştirmek.</li>
           </ul>
         ),
       },
@@ -63,7 +63,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "roadmap",
     title: "Roadmap",
-    description: "MVP'den seed-ready seviyesine giden 12 aylik urun ve buyume plani.",
+    description: "MVP'den seed-ready seviyesine giden 12 aylık ürün ve büyüme planı.",
     badge: ["M1-M12", "Growth", "Revenue"],
     sections: [
       {
@@ -72,20 +72,20 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Akis MVP, Launch, Growth, PMF, Scale, Expansion ve Seed Ready fazlarina ayrilir.</li>
+            <li>Akış MVP, Launch, Growth, PMF, Scale, Expansion ve Seed Ready fazlarına ayrılır.</li>
             <li>Her faz sadece ürün teslimi değil, arz, talep ve gelir dengesini birlikte taşır.</li>
-            <li>Bu panel karar alma ve yatirimci anlatisi icin ayni anda kullanilir.</li>
+            <li>Bu panel karar alma ve yatırımcı anlatısı için aynı anda kullanılır.</li>
           </ul>
         ),
       },
       {
         id: "mvp",
-        title: "MVP ve Launch Donemi",
+        title: "MVP ve Launch Dönemi",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Ilk donem auth, listing, booking, search, admin ve SEO temelini kurar.</li>
-            <li>Launch ile odak kullanilabilirlikten olculebilir gelir ve onboarding verimine kayar.</li>
+            <li>İlk dönem auth, listing, booking, search, admin ve SEO temelini kurar.</li>
+            <li>Launch ile odak kullanılabilirlikten ölçülebilir gelir ve onboarding verimine kayar.</li>
             <li>Referral, analytics ve mobile optimizasyon bu noktada devreye girer.</li>
           </ul>
         ),
@@ -97,8 +97,8 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Doğrulanan yapı yeni şehirler, partnerlikler ve B2B gelir katmanlarıyla büyütülür.</li>
-            <li>Hedef metrikler advisor, kullanici ve revenue dengesini birlikte takip eder.</li>
-            <li>Son durum yatirimciya anlatilabilir, tekrarlanabilir bir buyume sistemi yaratmaktir.</li>
+            <li>Hedef metrikler advisor, kullanıcı ve revenue dengesini birlikte takip eder.</li>
+            <li>Son durum yatırımcıya anlatılabilir, tekrarlanabilir bir büyüme sistemi yaratmaktır.</li>
           </ul>
         ),
       },
@@ -107,7 +107,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "ambassador",
     title: "Ambassador",
-    description: "Sehir bazli topluluk buyume motoru, onboarding ve saha dagitimi modeli.",
+    description: "Şehir bazlı topluluk büyüme motoru, onboarding ve saha dağıtımı modeli.",
     badge: ["City Lead", "Community", "Revenue Share"],
     sections: [
       {
@@ -116,9 +116,9 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Ambassador yapisi yerel topluluklari aktive eden buyume motoru olarak tasarlanir.</li>
-            <li>Kullanici ve advisor onboarding ile sehir ici ag etkisini guclendirir.</li>
-            <li>Platformu sahada gorunur kilar ve geri bildirim toplar.</li>
+            <li>Ambassador yapısı yerel toplulukları aktive eden büyüme motoru olarak tasarlanır.</li>
+            <li>Kullanıcı ve advisor onboarding ile şehir içi ağ etkisini güçlendirir.</li>
+            <li>Platformu sahada görünür kılar ve geri bildirim toplar.</li>
           </ul>
         ),
       },
@@ -128,21 +128,21 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>WhatsApp, Telegram, LinkedIn ve etkinlik organizasyonu temel kanallardir.</li>
-            <li>Tematik bulusmalar ve sehir bazli etkinlikler topluluk derinligini artirir.</li>
-            <li>Yerel buyume verisi merkezi dashboard akislarina geri beslenir.</li>
+            <li>WhatsApp, Telegram, LinkedIn ve etkinlik organizasyonu temel kanallardır.</li>
+            <li>Tematik buluşmalar ve şehir bazlı etkinlikler topluluk derinliğini artırır.</li>
+            <li>Yerel büyüme verisi merkezi dashboard akışlarına geri beslenir.</li>
           </ul>
         ),
       },
       {
         id: "revenue",
-        title: "Gelir ve Teshvik",
+        title: "Gelir ve Teşvik",
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kupon, subscription ve etkinlik gelir paylasimi modelin merkezindedir.</li>
-            <li>Oranlar sehir olgunlugu ve operasyon yogunluguna gore ayarlanabilir.</li>
-            <li>Sistem statuden cok etki ve aktif katkıyı odullendirir.</li>
+            <li>Kupon, subscription ve etkinlik gelir paylaşımı modelin merkezindedir.</li>
+            <li>Oranlar şehir olgunluğu ve operasyon yoğunluğuna göre ayarlanabilir.</li>
+            <li>Sistem statüden çok etki ve aktif katkıyı ödüllendirir.</li>
           </ul>
         ),
       },
@@ -150,31 +150,31 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   },
   {
     slug: "captable",
-    title: "Cap Table V2 — Hisse Yapisi",
-    description: "Kurucu hisse yapisi, ESOP kurgusu ve seyrelme senaryolari icin referans panel.",
+    title: "Cap Table V2 — Hisse Yapısı",
+    description: "Kurucu hisse yapısı, ESOP kurgusu ve seyrelme senaryoları için referans panel.",
     badge: ["Founders", "ESOP", "Vesting"],
     sections: [
       {
         id: "structure",
-        title: "Temel Sermaye Yapisi",
+        title: "Temel Sermaye Yapısı",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kurucu paylari ve ESOP havuzu fully diluted mantikla okunur.</li>
-            <li>Bu yapi ise alim, option grant ve gelecek turlar icin referans islevi gorur.</li>
+            <li>Kurucu payları ve ESOP havuzu fully diluted mantıkla okunur.</li>
+            <li>Bu yapı işe alım, option grant ve gelecek turlar için referans işlevi görür.</li>
             <li>Doküman kurucu kontrolü ile ekip teşvikini birlikte dengelemeyi hedefler.</li>
           </ul>
         ),
       },
       {
         id: "vesting",
-        title: "Vesting Yaklasimi",
+        title: "Vesting Yaklaşımı",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kurucular icin uzun vadeli bagliligi garanti eden cliff + aylik vesting mantigi vardir.</li>
-            <li>Kilit roller ve advisor grantlari rol tipine gore farkli surelerle kurgulanir.</li>
-            <li>Yatirimci beklentileriyle uyumlu standardizasyon hedeflenir.</li>
+            <li>Kurucular için uzun vadeli bağlılığı garanti eden cliff + aylık vesting mantığı vardır.</li>
+            <li>Kilit roller ve advisor grantları rol tipine göre farklı sürelerle kurgulanır.</li>
+            <li>Yatırımcı beklentileriyle uyumlu standardizasyon hedeflenir.</li>
           </ul>
         ),
       },
@@ -184,8 +184,8 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Erken asamada piyasa maasinin tam odenemedigi roller icin referans deger tutulur.</li>
-            <li>Bu kayit gelecekteki denkleme, due diligence ve ekip beklenti yonetimine yardim eder.</li>
+            <li>Erken aşamada piyasa maaşının tam ödenemediği roller için referans değer tutulur.</li>
+            <li>Bu kayıt gelecekteki denkleme, due diligence ve ekip beklenti yönetimine yardım eder.</li>
             <li>Cap table yalnız oran değil, katkıların ekonomik hafızasına da dönüşür.</li>
           </ul>
         ),
@@ -194,43 +194,43 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   },
   {
     slug: "ekip",
-    title: "Ekip ve Butce",
-    description: "Rol mimarisi, ucret bantlari, ESOP dagilimi ve ise alim altyapisi.",
+    title: "Ekip ve Bütçe",
+    description: "Rol mimarisi, ücret bantları, ESOP dağılımı ve işe alım altyapısı.",
     badge: ["16 Rol", "Hiring", "Compensation"],
     sections: [
       {
         id: "team",
-        title: "Ekip Yapisi",
+        title: "Ekip Yapısı",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kurucu, urun, muhendislik ve destek rolleri cok katmanli bir yapi icinde ele alinir.</li>
-            <li>Plan mevcut ekipten daha buyuk gelecek yapiyi modellemek icin kullanilir.</li>
-            <li>Vesting ve rol seviyeleri ilerideki ise alim dalgalarina referans olur.</li>
+            <li>Kurucu, ürün, mühendislik ve destek rolleri çok katmanlı bir yapı içinde ele alınır.</li>
+            <li>Plan mevcut ekipten daha büyük gelecek yapıyı modellemek için kullanılır.</li>
+            <li>Vesting ve rol seviyeleri ilerideki işe alım dalgalarına referans olur.</li>
           </ul>
         ),
       },
       {
         id: "hiring",
-        title: "Hiring ve Degerlendirme",
+        title: "Hiring ve Değerlendirme",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Rol, asama, CV, gorusmeci ve not alanlari ile merkezi takip hedeflenir.</li>
+            <li>Rol, aşama, CV, görüşmeci ve not alanları ile merkezi takip hedeflenir.</li>
             <li>Doküman bugünkü haliyle tam dolu değil, ama operasyonel omurgayı kurar.</li>
-            <li>Admin icinde bu sayfa karar baglamini kaybetmeden korunur.</li>
+            <li>Admin içinde bu sayfa karar bağlamını kaybetmeden korunur.</li>
           </ul>
         ),
       },
       {
         id: "budget",
-        title: "Butce ve Hisse",
+        title: "Bütçe ve Hisse",
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Farkli ulke pazarlarina gore maas bantlari ve toplam ekip maliyeti izlenir.</li>
-            <li>Hisse dagitimi kritik teknik ve liderlik rollerine gore katmanlanir.</li>
-            <li>Belge planlama iskeletidir; canli veriyle beslendiginde yonetim aracina donusur.</li>
+            <li>Farklı ülke pazarlarına göre maaş bantları ve toplam ekip maliyeti izlenir.</li>
+            <li>Hisse dağıtımı kritik teknik ve liderlik rollerine göre katmanlanır.</li>
+            <li>Belge planlama iskeletidir; canlı veriyle beslendiğinde yönetim aracına dönüşür.</li>
           </ul>
         ),
       },
@@ -239,30 +239,30 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "dijitalpazarlama",
     title: "Dijital Pazarlama",
-    description: "Icerik ve kampanya yonetimini tek calisma sistemi icinde toplayan operasyon paneli.",
+    description: "İçerik ve kampanya yönetimini tek çalışma sistemi içinde toplayan operasyon paneli.",
     badge: ["Content Ops", "Campaigns", "Distribution"],
     sections: [
       {
         id: "content",
-        title: "Icerik Yonetuimi",
+        title: "İçerik Yönetimi",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Icerik adi, tur, sahip, durum, tarih ve dosya baglamlariyla takip edilir.</li>
-            <li>Email, sosyal medya, blog ve benzeri kanallar ayni sistemde toplanir.</li>
-            <li>Yapi bugun iskelet olsa da dagitim motoru icin saglam bir cerceve sunar.</li>
+            <li>İçerik adı, tür, sahip, durum, tarih ve dosya bağlamlarıyla takip edilir.</li>
+            <li>Email, sosyal medya, blog ve benzeri kanallar aynı sistemde toplanır.</li>
+            <li>Yapı bugün iskelet olsa da dağıtım motoru için sağlam bir çerçeve sunar.</li>
           </ul>
         ),
       },
       {
         id: "campaign",
-        title: "Kampanya Yonetimi",
+        title: "Kampanya Yönetimi",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Kampanya sahibi, tarihleri, notlari ve asamalari ayni panelde tutulur.</li>
-            <li>Fikirden yayina kadar net bir ilerleme mantigi tanimlanir.</li>
-            <li>Bu sayfa growth operasyonunu command center disinda destekleyen stratejik bir katmandir.</li>
+            <li>Kampanya sahibi, tarihleri, notları ve aşamaları aynı panelde tutulur.</li>
+            <li>Fikirden yayına kadar net bir ilerleme mantığı tanımlanır.</li>
+            <li>Bu sayfa growth operasyonunu command center dışında destekleyen stratejik bir katmandır.</li>
           </ul>
         ),
       },
@@ -272,9 +272,9 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Sorumlu, tarih, dosya ve not alanlari canli veriyle doldurulmalidir.</li>
-            <li>Placeholder kampanya turleri netlestikce ekipler ayni panel uzerinden hizalanir.</li>
-            <li>Admin ici konumlandirma sayesinde growth calismalari ayri repo bagimliligindan kurtulur.</li>
+            <li>Sorumlu, tarih, dosya ve not alanları canlı veriyle doldurulmalıdır.</li>
+            <li>Placeholder kampanya türleri netleştikçe ekipler aynı panel üzerinden hizalanır.</li>
+            <li>Admin içi konumlandırma sayesinde growth çalışmaları ayrı repo bağımlılığından kurtulur.</li>
           </ul>
         ),
       },
@@ -283,42 +283,42 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "projetakibi",
     title: "Proje Takibi Şablonu",
-    description: "Ekiplerin is parcasi, sahiplik ve teslim mantigini hizalamak icin kullandigi yonetim cercevesi.",
+    description: "Ekiplerin iş parçası, sahiplik ve teslim mantığını hizalamak için kullandığı yönetim çerçevesi.",
     badge: ["Tracking", "Ownership", "Execution"],
     sections: [
       {
         id: "tracking-model",
-        title: "Takip Mantigi",
+        title: "Takip Mantığı",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Proje takibi, gorevleri yalniz listelemek yerine sahiplik ve teslim baglamiyla ele alir.</li>
-            <li>Her kalem is parcasi, oncelik, sorumlu ve durum ekseninde okunur.</li>
-            <li>Bu panel command center ve operasyon modulleri arasinda yonetsel kopru gorevi gorur.</li>
+            <li>Proje takibi, görevleri yalnız listelemek yerine sahiplik ve teslim bağlamıyla ele alır.</li>
+            <li>Her kalem iş parçası, öncelik, sorumlu ve durum ekseninde okunur.</li>
+            <li>Bu panel command center ve operasyon modülleri arasında yönetsel köprü görevi görür.</li>
           </ul>
         ),
       },
       {
         id: "execution-rhythm",
-        title: "Calisma Ritmi",
+        title: "Çalışma Ritmi",
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Gunluk akis, haftalik kontrol ve karar noktalarinin ayni dilden izlenmesi hedeflenir.</li>
-            <li>Dagitik notlarin ve gecici takiplerin tek merkezde toplanmasi operasyonel netlik saglar.</li>
-            <li>Boylece ayri dashboard bagimliligi olmadan surec devamliligi korunur.</li>
+            <li>Günlük akış, haftalık kontrol ve karar noktalarının aynı dilden izlenmesi hedeflenir.</li>
+            <li>Dağıtık notların ve geçici takiplerin tek merkezde toplanması operasyonel netlik sağlar.</li>
+            <li>Böylece ayrı dashboard bağımlılığı olmadan süreç devamlılığı korunur.</li>
           </ul>
         ),
       },
       {
         id: "next-steps",
-        title: "Uygulama Onerisi",
+        title: "Uygulama Önerisi",
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Takip sablonu command center, kaynak merkezi ve MVP backlog ile paralel okunmalidir.</li>
-            <li>Yuksek riskli isler icin sahip, tarih ve bagimlilik zorunlu hale getirilmelidir.</li>
-            <li>Bu sayfa wiki hafizasini korurken yeni admin isletim modeline baglanir.</li>
+            <li>Takip şablonu command center, kaynak merkezi ve MVP backlog ile paralel okunmalıdır.</li>
+            <li>Yüksek riskli işler için sahip, tarih ve bağımlılık zorunlu hale getirilmelidir.</li>
+            <li>Bu sayfa wiki hafızasını korurken yeni admin işletim modeline bağlanır.</li>
           </ul>
         ),
       },
@@ -327,7 +327,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "captablev2",
     title: "Cap Table V2",
-    description: "Cap table iceriginin kisaltilmis erisim etiketi; ayni hisse yapisi dokumanina ikinci giris noktasi saglar.",
+    description: "Cap table içeriğinin kısaltılmış erişim etiketi; aynı hisse yapısı dokümanına ikinci giriş noktası sağlar.",
     badge: ["Alias", "Equity", "Reference"],
     sections: [
       {
@@ -336,9 +336,9 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Bu baslik eski wiki akisini bozmamak icin korunur.</li>
-            <li>Icerik, hisse yapisi ve ESOP mantigini anlatan ana cap table dokumaninin ikinci erisimidir.</li>
-            <li>Yeni sistemde bilgi kaybi olmadan eski baslik aliskanligi devam eder.</li>
+            <li>Bu başlık eski wiki akışını bozmamak için korunur.</li>
+            <li>İçerik, hisse yapısı ve ESOP mantığını anlatan ana cap table dokümanının ikinci erişimidir.</li>
+            <li>Yeni sistemde bilgi kaybı olmadan eski başlık alışkanlığı devam eder.</li>
           </ul>
         ),
       },
@@ -347,7 +347,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "whatsappbot",
     title: "WhatsApp Bot",
-    description: "Topluluk tanitimi, opt-in akisi ve token mantigi icin fikir ve operasyon paneli.",
+    description: "Topluluk tanıtımı, opt-in akışı ve token mantığı için fikir ve operasyon paneli.",
     badge: ["Bot", "Opt-in", "Community"],
     sections: [
       {
@@ -356,9 +356,9 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Bot reklamdan cok kullaniciya fayda sunan bir temas noktasi olarak dusunulur.</li>
-            <li>Grup akisina zarar vermeden bilgi ve firsat paylasimini duzenlemeyi hedefler.</li>
-            <li>Spam riski ve platform kurallari erken asamadan hesaba katilir.</li>
+            <li>Bot reklamdan çok kullanıcıya fayda sunan bir temas noktası olarak düşünülür.</li>
+            <li>Grup akışına zarar vermeden bilgi ve fırsat paylaşımını düzenlemeyi hedefler.</li>
+            <li>Spam riski ve platform kuralları erken aşamadan hesaba katılır.</li>
           </ul>
         ),
       },
@@ -393,3 +393,4 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
 export function getWorkspaceDocPage(slug: string) {
   return workspaceDocPages.find((page) => page.slug === slug) ?? null;
 }
+

@@ -8,25 +8,25 @@ import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 const workspaceCards = [
   {
     title: "Dashboard Merkezi",
-    description: "Ayrı dashboard repo bagimliligini bitiren yeni ic calisma alani.",
+    description: "Ayrı dashboard repo bağımlılığını bitiren yeni iç çalışma alanı.",
     to: "/admin/workspace",
     icon: Network,
   },
   {
     title: "Command Center",
-    description: "Todo ve toplanti maddelerini tek tabloda yonetin.",
+    description: "Todo ve toplantı maddelerini tek tabloda yönetin.",
     to: "/admin/workspace/command-center",
     icon: ListChecks,
   },
   {
     title: "Dosyalar ve Linkler",
-    description: "Genel kaynaklar, IK ve ARGE kayitlarini tek yerde toplayin.",
+    description: "Genel kaynaklar, IK ve ARGE kayıtlarını tek yerde toplayın.",
     to: "/admin/workspace/resources",
     icon: FolderKanban,
   },
   {
     title: "MVP Listesi",
-    description: "MVP maddelerini, seviyeleri ve sorumlulari canli olarak takip edin.",
+    description: "MVP maddelerini, seviyeleri ve sorumluları canlı olarak takip edin.",
     to: "/admin/workspace/mvp",
     icon: Rocket,
   },
@@ -45,10 +45,10 @@ const AdminWorkspaceHomePage = () => (
         <BookOpen className="h-3.5 w-3.5" />
         Yeni Admin Workspace
       </div>
-      <h2 className="text-2xl font-semibold tracking-tight text-slate-950">Birlesik Dashboard Alani</h2>
+      <h2 className="text-2xl font-semibold tracking-tight text-slate-950">Birleşik Dashboard Alanı</h2>
       <p className="max-w-3xl text-sm leading-6 text-slate-600">
-        `cordocu` icerikleri artik bu repo icinde yasiyor. Operasyon ekranlari, kaynak merkezi ve bilgi panelleri
-        ayri dashboard linki olmadan `/admin` altinda aciliyor.
+        `cordocu` içerikleri artık bu repo içinde yaşıyor. Operasyon ekranları, kaynak merkezi ve bilgi panelleri
+        ayrı dashboard linki olmadan `/admin` altında açılıyor.
       </p>
     </section>
 
@@ -66,7 +66,7 @@ const AdminWorkspaceHomePage = () => (
           </CardHeader>
           <CardContent>
             <Button asChild size="sm" className="w-full justify-between text-xs">
-              <Link to={card.to}>Ac</Link>
+              <Link to={card.to}>Aç</Link>
             </Button>
           </CardContent>
         </Card>
@@ -76,7 +76,7 @@ const AdminWorkspaceHomePage = () => (
     <section className="space-y-3">
       <div className="space-y-1">
         <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">Bilgi Panelleri</h3>
-        <p className="text-xs text-slate-600">Eski dashboard dokumanlari yeni admin icinde okunabilir hale getirildi.</p>
+        <p className="text-xs text-slate-600">Eski dashboard dokümanları yeni admin içinde okunabilir hale getirildi.</p>
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {docCards.map((card) => (

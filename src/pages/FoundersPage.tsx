@@ -286,9 +286,6 @@ const FoundersPage = () => {
         </div>
       </main>
 
-      <footer className="px-4 py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
-      </footer>
     </div>
   );
 };

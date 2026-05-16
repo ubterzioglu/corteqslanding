@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Paperclip } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -52,6 +53,7 @@ const RegisterInterestForm = ({
   const [referralDetail, setReferralDetail] = useState("");
   const [documentFiles, setDocumentFiles] = useState<File[]>([]);
   const [documentError, setDocumentError] = useState("");
+  const documentInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (open && defaultCategory) {
@@ -382,6 +384,7 @@ const RegisterInterestForm = ({
                 CV / Doküman Yükle (opsiyonel)
               </Label>
               <Input
+                ref={documentInputRef}
                 id="document"
                 name="document"
                 type="file"
@@ -402,8 +405,16 @@ const RegisterInterestForm = ({
                   setDocumentFiles(result.files);
                   event.target.value = "";
                 }}
-                className="mt-2 cursor-pointer file:mr-3 file:rounded-md file:border-0 file:bg-primary/10 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-primary hover:file:bg-primary/20"
+                className="hidden"
               />
+              <button
+                type="button"
+                onClick={() => documentInputRef.current?.click()}
+                className="mt-2 inline-flex h-10 items-center gap-2 rounded-xl border border-primary/20 bg-white px-4 text-sm font-semibold text-primary shadow-sm transition hover:border-primary/40 hover:bg-primary/5"
+              >
+                <Paperclip className="h-4 w-4" />
+                Dosya Seç
+              </button>
               {documentError && <p className="mt-2 text-xs text-destructive">{documentError}</p>}
               {documentFiles.length > 0 ? (
                 <ul className="mt-2 space-y-1">

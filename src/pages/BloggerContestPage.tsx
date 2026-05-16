@@ -20,7 +20,6 @@ import {
   Bot,
 } from "lucide-react";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
-import FooterSection from "@/components/FooterSection";
 import bloggerVisual from "@/assets/blogger-vlogger.jpg";
 
 const themes = [
@@ -441,8 +440,6 @@ const BloggerContestPage = () => {
           </div>
         </div>
       </section>
-
-      <FooterSection />
 
       <RegisterInterestForm
         open={formOpen}
