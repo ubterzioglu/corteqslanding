@@ -164,78 +164,115 @@ export default function May19SubmissionsModeration({ kind }: May19SubmissionsMod
           ) : rows.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">Bu durumda kayıt yok.</p>
           ) : (
-            <div className="grid gap-4 xl:grid-cols-2">
-              {rows.map((row) => (
-                <div key={row.id} className="space-y-4 rounded-2xl border border-border bg-card p-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0 space-y-1">
-                      <h3 className="text-lg font-bold text-foreground">{row.title}</h3>
-                      <p className="text-xs text-muted-foreground">
-                        {row.full_name} · {row.city}, {row.country}
-                      </p>
-                    </div>
-                    <Badge className={statusBadgeClass[row.status as May19SubmissionStatus]}>
-                      {statusLabel[row.status as May19SubmissionStatus]}
-                    </Badge>
-                  </div>
-
-                  <div className="grid gap-3 text-sm text-slate-700">
-                    <div className="rounded-xl bg-slate-50 px-4 py-3">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">Açıklama</p>
-                      <p className="mt-1 whitespace-pre-wrap">{row.description}</p>
-                    </div>
-
-                    {row.message ? (
-                      <div className="rounded-xl bg-slate-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                          {kind === "idea" ? "Güçlendirme Notu" : "Ek Mesaj"}
+            <div className="overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="hidden grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_auto] gap-3 border-b border-border bg-muted/40 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground md:grid">
+                <span>Gönderim</span>
+                <span>İletişim</span>
+                <span>Durum</span>
+                <span>Aksiyon</span>
+              </div>
+              <div className="divide-y divide-border">
+                {rows.map((row) => (
+                  <div key={row.id} className="space-y-3 px-4 py-4">
+                    <div className="grid gap-3 md:grid-cols-[minmax(0,1.3fr)_minmax(0,0.8fr)_minmax(0,0.7fr)_auto] md:items-start">
+                      <div className="min-w-0 space-y-1">
+                        <p className="truncate text-base font-semibold text-foreground">{row.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {row.full_name} · {row.city}, {row.country}
                         </p>
-                        <p className="mt-1 whitespace-pre-wrap">{row.message}</p>
+                        <p className="line-clamp-2 text-sm text-slate-700">{row.description}</p>
                       </div>
-                    ) : null}
 
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-xl bg-slate-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">E-posta</p>
-                        <p className="mt-1 break-all">{row.email}</p>
+                      <div className="space-y-1 text-xs text-slate-600">
+                        <p className="break-all">{row.email}</p>
+                        <p>{row.social_handle || "—"}</p>
                       </div>
-                      <div className="rounded-xl bg-slate-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">Sosyal Medya</p>
-                        <p className="mt-1">{row.social_handle || "—"}</p>
+
+                      <div className="flex md:justify-start">
+                        <Badge className={statusBadgeClass[row.status as May19SubmissionStatus]}>
+                          {statusLabel[row.status as May19SubmissionStatus]}
+                        </Badge>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2 md:justify-end">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="gap-1.5"
+                          onClick={() => void handleSaveNotes(row.id)}
+                        >
+                          <Save className="h-3.5 w-3.5" />
+                          Kaydet
+                        </Button>
+                        {row.status !== "approved" ? (
+                          <Button
+                            size="sm"
+                            className="gap-1.5 bg-emerald-600 text-white hover:bg-emerald-700"
+                            onClick={() => void handleStatus(row.id, "approved")}
+                          >
+                            <Check className="h-3.5 w-3.5" />
+                            Onayla
+                          </Button>
+                        ) : null}
+                        {row.status !== "rejected" ? (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            className="gap-1.5"
+                            onClick={() => void handleStatus(row.id, "rejected")}
+                          >
+                            <X className="h-3.5 w-3.5" />
+                            Reddet
+                          </Button>
+                        ) : null}
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="gap-1.5 text-destructive hover:text-destructive"
+                          onClick={() => void handleDelete(row.id)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                          Sil
+                        </Button>
                       </div>
                     </div>
 
-                    {row.link ? (
-                      <a
-                        href={row.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        Gönderi linkini aç
-                      </a>
-                    ) : null}
+                    <div className="grid gap-2 rounded-xl bg-slate-50 p-3 text-sm text-slate-700 md:grid-cols-2">
+                      {row.message ? (
+                        <p className="md:col-span-2">
+                          <span className="font-semibold text-slate-800">{kind === "idea" ? "Güçlendirme Notu" : "Ek Mesaj"}:</span>{" "}
+                          {row.message}
+                        </p>
+                      ) : null}
+                      {row.link ? (
+                        <a
+                          href={row.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          Gönderi linkini aç
+                        </a>
+                      ) : (
+                        <span className="text-slate-500">Gönderi linki yok</span>
+                      )}
+                      {row.storage_bucket && row.storage_path ? (
+                        <button
+                          type="button"
+                          className="inline-flex items-center gap-1.5 text-primary hover:underline md:justify-self-end"
+                          onClick={() => void handleOpenFile(row.storage_bucket!, row.storage_path!)}
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          Yüklenen dosyayı aç{row.file_name ? ` (${row.file_name})` : ""}
+                        </button>
+                      ) : (
+                        <span className="text-slate-500 md:justify-self-end">Dosya yok</span>
+                      )}
+                    </div>
 
-                    {row.storage_bucket && row.storage_path ? (
-                      <button
-                        type="button"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                        onClick={() => void handleOpenFile(row.storage_bucket!, row.storage_path!)}
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        Yuklenen dosyayi ac
-                        {row.file_name ? ` (${row.file_name})` : ""}
-                      </button>
-                    ) : null}
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                      Moderasyon Notu
-                    </label>
                     <Textarea
-                      rows={3}
+                      rows={2}
                       value={notesById[row.id] ?? ""}
                       onChange={(event) =>
                         setNotesById((current) => ({ ...current, [row.id]: event.target.value }))
@@ -243,50 +280,8 @@ export default function May19SubmissionsModeration({ kind }: May19SubmissionsMod
                       placeholder="İç ekip notu, gerekçe veya yayın kararı..."
                     />
                   </div>
-
-                  <div className="flex flex-wrap gap-2 border-t border-border pt-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      className="gap-1.5"
-                      onClick={() => void handleSaveNotes(row.id)}
-                    >
-                      <Save className="h-3.5 w-3.5" />
-                      Notu Kaydet
-                    </Button>
-                    {row.status !== "approved" ? (
-                      <Button
-                        size="sm"
-                        className="gap-1.5 bg-emerald-600 text-white hover:bg-emerald-700"
-                        onClick={() => void handleStatus(row.id, "approved")}
-                      >
-                        <Check className="h-3.5 w-3.5" />
-                        Onayla
-                      </Button>
-                    ) : null}
-                    {row.status !== "rejected" ? (
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        className="gap-1.5"
-                        onClick={() => void handleStatus(row.id, "rejected")}
-                      >
-                        <X className="h-3.5 w-3.5" />
-                        Reddet
-                      </Button>
-                    ) : null}
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="gap-1.5 text-destructive hover:text-destructive"
-                      onClick={() => void handleDelete(row.id)}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                      Sil
-                    </Button>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
         </TabsContent>
