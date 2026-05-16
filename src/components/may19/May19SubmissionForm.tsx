@@ -111,12 +111,12 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
       <div className="grid grid-cols-2 gap-3">
         <div className="col-span-2">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Ad Soyad</Label>
-          <Input className={inputClass} value={form.fullName} onChange={(event) => update("fullName", event.target.value)} />
+          <Input required className={inputClass} value={form.fullName} onChange={(event) => update("fullName", event.target.value)} />
         </div>
 
         <div className="col-span-2 sm:col-span-1">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">E-posta</Label>
-          <Input type="email" className={inputClass} value={form.email} onChange={(event) => update("email", event.target.value)} />
+          <Input required type="email" className={inputClass} value={form.email} onChange={(event) => update("email", event.target.value)} />
         </div>
 
         <div className="col-span-2 sm:col-span-1">
@@ -126,25 +126,25 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
 
         <div>
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Ülke</Label>
-          <Input className={inputClass} value={form.country} onChange={(event) => update("country", event.target.value)} />
+          <Input required className={inputClass} value={form.country} onChange={(event) => update("country", event.target.value)} />
         </div>
         <div>
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Şehir</Label>
-          <Input className={inputClass} value={form.city} onChange={(event) => update("city", event.target.value)} />
+          <Input required className={inputClass} value={form.city} onChange={(event) => update("city", event.target.value)} />
         </div>
 
         <div className="col-span-2">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
             {kind === "idea" ? "Fikir başlığı" : "İçerik başlığı"}
           </Label>
-          <Input className={inputClass} value={form.title} onChange={(event) => update("title", event.target.value)} />
+          <Input required className={inputClass} value={form.title} onChange={(event) => update("title", event.target.value)} />
         </div>
 
         <div className="col-span-2">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
             {kind === "idea" ? "Fikir açıklaması" : "Kısa açıklama"}
           </Label>
-          <Textarea rows={3} className="rounded-xl border-slate-200 bg-white/90 text-sm" value={form.description} onChange={(event) => update("description", event.target.value)} />
+          <Textarea required rows={3} className="rounded-xl border-slate-200 bg-white/90 text-sm" value={form.description} onChange={(event) => update("description", event.target.value)} />
         </div>
 
         <div className="col-span-2">
@@ -193,6 +193,7 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
             type="button"
             size="sm"
             onClick={() => void handleSubmit()}
+            disabled={isSubmitting}
             className={kind === "idea" ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-orange-500 text-white hover:bg-orange-600"}
           >
             {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

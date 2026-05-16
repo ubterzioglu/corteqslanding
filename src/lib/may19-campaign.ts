@@ -24,6 +24,28 @@ export type SubmitMay19CampaignInput = {
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function toUserFacingMay19Error(error: unknown) {
+  if (!(error instanceof Error)) {
+    return new Error("Gönderim sırasında beklenmeyen bir sorun oluştu.");
+  }
+
+  const message = error.message.toLowerCase();
+
+  if (message.includes("violates row-level security") || message.includes("new row violates row-level security")) {
+    return new Error("Yetki/policy hatası oluştu. Lütfen sayfayı yenileyip tekrar deneyin.");
+  }
+
+  if (message.includes("payload too large") || message.includes("file size")) {
+    return new Error("Dosya boyutu limiti aşıldı. Daha küçük bir dosya yükleyin.");
+  }
+
+  if (message.includes("mime") || message.includes("content type")) {
+    return new Error("Dosya türü desteklenmiyor. Lütfen izin verilen bir format seçin.");
+  }
+
+  return error;
+}
+
 function normalizeOptional(value?: string) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : null;
@@ -83,7 +105,7 @@ export async function submitMay19CampaignEntry(input: SubmitMay19CampaignInput) 
   const { error } = await supabase.from("may19_campaign_submissions").insert(payload);
 
   if (error) {
-    throw error;
+    throw toUserFacingMay19Error(error);
   }
 }
 
@@ -104,7 +126,7 @@ export async function uploadMay19CampaignFile(kind: May19SubmissionKind, file: F
   });
 
   if (error) {
-    throw error;
+    throw toUserFacingMay19Error(error);
   }
 
   return {
