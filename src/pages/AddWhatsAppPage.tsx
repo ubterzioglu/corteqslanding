@@ -153,8 +153,6 @@ export default function AddWhatsAppPage() {
   const [loadingList, setLoadingList] = useState(true);
   const [loadingLanding, setLoadingLanding] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [countryFilter, setCountryFilter] = useState("all");
-  const [cityFilter, setCityFilter] = useState("all");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -185,10 +183,6 @@ export default function AddWhatsAppPage() {
   }, []);
 
   useEffect(() => {
-    setCityFilter("all");
-  }, [countryFilter]);
-
-  useEffect(() => {
     if (!groupSlug) {
       setSelectedLanding(null);
       return;
@@ -210,23 +204,10 @@ export default function AddWhatsAppPage() {
     };
   }, [groupSlug]);
 
-  const countryOptions = useMemo(() => {
-    return Array.from(new Set(landings.map((landing) => landing.country))).sort((a, b) => a.localeCompare(b, "tr"));
-  }, [landings]);
-
-  const cityOptions = useMemo(() => {
-    const source =
-      countryFilter === "all" ? landings : landings.filter((landing) => landing.country === countryFilter);
-
-    return Array.from(new Set(source.map((landing) => landing.city))).sort((a, b) => a.localeCompare(b, "tr"));
-  }, [countryFilter, landings]);
-
   const filteredLandings = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
     return landings.filter((landing) => {
-      if (countryFilter !== "all" && landing.country !== countryFilter) return false;
-      if (cityFilter !== "all" && landing.city !== cityFilter) return false;
       if (!query) return true;
 
       const haystack = [
@@ -242,7 +223,7 @@ export default function AddWhatsAppPage() {
 
       return haystack.includes(query);
     });
-  }, [cityFilter, countryFilter, landings, searchQuery]);
+  }, [landings, searchQuery]);
 
   const updateGroupForm = <K extends keyof GroupFormState>(field: K, value: GroupFormState[K]) => {
     setGroupForm((current) => ({ ...current, [field]: value }));
@@ -345,8 +326,8 @@ export default function AddWhatsAppPage() {
   const handleJoinSubmit = async () => {
     if (!selectedLanding?.dbId) {
       toast({
-        title: "Demo landing",
-        description: "Demo kartlarda katilim talebi yerine dogrudan WhatsApp linki kullanilir.",
+        title: "Kayıt bulunamadı",
+        description: "Bu grup için aktif katılım kaydı bulunamadı.",
       });
       return;
     }
@@ -501,77 +482,68 @@ export default function AddWhatsAppPage() {
                 <p className="mt-4 whitespace-pre-line text-foreground/85">{selectedLanding.callToActionText}</p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  {selectedLanding.dbId ? (
-                    <Dialog open={joinDialogOpen} onOpenChange={setJoinDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button size="lg" className="flex-1 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
-                          <UserPlus className="h-5 w-5" />
-                          Katılma Talebi Gönder
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>{selectedLanding.groupName} - Katılma Talebi</DialogTitle>
-                        </DialogHeader>
-
-                        <div className="space-y-3">
-                          <div className="space-y-1.5">
-                            <Label htmlFor="join-full-name">Ad Soyad *</Label>
-                            <Input
-                              id="join-full-name"
-                              value={joinForm.fullName}
-                              onChange={(event) => updateJoinForm("fullName", event.target.value)}
-                              placeholder="Adınız Soyadınız"
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <Label htmlFor="join-email">E-posta *</Label>
-                            <Input
-                              id="join-email"
-                              type="email"
-                              value={joinForm.email}
-                              onChange={(event) => updateJoinForm("email", event.target.value)}
-                              placeholder="ornek@email.com"
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <Label htmlFor="join-phone">Telefon</Label>
-                            <Input
-                              id="join-phone"
-                              value={joinForm.phone}
-                              onChange={(event) => updateJoinForm("phone", event.target.value)}
-                              placeholder="+49 ..."
-                            />
-                          </div>
-                          <div className="space-y-1.5">
-                            <Label htmlFor="join-note">Not</Label>
-                            <Textarea
-                              id="join-note"
-                              rows={3}
-                              value={joinForm.note}
-                              onChange={(event) => updateJoinForm("note", event.target.value)}
-                              placeholder="Kendinizden kisaca bahsedin"
-                            />
-                          </div>
-
-                          <Button
-                            className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                            onClick={() => void handleJoinSubmit()}
-                            disabled={submittingJoin}
-                          >
-                            {submittingJoin ? "Gönderiliyor..." : "Talebi Gönder"}
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  ) : (
-                    <a href={selectedLanding.whatsappLink} target="_blank" rel="noopener noreferrer" className="flex-1">
-                      <Button size="lg" className="w-full gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
-                        <MessageSquare className="h-5 w-5" />
-                        WhatsApp Linkini Ac
+                  <Dialog open={joinDialogOpen} onOpenChange={setJoinDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button size="lg" className="flex-1 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+                        <UserPlus className="h-5 w-5" />
+                        Katılma Talebi Gönder
                       </Button>
-                    </a>
-                  )}
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md">
+                      <DialogHeader>
+                        <DialogTitle>{selectedLanding.groupName} - Katılma Talebi</DialogTitle>
+                      </DialogHeader>
+
+                      <div className="space-y-3">
+                        <div className="space-y-1.5">
+                          <Label htmlFor="join-full-name">Ad Soyad *</Label>
+                          <Input
+                            id="join-full-name"
+                            value={joinForm.fullName}
+                            onChange={(event) => updateJoinForm("fullName", event.target.value)}
+                            placeholder="Adınız Soyadınız"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="join-email">E-posta *</Label>
+                          <Input
+                            id="join-email"
+                            type="email"
+                            value={joinForm.email}
+                            onChange={(event) => updateJoinForm("email", event.target.value)}
+                            placeholder="ornek@email.com"
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="join-phone">Telefon</Label>
+                          <Input
+                            id="join-phone"
+                            value={joinForm.phone}
+                            onChange={(event) => updateJoinForm("phone", event.target.value)}
+                            placeholder="+49 ..."
+                          />
+                        </div>
+                        <div className="space-y-1.5">
+                          <Label htmlFor="join-note">Not</Label>
+                          <Textarea
+                            id="join-note"
+                            rows={3}
+                            value={joinForm.note}
+                            onChange={(event) => updateJoinForm("note", event.target.value)}
+                            placeholder="Kendinizden kisaca bahsedin"
+                          />
+                        </div>
+
+                        <Button
+                          className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                          onClick={() => void handleJoinSubmit()}
+                          disabled={submittingJoin}
+                        >
+                          {submittingJoin ? "Gönderiliyor..." : "Talebi Gönder"}
+                        </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
 
                   <Button size="lg" variant="outline" className="gap-2" onClick={() => void handleShare()}>
                     {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
@@ -620,32 +592,6 @@ export default function AddWhatsAppPage() {
               Diasporanın WhatsApp ve Telegram gruplarını ülke ve şehir bazında filtrele.
             </p>
           </div>
-          <div className="grid w-full gap-2 sm:max-w-sm">
-            <select
-              value={countryFilter}
-              onChange={(event) => setCountryFilter(event.target.value)}
-              className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
-            >
-              <option value="all">🌍 Tüm Ülkeler</option>
-              {countryOptions.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-            <select
-              value={cityFilter}
-              onChange={(event) => setCityFilter(event.target.value)}
-              className="flex h-11 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
-            >
-              <option value="all">📍 Tüm Şehirler</option>
-              {cityOptions.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
-          </div>
         </section>
 
         <section className="relative overflow-hidden rounded-[1.5rem] border border-cyan-100 bg-[linear-gradient(120deg,#e8f6f4_0%,#f5f8fb_100%)] p-6 shadow-[0_18px_56px_rgba(15,23,42,0.08)] md:p-10">
@@ -675,9 +621,7 @@ export default function AddWhatsAppPage() {
             <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
             <div>
               <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfasi da ac</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Örnek kartlar demo olarak görünebilir. Gerçek başvurular admin onayından sonra listelenir.
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground">Başvurular admin onayından sonra listelenir.</p>
             </div>
           </div>
 
@@ -906,24 +850,6 @@ export default function AddWhatsAppPage() {
           </Dialog>
         </div>
 
-        <section className="relative mt-8 rounded-[1.5rem] border border-slate-200 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.12),transparent_46%),#ffffff] p-8 text-center shadow-[0_16px_48px_rgba(15,23,42,0.06)]">
-          <div className="mx-auto max-w-md rounded-3xl border border-dashed border-emerald-300 bg-white/90 p-7">
-            <PlusCircle className="mx-auto h-10 w-10 text-emerald-500" />
-            <h3 className="mt-3 text-2xl font-bold text-slate-900">Grubunuzu ekleyin</h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Alumni, Doktor, Hobi ve daha fazlası. Kendi grubunu ücretsiz listele.
-            </p>
-            <Button
-              type="button"
-              className="mt-5 rounded-full bg-emerald-500 px-6 text-white hover:bg-emerald-600"
-              onClick={() => setDialogOpen(true)}
-            >
-              <PlusCircle className="mr-1.5 h-4 w-4" />
-              Grubunu Listele
-            </Button>
-          </div>
-        </section>
-
         <section className="mt-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
@@ -962,7 +888,7 @@ export default function AddWhatsAppPage() {
 
                   return (
                     <Link
-                      key={`${landing.id}-${landing.dbId ?? "demo"}`}
+                      key={landing.id}
                       to={`/addwa?group=${encodeURIComponent(landing.id)}`}
                       className="group rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
                     >
@@ -971,7 +897,7 @@ export default function AddWhatsAppPage() {
                           <Icon className="mr-1 h-3 w-3" />
                           {categoryMeta[landing.category].label}
                         </Badge>
-                        <span className="text-xs text-muted-foreground">{landing.dbId ? "Onaylı" : "Demo"}</span>
+                        <span className="text-xs text-muted-foreground">Onaylı</span>
                       </div>
                       <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                         {landing.groupName}

@@ -62,70 +62,6 @@ export interface JoinRequestInput {
   note?: string;
 }
 
-const DEMOS: WhatsAppLanding[] = [
-  {
-    id: "odtu-almanya",
-    groupName: "ODTU Mezunlari Almanya",
-    category: "alumni",
-    country: "Almanya",
-    city: "Berlin",
-    mode: "visual",
-    heroImage:
-      "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200&h=600&fit=crop",
-    tagline: "Almanya'daki ODTÜ ailesi tek çatı altında",
-    callToActionText:
-      "Mezun networking, kariyer fırsatları ve şehir buluşmaları için aramıza katıl.",
-    conditions:
-      "Sadece ODTÜ mezunları\nMezuniyet yılı ve bölüm ile tanış\nReklam ve link spam yasak",
-    whatsappLink: "https://chat.whatsapp.com/odtu-almanya",
-    adminName: "Burak Yilmaz",
-    adminContact: "+49 170 000 0000",
-    description: "Demo grup",
-    status: "approved",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "doktor-londra",
-    groupName: "Londra Türk Doktorlar Networking",
-    category: "doktor",
-    country: "İngiltere",
-    city: "Londra",
-    mode: "text",
-    tagline: "NHS ve özel sektörde Türk hekim dayanışması",
-    callToActionText:
-      "Vaka tartışması, branş referansı ve iş ilanları için profesyonel bir hekim ağı.",
-    conditions:
-      "Sadece doktorlar veya süreçteki hekimler\nKısa tanıtım gerekli\nHasta bilgisi paylaşımı yasak",
-    whatsappLink: "https://chat.whatsapp.com/doktor-london",
-    adminName: "Dr. Leyla Aydin",
-    adminContact: "info@corteqs.net",
-    description: "Demo grup",
-    status: "approved",
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "kitap-dubai",
-    groupName: "Dubai Türk Kitap Kulübü",
-    category: "hobi",
-    country: "BAE",
-    city: "Dubai",
-    mode: "visual",
-    heroImage:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1200&h=600&fit=crop",
-    tagline: "Ayda bir kitap, ayda bir buluşma",
-    callToActionText:
-      "Dubai'de yaşayan Türk kitapseverler için her ay seçilen kitabı birlikte tartışıyoruz.",
-    conditions:
-      "Aylık kitabı okuma sözü ver\nSpoiler uyarısına dikkat et\nGrup içi reklam yasak",
-    whatsappLink: "https://chat.whatsapp.com/kitap-dubai",
-    adminName: "Selma Kaya",
-    adminContact: "+971 50 000 0000",
-    description: "Demo grup",
-    status: "approved",
-    createdAt: new Date().toISOString(),
-  },
-];
-
 export function slugify(value: string) {
   return value
     .toLowerCase()
@@ -183,7 +119,7 @@ export async function getLanding(slug: string): Promise<WhatsAppLanding | undefi
     .maybeSingle();
 
   if (!error && data) return rowToLanding(data);
-  return DEMOS.find((entry) => entry.id === slug);
+  return undefined;
 }
 
 export async function listLandings(): Promise<WhatsAppLanding[]> {
@@ -193,11 +129,8 @@ export async function listLandings(): Promise<WhatsAppLanding[]> {
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 
-  if (!error && data && data.length > 0) {
-    return data.map(rowToLanding);
-  }
-
-  return DEMOS;
+  if (!error && data) return data.map(rowToLanding);
+  return [];
 }
 
 export async function submitLanding(input: SaveLandingInput): Promise<{ slug: string; id: string }> {

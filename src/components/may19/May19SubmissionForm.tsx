@@ -156,11 +156,6 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
           <p className="mt-2 text-xs text-slate-600">
             {selectedFile ? `Seçilen dosya: ${selectedFile.name}` : "Henüz dosya seçilmedi."}
           </p>
-          <p className="mt-1 text-xs text-slate-500">
-            {kind === "idea"
-              ? "19051919_fikir bucket'a yüklenir (max 5 MB)."
-              : "19051919_memory bucket'a yüklenir (max 15 MB)."}
-          </p>
         </div>
 
         <label className="col-span-2 flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-700">
