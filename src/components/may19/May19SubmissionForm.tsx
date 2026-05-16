@@ -18,11 +18,8 @@ type FormState = {
   email: string;
   country: string;
   city: string;
-  socialHandle: string;
   title: string;
   description: string;
-  message: string;
-  link: string;
   consent: boolean;
 };
 
@@ -31,11 +28,8 @@ const initialFormState: FormState = {
   email: "",
   country: "",
   city: "",
-  socialHandle: "",
   title: "",
   description: "",
-  message: "",
-  link: "",
   consent: false,
 };
 
@@ -72,11 +66,8 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
         email: form.email,
         country: form.country,
         city: form.city,
-        socialHandle: form.socialHandle,
         title: form.title,
         description: form.description,
-        message: form.message,
-        link: form.link,
         consent: form.consent,
         storageBucket: uploadedMeta?.storageBucket,
         storagePath: uploadedMeta?.storagePath,
@@ -120,15 +111,10 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
         </div>
 
         <div className="col-span-2 sm:col-span-1">
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Sosyal medya</Label>
-          <Input className={inputClass} value={form.socialHandle} onChange={(event) => update("socialHandle", event.target.value)} placeholder="@kullaniciadi" />
-        </div>
-
-        <div>
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Ülke</Label>
           <Input required className={inputClass} value={form.country} onChange={(event) => update("country", event.target.value)} />
         </div>
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">Şehir</Label>
           <Input required className={inputClass} value={form.city} onChange={(event) => update("city", event.target.value)} />
         </div>
@@ -149,13 +135,6 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
 
         <div className="col-span-2">
           <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
-            {kind === "idea" ? "Diasporayı nasıl güçlendirir?" : "Anına kısa not"}
-          </Label>
-          <Textarea rows={2} className="rounded-xl border-slate-200 bg-white/90 text-sm" value={form.message} onChange={(event) => update("message", event.target.value)} />
-        </div>
-
-        <div className="col-span-2">
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
             {kind === "idea" ? "Dosya (opsiyonel)" : "Foto/Video (opsiyonel)"}
           </Label>
           <Input
@@ -169,18 +148,6 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
               ? "19051919_fikir bucket'a yuklenir (max 5 MB)."
               : "19051919_memory bucket'a yuklenir (max 15 MB)."}
           </p>
-        </div>
-
-        <div className="col-span-2">
-          <Label className="mb-1.5 block text-xs font-semibold text-slate-600">
-            Google Drive veya sosyal medya post linki
-          </Label>
-          <Input
-            className={inputClass}
-            value={form.link}
-            onChange={(event) => update("link", event.target.value)}
-            placeholder="https://drive.google.com/... veya https://instagram.com/p/..."
-          />
         </div>
 
         <label className="col-span-2 flex items-start gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-700">
