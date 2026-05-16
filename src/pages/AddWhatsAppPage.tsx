@@ -9,7 +9,6 @@ import {
   Heart,
   MapPin,
   MessageSquare,
-  PlusCircle,
   Search,
   Share2,
   ShieldCheck,
@@ -153,7 +152,6 @@ export default function AddWhatsAppPage() {
   const [loadingList, setLoadingList] = useState(true);
   const [loadingLanding, setLoadingLanding] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [submittingGroup, setSubmittingGroup] = useState(false);
@@ -310,7 +308,6 @@ export default function AddWhatsAppPage() {
           : "Grubun onay sonrası listede yayınlanacak.",
       });
 
-      setDialogOpen(false);
       resetGroupForm();
     } catch (error) {
       toast({
@@ -625,140 +622,128 @@ export default function AddWhatsAppPage() {
             </div>
           </div>
 
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button size="lg" className="gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
-                <PlusCircle className="h-4 w-4" />
-                Grubunu Listele + Landing Page Oluştur
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>Grubunu Paylas</DialogTitle>
-              </DialogHeader>
+          <div className="space-y-5">
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
+              <div>
+                <Label htmlFor="group-name">Grup Adi *</Label>
+                <Input
+                  id="group-name"
+                  value={groupForm.groupName}
+                  onChange={(event) => updateGroupForm("groupName", event.target.value)}
+                  placeholder="Örn: Berlin Türk Girişimciler"
+                />
+              </div>
 
-              <div className="space-y-5">
-                <div className="space-y-3">
-                  <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
-                  <div>
-                    <Label htmlFor="group-name">Grup Adi *</Label>
+              <div className="grid gap-3 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="category">Kategori *</Label>
+                  <select
+                    id="category"
+                    value={groupForm.category}
+                    onChange={(event) => updateGroupForm("category", event.target.value as LandingCategory)}
+                    className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  >
+                    <option value="alumni">Alumni</option>
+                    <option value="doktor">Doktor / Sağlık</option>
+                    <option value="hobi">Hobi</option>
+                    <option value="is">Is Grubu</option>
+                    <option value="yatirim">Yatırım & Girişim</option>
+                    <option value="akademik">Akademik</option>
+                    <option value="dayanisma">Dayanışma</option>
+                    <option value="diger">Diğer</option>
+                  </select>
+                  {groupForm.category === "diger" ? (
                     <Input
-                      id="group-name"
-                      value={groupForm.groupName}
-                      onChange={(event) => updateGroupForm("groupName", event.target.value)}
-                      placeholder="Örn: Berlin Türk Girişimciler"
+                      className="mt-2"
+                      value={groupForm.otherCategory}
+                      onChange={(event) => updateGroupForm("otherCategory", event.target.value)}
+                      placeholder="Örn: Spor, Müzik, Aile"
                     />
-                  </div>
+                  ) : null}
+                </div>
+                <div>
+                  <Label htmlFor="whatsapp-link">WhatsApp Linki *</Label>
+                  <Input
+                    id="whatsapp-link"
+                    value={groupForm.whatsappLink}
+                    onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
+                    placeholder="https://chat.whatsapp.com/..."
+                  />
+                </div>
+              </div>
 
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <div>
-                      <Label htmlFor="category">Kategori *</Label>
-                      <select
-                        id="category"
-                        value={groupForm.category}
-                        onChange={(event) => updateGroupForm("category", event.target.value as LandingCategory)}
-                        className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      >
-                        <option value="alumni">Alumni</option>
-                        <option value="doktor">Doktor / Sağlık</option>
-                        <option value="hobi">Hobi</option>
-                        <option value="is">Is Grubu</option>
-                        <option value="yatirim">Yatırım & Girişim</option>
-                        <option value="akademik">Akademik</option>
-                        <option value="dayanisma">Dayanışma</option>
-                        <option value="diger">Diğer</option>
-                      </select>
-                      {groupForm.category === "diger" ? (
-                        <Input
-                          className="mt-2"
-                          value={groupForm.otherCategory}
-                          onChange={(event) => updateGroupForm("otherCategory", event.target.value)}
-                          placeholder="Örn: Spor, Müzik, Aile"
-                        />
-                      ) : null}
-                    </div>
-                    <div>
-                      <Label htmlFor="whatsapp-link">WhatsApp Linki *</Label>
-                      <Input
-                        id="whatsapp-link"
-                        value={groupForm.whatsappLink}
-                        onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
-                        placeholder="https://chat.whatsapp.com/..."
-                      />
-                    </div>
-                  </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <div>
+                  <Label htmlFor="country">Ülke *</Label>
+                  <Input
+                    id="country"
+                    value={groupForm.country}
+                    onChange={(event) => updateGroupForm("country", event.target.value)}
+                    placeholder="Almanya"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="city">Şehir *</Label>
+                  <Input
+                    id="city"
+                    value={groupForm.city}
+                    onChange={(event) => updateGroupForm("city", event.target.value)}
+                    placeholder="Berlin"
+                  />
+                </div>
+              </div>
 
-                  <div className="grid gap-3 md:grid-cols-2">
-                    <div>
-                      <Label htmlFor="country">Ülke *</Label>
-                      <Input
-                        id="country"
-                        value={groupForm.country}
-                        onChange={(event) => updateGroupForm("country", event.target.value)}
-                        placeholder="Almanya"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="city">Şehir *</Label>
-                      <Input
-                        id="city"
-                        value={groupForm.city}
-                        onChange={(event) => updateGroupForm("city", event.target.value)}
-                        placeholder="Berlin"
-                      />
-                    </div>
-                  </div>
+              <div>
+                <Label htmlFor="description">Kısa Açıklama</Label>
+                <Textarea
+                  id="description"
+                  rows={3}
+                  value={groupForm.description}
+                  onChange={(event) => updateGroupForm("description", event.target.value)}
+                  placeholder="Grup hakkında 1-2 cümle"
+                />
+              </div>
+            </div>
 
-                  <div>
-                    <Label htmlFor="description">Kısa Açıklama</Label>
-                    <Textarea
-                      id="description"
-                      rows={3}
-                      value={groupForm.description}
-                      onChange={(event) => updateGroupForm("description", event.target.value)}
-                      placeholder="Grup hakkında 1-2 cümle"
-                    />
+            <div className="rounded-2xl border border-border bg-muted/30 p-4">
+              <label className="flex cursor-pointer items-start gap-3">
+                <Checkbox
+                  checked={groupForm.createLanding}
+                  onCheckedChange={(value) => updateGroupForm("createLanding", Boolean(value))}
+                  className="mt-0.5"
+                />
+                <div>
+                  <p className="font-semibold text-foreground">Bu grup için landing sayfası da oluştur</p>
+                  <p className="text-sm text-muted-foreground">
+                    Onay sonrası grup sayfası /addwa?group=slug adresinde yayınlanır.
+                  </p>
+                </div>
+              </label>
+            </div>
+
+            {groupForm.createLanding ? (
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">2. Landing İçeriği</h3>
+                <div>
+                  <Label>Görünüm Tipi</Label>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <Button
+                      type="button"
+                      variant={groupForm.mode === "visual" ? "default" : "outline"}
+                      onClick={() => updateGroupForm("mode", "visual")}
+                    >
+                      Görselli
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={groupForm.mode === "text" ? "default" : "outline"}
+                      onClick={() => updateGroupForm("mode", "text")}
+                    >
+                      Sade Metin
+                    </Button>
                   </div>
                 </div>
-
-                <div className="rounded-2xl border border-border bg-muted/30 p-4">
-                  <label className="flex cursor-pointer items-start gap-3">
-                    <Checkbox
-                      checked={groupForm.createLanding}
-                      onCheckedChange={(value) => updateGroupForm("createLanding", Boolean(value))}
-                      className="mt-0.5"
-                    />
-                    <div>
-                      <p className="font-semibold text-foreground">Bu grup için landing sayfası da oluştur</p>
-                      <p className="text-sm text-muted-foreground">
-                        Onay sonrası grup sayfası /addwa?group=slug adresinde yayınlanır.
-                      </p>
-                    </div>
-                  </label>
-                </div>
-
-                {groupForm.createLanding ? (
-                  <div className="space-y-3">
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">2. Landing İçeriği</h3>
-                    <div>
-                      <Label>Görünüm Tipi</Label>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        <Button
-                          type="button"
-                          variant={groupForm.mode === "visual" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("mode", "visual")}
-                        >
-                          Görselli
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={groupForm.mode === "text" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("mode", "text")}
-                        >
-                          Sade Metin
-                        </Button>
-                      </div>
-                    </div>
 
                     {groupForm.mode === "visual" ? (
                       <div>
@@ -824,30 +809,28 @@ export default function AddWhatsAppPage() {
                         />
                       </div>
                     </div>
-                  </div>
-                ) : null}
-
-                <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
-                  <Checkbox
-                    checked={groupForm.consent}
-                    onCheckedChange={(value) => updateGroupForm("consent", Boolean(value))}
-                    className="mt-0.5"
-                  />
-                  <span className="text-sm text-muted-foreground">
-                    Verilerin admin incelemesi ve grup yonetimi amaciyla islenmesini kabul ediyorum.
-                  </span>
-                </label>
-
-                <Button
-                  className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                  onClick={() => void handleGroupSubmit()}
-                  disabled={submittingGroup}
-                >
-                  {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
-                </Button>
               </div>
-            </DialogContent>
-          </Dialog>
+            ) : null}
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
+              <Checkbox
+                checked={groupForm.consent}
+                onCheckedChange={(value) => updateGroupForm("consent", Boolean(value))}
+                className="mt-0.5"
+              />
+              <span className="text-sm text-muted-foreground">
+                Verilerin admin incelemesi ve grup yonetimi amaciyla islenmesini kabul ediyorum.
+              </span>
+            </label>
+
+            <Button
+              className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+              onClick={() => void handleGroupSubmit()}
+              disabled={submittingGroup}
+            >
+              {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
+            </Button>
+          </div>
         </div>
 
         <section className="mt-8">
