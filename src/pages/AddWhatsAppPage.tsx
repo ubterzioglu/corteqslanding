@@ -85,7 +85,7 @@ const categoryMeta: Record<
   },
   diger: {
     icon: Sparkles,
-    label: "Diger",
+    label: "Diğer",
     chipClass: "border-border bg-muted text-muted-foreground",
   },
 };
@@ -284,7 +284,7 @@ export default function AddWhatsAppPage() {
     if (groupForm.category === "diger" && !groupForm.otherCategory.trim()) {
       toast({
         title: "Kategori eksik",
-        description: "Diger kategorisini secerseniz aciklama gerekir.",
+        description: "Diğer kategorisini seçerseniz açıklama gerekir.",
         variant: "destructive",
       });
       return;
@@ -374,13 +374,13 @@ export default function AddWhatsAppPage() {
 
       toast({
         title: "Talebin alindi",
-        description: "Yonetici bilgilendirildi. Onay sonrasi iletisime gecilecek.",
+        description: "Yönetici bilgilendirildi. Onay sonrası iletişime geçilecek.",
       });
       setJoinDialogOpen(false);
       setJoinForm(initialJoinForm);
     } catch (error) {
       toast({
-        title: "Talep gonderilemedi",
+        title: "Talep gönderilemedi",
         description: error instanceof Error ? error.message : "Beklenmeyen hata",
         variant: "destructive",
       });
@@ -491,13 +491,13 @@ export default function AddWhatsAppPage() {
                 {selectedLanding.adminName ? (
                   <span className="inline-flex items-center gap-1">
                     <Users className="h-4 w-4" />
-                    Yonetici: {selectedLanding.adminName}
+                    Yönetici: {selectedLanding.adminName}
                   </span>
                 ) : null}
               </div>
 
               <section className="rounded-[1.75rem] border border-border bg-card p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-8">
-                <h2 className="text-xl font-bold text-foreground">Grubun cagri metni</h2>
+                <h2 className="text-xl font-bold text-foreground">Grubun çağrı metni</h2>
                 <p className="mt-4 whitespace-pre-line text-foreground/85">{selectedLanding.callToActionText}</p>
 
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -506,12 +506,12 @@ export default function AddWhatsAppPage() {
                       <DialogTrigger asChild>
                         <Button size="lg" className="flex-1 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
                           <UserPlus className="h-5 w-5" />
-                          Katilma Talebi Gonder
+                          Katılma Talebi Gönder
                         </Button>
                       </DialogTrigger>
                       <DialogContent className="max-w-md">
                         <DialogHeader>
-                          <DialogTitle>{selectedLanding.groupName} - Katilma Talebi</DialogTitle>
+                          <DialogTitle>{selectedLanding.groupName} - Katılma Talebi</DialogTitle>
                         </DialogHeader>
 
                         <div className="space-y-3">
@@ -722,7 +722,7 @@ export default function AddWhatsAppPage() {
                         <option value="yatirim">Yatirim & Girisim</option>
                         <option value="akademik">Akademik</option>
                         <option value="dayanisma">Dayanisma</option>
-                        <option value="diger">Diger</option>
+                        <option value="diger">Diğer</option>
                       </select>
                       {groupForm.category === "diger" ? (
                         <Input
@@ -766,7 +766,7 @@ export default function AddWhatsAppPage() {
                   </div>
 
                   <div>
-                    <Label htmlFor="description">Kisa Aciklama</Label>
+                    <Label htmlFor="description">Kısa Açıklama</Label>
                     <Textarea
                       id="description"
                       rows={3}
@@ -834,7 +834,7 @@ export default function AddWhatsAppPage() {
                         id="tagline"
                         value={groupForm.tagline}
                         onChange={(event) => updateGroupForm("tagline", event.target.value)}
-                        placeholder="Kisa ve net bir baslik"
+                        placeholder="Kısa ve net bir başlık"
                       />
                     </div>
 
@@ -862,16 +862,16 @@ export default function AddWhatsAppPage() {
 
                     <div className="grid gap-3 md:grid-cols-2">
                       <div>
-                        <Label htmlFor="admin-name">Yonetici Adi</Label>
+                        <Label htmlFor="admin-name">Yönetici Adı</Label>
                         <Input
                           id="admin-name"
                           value={groupForm.adminName}
                           onChange={(event) => updateGroupForm("adminName", event.target.value)}
-                          placeholder="Yonetici ismi"
+                          placeholder="Yönetici ismi"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="admin-contact">Yonetici Iletisimi</Label>
+                        <Label htmlFor="admin-contact">Yönetici İletişimi</Label>
                         <Input
                           id="admin-contact"
                           value={groupForm.adminContact}
@@ -937,7 +937,7 @@ export default function AddWhatsAppPage() {
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
                   className="pl-9"
-                  placeholder="Grup, sehir veya aciklama ara"
+                  placeholder="Grup, şehir veya açıklama ara"
                 />
               </div>
             </div>
@@ -952,7 +952,7 @@ export default function AddWhatsAppPage() {
               <div className="rounded-[1.75rem] border border-dashed border-border bg-card p-10 text-center">
                 <h3 className="text-lg font-bold text-foreground">Filtreye uygun grup bulunamadi</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Aramayi temizleyebilir veya ilk basvurulardan birini siz gonderebilirsiniz.
+                  Aramayı temizleyebilir veya ilk başvurulardan birini siz gönderebilirsiniz.
                 </p>
               </div>
             ) : (

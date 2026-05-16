@@ -18,13 +18,13 @@ export type WorkspaceDocPage = {
 export const workspaceDocPages: WorkspaceDocPage[] = [
   {
     slug: "kortexdocs",
-    title: "Kortex — CTO, Pitch & PRD Dokumanlari",
+    title: "Kortex — CTO, Pitch & PRD Dokümanları",
     description: "Teknik omurga, pitch anlatısı ve PRD hattını tek admin alanında toplayan referans sayfa.",
     badge: ["CTO Handoff", "Investor Pitch", "PRD"],
     sections: [
       {
         id: "vision",
-        title: "Dokuman Setinin Amaci",
+        title: "Doküman Setinin Amacı",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
@@ -53,7 +53,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Vizyon: global Turk diasporasi icin merkezi super app olmak.</li>
-            <li>Problem: hizmet, topluluk ve firsatlara daginik erisim.</li>
+            <li>Problem: hizmet, topluluk ve fırsatlara dağınık erişim.</li>
             <li>Cozum: discovery, community ve marketplace katmanlarini tek urunde birlestirmek.</li>
           </ul>
         ),
@@ -73,7 +73,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Akis MVP, Launch, Growth, PMF, Scale, Expansion ve Seed Ready fazlarina ayrilir.</li>
-            <li>Her faz sadece urun teslimi degil, arz, talep ve gelir dengesini birlikte tasir.</li>
+            <li>Her faz sadece ürün teslimi değil, arz, talep ve gelir dengesini birlikte taşır.</li>
             <li>Bu panel karar alma ve yatirimci anlatisi icin ayni anda kullanilir.</li>
           </ul>
         ),
@@ -96,7 +96,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#FBBC04",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Dogrulanan yapi yeni sehirler, partnerlikler ve B2B gelir katmanlariyla buyutulur.</li>
+            <li>Doğrulanan yapı yeni şehirler, partnerlikler ve B2B gelir katmanlarıyla büyütülür.</li>
             <li>Hedef metrikler advisor, kullanici ve revenue dengesini birlikte takip eder.</li>
             <li>Son durum yatirimciya anlatilabilir, tekrarlanabilir bir buyume sistemi yaratmaktir.</li>
           </ul>
@@ -162,7 +162,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Kurucu paylari ve ESOP havuzu fully diluted mantikla okunur.</li>
             <li>Bu yapi ise alim, option grant ve gelecek turlar icin referans islevi gorur.</li>
-            <li>Dokuman kurucu kontrolu ile ekip teshvikini birlikte dengelemeyi hedefler.</li>
+            <li>Doküman kurucu kontrolü ile ekip teşvikini birlikte dengelemeyi hedefler.</li>
           </ul>
         ),
       },
@@ -186,7 +186,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Erken asamada piyasa maasinin tam odenemedigi roller icin referans deger tutulur.</li>
             <li>Bu kayit gelecekteki denkleme, due diligence ve ekip beklenti yonetimine yardim eder.</li>
-            <li>Cap table yalniz oran degil, katkilarin ekonomik hafizasina da donusur.</li>
+            <li>Cap table yalnız oran değil, katkıların ekonomik hafızasına da dönüşür.</li>
           </ul>
         ),
       },
@@ -217,7 +217,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
             <li>Rol, asama, CV, gorusmeci ve not alanlari ile merkezi takip hedeflenir.</li>
-            <li>Dokuman bugunku haliyle tam dolu degil, ama operasyonel omurgayi kurar.</li>
+            <li>Doküman bugünkü haliyle tam dolu değil, ama operasyonel omurgayı kurar.</li>
             <li>Admin icinde bu sayfa karar baglamini kaybetmeden korunur.</li>
           </ul>
         ),
@@ -282,7 +282,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
   },
   {
     slug: "projetakibi",
-    title: "Proje Takibi Sablonu",
+    title: "Proje Takibi Şablonu",
     description: "Ekiplerin is parcasi, sahiplik ve teslim mantigini hizalamak icin kullandigi yonetim cercevesi.",
     badge: ["Tracking", "Ownership", "Execution"],
     sections: [
@@ -332,7 +332,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
     sections: [
       {
         id: "alias-note",
-        title: "Ayni Dokuman, Ikinci Giris",
+        title: "Aynı Doküman, İkinci Giriş",
         accentColor: "#1A6DC2",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
@@ -368,7 +368,7 @@ export const workspaceDocPages: WorkspaceDocPage[] = [
         accentColor: "#34A853",
         content: (
           <ul className="space-y-2 text-sm leading-7 text-slate-700">
-            <li>Resmi API ve esnek ama riskli gayriresmi cozumler yan yana degerlendirilir.</li>
+            <li>Resmi API ve esnek ama riskli gayriresmi çözümler yan yana değerlendirilir.</li>
             <li>Komut tetikleyicileri, zamanli mesajlar ve DM yonlendirmeleri temel senaryolardir.</li>
             <li>Opt-in ve opt-out akislari grup spamini azaltmak icin zorunludur.</li>
           </ul>

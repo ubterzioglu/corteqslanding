@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import HeroSection from "@/components/HeroSection";
 
 describe("HeroSection", () => {
-  it("shows the 19 Mayis coming soon pill only in the homepage hero", () => {
+  it("shows the 19 Mayıs coming soon pill only in the homepage hero", () => {
     render(
       <MemoryRouter>
         <HeroSection />

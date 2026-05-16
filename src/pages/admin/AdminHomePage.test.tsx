@@ -55,12 +55,12 @@ describe("AdminHomePage", () => {
     expect(screen.getByText("Command Center")).toBeInTheDocument();
     expect(screen.getByText("Dosyalar ve Linkler")).toBeInTheDocument();
     expect(screen.getByText("MVP Listesi")).toBeInTheDocument();
-    expect(screen.getByText("Diger Dokumanlar")).toBeInTheDocument();
-    expect(screen.getByText("Kortex — CTO, Pitch & PRD Dokumanlari")).toBeInTheDocument();
+    expect(screen.getByText("Diğer Dokümanlar")).toBeInTheDocument();
+    expect(screen.getByText("Kortex — CTO, Pitch & PRD Dokümanları")).toBeInTheDocument();
     expect(screen.getByText("Roadmap")).toBeInTheDocument();
     expect(screen.getByText("Ambassador")).toBeInTheDocument();
     expect(screen.getByText("Cap Table V2 — Hisse Yapisi")).toBeInTheDocument();
-    expect(screen.getByText("Proje Takibi Sablonu")).toBeInTheDocument();
+    expect(screen.getByText("Proje Takibi Şablonu")).toBeInTheDocument();
     fireEvent.click(screen.getByText("Dış Bağlantılar"));
     expect(screen.getByText("Engine")).toBeInTheDocument();
     expect(screen.getByText("Globe")).toBeInTheDocument();

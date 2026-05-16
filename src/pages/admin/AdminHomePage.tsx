@@ -288,7 +288,7 @@ const AdminHomePage = () => {
 
               <div className="space-y-2.5">
                 <div className="border-t border-slate-200 pt-2.5">
-                  <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">Diger Dokumanlar</div>
+                  <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500">Diğer Dokümanlar</div>
                 </div>
                 <div className="grid gap-2 sm:grid-cols-2">{adminPanelDocNavItems.map(renderDashboardCard)}</div>
               </div>

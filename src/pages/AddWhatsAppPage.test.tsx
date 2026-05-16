@@ -42,7 +42,7 @@ const listFixture = [
     mode: "visual",
     heroImage: "https://example.com/hero.jpg",
     tagline: "Berlin'de is ve network",
-    callToActionText: "Katil ve agini buyut",
+    callToActionText: "Katıl ve ağını büyüt",
     conditions: "Reklam yasak",
     whatsappLink: "https://chat.whatsapp.com/test",
     adminName: "Burak",
@@ -76,7 +76,7 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText(/Grup, sehir veya aciklama ara/i), {
+    fireEvent.change(screen.getByPlaceholderText(/Grup, şehir veya açıklama ara/i), {
       target: { value: "Tokyo" },
     });
 
@@ -87,7 +87,7 @@ describe("AddWhatsAppPage", () => {
     renderPage("/addwa?group=berlin-girisim");
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    expect(screen.getByText(/Katil ve agini buyut/i)).toBeInTheDocument();
+    expect(screen.getByText(/Katıl ve ağını büyüt/i)).toBeInTheDocument();
   });
 
   it("shows not found state for an unknown landing slug", async () => {

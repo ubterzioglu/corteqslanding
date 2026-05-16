@@ -90,7 +90,7 @@ const AdminWorkspaceHomePage = () => (
             </CardHeader>
             <CardContent>
               <Button asChild variant="outline" size="sm" className="w-full text-xs">
-                <Link to={card.to}>Dokumani Ac</Link>
+                <Link to={card.to}>Dokümanı Aç</Link>
               </Button>
             </CardContent>
           </Card>

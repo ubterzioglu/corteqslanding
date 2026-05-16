@@ -473,7 +473,7 @@ const AdminReferralPage = () => {
                         {editingId === referral.id && (
                           <div className="md:col-span-2 grid gap-2 rounded-md border p-3">
                             <p className="text-xs text-muted-foreground">
-                              Sadece aciklama ve gecerlilik tarihleri duzenlenebilir.
+                              Sadece açıklama ve geçerlilik tarihleri düzenlenebilir.
                             </p>
                             <div className="grid gap-2 md:grid-cols-2">
                               <Input

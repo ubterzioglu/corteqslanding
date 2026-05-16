@@ -95,7 +95,7 @@ const DEMOS: WhatsAppLanding[] = [
     callToActionText:
       "Vaka tartismasi, brans referansi ve is ilanlari icin profesyonel bir hekim agi.",
     conditions:
-      "Sadece doktorlar veya surecteki hekimler\nKisa tanitim gerekli\nHasta bilgisi paylasimi yasak",
+      "Sadece doktorlar veya süreçteki hekimler\nKısa tanıtım gerekli\nHasta bilgisi paylaşımı yasak",
     whatsappLink: "https://chat.whatsapp.com/doktor-london",
     adminName: "Dr. Leyla Aydin",
     adminContact: "info@corteqs.net",

@@ -89,8 +89,8 @@ export default function May19SubmissionForm({ kind }: May19SubmissionFormProps) 
         title: kind === "idea" ? "Fikrin alindi" : "Anin alindi",
         description:
           kind === "idea"
-            ? "19 Mayis fikrin moderasyon listesine eklendi."
-            : "19 Mayis anin moderasyon listesine eklendi.",
+            ? "19 Mayıs fikrin moderasyon listesine eklendi."
+            : "19 Mayıs anın moderasyon listesine eklendi.",
       });
     } catch (error) {
       toast({

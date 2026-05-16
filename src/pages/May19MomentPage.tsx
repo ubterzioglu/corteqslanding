@@ -6,15 +6,15 @@ export default function May19MomentPage() {
   return (
     <May19CampaignShell
       eyebrow="19 MAYIS ANI MODULU"
-      title="19 Mayis Anini Paylas"
-      description="Bayram coskusunu gosteren ani, not veya icerigini bu formdan ilet. Secilen gonderimler moderasyon sonrasi global yayinlara eklenir."
+      title="19 Mayıs Anını Paylaş"
+      description="Bayram coşkusunu gösteren anı, not veya içeriğini bu formdan ilet. Seçilen gönderimler moderasyon sonrası global yayınlara eklenir."
       heroImageSrc={heroLandmarks}
       heroImageAlt="CorteQS kahraman gorseli"
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
         <section className="mx-auto max-w-3xl space-y-4">
           <p className="text-sm leading-7 text-slate-700">
-            Kisa, acik ve baglanti eklenmis gonderimler daha hizli degerlendirilir.
+            Kısa, açık ve bağlantı eklenmiş gönderimler daha hızlı değerlendirilir.
           </p>
           <May19SubmissionForm kind="moment" />
         </section>

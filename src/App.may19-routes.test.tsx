@@ -51,7 +51,7 @@ vi.mock("@/pages/May19MomentPage.tsx", async () => {
   };
 });
 
-describe("App 19 Mayis routing", () => {
+describe("App 19 Mayıs routing", () => {
   afterEach(() => {
     window.history.pushState({}, "", "/");
   });
