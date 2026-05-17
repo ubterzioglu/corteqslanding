@@ -195,7 +195,7 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-3">
               {impactItems.map((item, index) => (
                 <div
                   key={item}
@@ -212,13 +212,13 @@ const AboutPage = () => {
             </div>
           </section>
 
-          <section className="mb-14 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+          <section className="mb-14 space-y-6">
             <article className="rounded-[2rem] border border-border/70 bg-[linear-gradient(160deg,rgba(18,58,60,0.96),rgba(28,111,105,0.92),rgba(243,110,49,0.86))] p-8 text-white shadow-[0_28px_70px_rgba(11,33,35,0.22)]">
               <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Kısaca</span>
               <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
                 Doğru insan + doğru zaman + doğru platform
               </h2>
-              <p className="mt-5 max-w-lg text-sm leading-7 text-white/82">
+              <p className="mt-5 text-sm leading-7 text-white/82">
                 CorteQS, diasporadaki enerjiyi sadece görünür kılmakla kalmaz; onu organize eder, eşleştirir ve büyümeye dönüştürür.
               </p>
 
