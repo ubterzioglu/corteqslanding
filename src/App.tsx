@@ -58,6 +58,13 @@ const WhatsAppGroupDetailRedirect = () => {
   return <Navigate to={`/addwa?group=${encodeURIComponent(id ?? "")}`} replace />;
 };
 
+const FoundersCombinedPage = () => (
+  <>
+    <FoundersPage />
+    <AboutPage />
+  </>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -68,8 +75,8 @@ const App = () => (
           <Routes>
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Index />} />
-              <Route path="/hakkimizda" element={<AboutPage />} />
-              <Route path="/founders" element={<FoundersPage />} />
+              <Route path="/hakkimizda" element={<Navigate to="/founders" replace />} />
+              <Route path="/founders" element={<FoundersCombinedPage />} />
               <Route path="/radar" element={<RadarPage />} />
               <Route path="/commercial" element={<CommercialIndexPage />} />
               <Route path="/commercial/:slug" element={<CommercialDocumentPage />} />

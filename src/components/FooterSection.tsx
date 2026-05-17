@@ -258,7 +258,7 @@ const FooterSection = () => {
               <div className="text-sm text-white/55">
                 © {new Date().getFullYear()} CorteQS bir Qualtron Sinclair ve Akçakanat-Terzioğlu Girişimidir. Tüm hakları saklıdır.
               </div>
-              <Link to="/hakkimizda" className="text-sm font-semibold text-primary hover:underline">
+              <Link to="/founders" className="text-sm font-semibold text-primary hover:underline">
                 Hakkımızda
               </Link>
             </div>

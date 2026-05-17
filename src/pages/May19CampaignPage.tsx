@@ -1,5 +1,8 @@
 import { ExternalLink, Lightbulb, Camera, Globe } from "lucide-react";
 import May19CampaignShell from "@/components/may19/May19CampaignShell";
+import may19GlobePinsImage from "@/assets/may19-globe-pins.png";
+import may19IdeasImage from "@/assets/may19-ideas.jpg";
+import may19MomentsImage from "@/assets/may19-moments.jpg";
 import heroLandmarks from "../../denemeremake.png";
 import may19HeaderBg from "../../newbg.png";
 import may19PoeticLayer from "../../last.png";
@@ -14,8 +17,7 @@ const moduleCards = [
     external: true,
     Icon: Globe,
     badgeClass: "bg-cyan-100 text-cyan-700",
-    imageSrc:
-      "https://images.unsplash.com/photo-1669395124135-08b7b7ed9523?auto=format&fit=crop&w=480&h=480&q=80",
+    imageSrc: may19GlobePinsImage,
     imageAlt: "Dijital dünya haritası",
   },
   {
@@ -27,8 +29,7 @@ const moduleCards = [
     external: false,
     Icon: Lightbulb,
     badgeClass: "bg-amber-100 text-amber-700",
-    imageSrc:
-      "https://images.unsplash.com/photo-1739163298132-89850034f247?auto=format&fit=crop&w=480&h=480&q=80",
+    imageSrc: may19IdeasImage,
     imageAlt: "Işık ampulü fikir görseli",
   },
   {
@@ -40,8 +41,7 @@ const moduleCards = [
     external: false,
     Icon: Camera,
     badgeClass: "bg-orange-100 text-orange-700",
-    imageSrc:
-      "https://images.unsplash.com/photo-1505816014357-96b5ff457e9a?auto=format&fit=crop&w=480&h=480&q=80",
+    imageSrc: may19MomentsImage,
     imageAlt: "Türk bayrağı ile kalabalık kutlama",
   },
 ];
