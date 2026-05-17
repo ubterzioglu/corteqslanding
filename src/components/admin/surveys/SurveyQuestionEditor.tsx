@@ -1,14 +1,6 @@
 import type { SurveyQuestion, SurveyQuestionType } from "@/lib/surveys";
 
-const QUESTION_TYPES: SurveyQuestionType[] = [
-  "short_text",
-  "long_text",
-  "single_choice",
-  "multiple_choice",
-  "rating",
-  "yes_no",
-  "email",
-];
+const QUESTION_TYPES: SurveyQuestionType[] = ["long_text", "single_choice"];
 
 type EditableQuestion = Partial<SurveyQuestion> & {
   localId: string;

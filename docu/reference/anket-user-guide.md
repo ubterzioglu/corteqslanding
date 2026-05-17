@@ -85,9 +85,9 @@ Doldurulacak alanlar:
 Soru builder ile:
 
 - Soru eklenir
-- Soru tipi seçilir
+- Soru tipi seçilir (`free text` veya `çoktan seçmeli`)
 - Required işaretlenir
-- Gerekirse seçenekler girilir (`single_choice`, `multiple_choice`)
+- `çoktan seçmeli` için seçenekler girilir
 - Sıralama yapılır
 
 Kaydet sonrası anket taslak (`draft`) olarak tutulur.
