@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
-import corteqsLogo from "../../0logomail.png";
+import corteqsLogo from "../../newlogo.png";
 import { notifySubmission } from "@/lib/mail";
 import {
   categoryOptions,

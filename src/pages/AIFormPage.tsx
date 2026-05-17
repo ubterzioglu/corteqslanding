@@ -1,4 +1,4 @@
-import corteqsLogo from "../../0logomail.png";
+import corteqsLogo from "../../newlogo.png";
 import ChatBot from "@/components/chat/ChatBot";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import { Link } from "react-router-dom";

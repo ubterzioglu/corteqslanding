@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import logo from "../../0logomail.png";
+import logo from "../../newlogo.png";
 
 const internalNavClass =
   "inline-flex min-h-[42px] flex-none items-center justify-center rounded-full border px-3 py-2 text-center text-[10px] font-bold tracking-[0.01em] transition sm:min-h-[44px] sm:text-[10.5px]";

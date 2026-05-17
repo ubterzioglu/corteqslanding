@@ -1,4 +1,5 @@
 import mascotHome from "../../maskotanasayfa.png";
+import seoLogo from "../../newlogo.png";
 
 const SEOContentSection = () => {
   return (
@@ -17,7 +18,7 @@ const SEOContentSection = () => {
           <div className="grid overflow-hidden rounded-2xl border border-white/50 bg-card/80 shadow-xl shadow-primary/10 backdrop-blur-sm lg:grid-cols-[0.42fr_0.58fr]">
             <figure className="flex min-h-64 items-center justify-center border-b border-white/50 bg-background/60 px-8 py-10 lg:border-b-0 lg:border-r">
               <img
-                src="/sharedx/maillogo.png"
+                src={seoLogo}
                 alt="CorteQS Logo"
                 className="h-auto w-full max-w-[280px]"
                 loading="lazy"

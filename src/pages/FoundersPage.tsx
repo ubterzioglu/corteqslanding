@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Linkedin } from "lucide-react";
 import burakPhoto from "../../burak.png";
-import foundersLogo from "../../foundersicinlogo.png";
+import foundersLogo from "../../newlogo.png";
 import ubtPhoto from "../../ubt.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
