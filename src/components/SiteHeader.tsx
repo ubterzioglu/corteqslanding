@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import logo from "../../0logomail.png";
 
 const internalNavClass =
@@ -34,6 +36,59 @@ const navLinks = [
 ] as const;
 
 export default function SiteHeader() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+
+  const renderNavItems = (isMobile = false) => (
+    <>
+      {navLinks.map((item) =>
+        "to" in item ? (
+          <Link
+            key={item.label}
+            to={item.to}
+            onClick={isMobile ? closeMobileMenu : undefined}
+            className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
+          >
+            {item.label}
+          </Link>
+        ) : (
+          <a
+            key={item.label}
+            href={item.href}
+            onClick={isMobile ? closeMobileMenu : undefined}
+            className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
+          >
+            {item.label}
+          </a>
+        ),
+      )}
+      <a
+        href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={isMobile ? closeMobileMenu : undefined}
+        className={`${internalNavClass} ${uniformNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
+      >
+        Whatsapp Topluluğu
+      </a>
+      <Link
+        to="/"
+        onClick={isMobile ? closeMobileMenu : undefined}
+        className={`${internalNavClass} ${uniformNavClass} border-slate-300 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]`}
+      >
+        Ana Sayfa
+      </Link>
+    </>
+  );
+
   return (
     <div className="sticky top-0 z-50 border-b border-orange-100/90 bg-[linear-gradient(180deg,#fffdf9_0%,#fff8f0_100%)] backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4 lg:px-6">
@@ -60,44 +115,36 @@ export default function SiteHeader() {
           </Link>
 
           <div className="flex min-w-0 flex-1 flex-col items-end gap-2">
-            <div className="flex min-w-0 flex-wrap items-center justify-end gap-2">
-              {navLinks.map((item) =>
-                "to" in item ? (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={`${internalNavClass} ${uniformNavClass} ${item.className}`}
-                  >
-                    {item.label}
-                  </a>
-                ),
-              )}
-              <a
-                href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${internalNavClass} ${uniformNavClass} border-emerald-200 bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] text-emerald-800 shadow-[0_14px_32px_rgba(16,185,129,0.25)] hover:-translate-y-0.5 hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-[0_18px_38px_rgba(16,185,129,0.32)]`}
-              >
-                Whatsapp Topluluğu
-              </a>
-              <Link
-                to="/"
-                className={`${internalNavClass} ${uniformNavClass} border-slate-300 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]`}
-              >
-                Ana Sayfa
-              </Link>
+            <button
+              type="button"
+              aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-white text-slate-700 shadow-sm transition hover:border-orange-300 hover:text-slate-900 md:hidden"
+            >
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+
+            <div className="hidden min-w-0 flex-wrap items-center justify-end gap-2 md:flex">
+              {renderNavItems()}
             </div>
           </div>
         </div>
       </div>
+
+      {mobileMenuOpen ? (
+        <div className="md:hidden">
+          <button
+            type="button"
+            aria-label="Menüyü kapat"
+            onClick={closeMobileMenu}
+            className="fixed inset-0 z-40 bg-slate-900/45 backdrop-blur-[1px]"
+          />
+          <div className="absolute inset-x-4 top-[calc(100%+8px)] z-50 rounded-2xl border border-orange-100 bg-white/95 p-3 shadow-[0_22px_55px_rgba(15,23,42,0.28)] backdrop-blur">
+            <div className="flex flex-col items-stretch gap-2">{renderNavItems(true)}</div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }
