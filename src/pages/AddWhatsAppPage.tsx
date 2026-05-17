@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -619,15 +620,19 @@ export default function AddWhatsAppPage() {
         </section>
 
         <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-5 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
-          <div className="mb-4 flex items-start gap-3">
-            <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
-            <div>
-              <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfasi da ac</h2>
-              <p className="mt-1 text-sm text-muted-foreground">Başvurular admin onayından sonra listelenir.</p>
-            </div>
-          </div>
-
-          <div className="space-y-5">
+          <Accordion type="single" collapsible defaultValue={undefined} className="w-full">
+            <AccordionItem value="addwa-form" className="border-b-0">
+              <AccordionTrigger className="py-0 hover:no-underline">
+                <div className="mb-1 flex items-start gap-3 text-left">
+                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
+                  <div>
+                    <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfasi da ac</h2>
+                    <p className="mt-1 text-sm text-muted-foreground">Başvurular admin onayından sonra listelenir.</p>
+                  </div>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="pt-4">
+                <div className="space-y-5">
             <div className="space-y-3">
               <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
               <div>
@@ -845,7 +850,10 @@ export default function AddWhatsAppPage() {
             >
               {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
             </Button>
-          </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         <section className="mt-8">
