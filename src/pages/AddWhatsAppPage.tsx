@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -61,7 +61,7 @@ const categoryMeta: Record<
   },
   is: {
     icon: Users,
-    label: "Is Grubu",
+    label: "İş Grubu",
     chipClass: "border-amber-500/20 bg-amber-500/10 text-amber-800",
   },
   yatirim: {
@@ -101,7 +101,6 @@ type GroupFormState = {
   description: string;
   createLanding: boolean;
   mode: LandingMode;
-  heroImage: string;
   tagline: string;
   callToActionText: string;
   conditions: string;
@@ -127,7 +126,6 @@ const initialGroupForm: GroupFormState = {
   description: "",
   createLanding: true,
   mode: "visual",
-  heroImage: "",
   tagline: "",
   callToActionText: "",
   conditions: "",
@@ -161,6 +159,7 @@ export default function AddWhatsAppPage() {
   const [groupForm, setGroupForm] = useState<GroupFormState>(initialGroupForm);
   const [joinForm, setJoinForm] = useState<JoinFormState>(initialJoinForm);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
+  const heroImageInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     document.dispatchEvent(new Event("render-complete"));
@@ -286,7 +285,7 @@ export default function AddWhatsAppPage() {
 
     setSubmittingGroup(true);
     try {
-      let heroImageUrl = groupForm.heroImage;
+      let heroImageUrl: string | undefined;
       if (groupForm.createLanding && groupForm.mode === "visual" && heroImageFile) {
         heroImageUrl = await uploadWhatsAppLandingHeroImage(heroImageFile);
       }
@@ -313,7 +312,7 @@ export default function AddWhatsAppPage() {
       toast({
         title: "Başvurun alındı",
         description: groupForm.createLanding
-          ? "Landing sayfan admin onayindan sonra /addwa altinda gorunecek."
+          ? "Landing sayfan admin onayından sonra /addwa altında görünecek."
           : "Grubun onay sonrası listede yayınlanacak.",
       });
 
@@ -360,7 +359,7 @@ export default function AddWhatsAppPage() {
       });
 
       toast({
-        title: "Talebin alindi",
+        title: "Talebin alındı",
         description: "Yönetici bilgilendirildi. Onay sonrası iletişime geçilecek.",
       });
       setJoinDialogOpen(false);
@@ -396,8 +395,8 @@ export default function AddWhatsAppPage() {
     await navigator.clipboard.writeText(shareUrl);
     setCopied(true);
     toast({
-      title: "Link kopyalandi",
-      description: "Landing sayfasi artik yeni /addwa adresi ile paylasilabilir.",
+      title: "Link kopyalandı",
+      description: "Landing sayfası artık yeni /addwa adresi ile paylaşılabilir.",
     });
     window.setTimeout(() => setCopied(false), 1800);
   };
@@ -423,7 +422,7 @@ export default function AddWhatsAppPage() {
               </p>
               <Button className="mt-6" variant="outline" onClick={backToList}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Tum gruplara don
+                Tüm gruplara dön
               </Button>
             </div>
           ) : (
@@ -437,7 +436,7 @@ export default function AddWhatsAppPage() {
                 className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Tum gruplar
+                Tüm gruplar
               </Link>
 
               {selectedLanding.mode === "visual" && selectedLanding.heroImage ? (
@@ -536,7 +535,7 @@ export default function AddWhatsAppPage() {
                             rows={3}
                             value={joinForm.note}
                             onChange={(event) => updateJoinForm("note", event.target.value)}
-                            placeholder="Kendinizden kisaca bahsedin"
+                            placeholder="Kendinizden kısaca bahsedin"
                           />
                         </div>
 
@@ -553,7 +552,7 @@ export default function AddWhatsAppPage() {
 
                   <Button size="lg" variant="outline" className="gap-2" onClick={() => void handleShare()}>
                     {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
-                    {copied ? "Kopyalandi" : "Sayfayi Paylas"}
+                    {copied ? "Kopyalandı" : "Sayfayı Paylaş"}
                   </Button>
                 </div>
               </section>
@@ -562,7 +561,7 @@ export default function AddWhatsAppPage() {
                 <section className="rounded-[1.75rem] border border-border bg-card p-6 md:p-8">
                   <div className="mb-4 flex items-center gap-2">
                     <ShieldCheck className="h-5 w-5 text-emerald-600" />
-                    <h2 className="text-xl font-bold text-foreground">Grup kosullari</h2>
+                    <h2 className="text-xl font-bold text-foreground">Grup koşulları</h2>
                   </div>
                   <ul className="space-y-2">
                     {selectedLanding.conditions
@@ -626,7 +625,7 @@ export default function AddWhatsAppPage() {
                 <div className="mb-1 flex items-start gap-3 text-left">
                   <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
                   <div>
-                    <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfasi da ac</h2>
+                    <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfası da aç</h2>
                     <p className="mt-1 text-sm text-muted-foreground">Başvurular admin onayından sonra listelenir.</p>
                   </div>
                 </div>
@@ -636,7 +635,7 @@ export default function AddWhatsAppPage() {
             <div className="space-y-3">
               <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
               <div>
-                <Label htmlFor="group-name">Grup Adi *</Label>
+                <Label htmlFor="group-name">Grup Adı *</Label>
                 <Input
                   id="group-name"
                   value={groupForm.groupName}
@@ -657,7 +656,7 @@ export default function AddWhatsAppPage() {
                     <option value="alumni">Alumni</option>
                     <option value="doktor">Doktor / Sağlık</option>
                     <option value="hobi">Hobi</option>
-                    <option value="is">Is Grubu</option>
+                    <option value="is">İş Grubu</option>
                     <option value="yatirim">Yatırım & Girişim</option>
                     <option value="akademik">Akademik</option>
                     <option value="dayanisma">Dayanışma</option>
@@ -758,22 +757,24 @@ export default function AddWhatsAppPage() {
                     {groupForm.mode === "visual" ? (
                       <div>
                         <Label htmlFor="hero-image-file">Hero Görsel Yükle</Label>
-                        <Input
+                        <input
+                          ref={heroImageInputRef}
                           id="hero-image-file"
                           type="file"
                           accept="image/jpeg,image/png,image/webp,image/gif"
+                          className="hidden"
                           onChange={(event) => setHeroImageFile(event.target.files?.[0] ?? null)}
                         />
-                        <p className="mt-1 text-xs text-muted-foreground">
-                          {heroImageFile ? `Seçilen dosya: ${heroImageFile.name}` : "JPG, PNG, WEBP veya GIF"}
+                        <button
+                          type="button"
+                          onClick={() => heroImageInputRef.current?.click()}
+                          className="inline-flex h-11 items-center gap-2 rounded-xl border border-emerald-200 bg-[linear-gradient(135deg,#ffffff_0%,#ecfdf5_100%)] px-4 text-sm font-semibold text-emerald-700 shadow-[0_12px_30px_rgba(16,185,129,0.15)] transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-[0_16px_36px_rgba(16,185,129,0.2)]"
+                        >
+                          Dosya Seç
+                        </button>
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          {heroImageFile ? `Seçilen dosya: ${heroImageFile.name}` : "Henüz dosya seçilmedi (JPG, PNG, WEBP, GIF)"}
                         </p>
-                        <Label htmlFor="hero-image" className="mt-3 block">Hero Görsel URL (opsiyonel)</Label>
-                        <Input
-                          id="hero-image"
-                          value={groupForm.heroImage}
-                          onChange={(event) => updateGroupForm("heroImage", event.target.value)}
-                          placeholder="https://..."
-                        />
                       </div>
                     ) : null}
 
@@ -794,7 +795,7 @@ export default function AddWhatsAppPage() {
                         rows={4}
                         value={groupForm.callToActionText}
                         onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
-                        placeholder="Bu gruba neden katilinmali?"
+                        placeholder="Bu gruba neden katılınmalı?"
                       />
                     </div>
 
@@ -839,7 +840,7 @@ export default function AddWhatsAppPage() {
                 className="mt-0.5"
               />
               <span className="text-sm text-muted-foreground">
-                Verilerin admin incelemesi ve grup yonetimi amaciyla islenmesini kabul ediyorum.
+                Verilerin admin incelemesi ve grup yönetimi amacıyla işlenmesini kabul ediyorum.
               </span>
             </label>
 
