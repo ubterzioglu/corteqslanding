@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import type { SurveyWithQuestions } from "@/lib/surveys";
 import { createSurvey, updateSurvey, upsertSurveyQuestions } from "@/lib/surveys";
 import SurveyQuestionEditor, { type EditableQuestion } from "@/components/admin/surveys/SurveyQuestionEditor";
+import { supabase } from "@/integrations/supabase/client";
 
 function slugify(value: string) {
   return value
@@ -15,6 +16,32 @@ function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "")
     .slice(0, 80);
+}
+
+function formatDateSlugPart(date = new Date()) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}${m}${d}`;
+}
+
+async function buildAutoDateSlug() {
+  const base = `anket-${formatDateSlugPart()}`;
+  const { data, error } = await supabase
+    .from("surveys")
+    .select("slug")
+    .like("slug", `${base}%`);
+
+  if (error) throw error;
+
+  const existing = new Set((data ?? []).map((row) => row.slug));
+  if (!existing.has(base)) return base;
+
+  let suffix = 2;
+  while (existing.has(`${base}-${suffix}`)) {
+    suffix += 1;
+  }
+  return `${base}-${suffix}`;
 }
 
 interface SurveyBuilderProps {
@@ -75,9 +102,10 @@ export default function SurveyBuilder({ initial, onSaved }: SurveyBuilderProps) 
 
     setSaving(true);
     try {
+      const resolvedSlug = slug.trim() || (await buildAutoDateSlug());
       const payload = {
         title: title.trim(),
-        slug: (slug.trim() || computedSlug),
+        slug: resolvedSlug,
         description: description.trim() || null,
         starts_at: startsAt ? new Date(startsAt).toISOString() : null,
         ends_at: endsAt ? new Date(endsAt).toISOString() : null,

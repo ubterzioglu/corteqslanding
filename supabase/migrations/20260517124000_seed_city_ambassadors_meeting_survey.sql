@@ -1,6 +1,10 @@
 update public.surveys
-set slug = 'anket-4829173506'
+set slug = 'anket-20260517'
 where slug = 'sehir-elcileri-toplanti-anketi-13052026';
+
+update public.surveys
+set slug = 'anket-20260517'
+where slug = 'anket-4829173506';
 
 insert into public.surveys (
   slug,
@@ -14,7 +18,7 @@ insert into public.surveys (
   published_at
 )
 values (
-  'anket-4829173506',
+  'anket-20260517',
   'Şehir Elçileri Toplantı Anketi',
   '13.05.2026 toplantısı sonrası CorteQS vizyonu, katkı motivasyonu ve toplantı katılımı geri bildirim anketi.',
   'published',
@@ -36,7 +40,7 @@ on conflict (slug) do update set
   updated_at = now();
 
 with target_survey as (
-  select id from public.surveys where slug = 'anket-4829173506'
+  select id from public.surveys where slug = 'anket-20260517'
 ), removed as (
   delete from public.survey_questions
   where survey_id = (select id from target_survey)
