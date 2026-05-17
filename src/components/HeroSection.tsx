@@ -246,9 +246,9 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">💬 Whatsapp Grubunu Ekle! →</span>
                   </Link>
-                  <Link
-                    to="/aiform"
-                    className={`${heroCtaClass} px-4`}
+                  <span
+                    aria-disabled="true"
+                    className={`${heroCtaClass} cursor-not-allowed px-4 pr-[6.2rem]`}
                     style={heroCardStyles.addContent}
                   >
                     <span
@@ -259,8 +259,11 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">✨ İçerik Ekle! →</span>
-                  </Link>
+                    <span className="absolute right-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.14em] text-rose-700 shadow-sm sm:text-[7.5px]">
+                      Yakında!
+                    </span>
+                    <span className="relative z-10">✨ İçerik Ekle!</span>
+                  </span>
                 </div>
               </div>
             </div>
