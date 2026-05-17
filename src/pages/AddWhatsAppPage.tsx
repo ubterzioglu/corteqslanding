@@ -579,19 +579,16 @@ export default function AddWhatsAppPage() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#fffdfa_0%,#f9fafb_100%)]">
       <main className="container mx-auto px-4 pb-16 pt-6">
-        <section className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <h1 className="flex items-center gap-2 text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
+        <section className="relative overflow-hidden rounded-[1.5rem] border border-cyan-100 bg-[linear-gradient(120deg,#e8f6f4_0%,#f5f8fb_100%)] p-6 shadow-[0_18px_56px_rgba(15,23,42,0.08)] md:p-10">
+          <div className="mb-6">
+            <h1 className="flex items-center justify-center gap-2 text-center text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
               <MessageSquare className="h-7 w-7 text-emerald-500" />
               Mesajlaşma Grupları
             </h1>
-            <p className="mt-2 text-sm text-slate-600 md:text-base">
+            <p className="mx-auto mt-2 max-w-3xl text-center text-sm text-slate-600 md:text-base">
               Diasporanın WhatsApp ve Telegram gruplarını ülke ve şehir bazında filtrele.
             </p>
           </div>
-        </section>
-
-        <section className="relative overflow-hidden rounded-[1.5rem] border border-cyan-100 bg-[linear-gradient(120deg,#e8f6f4_0%,#f5f8fb_100%)] p-6 shadow-[0_18px_56px_rgba(15,23,42,0.08)] md:p-10">
           <div className="mb-4 flex flex-wrap justify-center gap-2">
             <Badge className="border-0 bg-emerald-100 text-emerald-700">WhatsApp</Badge>
             <Badge className="border-0 bg-sky-100 text-sky-700">Telegram</Badge>

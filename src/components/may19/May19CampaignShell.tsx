@@ -34,6 +34,8 @@ export default function May19CampaignShell({
   secondaryCta,
   children,
 }: May19CampaignShellProps) {
+  const isExternal = (to: string) => /^https?:\/\//i.test(to);
+
   const headerStyle = headerBgImageSrc
     ? {
         backgroundImage: `linear-gradient(180deg,rgba(255,250,245,0.92)_0%,rgba(255,246,246,0.9)_54%,rgba(255,255,255,0.94)_100%), url(${headerBgImageSrc})`,
@@ -86,7 +88,13 @@ export default function May19CampaignShell({
                     size="lg"
                     className="rounded-full bg-rose-500 px-6 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(244,63,94,0.32)] hover:bg-rose-600"
                   >
-                    <Link to={primaryCta.to}>{primaryCta.label}</Link>
+                    {isExternal(primaryCta.to) ? (
+                      <a href={primaryCta.to} target="_blank" rel="noopener noreferrer">
+                        {primaryCta.label}
+                      </a>
+                    ) : (
+                      <Link to={primaryCta.to}>{primaryCta.label}</Link>
+                    )}
                   </Button>
                 ) : null}
                 {secondaryCta ? (
@@ -96,7 +104,13 @@ export default function May19CampaignShell({
                     variant="outline"
                     className="rounded-full border-white/25 bg-white/10 px-6 text-sm font-semibold text-white backdrop-blur hover:bg-white/20 hover:text-white"
                   >
-                    <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
+                    {isExternal(secondaryCta.to) ? (
+                      <a href={secondaryCta.to} target="_blank" rel="noopener noreferrer">
+                        {secondaryCta.label}
+                      </a>
+                    ) : (
+                      <Link to={secondaryCta.to}>{secondaryCta.label}</Link>
+                    )}
                   </Button>
                 ) : null}
               </div>

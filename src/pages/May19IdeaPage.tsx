@@ -26,7 +26,7 @@ export default function May19IdeaPage() {
               <Link to="/190519memory">19 Mayıs Anı Sayfasına Geç</Link>
             </Button>
             <Button asChild size="sm">
-              <Link to="/19051919">Ana Kampanyaya Dön</Link>
+              <Link to="/19051919">Yarışma Sayfasına Dön</Link>
             </Button>
           </div>
           <May19SubmissionForm kind="idea" />
