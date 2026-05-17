@@ -62,6 +62,8 @@ export interface JoinRequestInput {
   note?: string;
 }
 
+const WHATSAPP_LANDING_HERO_BUCKET = "whatsapp-landing-hero";
+
 export function slugify(value: string) {
   return value
     .toLowerCase()
@@ -170,6 +172,25 @@ export async function submitLanding(input: SaveLandingInput): Promise<{ slug: st
 
   if (error) throw error;
   return { id: data.id, slug: data.slug };
+}
+
+export async function uploadWhatsAppLandingHeroImage(file: File): Promise<string> {
+  const user = await getAuthenticatedUser();
+  const extension = file.name.includes(".") ? file.name.split(".").pop() : "jpg";
+  const safeBase = slugify(file.name.replace(/\.[^/.]+$/, "")) || "hero-image";
+  const filePath = `${user.id}/${Date.now()}-${safeBase}.${extension}`;
+
+  const { error } = await supabase.storage
+    .from(WHATSAPP_LANDING_HERO_BUCKET)
+    .upload(filePath, file, { upsert: false });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from(WHATSAPP_LANDING_HERO_BUCKET)
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
 }
 
 export async function createJoinRequest(input: JoinRequestInput) {

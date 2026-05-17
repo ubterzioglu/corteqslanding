@@ -33,6 +33,7 @@ import {
   getLanding,
   listLandings,
   submitLanding,
+  uploadWhatsAppLandingHeroImage,
   type LandingCategory,
   type LandingMode,
   type WhatsAppLanding,
@@ -158,6 +159,7 @@ export default function AddWhatsAppPage() {
   const [submittingJoin, setSubmittingJoin] = useState(false);
   const [groupForm, setGroupForm] = useState<GroupFormState>(initialGroupForm);
   const [joinForm, setJoinForm] = useState<JoinFormState>(initialJoinForm);
+  const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     document.dispatchEvent(new Event("render-complete"));
@@ -248,6 +250,7 @@ export default function AddWhatsAppPage() {
 
   const resetGroupForm = () => {
     setGroupForm(initialGroupForm);
+    setHeroImageFile(null);
   };
 
   const handleGroupSubmit = async () => {
@@ -282,13 +285,18 @@ export default function AddWhatsAppPage() {
 
     setSubmittingGroup(true);
     try {
+      let heroImageUrl = groupForm.heroImage;
+      if (groupForm.createLanding && groupForm.mode === "visual" && heroImageFile) {
+        heroImageUrl = await uploadWhatsAppLandingHeroImage(heroImageFile);
+      }
+
       await submitLanding({
         groupName: groupForm.groupName,
         category: groupForm.category,
         country: groupForm.country,
         city: groupForm.city,
         mode: groupForm.createLanding ? groupForm.mode : "text",
-        heroImage: groupForm.createLanding && groupForm.mode === "visual" ? groupForm.heroImage : undefined,
+        heroImage: groupForm.createLanding && groupForm.mode === "visual" ? heroImageUrl : undefined,
         tagline: groupForm.tagline || groupForm.description,
         callToActionText: groupForm.callToActionText || groupForm.description,
         conditions: groupForm.conditions,
@@ -744,7 +752,17 @@ export default function AddWhatsAppPage() {
 
                     {groupForm.mode === "visual" ? (
                       <div>
-                        <Label htmlFor="hero-image">Hero Görsel URL</Label>
+                        <Label htmlFor="hero-image-file">Hero Görsel Yükle</Label>
+                        <Input
+                          id="hero-image-file"
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp,image/gif"
+                          onChange={(event) => setHeroImageFile(event.target.files?.[0] ?? null)}
+                        />
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {heroImageFile ? `Seçilen dosya: ${heroImageFile.name}` : "JPG, PNG, WEBP veya GIF"}
+                        </p>
+                        <Label htmlFor="hero-image" className="mt-3 block">Hero Görsel URL (opsiyonel)</Label>
                         <Input
                           id="hero-image"
                           value={groupForm.heroImage}
