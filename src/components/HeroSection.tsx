@@ -80,7 +80,7 @@ const HeroSection = () => {
           <div className="max-w-[760px] lg:-translate-y-4 xl:-translate-y-6 2xl:-translate-y-8">
             <div className="mb-3 flex max-w-lg">
               <Link
-                to="/190519"
+                to="/19051919"
                 className={`${heroFeaturedCardClass} relative flex-col overflow-hidden rounded-[1.35rem] text-[12px] font-semibold md:text-[13px] 2xl:max-w-[38rem]`}
                 style={{
                   background:
