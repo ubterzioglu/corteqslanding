@@ -8,7 +8,7 @@ export default function AIFormPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <main id="main">
-        <div className="relative mt-4 h-60 overflow-hidden sm:mt-5 sm:h-64 md:mt-6 md:h-72">
+        <div className="relative mt-8 h-60 overflow-hidden sm:mt-10 sm:h-64 md:mt-12 md:h-72">
           <img src={heroNetworkLight} alt="" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/95" />
           <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-2xl px-6 pb-8 pt-12 text-center sm:pb-10 md:pt-16">
