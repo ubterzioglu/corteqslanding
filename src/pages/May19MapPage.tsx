@@ -11,10 +11,14 @@ export default function May19MapPage() {
     >
       <main className="bg-[linear-gradient(180deg,#fffaf5_0%,#fff_50%,#f8fbff_100%)]">
         <section className="container mx-auto px-4 pb-16 pt-10 text-center lg:px-6 lg:pb-20">
-          <p className="mx-auto max-w-3xl text-sm leading-7 text-slate-700 sm:text-base">
-            Bu sayfadaki demo globe bölümü kaldırıldı. Katılımı doğrudan harita platformu üzerinden
-            gerçekleştirebilirsin.
-          </p>
+          <a
+            href="https://globe.corteqs.net/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-14 items-center justify-center rounded-full bg-emerald-600 px-10 text-lg font-extrabold text-white shadow-[0_20px_50px_rgba(5,150,105,0.35)] transition hover:-translate-y-0.5 hover:bg-emerald-700"
+          >
+            Hadi sen de katıl!
+          </a>
         </section>
       </main>
     </May19CampaignShell>
