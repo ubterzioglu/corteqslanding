@@ -121,7 +121,7 @@ export default function May19CampaignShell({
                 <img
                   src={heroImageSrc}
                   alt={heroImageAlt}
-                  className="h-auto w-full max-w-[560px] object-contain"
+                  className="h-auto w-full max-w-[680px] object-contain"
                 />
               </div>
             ) : null}

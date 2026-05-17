@@ -7,7 +7,7 @@ import heroLandmarks from "../../denemeremake.png";
 export default function May19IdeaPage() {
   return (
     <May19CampaignShell
-      eyebrow="19 MAYIS FİKİR MODÜLÜ"
+      eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Kelimelik Fikrini Gönder"
       description="Diasporayı güçlendirecek fikrini bu formdan ilet. Uygun içerikler moderasyon sonrası global akışa dahil edilir."
       heroImageSrc={heroLandmarks}
@@ -15,20 +15,14 @@ export default function May19IdeaPage() {
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
         <section className="mx-auto max-w-3xl space-y-4">
-          <p className="text-sm leading-7 text-slate-700">
-            Fikrini net ve uygulanabilir şekilde paylaşman, yayın seçiminde öncelik sağlar.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild variant="outline" size="sm">
-              <Link to="/19051919/harita">Haritaya Geç</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/190519memory">19 Mayıs Anı Sayfasına Geç</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link to="/19051919">Yarışma Sayfasına Dön</Link>
-            </Button>
-          </div>
+          <p className="text-sm leading-7 text-slate-700">Hadi bayram coşkusunu birlikte yaşayalım.</p>
+          <Button
+            asChild
+            size="sm"
+            className="border border-rose-200 bg-white text-rose-700 hover:bg-rose-50"
+          >
+            <Link to="/19051919">19 Mayıs Sayfasına Dön</Link>
+          </Button>
           <May19SubmissionForm kind="idea" />
         </section>
       </main>

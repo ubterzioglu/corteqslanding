@@ -14,6 +14,9 @@ const moduleCards = [
     external: true,
     Icon: Globe,
     badgeClass: "bg-cyan-100 text-cyan-700",
+    imageSrc:
+      "https://images.unsplash.com/photo-1669395124135-08b7b7ed9523?auto=format&fit=crop&w=480&h=480&q=80",
+    imageAlt: "Dijital dünya haritası",
   },
   {
     id: "module-2",
@@ -24,6 +27,9 @@ const moduleCards = [
     external: false,
     Icon: Lightbulb,
     badgeClass: "bg-amber-100 text-amber-700",
+    imageSrc:
+      "https://images.unsplash.com/photo-1739163298132-89850034f247?auto=format&fit=crop&w=480&h=480&q=80",
+    imageAlt: "Işık ampulü fikir görseli",
   },
   {
     id: "module-3",
@@ -34,6 +40,9 @@ const moduleCards = [
     external: false,
     Icon: Camera,
     badgeClass: "bg-orange-100 text-orange-700",
+    imageSrc:
+      "https://images.unsplash.com/photo-1505816014357-96b5ff457e9a?auto=format&fit=crop&w=480&h=480&q=80",
+    imageAlt: "Türk bayrağı ile kalabalık kutlama",
   },
 ];
 
@@ -65,6 +74,12 @@ export default function May19CampaignPage() {
                       <ExternalLink className="h-4 w-4" />
                     </p>
                   </div>
+                  <img
+                    src={item.imageSrc}
+                    alt={item.imageAlt}
+                    className="hidden h-24 w-24 shrink-0 rounded-xl object-cover ring-1 ring-slate-200 sm:block"
+                    loading="lazy"
+                  />
                 </div>
               </div>
             );

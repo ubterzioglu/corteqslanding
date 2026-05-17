@@ -7,7 +7,7 @@ import heroLandmarks from "../../denemeremake.png";
 export default function May19MomentPage() {
   return (
     <May19CampaignShell
-      eyebrow="19 MAYIS ANI MODULU"
+      eyebrow="19 MAYIS ATATÜRK'Ü ANMA, GENÇLİK VE SPOR BAYRAMI"
       title="19 Mayıs Anını Paylaş"
       description="Bayram coşkusunu gösteren anı, not veya içeriğini bu formdan ilet. Seçilen gönderimler moderasyon sonrası global yayınlara eklenir."
       heroImageSrc={heroLandmarks}
@@ -15,20 +15,14 @@ export default function May19MomentPage() {
     >
       <main className="container mx-auto px-4 pb-16 pt-10 lg:px-6 lg:pb-20">
         <section className="mx-auto max-w-3xl space-y-4">
-          <p className="text-sm leading-7 text-slate-700">
-            Kısa, açık ve bağlantı eklenmiş gönderimler daha hızlı değerlendirilir.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild variant="outline" size="sm">
-              <Link to="/19051919/harita">Haritaya Geç</Link>
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/190519idea">19 Kelimelik Fikir Sayfasına Geç</Link>
-            </Button>
-            <Button asChild size="sm">
-              <Link to="/19051919">Yarışma Sayfasına Dön</Link>
-            </Button>
-          </div>
+          <p className="text-sm leading-7 text-slate-700">Hadi bayram coşkusunu birlikte yaşayalım.</p>
+          <Button
+            asChild
+            size="sm"
+            className="border border-rose-200 bg-white text-rose-700 hover:bg-rose-50"
+          >
+            <Link to="/19051919">19 Mayıs Sayfasına Dön</Link>
+          </Button>
           <May19SubmissionForm kind="moment" />
         </section>
       </main>
