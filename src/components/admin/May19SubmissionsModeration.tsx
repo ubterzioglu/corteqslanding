@@ -27,7 +27,7 @@ const statusBadgeClass: Record<May19SubmissionStatus, string> = {
 };
 
 const statusLabel: Record<May19SubmissionStatus, string> = {
-  pending: "Bekliyor",
+  pending: "Beklemede",
   approved: "Onaylı",
   rejected: "Reddedildi",
 };
@@ -153,7 +153,7 @@ export default function May19SubmissionsModeration({ kind }: May19SubmissionsMod
 
       <Tabs value={tab} onValueChange={(value) => setTab(value as May19SubmissionStatus)}>
         <TabsList>
-          <TabsTrigger value="pending">Bekleyen</TabsTrigger>
+          <TabsTrigger value="pending">Beklemede</TabsTrigger>
           <TabsTrigger value="approved">Onaylı</TabsTrigger>
           <TabsTrigger value="rejected">Reddedilen</TabsTrigger>
         </TabsList>

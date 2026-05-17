@@ -21,7 +21,7 @@ const statusBadgeClass: Record<LandingStatus, string> = {
 };
 
 const statusLabel: Record<LandingStatus, string> = {
-  pending: "Bekliyor",
+  pending: "Beklemede",
   approved: "Onaylandı",
   rejected: "Reddedildi",
 };
@@ -92,7 +92,7 @@ export default function WhatsAppLandingsModeration() {
 
       <Tabs value={tab} onValueChange={(value) => setTab(value as LandingStatus)}>
         <TabsList>
-          <TabsTrigger value="pending">Bekleyen</TabsTrigger>
+          <TabsTrigger value="pending">Beklemede</TabsTrigger>
           <TabsTrigger value="approved">Onaylı</TabsTrigger>
           <TabsTrigger value="rejected">Reddedilen</TabsTrigger>
         </TabsList>
