@@ -277,6 +277,174 @@ export type Database = {
         };
         Relationships: [];
       };
+      surveys: {
+        Row: {
+          allow_anonymous: boolean;
+          allow_multiple_submissions: boolean;
+          approved_by: string | null;
+          closed_at: string | null;
+          created_at: string;
+          created_by: string | null;
+          description: string | null;
+          ends_at: string | null;
+          id: string;
+          is_featured: boolean;
+          published_at: string | null;
+          slug: string;
+          starts_at: string | null;
+          status: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          allow_anonymous?: boolean;
+          allow_multiple_submissions?: boolean;
+          approved_by?: string | null;
+          closed_at?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          description?: string | null;
+          ends_at?: string | null;
+          id?: string;
+          is_featured?: boolean;
+          published_at?: string | null;
+          slug: string;
+          starts_at?: string | null;
+          status?: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          allow_anonymous?: boolean;
+          allow_multiple_submissions?: boolean;
+          approved_by?: string | null;
+          closed_at?: string | null;
+          created_at?: string;
+          created_by?: string | null;
+          description?: string | null;
+          ends_at?: string | null;
+          id?: string;
+          is_featured?: boolean;
+          published_at?: string | null;
+          slug?: string;
+          starts_at?: string | null;
+          status?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      survey_questions: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: string;
+          is_required: boolean;
+          options: Json;
+          placeholder: string | null;
+          question: string;
+          sort_order: number;
+          survey_id: string;
+          type: string;
+          updated_at: string;
+          validation: Json;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_required?: boolean;
+          options?: Json;
+          placeholder?: string | null;
+          question: string;
+          sort_order?: number;
+          survey_id: string;
+          type: string;
+          updated_at?: string;
+          validation?: Json;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          is_required?: boolean;
+          options?: Json;
+          placeholder?: string | null;
+          question?: string;
+          sort_order?: number;
+          survey_id?: string;
+          type?: string;
+          updated_at?: string;
+          validation?: Json;
+        };
+        Relationships: [];
+      };
+      survey_responses: {
+        Row: {
+          contact_opt_in: boolean;
+          created_at: string;
+          id: string;
+          ip_hash: string | null;
+          respondent_email: string | null;
+          respondent_name: string | null;
+          respondent_user_id: string | null;
+          status: string;
+          submitted_at: string;
+          survey_id: string;
+          user_agent: string | null;
+        };
+        Insert: {
+          contact_opt_in?: boolean;
+          created_at?: string;
+          id?: string;
+          ip_hash?: string | null;
+          respondent_email?: string | null;
+          respondent_name?: string | null;
+          respondent_user_id?: string | null;
+          status?: string;
+          submitted_at?: string;
+          survey_id: string;
+          user_agent?: string | null;
+        };
+        Update: {
+          contact_opt_in?: boolean;
+          created_at?: string;
+          id?: string;
+          ip_hash?: string | null;
+          respondent_email?: string | null;
+          respondent_name?: string | null;
+          respondent_user_id?: string | null;
+          status?: string;
+          submitted_at?: string;
+          survey_id?: string;
+          user_agent?: string | null;
+        };
+        Relationships: [];
+      };
+      survey_answers: {
+        Row: {
+          answer_value: Json;
+          created_at: string;
+          id: string;
+          question_id: string;
+          response_id: string;
+        };
+        Insert: {
+          answer_value: Json;
+          created_at?: string;
+          id?: string;
+          question_id: string;
+          response_id: string;
+        };
+        Update: {
+          answer_value?: Json;
+          created_at?: string;
+          id?: string;
+          question_id?: string;
+          response_id?: string;
+        };
+        Relationships: [];
+      };
       advisor_social_media_links: {
         Row: {
           added_by: "UBT" | "Burak" | "Diğer";

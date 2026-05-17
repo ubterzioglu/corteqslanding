@@ -105,6 +105,7 @@ const AdminLayout = () => {
   const eventNavItems = [
     { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
     { to: "/admin/may19/kelime", label: "19 Mayıs Fikir" },
+    { to: "/admin/surveys", label: "Anketler" },
     { to: "/admin/whatsapp-landings", label: "WA Grup Ekleme" },
   ] as const;
 

@@ -28,6 +28,12 @@ const navLinks = [
       "border-orange-200 bg-[linear-gradient(135deg,#fff7ed_0%,#fed7aa_100%)] text-orange-800 shadow-[0_14px_32px_rgba(234,88,12,0.25)] hover:-translate-y-0.5 hover:border-orange-300 hover:bg-orange-50 hover:shadow-[0_18px_38px_rgba(234,88,12,0.32)]",
   },
   {
+    label: "Anketler",
+    to: "/anket",
+    className:
+      "border-slate-200 bg-[linear-gradient(135deg,#f8fafc_0%,#e2e8f0_100%)] text-slate-800 shadow-[0_14px_32px_rgba(100,116,139,0.2)] hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-100 hover:shadow-[0_18px_38px_rgba(100,116,139,0.28)]",
+  },
+  {
     label: "Vlogger Yarışması",
     to: "/vlogger-yarismasi",
     className:

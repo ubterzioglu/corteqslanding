@@ -1,4 +1,4 @@
-import { BookOpen, ExternalLink, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
+import { BookOpen, ClipboardList, ExternalLink, FolderKanban, Globe, ListChecks, Network, Rocket, ScrollText as ScrollTextIcon, Sparkles } from "lucide-react";
 import { Heart, Lightbulb, Megaphone, MessageSquare, MonitorPlay, Radio, ScrollText } from "lucide-react";
 import { workspaceDocPages } from "@/lib/dashboard/workspace-doc-pages";
 
@@ -24,6 +24,7 @@ export const otherActionNavItems = [
 export const otherRecordNavItems = [
   { to: "/admin/members", label: "Üye Takibi", icon: Network },
   { to: "/admin/lansman", label: "Lansman Katılım", icon: MonitorPlay },
+  { to: "/admin/surveys", label: "Anketler", icon: ClipboardList },
   { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları", icon: MessageSquare },
 ] as const;
 

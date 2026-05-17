@@ -49,6 +49,13 @@ import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
 import AIFormPage from "./pages/AIFormPage.tsx";
 import AdminMay19IdeaPage from "@/pages/admin/AdminMay19IdeaPage";
 import AdminMay19MomentPage from "@/pages/admin/AdminMay19MomentPage";
+import SurveysPage from "./pages/SurveysPage.tsx";
+import SurveyDetailPage from "./pages/SurveyDetailPage.tsx";
+import SurveyThankYouPage from "./pages/SurveyThankYouPage.tsx";
+import AdminSurveysPage from "@/pages/admin/surveys/AdminSurveysPage";
+import AdminSurveyCreatePage from "@/pages/admin/surveys/AdminSurveyCreatePage";
+import AdminSurveyEditPage from "@/pages/admin/surveys/AdminSurveyEditPage";
+import AdminSurveyResponsesPage from "@/pages/admin/surveys/AdminSurveyResponsesPage";
 
 const queryClient = new QueryClient();
 
@@ -91,6 +98,9 @@ const App = () => (
               <Route path="/190519memory" element={<May19MomentPage />} />
               <Route path="/190519" element={<Navigate to="/190519memory" replace />} />
               <Route path="/addwa" element={<AddWhatsAppPage />} />
+              <Route path="/anket" element={<SurveysPage />} />
+              <Route path="/anket/tesekkurler" element={<SurveyThankYouPage />} />
+              <Route path="/anket/:slug" element={<SurveyDetailPage />} />
               <Route path="/aiform" element={<AIFormPage />} />
               <Route path="/form" element={<FormPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
@@ -118,6 +128,10 @@ const App = () => (
                 <Route path=":profile" element={<AdminAdvisorLinksPage />} />
               </Route>
               <Route path="social-media" element={<AdminSocialMediaLinksPage />} />
+              <Route path="surveys" element={<AdminSurveysPage />} />
+              <Route path="surveys/new" element={<AdminSurveyCreatePage />} />
+              <Route path="surveys/:id/edit" element={<AdminSurveyEditPage />} />
+              <Route path="surveys/:id/responses" element={<AdminSurveyResponsesPage />} />
               <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
               <Route path="may19/kelime" element={<AdminMay19IdeaPage />} />
               <Route path="may19/ani" element={<AdminMay19MomentPage />} />
