@@ -98,9 +98,15 @@ const AdminLayout = () => {
   const [authLoading, setAuthLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const [otherActionsMenuOpen, setOtherActionsMenuOpen] = useState(false);
+  const [eventMenuOpen, setEventMenuOpen] = useState(false);
   const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
   const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
   const demoUrl = "https://global-network-bridge.lovable.app/";
+  const eventNavItems = [
+    { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
+    { to: "/admin/may19/kelime", label: "19 Mayıs Fikir" },
+    { to: "/admin/whatsapp-landings", label: "WA Grup Ekleme" },
+  ] as const;
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
     setSession(nextSession);
@@ -219,6 +225,7 @@ const AdminLayout = () => {
     location.pathname.startsWith("/admin/advisors/") ||
     otherRecordNavItems.some((item) => location.pathname === item.to) ||
     may19RecordNavItems.some((item) => location.pathname === item.to);
+  const eventMenuActive = eventNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
   const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
@@ -303,6 +310,48 @@ const AdminLayout = () => {
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
             </div>
             <nav className="flex flex-wrap items-center gap-1">
+                <div className="flex items-center">
+                  <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                  <DropdownMenu open={eventMenuOpen} onOpenChange={setEventMenuOpen}>
+                    <DropdownMenuTrigger asChild>
+                      <div
+                        onMouseEnter={() => setEventMenuOpen(true)}
+                        onMouseLeave={() => setEventMenuOpen(false)}
+                      >
+                        <button
+                          type="button"
+                          className={`inline-flex items-center gap-1 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                            eventMenuActive
+                              ? "bg-[#D93025] text-white"
+                              : "bg-[#FCE8E6] text-[#B3261E] hover:bg-[#FAD2CF]"
+                          }`}
+                        >
+                          Etkinlik
+                          <ChevronDown className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="start"
+                      className="w-48"
+                      onMouseEnter={() => setEventMenuOpen(true)}
+                      onMouseLeave={() => setEventMenuOpen(false)}
+                    >
+                      {eventNavItems.map((item) => {
+                        const isActive = location.pathname === item.to;
+
+                        return (
+                          <DropdownMenuItem key={item.to} asChild>
+                            <Link to={item.to} className="flex items-center justify-between gap-3">
+                              <span>{item.label}</span>
+                              {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                            </Link>
+                          </DropdownMenuItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
                 <div className="flex items-center">
                   <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                   <NavLink to="/admin" className={({ isActive }) => linkClass({ isActive, variant: "home" })}>
