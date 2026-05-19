@@ -11,3 +11,6 @@ verify_jwt = true
 
 [functions.lansman-admin]
 verify_jwt = true
+
+[functions.submit-survey-response]
+verify_jwt = false
