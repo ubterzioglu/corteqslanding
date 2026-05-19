@@ -428,6 +428,15 @@ function getMissingColumnName(error: unknown): string | null {
   return match?.[1] ?? null;
 }
 
+function isRowLevelSecurityError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+
+  const code = "code" in error && typeof (error as ErrorWithMessage).code === "string" ? (error as ErrorWithMessage).code : "";
+  const message = "message" in error && typeof (error as ErrorWithMessage).message === "string" ? (error as ErrorWithMessage).message : "";
+
+  return code === "42501" || /row-level security policy/i.test(message ?? "");
+}
+
 export async function insertSubmissionWithCompatibility(payload: SubmissionInsert) {
   const { supabase } = await import("@/integrations/supabase/client");
   let currentPayload: Record<string, unknown> = { ...payload };
@@ -446,6 +455,22 @@ export async function insertSubmissionWithCompatibility(payload: SubmissionInser
       const { [missingColumn]: _removed, ...nextPayload } = currentPayload;
       currentPayload = nextPayload;
       continue;
+    }
+
+    // Public insert policy exists but public select policy does not. In that case,
+    // `insert(...).select(...).single()` can fail even though raw insert is allowed.
+    if (isRowLevelSecurityError(error)) {
+      const { error: insertOnlyError } = await supabase.from("submissions").insert(currentPayload as SubmissionInsert);
+      if (!insertOnlyError) return null;
+
+      const fallbackMissingColumn = getMissingColumnName(insertOnlyError);
+      if (fallbackMissingColumn && fallbackMissingColumn in currentPayload) {
+        const { [fallbackMissingColumn]: _removed, ...nextPayload } = currentPayload;
+        currentPayload = nextPayload;
+        continue;
+      }
+
+      throw insertOnlyError;
     }
 
     throw error;
