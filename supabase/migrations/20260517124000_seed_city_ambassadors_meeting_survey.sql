@@ -28,7 +28,7 @@ values (
   'published',
   '2026-05-13T00:00:00+00',
   true,
-  false,
+  true,
   true,
   now()
 )

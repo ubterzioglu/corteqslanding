@@ -19,7 +19,8 @@ type SubmitPayload = {
 const MAX_BODY_BYTES = 64_000;
 const MIN_SUBMIT_SECONDS = 3;
 const RATE_LIMIT_WINDOW_SECONDS = 60;
-const RATE_LIMIT_MAX = 1;
+const RATE_LIMIT_MAX_SINGLE_SUBMISSION = 1;
+const RATE_LIMIT_MAX_MULTI_SUBMISSION = 10;
 
 function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -159,6 +160,7 @@ Deno.serve(async (req) => {
 
     const windowMs = RATE_LIMIT_WINDOW_SECONDS * 1000;
     const windowStartedAt = new Date(Math.floor(now / windowMs) * windowMs).toISOString();
+    const rateLimitMax = survey.allow_multiple_submissions ? RATE_LIMIT_MAX_MULTI_SUBMISSION : RATE_LIMIT_MAX_SINGLE_SUBMISSION;
 
     const { data: existingRl } = await supabase
       .from("edge_rate_limits")
@@ -177,7 +179,7 @@ Deno.serve(async (req) => {
     } else {
       const sameWindow = existingRl.window_started_at === windowStartedAt;
       const nextCount = sameWindow ? Number(existingRl.request_count ?? 0) + 1 : 1;
-      if (sameWindow && nextCount > RATE_LIMIT_MAX) {
+      if (sameWindow && nextCount > rateLimitMax) {
         return json({ error: "Too many requests" }, 429);
       }
       await supabase
@@ -224,7 +226,7 @@ Deno.serve(async (req) => {
         .limit(1);
 
       if (recent && recent.length > 0) {
-        return json({ error: "Multiple submissions are disabled" }, 429);
+        return json({ error: "Multiple submissions are disabled" }, 409);
       }
     }
 
