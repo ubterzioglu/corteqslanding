@@ -126,12 +126,12 @@ export default function SiteHeader() {
               aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-white text-slate-700 shadow-sm transition hover:border-orange-300 hover:text-slate-900 md:hidden"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-orange-200 bg-white text-slate-700 shadow-sm transition hover:border-orange-300 hover:text-slate-900 xl:hidden"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
 
-            <div className="hidden min-w-0 flex-wrap items-center justify-end gap-2 md:flex">
+            <div className="hidden min-w-0 flex-wrap items-center justify-end gap-2 xl:flex">
               {renderNavItems()}
             </div>
           </div>
@@ -139,7 +139,7 @@ export default function SiteHeader() {
       </div>
 
       {mobileMenuOpen ? (
-        <div className="md:hidden">
+        <div className="xl:hidden">
           <button
             type="button"
             aria-label="Menüyü kapat"
