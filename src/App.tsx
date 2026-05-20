@@ -3,6 +3,8 @@ import { BrowserRouter, Navigate, Route, Routes, useParams } from "react-router-
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import RequireAuth from "@/components/auth/RequireAuth";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
@@ -56,6 +58,9 @@ import AdminSurveysPage from "@/pages/admin/surveys/AdminSurveysPage";
 import AdminSurveyCreatePage from "@/pages/admin/surveys/AdminSurveyCreatePage";
 import AdminSurveyEditPage from "@/pages/admin/surveys/AdminSurveyEditPage";
 import AdminSurveyResponsesPage from "@/pages/admin/surveys/AdminSurveyResponsesPage";
+import LoginPage from "@/pages/LoginPage";
+import ProfilePage from "@/pages/ProfilePage";
+import ProfileResolverPage from "@/pages/ProfileResolverPage";
 
 const queryClient = new QueryClient();
 
@@ -78,7 +83,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <>
+        <AuthProvider>
           <Routes>
             <Route element={<PublicLayout />}>
               <Route path="/" element={<Index />} />
@@ -103,6 +108,23 @@ const App = () => (
               <Route path="/anket/:slug" element={<SurveyDetailPage />} />
               <Route path="/aiform" element={<AIFormPage />} />
               <Route path="/form" element={<FormPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <ProfileResolverPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/profile/:type"
+                element={
+                  <RequireAuth>
+                    <ProfilePage />
+                  </RequireAuth>
+                }
+              />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="*" element={<NotFound />} />
@@ -152,7 +174,7 @@ const App = () => (
             </Route>
           </Routes>
           <ScrollTopButton />
-        </>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
