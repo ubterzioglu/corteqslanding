@@ -25,7 +25,11 @@ const ProfilePage = () => {
     let isMounted = true;
 
     void (async () => {
-      const { data } = await supabase.from("profiles").select("profile_type").eq("id", user.id).maybeSingle();
+      const { data } = await supabase
+        .from("user_profiles")
+        .select("profile_type")
+        .eq("user_id", user.id)
+        .maybeSingle();
       if (!isMounted) return;
 
       const nextType = data?.profile_type;

@@ -32,7 +32,11 @@ const ProfileResolverPage = () => {
     let isMounted = true;
 
     void (async () => {
-      const { data, error } = await supabase.from("profiles").select("profile_type").eq("id", user.id).maybeSingle();
+      const { data, error } = await supabase
+        .from("user_profiles")
+        .select("profile_type")
+        .eq("user_id", user.id)
+        .maybeSingle();
 
       if (!isMounted) return;
 
@@ -74,15 +78,15 @@ const ProfileResolverPage = () => {
     setIsSaving(true);
 
     const { error } = await supabase
-      .from("profiles")
+      .from("user_profiles")
       .upsert(
         {
-          id: user.id,
+          user_id: user.id,
           email: user.email ?? null,
           full_name: user.user_metadata?.full_name ?? user.user_metadata?.name ?? null,
           profile_type: selectedType,
         },
-        { onConflict: "id" },
+        { onConflict: "user_id" },
       );
 
     if (error) {
