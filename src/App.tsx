@@ -26,6 +26,7 @@ import AdminAboutPage from "@/pages/admin/AdminAboutPage";
 import AdminMarqueePage from "@/pages/admin/AdminMarqueePage";
 import AdminAdvisorLinksPage from "@/pages/admin/AdminAdvisorLinksPage";
 import AdminSocialMediaLinksPage from "@/pages/admin/AdminSocialMediaLinksPage";
+import AdminRolesDraftPage from "@/pages/admin/AdminRolesDraftPage";
 import AdminHomePage from "@/pages/admin/AdminHomePage";
 import AdminWorkspaceHomePage from "@/pages/admin/workspace/AdminWorkspaceHomePage";
 import AdminCommandCenterPage from "@/pages/admin/workspace/AdminCommandCenterPage";
@@ -154,6 +155,7 @@ const App = () => (
               <Route path="surveys/new" element={<AdminSurveyCreatePage />} />
               <Route path="surveys/:id/edit" element={<AdminSurveyEditPage />} />
               <Route path="surveys/:id/responses" element={<AdminSurveyResponsesPage />} />
+              <Route path="roller-taslak" element={<AdminRolesDraftPage />} />
               <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
               <Route path="may19/kelime" element={<AdminMay19IdeaPage />} />
               <Route path="may19/ani" element={<AdminMay19MomentPage />} />
