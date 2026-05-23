@@ -1394,6 +1394,10 @@ export type Database = {
       };
     };
     Functions: {
+      admin_set_user_profile_type: {
+        Args: { next_profile_type: string; target_user_id: string };
+        Returns: undefined;
+      };
       get_submission_documents_bucket_stats: {
         Args: Record<PropertyKey, never>;
         Returns: {
