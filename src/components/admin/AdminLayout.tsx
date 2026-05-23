@@ -400,6 +400,12 @@ const AdminLayout = () => {
                 ))}
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <NavLink to="/admin/roller-taslak" className={({ isActive }) => linkClass({ isActive })}>
+                  Roller (Taslak)
+                </NavLink>
+              </div>
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>
                   <DropdownMenuTrigger asChild>
                     <div
