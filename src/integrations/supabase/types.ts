@@ -138,6 +138,7 @@ export type Database = {
       };
       user_profiles: {
         Row: {
+          auth_provider: string | null;
           created_at: string;
           email: string | null;
           full_name: string | null;
@@ -146,6 +147,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          auth_provider?: string | null;
           created_at?: string;
           email?: string | null;
           full_name?: string | null;
@@ -154,6 +156,7 @@ export type Database = {
           user_id: string;
         };
         Update: {
+          auth_provider?: string | null;
           created_at?: string;
           email?: string | null;
           full_name?: string | null;

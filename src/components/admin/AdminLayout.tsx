@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { Link, NavLink, Outlet, useLocation, useNavigate, useOutletContext } from "react-router-dom";
-import { Check, ChevronDown, Download, Layers3, Plus, Share2 } from "lucide-react";
+import { Check, ChevronDown, Download, Layers3, Menu, Plus, Share2 } from "lucide-react";
 import logo from "../../../newlogo.png";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -231,6 +232,25 @@ const AdminLayout = () => {
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
   const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
   const secondaryPrimaryNavItems = primaryAdminNavItems.filter((item) => item.to !== "/admin/members");
+  const mobileMainLinks = [
+    { to: "/admin", label: "Admin Ana Sayfa" },
+    { to: "/admin/workspace/command-center", label: "Command Center" },
+    { to: "/admin/roller-taslak", label: "Roller (Taslak)" },
+    { to: "/admin/members", label: "Üye Takibi" },
+    { to: "/admin/referral", label: "Ref Kod" },
+    { to: "/admin/lansman", label: "Lansman Katılım" },
+    { to: "/admin/surveys", label: "Anketler" },
+    { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları" },
+    { to: "/admin/may19/kelime", label: "19 Mayıs Kelime" },
+    { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
+    { to: "/admin/muhasebe", label: "Muhasebe" },
+    { to: "/admin/marquee", label: "Haber Bandı" },
+    { to: "/admin/social-media", label: "Sosyal Medya" },
+    { to: "/admin/about", label: "Güncellemeler" },
+    { to: "/admin/workspace", label: "Dashboard Merkezi" },
+    { to: "/admin/workspace/resources", label: "Dosyalar ve Linkler" },
+    { to: "/admin/workspace/mvp", label: "MVP Listesi" },
+  ] as const;
 
   if (!authenticated) {
     return (
@@ -310,7 +330,52 @@ const AdminLayout = () => {
               </a>
               <h1 className="text-lg font-bold text-foreground">CorteQS Admin</h1>
             </div>
-            <nav className="flex flex-wrap items-center gap-1">
+            <div className="lg:hidden">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" size="icon" aria-label="Admin menüsünü aç">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[86vw] max-w-sm overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>Admin Menü</SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-5 space-y-2">
+                    {mobileMainLinks.map((item) => (
+                      <SheetClose asChild key={item.to}>
+                        <Link
+                          to={item.to}
+                          className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+                            location.pathname === item.to
+                              ? "bg-primary text-primary-foreground"
+                              : "text-foreground hover:bg-muted"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </SheetClose>
+                    ))}
+                    <a
+                      href={demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+                    >
+                      Demo
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => void handleLogout()}
+                      className="block w-full rounded-md px-3 py-2 text-left text-sm text-foreground hover:bg-muted"
+                    >
+                      Çıkış
+                    </button>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+            <nav className="hidden flex-wrap items-center gap-1 lg:flex">
                 <div className="flex items-center">
                   <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                   <DropdownMenu open={eventMenuOpen} onOpenChange={setEventMenuOpen}>
