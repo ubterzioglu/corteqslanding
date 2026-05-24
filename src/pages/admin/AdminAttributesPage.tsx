@@ -173,61 +173,29 @@ const AdminAttributesPage = () => {
               const rule = ruleByAttributeId.get(attribute.id);
               const disabled = savingKey === `${selectedRoleId}:${attribute.id}`;
               return (
-                <div key={`${selectedRoleId}:${attribute.id}`} className="rounded-lg border px-3 py-2">
-                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+<div key={`${selectedRoleId}:${attribute.id}`} className="rounded border px-2.5 py-1.5">
+                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold leading-tight">{attribute.label}</p>
-                      <p className="text-[11px] text-muted-foreground">{attribute.key} · {attribute.description ?? "-"}</p>
+                      <p className="text-xs font-semibold leading-tight">{attribute.label}</p>
+                      <p className="text-[10px] text-muted-foreground">{attribute.key} · {attribute.description ?? "-"}</p>
                     </div>
-                    <div className="grid min-w-[280px] gap-2 md:grid-cols-2">
-                      <ToggleLine
-                        label="Aktif"
-                        checked={rule?.is_enabled ?? true}
-                        disabled={disabled}
-                        onCheckedChange={(checked) => void updateRule(attribute, { is_enabled: checked })}
-                      />
-                      <ToggleLine
-                        label="Zorunlu"
-                        checked={rule?.is_required ?? false}
-                        disabled={disabled}
-                        onCheckedChange={(checked) => void updateRule(attribute, { is_required: checked })}
-                      />
-                      <ToggleLine
-                        label="Public default"
-                        checked={rule?.is_public_default ?? false}
-                        disabled={disabled}
-                        onCheckedChange={(checked) => void updateRule(attribute, { is_public_default: checked })}
-                      />
-                      <ToggleLine
-                        label="Kullanıcı düzenler"
-                        checked={rule?.user_can_edit ?? true}
-                        disabled={disabled}
-                        onCheckedChange={(checked) => void updateRule(attribute, { user_can_edit: checked })}
-                      />
-                      <ToggleLine
-                        label="Kullanıcı gizler"
-                        checked={rule?.user_can_hide ?? true}
-                        disabled={disabled}
-                        onCheckedChange={(checked) => void updateRule(attribute, { user_can_hide: checked })}
-                      />
-                      <ToggleLine
-                        label="Admin onayı gerekir"
-                        checked={rule?.requires_admin_approval_on_change ?? false}
-                        disabled={disabled}
-                        onCheckedChange={(checked) =>
-                          void updateRule(attribute, { requires_admin_approval_on_change: checked })
-                        }
-                      />
+                    <div className="flex flex-wrap gap-1.5">
+                      <ToggleLine label="Aktif" checked={rule?.is_enabled ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_enabled: c })} />
+                      <ToggleLine label="Zorunlu" checked={rule?.is_required ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_required: c })} />
+                      <ToggleLine label="Public" checked={rule?.is_public_default ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_public_default: c })} />
+                      <ToggleLine label="Düzenler" checked={rule?.user_can_edit ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { user_can_edit: c })} />
+                      <ToggleLine label="Gizler" checked={rule?.user_can_hide ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { user_can_hide: c })} />
+                      <ToggleLine label="Onay" checked={rule?.requires_admin_approval_on_change ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { requires_admin_approval_on_change: c })} />
                     </div>
                   </div>
-
-                  <div className="mt-2 max-w-[120px]">
-                    <label className="mb-0.5 block text-[11px] text-muted-foreground">Sıralama</label>
+                  <div className="mt-1 inline-flex items-center gap-1.5">
+                    <span className="text-[10px] text-muted-foreground">Sıra:</span>
                     <Input
                       type="number"
+                      className="h-6 w-14 text-xs px-1.5"
                       defaultValue={String(rule?.sort_order ?? attribute.sort_order)}
                       disabled={disabled}
-                      onBlur={(event) => void updateRule(attribute, { sort_order: Number(event.target.value) || attribute.sort_order })}
+                      onBlur={(e) => void updateRule(attribute, { sort_order: Number(e.target.value) || attribute.sort_order })}
                     />
                   </div>
                 </div>
@@ -252,9 +220,9 @@ const ToggleLine = ({
   onCheckedChange: (checked: boolean) => void;
 }) => {
   return (
-    <div className="flex items-center justify-between rounded-md border px-2 py-1.5">
-      <span className="text-xs">{label}</span>
-      <Switch checked={checked} disabled={disabled} onCheckedChange={onCheckedChange} />
+    <div className="inline-flex items-center gap-1.5">
+      <span className="text-[11px]">{label}</span>
+      <Switch className="h-4 w-7 [&>span]:h-3 [&>span]:w-3 [&>span]:data-[state=checked]:translate-x-3" checked={checked} disabled={disabled} onCheckedChange={onCheckedChange} />
     </div>
   );
 };
