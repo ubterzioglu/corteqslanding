@@ -210,9 +210,6 @@ const AdminRolesFeaturesPage = () => {
                               disabled={savingKey === `${role.id}:${feature.key}`}
                               onCheckedChange={(checked) => void handleRoleToggle(role, feature.key, checked)}
                             />
-                            <span className="text-xs text-muted-foreground">
-                              {flagMap[role.id]?.[feature.key] ? "Rolde açık" : "Rolde kapalı"}
-                            </span>
                           </div>
                         </td>
                       ))}
