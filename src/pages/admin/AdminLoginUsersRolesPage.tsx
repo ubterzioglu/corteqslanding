@@ -37,23 +37,35 @@ const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
     items: [
-      "Login olmuş kullanıcıları, aktif rollerini ve bekleyen approval yoğunluğunu tek listede izlemek için kullanılır.",
-      "Yeni üye sisteminde rol dağılımını hızlı düzeltmek ve kullanıcı bazlı aksiyon ihtiyacını görmek için ana operasyon ekranıdır.",
+      "Bu ekran, sisteme giriş yapmış kullanıcıların hangi rolde olduğunu görmek ve gerekiyorsa rolünü düzeltmek için kullanılır.",
+      "Kullanıcının bekleyen onayı veya ekstra override ihtiyacı var mı ilk bakışta burada anlaşılır.",
+      "Bir kullanıcı yanlış ekranda kalıyor, yanlış form görüyor veya yanlış role düşmüş görünüyorsa ilk bakılacak yer burasıdır.",
     ],
   },
   {
-    title: "Temel kullanım akışı",
+    title: "Adım adım nasıl kullanılır?",
     items: [
-      "Arama, provider ve tarih filtreleriyle doğru kullanıcı grubunu daralt.",
-      "Kullanıcının mevcut rolünü kontrol edip gerekiyorsa düzenle modundan yeni rolü seç ve kaydet.",
-      "Durum özetindeki pending ve override sayılarına bakarak kullanıcının ek inceleme gerektirip gerektirmediğini doğrula.",
+      "1. Üstteki arama kutusuna kullanıcının adını veya e-postasını yaz.",
+      "2. Gerekirse `Provider`, `Kayıt başlangıç`, `Kayıt bitiş` ve `Sıralama` filtreleriyle listeyi daralt.",
+      "3. Doğru kullanıcı satırını bulunca `Rol` sütunundaki mevcut rolü kontrol et.",
+      "4. Rol yanlışsa `Düzenle` butonuna tıkla, doğru rolü seç ve `Kaydet` ile işlemi tamamla.",
+      "5. Kaydetmeden sonra aynı satırdaki `Pending` ve `Override` sayılarına bak; ekstra işlem gerekip gerekmediğini hemen anla.",
     ],
   },
   {
-    title: "Dikkat edilmesi gerekenler",
+    title: "Hangi durumda hangi kararı ver?",
     items: [
-      "Rol değişikliği profil alanlarını ve feature davranışını etkiler; değişiklik öncesi hangi role geçmesi gerektiğini netleştir.",
-      "Kullanıcıya özel istisna yetki gerekiyorsa bu ekrandan değil Feature Override sekmesinden ilerle.",
+      "Kullanıcının tüm deneyimi değişecekse rolü burada değiştir. Sadece tek bir izin farklı olsun istiyorsan role dokunma, `Feature Override` ekranına git.",
+      "Kullanıcı yanlış role atanmışsa önce burada düzelt, sonra gerekiyorsa `Attribute Yönetimi` veya `Roller & Featurelar` tarafını kontrol et.",
+      "Bir kullanıcı için `Pending` sayısı yüksekse rolü değiştirip çıkma; ilgili onay kuyruklarını da ayrıca incele.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Rol değişince kullanıcı satırında yeni rol label'ının göründüğünü kontrol et.",
+      "Kullanıcının işi rol değişikliğiyle çözüldüyse ekstra override vermemeye çalış; sistem temiz kalsın.",
+      "Emin değilsen kullanıcıyı profilde veya ilgili admin ekranlarında tekrar açıp yeni davranışı doğrula.",
     ],
   },
 ];

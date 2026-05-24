@@ -44,23 +44,39 @@ const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
     items: [
-      "Role göre hangi attribute'un açık olduğunu, zorunluluğunu ve public varsayımını belirlemek için kullanılır.",
-      "Profil formunda kullanıcının göreceği alan davranışlarının önemli bölümü bu kural setinden gelir.",
+      "Bu ekran, bir roldeki kullanıcının profilinde hangi alanların görüneceğini ve nasıl davranacağını belirler.",
+      "Buradaki ayarlar profil formunu doğrudan etkiler: alan açık mı, zorunlu mu, public varsayılanı ne, kullanıcı düzenleyebilir mi gibi kurallar buradan gelir.",
+      "Bir kullanıcı 'bu alan niye yok', 'bu alan niye zorunlu', 'niye gizleyemiyorum' diyorsa cevap çoğunlukla bu ekrandadır.",
     ],
   },
   {
-    title: "Temel kullanım akışı",
+    title: "Adım adım nasıl kullanılır?",
     items: [
-      "Önce üstten rolü seç; listedeki tüm alanlar seçili role göre değerlendirilir.",
-      "Her attribute için aktiflik, zorunluluk, public varsayımı ve kullanıcı düzenleme-gizleme yetkilerini ayarla.",
-      "Sıralama alanını değiştirerek profil ekranındaki alan akışını düzenle.",
+      "1. Üstteki rol seçiciden düzenlemek istediğin rolü seç.",
+      "2. Aşağıdaki listede o role ait attribute satırlarını tek tek gözden geçir.",
+      "3. `Aktif` ile alanın görünüp görünmeyeceğini belirle.",
+      "4. `Zorunlu` ile alanın doldurulmasının mecburi olup olmayacağını belirle.",
+      "5. `Public` ile ilk görünürlük varsayımını ayarla.",
+      "6. `Düzenler` ve `Gizler` seçenekleriyle kullanıcının o alan üzerinde ne kadar kontrolü olacağını belirle.",
+      "7. `Onay` açıksa kullanıcı değişiklik yapsa bile değer doğrudan canlı görünmez; önce onay sürecine düşer.",
+      "8. `Sıra` alanıyla profil formunda alanın hangi sırada görüneceğini düzenle.",
     ],
   },
   {
-    title: "Dikkat edilmesi gerekenler",
+    title: "Hangi durumda hangi ayarı kullanmalısın?",
     items: [
-      "Onay gerektiren alan değişiklikleri kullanıcı tarafından kaydedilse bile direkt public görünümde canlıya çıkmaz, approval akışına düşer.",
-      "User can hide kapalıysa kullanıcı ilgili alanı kendi profilinde gizleyemez; bunu sadece gerçekten zorunlu alanlarda kullan.",
+      "Alan tamamen gereksizse `Aktif` kapat. Alan gerekli ama herkes doldurmak zorunda değilse `Zorunlu` kapalı bırak.",
+      "Alan herkes tarafından görülmesin ama sistemde dursun istiyorsan `Public` varsayımını kapalı tut.",
+      "Kullanıcının alanı saklamasını istemiyorsan `Gizler` kapat; ama bunu sadece gerçekten kritik alanlarda kullan.",
+      "Kullanıcının yaptığı değişiklik admin kontrolünden geçsin istiyorsan `Onay` aç.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Toast mesajı geldiyse kural yazılmıştır; yine de aynı satırın güncel durumda kaldığını gözünle kontrol et.",
+      "Bir rol için çok fazla alanı kapattıysan profil deneyimini bozmadığından emin olmak için ilgili profil akışını ayrıca kontrol et.",
+      "Zorunlu ve gizlenemez alanları birlikte kullanırken dikkatli ol; kullanıcıyı gereksiz yere kilitlemeyesin.",
     ],
   },
 ];

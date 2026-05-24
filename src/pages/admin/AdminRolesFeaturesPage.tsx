@@ -34,23 +34,35 @@ const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
     items: [
-      "Feature satırları ve rol sütunları üzerinden yetki dağılımını matrix mantığında yönetir.",
-      "Global durum ile role özel durum aynı anda görüldüğü için hangi özelliğin neden çalıştığını veya çalışmadığını okumayı kolaylaştırır.",
+      "Bu ekran, hangi rolün hangi özelliği kullanabileceğini belirlediğin ana yetki ekranıdır.",
+      "Satırlar feature'ları, sütunlar rolleri temsil eder. Böylece tek bakışta hangi rolün neye eriştiği görülür.",
+      "Bir özellik kullanıcıda çalışmıyorsa veya gereksiz açık görünüyorsa çoğu zaman sebep bu matrix içindedir.",
     ],
   },
   {
-    title: "Temel kullanım akışı",
+    title: "Adım adım nasıl kullanılır?",
     items: [
-      "Önce ilgili feature için global switch durumunu kontrol et.",
-      "Ardından hedef rol sütunundaki switch ile sadece o rolün davranışını aç veya kapat.",
-      "Scope badge'leriyle feature'ın hangi rol ailesi için tasarlandığını kontrol ederek yanlış role ayar verme riskini azalt.",
+      "1. Önce ilgili feature satırını bul. Satırın solunda feature adı, key'i ve kısa açıklaması görünür.",
+      "2. Aynı satırdaki `Global` alanına bak. Burasi kapalıysa feature genel olarak çalışmaz.",
+      "3. Feature herkeste çalışsın istiyorsan önce `Global` alanını aç.",
+      "4. Sonra ilgili rol sütunundaki switch'i açarak sadece o role izin ver veya kapatarak rolü engelle.",
+      "5. Scope badge'lerine bakarak feature'ın normalde hangi rol ailesi için tasarlandığını da kontrol et.",
     ],
   },
   {
-    title: "Öncelik mantığı",
+    title: "Hangi durumda ne yapmalısın?",
     items: [
-      "Kullanıcı bazlı override varsa en son o kazanır; bu ekran rol seviyesini yönetir.",
-      "Bir kullanıcıda beklenmeyen erişim görürsen Feature Override sayfasında aynı feature için istisna kayıt olup olmadığını kontrol et.",
+      "Sorun bir rolün tamamını etkiliyorsa düzeltmeyi burada yap.",
+      "Sorun sadece tek kullanıcıdaysa burada matrixi bozma; `Feature Override` ekranına git.",
+      "Global kapalı ama rol açık durumunda kullanıcı yine özelliği kullanamaz; önce global durumu çöz.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Switch değişince toast mesajı geldi mi kontrol et.",
+      "Yanlış rolü açmadığından emin olmak için aynı feature satırındaki diğer rol sütunlarına da hızlı bak.",
+      "Bir kullanıcı yine farklı davranıyorsa o kullanıcı için override kaydı olup olmadığını ayrıca kontrol et.",
     ],
   },
 ];

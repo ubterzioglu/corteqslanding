@@ -34,23 +34,36 @@ const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
     items: [
-      "Rol varsayımından bağımsız olarak tek bir kullanıcıya feature açmak veya kapatmak için kullanılır.",
-      "Geçici erişim, istisna kullanıcı ve manuel onay sonrası yetki tanımlama gibi durumlarda hızlı çözüm sağlar.",
+      "Bu ekran, sadece tek bir kullanıcı için özel yetki açmak veya kapatmak için kullanılır.",
+      "Yani tüm rolü değiştirmeden sadece bir kişiye istisna tanımlarsın.",
+      "Geçici erişim verme, özel izin açma veya hatalı bir davranışı kullanıcı bazında düzeltme için en doğru yer burasıdır.",
     ],
   },
   {
-    title: "Temel kullanım akışı",
+    title: "Adım adım nasıl kullanılır?",
     items: [
-      "Önce kullanıcıyı seç; feature listesi seçili kullanıcının profil tipine göre filtrelenir.",
-      "Feature'ı seçip açık veya kapalı override kararını ver ve mümkünse neden alanını doldur.",
-      "Kaydettikten sonra aşağıdaki listeden sonucu doğrula ve geçici kayıtlar iş bitince kaldır.",
+      "1. İlk açılır listeden kullanıcıyı seç.",
+      "2. İkinci listeden o kullanıcı için override vermek istediğin feature'ı seç.",
+      "3. `Aç` veya `Kapat` kararını seç.",
+      "4. `Override nedeni` alanına neden bu istisnayı verdiğini kısa ama anlaşılır şekilde yaz.",
+      "5. `Override Kaydet` butonuna bas.",
+      "6. Alttaki listede yeni override kaydının oluştuğunu kontrol et.",
     ],
   },
   {
-    title: "Dikkat edilmesi gerekenler",
+    title: "Hangi durumda burada işlem yapmalısın?",
     items: [
-      "Override, rol matrixinin üstüne yazar; beklenmeyen bir kullanıcı davranışında önce bu ekranı kontrol etmek gerekir.",
-      "Sebep alanını doldurmak ekip içi devir ve audit takibi için önemli olduğu için boş bırakmamak daha sağlıklı olur.",
+      "Sorun sadece tek kullanıcıdaysa burada işlem yap.",
+      "Sorun aynı roldeki herkes için geçerliyse burada override verme; `Roller & Featurelar` ekranına git.",
+      "Kullanıcının rolü tamamen yanlışsa override ile uğraşma; önce `Loginli Kullanıcılar & Roller` ekranından rolü düzelt.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Override listesinde doğru kullanıcı, doğru feature ve doğru açık-kapalı durumu görünüyor mu kontrol et.",
+      "Geçici amaçla açtığın override'ları iş bitince `Kaldır` ile temizle; gereksiz eski istisnalar sistemi kirletir.",
+      "Aynı kullanıcı beklenmedik erişim gösteriyorsa burada eski bir override kalmış olabilir; arama kutusuyla kullanıcıyı tekrar kontrol et.",
     ],
   },
 ];
