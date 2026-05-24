@@ -230,21 +230,18 @@ const AdminLayout = () => {
     otherRecordNavItems.some((item) => location.pathname === item.to) ||
     may19RecordNavItems.some((item) => location.pathname === item.to);
   const eventMenuActive = eventNavItems.some((item) => location.pathname === item.to);
-  const newMemberMenuActive = location.pathname === "/admin/roller-taslak";
+  const newMemberMenuActive =
+    location.pathname.startsWith("/admin/new-member") || location.pathname === "/admin/roller-taslak";
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
   const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
   const secondaryPrimaryNavItems = primaryAdminNavItems.filter((item) => item.to !== "/admin/members");
-  const isRouteActive = (to: string) => {
-    const [path, search = ""] = to.split("?");
-    if (location.pathname !== path) return false;
-    if (!search) return true;
-    return location.search.replace(/^\?/, "") === search;
-  };
+  const isRouteActive = (to: string) => location.pathname === to;
   const mobileMainLinks = [
     { to: "/admin", label: "Admin Ana Sayfa" },
     { to: "/admin/workspace/command-center", label: "Command Center" },
-    { to: "/admin/roller-taslak", label: "Roller (Taslak)" },
+    { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller" },
+    { to: "/admin/new-member/roles-features", label: "Roller & Featurelar" },
     { to: "/admin/members", label: "Üye Takibi" },
     { to: "/admin/referral", label: "Ref Kod" },
     { to: "/admin/lansman", label: "Lansman Katılım" },

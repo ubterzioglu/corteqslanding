@@ -31,6 +31,25 @@ export async function setUserProfileTypeAsAdmin(userId: string, profileType: Pro
   if (error) throw error;
 }
 
+export async function setUserRoleAsAdmin(userId: string, roleKey: string) {
+  const { error } = await supabase.rpc("admin_set_user_role", {
+    target_user_id: userId,
+    role_key: roleKey,
+  });
+
+  if (error) throw error;
+}
+
+export async function setRoleFeatureFlagAsAdmin(roleKey: string, featureKey: string, isEnabled: boolean) {
+  const { error } = await supabase.rpc("admin_set_role_feature_flag", {
+    role_key: roleKey,
+    feature_key: featureKey,
+    is_enabled: isEnabled,
+  });
+
+  if (error) throw error;
+}
+
 export async function setUserFeatureOverrideAsAdmin(userId: string, featureKey: IndividualFeatureKey, isEnabled: boolean) {
   const { error } = await supabase.rpc("admin_set_user_feature_override", {
     target_user_id: userId,

@@ -9,9 +9,8 @@ export const primaryAdminNavItems = [
 ] as const;
 
 export const newMemberSystemNavItems = [
-  { to: "/admin/roller-taslak?section=logins", label: "Loginle girmiş kullanıcılar", icon: Network },
-  { to: "/admin/roller-taslak?section=roles", label: "Roller", icon: Shield },
-  { to: "/admin/roller-taslak?section=features", label: "Featurelar", icon: Shield },
+  { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller", icon: Network },
+  { to: "/admin/new-member/roles-features", label: "Roller & Featurelar", icon: Shield },
 ] as const;
 
 export const externalAdminNavItems = [
