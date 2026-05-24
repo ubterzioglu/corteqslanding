@@ -8,6 +8,11 @@ export const primaryAdminNavItems = [
   { to: "/admin/workspace/resources", label: "Dosyalar", icon: FolderKanban },
 ] as const;
 
+export const newMemberSystemNavItems = [
+  { to: "/admin/members", label: "Üye Takibi", icon: Network },
+  { to: "/admin/roller-taslak", label: "Roller (Taslak)", icon: Shield },
+] as const;
+
 export const externalAdminNavItems = [
   { href: "https://eng.corteqs.net", label: "Engine", icon: ExternalLink },
   { href: "https://globe.corteqs.net", label: "Globe", icon: ExternalLink },
@@ -22,10 +27,8 @@ export const otherActionNavItems = [
 ] as const;
 
 export const otherRecordNavItems = [
-  { to: "/admin/members", label: "Üye Takibi", icon: Network },
   { to: "/admin/lansman", label: "Lansman Katılım", icon: MonitorPlay },
   { to: "/admin/surveys", label: "Anketler", icon: ClipboardList },
-  { to: "/admin/roller-taslak", label: "Roller (Taslak)", icon: Shield },
   { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları", icon: MessageSquare },
 ] as const;
 

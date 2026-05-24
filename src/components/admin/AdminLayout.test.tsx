@@ -71,10 +71,16 @@ describe("AdminLayout", () => {
       "https://global-network-bridge.lovable.app/",
     );
     expect(screen.getByRole("link", { name: "Demo" })).toHaveAttribute("target", "_blank");
-    expect(screen.getByRole("link", { name: "Üye Takibi" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /New Member System/i })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /Üye Takibi/i })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: "Dış Bağlantılar" })).not.toBeInTheDocument();
-
     const dashboardButton = screen.getByRole("button", { name: /Dashboard/i });
+
+    const newMemberSystemButton = screen.getByRole("button", { name: /New Member System/i });
+    fireEvent.mouseEnter(newMemberSystemButton);
+    expect(await screen.findByRole("menuitem", { name: /Üye Takibi/i })).toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /Roller \(Taslak\)/i })).toBeInTheDocument();
+    fireEvent.mouseLeave(newMemberSystemButton);
     fireEvent.mouseEnter(dashboardButton);
 
     const externalLinksSubTrigger = await screen.findByText("Dış Bağlantılar");

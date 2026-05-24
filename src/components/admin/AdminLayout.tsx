@@ -11,6 +11,7 @@ import {
   adminPanelNavItems,
   externalAdminNavItems,
   may19RecordNavItems,
+  newMemberSystemNavItems,
   otherActionNavItems,
   otherRecordNavItems,
   primaryAdminNavItems,
@@ -100,6 +101,7 @@ const AdminLayout = () => {
   const [resetLoading, setResetLoading] = useState(false);
   const [otherActionsMenuOpen, setOtherActionsMenuOpen] = useState(false);
   const [eventMenuOpen, setEventMenuOpen] = useState(false);
+  const [newMemberMenuOpen, setNewMemberMenuOpen] = useState(false);
   const [advisorMenuOpen, setAdvisorMenuOpen] = useState(false);
   const [adminPanelMenuOpen, setAdminPanelMenuOpen] = useState(false);
   const demoUrl = "https://global-network-bridge.lovable.app/";
@@ -228,9 +230,9 @@ const AdminLayout = () => {
     otherRecordNavItems.some((item) => location.pathname === item.to) ||
     may19RecordNavItems.some((item) => location.pathname === item.to);
   const eventMenuActive = eventNavItems.some((item) => location.pathname === item.to);
+  const newMemberMenuActive = newMemberSystemNavItems.some((item) => location.pathname === item.to);
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
-  const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
   const secondaryPrimaryNavItems = primaryAdminNavItems.filter((item) => item.to !== "/admin/members");
   const mobileMainLinks = [
     { to: "/admin", label: "Admin Ana Sayfa" },
@@ -444,17 +446,44 @@ const AdminLayout = () => {
                     Demo
                   </a>
                 </div>
-                {membersNavItem ? (
-                  <div key={membersNavItem.to} className="flex items-center">
-                    <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                    <NavLink
-                      to={membersNavItem.to}
-                      className={({ isActive }) => linkClass({ isActive, variant: "members" })}
+              <div className="flex items-center">
+                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                <DropdownMenu open={newMemberMenuOpen} onOpenChange={setNewMemberMenuOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <div
+                      onMouseEnter={() => setNewMemberMenuOpen(true)}
+                      onMouseLeave={() => setNewMemberMenuOpen(false)}
                     >
-                      {membersNavItem.label}
-                    </NavLink>
-                  </div>
-                ) : null}
+                      <button
+                        type="button"
+                        className={`${linkClass({ isActive: newMemberMenuActive, variant: "members" })} inline-flex items-center gap-1`}
+                      >
+                        New Member System
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="start"
+                    className="w-56"
+                    onMouseEnter={() => setNewMemberMenuOpen(true)}
+                    onMouseLeave={() => setNewMemberMenuOpen(false)}
+                  >
+                    {newMemberSystemNavItems.map((item) => {
+                      const isActive = location.pathname === item.to;
+
+                      return (
+                        <DropdownMenuItem key={item.to} asChild>
+                          <Link to={item.to} className="flex items-center justify-between gap-3">
+                            <span>{item.label}</span>
+                            {isActive ? <Check className="h-4 w-4 text-primary" /> : null}
+                          </Link>
+                        </DropdownMenuItem>
+                      );
+                    })}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
                 {secondaryPrimaryNavItems.map((item) => (
                   <div key={item.to} className="flex items-center">
                     <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
@@ -463,12 +492,6 @@ const AdminLayout = () => {
                     </NavLink>
                   </div>
                 ))}
-              <div className="flex items-center">
-                <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
-                <NavLink to="/admin/roller-taslak" className={({ isActive }) => linkClass({ isActive })}>
-                  Roller (Taslak)
-                </NavLink>
-              </div>
               <div className="flex items-center">
                 <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
                 <DropdownMenu open={otherActionsMenuOpen} onOpenChange={setOtherActionsMenuOpen}>
