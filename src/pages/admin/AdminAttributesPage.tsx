@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
@@ -38,6 +39,31 @@ type RuleRow = {
   requires_admin_approval_on_change: boolean;
   sort_order: number;
 };
+
+const guideSections: AdminPageGuideSection[] = [
+  {
+    title: "Bu ekran ne için kullanılır?",
+    items: [
+      "Role göre hangi attribute'un açık olduğunu, zorunluluğunu ve public varsayımını belirlemek için kullanılır.",
+      "Profil formunda kullanıcının göreceği alan davranışlarının önemli bölümü bu kural setinden gelir.",
+    ],
+  },
+  {
+    title: "Temel kullanım akışı",
+    items: [
+      "Önce üstten rolü seç; listedeki tüm alanlar seçili role göre değerlendirilir.",
+      "Her attribute için aktiflik, zorunluluk, public varsayımı ve kullanıcı düzenleme-gizleme yetkilerini ayarla.",
+      "Sıralama alanını değiştirerek profil ekranındaki alan akışını düzenle.",
+    ],
+  },
+  {
+    title: "Dikkat edilmesi gerekenler",
+    items: [
+      "Onay gerektiren alan değişiklikleri kullanıcı tarafından kaydedilse bile direkt public görünümde canlıya çıkmaz, approval akışına düşer.",
+      "User can hide kapalıysa kullanıcı ilgili alanı kendi profilinde gizleyemez; bunu sadece gerçekten zorunlu alanlarda kullan.",
+    ],
+  },
+];
 
 const AdminAttributesPage = () => {
   const { toast } = useToast();
@@ -145,6 +171,10 @@ const AdminAttributesPage = () => {
 
   return (
     <div className="space-y-4">
+      <AdminPageGuideAccordion
+        summary="Seçilen role ait alan kurallarını, görünürlük varsayımlarını ve onay ihtiyaçlarını bu ekrandan düzenleyebilirsin."
+        sections={guideSections}
+      />
       <Card>
         <CardHeader>
           <CardTitle>Attribute Yönetimi</CardTitle>
@@ -173,19 +203,51 @@ const AdminAttributesPage = () => {
               const rule = ruleByAttributeId.get(attribute.id);
               const disabled = savingKey === `${selectedRoleId}:${attribute.id}`;
               return (
-<div key={`${selectedRoleId}:${attribute.id}`} className="rounded border px-2.5 py-1.5">
+                <div key={`${selectedRoleId}:${attribute.id}`} className="rounded border px-2.5 py-1.5">
                   <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
                     <div className="min-w-0">
                       <p className="text-xs font-semibold leading-tight">{attribute.label}</p>
                       <p className="text-[10px] text-muted-foreground">{attribute.key} · {attribute.description ?? "-"}</p>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
-                      <ToggleLine label="Aktif" checked={rule?.is_enabled ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_enabled: c })} />
-                      <ToggleLine label="Zorunlu" checked={rule?.is_required ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_required: c })} />
-                      <ToggleLine label="Public" checked={rule?.is_public_default ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { is_public_default: c })} />
-                      <ToggleLine label="Düzenler" checked={rule?.user_can_edit ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { user_can_edit: c })} />
-                      <ToggleLine label="Gizler" checked={rule?.user_can_hide ?? true} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { user_can_hide: c })} />
-                      <ToggleLine label="Onay" checked={rule?.requires_admin_approval_on_change ?? false} disabled={disabled} onCheckedChange={(c) => void updateRule(attribute, { requires_admin_approval_on_change: c })} />
+                      <ToggleLine
+                        label="Aktif"
+                        checked={rule?.is_enabled ?? true}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => void updateRule(attribute, { is_enabled: checked })}
+                      />
+                      <ToggleLine
+                        label="Zorunlu"
+                        checked={rule?.is_required ?? false}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => void updateRule(attribute, { is_required: checked })}
+                      />
+                      <ToggleLine
+                        label="Public"
+                        checked={rule?.is_public_default ?? false}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => void updateRule(attribute, { is_public_default: checked })}
+                      />
+                      <ToggleLine
+                        label="Düzenler"
+                        checked={rule?.user_can_edit ?? true}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => void updateRule(attribute, { user_can_edit: checked })}
+                      />
+                      <ToggleLine
+                        label="Gizler"
+                        checked={rule?.user_can_hide ?? true}
+                        disabled={disabled}
+                        onCheckedChange={(checked) => void updateRule(attribute, { user_can_hide: checked })}
+                      />
+                      <ToggleLine
+                        label="Onay"
+                        checked={rule?.requires_admin_approval_on_change ?? false}
+                        disabled={disabled}
+                        onCheckedChange={(checked) =>
+                          void updateRule(attribute, { requires_admin_approval_on_change: checked })
+                        }
+                      />
                     </div>
                   </div>
                   <div className="mt-1 inline-flex items-center gap-1.5">
@@ -222,7 +284,12 @@ const ToggleLine = ({
   return (
     <div className="inline-flex items-center gap-1.5">
       <span className="text-[11px]">{label}</span>
-      <Switch className="h-4 w-7 [&>span]:h-3 [&>span]:w-3 [&>span]:data-[state=checked]:translate-x-3" checked={checked} disabled={disabled} onCheckedChange={onCheckedChange} />
+      <Switch
+        className="h-4 w-7 [&>span]:h-3 [&>span]:w-3 [&>span]:data-[state=checked]:translate-x-3"
+        checked={checked}
+        disabled={disabled}
+        onCheckedChange={onCheckedChange}
+      />
     </div>
   );
 };

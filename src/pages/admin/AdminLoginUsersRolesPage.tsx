@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { setUserRoleAsAdmin } from "@/lib/admin";
+import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -31,6 +32,31 @@ type AssignmentRow = {
 
 type ProviderFilter = "google" | "all" | "unknown";
 type SortFilter = "created_desc" | "created_asc" | "name_asc";
+
+const guideSections: AdminPageGuideSection[] = [
+  {
+    title: "Bu ekran ne için kullanılır?",
+    items: [
+      "Login olmuş kullanıcıları, aktif rollerini ve bekleyen approval yoğunluğunu tek listede izlemek için kullanılır.",
+      "Yeni üye sisteminde rol dağılımını hızlı düzeltmek ve kullanıcı bazlı aksiyon ihtiyacını görmek için ana operasyon ekranıdır.",
+    ],
+  },
+  {
+    title: "Temel kullanım akışı",
+    items: [
+      "Arama, provider ve tarih filtreleriyle doğru kullanıcı grubunu daralt.",
+      "Kullanıcının mevcut rolünü kontrol edip gerekiyorsa düzenle modundan yeni rolü seç ve kaydet.",
+      "Durum özetindeki pending ve override sayılarına bakarak kullanıcının ek inceleme gerektirip gerektirmediğini doğrula.",
+    ],
+  },
+  {
+    title: "Dikkat edilmesi gerekenler",
+    items: [
+      "Rol değişikliği profil alanlarını ve feature davranışını etkiler; değişiklik öncesi hangi role geçmesi gerektiğini netleştir.",
+      "Kullanıcıya özel istisna yetki gerekiyorsa bu ekrandan değil Feature Override sekmesinden ilerle.",
+    ],
+  },
+];
 
 const AdminLoginUsersRolesPage = () => {
   const { toast } = useToast();
@@ -279,6 +305,10 @@ const AdminLoginUsersRolesPage = () => {
 
   return (
     <div className="space-y-4">
+      <AdminPageGuideAccordion
+        summary="Loginli kullanıcıların rol atamasını, pending approval sinyallerini ve override ihtiyacını bu ekrandan takip edebilirsin."
+        sections={guideSections}
+      />
       <Card>
         <CardHeader>
           <CardTitle>New Member System - Loginli Kullanıcılar & Roller</CardTitle>

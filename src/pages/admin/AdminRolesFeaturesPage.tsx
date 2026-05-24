@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,31 @@ type RoleFeatureFlagRow = {
   feature_key: string;
   is_enabled: boolean;
 };
+
+const guideSections: AdminPageGuideSection[] = [
+  {
+    title: "Bu ekran ne için kullanılır?",
+    items: [
+      "Feature satırları ve rol sütunları üzerinden yetki dağılımını matrix mantığında yönetir.",
+      "Global durum ile role özel durum aynı anda görüldüğü için hangi özelliğin neden çalıştığını veya çalışmadığını okumayı kolaylaştırır.",
+    ],
+  },
+  {
+    title: "Temel kullanım akışı",
+    items: [
+      "Önce ilgili feature için global switch durumunu kontrol et.",
+      "Ardından hedef rol sütunundaki switch ile sadece o rolün davranışını aç veya kapat.",
+      "Scope badge'leriyle feature'ın hangi rol ailesi için tasarlandığını kontrol ederek yanlış role ayar verme riskini azalt.",
+    ],
+  },
+  {
+    title: "Öncelik mantığı",
+    items: [
+      "Kullanıcı bazlı override varsa en son o kazanır; bu ekran rol seviyesini yönetir.",
+      "Bir kullanıcıda beklenmeyen erişim görürsen Feature Override sayfasında aynı feature için istisna kayıt olup olmadığını kontrol et.",
+    ],
+  },
+];
 
 const AdminRolesFeaturesPage = () => {
   const { toast } = useToast();
@@ -149,6 +175,10 @@ const AdminRolesFeaturesPage = () => {
 
   return (
     <div className="space-y-4">
+      <AdminPageGuideAccordion
+        summary="Feature'ların global ve rol bazlı açık-kapalı durumunu aynı matrixten yönetmek için bu ekran kullanılır."
+        sections={guideSections}
+      />
       <Card>
         <CardHeader>
           <CardTitle>New Member System - Rol / Feature Matrix</CardTitle>

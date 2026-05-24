@@ -6,6 +6,7 @@ import LoginPage from "@/pages/LoginPage";
 
 const useAuthMock = vi.fn();
 const signInWithOAuthMock = vi.fn();
+const signInWithPasswordMock = vi.fn();
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
@@ -15,11 +16,43 @@ vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
     auth: {
       signInWithOAuth: (...args: unknown[]) => signInWithOAuthMock(...args),
+      signInWithPassword: (...args: unknown[]) => signInWithPasswordMock(...args),
     },
   },
 }));
 
 describe("LoginPage", () => {
+  it("triggers password login with entered credentials", async () => {
+    useAuthMock.mockReturnValue({
+      session: null,
+      isLoading: false,
+    });
+    signInWithPasswordMock.mockResolvedValue({ error: null });
+
+    render(
+      <MemoryRouter initialEntries={["/login"]}>
+        <LoginPage />
+      </MemoryRouter>,
+    );
+
+    fireEvent.change(screen.getByLabelText(/e-posta/i), {
+      target: { value: "user@corteqs.test" },
+    });
+    fireEvent.change(screen.getByLabelText(/şifre/i), {
+      target: { value: "secret-123" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /e-posta ve şifre ile giriş yap/i }));
+
+    await waitFor(() => {
+      expect(signInWithPasswordMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(signInWithPasswordMock).toHaveBeenCalledWith({
+      email: "user@corteqs.test",
+      password: "secret-123",
+    });
+  });
+
   it("triggers Google OAuth with /login redirect", async () => {
     useAuthMock.mockReturnValue({
       session: null,

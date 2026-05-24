@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
+import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,31 @@ type OverrideRow = {
   reason: string | null;
   updated_at: string;
 };
+
+const guideSections: AdminPageGuideSection[] = [
+  {
+    title: "Bu ekran ne için kullanılır?",
+    items: [
+      "Rol varsayımından bağımsız olarak tek bir kullanıcıya feature açmak veya kapatmak için kullanılır.",
+      "Geçici erişim, istisna kullanıcı ve manuel onay sonrası yetki tanımlama gibi durumlarda hızlı çözüm sağlar.",
+    ],
+  },
+  {
+    title: "Temel kullanım akışı",
+    items: [
+      "Önce kullanıcıyı seç; feature listesi seçili kullanıcının profil tipine göre filtrelenir.",
+      "Feature'ı seçip açık veya kapalı override kararını ver ve mümkünse neden alanını doldur.",
+      "Kaydettikten sonra aşağıdaki listeden sonucu doğrula ve geçici kayıtlar iş bitince kaldır.",
+    ],
+  },
+  {
+    title: "Dikkat edilmesi gerekenler",
+    items: [
+      "Override, rol matrixinin üstüne yazar; beklenmeyen bir kullanıcı davranışında önce bu ekranı kontrol etmek gerekir.",
+      "Sebep alanını doldurmak ekip içi devir ve audit takibi için önemli olduğu için boş bırakmamak daha sağlıklı olur.",
+    ],
+  },
+];
 
 const AdminUserOverridesPage = () => {
   const { toast } = useToast();
@@ -146,6 +172,10 @@ const AdminUserOverridesPage = () => {
 
   return (
     <div className="space-y-4">
+      <AdminPageGuideAccordion
+        summary="Rol varsayımını ezerek tek kullanıcı seviyesinde feature açıp kapatmak ve istisna kayıtları izlemek için bu ekranı kullan."
+        sections={guideSections}
+      />
       <Card>
         <CardHeader>
           <CardTitle>User Feature Overrides</CardTitle>
