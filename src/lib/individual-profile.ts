@@ -115,6 +115,29 @@ export type IndividualProfileDetailsCore = {
   controlPanel: IndividualProfileControlPanelPayload;
 };
 
+export type IndividualProfileUpdateInput = {
+  displayName: string;
+  tagline: string;
+  statusText: string;
+  worldMessage: string;
+  activeCountry: string;
+  activeCity: string;
+  hometown: string;
+  profileVisible: boolean;
+  jobSeeking: boolean;
+  bio: string;
+  linkedin: string;
+  country: string;
+  city: string;
+  yearsInCity: string;
+  phone: string;
+  education: string;
+  school: string;
+  institution: string;
+  languages: string[];
+  interests: string[];
+};
+
 export type IndividualProfileModuleState = {
   visibleModules: IndividualFeatureMeta[];
   featuresLoading: boolean;
