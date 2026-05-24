@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
+  ChevronDown,
   Download,
   ExternalLink,
   Eye,
@@ -39,6 +40,8 @@ const INPUT_CLS =
 
 const BTN_CLS =
   'inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold transition-all disabled:opacity-60'
+const ICON_BTN_CLS =
+  'inline-flex h-7 w-7 items-center justify-center rounded-md border transition-colors disabled:opacity-60'
 
 const FILTER_BTN_CLS =
   'rounded-full border px-3 py-2 text-xs font-semibold tracking-wide transition-all'
@@ -65,6 +68,7 @@ export default function LinkManager() {
   const [formState, setFormState] = useState<ResourceFormState>(createEmptyResourceFormState)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [expandedEntryIds, setExpandedEntryIds] = useState<Set<string>>(new Set())
   const [editingState, setEditingState] = useState<ResourceFormState>(createEmptyResourceFormState)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedSections, setSelectedSections] = useState<Set<string>>(new Set())
@@ -440,6 +444,15 @@ export default function LinkManager() {
     }
   }
 
+  function toggleEntryDetails(entryId: string) {
+    setExpandedEntryIds((current) => {
+      const next = new Set(current)
+      if (next.has(entryId)) next.delete(entryId)
+      else next.add(entryId)
+      return next
+    })
+  }
+
   async function handleOpenStoredFile(entry: ResourceEntry, shouldDownload: boolean) {
     if (!supabase || !entry.storageBucket || !entry.storagePath) return
 
@@ -683,7 +696,10 @@ export default function LinkManager() {
           Drive Dosya Klasör Linki
         </a>
       </div>
-      <p className="text-[11px] font-medium text-gray-600">Son Güncelleme Tarihi : 24.05.26</p>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-medium text-gray-600">
+        <p>Son Güncelleme Tarihi : 24.05.26</p>
+        <p>Dosya Sayısı : {entries.length} (Aktif: {visibleEntries.length} | Gizli: {hiddenEntries.length})</p>
+      </div>
       <div className="grid gap-3 lg:grid-cols-4">
         <div className="docs-surface p-3 sm:p-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-600">Bölüm Filtresi</p>
@@ -814,6 +830,8 @@ export default function LinkManager() {
                   )
                 }
 
+                const isExpanded = expandedEntryIds.has(entry.id)
+
                 return (
                   <div key={entry.id} className="rounded-xl border border-[rgba(66,133,244,0.1)] bg-white px-3 py-2 shadow-[0_4px_10px_rgba(60,64,67,0.03)]">
                     <div className="flex flex-wrap items-center justify-between gap-2">
@@ -822,72 +840,104 @@ export default function LinkManager() {
                           <span className="rounded-full border border-primary-200 bg-primary-50 px-2 py-0.5 font-semibold text-primary-700">{entry.section}</span>
                           <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-semibold text-indigo-700">{entry.subsection || '-'}</span>
                           <span className="rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 font-semibold text-gray-600">{entry.recordKind}</span>
+                          {entry.url ? (
+                            <a
+                              href={safeHref(entry.url)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="URL aç"
+                              aria-label="URL aç"
+                              className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-red-300 bg-red-50 text-red-600 hover:bg-red-100"
+                            >
+                              <ExternalLink size={10} aria-hidden="true" />
+                            </a>
+                          ) : null}
                         </div>
                         <p className="mt-1 truncate text-xs text-gray-900">
                           <span className="font-medium">{entry.title}</span>
                           {entry.description ? <span className="font-normal text-gray-500"> — {entry.description}</span> : null}
                         </p>
                       </div>
+
                       <div className="flex flex-wrap items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => toggleEntryDetails(entry.id)}
+                          disabled={isSubmitting}
+                          title={isExpanded ? 'Detayı kapat' : 'Detayı aç'}
+                          aria-label={isExpanded ? 'Detayı kapat' : 'Detayı aç'}
+                          className={`${ICON_BTN_CLS} border-gray-200 bg-white text-gray-600 hover:bg-gray-50`}
+                        >
+                          <ChevronDown
+                            size={13}
+                            aria-hidden="true"
+                            className="transition-transform"
+                            style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          />
+                        </button>
                         <button
                           type="button"
                           onClick={() => startEdit(entry)}
                           disabled={isSubmitting || isEditing}
-                          className={`${BTN_CLS} border border-gray-200 px-2 py-1 text-[11px] text-gray-600 hover:text-gray-800`}
+                          title="Düzenle"
+                          aria-label="Düzenle"
+                          className={`${ICON_BTN_CLS} border-gray-200 bg-gray-100 text-gray-600 hover:bg-gray-200`}
                         >
-                          <Pencil size={12} aria-hidden="true" />
-                          Düzenle
+                          <Pencil size={13} aria-hidden="true" />
                         </button>
                         <button
                           type="button"
                           onClick={() => void handleToggleHidden(entry, true)}
                           disabled={isSubmitting}
-                          className={`${BTN_CLS} border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] text-amber-700 hover:bg-amber-100`}
+                          title="Gizle"
+                          aria-label="Gizle"
+                          className={`${ICON_BTN_CLS} border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100`}
                         >
-                          <EyeOff size={12} aria-hidden="true" />
-                          Gizle
+                          <EyeOff size={13} aria-hidden="true" />
                         </button>
                         {entry.storageBucket && entry.storagePath ? (
                           <>
                             <button
                               type="button"
                               onClick={() => void handleOpenStoredFile(entry, false)}
-                              className={`${BTN_CLS} border border-blue-200 bg-blue-50 px-2 py-1 text-[11px] text-blue-600 hover:bg-blue-100`}
+                              title="Görüntüle"
+                              aria-label="Görüntüle"
+                              className={`${ICON_BTN_CLS} border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100`}
                             >
-                              <Eye size={12} aria-hidden="true" />
-                              Gör
+                              <Eye size={13} aria-hidden="true" />
                             </button>
                             <button
                               type="button"
                               onClick={() => void handleOpenStoredFile(entry, true)}
-                              className={`${BTN_CLS} border border-green-200 bg-green-50 px-2 py-1 text-[11px] text-green-700 hover:bg-green-100`}
+                              title="İndir"
+                              aria-label="İndir"
+                              className={`${ICON_BTN_CLS} border-green-200 bg-green-50 text-green-700 hover:bg-green-100`}
                             >
-                              <Download size={12} aria-hidden="true" />
-                              İndir
+                              <Download size={13} aria-hidden="true" />
                             </button>
                           </>
-                        ) : entry.url ? (
-                          <a
-                            href={safeHref(entry.url)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={`${BTN_CLS} border border-blue-200 bg-blue-50 px-2 py-1 text-[11px] text-blue-600 hover:bg-blue-100`}
-                          >
-                            <ExternalLink size={12} aria-hidden="true" />
-                            URL
-                          </a>
                         ) : null}
                         <button
                           type="button"
                           onClick={() => void handleDelete(entry)}
                           disabled={isSubmitting}
-                          className={`${BTN_CLS} border border-red-200 bg-red-50 px-2 py-1 text-[11px] text-red-600 hover:bg-red-100`}
+                          title="Sil"
+                          aria-label="Sil"
+                          className={`${ICON_BTN_CLS} border-red-200 bg-red-50 text-red-600 hover:bg-red-100`}
                         >
-                          <Trash2 size={12} aria-hidden="true" />
-                          Sil
+                          <Trash2 size={13} aria-hidden="true" />
                         </button>
                       </div>
                     </div>
+
+                    {isExpanded ? (
+                      <div className="mt-2 grid gap-2 rounded-lg border border-gray-200 bg-gray-50 p-2 text-[11px] text-gray-700 md:grid-cols-2">
+                        <p><span className="font-semibold text-gray-800">Açıklama:</span> {entry.description ?? '-'}</p>
+                        <p><span className="font-semibold text-gray-800">Ekleyen:</span> {entry.addedBy}</p>
+                        <p><span className="font-semibold text-gray-800">Dosya Adı:</span> {entry.fileName ?? '-'}</p>
+                        <p><span className="font-semibold text-gray-800">Kayıt Türü:</span> {entry.recordKind}</p>
+                      </div>
+                    ) : null}
                   </div>
                 )
               })
@@ -923,10 +973,11 @@ export default function LinkManager() {
                             type="button"
                             onClick={() => void handleToggleHidden(entry, false)}
                             disabled={isSubmitting}
-                            className={`${BTN_CLS} border border-violet-200 bg-white px-2 py-1 text-[11px] text-violet-700 hover:bg-violet-100`}
+                            title="Göster"
+                            aria-label="Göster"
+                            className={`${ICON_BTN_CLS} border-violet-200 bg-white text-violet-700 hover:bg-violet-100`}
                           >
-                            <Eye size={12} aria-hidden="true" />
-                            Göster
+                            <Eye size={13} aria-hidden="true" />
                           </button>
                         </div>
                       </div>
