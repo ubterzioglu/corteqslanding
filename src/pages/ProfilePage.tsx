@@ -631,10 +631,7 @@ const AttributeInput = ({ attribute, value, onChange }: AttributeInputProps) => 
   if (attribute.dataType === "boolean") {
     return (
       <div className="flex items-center justify-between rounded-xl border px-3 py-2">
-        <div>
-          <p className="font-medium">{attribute.label}</p>
-          <p className="text-sm text-muted-foreground">Açık / kapalı durumu</p>
-        </div>
+        <p className="text-sm font-medium">{attribute.label}</p>
         <Switch checked={Boolean(value)} onCheckedChange={(checked) => onChange(checked)} />
       </div>
     );
