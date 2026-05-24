@@ -669,9 +669,21 @@ export default function LinkManager() {
 
   return (
     <section className="space-y-4" aria-labelledby="link-manager-heading">
-      <h2 id="link-manager-heading" className="text-sm font-semibold text-gray-900">
-        Birleşik Kaynak Merkezi
-      </h2>
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[rgba(66,133,244,0.1)] bg-white px-3 py-2">
+        <h2 id="link-manager-heading" className="text-sm font-semibold text-gray-900">
+          Birleşik Kaynak Merkezi
+        </h2>
+        <a
+          href={safeHref('https://drive.google.com/drive/folders/1TYFEdjDPOLOMWAf_MScs6XJXRW9FHh-r?usp=drive_link')}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 rounded-lg border border-primary-200 bg-primary-50 px-2.5 py-1 text-[11px] font-semibold text-primary-700 hover:bg-primary-100"
+        >
+          <ExternalLink size={12} aria-hidden="true" />
+          Drive Dosya Klasör Linki
+        </a>
+      </div>
+      <p className="text-[11px] font-medium text-gray-600">Son Güncelleme Tarihi : 24.05.26</p>
       <div className="grid gap-3 lg:grid-cols-4">
         <div className="docs-surface p-3 sm:p-4">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-600">Bölüm Filtresi</p>
@@ -811,7 +823,10 @@ export default function LinkManager() {
                           <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-semibold text-indigo-700">{entry.subsection || '-'}</span>
                           <span className="rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 font-semibold text-gray-600">{entry.recordKind}</span>
                         </div>
-                        <p className="mt-1 truncate text-xs font-medium text-gray-900">{entry.title}</p>
+                        <p className="mt-1 truncate text-xs text-gray-900">
+                          <span className="font-medium">{entry.title}</span>
+                          {entry.description ? <span className="font-normal text-gray-500"> — {entry.description}</span> : null}
+                        </p>
                       </div>
                       <div className="flex flex-wrap items-center gap-1">
                         <button
@@ -899,7 +914,10 @@ export default function LinkManager() {
                               <span className="rounded-full border border-violet-200 bg-violet-100 px-2 py-0.5 font-semibold text-violet-700">{entry.section}</span>
                               <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-semibold text-indigo-700">{entry.subsection || '-'}</span>
                             </div>
-                            <p className="mt-1 truncate text-xs font-medium text-gray-900">{entry.title}</p>
+                            <p className="mt-1 truncate text-xs text-gray-900">
+                              <span className="font-medium">{entry.title}</span>
+                              {entry.description ? <span className="font-normal text-gray-500"> — {entry.description}</span> : null}
+                            </p>
                           </div>
                           <button
                             type="button"
