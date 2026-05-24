@@ -230,10 +230,17 @@ const AdminLayout = () => {
     otherRecordNavItems.some((item) => location.pathname === item.to) ||
     may19RecordNavItems.some((item) => location.pathname === item.to);
   const eventMenuActive = eventNavItems.some((item) => location.pathname === item.to);
-  const newMemberMenuActive = newMemberSystemNavItems.some((item) => location.pathname === item.to);
+  const newMemberMenuActive = location.pathname === "/admin/roller-taslak";
   const otherActionsMenuActive = otherActionNavItems.some((item) => location.pathname === item.to);
   const adminPanelMenuActive = adminPanelNavItems.some((item) => location.pathname === item.to);
+  const membersNavItem = primaryAdminNavItems.find((item) => item.to === "/admin/members");
   const secondaryPrimaryNavItems = primaryAdminNavItems.filter((item) => item.to !== "/admin/members");
+  const isRouteActive = (to: string) => {
+    const [path, search = ""] = to.split("?");
+    if (location.pathname !== path) return false;
+    if (!search) return true;
+    return location.search.replace(/^\?/, "") === search;
+  };
   const mobileMainLinks = [
     { to: "/admin", label: "Admin Ana Sayfa" },
     { to: "/admin/workspace/command-center", label: "Command Center" },
@@ -470,7 +477,7 @@ const AdminLayout = () => {
                     onMouseLeave={() => setNewMemberMenuOpen(false)}
                   >
                     {newMemberSystemNavItems.map((item) => {
-                      const isActive = location.pathname === item.to;
+                      const isActive = isRouteActive(item.to);
 
                       return (
                         <DropdownMenuItem key={item.to} asChild>
@@ -484,6 +491,17 @@ const AdminLayout = () => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
+                {membersNavItem ? (
+                  <div key={membersNavItem.to} className="flex items-center">
+                    <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
+                    <NavLink
+                      to={membersNavItem.to}
+                      className={({ isActive }) => linkClass({ isActive, variant: "members" })}
+                    >
+                      {membersNavItem.label}
+                    </NavLink>
+                  </div>
+                ) : null}
                 {secondaryPrimaryNavItems.map((item) => (
                   <div key={item.to} className="flex items-center">
                     <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
