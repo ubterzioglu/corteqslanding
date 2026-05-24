@@ -13,10 +13,15 @@ import {
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
 import { INDIVIDUAL_FEATURE_KEYS, type IndividualFeatureMeta } from "@/lib/features";
-import type { IndividualProfileDetailsCore } from "@/lib/individual-profile";
+import type { IndividualProfileDetailsCore, IndividualProfileUpdateInput } from "@/lib/individual-profile";
 
 type IndividualProfileCardsProps = {
   details: IndividualProfileDetailsCore;
@@ -24,12 +29,38 @@ type IndividualProfileCardsProps = {
   featureSources: Record<string, string>;
   isFeaturesLoading: boolean;
   featureErrorMessage: string | null;
+  isSavingProfile?: boolean;
+  saveProfileError?: string | null;
+  onSaveProfile?: (input: IndividualProfileUpdateInput) => Promise<void>;
 };
 
 type TabItem = {
   key: string;
   label: string;
   icon: ComponentType<{ className?: string }>;
+};
+
+type SettingsFormState = {
+  displayName: string;
+  tagline: string;
+  statusText: string;
+  worldMessage: string;
+  activeCountry: string;
+  activeCity: string;
+  hometown: string;
+  country: string;
+  city: string;
+  yearsInCity: string;
+  phone: string;
+  education: string;
+  school: string;
+  institution: string;
+  linkedin: string;
+  bio: string;
+  languages: string;
+  interests: string;
+  profileVisible: boolean;
+  jobSeeking: boolean;
 };
 
 const ChipList = ({ items, emptyLabel }: { items: string[]; emptyLabel: string }) => {
@@ -91,14 +122,42 @@ const visibleStateLabel = {
   locked: "Profil Kilitli",
 } as const;
 
+const mapDetailsToForm = (details: IndividualProfileDetailsCore): SettingsFormState => ({
+  displayName: details.displayName,
+  tagline: details.tagline,
+  statusText: details.statusText,
+  worldMessage: details.frontCard.worldMessage,
+  activeCountry: details.activeCountry === "-" ? "" : details.activeCountry,
+  activeCity: details.activeCity === "-" ? "" : details.activeCity,
+  hometown: details.hometown === "-" ? "" : details.hometown,
+  country: details.controlPanel.country === "-" ? "" : details.controlPanel.country,
+  city: details.controlPanel.city === "-" ? "" : details.controlPanel.city,
+  yearsInCity: details.controlPanel.yearsInCity === "-" ? "" : details.controlPanel.yearsInCity,
+  phone: details.controlPanel.phone === "-" ? "" : details.controlPanel.phone,
+  education: details.controlPanel.education === "-" ? "" : details.controlPanel.education,
+  school: details.controlPanel.school === "-" ? "" : details.controlPanel.school,
+  institution: details.controlPanel.institution === "-" ? "" : details.controlPanel.institution,
+  linkedin: details.controlPanel.linkedin === "-" ? "" : details.controlPanel.linkedin,
+  bio: details.controlPanel.bio === "Bio / Hakkinda alani henuz doldurulmadi." ? "" : details.controlPanel.bio,
+  languages: details.detailCard.languages.join(", "),
+  interests: details.detailCard.interests.join(", "),
+  profileVisible: details.controlPanel.profileVisible,
+  jobSeeking: details.jobSeeking,
+});
+
 export const IndividualProfileCards = ({
   details,
   visibleModules,
   featureSources,
   isFeaturesLoading,
   featureErrorMessage,
+  isSavingProfile = false,
+  saveProfileError = null,
+  onSaveProfile,
 }: IndividualProfileCardsProps) => {
   const [activeTab, setActiveTab] = useState<string>("settings");
+  const [isEditingSettings, setIsEditingSettings] = useState(false);
+  const [settingsForm, setSettingsForm] = useState<SettingsFormState>(() => mapDetailsToForm(details));
 
   const moduleKeySet = useMemo(() => new Set(visibleModules.map((module) => module.key)), [visibleModules]);
   const shouldShowFeatureTabs = !isFeaturesLoading && !featureErrorMessage;
@@ -123,9 +182,50 @@ export const IndividualProfileCards = ({
     setActiveTab(tabs[0]?.key ?? "settings");
   }, [activeTab, tabs]);
 
+  useEffect(() => {
+    if (isEditingSettings) return;
+    setSettingsForm(mapDetailsToForm(details));
+  }, [details, isEditingSettings]);
+
   const front = details.frontCard;
   const detail = details.detailCard;
   const panel = details.controlPanel;
+
+  const handleSaveSettings = async () => {
+    if (!onSaveProfile) return;
+
+    const payload: IndividualProfileUpdateInput = {
+      displayName: settingsForm.displayName.trim(),
+      tagline: settingsForm.tagline.trim(),
+      statusText: settingsForm.statusText.trim(),
+      worldMessage: settingsForm.worldMessage.trim(),
+      activeCountry: settingsForm.activeCountry.trim(),
+      activeCity: settingsForm.activeCity.trim(),
+      hometown: settingsForm.hometown.trim(),
+      profileVisible: settingsForm.profileVisible,
+      jobSeeking: settingsForm.jobSeeking,
+      bio: settingsForm.bio.trim(),
+      linkedin: settingsForm.linkedin.trim(),
+      country: settingsForm.country.trim(),
+      city: settingsForm.city.trim(),
+      yearsInCity: settingsForm.yearsInCity.trim(),
+      phone: settingsForm.phone.trim(),
+      education: settingsForm.education.trim(),
+      school: settingsForm.school.trim(),
+      institution: settingsForm.institution.trim(),
+      languages: settingsForm.languages
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+      interests: settingsForm.interests
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    };
+
+    await onSaveProfile(payload);
+    setIsEditingSettings(false);
+  };
 
   return (
     <div className="space-y-4">
@@ -214,9 +314,7 @@ export const IndividualProfileCards = ({
               })}
             </TabsList>
 
-            {isFeaturesLoading ? (
-              <p className="mt-3 text-xs text-muted-foreground">Feature bilgileri yukleniyor...</p>
-            ) : null}
+            {isFeaturesLoading ? <p className="mt-3 text-xs text-muted-foreground">Feature bilgileri yukleniyor...</p> : null}
             {featureErrorMessage ? (
               <p className="mt-3 text-xs text-muted-foreground">
                 Feature verisi alinamadi. Guvenli mod nedeniyle sadece Profil Ayarlari goruntuleniyor.
@@ -312,42 +410,161 @@ export const IndividualProfileCards = ({
             </TabsContent>
 
             <TabsContent value="settings" className="mt-4 space-y-3">
-              <div className="grid gap-2 rounded-md border p-3 md:grid-cols-2">
-                <Field label="Ulke" value={panel.country} />
-                <Field label="Sehir" value={panel.city} />
-                <Field label="Kac Yildir Burada" value={panel.yearsInCity} />
-                <Field label="Telefon" value={panel.phone} />
-                <Field label="Dogum Tarihi" value={panel.birthDate} />
-                <Field label="Egitim" value={panel.education} />
-                <Field label="Okul" value={panel.school} />
-                <Field label="LinkedIn" value={panel.linkedin} />
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs text-muted-foreground">Profil bilgilerini kendin duzenleyebilirsin.</p>
+                {!isEditingSettings ? (
+                  <Button type="button" size="sm" variant="outline" onClick={() => setIsEditingSettings(true)}>
+                    Duzenle
+                  </Button>
+                ) : null}
               </div>
-              <div className="rounded-md border p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bio / Hakkinda</p>
-                <p className="text-sm text-muted-foreground">{panel.bio}</p>
-              </div>
-              <div className="rounded-md border p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Panel Aksiyonlari</p>
-                <ChipList items={panel.navActions} emptyLabel="Aksiyon tanimi yok" />
-              </div>
-              <div className="rounded-md border p-3">
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Profil Tamamlama Adimlari</p>
-                <div className="space-y-1">
-                  {panel.profileSteps.map((step) => (
-                    <p key={step.label} className="text-xs text-muted-foreground">
-                      {step.completed ? "Tamam" : "Bekliyor"} - {step.label}
-                    </p>
-                  ))}
+
+              {saveProfileError ? <p className="text-xs text-destructive">Kaydetme hatasi: {saveProfileError}</p> : null}
+
+              {isEditingSettings ? (
+                <div className="space-y-3 rounded-md border p-3">
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <div className="space-y-1">
+                      <Label className="text-xs">Ad Soyad</Label>
+                      <Input value={settingsForm.displayName} onChange={(event) => setSettingsForm((current) => ({ ...current, displayName: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Tagline</Label>
+                      <Input value={settingsForm.tagline} onChange={(event) => setSettingsForm((current) => ({ ...current, tagline: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Status Mesaji</Label>
+                      <Input value={settingsForm.statusText} onChange={(event) => setSettingsForm((current) => ({ ...current, statusText: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Profil Mesajim</Label>
+                      <Textarea value={settingsForm.worldMessage} onChange={(event) => setSettingsForm((current) => ({ ...current, worldMessage: event.target.value }))} rows={2} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Aktif Ulke</Label>
+                      <Input value={settingsForm.activeCountry} onChange={(event) => setSettingsForm((current) => ({ ...current, activeCountry: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Aktif Sehir</Label>
+                      <Input value={settingsForm.activeCity} onChange={(event) => setSettingsForm((current) => ({ ...current, activeCity: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Memleket</Label>
+                      <Input value={settingsForm.hometown} onChange={(event) => setSettingsForm((current) => ({ ...current, hometown: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">LinkedIn</Label>
+                      <Input value={settingsForm.linkedin} onChange={(event) => setSettingsForm((current) => ({ ...current, linkedin: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Bio / Hakkinda</Label>
+                      <Textarea value={settingsForm.bio} onChange={(event) => setSettingsForm((current) => ({ ...current, bio: event.target.value }))} rows={3} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Ulke</Label>
+                      <Input value={settingsForm.country} onChange={(event) => setSettingsForm((current) => ({ ...current, country: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Sehir</Label>
+                      <Input value={settingsForm.city} onChange={(event) => setSettingsForm((current) => ({ ...current, city: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Kac Yildir Burada</Label>
+                      <Input value={settingsForm.yearsInCity} onChange={(event) => setSettingsForm((current) => ({ ...current, yearsInCity: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Telefon</Label>
+                      <Input value={settingsForm.phone} onChange={(event) => setSettingsForm((current) => ({ ...current, phone: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Egitim</Label>
+                      <Input value={settingsForm.education} onChange={(event) => setSettingsForm((current) => ({ ...current, education: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Okul</Label>
+                      <Input value={settingsForm.school} onChange={(event) => setSettingsForm((current) => ({ ...current, school: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Kurum</Label>
+                      <Input value={settingsForm.institution} onChange={(event) => setSettingsForm((current) => ({ ...current, institution: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Diller (virgulle ayir)</Label>
+                      <Input value={settingsForm.languages} onChange={(event) => setSettingsForm((current) => ({ ...current, languages: event.target.value }))} />
+                    </div>
+                    <div className="space-y-1 md:col-span-2">
+                      <Label className="text-xs">Ilgi Alanlari (virgulle ayir)</Label>
+                      <Input value={settingsForm.interests} onChange={(event) => setSettingsForm((current) => ({ ...current, interests: event.target.value }))} />
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-4">
+                    <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Switch checked={settingsForm.profileVisible} onCheckedChange={(checked) => setSettingsForm((current) => ({ ...current, profileVisible: checked }))} />
+                      Profil gorunur
+                    </label>
+                    <label className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <Switch checked={settingsForm.jobSeeking} onCheckedChange={(checked) => setSettingsForm((current) => ({ ...current, jobSeeking: checked }))} />
+                      Is ariyorum
+                    </label>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Button type="button" onClick={() => void handleSaveSettings()} disabled={isSavingProfile || !onSaveProfile}>
+                      {isSavingProfile ? "Kaydediliyor..." : "Kaydet"}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      disabled={isSavingProfile}
+                      onClick={() => {
+                        setSettingsForm(mapDetailsToForm(details));
+                        setIsEditingSettings(false);
+                      }}
+                    >
+                      Iptal
+                    </Button>
+                  </div>
                 </div>
-              </div>
-              {detail.relocation.enabled ? (
-                <div className="rounded-md border p-3">
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Tasinma Plani</p>
-                  <p className="text-xs text-muted-foreground">
-                    {[detail.relocation.city, detail.relocation.country].filter(Boolean).join(", ")}
-                  </p>
-                </div>
-              ) : null}
+              ) : (
+                <>
+                  <div className="grid gap-2 rounded-md border p-3 md:grid-cols-2">
+                    <Field label="Ulke" value={panel.country} />
+                    <Field label="Sehir" value={panel.city} />
+                    <Field label="Kac Yildir Burada" value={panel.yearsInCity} />
+                    <Field label="Telefon" value={panel.phone} />
+                    <Field label="Dogum Tarihi" value={panel.birthDate} />
+                    <Field label="Egitim" value={panel.education} />
+                    <Field label="Okul" value={panel.school} />
+                    <Field label="LinkedIn" value={panel.linkedin} />
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Bio / Hakkinda</p>
+                    <p className="text-sm text-muted-foreground">{panel.bio}</p>
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Panel Aksiyonlari</p>
+                    <ChipList items={panel.navActions} emptyLabel="Aksiyon tanimi yok" />
+                  </div>
+                  <div className="rounded-md border p-3">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Profil Tamamlama Adimlari</p>
+                    <div className="space-y-1">
+                      {panel.profileSteps.map((step) => (
+                        <p key={step.label} className="text-xs text-muted-foreground">
+                          {step.completed ? "Tamam" : "Bekliyor"} - {step.label}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                  {detail.relocation.enabled ? (
+                    <div className="rounded-md border p-3">
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Tasinma Plani</p>
+                      <p className="text-xs text-muted-foreground">
+                        {[detail.relocation.city, detail.relocation.country].filter(Boolean).join(", ")}
+                      </p>
+                    </div>
+                  ) : null}
+                </>
+              )}
             </TabsContent>
           </Tabs>
         </CardContent>

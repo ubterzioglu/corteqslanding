@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { useAuth } from "@/components/auth/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,7 +46,7 @@ export const useIndividualProfileDetails = (enabled = true) => {
 
   const email = user?.email ?? "-";
 
-  const loadDetails = async () => {
+  const loadDetails = useCallback(async () => {
     if (!enabled || !user) {
       setDetails(null);
       setErrorMessage(null);
@@ -54,31 +54,42 @@ export const useIndividualProfileDetails = (enabled = true) => {
       return;
     }
 
-    const fallback = buildFallbackIndividualProfileDetails({
-      userId: user.id,
-      displayName,
-      email,
-    });
-
     setIsLoading(true);
     setErrorMessage(null);
 
-    const { data, error } = await supabase
-      .from("individual_profile_details")
-      .select(PROFILE_DETAILS_SELECT)
-      .eq("user_id", user.id)
-      .maybeSingle();
+    const [{ data: profileData, error: profileError }, { data, error }] = await Promise.all([
+      supabase.from("user_profiles").select("full_name, email").eq("user_id", user.id).maybeSingle(),
+      supabase
+        .from("individual_profile_details")
+        .select(PROFILE_DETAILS_SELECT)
+        .eq("user_id", user.id)
+        .maybeSingle(),
+    ]);
 
-    if (error) {
+    const resolvedDisplayName =
+      typeof profileData?.full_name === "string" && profileData.full_name.trim().length > 0
+        ? profileData.full_name
+        : displayName;
+    const resolvedEmail =
+      typeof profileData?.email === "string" && profileData.email.trim().length > 0
+        ? profileData.email
+        : email;
+    const fallback = buildFallbackIndividualProfileDetails({
+      userId: user.id,
+      displayName: resolvedDisplayName,
+      email: resolvedEmail,
+    });
+
+    if (error || profileError) {
       setDetails(fallback);
-      setErrorMessage(error.message);
+      setErrorMessage(error?.message ?? profileError?.message ?? "Profil verisi yuklenemedi.");
       setIsLoading(false);
       return;
     }
 
     setDetails(mapIndividualProfileRow(data, fallback));
     setIsLoading(false);
-  };
+  }, [displayName, email, enabled, user]);
 
   useEffect(() => {
     if (isAuthLoading) return;
@@ -93,9 +104,9 @@ export const useIndividualProfileDetails = (enabled = true) => {
     return () => {
       isMounted = false;
     };
-  }, [displayName, email, enabled, isAuthLoading, user]);
+  }, [isAuthLoading, loadDetails]);
 
-  const saveDetails = async (input: IndividualProfileUpdateInput) => {
+  const saveDetails = useCallback(async (input: IndividualProfileUpdateInput) => {
     if (!user) {
       throw new Error("Oturum bulunamadi.");
     }
@@ -111,21 +122,41 @@ export const useIndividualProfileDetails = (enabled = true) => {
       });
 
       const nextFrontCard = {
-        ...baseDetails.frontCard,
+        profile_image_url: baseDetails.frontCard.profileImageUrl,
+        passport_status: baseDetails.frontCard.passportStatus,
+        previous_cities: baseDetails.frontCard.previousCities,
+        mini_event: baseDetails.frontCard.miniEvent,
+        follow_request_state: baseDetails.frontCard.followRequestState,
+        follow_request_note: baseDetails.frontCard.followRequestNote,
+        profile_preview_note: baseDetails.frontCard.profilePreviewNote,
         world_message: input.worldMessage,
+        corteqs_passport: baseDetails.frontCard.corteqsPassport,
         linkedin_url: input.linkedin || null,
         linkedin_visible: true,
+        cv_doc: baseDetails.frontCard.cvDoc,
+        presentation_doc: baseDetails.frontCard.presentationDoc,
+        birthday_days: baseDetails.frontCard.birthdayDays,
+        gift_acceptance: baseDetails.frontCard.giftAcceptance,
       };
 
       const nextDetailCard = {
-        ...baseDetails.detailCard,
         about_text: input.bio,
-        languages: input.languages.slice(0, 5),
         interests: input.interests.slice(0, 12),
+        languages: input.languages.slice(0, 5),
+        lived_countries: baseDetails.detailCard.livedCountries,
+        service_requests: baseDetails.detailCard.serviceRequests,
+        events: baseDetails.detailCard.events,
+        follows_preview: baseDetails.detailCard.followsPreview,
+        whatsapp_groups: baseDetails.detailCard.whatsappGroups,
+        activities: baseDetails.detailCard.activities,
+        recent_events: baseDetails.detailCard.recentEvents,
+        countries_lived: baseDetails.detailCard.countriesLived,
+        relocation: baseDetails.detailCard.relocation,
+        cv_request_enabled: baseDetails.detailCard.cvRequestEnabled,
+        wishlist_status: baseDetails.detailCard.wishlistStatus === "hidden" ? "hidden" : "V2",
       };
 
       const nextProfileSettings = {
-        ...baseDetails.controlPanel,
         country: input.country || null,
         city: input.city || null,
         years_in_city: input.yearsInCity || null,
@@ -136,7 +167,12 @@ export const useIndividualProfileDetails = (enabled = true) => {
         institution: input.institution || null,
         bio: input.bio || null,
         linkedin: input.linkedin || null,
+        website_links: baseDetails.controlPanel.websiteLinks,
+        websites: baseDetails.controlPanel.websites,
+        skills: baseDetails.controlPanel.skills,
         profile_visible: input.profileVisible,
+        job_seeking: input.jobSeeking,
+        profile_steps: baseDetails.controlPanel.profileSteps,
       };
 
       const { error: detailsError } = await supabase.from("individual_profile_details").upsert(
@@ -168,6 +204,16 @@ export const useIndividualProfileDetails = (enabled = true) => {
         throw profileError;
       }
 
+      const normalizedName = input.displayName.trim();
+      if (normalizedName) {
+        await supabase.auth.updateUser({
+          data: {
+            full_name: normalizedName,
+            name: normalizedName,
+          },
+        });
+      }
+
       await loadDetails();
     } catch (error) {
       const message = error instanceof Error ? error.message : "Profil kaydedilemedi.";
@@ -176,7 +222,7 @@ export const useIndividualProfileDetails = (enabled = true) => {
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [details, displayName, email, loadDetails, user]);
 
   return {
     isLoading: isLoading || isAuthLoading,
