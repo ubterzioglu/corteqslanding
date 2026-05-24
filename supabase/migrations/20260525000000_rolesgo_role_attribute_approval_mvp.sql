@@ -68,6 +68,36 @@ create table if not exists public.approval_requests (
   updated_at timestamptz not null default now()
 );
 
+alter table public.approval_requests
+  add column if not exists target_role_key text,
+  add column if not exists target_feature_key text,
+  add column if not exists target_entity_type text,
+  add column if not exists target_entity_id uuid,
+  add column if not exists reviewed_by uuid,
+  add column if not exists reviewed_at timestamptz;
+
+alter table public.approval_requests
+  alter column payload set default '{}'::jsonb,
+  alter column status set default 'pending',
+  alter column created_at set default now(),
+  alter column updated_at set default now();
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'approval_requests_target_feature_key_fkey'
+      and conrelid = 'public.approval_requests'::regclass
+  ) then
+    alter table public.approval_requests
+      add constraint approval_requests_target_feature_key_fkey
+      foreign key (target_feature_key)
+      references public.feature_catalog(key)
+      on delete set null;
+  end if;
+end $$;
+
 create table if not exists public.admin_audit_logs (
   id uuid primary key default gen_random_uuid(),
   actor_user_id uuid,
@@ -200,94 +230,24 @@ set
   updated_at = now();
 
 insert into public.feature_catalog (key, label, description, scope_role, is_active_globally)
-select feature_key, label, description, role_key, global_enabled
+select feature_key, label, description, '*' as scope_role, global_enabled
 from (
   values
-    ('bireysel','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('bireysel','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('bireysel','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('bireysel','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('bireysel','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('bireysel','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('bireysel','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('bireysel','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('bireysel','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('bireysel','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('bireysel','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('bireysel','referral.create','Referral Olustur','Referral olusturma', true),
-    ('bireysel','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('bireysel','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true),
-    ('danisman','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('danisman','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('danisman','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('danisman','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('danisman','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('danisman','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('danisman','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('danisman','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('danisman','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('danisman','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('danisman','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('danisman','referral.create','Referral Olustur','Referral olusturma', true),
-    ('danisman','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('danisman','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true),
-    ('isletme','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('isletme','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('isletme','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('isletme','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('isletme','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('isletme','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('isletme','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('isletme','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('isletme','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('isletme','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('isletme','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('isletme','referral.create','Referral Olustur','Referral olusturma', true),
-    ('isletme','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('isletme','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true),
-    ('kurulus-dernek','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('kurulus-dernek','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('kurulus-dernek','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('kurulus-dernek','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('kurulus-dernek','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('kurulus-dernek','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('kurulus-dernek','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('kurulus-dernek','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('kurulus-dernek','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('kurulus-dernek','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('kurulus-dernek','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('kurulus-dernek','referral.create','Referral Olustur','Referral olusturma', true),
-    ('kurulus-dernek','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('kurulus-dernek','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true),
-    ('blogger-vlogger-youtuber','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('blogger-vlogger-youtuber','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('blogger-vlogger-youtuber','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('blogger-vlogger-youtuber','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('blogger-vlogger-youtuber','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('blogger-vlogger-youtuber','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('blogger-vlogger-youtuber','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('blogger-vlogger-youtuber','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('blogger-vlogger-youtuber','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('blogger-vlogger-youtuber','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('blogger-vlogger-youtuber','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('blogger-vlogger-youtuber','referral.create','Referral Olustur','Referral olusturma', true),
-    ('blogger-vlogger-youtuber','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('blogger-vlogger-youtuber','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true),
-    ('sehir-elcisi','profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
-    ('sehir-elcisi','profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
-    ('sehir-elcisi','profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
-    ('sehir-elcisi','directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
-    ('sehir-elcisi','directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
-    ('sehir-elcisi','contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
-    ('sehir-elcisi','contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
-    ('sehir-elcisi','content.create','Icerik Olustur','Icerik/post olusturma', true),
-    ('sehir-elcisi','content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
-    ('sehir-elcisi','events.create','Etkinlik Olustur','Etkinlik olusturma', true),
-    ('sehir-elcisi','offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
-    ('sehir-elcisi','referral.create','Referral Olustur','Referral olusturma', true),
-    ('sehir-elcisi','city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
-    ('sehir-elcisi','admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true)
-) as seeds(role_key, feature_key, label, description, global_enabled)
+    ('profile.view_own','Profilimi Goruntule','Kendi profilini goruntuleme', true),
+    ('profile.edit_own','Profilimi Duzenle','Kendi profilini duzenleme', true),
+    ('profile.edit_public','Public Profil Alanlari','Public alanlarini duzenleme', true),
+    ('directory.visible','Directory Gorunurlugu','Public directory gorunurlugu', true),
+    ('directory.featured','One Cikarilmis Profil','One cikarilmis listing', true),
+    ('contact.receive','Iletisim Talebi Al','Iletisim talebi alma', true),
+    ('contact.show_whatsapp','WhatsApp Goster','WhatsApp bilgisini gosterme', true),
+    ('content.create','Icerik Olustur','Icerik/post olusturma', true),
+    ('content.edit_own','Icerik Duzenle','Kendi icerigini duzenleme', true),
+    ('events.create','Etkinlik Olustur','Etkinlik olusturma', true),
+    ('offers.create','Teklif Olustur','Hizmet/teklif olusturma', true),
+    ('referral.create','Referral Olustur','Referral olusturma', true),
+    ('city.manage','Sehir Yonetimi','Sehir bazli yonetim', false),
+    ('admin.requires_approval','Admin Onayi Gerektirir','Islem admin onayina tabi', true)
+) as seeds(feature_key, label, description, global_enabled)
 on conflict (key) do update
 set
   label = excluded.label,
@@ -712,7 +672,9 @@ begin
 
   select fc.scope_role into v_scope_role
   from public.feature_catalog fc
-  join public.user_profiles up on up.profile_type = fc.scope_role and up.user_id = auth.uid()
+  join public.user_profiles up
+    on up.user_id = auth.uid()
+   and (fc.scope_role = '*' or up.profile_type = fc.scope_role)
   where fc.key = feature_key
   limit 1;
 
@@ -1182,7 +1144,7 @@ begin
     select 1
     from public.user_profiles up
     where up.user_id = target_user_id
-      and up.profile_type = v_scope_role
+      and (v_scope_role = '*' or up.profile_type = v_scope_role)
   ) then
     raise exception 'user profile not found for feature scope'
       using errcode = 'P0002';
@@ -1460,8 +1422,8 @@ as $$
       coalesce(featured_override.is_enabled, featured_role.is_enabled, false) and coalesce(featured_catalog.is_active_globally, false) as directory_featured
     from public.user_profiles up
     join public.roles r on r.key = up.profile_type
-    left join public.feature_catalog dir_catalog on dir_catalog.key = 'directory.visible' and dir_catalog.scope_role = up.profile_type
-    left join public.feature_catalog featured_catalog on featured_catalog.key = 'directory.featured' and featured_catalog.scope_role = up.profile_type
+    left join public.feature_catalog dir_catalog on dir_catalog.key = 'directory.visible'
+    left join public.feature_catalog featured_catalog on featured_catalog.key = 'directory.featured'
     left join public.role_feature_flags dir_role on dir_role.role_id = r.id and dir_role.feature_key = dir_catalog.key
     left join public.role_feature_flags featured_role on featured_role.role_id = r.id and featured_role.feature_key = featured_catalog.key
     left join public.user_feature_overrides dir_override on dir_override.user_id = up.user_id and dir_override.feature_key = 'directory.visible'
@@ -1580,7 +1542,63 @@ as $$
   ) p;
 $$;
 
+create or replace function public.get_current_user_features()
+returns table(feature_key text, is_enabled boolean, source text)
+language sql
+security definer
+set search_path = public
+as $$
+  with resolved_role as (
+    select r.id as role_id, r.key as role_key
+    from public.user_role_assignments ura
+    join public.roles r on r.id = ura.role_id
+    where ura.user_id = auth.uid()
+    limit 1
+  ),
+  fallback_profile_role as (
+    select r.id as role_id, r.key as role_key
+    from public.user_profiles up
+    join public.roles r on r.key = up.profile_type
+    where up.user_id = auth.uid()
+      and not exists (select 1 from resolved_role)
+    limit 1
+  ),
+  effective_role as (
+    select * from resolved_role
+    union all
+    select * from fallback_profile_role
+    limit 1
+  )
+  select
+    fc.key as feature_key,
+    (
+      fc.is_active_globally
+      and coalesce(ufo.is_enabled, rff.is_enabled, rfd.is_enabled, false)
+    ) as is_enabled,
+    case
+      when ufo.user_id is not null then 'override'
+      when rff.role_id is not null then 'role_default'
+      when rfd.profile_type is not null then 'role_default'
+      else 'fallback'
+    end as source
+  from public.feature_catalog fc
+  join effective_role er
+    on fc.scope_role = '*'
+    or fc.scope_role = er.role_key
+  left join public.role_feature_flags rff
+    on rff.role_id = er.role_id
+   and rff.feature_key = fc.key
+  left join public.role_feature_defaults rfd
+    on rfd.profile_type = er.role_key
+   and rfd.feature_key = fc.key
+  left join public.user_feature_overrides ufo
+    on ufo.user_id = auth.uid()
+   and ufo.feature_key = fc.key
+  order by fc.key;
+$$;
+
 grant execute on function public.get_current_user_profile() to authenticated;
+grant execute on function public.get_current_user_features() to authenticated;
 grant execute on function public.submit_role_change_request(text, text) to authenticated;
 grant execute on function public.submit_feature_request(text, jsonb) to authenticated;
 grant execute on function public.update_profile_attribute(text, jsonb, text) to authenticated;
