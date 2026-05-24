@@ -166,6 +166,107 @@ export type Database = {
         };
         Relationships: [];
       };
+      feature_catalog: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          is_active_globally: boolean;
+          key: string;
+          label: string;
+          scope_role: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          is_active_globally?: boolean;
+          key: string;
+          label: string;
+          scope_role: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          is_active_globally?: boolean;
+          key?: string;
+          label?: string;
+          scope_role?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      role_feature_defaults: {
+        Row: {
+          created_at: string;
+          feature_key: string;
+          is_enabled: boolean;
+          profile_type: string;
+        };
+        Insert: {
+          created_at?: string;
+          feature_key: string;
+          is_enabled?: boolean;
+          profile_type: string;
+        };
+        Update: {
+          created_at?: string;
+          feature_key?: string;
+          is_enabled?: boolean;
+          profile_type?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "role_feature_defaults_feature_key_fkey";
+            columns: ["feature_key"];
+            isOneToOne: false;
+            referencedRelation: "feature_catalog";
+            referencedColumns: ["key"];
+          },
+        ];
+      };
+      user_feature_overrides: {
+        Row: {
+          created_at: string;
+          feature_key: string;
+          is_enabled: boolean;
+          updated_at: string;
+          updated_by: string | null;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          feature_key: string;
+          is_enabled: boolean;
+          updated_at?: string;
+          updated_by?: string | null;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          feature_key?: string;
+          is_enabled?: boolean;
+          updated_at?: string;
+          updated_by?: string | null;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_feature_overrides_feature_key_fkey";
+            columns: ["feature_key"];
+            isOneToOne: false;
+            referencedRelation: "feature_catalog";
+            referencedColumns: ["key"];
+          },
+          {
+            foreignKeyName: "user_feature_overrides_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "user_profiles";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
       may19_campaign_submissions: {
         Row: {
           city: string;
@@ -1394,9 +1495,25 @@ export type Database = {
       };
     };
     Functions: {
+      admin_clear_user_feature_override: {
+        Args: { feature_key: string; target_user_id: string };
+        Returns: undefined;
+      };
+      admin_set_user_feature_override: {
+        Args: { feature_key: string; is_enabled: boolean; target_user_id: string };
+        Returns: undefined;
+      };
       admin_set_user_profile_type: {
         Args: { next_profile_type: string; target_user_id: string };
         Returns: undefined;
+      };
+      get_current_user_features: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          feature_key: string;
+          is_enabled: boolean;
+          source: string;
+        }[];
       };
       get_submission_documents_bucket_stats: {
         Args: Record<PropertyKey, never>;

@@ -9,6 +9,7 @@ import {
 } from "@/lib/referral-codes";
 import { normalizeTurkishText } from "@/lib/text-normalization";
 import type { ProfileType } from "@/lib/profile-types";
+import type { IndividualFeatureKey } from "@/lib/features";
 
 export async function userIsAdmin(userId: string) {
   const { data, error } = await supabase
@@ -25,6 +26,25 @@ export async function setUserProfileTypeAsAdmin(userId: string, profileType: Pro
   const { error } = await supabase.rpc("admin_set_user_profile_type", {
     target_user_id: userId,
     next_profile_type: profileType,
+  });
+
+  if (error) throw error;
+}
+
+export async function setUserFeatureOverrideAsAdmin(userId: string, featureKey: IndividualFeatureKey, isEnabled: boolean) {
+  const { error } = await supabase.rpc("admin_set_user_feature_override", {
+    target_user_id: userId,
+    feature_key: featureKey,
+    is_enabled: isEnabled,
+  });
+
+  if (error) throw error;
+}
+
+export async function clearUserFeatureOverrideAsAdmin(userId: string, featureKey: IndividualFeatureKey) {
+  const { error } = await supabase.rpc("admin_clear_user_feature_override", {
+    target_user_id: userId,
+    feature_key: featureKey,
   });
 
   if (error) throw error;
