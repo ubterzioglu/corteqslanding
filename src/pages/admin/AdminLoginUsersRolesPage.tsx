@@ -38,6 +38,8 @@ const AdminLoginUsersRolesPage = () => {
   const [rows, setRows] = useState<UserRow[]>([]);
   const [roles, setRoles] = useState<RoleRow[]>([]);
   const [roleByUserId, setRoleByUserId] = useState<Record<string, string>>({});
+  const [pendingCountByUserId, setPendingCountByUserId] = useState<Record<string, number>>({});
+  const [overrideCountByUserId, setOverrideCountByUserId] = useState<Record<string, number>>({});
 
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -132,30 +134,57 @@ const AdminLoginUsersRolesPage = () => {
 
       if (userRows.length === 0) {
         setRoleByUserId({});
+        setPendingCountByUserId({});
+        setOverrideCountByUserId({});
         setIsLoading(false);
         return;
       }
 
-      const { data: assignmentsData, error: assignmentsError } = await supabase
-        .from("user_role_assignments")
-        .select("user_id, role_id")
-        .in("user_id", userRows.map((row) => row.user_id));
+      const [assignmentsResult, approvalsResult, overridesResult] = await Promise.all([
+        supabase
+          .from("user_role_assignments")
+          .select("user_id, role_id")
+          .in("user_id", userRows.map((row) => row.user_id)),
+        supabase
+          .from("approval_requests")
+          .select("user_id, status")
+          .eq("status", "pending")
+          .in("user_id", userRows.map((row) => row.user_id)),
+        supabase
+          .from("user_feature_overrides")
+          .select("user_id, feature_key")
+          .in("user_id", userRows.map((row) => row.user_id)),
+      ]);
 
       if (!isMounted) return;
 
-      if (assignmentsError) {
-        setErrorMessage(assignmentsError.message);
+      if (assignmentsResult.error || approvalsResult.error || overridesResult.error) {
+        setErrorMessage(assignmentsResult.error?.message ?? approvalsResult.error?.message ?? overridesResult.error?.message ?? "Bilinmeyen hata");
         setRoleByUserId({});
+        setPendingCountByUserId({});
+        setOverrideCountByUserId({});
         setIsLoading(false);
         return;
       }
 
       const nextMap: Record<string, string> = {};
-      for (const item of (assignmentsData ?? []) as AssignmentRow[]) {
+      for (const item of (assignmentsResult.data ?? []) as AssignmentRow[]) {
         nextMap[item.user_id] = item.role_id;
       }
 
+      const nextPendingCountByUserId: Record<string, number> = {};
+      for (const row of approvalsResult.data ?? []) {
+        nextPendingCountByUserId[row.user_id] = (nextPendingCountByUserId[row.user_id] ?? 0) + 1;
+      }
+
+      const nextOverrideCountByUserId: Record<string, number> = {};
+      for (const row of overridesResult.data ?? []) {
+        nextOverrideCountByUserId[row.user_id] = (nextOverrideCountByUserId[row.user_id] ?? 0) + 1;
+      }
+
       setRoleByUserId(nextMap);
+      setPendingCountByUserId(nextPendingCountByUserId);
+      setOverrideCountByUserId(nextOverrideCountByUserId);
       setIsLoading(false);
     })();
 
@@ -327,6 +356,7 @@ const AdminLoginUsersRolesPage = () => {
                       <th className="px-3 py-2 font-medium">Ad Soyad</th>
                       <th className="px-3 py-2 font-medium">E-posta</th>
                       <th className="px-3 py-2 font-medium">Rol</th>
+                      <th className="px-3 py-2 font-medium">Durum Özeti</th>
                       <th className="px-3 py-2 font-medium">Provider</th>
                       <th className="px-3 py-2 font-medium">Kayıt Tarihi</th>
                     </tr>
@@ -393,6 +423,16 @@ const AdminLoginUsersRolesPage = () => {
                                 </button>
                               </div>
                             )}
+                          </td>
+                          <td className="px-3 py-2">
+                            <div className="flex flex-wrap gap-2 text-xs">
+                              <span className="rounded-md border px-2 py-1">
+                                Pending: {pendingCountByUserId[row.user_id] ?? 0}
+                              </span>
+                              <span className="rounded-md border px-2 py-1">
+                                Override: {overrideCountByUserId[row.user_id] ?? 0}
+                              </span>
+                            </div>
                           </td>
                           <td className="px-3 py-2">{row.auth_provider || "-"}</td>
                           <td className="px-3 py-2">

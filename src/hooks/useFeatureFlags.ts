@@ -3,8 +3,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/components/auth/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  APP_FEATURE_KEY_LIST,
   INDIVIDUAL_FEATURE_KEY_LIST,
+  type AppFeatureKey,
   type FeatureSource,
+  type GenericFeatureKey,
   type IndividualFeatureKey,
 } from "@/lib/features";
 
@@ -19,7 +22,7 @@ type FeatureState = {
   source: FeatureSource;
 };
 
-type FeatureStateMap = Partial<Record<IndividualFeatureKey, FeatureState>>;
+type FeatureStateMap = Partial<Record<AppFeatureKey, FeatureState>>;
 
 export const useFeatureFlags = (enabled = true) => {
   const { user, isLoading: isAuthLoading } = useAuth();
@@ -28,14 +31,7 @@ export const useFeatureFlags = (enabled = true) => {
   const [featureMap, setFeatureMap] = useState<FeatureStateMap>({});
 
   const loadFeatures = useCallback(async () => {
-    if (!enabled) {
-      setFeatureMap({});
-      setErrorMessage(null);
-      setIsLoading(false);
-      return;
-    }
-
-    if (!user) {
+    if (!enabled || !user) {
       setFeatureMap({});
       setErrorMessage(null);
       setIsLoading(false);
@@ -58,7 +54,7 @@ export const useFeatureFlags = (enabled = true) => {
     const rows = (data ?? []) as FeatureRow[];
 
     for (const row of rows) {
-      if (!INDIVIDUAL_FEATURE_KEY_LIST.includes(row.feature_key as IndividualFeatureKey)) {
+      if (!APP_FEATURE_KEY_LIST.includes(row.feature_key as AppFeatureKey)) {
         continue;
       }
 
@@ -67,7 +63,7 @@ export const useFeatureFlags = (enabled = true) => {
           ? row.source
           : "fallback";
 
-      nextMap[row.feature_key as IndividualFeatureKey] = {
+      nextMap[row.feature_key as AppFeatureKey] = {
         isEnabled: Boolean(row.is_enabled),
         source,
       };
@@ -83,8 +79,15 @@ export const useFeatureFlags = (enabled = true) => {
   }, [isAuthLoading, loadFeatures]);
 
   const isFeatureEnabled = useCallback(
-    (featureKey: IndividualFeatureKey) => {
+    (featureKey: AppFeatureKey) => {
       return featureMap[featureKey]?.isEnabled ?? false;
+    },
+    [featureMap],
+  );
+
+  const getFeatureSource = useCallback(
+    (featureKey: AppFeatureKey) => {
+      return featureMap[featureKey]?.source ?? "fallback";
     },
     [featureMap],
   );
@@ -97,12 +100,23 @@ export const useFeatureFlags = (enabled = true) => {
     return map;
   }, [featureMap]);
 
+  const genericFeatureSources = useMemo(() => {
+    const map: Partial<Record<GenericFeatureKey, FeatureSource>> = {};
+    for (const key of APP_FEATURE_KEY_LIST) {
+      if (INDIVIDUAL_FEATURE_KEY_LIST.includes(key as IndividualFeatureKey)) continue;
+      map[key as GenericFeatureKey] = featureMap[key]?.source ?? "fallback";
+    }
+    return map;
+  }, [featureMap]);
+
   return {
     isLoading: isLoading || isAuthLoading,
     errorMessage,
     isFeatureEnabled,
+    getFeatureSource,
     featureMap,
     featureSources,
+    genericFeatureSources,
     refreshFeatures: loadFeatures,
   };
 };

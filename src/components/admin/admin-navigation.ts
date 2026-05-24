@@ -11,6 +11,8 @@ export const primaryAdminNavItems = [
 export const newMemberSystemNavItems = [
   { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller", icon: Network },
   { to: "/admin/new-member/roles-features", label: "Roller & Featurelar", icon: Shield },
+  { to: "/admin/new-member/attributes", label: "Attribute Yönetimi", icon: BookOpen },
+  { to: "/admin/new-member/overrides", label: "Feature Override", icon: Sparkles },
 ] as const;
 
 export const externalAdminNavItems = [
@@ -23,6 +25,8 @@ export const otherActionNavItems = [
   { to: "/admin/muhasebe", label: "Muhasebe", icon: Globe },
   { to: "/admin/marquee", label: "Haber Bandı", icon: Radio },
   { to: "/admin/social-media", label: "Sosyal Medya", icon: Megaphone },
+  { to: "/admin/approvals", label: "Approval Queue", icon: ClipboardList },
+  { to: "/admin/audit-logs", label: "Audit Logs", icon: ScrollTextIcon },
   { to: "/admin/about", label: "Güncellemeler", icon: ScrollText },
 ] as const;
 

@@ -64,6 +64,12 @@ import AdminSurveyResponsesPage from "@/pages/admin/surveys/AdminSurveyResponses
 import LoginPage from "@/pages/LoginPage";
 import ProfilePage from "@/pages/ProfilePage";
 import ProfileResolverPage from "@/pages/ProfileResolverPage";
+import DirectoryPage from "@/pages/DirectoryPage";
+import DirectoryProfilePage from "@/pages/DirectoryProfilePage";
+import AdminAttributesPage from "@/pages/admin/AdminAttributesPage";
+import AdminUserOverridesPage from "@/pages/admin/AdminUserOverridesPage";
+import AdminApprovalsPage from "@/pages/admin/AdminApprovalsPage";
+import AdminAuditLogsPage from "@/pages/admin/AdminAuditLogsPage";
 
 const queryClient = new QueryClient();
 
@@ -112,6 +118,8 @@ const App = () => (
               <Route path="/aiform" element={<AIFormPage />} />
               <Route path="/form" element={<FormPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/directory" element={<DirectoryPage />} />
+              <Route path="/directory/profile/:userId" element={<DirectoryProfilePage />} />
               <Route
                 path="/profile"
                 element={
@@ -159,6 +167,10 @@ const App = () => (
               <Route path="surveys/:id/responses" element={<AdminSurveyResponsesPage />} />
               <Route path="new-member/users-roles" element={<AdminLoginUsersRolesPage />} />
               <Route path="new-member/roles-features" element={<AdminRolesFeaturesPage />} />
+              <Route path="new-member/attributes" element={<AdminAttributesPage />} />
+              <Route path="new-member/overrides" element={<AdminUserOverridesPage />} />
+              <Route path="approvals" element={<AdminApprovalsPage />} />
+              <Route path="audit-logs" element={<AdminAuditLogsPage />} />
               <Route path="roller-taslak" element={<AdminRolesDraftPage />} />
               <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
               <Route path="may19/kelime" element={<AdminMay19IdeaPage />} />

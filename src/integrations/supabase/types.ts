@@ -421,6 +421,7 @@ export type Database = {
           created_at: string;
           feature_key: string;
           is_enabled: boolean;
+          reason: string | null;
           updated_at: string;
           updated_by: string | null;
           user_id: string;
@@ -429,6 +430,7 @@ export type Database = {
           created_at?: string;
           feature_key: string;
           is_enabled: boolean;
+          reason?: string | null;
           updated_at?: string;
           updated_by?: string | null;
           user_id: string;
@@ -437,6 +439,7 @@ export type Database = {
           created_at?: string;
           feature_key?: string;
           is_enabled?: boolean;
+          reason?: string | null;
           updated_at?: string;
           updated_by?: string | null;
           user_id?: string;
@@ -457,6 +460,264 @@ export type Database = {
             referencedColumns: ["user_id"];
           },
         ];
+      };
+      attribute_catalog: {
+        Row: {
+          created_at: string;
+          data_type: string;
+          description: string | null;
+          id: string;
+          is_active: boolean;
+          is_system: boolean;
+          key: string;
+          label: string;
+          sort_order: number;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          data_type: string;
+          description?: string | null;
+          id?: string;
+          is_active?: boolean;
+          is_system?: boolean;
+          key: string;
+          label: string;
+          sort_order?: number;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          data_type?: string;
+          description?: string | null;
+          id?: string;
+          is_active?: boolean;
+          is_system?: boolean;
+          key?: string;
+          label?: string;
+          sort_order?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      role_attribute_rules: {
+        Row: {
+          attribute_id: string;
+          created_at: string;
+          id: string;
+          is_enabled: boolean;
+          is_public_default: boolean;
+          is_required: boolean;
+          requires_admin_approval_on_change: boolean;
+          role_id: string;
+          sort_order: number;
+          updated_at: string;
+          user_can_edit: boolean;
+          user_can_hide: boolean;
+        };
+        Insert: {
+          attribute_id: string;
+          created_at?: string;
+          id?: string;
+          is_enabled?: boolean;
+          is_public_default?: boolean;
+          is_required?: boolean;
+          requires_admin_approval_on_change?: boolean;
+          role_id: string;
+          sort_order?: number;
+          updated_at?: string;
+          user_can_edit?: boolean;
+          user_can_hide?: boolean;
+        };
+        Update: {
+          attribute_id?: string;
+          created_at?: string;
+          id?: string;
+          is_enabled?: boolean;
+          is_public_default?: boolean;
+          is_required?: boolean;
+          requires_admin_approval_on_change?: boolean;
+          role_id?: string;
+          sort_order?: number;
+          updated_at?: string;
+          user_can_edit?: boolean;
+          user_can_hide?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "role_attribute_rules_attribute_id_fkey";
+            columns: ["attribute_id"];
+            isOneToOne: false;
+            referencedRelation: "attribute_catalog";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "role_attribute_rules_role_id_fkey";
+            columns: ["role_id"];
+            isOneToOne: false;
+            referencedRelation: "roles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      user_profile_attributes: {
+        Row: {
+          approval_status: string;
+          approved_at: string | null;
+          approved_by: string | null;
+          attribute_id: string;
+          created_at: string;
+          id: string;
+          updated_at: string;
+          user_id: string;
+          value_json: Json | null;
+          value_text: string | null;
+          visibility: string;
+        };
+        Insert: {
+          approval_status?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
+          attribute_id: string;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+          user_id: string;
+          value_json?: Json | null;
+          value_text?: string | null;
+          visibility?: string;
+        };
+        Update: {
+          approval_status?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
+          attribute_id?: string;
+          created_at?: string;
+          id?: string;
+          updated_at?: string;
+          user_id?: string;
+          value_json?: Json | null;
+          value_text?: string | null;
+          visibility?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "user_profile_attributes_attribute_id_fkey";
+            columns: ["attribute_id"];
+            isOneToOne: false;
+            referencedRelation: "attribute_catalog";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "user_profile_attributes_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user_profiles";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
+      approval_requests: {
+        Row: {
+          admin_note: string | null;
+          created_at: string;
+          id: string;
+          payload: Json;
+          request_type: string;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          status: string;
+          target_entity_id: string | null;
+          target_entity_type: string | null;
+          target_feature_key: string | null;
+          target_role_key: string | null;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          admin_note?: string | null;
+          created_at?: string;
+          id?: string;
+          payload?: Json;
+          request_type: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+          target_entity_id?: string | null;
+          target_entity_type?: string | null;
+          target_feature_key?: string | null;
+          target_role_key?: string | null;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          admin_note?: string | null;
+          created_at?: string;
+          id?: string;
+          payload?: Json;
+          request_type?: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+          target_entity_id?: string | null;
+          target_entity_type?: string | null;
+          target_feature_key?: string | null;
+          target_role_key?: string | null;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "approval_requests_target_feature_key_fkey";
+            columns: ["target_feature_key"];
+            isOneToOne: false;
+            referencedRelation: "feature_catalog";
+            referencedColumns: ["key"];
+          },
+          {
+            foreignKeyName: "approval_requests_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user_profiles";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
+      admin_audit_logs: {
+        Row: {
+          action: string;
+          actor_user_id: string | null;
+          after_value: Json | null;
+          before_value: Json | null;
+          created_at: string;
+          id: string;
+          target_entity_id: string | null;
+          target_entity_type: string | null;
+          target_user_id: string | null;
+        };
+        Insert: {
+          action: string;
+          actor_user_id?: string | null;
+          after_value?: Json | null;
+          before_value?: Json | null;
+          created_at?: string;
+          id?: string;
+          target_entity_id?: string | null;
+          target_entity_type?: string | null;
+          target_user_id?: string | null;
+        };
+        Update: {
+          action?: string;
+          actor_user_id?: string | null;
+          after_value?: Json | null;
+          before_value?: Json | null;
+          created_at?: string;
+          id?: string;
+          target_entity_id?: string | null;
+          target_entity_type?: string | null;
+          target_user_id?: string | null;
+        };
+        Relationships: [];
       };
       may19_campaign_submissions: {
         Row: {
@@ -1686,8 +1947,24 @@ export type Database = {
       };
     };
     Functions: {
+      admin_review_approval_request: {
+        Args: { decision: string; note?: string | null; request_id: string };
+        Returns: undefined;
+      };
+      admin_set_attribute_rule: {
+        Args: { attribute_key: string; role_key: string; rule_payload: Json };
+        Returns: undefined;
+      };
+      admin_set_feature_global_state: {
+        Args: { feature_key: string; is_active_globally: boolean };
+        Returns: undefined;
+      };
       admin_clear_user_feature_override: {
         Args: { feature_key: string; target_user_id: string };
+        Returns: undefined;
+      };
+      admin_set_user_feature_override_detailed: {
+        Args: { feature_key: string; is_enabled: boolean; reason?: string | null; target_user_id: string };
         Returns: undefined;
       };
       admin_set_user_feature_override: {
@@ -1713,6 +1990,55 @@ export type Database = {
           is_enabled: boolean;
           source: string;
         }[];
+      };
+      get_current_user_profile: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
+      get_public_directory_profile: {
+        Args: { target_user_id: string };
+        Returns: Json;
+      };
+      list_public_directory_profiles: {
+        Args: {
+          city_filter?: string | null;
+          country_filter?: string | null;
+          featured_only?: boolean;
+          role_filter?: string | null;
+          search_text?: string | null;
+          verified_only?: boolean;
+        };
+        Returns: {
+          city: string | null;
+          country: string | null;
+          display_name: string;
+          is_featured: boolean;
+          is_verified: boolean;
+          linkedin_url: string | null;
+          profile_image_url: string | null;
+          role_key: string;
+          role_label: string;
+          role_slug: string;
+          short_bio: string | null;
+          special_attribute_key: string | null;
+          special_attribute_label: string | null;
+          special_attribute_value: string | null;
+          user_id: string;
+          website_url: string | null;
+          whatsapp: string | null;
+        }[];
+      };
+      submit_feature_request: {
+        Args: { feature_key: string; payload?: Json };
+        Returns: string;
+      };
+      submit_role_change_request: {
+        Args: { note?: string | null; target_role_key: string };
+        Returns: string;
+      };
+      update_profile_attribute: {
+        Args: { attribute_key: string; attribute_value: Json; visibility?: string | null };
+        Returns: Json;
       };
       get_submission_documents_bucket_stats: {
         Args: Record<PropertyKey, never>;

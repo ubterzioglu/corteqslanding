@@ -2,32 +2,28 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
-import type { IndividualProfileDetailsCore } from "@/lib/individual-profile";
+import type { CurrentUserProfilePayload } from "@/lib/member-profile";
 import ProfilePage from "@/pages/ProfilePage";
 
 const useAuthMock = vi.fn();
-const useFeatureFlagsMock = vi.fn();
-const useIndividualProfileDetailsMock = vi.fn();
-const maybeSingleMock = vi.fn();
-const eqMock = vi.fn();
-const selectMock = vi.fn();
-const fromMock = vi.fn();
+const useCurrentUserProfileMock = vi.fn();
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
 }));
 
-vi.mock("@/hooks/useFeatureFlags", () => ({
-  useFeatureFlags: (...args: unknown[]) => useFeatureFlagsMock(...args),
+vi.mock("@/hooks/useCurrentUserProfile", () => ({
+  useCurrentUserProfile: (...args: unknown[]) => useCurrentUserProfileMock(...args),
 }));
 
-vi.mock("@/hooks/useIndividualProfileDetails", () => ({
-  useIndividualProfileDetails: (...args: unknown[]) => useIndividualProfileDetailsMock(...args),
+vi.mock("@/hooks/use-toast", () => ({
+  useToast: () => ({
+    toast: vi.fn(),
+  }),
 }));
 
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
-    from: (...args: unknown[]) => fromMock(...args),
     auth: {
       signOut: vi.fn(),
     },
@@ -35,94 +31,92 @@ vi.mock("@/integrations/supabase/client", () => ({
 }));
 
 describe("ProfilePage", () => {
-  const baseDetails: IndividualProfileDetailsCore = {
+  const baseProfile: CurrentUserProfilePayload = {
     userId: "u-1",
-    displayName: "firmascope",
     email: "firmascope@gmail.com",
-    tagline: "Londra'da Pazarlama Uzmanı",
-    statusText: "Diaspora için iş birliği ve mentorluk fırsatlarına açığım.",
-    presenceStatus: "online",
-    visibilityStatus: "open",
-    followerCount: 10,
-    followingCount: 12,
-    eventCount: 3,
-    activeCity: "Londra",
-    activeCountry: "Birleşik Krallık",
-    hometown: "İzmir",
-    phoneVerified: true,
-    jobSeeking: true,
-    mentorOptIn: true,
-    frontCard: {
-      profileImageUrl: null,
-      passportStatus: "Doğrulandı",
-      previousCities: [],
-      miniEvent: null,
-      followRequestState: "connected",
-      followRequestNote: "Takiptesin",
-      profilePreviewNote: "Ön izleme",
-      worldMessage: "Toplulukla birlikte büyüyoruz.",
-      corteqsPassport: false,
-      linkedinUrl: null,
-      linkedinVisible: true,
-      cvDoc: null,
-      presentationDoc: null,
-      birthdayDays: null,
-      giftAcceptance: false,
-    },
-    detailCard: {
-      aboutText: "Hakkında metni",
-      interests: [],
-      languages: [],
-      livedCountries: [],
-      serviceRequests: [],
-      events: [],
-      followsPreview: [],
-      whatsappGroups: [],
-      activities: [],
-      recentEvents: [],
-      countriesLived: [],
-      relocation: { enabled: false, country: "", city: "" },
-      cvRequestEnabled: false,
-      wishlistStatus: "v2",
-    },
-    controlPanel: {
-      panelTagline: "Bireysel Panelim",
-      panelBadges: [],
-      navActions: [],
-      reminder: "Hatırlatma",
-      locationSummary: "Londra",
-      country: "Birleşik Krallık",
-      city: "Londra",
-      yearsInCity: "5",
-      phone: "+44",
-      birthDate: "1992-04-18",
-      education: "Yüksek Lisans",
-      school: "Westminster",
-      institution: "University of Westminster",
-      bio: "Bio",
-      linkedin: "https://linkedin.com/in/firmascope",
-      websiteLinks: [],
-      websites: [],
-      skills: [],
-      profileVisible: true,
-      profileSteps: [],
+    fullName: "firmascope",
+    profileType: "bireysel",
+    roleKey: "bireysel",
+    roleLabel: "Bireysel",
+    roleDescription: "Temel bireysel profil",
+    roleSlug: "individual",
+    features: [
+      { key: "directory.visible", isEnabled: false, source: "role_default" },
+      { key: "events.create", isEnabled: false, source: "role_default" },
+    ],
+    attributes: [
+      {
+        attributeKey: "full_name",
+        label: "Görünen İsim",
+        description: "Profil ismi",
+        dataType: "text",
+        isSystem: true,
+        sortOrder: 10,
+        isRequired: true,
+        isPublicDefault: true,
+        userCanEdit: true,
+        userCanHide: false,
+        requiresAdminApprovalOnChange: false,
+        visibility: "public",
+        approvalStatus: "approved",
+        valueText: "firmascope",
+        valueJson: null,
+        displayValue: "firmascope",
+      },
+      {
+        attributeKey: "bio_short",
+        label: "Kısa Açıklama",
+        description: "Kısa bio",
+        dataType: "textarea",
+        isSystem: true,
+        sortOrder: 50,
+        isRequired: false,
+        isPublicDefault: true,
+        userCanEdit: true,
+        userCanHide: true,
+        requiresAdminApprovalOnChange: false,
+        visibility: "public",
+        approvalStatus: "approved",
+        valueText: "Diaspora için iş birliği ve mentorluk fırsatlarına açığım.",
+        valueJson: null,
+        displayValue: "Diaspora için iş birliği ve mentorluk fırsatlarına açığım.",
+      },
+      {
+        attributeKey: "interests",
+        label: "İlgi Alanları",
+        description: "Rol özel alan",
+        dataType: "textarea",
+        isSystem: false,
+        sortOrder: 110,
+        isRequired: false,
+        isPublicDefault: true,
+        userCanEdit: true,
+        userCanHide: true,
+        requiresAdminApprovalOnChange: false,
+        visibility: "public",
+        approvalStatus: "approved",
+        valueText: "mentorluk, topluluk, networking",
+        valueJson: null,
+        displayValue: "mentorluk, topluluk, networking",
+      },
+    ],
+    pendingRequests: [],
+    profileCompletion: {
+      requiredTotal: 1,
+      requiredCompleted: 1,
+      percentage: 100,
     },
   };
 
   it("falls back to bireysel on invalid slug", async () => {
-    useFeatureFlagsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      featureSources: {},
-      isFeatureEnabled: () => false,
-    });
-    useIndividualProfileDetailsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      details: null,
-    });
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
+    });
+    useCurrentUserProfileMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      profile: null,
+      refreshProfile: vi.fn(),
     });
 
     render(
@@ -137,26 +131,16 @@ describe("ProfilePage", () => {
     expect(await screen.findByText("Bireysel Profil")).toBeInTheDocument();
   });
 
-  it("redirects to assigned profile type", async () => {
-    useFeatureFlagsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      featureSources: {},
-      isFeatureEnabled: () => false,
-    });
-    useIndividualProfileDetailsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      details: null,
-    });
+  it("redirects to assigned profile type from current profile payload", async () => {
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
     });
-
-    maybeSingleMock.mockResolvedValue({ data: { profile_type: "danisman" } });
-    eqMock.mockReturnValue({ maybeSingle: maybeSingleMock });
-    selectMock.mockReturnValue({ eq: eqMock });
-    fromMock.mockReturnValue({ select: selectMock });
+    useCurrentUserProfileMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      profile: { ...baseProfile, profileType: "danisman", roleKey: "danisman", roleLabel: "Consultant", roleSlug: "consultant" },
+      refreshProfile: vi.fn(),
+    });
 
     render(
       <MemoryRouter initialEntries={["/profile/isletme"]}>
@@ -170,26 +154,16 @@ describe("ProfilePage", () => {
     expect(await screen.findByText("Danisman Profil")).toBeInTheDocument();
   });
 
-  it("renders individual visual cards for bireysel users", async () => {
-    useFeatureFlagsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      featureSources: {},
-      isFeatureEnabled: () => false,
-    });
-    useIndividualProfileDetailsMock.mockReturnValue({
-      isLoading: false,
-      errorMessage: null,
-      details: baseDetails,
-    });
+  it("renders role-aware profile blocks for bireysel users", async () => {
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "firmascope@gmail.com", user_metadata: { name: "firmascope" } },
     });
-
-    maybeSingleMock.mockResolvedValue({ data: { profile_type: "bireysel" } });
-    eqMock.mockReturnValue({ maybeSingle: maybeSingleMock });
-    selectMock.mockReturnValue({ eq: eqMock });
-    fromMock.mockReturnValue({ select: selectMock });
+    useCurrentUserProfileMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      profile: baseProfile,
+      refreshProfile: vi.fn(),
+    });
 
     render(
       <MemoryRouter initialEntries={["/profile/bireysel"]}>
@@ -199,8 +173,11 @@ describe("ProfilePage", () => {
       </MemoryRouter>,
     );
 
-    expect(await screen.findByText("Profil Ayarlari")).toBeInTheDocument();
-    expect(screen.getByText("Toplulukla birlikte büyüyoruz.")).toBeInTheDocument();
-    expect(screen.getByText("Londra'da Pazarlama Uzmanı")).toBeInTheDocument();
+    expect(await screen.findByText("Bireysel Kullanıcı")).toBeInTheDocument();
+    expect(screen.getByText("Ortak Profil Alanları")).toBeInTheDocument();
+    expect(screen.getByText("Rolüne Özel Alanlar")).toBeInTheDocument();
+    expect(screen.getByText("Feature Talepleri")).toBeInTheDocument();
+    expect(screen.getByText("Diaspora için iş birliği ve mentorluk fırsatlarına açığım.")).toBeInTheDocument();
+    expect(screen.getByText("mentorluk, topluluk, networking")).toBeInTheDocument();
   });
 });
