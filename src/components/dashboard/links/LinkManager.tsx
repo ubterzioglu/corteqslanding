@@ -6,6 +6,7 @@ import {
   Download,
   ExternalLink,
   Eye,
+  EyeOff,
   Pencil,
   Plus,
   Save,
@@ -25,15 +26,12 @@ import {
   requiresStoredFile,
   requiresUrl,
   RESOURCE_ADDED_BY,
-  RESOURCE_DEPARTMENTS,
   RESOURCE_RECORD_KINDS,
-  type ResourceDepartment,
   type ResourceEntry,
   type ResourceEntryRow,
   type ResourceFormState,
-  type ResourceKindFilter,
-  type ResourceRecordKind,
   type ResourceSectionFilter,
+  type ResourceSubsectionFilter,
 } from '@/lib/dashboard/resource-items'
 
 const INPUT_CLS =
@@ -46,7 +44,7 @@ const FILTER_BTN_CLS =
   'rounded-full border px-3 py-2 text-xs font-semibold tracking-wide transition-all'
 
 const SELECT_FIELDS =
-  'id, department, record_kind, added_by, title, description, url, storage_bucket, storage_path, file_name, person_first_name, person_last_name, person_role, linkedin_url, instagram_url, website_url, created_at'
+  'id, order_no, slug, section, subsection, department, record_kind, added_by, title, description, url, file_id, file_type, mime_type, privacy_level, is_public_import, import_suggestion, tags, source_path, status, is_hidden, storage_bucket, storage_path, file_name, person_first_name, person_last_name, person_role, linkedin_url, instagram_url, website_url, source_folder, source_subfolder, source_snapshot_date, import_batch, created_at'
 
 function normalizeOptionalText(value: string): string | null {
   const normalized = value.trim()
@@ -69,9 +67,8 @@ export default function LinkManager() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingState, setEditingState] = useState<ResourceFormState>(createEmptyResourceFormState)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedDepartments, setSelectedDepartments] = useState<Set<ResourceDepartment>>(new Set())
-  const [selectedKinds, setSelectedKinds] = useState<Set<ResourceRecordKind>>(new Set())
-  const [selectedAddedBy, setSelectedAddedBy] = useState<Set<string>>(new Set())
+  const [selectedSections, setSelectedSections] = useState<Set<string>>(new Set())
+  const [selectedSubsection, setSelectedSubsection] = useState<ResourceSubsectionFilter>('all')
 
   const supabase = getSupabaseBrowserClient()
   const isEditing = editingId !== null
@@ -109,58 +106,110 @@ export default function LinkManager() {
   useEffect(() => {
     const section = getResourceSectionFromQuery(searchParams.get('section') ?? undefined)
     if (section !== 'all') {
-      setSelectedDepartments(new Set([section]))
+      setSelectedSections(new Set([section]))
     }
   }, [searchParams])
 
   const sectionFilter: ResourceSectionFilter = useMemo(() => {
-    if (selectedDepartments.size !== 1) return 'all'
-    return Array.from(selectedDepartments)[0] ?? 'all'
-  }, [selectedDepartments])
-
-  const kindFilter: ResourceKindFilter = useMemo(() => {
-    if (selectedKinds.size !== 1) return 'all'
-    return Array.from(selectedKinds)[0] ?? 'all'
-  }, [selectedKinds])
+    if (selectedSections.size !== 1) return 'all'
+    return Array.from(selectedSections)[0] ?? 'all'
+  }, [selectedSections])
 
   function setSectionFilter(nextFilter: ResourceSectionFilter) {
-    setSelectedDepartments(nextFilter === 'all' ? new Set() : new Set([nextFilter]))
+    setSelectedSections(nextFilter === 'all' ? new Set() : new Set([nextFilter]))
+    setSelectedSubsection('all')
   }
 
-  function setKindFilter(nextFilter: ResourceKindFilter) {
-    setSelectedKinds(nextFilter === 'all' ? new Set() : new Set([nextFilter]))
-  }
+  const sectionOptions = useMemo(() => {
+    const options = new Set<string>(['Genel'])
+    for (const entry of entries) {
+      if (entry.section) options.add(entry.section)
+    }
+    if (formState.section) options.add(formState.section)
+    if (editingState.section) options.add(editingState.section)
+    return Array.from(options).sort((a, b) => a.localeCompare(b, 'tr'))
+  }, [editingState.section, entries, formState.section])
 
-  const filteredEntries = useMemo(
-    () =>
-      entries.filter((entry) => {
-        const matchesDepartment = selectedDepartments.size === 0 || selectedDepartments.has(entry.department)
-        const matchesKind = selectedKinds.size === 0 || selectedKinds.has(entry.recordKind)
-        const matchesAddedBy = selectedAddedBy.size === 0 || selectedAddedBy.has(entry.addedBy)
+  const subsectionOptionsBySection = useMemo(() => {
+    const map = new Map<string, string[]>()
+    for (const entry of entries) {
+      if (!entry.section || !entry.subsection) continue
+      if (!map.has(entry.section)) map.set(entry.section, [])
+      const current = map.get(entry.section) ?? []
+      if (!current.includes(entry.subsection)) current.push(entry.subsection)
+      map.set(entry.section, current)
+    }
 
-        const term = searchTerm.toLowerCase().trim()
-        const matchesSearch =
-          term === '' ||
-          entry.title.toLowerCase().includes(term) ||
-          (entry.description?.toLowerCase().includes(term) ?? false) ||
-          (entry.fileName?.toLowerCase().includes(term) ?? false) ||
-          (entry.personFirstName?.toLowerCase().includes(term) ?? false) ||
-          (entry.personLastName?.toLowerCase().includes(term) ?? false) ||
-          (entry.personRole?.toLowerCase().includes(term) ?? false)
+    for (const [key, values] of map.entries()) {
+      values.sort((a, b) => a.localeCompare(b, 'tr'))
+      map.set(key, values)
+    }
 
-        return matchesDepartment && matchesKind && matchesAddedBy && matchesSearch
-      }),
-    [entries, selectedDepartments, selectedKinds, selectedAddedBy, searchTerm]
+    return map
+  }, [entries])
+
+  const subsectionFilterOptions = useMemo(() => {
+    if (sectionFilter === 'all') {
+      const all = new Set<string>()
+      for (const list of subsectionOptionsBySection.values()) {
+        for (const value of list) all.add(value)
+      }
+      return Array.from(all).sort((a, b) => a.localeCompare(b, 'tr'))
+    }
+
+    return subsectionOptionsBySection.get(sectionFilter) ?? []
+  }, [sectionFilter, subsectionOptionsBySection])
+
+  const getSubsectionOptionsForSection = useCallback(
+    (section: string) => subsectionOptionsBySection.get(section) ?? [],
+    [subsectionOptionsBySection],
   )
 
-  const hasActiveFilters = selectedDepartments.size > 0 || selectedKinds.size > 0 || selectedAddedBy.size > 0 || searchTerm.trim() !== ''
+  const matchesFilters = useCallback(
+    (entry: ResourceEntry) => {
+      const matchesSection = selectedSections.size === 0 || selectedSections.has(entry.section)
+      const matchesSubsection = selectedSubsection === 'all' || entry.subsection === selectedSubsection
+
+      const term = searchTerm.toLowerCase().trim()
+      const matchesSearch =
+        term === '' ||
+        entry.title.toLowerCase().includes(term) ||
+        (entry.description?.toLowerCase().includes(term) ?? false) ||
+        entry.section.toLowerCase().includes(term) ||
+        entry.subsection.toLowerCase().includes(term) ||
+        (entry.fileName?.toLowerCase().includes(term) ?? false) ||
+        (entry.personFirstName?.toLowerCase().includes(term) ?? false) ||
+        (entry.personLastName?.toLowerCase().includes(term) ?? false) ||
+        (entry.personRole?.toLowerCase().includes(term) ?? false)
+
+      return matchesSection && matchesSubsection && matchesSearch
+    },
+    [searchTerm, selectedSections, selectedSubsection],
+  )
+
+  const visibleEntries = useMemo(
+    () => entries.filter((entry) => !entry.isHidden).filter(matchesFilters),
+    [entries, matchesFilters],
+  )
+
+  const hiddenEntries = useMemo(
+    () => entries.filter((entry) => entry.isHidden).filter(matchesFilters),
+    [entries, matchesFilters],
+  )
+
+  const hasActiveFilters = selectedSections.size > 0 || selectedSubsection !== 'all' || searchTerm.trim() !== ''
 
   function clearAllFilters() {
-    setSelectedDepartments(new Set())
-    setSelectedKinds(new Set())
-    setSelectedAddedBy(new Set())
+    setSelectedSections(new Set())
+    setSelectedSubsection('all')
     setSearchTerm('')
   }
+
+  useEffect(() => {
+    if (selectedSubsection === 'all') return
+    if (subsectionFilterOptions.includes(selectedSubsection)) return
+    setSelectedSubsection('all')
+  }, [selectedSubsection, subsectionFilterOptions])
 
   function handleFormState<K extends keyof ResourceFormState>(key: K, value: ResourceFormState[K]) {
     setFormState((state) => ({ ...state, [key]: value }))
@@ -186,6 +235,11 @@ export default function LinkManager() {
     const needsUrl = requiresUrl(formState)
     const needsStoredFile = requiresStoredFile(formState)
     const bucket = getStorageBucket(formState)
+
+    if (!formState.section.trim() || !formState.subsection.trim()) {
+      setError('Bölüm ve alt bölüm zorunlu.')
+      return
+    }
 
     if (needsUrl && !formState.url.trim()) {
       setError('Bu kayıt için URL zorunlu.')
@@ -215,12 +269,16 @@ export default function LinkManager() {
       }
 
       const payload = {
-        department: formState.department,
+        section: formState.section.trim(),
+        subsection: formState.subsection.trim(),
+        department: formState.section.trim(),
         record_kind: formState.recordKind,
         added_by: formState.addedBy,
         title: formState.recordKind === 'CV' ? buildTitleFromCv(formState) : formState.title.trim(),
         description: normalizeOptionalText(formState.description),
         url: needsUrl ? sanitizeUrl(formState.url) : null,
+        source_subfolder: formState.subsection.trim(),
+        source_folder: `${formState.section.trim()} / ${formState.subsection.trim()}`,
         storage_bucket: uploadedStoragePath ? bucket : null,
         storage_path: uploadedStoragePath,
         file_name: uploadedStoragePath ? selectedFile?.name ?? null : null,
@@ -256,7 +314,8 @@ export default function LinkManager() {
   function startEdit(entry: ResourceEntry) {
     setEditingId(entry.id)
     setEditingState({
-      department: entry.department,
+      section: entry.section,
+      subsection: entry.subsection,
       recordKind: entry.recordKind,
       addedBy: entry.addedBy,
       title: entry.title,
@@ -282,6 +341,11 @@ export default function LinkManager() {
 
     const needsUrl = requiresUrl(editingState)
 
+    if (!editingState.section.trim() || !editingState.subsection.trim()) {
+      setError('Bölüm ve alt bölüm zorunlu.')
+      return
+    }
+
     if (needsUrl && !editingState.url.trim()) {
       setError('Bu kayıt için URL zorunlu.')
       return
@@ -292,12 +356,16 @@ export default function LinkManager() {
 
     try {
       const payload = {
-        department: editingState.department,
+        section: editingState.section.trim(),
+        subsection: editingState.subsection.trim(),
+        department: editingState.section.trim(),
         record_kind: editingState.recordKind,
         added_by: editingState.addedBy,
         title: editingState.recordKind === 'CV' ? buildTitleFromCv(editingState) : editingState.title.trim(),
         description: normalizeOptionalText(editingState.description),
         url: needsUrl ? sanitizeUrl(editingState.url) : entry.url,
+        source_subfolder: editingState.subsection.trim(),
+        source_folder: `${editingState.section.trim()} / ${editingState.subsection.trim()}`,
         person_first_name: editingState.recordKind === 'CV' ? normalizeOptionalText(editingState.personFirstName) : null,
         person_last_name: editingState.recordKind === 'CV' ? normalizeOptionalText(editingState.personLastName) : null,
         person_role: editingState.recordKind === 'CV' ? normalizeOptionalText(editingState.personRole) : null,
@@ -349,6 +417,29 @@ export default function LinkManager() {
     }
   }
 
+  async function handleToggleHidden(entry: ResourceEntry, nextHidden: boolean) {
+    if (!supabase) return
+
+    setIsSubmitting(true)
+    setError(null)
+
+    try {
+      const { data, error: updateErr } = await supabase
+        .from('resource_entries')
+        .update({ is_hidden: nextHidden })
+        .eq('id', entry.id)
+        .select(SELECT_FIELDS)
+        .single()
+
+      if (updateErr || !data) throw updateErr ?? new Error('Kayıt güncellenemedi.')
+      setEntries((prev) => prev.map((item) => (item.id === entry.id ? mapResourceEntryRow(data as ResourceEntryRow) : item)))
+    } catch (toggleError) {
+      setError(sanitizeError(toggleError, 'Kayıt güncellenemedi.'))
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   async function handleOpenStoredFile(entry: ResourceEntry, shouldDownload: boolean) {
     if (!supabase || !entry.storageBucket || !entry.storagePath) return
 
@@ -376,21 +467,45 @@ export default function LinkManager() {
   function renderFormFields(state: ResourceFormState, mode: 'create' | 'edit') {
     const stateSetter = mode === 'create' ? handleFormState : handleEditingState
     const isCv = state.recordKind === 'CV'
-    const isGeneralFile = state.recordKind === 'Dosya' && state.department === 'Genel'
+    const isGeneralFile = state.recordKind === 'Dosya' && state.section !== 'ARGE'
     const needsUpload = requiresStoredFile(state)
+    const subsectionOptions = getSubsectionOptionsForSection(state.section)
 
     return (
       <>
         <label className="space-y-2">
           <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Bölüm</span>
           <select
-            value={state.department}
-            onChange={(event) => stateSetter('department', event.target.value as ResourceDepartment)}
+            value={state.section}
+            onChange={(event) => {
+              stateSetter('section', event.target.value)
+              stateSetter('subsection', '')
+            }}
             className={INPUT_CLS}
+            required
           >
-            {RESOURCE_DEPARTMENTS.map((department) => (
-              <option key={department} value={department}>
-                {department}
+            {sectionOptions.map((section) => (
+              <option key={section} value={section}>
+                {section}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="space-y-2">
+          <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Alt Bölüm</span>
+          <select
+            value={state.subsection}
+            onChange={(event) => stateSetter('subsection', event.target.value)}
+            className={INPUT_CLS}
+            required
+          >
+            <option value="" disabled>
+              Alt bölüm seçin
+            </option>
+            {subsectionOptions.map((subsection) => (
+              <option key={subsection} value={subsection}>
+                {subsection}
               </option>
             ))}
           </select>
@@ -400,7 +515,7 @@ export default function LinkManager() {
           <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Kayıt Türü</span>
           <select
             value={state.recordKind}
-            onChange={(event) => stateSetter('recordKind', event.target.value as ResourceRecordKind)}
+            onChange={(event) => stateSetter('recordKind', event.target.value)}
             className={INPUT_CLS}
           >
             {RESOURCE_RECORD_KINDS.map((kind) => (
@@ -415,7 +530,7 @@ export default function LinkManager() {
           <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Ekleyen</span>
           <select
             value={state.addedBy}
-            onChange={(event) => stateSetter('addedBy', event.target.value as ResourceFormState['addedBy'])}
+            onChange={(event) => stateSetter('addedBy', event.target.value)}
             className={INPUT_CLS}
           >
             {RESOURCE_ADDED_BY.map((person) => (
@@ -553,82 +668,69 @@ export default function LinkManager() {
   }
 
   return (
-<section className="space-y-6" aria-labelledby="link-manager-heading">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 id="link-manager-heading" className="text-xl font-semibold text-gray-900">
-              Birleşik Kaynak Merkezi
-            </h2>
-            <a
-              href={safeHref(
-                'https://drive.google.com/drive/folders/1TYFEdjDPOLOMWAf_MScs6XJXRW9FHh-r?usp=drive_link'
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-primary-200 bg-primary-50 px-3 py-2 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-100"
+    <section className="space-y-4" aria-labelledby="link-manager-heading">
+      <h2 id="link-manager-heading" className="text-sm font-semibold text-gray-900">
+        Birleşik Kaynak Merkezi
+      </h2>
+      <div className="grid gap-3 lg:grid-cols-4">
+        <div className="docs-surface p-3 sm:p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-600">Bölüm Filtresi</p>
+          <select
+            className={`${INPUT_CLS} mt-2 h-9 py-1.5 text-xs`}
+            value={sectionFilter}
+            onChange={(event) => setSectionFilter(event.target.value as ResourceSectionFilter)}
+          >
+            <option value="all">Tümü</option>
+            {sectionOptions.map((section) => (
+              <option key={section} value={section}>
+                {section}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="docs-surface p-3 sm:p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-600">Alt Bölüm Filtresi</p>
+          <select
+            className={`${INPUT_CLS} mt-2 h-9 py-1.5 text-xs`}
+            value={selectedSubsection}
+            onChange={(event) => setSelectedSubsection(event.target.value as ResourceSubsectionFilter)}
+          >
+            <option value="all">Tümü</option>
+            {subsectionFilterOptions.map((subsection) => (
+              <option key={subsection} value={subsection}>
+                {subsection}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="docs-surface p-3 sm:p-4 lg:col-span-2">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-600">Arama</p>
+          <div className="mt-2 flex flex-col gap-2 sm:flex-row">
+            <label className="relative w-full">
+              <Search size={13} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                className={`${INPUT_CLS} h-9 py-1.5 pl-8 text-xs`}
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Başlık, açıklama, bölüm, alt bölüm"
+              />
+            </label>
+            <button
+              type="button"
+              onClick={clearAllFilters}
+              disabled={!hasActiveFilters}
+              className={`${FILTER_BTN_CLS} whitespace-nowrap border-gray-200 bg-white px-3 py-2 text-xs text-gray-700 hover:border-primary-200 hover:text-primary-700`}
             >
-              <ExternalLink size={14} aria-hidden="true" />
-              Drive Klasör Kısayolu
-            </a>
-          </div>
-          
-          {/* Son Güncelleme Tarihi kutusu */}
-          <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-gray-500">Son Güncelleme Tarihi:</span>
-              <span className="text-sm font-semibold text-gray-700">13.05.26</span>
-            </div>
-          </div>
-          
-          <p className="max-w-3xl text-sm text-gray-500">
-            Genel linkleri, İK CV kayıtlarını ve ARGE dosya-linklerini tek akışta yönetin.
-          </p>
-        </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="docs-surface p-4 sm:p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-600">Bölüm Filtresi</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {(['all', ...RESOURCE_DEPARTMENTS] as const).map((section) => (
-              <button
-                key={section}
-                type="button"
-                onClick={() => setSectionFilter(section)}
-                className={`${FILTER_BTN_CLS} ${
-                  sectionFilter === section
-                    ? 'border-primary-300 bg-primary-50 text-primary-700'
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-primary-200 hover:text-primary-700'
-                }`}
-              >
-                {section === 'all' ? 'Tümü' : section}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="docs-surface p-4 sm:p-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-600">Kayıt Türü</p>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {(['all', ...RESOURCE_RECORD_KINDS] as const).map((kind) => (
-              <button
-                key={kind}
-                type="button"
-                onClick={() => setKindFilter(kind)}
-                className={`${FILTER_BTN_CLS} ${
-                  kindFilter === kind
-                    ? 'border-primary-300 bg-primary-50 text-primary-700'
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-primary-200 hover:text-primary-700'
-                }`}
-              >
-                {kind === 'all' ? 'Tümü' : kind}
-              </button>
-            ))}
+              Temizle
+            </button>
           </div>
         </div>
       </div>
 
       <AccordionCard
-        defaultOpenId="new-resource"
         items={[
           {
             id: 'new-resource',
@@ -637,18 +739,13 @@ export default function LinkManager() {
             children: (
               <form onSubmit={handleCreate} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {renderFormFields(formState, 'create')}
-
                 <div className="flex items-end sm:col-span-2 lg:col-span-3">
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     className="w-full rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-60"
                   >
-                    {requiresStoredFile(formState) ? (
-                      <Upload size={16} className="mr-1 inline" aria-hidden="true" />
-                    ) : (
-                      <Plus size={16} className="mr-1 inline" aria-hidden="true" />
-                    )}
+                    {requiresStoredFile(formState) ? <Upload size={16} className="mr-1 inline" aria-hidden="true" /> : <Plus size={16} className="mr-1 inline" aria-hidden="true" />}
                     {isSubmitting ? 'Kaydediliyor...' : 'Kaydı oluştur'}
                   </button>
                 </div>
@@ -658,187 +755,170 @@ export default function LinkManager() {
         ]}
       />
 
-      {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
-      )}
+      {error && <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">{error}</div>}
 
       {isLoading ? (
-        <div className="rounded-2xl border border-[rgba(66,133,244,0.1)] bg-white/80 p-8 text-center text-sm text-gray-400">
-          Yükleniyor…
-        </div>
-      ) : filteredEntries.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
-          Seçili filtrelerde kayıt bulunamadı.
-        </div>
+        <div className="rounded-xl border border-[rgba(66,133,244,0.1)] bg-white/80 p-6 text-center text-xs text-gray-400">Yükleniyor…</div>
       ) : (
-        <div className="space-y-3">
-          {filteredEntries.map((entry) => {
-            const rowIsEditing = editingId === entry.id
-            const state = rowIsEditing ? editingState : null
-
-            return (
-              <div
-                key={entry.id}
-                className="space-y-4 rounded-2xl border border-[rgba(66,133,244,0.1)] bg-white p-4 shadow-[0_10px_20px_rgba(60,64,67,0.04)]"
-              >
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap gap-2 text-xs">
-                      <span className="rounded-full border border-primary-200 bg-primary-50 px-2.5 py-1 font-semibold text-primary-700">
-                        {entry.department}
-                      </span>
-                      <span className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-1 font-semibold text-gray-600">
-                        {entry.recordKind}
-                      </span>
-                      <span className="rounded-full border border-gray-200 bg-white px-2.5 py-1 text-gray-500">
-                        {entry.addedBy}
-                      </span>
-                    </div>
-                    {!rowIsEditing && (
-                      <>
-                        <h3 className="text-base font-semibold text-gray-900">{entry.title}</h3>
-                        {entry.description && (
-                          <p className="max-w-3xl text-sm text-gray-600">{entry.description}</p>
-                        )}
-                      </>
-                    )}
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {rowIsEditing ? (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => void handleUpdate(entry)}
-                          disabled={isSubmitting}
-                          className={`${BTN_CLS} border border-green-200 bg-green-50 text-green-700 hover:bg-green-100`}
-                        >
-                          <Save size={14} aria-hidden="true" />
-                          Kaydet
-                        </button>
-                        <button
-                          type="button"
-                          onClick={cancelEdit}
-                          disabled={isSubmitting}
-                          className={`${BTN_CLS} border border-gray-200 text-gray-500 hover:text-gray-700`}
-                        >
-                          <X size={14} aria-hidden="true" />
-                          İptal
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => startEdit(entry)}
-                        disabled={isSubmitting || isEditing}
-                        className={`${BTN_CLS} border border-gray-200 text-gray-500 hover:text-gray-700`}
-                      >
-                        <Pencil size={14} aria-hidden="true" />
-                        Düzenle
-                      </button>
-                    )}
-
-                    {entry.storageBucket && entry.storagePath ? (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => void handleOpenStoredFile(entry, false)}
-                          className={`${BTN_CLS} border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100`}
-                        >
-                          <Eye size={14} aria-hidden="true" />
-                          Görüntüle
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => void handleOpenStoredFile(entry, true)}
-                          className={`${BTN_CLS} border border-green-200 bg-green-50 text-green-700 hover:bg-green-100`}
-                        >
-                          <Download size={14} aria-hidden="true" />
-                          İndir
-                        </button>
-                      </>
-                    ) : entry.url ? (
-                      <a
-                        href={safeHref(entry.url)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`${BTN_CLS} border border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100`}
-                      >
-                        <ExternalLink size={14} aria-hidden="true" />
-                        URL
-                      </a>
-                    ) : null}
-
-                    <button
-                      type="button"
-                      onClick={() => void handleDelete(entry)}
-                      disabled={isSubmitting}
-                      className={`${BTN_CLS} border border-red-200 bg-red-50 text-red-600 hover:bg-red-100`}
-                    >
-                      <Trash2 size={14} aria-hidden="true" />
-                      Sil
-                    </button>
-                  </div>
-                </div>
-
-                {rowIsEditing && state ? (
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {renderFormFields(state, 'edit')}
-                    {entry.storageBucket && entry.fileName && (
-                      <div className="rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-500 sm:col-span-2 lg:col-span-3">
-                        Dosya değişimi bu sürümde kapalı. Mevcut dosya: {entry.fileName}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div className="grid gap-3 text-sm text-gray-600 md:grid-cols-2 xl:grid-cols-3">
-                    {entry.fileName && (
-                      <div className="rounded-xl bg-gray-50 px-4 py-3">
-                        <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Dosya</p>
-                        <p className="mt-1">{entry.fileName}</p>
-                      </div>
-                    )}
-
-                    {entry.recordKind === 'CV' && (
-                      <>
-                        <div className="rounded-xl bg-gray-50 px-4 py-3">
-                          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Aday</p>
-                          <p className="mt-1">
-                            {entry.personFirstName ?? '—'} {entry.personLastName ?? ''}
-                          </p>
-                          <p className="text-xs text-gray-500">{entry.personRole ?? 'Rol yok'}</p>
-                        </div>
-                        <div className="rounded-xl bg-gray-50 px-4 py-3">
-                          <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Sosyal Linkler</p>
-                          <div className="mt-1 flex flex-wrap gap-2">
-                            {entry.linkedinUrl && (
-                              <a href={safeHref(entry.linkedinUrl)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700">
-                                LinkedIn <ExternalLink size={12} aria-hidden="true" />
-                              </a>
-                            )}
-                            {entry.instagramUrl && (
-                              <a href={safeHref(entry.instagramUrl)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700">
-                                Instagram <ExternalLink size={12} aria-hidden="true" />
-                              </a>
-                            )}
-                            {entry.websiteUrl && (
-                              <a href={safeHref(entry.websiteUrl)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-primary-600 hover:text-primary-700">
-                                Website <ExternalLink size={12} aria-hidden="true" />
-                              </a>
-                            )}
-                            {!entry.linkedinUrl && !entry.instagramUrl && !entry.websiteUrl && <span>—</span>}
-                          </div>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
+        <>
+          <div className="space-y-1.5">
+            {visibleEntries.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-gray-300 bg-white p-4 text-center text-xs text-gray-500">
+                Aktif listede kayıt bulunamadı.
               </div>
-            )
-          })}
-        </div>
+            ) : (
+              visibleEntries.map((entry) => {
+                const rowIsEditing = editingId === entry.id
+                const state = rowIsEditing ? editingState : null
+
+                if (rowIsEditing && state) {
+                  return (
+                    <div key={entry.id} className="rounded-xl border border-[rgba(66,133,244,0.1)] bg-white p-3">
+                      <div className="mb-3 flex items-center justify-between">
+                        <p className="text-xs font-semibold text-gray-700">Düzenleme: {entry.title}</p>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => void handleUpdate(entry)}
+                            disabled={isSubmitting}
+                            className={`${BTN_CLS} border border-green-200 bg-green-50 px-2.5 py-1.5 text-[11px] text-green-700 hover:bg-green-100`}
+                          >
+                            <Save size={12} aria-hidden="true" />
+                            Kaydet
+                          </button>
+                          <button
+                            type="button"
+                            onClick={cancelEdit}
+                            disabled={isSubmitting}
+                            className={`${BTN_CLS} border border-gray-200 px-2.5 py-1.5 text-[11px] text-gray-600 hover:text-gray-800`}
+                          >
+                            <X size={12} aria-hidden="true" />
+                            İptal
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{renderFormFields(state, 'edit')}</div>
+                    </div>
+                  )
+                }
+
+                return (
+                  <div key={entry.id} className="rounded-xl border border-[rgba(66,133,244,0.1)] bg-white px-3 py-2 shadow-[0_4px_10px_rgba(60,64,67,0.03)]">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
+                          <span className="rounded-full border border-primary-200 bg-primary-50 px-2 py-0.5 font-semibold text-primary-700">{entry.section}</span>
+                          <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-semibold text-indigo-700">{entry.subsection || '-'}</span>
+                          <span className="rounded-full border border-gray-200 bg-gray-50 px-2 py-0.5 font-semibold text-gray-600">{entry.recordKind}</span>
+                        </div>
+                        <p className="mt-1 truncate text-xs font-medium text-gray-900">{entry.title}</p>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => startEdit(entry)}
+                          disabled={isSubmitting || isEditing}
+                          className={`${BTN_CLS} border border-gray-200 px-2 py-1 text-[11px] text-gray-600 hover:text-gray-800`}
+                        >
+                          <Pencil size={12} aria-hidden="true" />
+                          Düzenle
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleToggleHidden(entry, true)}
+                          disabled={isSubmitting}
+                          className={`${BTN_CLS} border border-amber-200 bg-amber-50 px-2 py-1 text-[11px] text-amber-700 hover:bg-amber-100`}
+                        >
+                          <EyeOff size={12} aria-hidden="true" />
+                          Gizle
+                        </button>
+                        {entry.storageBucket && entry.storagePath ? (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => void handleOpenStoredFile(entry, false)}
+                              className={`${BTN_CLS} border border-blue-200 bg-blue-50 px-2 py-1 text-[11px] text-blue-600 hover:bg-blue-100`}
+                            >
+                              <Eye size={12} aria-hidden="true" />
+                              Gör
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => void handleOpenStoredFile(entry, true)}
+                              className={`${BTN_CLS} border border-green-200 bg-green-50 px-2 py-1 text-[11px] text-green-700 hover:bg-green-100`}
+                            >
+                              <Download size={12} aria-hidden="true" />
+                              İndir
+                            </button>
+                          </>
+                        ) : entry.url ? (
+                          <a
+                            href={safeHref(entry.url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={`${BTN_CLS} border border-blue-200 bg-blue-50 px-2 py-1 text-[11px] text-blue-600 hover:bg-blue-100`}
+                          >
+                            <ExternalLink size={12} aria-hidden="true" />
+                            URL
+                          </a>
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={() => void handleDelete(entry)}
+                          disabled={isSubmitting}
+                          className={`${BTN_CLS} border border-red-200 bg-red-50 px-2 py-1 text-[11px] text-red-600 hover:bg-red-100`}
+                        >
+                          <Trash2 size={12} aria-hidden="true" />
+                          Sil
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })
+            )}
+          </div>
+
+          <AccordionCard
+            className="mt-3"
+            items={[
+              {
+                id: 'hidden-resources',
+                title: 'Gizlenmiş Dosyalar',
+                badge: String(hiddenEntries.length),
+                accentColor: '#8B5CF6',
+                children: hiddenEntries.length === 0 ? (
+                  <p className="text-xs text-gray-500">Gizlenmiş kayıt yok.</p>
+                ) : (
+                  <div className="space-y-1.5">
+                    {hiddenEntries.map((entry) => (
+                      <div key={`hidden-${entry.id}`} className="rounded-lg border border-violet-100 bg-violet-50/30 px-3 py-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
+                              <span className="rounded-full border border-violet-200 bg-violet-100 px-2 py-0.5 font-semibold text-violet-700">{entry.section}</span>
+                              <span className="rounded-full border border-indigo-200 bg-indigo-50 px-2 py-0.5 font-semibold text-indigo-700">{entry.subsection || '-'}</span>
+                            </div>
+                            <p className="mt-1 truncate text-xs font-medium text-gray-900">{entry.title}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => void handleToggleHidden(entry, false)}
+                            disabled={isSubmitting}
+                            className={`${BTN_CLS} border border-violet-200 bg-white px-2 py-1 text-[11px] text-violet-700 hover:bg-violet-100`}
+                          >
+                            <Eye size={12} aria-hidden="true" />
+                            Göster
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ),
+              },
+            ]}
+          />
+        </>
       )}
     </section>
   )
