@@ -15,6 +15,23 @@ type PlacePeriod = {
   period: string;
 };
 
+type ProfileDocument = {
+  name: string;
+  url: string | null;
+};
+
+type RecentEvent = {
+  title: string;
+  date: string;
+  city: string;
+};
+
+type RelocationPlan = {
+  enabled: boolean;
+  country: string;
+  city: string;
+};
+
 export type IndividualProfileFrontCardPayload = {
   profileImageUrl: string | null;
   passportStatus: string;
@@ -26,6 +43,14 @@ export type IndividualProfileFrontCardPayload = {
   followRequestState: "locked" | "requested" | "connected";
   followRequestNote: string;
   profilePreviewNote: string;
+  worldMessage: string;
+  corteqsPassport: boolean;
+  linkedinUrl: string | null;
+  linkedinVisible: boolean;
+  cvDoc: ProfileDocument | null;
+  presentationDoc: ProfileDocument | null;
+  birthdayDays: number | null;
+  giftAcceptance: boolean;
 };
 
 export type IndividualProfileDetailCardPayload = {
@@ -38,6 +63,9 @@ export type IndividualProfileDetailCardPayload = {
   followsPreview: string[];
   whatsappGroups: string[];
   activities: string[];
+  recentEvents: RecentEvent[];
+  countriesLived: PlacePeriod[];
+  relocation: RelocationPlan;
   cvRequestEnabled: boolean;
   wishlistStatus: "hidden" | "v2";
 };
@@ -54,11 +82,14 @@ export type IndividualProfileControlPanelPayload = {
   phone: string;
   birthDate: string;
   education: string;
+  school: string;
   institution: string;
   bio: string;
   linkedin: string;
   websiteLinks: string[];
+  websites: string[];
   skills: string[];
+  profileVisible: boolean;
   profileSteps: ProfileStep[];
 };
 
@@ -105,9 +136,21 @@ const readString = (record: JsonRecord, key: string, fallback = ""): string => {
   return typeof value === "string" && value.trim() ? value : fallback;
 };
 
+const readNullableString = (record: JsonRecord, key: string): string | null => {
+  const value = record[key];
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed ? trimmed : null;
+};
+
 const readBoolean = (record: JsonRecord, key: string, fallback = false): boolean => {
   const value = record[key];
   return typeof value === "boolean" ? value : fallback;
+};
+
+const readNumber = (record: JsonRecord, key: string): number | null => {
+  const value = record[key];
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
 };
 
 const readStringArray = (record: JsonRecord, key: string): string[] => {
@@ -156,6 +199,43 @@ const readMiniEvent = (record: JsonRecord): { title: string; date: string } | nu
   return { title, date };
 };
 
+const readDocument = (record: JsonRecord, key: string): ProfileDocument | null => {
+  const value = record[key];
+  if (!isRecord(value)) return null;
+  const name = typeof value.name === "string" ? value.name : "";
+  const urlRaw = value.url;
+  const url = typeof urlRaw === "string" && urlRaw.trim().length > 0 ? urlRaw : null;
+  if (!name && !url) return null;
+  return { name: name || (url ? "Dokuman" : ""), url };
+};
+
+const readRecentEvents = (record: JsonRecord, key: string): RecentEvent[] => {
+  const value = record[key];
+  if (!Array.isArray(value)) return [];
+
+  return value
+    .map((item) => {
+      if (!isRecord(item)) return null;
+      const title = typeof item.title === "string" ? item.title : "";
+      if (!title) return null;
+      const date = typeof item.date === "string" ? item.date : "";
+      const city = typeof item.city === "string" ? item.city : "";
+      return { title, date, city };
+    })
+    .filter((item): item is RecentEvent => Boolean(item));
+};
+
+const readRelocation = (record: JsonRecord, key: string): RelocationPlan | null => {
+  const value = record[key];
+  if (!isRecord(value)) return null;
+
+  return {
+    enabled: typeof value.enabled === "boolean" ? value.enabled : false,
+    country: typeof value.country === "string" ? value.country : "",
+    city: typeof value.city === "string" ? value.city : "",
+  };
+};
+
 const toPositiveInteger = (value: number | null | undefined): number => {
   if (typeof value !== "number" || Number.isNaN(value) || value < 0) return 0;
   return Math.floor(value);
@@ -180,8 +260,8 @@ export const buildFallbackIndividualProfileDetails = (input: {
     userId: input.userId,
     displayName: input.displayName,
     email: input.email,
-    tagline: "Tagline henüz eklenmedi.",
-    statusText: "Profil alanları tamamlandıkça burası güncellenecek.",
+    tagline: "Tagline henuz eklenmedi.",
+    statusText: "Profil alanlari tamamlandikca burasi guncellenecek.",
     presenceStatus: "offline",
     visibilityStatus: "locked",
     followerCount: 0,
@@ -195,15 +275,23 @@ export const buildFallbackIndividualProfileDetails = (input: {
     mentorOptIn: false,
     frontCard: {
       profileImageUrl: null,
-      passportStatus: "Pasaport / doğrulama bilgisi yok",
+      passportStatus: "Pasaport / dogrulama bilgisi yok",
       previousCities: [],
       miniEvent: null,
       followRequestState: "locked",
       followRequestNote: "Profil kilitli",
-      profilePreviewNote: "Ön izleme modu",
+      profilePreviewNote: "On izleme modu",
+      worldMessage: "",
+      corteqsPassport: false,
+      linkedinUrl: null,
+      linkedinVisible: true,
+      cvDoc: null,
+      presentationDoc: null,
+      birthdayDays: null,
+      giftAcceptance: false,
     },
     detailCard: {
-      aboutText: "Kullanıcı henüz hakkında bölümünü doldurmadı.",
+      aboutText: "Kullanici henuz hakkinda bolumunu doldurmadi.",
       interests: [],
       languages: [],
       livedCountries: [],
@@ -212,6 +300,13 @@ export const buildFallbackIndividualProfileDetails = (input: {
       followsPreview: [],
       whatsappGroups: [],
       activities: [],
+      recentEvents: [],
+      countriesLived: [],
+      relocation: {
+        enabled: false,
+        country: "",
+        city: "",
+      },
       cvRequestEnabled: false,
       wishlistStatus: "v2",
     },
@@ -220,18 +315,13 @@ export const buildFallbackIndividualProfileDetails = (input: {
       panelBadges: [],
       navActions: [
         "Hizmet Talepleri",
-        "Hizmet Talepleri Yönetimi",
-        "Taşınma Yönetimi",
-        "Takvim",
         "Etkinlikler",
-        "Kuponlar",
         "Takip",
-        "Whatsapp Waadd.",
-        "Bildirimler",
+        "WhatsApp",
         "Mesaj Kutusu",
-        "Profil Ayarları",
+        "Profil Ayarlari",
       ],
-      reminder: "Panel kilitliyse profil ayarlarınızı tamamlayın.",
+      reminder: "Panel kilitliyse profil ayarlarinizi tamamlayin.",
       locationSummary: "-",
       country: "-",
       city: "-",
@@ -239,16 +329,19 @@ export const buildFallbackIndividualProfileDetails = (input: {
       phone: "-",
       birthDate: "-",
       education: "-",
+      school: "-",
       institution: "-",
-      bio: "Bio / Hakkında alanı henüz doldurulmadı.",
+      bio: "Bio / Hakkinda alani henuz doldurulmadi.",
       linkedin: "-",
       websiteLinks: [],
+      websites: [],
       skills: [],
+      profileVisible: true,
       profileSteps: [
-        { label: "Telefon Doğrulama", completed: false },
-        { label: "Profil Fotoğrafı", completed: false },
-        { label: "Bio / Hakkında", completed: false },
-        { label: "İlgi Alanları", completed: false },
+        { label: "Telefon Dogrulama", completed: false },
+        { label: "Profil Fotografi", completed: false },
+        { label: "Bio / Hakkinda", completed: false },
+        { label: "Ilgi Alanlari", completed: false },
       ],
     },
   };
@@ -271,7 +364,8 @@ export const mapIndividualProfileRow = (
     followRequestRaw === "requested" || followRequestRaw === "connected" ? followRequestRaw : "locked";
 
   const wishlistRaw = detailCard.wishlist_status;
-  const wishlistStatus: IndividualProfileDetailCardPayload["wishlistStatus"] = wishlistRaw === "hidden" ? "hidden" : "v2";
+  const wishlistStatus: IndividualProfileDetailCardPayload["wishlistStatus"] =
+    wishlistRaw === "hidden" ? "hidden" : "v2";
 
   return {
     ...fallback,
@@ -297,6 +391,14 @@ export const mapIndividualProfileRow = (
       followRequestState,
       followRequestNote: readString(frontCard, "follow_request_note", fallback.frontCard.followRequestNote),
       profilePreviewNote: readString(frontCard, "profile_preview_note", fallback.frontCard.profilePreviewNote),
+      worldMessage: readString(frontCard, "world_message", fallback.frontCard.worldMessage),
+      corteqsPassport: readBoolean(frontCard, "corteqs_passport", fallback.frontCard.corteqsPassport),
+      linkedinUrl: readNullableString(frontCard, "linkedin_url"),
+      linkedinVisible: readBoolean(frontCard, "linkedin_visible", fallback.frontCard.linkedinVisible),
+      cvDoc: readDocument(frontCard, "cv_doc"),
+      presentationDoc: readDocument(frontCard, "presentation_doc"),
+      birthdayDays: readNumber(frontCard, "birthday_days"),
+      giftAcceptance: readBoolean(frontCard, "gift_acceptance", fallback.frontCard.giftAcceptance),
     },
     detailCard: {
       ...fallback.detailCard,
@@ -309,6 +411,9 @@ export const mapIndividualProfileRow = (
       followsPreview: readStringArray(detailCard, "follows_preview"),
       whatsappGroups: readStringArray(detailCard, "whatsapp_groups"),
       activities: readStringArray(detailCard, "activities"),
+      recentEvents: readRecentEvents(detailCard, "recent_events"),
+      countriesLived: readPlacePeriodArray(detailCard, "countries_lived"),
+      relocation: readRelocation(detailCard, "relocation") ?? fallback.detailCard.relocation,
       cvRequestEnabled: readBoolean(detailCard, "cv_request_enabled", fallback.detailCard.cvRequestEnabled),
       wishlistStatus,
     },
@@ -325,11 +430,14 @@ export const mapIndividualProfileRow = (
       phone: readString(profileSettings, "phone", fallback.controlPanel.phone),
       birthDate: readString(profileSettings, "birth_date", fallback.controlPanel.birthDate),
       education: readString(profileSettings, "education", fallback.controlPanel.education),
+      school: readString(profileSettings, "school", fallback.controlPanel.school),
       institution: readString(profileSettings, "institution", fallback.controlPanel.institution),
       bio: readString(profileSettings, "bio", fallback.controlPanel.bio),
       linkedin: readString(profileSettings, "linkedin", fallback.controlPanel.linkedin),
       websiteLinks: readStringArray(profileSettings, "website_links"),
+      websites: readStringArray(profileSettings, "websites"),
       skills: readStringArray(profileSettings, "skills"),
+      profileVisible: readBoolean(profileSettings, "profile_visible", fallback.controlPanel.profileVisible),
       profileSteps: readProfileSteps(profileSettings, "profile_steps"),
     },
   };

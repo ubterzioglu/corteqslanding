@@ -60,6 +60,14 @@ describe("ProfilePage", () => {
       followRequestState: "connected",
       followRequestNote: "Takiptesin",
       profilePreviewNote: "Ön izleme",
+      worldMessage: "Toplulukla birlikte büyüyoruz.",
+      corteqsPassport: false,
+      linkedinUrl: null,
+      linkedinVisible: true,
+      cvDoc: null,
+      presentationDoc: null,
+      birthdayDays: null,
+      giftAcceptance: false,
     },
     detailCard: {
       aboutText: "Hakkında metni",
@@ -71,6 +79,9 @@ describe("ProfilePage", () => {
       followsPreview: [],
       whatsappGroups: [],
       activities: [],
+      recentEvents: [],
+      countriesLived: [],
+      relocation: { enabled: false, country: "", city: "" },
       cvRequestEnabled: false,
       wishlistStatus: "v2",
     },
@@ -86,11 +97,14 @@ describe("ProfilePage", () => {
       phone: "+44",
       birthDate: "1992-04-18",
       education: "Yüksek Lisans",
+      school: "Westminster",
       institution: "University of Westminster",
       bio: "Bio",
       linkedin: "https://linkedin.com/in/firmascope",
       websiteLinks: [],
+      websites: [],
       skills: [],
+      profileVisible: true,
       profileSteps: [],
     },
   };
@@ -185,9 +199,8 @@ describe("ProfilePage", () => {
       </MemoryRouter>,
     );
 
-    expect(await screen.findByText("Ön Kart")).toBeInTheDocument();
-    expect(screen.getByText("Detay Kart")).toBeInTheDocument();
-    expect(screen.getByText("Kontrol Paneli & Profil Ayarları")).toBeInTheDocument();
+    expect(await screen.findByText("Profil Ayarlari")).toBeInTheDocument();
+    expect(screen.getByText("Toplulukla birlikte büyüyoruz.")).toBeInTheDocument();
     expect(screen.getByText("Londra'da Pazarlama Uzmanı")).toBeInTheDocument();
   });
 });

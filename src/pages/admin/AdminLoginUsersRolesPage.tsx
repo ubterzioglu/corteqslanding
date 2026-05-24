@@ -42,6 +42,8 @@ const AdminLoginUsersRolesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
+  const [editingUserId, setEditingUserId] = useState<string | null>(null);
+  const [draftRoleByUserId, setDraftRoleByUserId] = useState<Record<string, string>>({});
 
   const [searchText, setSearchText] = useState("");
   const [providerFilter, setProviderFilter] = useState<ProviderFilter>("google");
@@ -162,6 +164,12 @@ const AdminLoginUsersRolesPage = () => {
     };
   }, [fromDate, providerFilter, searchText, sortFilter, toDate]);
 
+  useEffect(() => {
+    if (!editingUserId) return;
+    if (rows.some((row) => row.user_id === editingUserId)) return;
+    setEditingUserId(null);
+  }, [editingUserId, rows]);
+
   const roleById = useMemo(() => {
     return new Map(roles.map((role) => [role.id, role]));
   }, [roles]);
@@ -193,6 +201,7 @@ const AdminLoginUsersRolesPage = () => {
       setRows((current) =>
         current.map((item) => (item.user_id === row.user_id ? { ...item, profile_type: nextRole.key } : item)),
       );
+      setEditingUserId((current) => (current === row.user_id ? null : current));
       toast({
         title: "Rol güncellendi",
         description: `${row.email ?? row.user_id} için rol ${nextRole.label} olarak kaydedildi.`,
@@ -207,6 +216,36 @@ const AdminLoginUsersRolesPage = () => {
     } finally {
       setUpdatingUserId((current) => (current === row.user_id ? null : current));
     }
+  };
+
+  const handleStartEdit = (row: UserRow) => {
+    if (updatingUserId) return;
+    const currentRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
+    setDraftRoleByUserId((current) => ({ ...current, [row.user_id]: currentRoleId }));
+    setEditingUserId(row.user_id);
+  };
+
+  const handleCancelEdit = (userId: string) => {
+    setEditingUserId((current) => (current === userId ? null : current));
+    setDraftRoleByUserId((current) => {
+      const next = { ...current };
+      delete next[userId];
+      return next;
+    });
+  };
+
+  const handleDraftRoleChange = (userId: string, nextRoleId: string) => {
+    setDraftRoleByUserId((current) => ({ ...current, [userId]: nextRoleId }));
+  };
+
+  const handleSaveRole = async (row: UserRow) => {
+    const draftRoleId = draftRoleByUserId[row.user_id];
+    const currentRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
+    if (!draftRoleId || draftRoleId === currentRoleId) {
+      handleCancelEdit(row.user_id);
+      return;
+    }
+    await handleRoleChange(row, draftRoleId);
   };
 
   return (
@@ -295,28 +334,65 @@ const AdminLoginUsersRolesPage = () => {
                   <tbody>
                     {rows.map((row) => {
                       const selectedRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
+                      const selectedRoleLabel = roleById.get(selectedRoleId)?.label ?? "-";
+                      const isEditing = editingUserId === row.user_id;
+                      const draftRoleId = draftRoleByUserId[row.user_id] ?? selectedRoleId;
 
                       return (
                         <tr key={row.user_id} className="border-t">
                           <td className="px-3 py-2">{row.full_name || "-"}</td>
                           <td className="px-3 py-2">{row.email || "-"}</td>
                           <td className="px-3 py-2">
-                            <Select
-                              value={selectedRoleId}
-                              onValueChange={(value) => void handleRoleChange(row, value)}
-                              disabled={updatingUserId === row.user_id || roles.length === 0}
-                            >
-                              <SelectTrigger className="h-8 min-w-[220px] text-xs">
-                                <SelectValue placeholder="Rol seç" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {roles.map((role) => (
-                                  <SelectItem key={role.id} value={role.id}>
-                                    {role.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            {isEditing ? (
+                              <div className="flex items-center gap-2">
+                                <Select
+                                  value={draftRoleId}
+                                  onValueChange={(value) => handleDraftRoleChange(row.user_id, value)}
+                                  disabled={updatingUserId === row.user_id || roles.length === 0}
+                                >
+                                  <SelectTrigger className="h-8 min-w-[220px] text-xs">
+                                    <SelectValue placeholder="Rol seç" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {roles.map((role) => (
+                                      <SelectItem key={role.id} value={role.id}>
+                                        {role.label}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <button
+                                  type="button"
+                                  onClick={() => void handleSaveRole(row)}
+                                  disabled={updatingUserId === row.user_id || !draftRoleId}
+                                  className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted disabled:opacity-60"
+                                >
+                                  {updatingUserId === row.user_id ? "Kaydediliyor..." : "Kaydet"}
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCancelEdit(row.user_id)}
+                                  disabled={updatingUserId === row.user_id}
+                                  className="rounded-md border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-60"
+                                >
+                                  İptal
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-2">
+                                <span className="inline-flex h-8 min-w-[220px] items-center rounded-md border px-2.5 text-xs">
+                                  {selectedRoleLabel}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleStartEdit(row)}
+                                  disabled={Boolean(updatingUserId)}
+                                  className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted disabled:opacity-60"
+                                >
+                                  Düzenle
+                                </button>
+                              </div>
+                            )}
                           </td>
                           <td className="px-3 py-2">{row.auth_provider || "-"}</td>
                           <td className="px-3 py-2">
