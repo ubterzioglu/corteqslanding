@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import { useAuth } from "@/components/auth/useAuth";
+import { IndividualProfileCards } from "@/components/profile/IndividualProfileCards";
 import { useFeatureFlags } from "@/hooks/useFeatureFlags";
+import { useIndividualProfileDetails } from "@/hooks/useIndividualProfileDetails";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,6 +24,11 @@ const ProfilePage = () => {
     featureSources,
     isFeatureEnabled,
   } = useFeatureFlags(shouldLoadIndividualFeatures);
+  const {
+    isLoading: isIndividualProfileLoading,
+    errorMessage: individualProfileErrorMessage,
+    details: individualProfileDetails,
+  } = useIndividualProfileDetails(shouldLoadIndividualFeatures);
 
   const displayName = useMemo(() => {
     const fullName = user?.user_metadata?.full_name;
@@ -74,6 +81,7 @@ const ProfilePage = () => {
 
   const selectedOption = profileTypeOptions.find((option) => option.type === type);
   const visibleIndividualModules = INDIVIDUAL_FEATURES.filter((feature) => isFeatureEnabled(feature.key));
+  const showIndividualLoading = type === "bireysel" && shouldLoadIndividualFeatures && isIndividualProfileLoading;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-12">
@@ -92,39 +100,30 @@ const ProfilePage = () => {
           <p>
             <span className="font-semibold">Kullanıcı ID:</span> {user?.id ?? "-"}
           </p>
+          {type === "bireysel" && individualProfileErrorMessage ? (
+            <p className="text-muted-foreground">
+              Profil detayları yedek verilerle gösteriliyor: {individualProfileErrorMessage}
+            </p>
+          ) : null}
         </CardContent>
       </Card>
 
       {type === "bireysel" ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Bireysel Modüller</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2 text-sm">
-            {isFeaturesLoading ? <p className="text-muted-foreground">Modüller yükleniyor...</p> : null}
-            {!isFeaturesLoading && featureErrorMessage ? (
-              <p className="text-muted-foreground">
-                Feature verisi alınamadı. Güvenli mod nedeniyle modüller gizlenmiştir.
-              </p>
-            ) : null}
-            {!isFeaturesLoading && !featureErrorMessage && visibleIndividualModules.length === 0 ? (
-              <p className="text-muted-foreground">Bu hesap için aktif bireysel modül bulunmuyor.</p>
-            ) : null}
-            {!isFeaturesLoading && !featureErrorMessage && visibleIndividualModules.length > 0
-              ? visibleIndividualModules.map((feature) => (
-                  <div key={feature.key} className="rounded-md border p-3">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="font-semibold">{feature.label}</p>
-                      <span className="rounded border px-2 py-0.5 text-[11px] text-muted-foreground">
-                        kaynak: {featureSources[feature.key] ?? "fallback"}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-muted-foreground">{feature.description}</p>
-                  </div>
-                ))
-              : null}
-          </CardContent>
-        </Card>
+        showIndividualLoading ? (
+          <Card>
+            <CardContent className="py-8 text-center text-sm text-muted-foreground">
+              Bireysel profil alanları yükleniyor...
+            </CardContent>
+          </Card>
+        ) : individualProfileDetails ? (
+          <IndividualProfileCards
+            details={individualProfileDetails}
+            visibleModules={visibleIndividualModules}
+            featureSources={featureSources as Record<string, string>}
+            isFeaturesLoading={isFeaturesLoading}
+            featureErrorMessage={featureErrorMessage}
+          />
+        ) : null
       ) : null}
 
       <div>

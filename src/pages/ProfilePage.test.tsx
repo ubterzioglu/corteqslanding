@@ -2,9 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
+import type { IndividualProfileDetailsCore } from "@/lib/individual-profile";
 import ProfilePage from "@/pages/ProfilePage";
 
 const useAuthMock = vi.fn();
+const useFeatureFlagsMock = vi.fn();
+const useIndividualProfileDetailsMock = vi.fn();
 const maybeSingleMock = vi.fn();
 const eqMock = vi.fn();
 const selectMock = vi.fn();
@@ -12,6 +15,14 @@ const fromMock = vi.fn();
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
+}));
+
+vi.mock("@/hooks/useFeatureFlags", () => ({
+  useFeatureFlags: (...args: unknown[]) => useFeatureFlagsMock(...args),
+}));
+
+vi.mock("@/hooks/useIndividualProfileDetails", () => ({
+  useIndividualProfileDetails: (...args: unknown[]) => useIndividualProfileDetailsMock(...args),
 }));
 
 vi.mock("@/integrations/supabase/client", () => ({
@@ -24,7 +35,78 @@ vi.mock("@/integrations/supabase/client", () => ({
 }));
 
 describe("ProfilePage", () => {
+  const baseDetails: IndividualProfileDetailsCore = {
+    userId: "u-1",
+    displayName: "firmascope",
+    email: "firmascope@gmail.com",
+    tagline: "Londra'da Pazarlama Uzmanı",
+    statusText: "Diaspora için iş birliği ve mentorluk fırsatlarına açığım.",
+    presenceStatus: "online",
+    visibilityStatus: "open",
+    followerCount: 10,
+    followingCount: 12,
+    eventCount: 3,
+    activeCity: "Londra",
+    activeCountry: "Birleşik Krallık",
+    hometown: "İzmir",
+    phoneVerified: true,
+    jobSeeking: true,
+    mentorOptIn: true,
+    frontCard: {
+      profileImageUrl: null,
+      passportStatus: "Doğrulandı",
+      previousCities: [],
+      miniEvent: null,
+      followRequestState: "connected",
+      followRequestNote: "Takiptesin",
+      profilePreviewNote: "Ön izleme",
+    },
+    detailCard: {
+      aboutText: "Hakkında metni",
+      interests: [],
+      languages: [],
+      livedCountries: [],
+      serviceRequests: [],
+      events: [],
+      followsPreview: [],
+      whatsappGroups: [],
+      activities: [],
+      cvRequestEnabled: false,
+      wishlistStatus: "v2",
+    },
+    controlPanel: {
+      panelTagline: "Bireysel Panelim",
+      panelBadges: [],
+      navActions: [],
+      reminder: "Hatırlatma",
+      locationSummary: "Londra",
+      country: "Birleşik Krallık",
+      city: "Londra",
+      yearsInCity: "5",
+      phone: "+44",
+      birthDate: "1992-04-18",
+      education: "Yüksek Lisans",
+      institution: "University of Westminster",
+      bio: "Bio",
+      linkedin: "https://linkedin.com/in/firmascope",
+      websiteLinks: [],
+      skills: [],
+      profileSteps: [],
+    },
+  };
+
   it("falls back to bireysel on invalid slug", async () => {
+    useFeatureFlagsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      featureSources: {},
+      isFeatureEnabled: () => false,
+    });
+    useIndividualProfileDetailsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      details: null,
+    });
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
     });
@@ -42,6 +124,17 @@ describe("ProfilePage", () => {
   });
 
   it("redirects to assigned profile type", async () => {
+    useFeatureFlagsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      featureSources: {},
+      isFeatureEnabled: () => false,
+    });
+    useIndividualProfileDetailsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      details: null,
+    });
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
     });
@@ -61,5 +154,40 @@ describe("ProfilePage", () => {
     );
 
     expect(await screen.findByText("Danisman Profil")).toBeInTheDocument();
+  });
+
+  it("renders individual visual cards for bireysel users", async () => {
+    useFeatureFlagsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      featureSources: {},
+      isFeatureEnabled: () => false,
+    });
+    useIndividualProfileDetailsMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      details: baseDetails,
+    });
+    useAuthMock.mockReturnValue({
+      user: { id: "u-1", email: "firmascope@gmail.com", user_metadata: { name: "firmascope" } },
+    });
+
+    maybeSingleMock.mockResolvedValue({ data: { profile_type: "bireysel" } });
+    eqMock.mockReturnValue({ maybeSingle: maybeSingleMock });
+    selectMock.mockReturnValue({ eq: eqMock });
+    fromMock.mockReturnValue({ select: selectMock });
+
+    render(
+      <MemoryRouter initialEntries={["/profile/bireysel"]}>
+        <Routes>
+          <Route path="/profile/:type" element={<ProfilePage />} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(await screen.findByText("Ön Kart")).toBeInTheDocument();
+    expect(screen.getByText("Detay Kart")).toBeInTheDocument();
+    expect(screen.getByText("Kontrol Paneli & Profil Ayarları")).toBeInTheDocument();
+    expect(screen.getByText("Londra'da Pazarlama Uzmanı")).toBeInTheDocument();
   });
 });

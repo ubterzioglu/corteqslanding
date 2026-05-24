@@ -166,6 +166,83 @@ export type Database = {
         };
         Relationships: [];
       };
+      individual_profile_details: {
+        Row: {
+          active_city: string | null;
+          active_country: string | null;
+          control_panel: Json;
+          created_at: string;
+          detail_card: Json;
+          event_count: number;
+          follower_count: number;
+          following_count: number;
+          front_card: Json;
+          hometown: string | null;
+          job_seeking: boolean;
+          mentor_opt_in: boolean;
+          phone_verified: boolean;
+          presence_status: string;
+          profile_settings: Json;
+          status_text: string | null;
+          tagline: string | null;
+          updated_at: string;
+          user_id: string;
+          visibility_status: string;
+        };
+        Insert: {
+          active_city?: string | null;
+          active_country?: string | null;
+          control_panel?: Json;
+          created_at?: string;
+          detail_card?: Json;
+          event_count?: number;
+          follower_count?: number;
+          following_count?: number;
+          front_card?: Json;
+          hometown?: string | null;
+          job_seeking?: boolean;
+          mentor_opt_in?: boolean;
+          phone_verified?: boolean;
+          presence_status?: string;
+          profile_settings?: Json;
+          status_text?: string | null;
+          tagline?: string | null;
+          updated_at?: string;
+          user_id: string;
+          visibility_status?: string;
+        };
+        Update: {
+          active_city?: string | null;
+          active_country?: string | null;
+          control_panel?: Json;
+          created_at?: string;
+          detail_card?: Json;
+          event_count?: number;
+          follower_count?: number;
+          following_count?: number;
+          front_card?: Json;
+          hometown?: string | null;
+          job_seeking?: boolean;
+          mentor_opt_in?: boolean;
+          phone_verified?: boolean;
+          presence_status?: string;
+          profile_settings?: Json;
+          status_text?: string | null;
+          tagline?: string | null;
+          updated_at?: string;
+          user_id?: string;
+          visibility_status?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "individual_profile_details_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "user_profiles";
+            referencedColumns: ["user_id"];
+          },
+        ];
+      };
       roles: {
         Row: {
           created_at: string;
