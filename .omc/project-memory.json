@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1779279553472,
+  "lastScanned": 1779624622387,
   "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
@@ -96,14 +96,14 @@
       "path": "backups",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779279553383,
+      "lastAccessed": 1779624622300,
       "keyFiles": []
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 17,
-      "lastAccessed": 1779279553384,
+      "lastAccessed": 1779624622301,
       "keyFiles": [
         "ambassador.html",
         "commercial.html",
@@ -115,11 +115,12 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 3,
-      "lastAccessed": 1779279553384,
+      "fileCount": 4,
+      "lastAccessed": 1779624622301,
       "keyFiles": [
         "commercial-contributor-structure.md",
         "marquee-haber-akisi.md",
+        "roller-ve-yetki-durumu-2026-05-23.md",
         "teknik-dokuman-proje-durumu-2026-05-19.md"
       ]
     },
@@ -127,14 +128,14 @@
       "path": "docu",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779279553429,
+      "lastAccessed": 1779624622302,
       "keyFiles": []
     },
     "lansman": {
       "path": "lansman",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779279553429,
+      "lastAccessed": 1779624622347,
       "keyFiles": [
         "index.html"
       ]
@@ -143,7 +144,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 10,
-      "lastAccessed": 1779279553430,
+      "lastAccessed": 1779624622348,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -152,11 +153,18 @@
         "llms.txt"
       ]
     },
+    "ref": {
+      "path": "ref",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1779624622348,
+      "keyFiles": []
+    },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 2,
-      "lastAccessed": 1779279553431,
+      "lastAccessed": 1779624622349,
       "keyFiles": [
         "import-command-center-may13.mjs",
         "verify-release.mjs"
@@ -166,7 +174,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 12,
-      "lastAccessed": 1779279553431,
+      "lastAccessed": 1779624622350,
       "keyFiles": [
         "App.addwa-routes.test.tsx",
         "App.admin-route.test.tsx",
@@ -179,7 +187,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779279553432,
+      "lastAccessed": 1779624622350,
       "keyFiles": [
         "config.toml"
       ]
@@ -188,25 +196,25 @@
       "path": "_archive",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779279553433,
+      "lastAccessed": 1779624622351,
       "keyFiles": []
     },
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
       "fileCount": 27,
-      "lastAccessed": 1779279553434,
+      "lastAccessed": 1779624622352,
       "keyFiles": [
         "blogger-vlogger-CB3SgA9I.jpg",
         "burak-D_NPD4FO.png",
-        "ComposedChart-DJ-COalG.js"
+        "ComposedChart-C_6JYZtJ.js"
       ]
     },
     "src\\assets": {
       "path": "src\\assets",
       "purpose": "Static assets",
       "fileCount": 16,
-      "lastAccessed": 1779279553436,
+      "lastAccessed": 1779624622355,
       "keyFiles": [
         "ataturk-marker.png",
         "blogger-vlogger.jpg",
@@ -217,7 +225,7 @@
       "path": "src\\components",
       "purpose": "UI components",
       "fileCount": 27,
-      "lastAccessed": 1779279553436,
+      "lastAccessed": 1779624622355,
       "keyFiles": [
         "AboutSection.tsx",
         "AdminLansmanTable.test.tsx",
@@ -227,8 +235,8 @@
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 45,
-      "lastAccessed": 1779279553437,
+      "fileCount": 50,
+      "lastAccessed": 1779624622356,
       "keyFiles": [
         "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
         "20260406193000_admin_and_submission_workflow.sql",
@@ -236,6 +244,55 @@
       ]
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "import-resources.ts",
+      "accessCount": 9,
+      "lastAccessed": 1779625156683,
+      "type": "file"
+    },
+    {
+      "path": ".env.local",
+      "accessCount": 1,
+      "lastAccessed": 1779624693026,
+      "type": "file"
+    },
+    {
+      "path": "filesnew.csv",
+      "accessCount": 1,
+      "lastAccessed": 1779624724770,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\resource-links.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779624882644,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\dashboard\\resource-items.ts",
+      "accessCount": 1,
+      "lastAccessed": 1779624882855,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\admin\\workspace\\AdminResourcesPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779624889032,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\dashboard\\links\\LinkManager.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1779624896891,
+      "type": "file"
+    },
+    {
+      "path": "backups\\supabase\\20260520_145257\\database.sql",
+      "accessCount": 1,
+      "lastAccessed": 1779624939293,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }

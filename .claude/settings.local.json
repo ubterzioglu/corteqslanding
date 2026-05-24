@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:global-network-bridge.lovable.app)"
+      "WebFetch(domain:global-network-bridge.lovable.app)",
+      "Bash(Get-ChildItem -Path \"C:\\\\temp_private\\\\corteqs\\\\corteqs_landing\" -Recurse -Directory -Filter \"*files*\" -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|js|py\\)$\")",
+      "Bash(grep -E \"\\\\.\\(sql|ts\\)$\")",
+      "Bash(npm list *)",
+      "Bash(npx tsx *)",
+      "Bash(awk -F',' 'NR>1 {print $9}' \"C:\\\\temp_private\\\\corteqs\\\\corteqs_landing\\\\filesnew.csv\")",
+      "Bash(grep -c \"^$\")"
     ]
   }
 }
