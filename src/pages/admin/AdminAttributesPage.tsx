@@ -173,14 +173,13 @@ const AdminAttributesPage = () => {
               const rule = ruleByAttributeId.get(attribute.id);
               const disabled = savingKey === `${selectedRoleId}:${attribute.id}`;
               return (
-                <div key={`${selectedRoleId}:${attribute.id}`} className="rounded-xl border p-4">
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <p className="font-semibold">{attribute.label}</p>
-                      <p className="text-xs text-muted-foreground">{attribute.key}</p>
-                      <p className="text-xs text-muted-foreground">{attribute.description ?? "-"}</p>
+                <div key={`${selectedRoleId}:${attribute.id}`} className="rounded-lg border px-3 py-2">
+                  <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold leading-tight">{attribute.label}</p>
+                      <p className="text-[11px] text-muted-foreground">{attribute.key} · {attribute.description ?? "-"}</p>
                     </div>
-                    <div className="grid min-w-[320px] gap-3 md:grid-cols-2">
+                    <div className="grid min-w-[280px] gap-2 md:grid-cols-2">
                       <ToggleLine
                         label="Aktif"
                         checked={rule?.is_enabled ?? true}
@@ -222,8 +221,8 @@ const AdminAttributesPage = () => {
                     </div>
                   </div>
 
-                  <div className="mt-4 max-w-[160px]">
-                    <label className="mb-1 block text-xs text-muted-foreground">Sıralama</label>
+                  <div className="mt-2 max-w-[120px]">
+                    <label className="mb-0.5 block text-[11px] text-muted-foreground">Sıralama</label>
                     <Input
                       type="number"
                       defaultValue={String(rule?.sort_order ?? attribute.sort_order)}
@@ -253,8 +252,8 @@ const ToggleLine = ({
   onCheckedChange: (checked: boolean) => void;
 }) => {
   return (
-    <div className="flex items-center justify-between rounded-lg border px-3 py-2">
-      <span className="text-sm">{label}</span>
+    <div className="flex items-center justify-between rounded-md border px-2 py-1.5">
+      <span className="text-xs">{label}</span>
       <Switch checked={checked} disabled={disabled} onCheckedChange={onCheckedChange} />
     </div>
   );
