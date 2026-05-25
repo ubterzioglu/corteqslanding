@@ -4,10 +4,12 @@ import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/component
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { setFeatureGlobalStateAsAdmin, setRoleFeatureFlagAsAdmin } from "@/lib/admin";
 import { getFeatureMeta } from "@/lib/features";
+import { ChevronDown } from "lucide-react";
 
 type RoleRow = {
   id: string;
@@ -309,8 +311,11 @@ const AdminRolesFeaturesPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {matrixFeatures.map((feature) => (
-                    <tr key={feature.key} className="border-t align-top">
+                  {matrixFeatures.map((feature, index) => (
+                    <tr
+                      key={feature.key}
+                      className={`align-top transition-colors ${index === 0 ? "" : "border-t"} ${index % 2 === 0 ? "bg-white" : "bg-muted/10"} hover:bg-muted/20`}
+                    >
                       <td className="px-3 py-3">
                         {(() => {
                           const featureDetail = getFeatureDetail(feature);
@@ -321,11 +326,19 @@ const AdminRolesFeaturesPage = () => {
                               <p className="text-xs text-muted-foreground">{feature.key}</p>
                               <p className="mt-1 text-xs text-muted-foreground">{featureDetail.shortDescription}</p>
                               {featureDetail.details ? (
-                                <div className="mt-3 space-y-1 rounded-lg border border-muted bg-muted/20 p-2 text-[11px] leading-5 text-muted-foreground">
-                                  <p>{featureDetail.details.summary}</p>
-                                  <p>{featureDetail.details.effect}</p>
-                                  <p>{featureDetail.details.adminHint}</p>
-                                </div>
+                                <Collapsible className="mt-3">
+                                  <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-left text-[11px] font-medium text-slate-700 transition hover:bg-muted/40">
+                                    <span>Açıklamayı Göster</span>
+                                    <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition group-data-[state=open]:rotate-180" />
+                                  </CollapsibleTrigger>
+                                  <CollapsibleContent className="mt-2 rounded-lg border border-muted bg-muted/20 p-3 text-[11px] leading-5 text-muted-foreground">
+                                    <div className="space-y-2">
+                                      <p>{featureDetail.details.summary}</p>
+                                      <p>{featureDetail.details.effect}</p>
+                                      <p>{featureDetail.details.adminHint}</p>
+                                    </div>
+                                  </CollapsibleContent>
+                                </Collapsible>
                               ) : null}
                             </>
                           );
