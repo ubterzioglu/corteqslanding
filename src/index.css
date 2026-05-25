@@ -90,6 +90,52 @@
 }
 
 @layer utilities {
+  .landing-ambient {
+    position: relative;
+    background:
+      radial-gradient(circle at top center, hsl(var(--primary) / 0.08), transparent 32%),
+      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.38) 100%);
+  }
+
+  .landing-ambient-orb {
+    position: fixed;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 9999px;
+    filter: blur(72px);
+    opacity: 0.38;
+    animation: landing-ambient-float 22s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .landing-ambient-orb-one {
+    top: 8rem;
+    left: -5rem;
+    height: 20rem;
+    width: 20rem;
+    background: hsl(var(--primary) / 0.16);
+  }
+
+  .landing-ambient-orb-two {
+    top: 28rem;
+    right: -4rem;
+    height: 24rem;
+    width: 24rem;
+    background: hsl(var(--accent) / 0.14);
+    animation-duration: 28s;
+    animation-delay: -8s;
+  }
+
+  .landing-ambient-orb-three {
+    bottom: 4rem;
+    left: 22%;
+    height: 18rem;
+    width: 18rem;
+    background: hsl(var(--primary) / 0.1);
+    animation-duration: 32s;
+    animation-delay: -14s;
+  }
+
   .commercial-prose {
     @apply text-base leading-8 text-foreground;
   }
@@ -179,7 +225,30 @@
   }
 }
 
+@keyframes landing-ambient-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.28;
+  }
+  33% {
+    transform: translate3d(28px, -22px, 0) scale(1.08);
+    opacity: 0.4;
+  }
+  66% {
+    transform: translate3d(-18px, 18px, 0) scale(0.96);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.28;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .landing-ambient-orb {
+    animation: none;
+  }
+
   .diaspora-marquee {
     overflow-x: auto;
   }
