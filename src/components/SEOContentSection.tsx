@@ -3,30 +3,6 @@ import { ChevronDown } from "lucide-react";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-const platformItems = [
-  "🌍 Global Türk diasporasını tek platformda toplar",
-  "📍 Şehir bazlı network (Berlin, Londra, Dubai vb.)",
-  "🤝 İnsan, işletme ve toplulukları buluşturur",
-  "🧭 Yeni şehirde ilk adımı kolaylaştırır",
-  "🏠 Relocation sürecini kolaylaştırır",
-  "💼 İş, proje ve işbirliği fırsatları sunar",
-  "👥 Güven temelli bağlantılar kurmanı sağlar",
-  "📢 Bilgi ve deneyim paylaşımını hızlandırır",
-  "🎯 Profesyonel network kurmayı destekler",
-];
-
-const audienceItems = [
-  "🌍 Relocation desteği arayan Türkler",
-  "🤝 Diaspora ile bağ kurmak isteyen expatlar",
-  "🧑‍⚕️ Hizmet sunan danışman, doktor, avukatlar",
-  "🏢 Türk müşteriye ulaşmak isteyen işletmeler",
-  "🏛️ Dernek, vakıf ve STK’lar",
-  "🎥 İçerik üreticileri ve bloggerlar",
-  "🧑‍🤝‍🧑 Sosyal çevre arayan bireyler",
-  "💼 İş ve kariyer fırsatı arayanlar",
-  "📍 Yerel bilgi ve tavsiye arayanlar",
-];
-
 const SEOContentSection = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -84,20 +60,22 @@ const SEOContentSection = () => {
                   <div className="space-y-5">
                     <div>
                       <h4 className="mb-2 text-base font-semibold text-foreground">CorteQS Nedir?</h4>
-                      <ul className="grid gap-1.5 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
-                        {platformItems.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
+                      <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
+                        CorteQS, global Turk diasporasini tek platformda bulusturan; sehir bazli network, relocation destegi,
+                        is birligi, bilgi paylasimi ve guven temelli baglantilar sunan bir topluluk altyapisidir. Insanlari,
+                        isletmeleri ve yerel yapilari ayni ekosistemde bir araya getirerek yeni bir sehirde baslamayi ve
+                        profesyonel ag kurmayi kolaylastirir.
+                      </p>
                     </div>
 
                     <div className="border-t border-white/50 pt-4">
                       <h4 className="mb-3 text-base font-semibold text-foreground">Kimler İçin?</h4>
-                      <ul className="grid gap-1.5 text-sm text-muted-foreground md:text-[15px]">
-                        {audienceItems.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
+                      <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
+                        Bu platform; relocation destegi arayan Turkler, diaspora ile bag kurmak isteyen expatlar,
+                        danismanlar, doktorlar, avukatlar, isletmeler, dernekler, STK'lar, icerik ureticileri ve sosyal ya da
+                        profesyonel cevresini buyutmek isteyen bireyler icin tasarlanmistir. Kisaca CorteQS, yerel bilgiye,
+                        firsata ve guvenilir baglantilara ihtiyac duyan herkes icindir.
+                      </p>
                     </div>
                   </div>
                 </div>
