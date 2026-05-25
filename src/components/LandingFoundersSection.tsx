@@ -106,7 +106,7 @@ const LandingFoundersSection = () => {
                         href={founder.linkedinUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#0f6fc2]/20 bg-[linear-gradient(135deg,#f7fbff_0%,#e7f4ff_38%,#d7ecff_100%)] px-5 py-2.5 text-sm font-semibold text-[#0a4f96] shadow-[0_14px_30px_rgba(15,111,194,0.14)] transition hover:-translate-y-0.5 hover:text-[#083d75]"
+                        className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#1d74c8]/35 bg-[linear-gradient(135deg,#1382d0_0%,#1e9bd7_44%,#26b0d9_100%)] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(19,130,208,0.24)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(19,130,208,0.3)]"
                       >
                         <Linkedin className="h-4 w-4" />
                         LinkedIn
@@ -118,7 +118,7 @@ const LandingFoundersSection = () => {
                 <div className="flex justify-center">
                   <Link
                     to="/founders"
-                    className="inline-flex items-center justify-center rounded-full border border-[#0f6fc2]/20 bg-[linear-gradient(135deg,#f7fbff_0%,#e7f4ff_38%,#d7ecff_100%)] px-6 py-3 text-sm font-semibold text-[#0a4f96] shadow-[0_14px_30px_rgba(15,111,194,0.14)] transition hover:-translate-y-0.5 hover:text-[#083d75]"
+                    className="inline-flex items-center justify-center rounded-full border border-[#d96d2f]/35 bg-[linear-gradient(135deg,#f57f2c_0%,#ff9835_48%,#ffb046_100%)] px-6 py-3 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(245,127,44,0.24)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(245,127,44,0.3)]"
                   >
                     Daha Fazla Bilgi
                   </Link>
