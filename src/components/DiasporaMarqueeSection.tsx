@@ -36,9 +36,8 @@ const DiasporaMarqueeSection = () => {
       <div className="container mx-auto px-4">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">CorteQS Radar</p>
             <h2 className="max-w-4xl text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
-              Türk Diaspora Haberleri / İstatistikler / Duyurular
+              CorteQS Radar
             </h2>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
               Dünya genelindeki Türk topluluklarından sayılar, gelişmeler ve platform duyuruları.
