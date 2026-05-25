@@ -8,9 +8,6 @@ const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const heroCtaClass =
     "relative inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center text-[12px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-[13px]";
-  const heroFeaturedCardClass =
-    "relative inline-flex min-h-[62px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125";
-
   const heroCardStyles = {
     register: {
       background: "linear-gradient(135deg, #0C3558 0%, #15527F 55%, #1A6A94 100%)",
@@ -23,24 +20,6 @@ const HeroSection = () => {
       borderColor: "rgba(126, 181, 94, 0.52)",
       color: "#10364C",
       boxShadow: "0 16px 36px rgba(109, 174, 96, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
-    },
-    founding: {
-      background: "linear-gradient(135deg, #FFC11F 0%, #FFD43A 52%, #FFE56B 100%)",
-      borderColor: "rgba(245, 191, 31, 0.62)",
-      color: "#0E2238",
-      boxShadow: "0 18px 40px rgba(230, 180, 28, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.28)",
-    },
-    blogger: {
-      background: "linear-gradient(135deg, #E97A1F 0%, #F06B2E 52%, #E85A34 100%)",
-      borderColor: "rgba(233, 110, 42, 0.55)",
-      color: "#ffffff",
-      boxShadow: "0 16px 36px rgba(231, 103, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
-    },
-    vlogger: {
-      background: "linear-gradient(135deg, #1A94AD 0%, #19789A 52%, #235E88 100%)",
-      borderColor: "rgba(26, 137, 166, 0.55)",
-      color: "#ffffff",
-      boxShadow: "0 16px 36px rgba(24, 123, 151, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     addWhatsapp: {
       background: "linear-gradient(135deg, #1FAF77 0%, #28C487 52%, #55D6A4 100%)",
@@ -65,18 +44,6 @@ const HeroSection = () => {
       borderColor: "rgba(217, 106, 42, 0.52)",
       color: "#ffffff",
       boxShadow: "0 16px 36px rgba(217, 106, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
-    },
-    contest: {
-      background: "linear-gradient(135deg, #15608C 0%, #0D3759 100%)",
-      borderColor: "#15608C",
-      color: "#ffffff",
-      boxShadow: "0 14px 30px rgba(21, 96, 140, 0.22)",
-    },
-    waitlist: {
-      background: "linear-gradient(135deg, #95BF54 0%, #ED6F1E 100%)",
-      borderColor: "#D98532",
-      color: "#082947",
-      boxShadow: "0 14px 30px rgba(217, 133, 50, 0.24)",
     },
   } as const;
 
@@ -152,61 +119,7 @@ const HeroSection = () => {
               </div>
 
               <div className="flex max-w-lg flex-col gap-2.5 2xl:max-w-[38rem]">
-                <Link
-                  to="/founding-1000"
-                  className={`${heroFeaturedCardClass} group relative flex-col text-[12px] font-semibold md:text-[13px] 2xl:max-w-[38rem]`}
-                  style={heroCardStyles.founding}
-                >
-                  <span
-                    className="pointer-events-none absolute inset-0 opacity-100"
-                    aria-hidden
-                    style={{
-                      background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
-                    }}
-                  />
-                  <span
-                    className="absolute -right-1 -top-2 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider shadow-md"
-                    style={{ background: "#0E2238", color: "#FFD43A" }}
-                  >
-                    Erken Erişim
-                  </span>
-                  <span className="relative z-10">🌍 Founding 1000'e Katıl →</span>
-                  <span className="relative z-10 mt-1 text-[8px] font-semibold uppercase tracking-wide text-[#0E2238]/85 md:text-[9px]">
-                    Danışmanlar · İşletmeler · Kuruluşlar · Vloggerlar
-                  </span>
-                </Link>
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
-                  <Link
-                    to="/blogger-yarismasi"
-                    className={heroCtaClass}
-                    style={heroCardStyles.blogger}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-100"
-                      aria-hidden
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
-                      }}
-                    />
-                    <span className="relative z-10">✍️ Blogger Yarışması →</span>
-                  </Link>
-                  <Link
-                    to="/vlogger-yarismasi"
-                    className={heroCtaClass}
-                    style={heroCardStyles.vlogger}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-100"
-                      aria-hidden
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
-                      }}
-                    />
-                    <span className="relative z-10">🎥 Vlogger Yarışması →</span>
-                  </Link>
                   <Link
                     to="/addwa"
                     className={`${heroCtaClass} px-4`}

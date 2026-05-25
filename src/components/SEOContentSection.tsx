@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
@@ -51,6 +52,27 @@ const SEOContentSection = () => {
                     noktalarındaki Türkleri, yerel toplulukları ve fırsatları daha görünür, daha erişilebilir ve daha bağlı
                     hale getirmektir.
                   </p>
+
+                  <div className="mt-5 space-y-3 border-t border-white/50 pt-4">
+                    <Link
+                      to="/founding-1000"
+                      className="block rounded-xl border border-amber-200/80 bg-[linear-gradient(135deg,#FFC11F_0%,#FFD43A_52%,#FFE56B_100%)] px-4 py-3 text-sm font-semibold text-[#0E2238] shadow-[0_12px_28px_rgba(230,180,28,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      🌍 Founding 1000'e Katıl →
+                    </Link>
+                    <Link
+                      to="/blogger-yarismasi"
+                      className="block rounded-xl border border-orange-300/70 bg-[linear-gradient(135deg,#E97A1F_0%,#F06B2E_52%,#E85A34_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(231,103,42,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      ✍️ Blogger Yarışması →
+                    </Link>
+                    <Link
+                      to="/vlogger-yarismasi"
+                      className="block rounded-xl border border-sky-400/60 bg-[linear-gradient(135deg,#1A94AD_0%,#19789A_52%,#235E88_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(24,123,151,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                    >
+                      🎥 Vlogger Yarışması →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </CollapsibleContent>
