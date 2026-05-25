@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { setFeatureGlobalStateAsAdmin, setRoleFeatureFlagAsAdmin } from "@/lib/admin";
+import { getFeatureMeta } from "@/lib/features";
 
 type RoleRow = {
   id: string;
@@ -28,6 +29,85 @@ type RoleFeatureFlagRow = {
   role_id: string;
   feature_key: string;
   is_enabled: boolean;
+};
+
+type FeatureDetail = {
+  summary: string;
+  effect: string;
+  adminHint: string;
+};
+
+const FEATURE_DETAILS: Record<string, FeatureDetail> = {
+  "admin.requires_approval": {
+    summary: "Kullanıcının ilgili işlemi tek başına tamamlaması yerine admin onay akışına düşmesini sağlar.",
+    effect: "Açık olduğunda rolün bazı değişiklikleri doğrudan uygulanmaz; önce onay bekler.",
+    adminHint: "Daha kontrollü ilerlemesi gereken roller için açık tutulur.",
+  },
+  "city.manage": {
+    summary: "Kullanıcıya şehir bazlı yönetim veya moderasyon alanlarına erişim verme hazırlığıdır.",
+    effect: "Açıldığında şehir yönetimiyle ilgili akışlar bu rol için kullanılabilir hale gelir.",
+    adminHint: "Şu an daha sınırlı bir alan olduğu için sadece gerçekten yetkili roller için açılmalı.",
+  },
+  "contact.receive": {
+    summary: "Kullanıcının platform üzerinden gelen iletişim veya iş birliği taleplerini almasını sağlar.",
+    effect: "Açık olduğunda profil veya ilgili kart üzerinden kullanıcıya temas kurulabilir.",
+    adminHint: "İletişim almak istemeyen ya da hazır olmayan roller için kapalı bırakılabilir.",
+  },
+  "contact.show_whatsapp": {
+    summary: "Kullanıcının WhatsApp bilgisini görünür hale getirme yetkisidir.",
+    effect: "Açık olduğunda kullanıcı iletişim bilgisini daha doğrudan paylaşabilir.",
+    adminHint: "Mahremiyet açısından her rolde açık olmak zorunda değildir.",
+  },
+  "content.create": {
+    summary: "Kullanıcının içerik, post veya paylaşım oluşturma akışına girmesini sağlar.",
+    effect: "Açık olduğunda bu rol içerik üretmeye başlayabilir.",
+    adminHint: "Toplulukta aktif içerik üretmesi beklenen roller için açık tutulur.",
+  },
+  "content.edit_own": {
+    summary: "Kullanıcının kendi oluşturduğu içerikleri sonradan düzenleyebilmesini sağlar.",
+    effect: "Açık olduğunda kendi postlarını güncelleyebilir veya iyileştirebilir.",
+    adminHint: "İçerik üreten roller için genelde `İçerik Oluştur` ile birlikte değerlendirilir.",
+  },
+  "directory.visible": {
+    summary: "Kullanıcının public directory içinde listelenebilmesini kontrol eder.",
+    effect: "Açık olduğunda profil arama ve listeleme alanlarında görünür olabilir.",
+    adminHint: "Directory görünürlüğü ürün içinde keşfedilme açısından kritik bir ayardır.",
+  },
+  "directory.featured": {
+    summary: "Kullanıcının directory içinde öne çıkarılmış şekilde gösterilmesini sağlar.",
+    effect: "Açık olduğunda standart listelenmeden daha görünür bir sunum mümkün olur.",
+    adminHint: "Her rol için açık tutulması gerekmez; daha seçilmiş kullanım içindir.",
+  },
+  "events.create": {
+    summary: "Kullanıcının etkinlik oluşturma akışına erişebilmesini sağlar.",
+    effect: "Açık olduğunda bu rol yeni etkinlik başlatabilir veya yayınlayabilir.",
+    adminHint: "Operasyonel yük doğurabileceği için sınırlı açılması daha güvenlidir.",
+  },
+  "offers.create": {
+    summary: "Kullanıcının teklif, hizmet veya iş fırsatı oluşturmasını sağlar.",
+    effect: "Açık olduğunda rol yeni teklif kayıtları açabilir.",
+    adminHint: "Ticari veya profesyonel roller için anlamlıdır; herkese açık olması gerekmez.",
+  },
+  "profile.edit_own": {
+    summary: "Kullanıcının kendi profil alanlarını düzenleme yetkisidir.",
+    effect: "Açık olduğunda kullanıcı temel profil bilgilerini güncelleyebilir.",
+    adminHint: "Genel olarak çoğu rolde açık olur; kapatılması daha kısıtlayıcı bir tercih olur.",
+  },
+  "profile.edit_public": {
+    summary: "Kullanıcının dışarıdan görünen public profil alanlarını yönetmesini sağlar.",
+    effect: "Açık olduğunda görünür metinler, açıklamalar ve benzeri alanlar düzenlenebilir.",
+    adminHint: "Kamusal görünüm üzerindeki kontrol bu feature ile verilir.",
+  },
+  "profile.view_own": {
+    summary: "Kullanıcının kendi profil ekranını açıp görebilmesini sağlar.",
+    effect: "Açık olduğunda kullanıcı profilini görüntüleyebilir.",
+    adminHint: "Temel bir erişim olduğu için çoğu rolde açık tutulur.",
+  },
+  "referral.create": {
+    summary: "Kullanıcının referral başlatma veya referral üretme akışına erişmesini sağlar.",
+    effect: "Açık olduğunda referral mekanizmasını kullanabilir.",
+    adminHint: "Her rol için gerekli olmayabilir; büyüme veya topluluk katkısı beklenen rollerde daha anlamlıdır.",
+  },
 };
 
 const guideSections: AdminPageGuideSection[] = [
@@ -133,6 +213,17 @@ const AdminRolesFeaturesPage = () => {
     return Array.from(uniqueByKey.values());
   }, [features]);
 
+  const getFeatureDetail = (feature: FeatureCatalogRow) => {
+    const detailed = FEATURE_DETAILS[feature.key];
+    const meta = getFeatureMeta(feature.key);
+
+    return {
+      label: meta?.label ?? feature.label,
+      shortDescription: meta?.description ?? feature.description ?? "-",
+      details: detailed,
+    };
+  };
+
   const handleRoleToggle = async (role: RoleRow, featureKey: string, nextEnabled: boolean) => {
     const previous = flagMap[role.id]?.[featureKey] ?? false;
     setFlagMap((current) => ({
@@ -221,9 +312,24 @@ const AdminRolesFeaturesPage = () => {
                   {matrixFeatures.map((feature) => (
                     <tr key={feature.key} className="border-t align-top">
                       <td className="px-3 py-3">
-                        <p className="font-medium">{feature.label}</p>
-                        <p className="text-xs text-muted-foreground">{feature.key}</p>
-                        <p className="mt-1 text-xs text-muted-foreground">{feature.description ?? "-"}</p>
+                        {(() => {
+                          const featureDetail = getFeatureDetail(feature);
+
+                          return (
+                            <>
+                              <p className="font-medium">{featureDetail.label}</p>
+                              <p className="text-xs text-muted-foreground">{feature.key}</p>
+                              <p className="mt-1 text-xs text-muted-foreground">{featureDetail.shortDescription}</p>
+                              {featureDetail.details ? (
+                                <div className="mt-3 space-y-1 rounded-lg border border-muted bg-muted/20 p-2 text-[11px] leading-5 text-muted-foreground">
+                                  <p>{featureDetail.details.summary}</p>
+                                  <p>{featureDetail.details.effect}</p>
+                                  <p>{featureDetail.details.adminHint}</p>
+                                </div>
+                              ) : null}
+                            </>
+                          );
+                        })()}
                         <div className="mt-2 flex flex-wrap gap-1">
                           {Array.from(new Set(features.filter((item) => item.key === feature.key).map((item) => item.scope_role))).map((scopeRole) => (
                             <Badge key={scopeRole} variant="outline">
