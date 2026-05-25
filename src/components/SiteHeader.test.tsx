@@ -15,6 +15,7 @@ describe("SiteHeader", () => {
     expect(screen.getByRole("link", { name: "Kayıt Ol!" })).toHaveAttribute("href", "https://corteqs.net/form");
     expect(screen.getByText("CorteQS")).toBeInTheDocument();
     expect(screen.getByText("Global Türk Diaspora Network")).toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Anketler" })).not.toBeInTheDocument();
     expect(screen.queryByText("19 Mayıs Etkinlikleri")).not.toBeInTheDocument();
   });
 });
