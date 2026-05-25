@@ -6,6 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 
 const SEOContentSection = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [linksOpen, setLinksOpen] = useState(false);
 
   return (
     <section className="relative overflow-hidden py-14 lg:py-20">
@@ -45,28 +46,53 @@ const SEOContentSection = () => {
                   </p>
                 </div>
 
-                <div className="rounded-2xl border border-white/55 bg-white/60 p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.3)] backdrop-blur-sm md:p-5">
-                  <div className="space-y-3">
-                    <Link
-                      to="/founding-1000"
-                      className="block rounded-xl border border-amber-200/80 bg-[linear-gradient(135deg,#FFC11F_0%,#FFD43A_52%,#FFE56B_100%)] px-4 py-3 text-sm font-semibold text-[#0E2238] shadow-[0_12px_28px_rgba(230,180,28,0.18)] transition-all duration-300 hover:-translate-y-0.5"
-                    >
-                      🌍 Founding 1000'e Katıl →
-                    </Link>
-                    <Link
-                      to="/blogger-yarismasi"
-                      className="block rounded-xl border border-orange-300/70 bg-[linear-gradient(135deg,#E97A1F_0%,#F06B2E_52%,#E85A34_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(231,103,42,0.18)] transition-all duration-300 hover:-translate-y-0.5"
-                    >
-                      ✍️ Blogger Yarışması →
-                    </Link>
-                    <Link
-                      to="/vlogger-yarismasi"
-                      className="block rounded-xl border border-sky-400/60 bg-[linear-gradient(135deg,#1A94AD_0%,#19789A_52%,#235E88_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(24,123,151,0.18)] transition-all duration-300 hover:-translate-y-0.5"
-                    >
-                      🎥 Vlogger Yarışması →
-                    </Link>
+                <Collapsible open={linksOpen} onOpenChange={setLinksOpen}>
+                  <div className="overflow-hidden rounded-2xl border border-white/55 bg-white/60 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.3)] backdrop-blur-sm">
+                    <CollapsibleTrigger asChild>
+                      <button
+                        type="button"
+                        className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition hover:bg-white/35 md:px-5"
+                        aria-expanded={linksOpen}
+                      >
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-foreground md:text-[15px]">
+                            Öne Çıkan Bağlantılar
+                          </p>
+                        </div>
+                        <span
+                          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-primary/15 bg-background/80 text-primary transition-transform duration-300 ${
+                            linksOpen ? "rotate-180" : ""
+                          }`}
+                        >
+                          <ChevronDown className="h-4 w-4" />
+                        </span>
+                      </button>
+                    </CollapsibleTrigger>
+
+                    <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/55">
+                      <div className="space-y-3 p-4 md:p-5">
+                        <Link
+                          to="/founding-1000"
+                          className="block rounded-xl border border-amber-200/80 bg-[linear-gradient(135deg,#FFC11F_0%,#FFD43A_52%,#FFE56B_100%)] px-4 py-3 text-sm font-semibold text-[#0E2238] shadow-[0_12px_28px_rgba(230,180,28,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          🌍 Founding 1000'e Katıl →
+                        </Link>
+                        <Link
+                          to="/blogger-yarismasi"
+                          className="block rounded-xl border border-orange-300/70 bg-[linear-gradient(135deg,#E97A1F_0%,#F06B2E_52%,#E85A34_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(231,103,42,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          ✍️ Blogger Yarışması →
+                        </Link>
+                        <Link
+                          to="/vlogger-yarismasi"
+                          className="block rounded-xl border border-sky-400/60 bg-[linear-gradient(135deg,#1A94AD_0%,#19789A_52%,#235E88_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(24,123,151,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                        >
+                          🎥 Vlogger Yarışması →
+                        </Link>
+                      </div>
+                    </CollapsibleContent>
                   </div>
-                </div>
+                </Collapsible>
               </div>
             </CollapsibleContent>
           </div>

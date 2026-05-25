@@ -7,43 +7,43 @@ import RegisterInterestForm from "./RegisterInterestForm";
 const HeroSection = () => {
   const [formOpen, setFormOpen] = useState(false);
   const heroCtaClass =
-    "relative inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center text-[12px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-125 md:text-[13px]";
+    "relative inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center text-[12px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-110 md:text-[13px]";
   const heroCardStyles = {
     register: {
-      background: "linear-gradient(135deg, #123B5A 0%, #195379 54%, #226A92 100%)",
-      borderColor: "rgba(25, 83, 121, 0.5)",
-      color: "#ffffff",
-      boxShadow: "0 16px 34px rgba(18, 59, 90, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #EEF7FB 0%, #E4F2FA 54%, #D6EBF8 100%)",
+      borderColor: "rgba(45, 110, 151, 0.18)",
+      color: "#1D587B",
+      boxShadow: "0 14px 32px rgba(29, 88, 123, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
     whatsapp: {
-      background: "linear-gradient(135deg, #5FAD76 0%, #78BD76 52%, #96CC79 100%)",
-      borderColor: "rgba(95, 173, 118, 0.48)",
-      color: "#103D42",
-      boxShadow: "0 16px 34px rgba(95, 173, 118, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #F1F8EE 0%, #E9F5E3 52%, #DDF0D0 100%)",
+      borderColor: "rgba(92, 157, 97, 0.2)",
+      color: "#2F6D4B",
+      boxShadow: "0 14px 32px rgba(92, 157, 97, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
     addWhatsapp: {
-      background: "linear-gradient(135deg, #1F9672 0%, #27AC85 52%, #42C29B 100%)",
-      borderColor: "rgba(31, 150, 114, 0.48)",
-      color: "#ffffff",
-      boxShadow: "0 16px 34px rgba(31, 150, 114, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #EEF9F5 0%, #E3F6EE 52%, #D4F0E5 100%)",
+      borderColor: "rgba(38, 149, 113, 0.2)",
+      color: "#237E62",
+      boxShadow: "0 14px 32px rgba(38, 149, 113, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
     addContent: {
-      background: "linear-gradient(135deg, #C65368 0%, #DD6A6B 52%, #ED8867 100%)",
-      borderColor: "rgba(198, 83, 104, 0.48)",
-      color: "#ffffff",
-      boxShadow: "0 16px 34px rgba(198, 83, 104, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #FFF2F4 0%, #FDE8E7 52%, #FBDDD4 100%)",
+      borderColor: "rgba(206, 103, 113, 0.22)",
+      color: "#C45E68",
+      boxShadow: "0 14px 32px rgba(206, 103, 113, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
     about: {
-      background: "linear-gradient(135deg, #2A6D88 0%, #3588A0 52%, #49A9B7 100%)",
-      borderColor: "rgba(53, 136, 160, 0.46)",
-      color: "#ffffff",
-      boxShadow: "0 16px 34px rgba(42, 109, 136, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #EFF8FB 0%, #E3F4F8 52%, #D7EEF5 100%)",
+      borderColor: "rgba(63, 146, 171, 0.2)",
+      color: "#2D7E98",
+      boxShadow: "0 14px 32px rgba(63, 146, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
     founders: {
-      background: "linear-gradient(135deg, #D86B30 0%, #E8863A 52%, #F2A04A 100%)",
-      borderColor: "rgba(216, 107, 48, 0.46)",
-      color: "#ffffff",
-      boxShadow: "0 16px 34px rgba(216, 107, 48, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
+      background: "linear-gradient(135deg, #FFF4EA 0%, #FFECDD 52%, #FFE1C8 100%)",
+      borderColor: "rgba(224, 130, 56, 0.2)",
+      color: "#D97A34",
+      boxShadow: "0 14px 32px rgba(224, 130, 56, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
     },
   } as const;
 
