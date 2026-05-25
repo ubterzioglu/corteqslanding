@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-import mascotHome from "../../maskotanasayfa.png";
-import seoLogo from "../../newlogo.png";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const platformItems = [
@@ -76,24 +74,14 @@ const SEOContentSection = () => {
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/50">
               <div className="p-5 md:p-6">
                 <div className="rounded-2xl border border-white/50 bg-background/55 p-4 md:p-5">
-                  <div className="mb-4 flex items-center gap-3">
-                    <img
-                      src={seoLogo}
-                      alt="CorteQS Logo"
-                      className="h-auto w-full max-w-[72px] shrink-0 md:max-w-[82px]"
-                      loading="lazy"
-                      width={560}
-                      height={220}
-                    />
-                    <div>
-                      <h3 className="text-lg font-bold text-foreground md:text-xl">CorteQS Nedir? Kimler İçin?</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Platformun sunduğu değer ve hitap ettiği kitle tek akışta aşağıda özetlenir.
-                      </p>
-                    </div>
+                  <div className="mb-5">
+                    <h3 className="text-lg font-bold text-foreground md:text-xl">CorteQS Nedir? Kimler İçin?</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      Platformun sunduğu değer ve hitap ettiği kitle tek akışta aşağıda özetlenir.
+                    </p>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div>
                       <h4 className="mb-2 text-base font-semibold text-foreground">CorteQS Nedir?</h4>
                       <ul className="grid gap-1.5 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
@@ -104,17 +92,7 @@ const SEOContentSection = () => {
                     </div>
 
                     <div className="border-t border-white/50 pt-4">
-                      <div className="mb-3 flex items-center justify-between gap-3">
-                        <h4 className="text-base font-semibold text-foreground">Kimler İçin?</h4>
-                        <img
-                          src={mascotHome}
-                          alt="CorteQS ana sayfa maskotu"
-                          className="h-auto w-full max-w-[72px] shrink-0 md:max-w-[84px]"
-                          loading="lazy"
-                          width={900}
-                          height={900}
-                        />
-                      </div>
+                      <h4 className="mb-3 text-base font-semibold text-foreground">Kimler İçin?</h4>
                       <ul className="grid gap-1.5 text-sm text-muted-foreground md:text-[15px]">
                         {audienceItems.map((item) => (
                           <li key={item}>{item}</li>
