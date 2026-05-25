@@ -99,17 +99,7 @@ const NetworkOverviewSection = () => {
   };
 
   return (
-    <section
-      id="diaspora-ekosistemi"
-      className="relative overflow-hidden py-14 lg:py-20"
-      style={{
-        background:
-          "linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.42) 22%, hsl(var(--background)) 100%)",
-      }}
-    >
-      <div className="pointer-events-none absolute left-0 top-10 h-72 w-72 rounded-full bg-primary/12 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute right-0 top-1/3 h-80 w-80 rounded-full bg-accent/10 blur-3xl" aria-hidden />
-
+    <section id="diaspora-ekosistemi" className="relative overflow-hidden py-14 lg:py-20">
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/80 shadow-xl shadow-primary/10 backdrop-blur-sm">

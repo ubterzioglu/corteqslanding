@@ -8,16 +8,7 @@ const SEOContentSection = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section
-      className="relative overflow-hidden py-14 lg:py-20"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(var(--primary) / 0.06) 0%, hsl(var(--accent) / 0.08) 52%, hsl(var(--background)) 100%)",
-      }}
-    >
-      <div className="pointer-events-none absolute -left-20 bottom-6 h-72 w-72 rounded-full bg-primary/20 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute right-8 top-0 h-64 w-64 rounded-full bg-accent/15 blur-3xl" aria-hidden />
-
+    <section className="relative overflow-hidden py-14 lg:py-20">
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="overflow-hidden rounded-2xl border border-white/50 bg-card/80 shadow-xl shadow-primary/10 backdrop-blur-sm">

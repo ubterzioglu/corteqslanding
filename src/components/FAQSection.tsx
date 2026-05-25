@@ -218,16 +218,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section
-      className="relative overflow-hidden py-14 lg:py-20"
-      style={{
-        background:
-          "linear-gradient(135deg, hsl(var(--accent) / 0.07) 0%, hsl(var(--primary) / 0.06) 50%, hsl(var(--background)) 100%)",
-      }}
-    >
-      <div className="pointer-events-none absolute left-10 top-12 h-72 w-72 rounded-full bg-accent/20 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute -right-20 bottom-10 h-80 w-80 rounded-full bg-primary/20 blur-3xl" aria-hidden />
-
+    <section className="relative overflow-hidden py-14 lg:py-20">
       <div className="container relative z-10 mx-auto max-w-3xl px-4">
         <div className="mb-3 text-center">
           <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">

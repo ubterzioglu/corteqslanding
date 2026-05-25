@@ -93,8 +93,8 @@
   .landing-ambient {
     position: relative;
     background:
-      radial-gradient(circle at top center, hsl(var(--primary) / 0.08), transparent 32%),
-      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.38) 100%);
+      radial-gradient(circle at top center, hsl(var(--primary) / 0.05), transparent 30%),
+      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--secondary) / 0.22) 50%, hsl(var(--background)) 100%);
   }
 
   .landing-ambient-orb {
@@ -102,9 +102,9 @@
     z-index: 0;
     pointer-events: none;
     border-radius: 9999px;
-    filter: blur(72px);
-    opacity: 0.38;
-    animation: landing-ambient-float 22s ease-in-out infinite;
+    filter: blur(88px);
+    opacity: 0.24;
+    animation: landing-ambient-float 26s ease-in-out infinite;
     will-change: transform, opacity;
   }
 
@@ -113,7 +113,7 @@
     left: -5rem;
     height: 20rem;
     width: 20rem;
-    background: hsl(var(--primary) / 0.16);
+    background: hsl(var(--primary) / 0.12);
   }
 
   .landing-ambient-orb-two {
@@ -121,8 +121,8 @@
     right: -4rem;
     height: 24rem;
     width: 24rem;
-    background: hsl(var(--accent) / 0.14);
-    animation-duration: 28s;
+    background: hsl(var(--accent) / 0.1);
+    animation-duration: 30s;
     animation-delay: -8s;
   }
 
@@ -131,9 +131,29 @@
     left: 22%;
     height: 18rem;
     width: 18rem;
-    background: hsl(var(--primary) / 0.1);
-    animation-duration: 32s;
+    background: hsl(var(--primary) / 0.08);
+    animation-duration: 34s;
     animation-delay: -14s;
+  }
+
+  .landing-ambient-orb-four {
+    top: 18rem;
+    left: 48%;
+    height: 14rem;
+    width: 14rem;
+    background: hsl(var(--accent) / 0.08);
+    animation-duration: 24s;
+    animation-delay: -5s;
+  }
+
+  .landing-ambient-orb-five {
+    bottom: 14rem;
+    right: 12%;
+    height: 16rem;
+    width: 16rem;
+    background: hsl(var(--primary) / 0.09);
+    animation-duration: 36s;
+    animation-delay: -18s;
   }
 
   .commercial-prose {
@@ -231,12 +251,12 @@
     opacity: 0.28;
   }
   33% {
-    transform: translate3d(28px, -22px, 0) scale(1.08);
-    opacity: 0.4;
+    transform: translate3d(34px, -26px, 0) scale(1.06);
+    opacity: 0.28;
   }
   66% {
-    transform: translate3d(-18px, 18px, 0) scale(0.96);
-    opacity: 0.32;
+    transform: translate3d(-22px, 22px, 0) scale(0.94);
+    opacity: 0.22;
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
