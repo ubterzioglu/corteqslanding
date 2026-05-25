@@ -34,7 +34,7 @@ const SEOContentSection = () => {
             </CollapsibleTrigger>
 
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/50">
-              <div className="p-5 md:p-6">
+              <div className="space-y-4 p-5 md:p-6">
                 <div className="rounded-2xl border border-white/50 bg-background/55 p-4 md:p-5">
                   <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
                     CorteQS, global Türk diasporasını tek platformda buluşturmak için tasarlanmış bir topluluk ve bağlantı
@@ -43,8 +43,10 @@ const SEOContentSection = () => {
                     noktalarındaki Türkleri, yerel toplulukları ve fırsatları daha görünür, daha erişilebilir ve daha bağlı
                     hale getirmektir.
                   </p>
+                </div>
 
-                  <div className="mt-5 space-y-3 border-t border-white/50 pt-4">
+                <div className="rounded-2xl border border-white/55 bg-white/60 p-4 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.3)] backdrop-blur-sm md:p-5">
+                  <div className="space-y-3">
                     <Link
                       to="/founding-1000"
                       className="block rounded-xl border border-amber-200/80 bg-[linear-gradient(135deg,#FFC11F_0%,#FFD43A_52%,#FFE56B_100%)] px-4 py-3 text-sm font-semibold text-[#0E2238] shadow-[0_12px_28px_rgba(230,180,28,0.18)] transition-all duration-300 hover:-translate-y-0.5"

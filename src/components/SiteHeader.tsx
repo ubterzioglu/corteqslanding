@@ -32,8 +32,15 @@ export default function SiteHeader() {
               <p className="text-sm font-semibold tracking-[0.03em] text-slate-800 sm:text-base">
                 Türk Diasporasını Birleştiren Platform
               </p>
-              <a href="#founders-landing" className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base">
-                Biz Kimiz
+              <span
+                aria-hidden="true"
+                className="hidden h-5 w-px bg-slate-300/80 sm:block"
+              />
+              <a
+                href="#founders-landing"
+                className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base"
+              >
+                Siz Kimsiniz
               </a>
             </div>
           </div>
