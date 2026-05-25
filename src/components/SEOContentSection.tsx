@@ -73,19 +73,19 @@ const SEOContentSection = () => {
                       <div className="space-y-3 p-4 md:p-5">
                         <Link
                           to="/founding-1000"
-                          className="block rounded-xl border border-amber-200/80 bg-[linear-gradient(135deg,#FFC11F_0%,#FFD43A_52%,#FFE56B_100%)] px-4 py-3 text-sm font-semibold text-[#0E2238] shadow-[0_12px_28px_rgba(230,180,28,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                          className="block rounded-xl border border-[#f0b73b]/35 bg-[linear-gradient(135deg,#fff3cf_0%,#ffe79e_52%,#ffd768_100%)] px-4 py-3 text-sm font-semibold text-[#8f5b00] shadow-[0_14px_30px_rgba(240,183,59,0.18)] transition-all duration-300 hover:-translate-y-0.5"
                         >
                           🌍 Founding 1000'e Katıl →
                         </Link>
                         <Link
                           to="/blogger-yarismasi"
-                          className="block rounded-xl border border-orange-300/70 bg-[linear-gradient(135deg,#E97A1F_0%,#F06B2E_52%,#E85A34_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(231,103,42,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                          className="block rounded-xl border border-[#ef8c3f]/35 bg-[linear-gradient(135deg,#fff0de_0%,#ffd6af_52%,#ffbc7b_100%)] px-4 py-3 text-sm font-semibold text-[#c96a1a] shadow-[0_14px_30px_rgba(239,140,63,0.18)] transition-all duration-300 hover:-translate-y-0.5"
                         >
                           ✍️ Blogger Yarışması →
                         </Link>
                         <Link
                           to="/vlogger-yarismasi"
-                          className="block rounded-xl border border-sky-400/60 bg-[linear-gradient(135deg,#1A94AD_0%,#19789A_52%,#235E88_100%)] px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_28px_rgba(24,123,151,0.18)] transition-all duration-300 hover:-translate-y-0.5"
+                          className="block rounded-xl border border-[#2f8fb4]/35 bg-[linear-gradient(135deg,#eef9fc_0%,#cfeefa_52%,#a9dff2_100%)] px-4 py-3 text-sm font-semibold text-[#1f7595] shadow-[0_14px_30px_rgba(47,143,180,0.18)] transition-all duration-300 hover:-translate-y-0.5"
                         >
                           🎥 Vlogger Yarışması →
                         </Link>
