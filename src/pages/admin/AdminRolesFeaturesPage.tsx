@@ -119,6 +119,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Bu ekran, hangi rolün hangi özelliği kullanabileceğini belirlediğin ana yetki ekranıdır.",
       "Satırlar feature'ları, sütunlar rolleri temsil eder. Böylece tek bakışta hangi rolün neye eriştiği görülür.",
       "Bir özellik kullanıcıda çalışmıyorsa veya gereksiz açık görünüyorsa çoğu zaman sebep bu matrix içindedir.",
+      "Bu ekran yalnızca gerçek capability ve dashboard erişimlerini yönetir; profil kart parçaları ve taxonomy seçenekleri burada yönetilmez.",
     ],
   },
   {
@@ -129,6 +130,7 @@ const guideSections: AdminPageGuideSection[] = [
       "3. Feature herkeste çalışsın istiyorsan önce `Global` alanını aç.",
       "4. Sonra ilgili rol sütunundaki switch'i açarak sadece o role izin ver veya kapatarak rolü engelle.",
       "5. Scope badge'lerine bakarak feature'ın normalde hangi rol ailesi için tasarlandığını da kontrol et.",
+      "6. Eğer sorun dashboard sekmesi değil profil görünümüyle ilgiliyse bu ekranda vakit kaybetmeden `Profile Sections` ekranına geç.",
     ],
   },
   {
@@ -137,6 +139,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Sorun bir rolün tamamını etkiliyorsa düzeltmeyi burada yap.",
       "Sorun sadece tek kullanıcıdaysa burada matrixi bozma; `Feature Override` ekranına git.",
       "Global kapalı ama rol açık durumunda kullanıcı yine özelliği kullanamaz; önce global durumu çöz.",
+      "Sorun alan zorunluluğu veya public görünürlük ise `Attribute Yönetimi`, sınıflandırma veya alt tip ise `Taxonomy Yönetimi` kullan.",
     ],
   },
   {
@@ -145,6 +148,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Switch değişince toast mesajı geldi mi kontrol et.",
       "Yanlış rolü açmadığından emin olmak için aynı feature satırındaki diğer rol sütunlarına da hızlı bak.",
       "Bir kullanıcı yine farklı davranıyorsa o kullanıcı için override kaydı olup olmadığını ayrıca kontrol et.",
+      "Yeni `dashboard.*` feature'larında, kullanıcı profil ekranındaki `Açık Dashboard Erişimleri` bölümünden sonucu karşılaştırabilirsin.",
     ],
   },
 ];

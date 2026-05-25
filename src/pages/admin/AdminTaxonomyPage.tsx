@@ -48,6 +48,32 @@ const guideSections: AdminPageGuideSection[] = [
       "Bir option pasif yapılırsa yeni seçimlerde görünmez ama mevcut veri anında silinmez.",
     ],
   },
+  {
+    title: "Adım adım nasıl kullanılır?",
+    items: [
+      "1. Üstten düzenlemek istediğin rolü seç.",
+      "2. O role bağlı taxonomy grubunda `Aktif`, `Zorunlu` ve seçim tipini kontrol et.",
+      "3. Gruptaki seçenekleri tek tek aktif veya pasif yap.",
+      "4. `single` yalnızca tek seçim, `multiple` birden fazla seçim anlamına gelir.",
+      "5. Kaydettikten sonra ilgili kullanıcının profil ekranında seçim yapabildiğini ve beklenen alanların açıldığını doğrula.",
+    ],
+  },
+  {
+    title: "Hangi durumda burada işlem yapmalısın?",
+    items: [
+      "Consultant uzmanlık etiketleri, business subtype veya benzeri sınıflandırmalar için burada işlem yap.",
+      "Gerçek yetki açıp kapatmak istiyorsan burada değil `Roller & Featurelar` ekranında çalış.",
+      "Bir alanı zorunlu/public yapmak istiyorsan burada değil `Attribute Yönetimi` ekranında çalış.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Pasif yaptığın option yeni seçimlerde görünmüyor olmalı.",
+      "Business subtype değişince ilgili şartlı alanlar profilde mantıklı görünmeli.",
+      "Consultant için `gayrimenkul` seçildiğinde buna bağlı medya/ek alan davranışı da kontrol edilmeli.",
+    ],
+  },
 ];
 
 const AdminTaxonomyPage = () => {

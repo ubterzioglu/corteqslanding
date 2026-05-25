@@ -72,6 +72,7 @@ import AdminApprovalsPage from "@/pages/admin/AdminApprovalsPage";
 import AdminAuditLogsPage from "@/pages/admin/AdminAuditLogsPage";
 import AdminProfileSectionsPage from "@/pages/admin/AdminProfileSectionsPage";
 import AdminTaxonomyPage from "@/pages/admin/AdminTaxonomyPage";
+import AdminNewMemberGuidePage from "@/pages/admin/AdminNewMemberGuidePage";
 
 const queryClient = new QueryClient();
 
@@ -168,6 +169,7 @@ const App = () => (
               <Route path="surveys/:id/edit" element={<AdminSurveyEditPage />} />
               <Route path="surveys/:id/responses" element={<AdminSurveyResponsesPage />} />
               <Route path="new-member/users-roles" element={<AdminLoginUsersRolesPage />} />
+              <Route path="new-member/guide" element={<AdminNewMemberGuidePage />} />
               <Route path="new-member/roles-features" element={<AdminRolesFeaturesPage />} />
               <Route path="new-member/attributes" element={<AdminAttributesPage />} />
               <Route path="new-member/profile-sections" element={<AdminProfileSectionsPage />} />

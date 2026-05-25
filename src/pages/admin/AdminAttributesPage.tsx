@@ -47,6 +47,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Bu ekran, bir roldeki kullanıcının profilinde hangi alanların görüneceğini ve nasıl davranacağını belirler.",
       "Buradaki ayarlar profil formunu doğrudan etkiler: alan açık mı, zorunlu mu, public varsayılanı ne, kullanıcı düzenleyebilir mi gibi kurallar buradan gelir.",
       "Bir kullanıcı 'bu alan niye yok', 'bu alan niye zorunlu', 'niye gizleyemiyorum' diyorsa cevap çoğunlukla bu ekrandadır.",
+      "Bu ekran feature yetkisini veya public kart parçalarını yönetmez; onlar sırasıyla `Roller & Featurelar` ve `Profile Sections` ekranlarındadır.",
     ],
   },
   {
@@ -60,6 +61,7 @@ const guideSections: AdminPageGuideSection[] = [
       "6. `Düzenler` ve `Gizler` seçenekleriyle kullanıcının o alan üzerinde ne kadar kontrolü olacağını belirle.",
       "7. `Onay` açıksa kullanıcı değişiklik yapsa bile değer doğrudan canlı görünmez; önce onay sürecine düşer.",
       "8. `Sıra` alanıyla profil formunda alanın hangi sırada görüneceğini düzenle.",
+      "9. Business ve Consultant rollerinde taxonomy seçimi bazı alanları şartlı zorunlu hale getirebilir; test ederken kullanıcı profilini de aç.",
     ],
   },
   {
@@ -69,6 +71,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Alan herkes tarafından görülmesin ama sistemde dursun istiyorsan `Public` varsayımını kapalı tut.",
       "Kullanıcının alanı saklamasını istemiyorsan `Gizler` kapat; ama bunu sadece gerçekten kritik alanlarda kullan.",
       "Kullanıcının yaptığı değişiklik admin kontrolünden geçsin istiyorsan `Onay` aç.",
+      "Bir şey alan değil de sınıflandırma seçimi ise burada çözmeye çalışma; `Taxonomy Yönetimi` ekranına geç.",
     ],
   },
   {
@@ -77,6 +80,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Toast mesajı geldiyse kural yazılmıştır; yine de aynı satırın güncel durumda kaldığını gözünle kontrol et.",
       "Bir rol için çok fazla alanı kapattıysan profil deneyimini bozmadığından emin olmak için ilgili profil akışını ayrıca kontrol et.",
       "Zorunlu ve gizlenemez alanları birlikte kullanırken dikkatli ol; kullanıcıyı gereksiz yere kilitlemeyesin.",
+      "Business subtype veya consultant category seçimine bağlı zorunluluklar için örnek bir kullanıcıyla `/profile/...` ekranını da kontrol et.",
     ],
   },
 ];

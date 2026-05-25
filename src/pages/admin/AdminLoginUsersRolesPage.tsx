@@ -38,8 +38,8 @@ const guideSections: AdminPageGuideSection[] = [
     title: "Bu ekran ne için kullanılır?",
     items: [
       "Bu ekran, sisteme giriş yapmış kullanıcıların hangi rolde olduğunu görmek ve gerekiyorsa rolünü düzeltmek için kullanılır.",
-      "Kullanıcının bekleyen onayı veya ekstra override ihtiyacı var mı ilk bakışta burada anlaşılır.",
-      "Bir kullanıcı yanlış ekranda kalıyor, yanlış form görüyor veya yanlış role düşmüş görünüyorsa ilk bakılacak yer burasıdır.",
+      "Kullanıcının bekleyen onayı veya ekstra feature override ihtiyacı var mı ilk bakışta burada anlaşılır.",
+      "Bir kullanıcı yanlış dashboard, yanlış profil formu veya yanlış taxonomy seçim grubu görüyorsa ilk bakılacak yer burasıdır.",
     ],
   },
   {
@@ -50,13 +50,14 @@ const guideSections: AdminPageGuideSection[] = [
       "3. Doğru kullanıcı satırını bulunca `Rol` sütunundaki mevcut rolü kontrol et.",
       "4. Rol yanlışsa `Düzenle` butonuna tıkla, doğru rolü seç ve `Kaydet` ile işlemi tamamla.",
       "5. Kaydetmeden sonra aynı satırdaki `Pending` ve `Override` sayılarına bak; ekstra işlem gerekip gerekmediğini hemen anla.",
+      "6. Rol değişikliği sonrası kullanıcıda görünüm kartı sorunu varsa `Profile Sections`, sınıflandırma sorunu varsa `Taxonomy Yönetimi`, alan/form sorunu varsa `Attribute Yönetimi` ekranına geç.",
     ],
   },
   {
     title: "Hangi durumda hangi kararı ver?",
     items: [
       "Kullanıcının tüm deneyimi değişecekse rolü burada değiştir. Sadece tek bir izin farklı olsun istiyorsan role dokunma, `Feature Override` ekranına git.",
-      "Kullanıcı yanlış role atanmışsa önce burada düzelt, sonra gerekiyorsa `Attribute Yönetimi` veya `Roller & Featurelar` tarafını kontrol et.",
+      "Kullanıcı yanlış role atanmışsa önce burada düzelt, sonra gerekiyorsa `Roller & Featurelar`, `Attribute Yönetimi`, `Profile Sections` veya `Taxonomy Yönetimi` tarafını kontrol et.",
       "Bir kullanıcı için `Pending` sayısı yüksekse rolü değiştirip çıkma; ilgili onay kuyruklarını da ayrıca incele.",
     ],
   },
@@ -66,6 +67,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Rol değişince kullanıcı satırında yeni rol label'ının göründüğünü kontrol et.",
       "Kullanıcının işi rol değişikliğiyle çözüldüyse ekstra override vermemeye çalış; sistem temiz kalsın.",
       "Emin değilsen kullanıcıyı profilde veya ilgili admin ekranlarında tekrar açıp yeni davranışı doğrula.",
+      "Özellikle `danisman` ve `isletme` rollerinde, taxonomy'ye bağlı zorunlu alanlar değişebileceği için profil ekranını ayrıca kontrol et.",
     ],
   },
 ];

@@ -37,6 +37,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Bu ekran, sadece tek bir kullanıcı için özel yetki açmak veya kapatmak için kullanılır.",
       "Yani tüm rolü değiştirmeden sadece bir kişiye istisna tanımlarsın.",
       "Geçici erişim verme, özel izin açma veya hatalı bir davranışı kullanıcı bazında düzeltme için en doğru yer burasıdır.",
+      "Bu ekran attribute, taxonomy veya public profil section istisnası vermez; yalnızca feature override yazar.",
     ],
   },
   {
@@ -48,6 +49,7 @@ const guideSections: AdminPageGuideSection[] = [
       "4. `Override nedeni` alanına neden bu istisnayı verdiğini kısa ama anlaşılır şekilde yaz.",
       "5. `Override Kaydet` butonuna bas.",
       "6. Alttaki listede yeni override kaydının oluştuğunu kontrol et.",
+      "7. Kullanıcı seçince listelenen feature'lar rol scope'una göre filtrelenir; aradığın kayıt burada yoksa önce rol veya global feature tanımını kontrol et.",
     ],
   },
   {
@@ -56,6 +58,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Sorun sadece tek kullanıcıdaysa burada işlem yap.",
       "Sorun aynı roldeki herkes için geçerliyse burada override verme; `Roller & Featurelar` ekranına git.",
       "Kullanıcının rolü tamamen yanlışsa override ile uğraşma; önce `Loginli Kullanıcılar & Roller` ekranından rolü düzelt.",
+      "Sorun form alanı, public kart görünümü veya alt kategori seçimi ise bu ekran yerine ilgili yönetim ekranını kullan.",
     ],
   },
   {
@@ -64,6 +67,7 @@ const guideSections: AdminPageGuideSection[] = [
       "Override listesinde doğru kullanıcı, doğru feature ve doğru açık-kapalı durumu görünüyor mu kontrol et.",
       "Geçici amaçla açtığın override'ları iş bitince `Kaldır` ile temizle; gereksiz eski istisnalar sistemi kirletir.",
       "Aynı kullanıcı beklenmedik erişim gösteriyorsa burada eski bir override kalmış olabilir; arama kutusuyla kullanıcıyı tekrar kontrol et.",
+      "Dashboard erişimi override ettiysen kullanıcının profil ekranındaki dashboard erişim özetinden sonucu da görebilirsin.",
     ],
   },
 ];

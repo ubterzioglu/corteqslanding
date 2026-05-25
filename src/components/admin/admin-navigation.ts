@@ -9,6 +9,7 @@ export const primaryAdminNavItems = [
 ] as const;
 
 export const newMemberSystemNavItems = [
+  { to: "/admin/new-member/guide", label: "Genel Kullanım Kılavuzu", icon: BookOpen },
   { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller", icon: Network },
   { to: "/admin/new-member/roles-features", label: "Roller & Featurelar", icon: Shield },
   { to: "/admin/new-member/attributes", label: "Attribute Yönetimi", icon: BookOpen },

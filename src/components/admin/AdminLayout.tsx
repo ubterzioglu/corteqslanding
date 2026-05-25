@@ -240,6 +240,7 @@ const AdminLayout = () => {
   const mobileMainLinks = [
     { to: "/admin", label: "Admin Ana Sayfa" },
     { to: "/admin/workspace/command-center", label: "Command Center" },
+    { to: "/admin/new-member/guide", label: "Genel Kullanım Kılavuzu" },
     { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller" },
     { to: "/admin/new-member/roles-features", label: "Roller & Featurelar" },
     { to: "/admin/new-member/attributes", label: "Attribute Yönetimi" },

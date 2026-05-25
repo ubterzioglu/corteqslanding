@@ -41,6 +41,33 @@ const guideSections: AdminPageGuideSection[] = [
       "Bir kart parçasını kaldırmak veya sırasını değiştirmek istiyorsan doğru yer burasıdır.",
     ],
   },
+  {
+    title: "Adım adım nasıl kullanılır?",
+    items: [
+      "1. Önce üstten düzenlemek istediğin rolü seç.",
+      "2. Listede ilgili section satırını bul; satırda key, kart alanı ve açıklama görünür.",
+      "3. `Aktif` ile section'ın o rol için görünüp görünmeyeceğini belirle.",
+      "4. Gerekirse `Onay` ile ilgili section için ek approval ihtiyacını işaretle.",
+      "5. `Sıra` değerini değiştirerek aynı kart içindeki dizilişi ayarla.",
+      "6. Kaydettikten sonra ilgili kullanıcının `/directory/profile/...` ekranında yeni görünümü kontrol et.",
+    ],
+  },
+  {
+    title: "Bu ekran neyi yönetmez?",
+    items: [
+      "Bir kartın içindeki alanların public/private davranışı burada değil, `Attribute Yönetimi` tarafında belirlenir.",
+      "Dashboard sekmeleri ve gerçek yetkiler burada değil, `Roller & Featurelar` ekranında yönetilir.",
+      "Alt kategori ve alt tip etiketlerinin kendisi burada değil, `Taxonomy Yönetimi` ekranındadır.",
+    ],
+  },
+  {
+    title: "Kaydettikten sonra ne kontrol etmelisin?",
+    items: [
+      "Section kapattıysan public profilde tamamen kaybolduğunu doğrula.",
+      "Section açık ama veri yoksa ekranın kırılmaması normaldir; renderer bu durumda sessizce gizler.",
+      "Aynı değişiklik farklı roller için farklı sonuç üretmeli; gerekirse iki rolü art arda karşılaştır.",
+    ],
+  },
 ];
 
 const AdminProfileSectionsPage = () => {
