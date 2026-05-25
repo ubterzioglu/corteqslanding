@@ -5,16 +5,20 @@ import { describe, expect, it } from "vitest";
 import SiteHeader from "@/components/SiteHeader";
 
 describe("SiteHeader", () => {
-  it("points the register CTA to the public form URL and shows the updated brand text", () => {
+  it("shows the simplified brand header and slogan without navigation buttons", () => {
     render(
       <MemoryRouter>
         <SiteHeader />
       </MemoryRouter>,
     );
 
-    expect(screen.getByRole("link", { name: "Kayıt Ol!" })).toHaveAttribute("href", "https://corteqs.net/form");
     expect(screen.getByText("CorteQS")).toBeInTheDocument();
     expect(screen.getByText("Global Türk Diaspora Network")).toBeInTheDocument();
+    expect(screen.getByText("Türk Diasporasını Birleştiren Platform")).toBeInTheDocument();
+    expect(screen.queryByText("Kayıt Ol!")).not.toBeInTheDocument();
+    expect(screen.queryByText("Founding 1000")).not.toBeInTheDocument();
+    expect(screen.queryByText("Whatsapp Topluluğu")).not.toBeInTheDocument();
+    expect(screen.queryByText("Ana Sayfa")).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Anketler" })).not.toBeInTheDocument();
     expect(screen.queryByText("19 Mayıs Etkinlikleri")).not.toBeInTheDocument();
   });

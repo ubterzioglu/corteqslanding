@@ -78,42 +78,6 @@ const HeroSection = () => {
       <div className="relative z-10 mx-auto w-full max-w-[1780px] px-4 py-12 md:px-6 md:py-14 2xl:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,36rem)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[minmax(0,38rem)_minmax(0,1fr)] 2xl:grid-cols-[minmax(0,42rem)_minmax(0,1fr)] 2xl:gap-12">
           <div className="max-w-[760px] lg:-translate-y-4 xl:-translate-y-6 2xl:-translate-y-8">
-            <div className="mb-3 flex max-w-lg">
-              <Link
-                to="/19051919"
-                className={`${heroFeaturedCardClass} relative flex-col overflow-hidden rounded-[1.35rem] text-[12px] font-semibold md:text-[13px] 2xl:max-w-[38rem]`}
-                style={{
-                  background:
-                    "linear-gradient(135deg, #fff6f6 0%, #ffffff 26%, #ffe3e3 58%, #f6b1b1 100%)",
-                  borderColor: "rgba(220, 38, 38, 0.28)",
-                  color: "#7f1d1d",
-                  boxShadow:
-                    "0 18px 40px rgba(220, 38, 38, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.85)",
-                }}
-              >
-                <span
-                  className="pointer-events-none absolute inset-0 opacity-100"
-                  aria-hidden
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.18) 34%, rgba(255,255,255,0) 100%)",
-                  }}
-                />
-                <span
-                  className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/90"
-                  aria-hidden
-                />
-                <span className="absolute right-3 top-3 rounded-full bg-[linear-gradient(135deg,#b91c1c_0%,#991b1b_100%)] px-3 py-1 text-[8px] font-black uppercase tracking-[0.16em] text-white shadow-[0_10px_20px_rgba(153,27,27,0.28)] sm:text-[8.5px]">
-                  Canlı
-                </span>
-                <span className="relative z-10 text-[0.95rem] font-black tracking-[0.03em] text-[#b91c1c]">
-                  19 Mayıs Etkinlikleri
-                </span>
-                <span className="relative z-10 mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#7f1d1d]/80">
-                  Premium Etkinlik Akışı
-                </span>
-              </Link>
-            </div>
             <div className="flex max-w-[36rem] flex-col justify-center rounded-[2rem] border border-white/80 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.93)_38%,rgba(255,255,255,0.82)_62%,rgba(255,255,255,0.58)_82%,rgba(255,255,255,0.18)_100%)] p-4 shadow-[0_20px_55px_-36px_rgba(15,23,42,0.32)] backdrop-blur-xl sm:p-5 lg:max-w-[34rem] lg:px-6 2xl:max-w-[38rem]">
               <div className="mb-3 flex flex-col items-start gap-3 md:flex-row md:items-center">
                 <img src={heroLogo} alt="CorteQS Logo" className="w-full max-w-[152px] shrink-0 md:max-w-[176px]" />

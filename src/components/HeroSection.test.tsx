@@ -5,14 +5,16 @@ import { describe, expect, it } from "vitest";
 import HeroSection from "@/components/HeroSection";
 
 describe("HeroSection", () => {
-  it("shows the 19 Mayıs coming soon pill only in the homepage hero", () => {
+  it("does not show the 19 Mayıs banner and still keeps the hero CTAs", () => {
     render(
       <MemoryRouter>
         <HeroSection />
       </MemoryRouter>,
     );
 
-    expect(screen.getByText("19 Mayıs Etkinlikleri")).toBeInTheDocument();
+    expect(screen.queryByText("19 Mayıs Etkinlikleri")).not.toBeInTheDocument();
+    expect(screen.getByText("Türk Diasporasını Birleştiren")).toBeInTheDocument();
+    expect(screen.getByText("Ücretsiz Kayıt Ol →")).toBeInTheDocument();
     expect(screen.getAllByText("Yakında!").length).toBeGreaterThan(0);
   });
 });
