@@ -70,6 +70,8 @@ import AdminAttributesPage from "@/pages/admin/AdminAttributesPage";
 import AdminUserOverridesPage from "@/pages/admin/AdminUserOverridesPage";
 import AdminApprovalsPage from "@/pages/admin/AdminApprovalsPage";
 import AdminAuditLogsPage from "@/pages/admin/AdminAuditLogsPage";
+import AdminProfileSectionsPage from "@/pages/admin/AdminProfileSectionsPage";
+import AdminTaxonomyPage from "@/pages/admin/AdminTaxonomyPage";
 
 const queryClient = new QueryClient();
 
@@ -168,6 +170,8 @@ const App = () => (
               <Route path="new-member/users-roles" element={<AdminLoginUsersRolesPage />} />
               <Route path="new-member/roles-features" element={<AdminRolesFeaturesPage />} />
               <Route path="new-member/attributes" element={<AdminAttributesPage />} />
+              <Route path="new-member/profile-sections" element={<AdminProfileSectionsPage />} />
+              <Route path="new-member/taxonomy" element={<AdminTaxonomyPage />} />
               <Route path="new-member/overrides" element={<AdminUserOverridesPage />} />
               <Route path="approvals" element={<AdminApprovalsPage />} />
               <Route path="audit-logs" element={<AdminAuditLogsPage />} />

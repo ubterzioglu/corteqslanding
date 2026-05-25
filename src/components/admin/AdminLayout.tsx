@@ -243,6 +243,8 @@ const AdminLayout = () => {
     { to: "/admin/new-member/users-roles", label: "Loginli Kullanıcılar & Roller" },
     { to: "/admin/new-member/roles-features", label: "Roller & Featurelar" },
     { to: "/admin/new-member/attributes", label: "Attribute Yönetimi" },
+    { to: "/admin/new-member/profile-sections", label: "Profile Sections" },
+    { to: "/admin/new-member/taxonomy", label: "Taxonomy Yönetimi" },
     { to: "/admin/new-member/overrides", label: "Feature Override" },
     { to: "/admin/members", label: "Üye Takibi" },
     { to: "/admin/referral", label: "Ref Kod" },

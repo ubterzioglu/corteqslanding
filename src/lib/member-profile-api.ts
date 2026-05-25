@@ -31,3 +31,13 @@ export async function updateProfileAttribute(attributeKey: string, value: unknow
   if (error) throw error;
   return data;
 }
+
+export async function updateUserTaxonomySelection(groupKey: string, optionKeys: string[]) {
+  const { data, error } = await (supabase as any).rpc("update_user_taxonomy_selection", {
+    group_key: groupKey,
+    option_keys: optionKeys,
+  });
+
+  if (error) throw error;
+  return data;
+}

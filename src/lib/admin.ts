@@ -114,6 +114,51 @@ export async function reviewApprovalRequestAsAdmin(requestId: string, decision: 
   if (error) throw error;
 }
 
+export async function upsertRoleProfileSectionRuleAsAdmin(params: {
+  roleKey: string;
+  sectionKey: string;
+  isEnabled: boolean;
+  requiresApproval: boolean;
+  sortOrder: number;
+}) {
+  const { error } = await (supabase as any).rpc("admin_upsert_role_profile_section_rule", {
+    role_key: params.roleKey,
+    section_key: params.sectionKey,
+    is_enabled: params.isEnabled,
+    requires_approval: params.requiresApproval,
+    sort_order: params.sortOrder,
+  });
+
+  if (error) throw error;
+}
+
+export async function upsertRoleTaxonomyRuleAsAdmin(params: {
+  roleKey: string;
+  groupKey: string;
+  isEnabled: boolean;
+  isRequired: boolean;
+  selectionMode: "single" | "multiple";
+}) {
+  const { error } = await (supabase as any).rpc("admin_upsert_role_taxonomy_rule", {
+    role_key: params.roleKey,
+    group_key: params.groupKey,
+    is_enabled: params.isEnabled,
+    is_required: params.isRequired,
+    selection_mode: params.selectionMode,
+  });
+
+  if (error) throw error;
+}
+
+export async function setTaxonomyOptionActiveAsAdmin(optionKey: string, isActive: boolean) {
+  const { error } = await (supabase as any).rpc("admin_set_taxonomy_option_active", {
+    option_key: optionKey,
+    is_active: isActive,
+  });
+
+  if (error) throw error;
+}
+
 export async function listReferralSources(onlyActive = false): Promise<ReferralSourceRow[]> {
   let query = supabase.from("referral_sources").select("*").order("name", { ascending: true });
   if (onlyActive) query = query.eq("is_active", true);

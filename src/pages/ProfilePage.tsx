@@ -13,9 +13,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useCurrentUserProfile } from "@/hooks/useCurrentUserProfile";
+import { useCurrentUserDashboard } from "@/hooks/useCurrentUserDashboard";
 import { GENERIC_FEATURE_KEYS, type GenericFeatureKey } from "@/lib/features";
-import { submitFeatureRequest, submitRoleChangeRequest, updateProfileAttribute } from "@/lib/member-profile-api";
-import { getAttributeStringValue, type AttributeVisibility, type ProfileAttributeState } from "@/lib/member-profile";
+import { submitFeatureRequest, submitRoleChangeRequest, updateProfileAttribute, updateUserTaxonomySelection } from "@/lib/member-profile-api";
+import { getAttributeStringValue, type AttributeVisibility, type ProfileAttributeState, type TaxonomyGroupState } from "@/lib/member-profile";
 import { defaultProfileType, getRoleMeta, isProfileType, profileTypeOptions, type ProfileType } from "@/lib/profile-types";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -79,14 +80,17 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const { type } = useParams<{ type: string }>();
   const { isLoading, errorMessage, profile, refreshProfile } = useCurrentUserProfile(true);
+  const { items: dashboardItems, isLoading: isDashboardLoading } = useCurrentUserDashboard(true);
 
   const [draftValues, setDraftValues] = useState<DraftValueMap>({});
   const [draftVisibilities, setDraftVisibilities] = useState<DraftVisibilityMap>({});
   const [savingAttributeKey, setSavingAttributeKey] = useState<string | null>(null);
+  const [savingTaxonomyGroupKey, setSavingTaxonomyGroupKey] = useState<string | null>(null);
   const [roleRequestTarget, setRoleRequestTarget] = useState<ProfileType | "">("");
   const [roleRequestNote, setRoleRequestNote] = useState("");
   const [submittingRoleRequest, setSubmittingRoleRequest] = useState(false);
   const [featureRequestingKey, setFeatureRequestingKey] = useState<string | null>(null);
+  const [taxonomyDrafts, setTaxonomyDrafts] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     if (!profile) return;
@@ -99,6 +103,15 @@ const ProfilePage = () => {
     }
     setDraftValues(nextValues);
     setDraftVisibilities(nextVisibilities);
+  }, [profile]);
+
+  useEffect(() => {
+    if (!profile) return;
+    const nextDrafts: Record<string, string[]> = {};
+    for (const group of profile.taxonomyGroups) {
+      nextDrafts[group.groupKey] = group.options.filter((option) => option.isSelected).map((option) => option.key);
+    }
+    setTaxonomyDrafts(nextDrafts);
   }, [profile]);
 
   const roleMeta = useMemo(() => getRoleMeta(profile?.profileType ?? type), [profile?.profileType, type]);
@@ -125,6 +138,10 @@ const ProfilePage = () => {
 
     return { common, roleSpecific };
   }, [profile?.attributes]);
+
+  const visibleTaxonomyGroups = useMemo(() => {
+    return profile?.taxonomyGroups ?? [];
+  }, [profile?.taxonomyGroups]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -214,6 +231,45 @@ const ProfilePage = () => {
       });
     } finally {
       setFeatureRequestingKey(null);
+    }
+  };
+
+  const toggleTaxonomyOption = (group: TaxonomyGroupState, optionKey: string) => {
+    setTaxonomyDrafts((current) => {
+      const existing = current[group.groupKey] ?? [];
+      const exists = existing.includes(optionKey);
+
+      if (group.selectionMode === "single") {
+        return {
+          ...current,
+          [group.groupKey]: exists ? [] : [optionKey],
+        };
+      }
+
+      return {
+        ...current,
+        [group.groupKey]: exists ? existing.filter((item) => item !== optionKey) : [...existing, optionKey],
+      };
+    });
+  };
+
+  const handleSaveTaxonomyGroup = async (group: TaxonomyGroupState) => {
+    setSavingTaxonomyGroupKey(group.groupKey);
+    try {
+      await updateUserTaxonomySelection(group.groupKey, taxonomyDrafts[group.groupKey] ?? []);
+      await refreshProfile();
+      toast({
+        title: "Taxonomy seçimi kaydedildi",
+        description: `${group.label} güncellendi.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Taxonomy kaydedilemedi",
+        description: error instanceof Error ? error.message : "Beklenmeyen bir hata oluştu.",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingTaxonomyGroupKey(null);
     }
   };
 
@@ -359,6 +415,86 @@ const ProfilePage = () => {
               )}
             </CardContent>
           </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Alt Kategori / Alt Tip</CardTitle>
+              <CardDescription className="text-xs">Rolüne bağlı taxonomy seçimleri profildeki görünüm ve zorunlu alanları etkiler.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {visibleTaxonomyGroups.length ? (
+                visibleTaxonomyGroups.map((group) => {
+                  const selectedKeys = taxonomyDrafts[group.groupKey] ?? [];
+                  return (
+                    <div key={group.groupKey} className="rounded-lg border p-3">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <div>
+                          <p className="text-sm font-medium">{group.label}</p>
+                          <p className="text-xs text-muted-foreground">{group.description ?? "Rol özel seçim grubu."}</p>
+                          <div className="mt-1 flex flex-wrap gap-1">
+                            <Badge variant="outline" className="text-[10px]">
+                              {group.selectionMode === "multiple" ? "Çoklu seçim" : "Tek seçim"}
+                            </Badge>
+                            {group.isRequired ? (
+                              <Badge variant="secondary" className="text-[10px]">
+                                Zorunlu
+                              </Badge>
+                            ) : null}
+                          </div>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          disabled={savingTaxonomyGroupKey === group.groupKey}
+                          onClick={() => void handleSaveTaxonomyGroup(group)}
+                        >
+                          {savingTaxonomyGroupKey === group.groupKey ? "Kaydediliyor..." : "Seçimi Kaydet"}
+                        </Button>
+                      </div>
+
+                      <div className="mt-3 grid gap-2 md:grid-cols-2">
+                        {group.options.filter((option) => option.isActive).map((option) => {
+                          const selected = selectedKeys.includes(option.key);
+                          return (
+                            <button
+                              key={option.key}
+                              type="button"
+                              className={`rounded-lg border px-3 py-2 text-left transition ${
+                                selected ? "border-primary bg-primary/5" : "border-border hover:bg-muted/40"
+                              }`}
+                              onClick={() => toggleTaxonomyOption(group, option.key)}
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div>
+                                  <p className="text-sm font-medium">{option.label}</p>
+                                  <p className="text-xs text-muted-foreground">{option.description ?? "Seçilebilir seçenek"}</p>
+                                </div>
+                                {selected ? <CheckCircle2 className="mt-0.5 h-4 w-4 text-primary" /> : null}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {group.groupKey === "business_subtype" ? (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          `Classic` adres ve harita linkini, `Online` website ve servis bölgelerini, `Startup` ise kuruluş yılı gibi alanları öne çıkarır.
+                        </p>
+                      ) : null}
+
+                      {group.groupKey === "consultant_subcategory" && selectedKeys.includes("consultant_category.gayrimenkul") ? (
+                        <p className="mt-3 text-xs text-muted-foreground">
+                          Gayrimenkul seçimi aktifken danışman profiline medya/link alanı eklenir ve public kartta bu uzmanlık etiketi gösterilebilir.
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-xs text-muted-foreground">Bu rol için taxonomy seçimi tanımlı değil.</p>
+              )}
+            </CardContent>
+          </Card>
         </div>
 
         <div className="space-y-4">
@@ -466,6 +602,34 @@ const ProfilePage = () => {
                   </div>
                 );
               })}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base">Açık Dashboard Erişimleri</CardTitle>
+              <CardDescription className="text-xs">Rolün ve override kayıtlarınla şu anda açık olan dashboard tabları.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {isDashboardLoading ? <p className="text-xs text-muted-foreground">Dashboard erişimleri yükleniyor...</p> : null}
+              {!isDashboardLoading && dashboardItems.length ? (
+                dashboardItems.map((item) => (
+                  <div key={item.feature_key} className="rounded-lg border p-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <p className="text-sm font-medium">{item.label}</p>
+                        <p className="text-xs text-muted-foreground">{item.description ?? item.feature_key}</p>
+                      </div>
+                      <Badge variant="outline" className="text-[10px]">
+                        {item.source}
+                      </Badge>
+                    </div>
+                  </div>
+                ))
+              ) : null}
+              {!isDashboardLoading && dashboardItems.length === 0 ? (
+                <p className="text-xs text-muted-foreground">Açık dashboard modülü bulunamadı.</p>
+              ) : null}
             </CardContent>
           </Card>
 
