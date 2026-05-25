@@ -55,16 +55,16 @@ const HeroSection = () => {
       boxShadow: "0 16px 36px rgba(194, 65, 99, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
     },
     about: {
-      background: "linear-gradient(135deg, #F5EFE3 0%, #FBF7F0 52%, #FFFDFA 100%)",
-      borderColor: "rgba(198, 170, 126, 0.34)",
-      color: "#24435D",
-      boxShadow: "0 14px 30px rgba(177, 146, 103, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.78)",
+      background: "linear-gradient(135deg, #1E6E8E 0%, #2585A2 52%, #39A7BA 100%)",
+      borderColor: "rgba(31, 120, 149, 0.52)",
+      color: "#ffffff",
+      boxShadow: "0 16px 36px rgba(27, 114, 142, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     founders: {
-      background: "linear-gradient(135deg, #EAF5F3 0%, #F6FCFA 52%, #FFFFFF 100%)",
-      borderColor: "rgba(108, 170, 156, 0.32)",
-      color: "#1F495A",
-      boxShadow: "0 14px 30px rgba(91, 153, 138, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+      background: "linear-gradient(135deg, #D96A2A 0%, #E57B31 52%, #F19B45 100%)",
+      borderColor: "rgba(217, 106, 42, 0.52)",
+      color: "#ffffff",
+      boxShadow: "0 16px 36px rgba(217, 106, 42, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     contest: {
       background: "linear-gradient(135deg, #15608C 0%, #0D3759 100%)",
@@ -252,7 +252,7 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
                     <span className="relative z-10">CorteQS Nedir →</span>
@@ -267,7 +267,7 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
                     <span className="relative z-10">Biz Kimiz →</span>
