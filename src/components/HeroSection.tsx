@@ -55,16 +55,16 @@ const HeroSection = () => {
       boxShadow: "0 16px 36px rgba(194, 65, 99, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
     },
     about: {
-      background: "linear-gradient(135deg, #F3EDE2 0%, #F8F4EC 55%, #FFFDF8 100%)",
-      borderColor: "rgba(194, 164, 120, 0.34)",
-      color: "#18324A",
-      boxShadow: "0 16px 34px rgba(164, 134, 93, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72)",
+      background: "linear-gradient(135deg, #F5EFE3 0%, #FBF7F0 52%, #FFFDFA 100%)",
+      borderColor: "rgba(198, 170, 126, 0.34)",
+      color: "#24435D",
+      boxShadow: "0 14px 30px rgba(177, 146, 103, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.78)",
     },
     founders: {
-      background: "linear-gradient(135deg, #EEF7F4 0%, #F7FCFA 55%, #FFFFFF 100%)",
-      borderColor: "rgba(84, 154, 132, 0.28)",
-      color: "#10364C",
-      boxShadow: "0 16px 34px rgba(74, 144, 122, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.74)",
+      background: "linear-gradient(135deg, #EAF5F3 0%, #F6FCFA 52%, #FFFFFF 100%)",
+      borderColor: "rgba(108, 170, 156, 0.32)",
+      color: "#1F495A",
+      boxShadow: "0 14px 30px rgba(91, 153, 138, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
     },
     contest: {
       background: "linear-gradient(135deg, #15608C 0%, #0D3759 100%)",
@@ -244,7 +244,7 @@ const HeroSection = () => {
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
                   <a
                     href="#geo-content-title"
-                    className={heroCtaClass}
+                    className={`${heroCtaClass} font-bold`}
                     style={heroCardStyles.about}
                   >
                     <span
@@ -259,7 +259,7 @@ const HeroSection = () => {
                   </a>
                   <Link
                     to="/founders"
-                    className={heroCtaClass}
+                    className={`${heroCtaClass} font-bold`}
                     style={heroCardStyles.founders}
                   >
                     <span

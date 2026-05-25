@@ -27,9 +27,6 @@ const SEOContentSection = () => {
                 aria-expanded={isOpen}
               >
                 <div className="min-w-0">
-                  <span className="mb-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                    Platform Rehberi
-                  </span>
                   <h2 id="geo-content-title" className="text-2xl font-bold text-foreground md:text-4xl">
                     CorteQS Nedir?
                   </h2>

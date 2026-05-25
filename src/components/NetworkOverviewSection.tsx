@@ -120,9 +120,6 @@ const NetworkOverviewSection = () => {
                 aria-expanded={isOpen}
               >
                 <div className="min-w-0">
-                  <span className="mb-3 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                    Diaspora Ekosistemi
-                  </span>
                   <h2 className="text-2xl font-bold text-foreground md:text-4xl">
                     Diasporanın Gücü, Kategoriler ve Şehirler
                   </h2>
@@ -144,10 +141,7 @@ const NetworkOverviewSection = () => {
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/50">
               <div className="space-y-6 p-5 md:p-6">
                 <div className="rounded-2xl border border-white/60 bg-background/60 p-5 md:p-6">
-                  <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                    Hakkımızda
-                  </span>
-                  <p className="mt-4 max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
+                  <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
                     CorteQS; profesyonelleri, girişimleri, işletmeleri, kuruluşları ve içerik üreticilerini aynı
                     diaspora çatısı altında buluşturur. Amacı, yerel toplulukları daha görünür hale getirmek, güven
                     temelli bağlantılar kurmak ve farklı ülkelerdeki Türklerin bilgiye, fırsata ve doğru insanlara daha
@@ -166,10 +160,7 @@ const NetworkOverviewSection = () => {
                 <div className="rounded-2xl border border-white/60 bg-background/60 p-5 md:p-6">
                   <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
                     <div>
-                      <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                        Kategoriler
-                      </span>
-                      <h3 className="mt-3 text-xl font-bold text-foreground md:text-2xl">CorteQS'de Yerinizi Belirleyin</h3>
+                      <h3 className="text-xl font-bold text-foreground md:text-2xl">CorteQS'de Yerinizi Belirleyin</h3>
                     </div>
                     <p className="max-w-2xl text-sm text-muted-foreground">
                       İlgilendiğiniz kategoriye göre erken kayıt bırakabilir ve platform açıldığında ilk haberdar olanlardan olabilirsiniz.
@@ -200,10 +191,7 @@ const NetworkOverviewSection = () => {
                 <div className="rounded-2xl border border-white/60 bg-background/60 p-5 md:p-6">
                   <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
                     <div>
-                      <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
-                        Küresel Ağ
-                      </span>
-                      <h3 className="mt-3 text-xl font-bold text-foreground md:text-2xl">Türk Diasporasının Olduğu Şehirler</h3>
+                      <h3 className="text-xl font-bold text-foreground md:text-2xl">Türk Diasporasının Olduğu Şehirler</h3>
                     </div>
                     <p className="max-w-2xl text-sm text-muted-foreground">
                       Odak şehirlerdeki topluluklarla bağ kurmak ve ilgi bırakmak için şehir kartlarını kullanın.
