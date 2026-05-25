@@ -18,12 +18,12 @@ const Index = () => {
       <main id="main">
         <HeroSection />
         <SEOContentSection />
+        <FAQSection />
         <DiasporaMarqueeSection />
         <AboutSection />
         <div className="container mx-auto max-w-6xl px-4" aria-hidden="true">
           <div className="h-px bg-gradient-to-r from-transparent via-primary/25 to-transparent" />
         </div>
-        <FAQSection />
         <CategoriesSection />
         <CitiesSection />
         <ChatBot />
