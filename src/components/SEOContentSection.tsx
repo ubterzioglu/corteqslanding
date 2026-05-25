@@ -9,13 +9,12 @@ const platformItems = [
   "🌍 Global Türk diasporasını tek platformda toplar",
   "📍 Şehir bazlı network (Berlin, Londra, Dubai vb.)",
   "🤝 İnsan, işletme ve toplulukları buluşturur",
-  "🧭 Yeni şehirde “nereden başlayacağım?” sorununu çözer",
+  "🧭 Yeni şehirde ilk adımı kolaylaştırır",
   "🏠 Relocation sürecini kolaylaştırır",
   "💼 İş, proje ve işbirliği fırsatları sunar",
   "👥 Güven temelli bağlantılar kurmanı sağlar",
-  "📢 Bilgi paylaşımı ve deneyim aktarımını hızlandırır",
-  "🎯 Profesyonel network oluşturmayı destekler",
-  "🌐 Global ama lokal odaklı topluluklar yaratır",
+  "📢 Bilgi ve deneyim paylaşımını hızlandırır",
+  "🎯 Profesyonel network kurmayı destekler",
 ];
 
 const audienceItems = [
@@ -27,7 +26,6 @@ const audienceItems = [
   "🎥 İçerik üreticileri ve bloggerlar",
   "🧑‍🤝‍🧑 Sosyal çevre arayan bireyler",
   "💼 İş ve kariyer fırsatı arayanlar",
-  "🧑‍💻 Freelance ve proje arayanlar",
   "📍 Yerel bilgi ve tavsiye arayanlar",
 ];
 
@@ -76,52 +74,53 @@ const SEOContentSection = () => {
             </CollapsibleTrigger>
 
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/50">
-              <div className="grid gap-0 lg:grid-cols-[0.48fr_0.52fr]">
-                <div className="border-b border-white/50 bg-background/55 p-6 md:p-8 lg:border-b-0 lg:border-r">
-                  <div className="grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
-                    <figure className="flex items-center justify-center">
-                      <img
-                        src={seoLogo}
-                        alt="CorteQS Logo"
-                        className="h-auto w-full max-w-[220px]"
-                        loading="lazy"
-                        width={560}
-                        height={220}
-                      />
-                    </figure>
-
+              <div className="p-5 md:p-6">
+                <div className="rounded-2xl border border-white/50 bg-background/55 p-4 md:p-5">
+                  <div className="mb-4 flex items-center gap-3">
+                    <img
+                      src={seoLogo}
+                      alt="CorteQS Logo"
+                      className="h-auto w-full max-w-[72px] shrink-0 md:max-w-[82px]"
+                      loading="lazy"
+                      width={560}
+                      height={220}
+                    />
                     <div>
-                      <h3 className="mb-4 text-xl font-bold text-foreground md:text-2xl">CorteQS Nedir?</h3>
-                      <ul className="grid gap-3 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+                      <h3 className="text-lg font-bold text-foreground md:text-xl">CorteQS Nedir? Kimler İçin?</h3>
+                      <p className="text-sm text-muted-foreground">
+                        Platformun sunduğu değer ve hitap ettiği kitle tek akışta aşağıda özetlenir.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="mb-2 text-base font-semibold text-foreground">CorteQS Nedir?</h4>
+                      <ul className="grid gap-1.5 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
                         {platformItems.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
                     </div>
-                  </div>
-                </div>
 
-                <div className="bg-card/40 p-6 md:p-8">
-                  <div className="grid gap-6 lg:grid-cols-[0.58fr_0.42fr] lg:items-center">
-                    <div>
-                      <h3 className="mb-4 text-xl font-bold text-foreground md:text-2xl">Kimler İçin?</h3>
-                      <ul className="grid gap-3 text-sm text-muted-foreground md:text-[15px]">
+                    <div className="border-t border-white/50 pt-4">
+                      <div className="mb-3 flex items-center justify-between gap-3">
+                        <h4 className="text-base font-semibold text-foreground">Kimler İçin?</h4>
+                        <img
+                          src={mascotHome}
+                          alt="CorteQS ana sayfa maskotu"
+                          className="h-auto w-full max-w-[72px] shrink-0 md:max-w-[84px]"
+                          loading="lazy"
+                          width={900}
+                          height={900}
+                        />
+                      </div>
+                      <ul className="grid gap-1.5 text-sm text-muted-foreground md:text-[15px]">
                         {audienceItems.map((item) => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
                     </div>
-
-                    <figure className="flex items-center justify-center">
-                      <img
-                        src={mascotHome}
-                        alt="CorteQS ana sayfa maskotu"
-                        className="h-auto w-full max-w-[240px]"
-                        loading="lazy"
-                        width={900}
-                        height={900}
-                      />
-                    </figure>
                   </div>
                 </div>
               </div>
