@@ -33,9 +33,6 @@ const SEOContentSection = () => {
                   <h2 id="geo-content-title" className="text-2xl font-bold text-foreground md:text-4xl">
                     CorteQS Nedir?
                   </h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                    CorteQS’in amacını ve platformun hangi ihtiyaçları çözmek için tasarlandığını görmek için bu bölümü aç.
-                  </p>
                 </div>
                 <span
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/15 bg-background/80 text-primary transition-transform duration-300 ${
@@ -50,13 +47,6 @@ const SEOContentSection = () => {
             <CollapsibleContent className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden border-t border-white/50">
               <div className="p-5 md:p-6">
                 <div className="rounded-2xl border border-white/50 bg-background/55 p-4 md:p-5">
-                  <div className="mb-5">
-                    <h3 className="text-lg font-bold text-foreground md:text-xl">CorteQS Nedir?</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      Platformun amacı ve sunduğu temel değer aşağıda özetlenir.
-                    </p>
-                  </div>
-
                   <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
                     CorteQS, global Turk diasporasini tek platformda bulusturmak icin tasarlanmis bir topluluk ve baglanti
                     altyapisidir. Sehir bazli network kurmayi kolaylastirir; relocation surecinde yon bulmayi destekler;
