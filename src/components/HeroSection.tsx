@@ -54,6 +54,18 @@ const HeroSection = () => {
       color: "#ffffff",
       boxShadow: "0 16px 36px rgba(194, 65, 99, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16)",
     },
+    about: {
+      background: "linear-gradient(135deg, #F3EDE2 0%, #F8F4EC 55%, #FFFDF8 100%)",
+      borderColor: "rgba(194, 164, 120, 0.34)",
+      color: "#18324A",
+      boxShadow: "0 16px 34px rgba(164, 134, 93, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.72)",
+    },
+    founders: {
+      background: "linear-gradient(135deg, #EEF7F4 0%, #F7FCFA 55%, #FFFFFF 100%)",
+      borderColor: "rgba(84, 154, 132, 0.28)",
+      color: "#10364C",
+      boxShadow: "0 16px 34px rgba(74, 144, 122, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.74)",
+    },
     contest: {
       background: "linear-gradient(135deg, #15608C 0%, #0D3759 100%)",
       borderColor: "#15608C",
@@ -228,6 +240,38 @@ const HeroSection = () => {
                     </span>
                     <span className="relative z-10">✨ İçerik Ekle!</span>
                   </span>
+                </div>
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
+                  <a
+                    href="#geo-content-title"
+                    className={heroCtaClass}
+                    style={heroCardStyles.about}
+                  >
+                    <span
+                      className="pointer-events-none absolute inset-0 opacity-100"
+                      aria-hidden
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0) 100%)",
+                      }}
+                    />
+                    <span className="relative z-10">CorteQS Nedir →</span>
+                  </a>
+                  <Link
+                    to="/founders"
+                    className={heroCtaClass}
+                    style={heroCardStyles.founders}
+                  >
+                    <span
+                      className="pointer-events-none absolute inset-0 opacity-100"
+                      aria-hidden
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 42%, rgba(255,255,255,0) 100%)",
+                      }}
+                    />
+                    <span className="relative z-10">Biz Kimiz →</span>
+                  </Link>
                 </div>
               </div>
             </div>

@@ -1,12 +1,10 @@
 import { useEffect } from "react";
 import HeroSection from "@/components/HeroSection";
 import DiasporaMarqueeSection from "@/components/DiasporaMarqueeSection";
-import AboutSection from "@/components/AboutSection";
-import CategoriesSection from "@/components/CategoriesSection";
 import ChatBot from "@/components/chat/ChatBot";
 import FAQSection from "@/components/FAQSection";
-import CitiesSection from "@/components/CitiesSection";
 import SEOContentSection from "@/components/SEOContentSection";
+import NetworkOverviewSection from "@/components/NetworkOverviewSection";
 
 const SectionBridge = () => (
   <div className="relative z-10 -mt-4 h-12 overflow-hidden" aria-hidden="true">
@@ -35,11 +33,7 @@ const Index = () => {
         <SectionBridge />
         <DiasporaMarqueeSection />
         <SectionBridge />
-        <AboutSection />
-        <SectionBridge />
-        <CategoriesSection />
-        <SectionBridge />
-        <CitiesSection />
+        <NetworkOverviewSection />
         <ChatBot />
       </main>
     </div>

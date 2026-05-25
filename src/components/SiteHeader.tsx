@@ -27,10 +27,18 @@ export default function SiteHeader() {
             </div>
           </Link>
 
-          <div className="min-w-0 flex-1 text-right">
-            <p className="text-sm font-semibold tracking-[0.03em] text-slate-800 sm:text-base">
-              Türk Diasporasını Birleştiren Platform
-            </p>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-right">
+              <p className="text-sm font-semibold tracking-[0.03em] text-slate-800 sm:text-base">
+                Türk Diasporasını Birleştiren Platform
+              </p>
+              <Link
+                to="/founders"
+                className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base"
+              >
+                Biz Kimiz
+              </Link>
+            </div>
           </div>
         </div>
       </div>

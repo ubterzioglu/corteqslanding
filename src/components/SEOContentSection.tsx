@@ -48,10 +48,10 @@ const SEOContentSection = () => {
               <div className="p-5 md:p-6">
                 <div className="rounded-2xl border border-white/50 bg-background/55 p-4 md:p-5">
                   <p className="max-w-4xl text-sm leading-7 text-muted-foreground md:text-[15px]">
-                    CorteQS, global Turk diasporasini tek platformda bulusturmak icin tasarlanmis bir topluluk ve baglanti
-                    altyapisidir. Sehir bazli network kurmayi kolaylastirir; relocation surecinde yon bulmayi destekler;
-                    is birligi, bilgi paylasimi ve guven temelli iletisim icin ortak bir zemin sunar. Amaci, dunyanin farkli
-                    noktalarindaki Turkleri, yerel topluluklari ve firsatlari daha gorunur, daha erisilebilir ve daha bagli
+                    CorteQS, global Türk diasporasını tek platformda buluşturmak için tasarlanmış bir topluluk ve bağlantı
+                    altyapısıdır. Şehir bazlı network kurmayı kolaylaştırır; relocation sürecinde yön bulmayı destekler;
+                    iş birliği, bilgi paylaşımı ve güven temelli iletişim için ortak bir zemin sunar. Amacı, dünyanın farklı
+                    noktalarındaki Türkleri, yerel toplulukları ve fırsatları daha görünür, daha erişilebilir ve daha bağlı
                     hale getirmektir.
                   </p>
                 </div>
