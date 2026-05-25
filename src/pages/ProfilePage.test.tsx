@@ -7,6 +7,7 @@ import ProfilePage from "@/pages/ProfilePage";
 
 const useAuthMock = vi.fn();
 const useCurrentUserProfileMock = vi.fn();
+const useCurrentUserDashboardMock = vi.fn();
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
@@ -14,6 +15,10 @@ vi.mock("@/components/auth/useAuth", () => ({
 
 vi.mock("@/hooks/useCurrentUserProfile", () => ({
   useCurrentUserProfile: (...args: unknown[]) => useCurrentUserProfileMock(...args),
+}));
+
+vi.mock("@/hooks/useCurrentUserDashboard", () => ({
+  useCurrentUserDashboard: (...args: unknown[]) => useCurrentUserDashboardMock(...args),
 }));
 
 vi.mock("@/hooks/use-toast", () => ({
@@ -100,6 +105,7 @@ describe("ProfilePage", () => {
         displayValue: "mentorluk, topluluk, networking",
       },
     ],
+    taxonomyGroups: [],
     pendingRequests: [],
     profileCompletion: {
       requiredTotal: 1,
@@ -111,6 +117,12 @@ describe("ProfilePage", () => {
   it("falls back to bireysel on invalid slug", async () => {
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
+    });
+    useCurrentUserDashboardMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      items: [],
+      refreshDashboard: vi.fn(),
     });
     useCurrentUserProfileMock.mockReturnValue({
       isLoading: false,
@@ -135,6 +147,12 @@ describe("ProfilePage", () => {
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "user@test.com", user_metadata: {} },
     });
+    useCurrentUserDashboardMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      items: [],
+      refreshDashboard: vi.fn(),
+    });
     useCurrentUserProfileMock.mockReturnValue({
       isLoading: false,
       errorMessage: null,
@@ -158,6 +176,23 @@ describe("ProfilePage", () => {
     useAuthMock.mockReturnValue({
       user: { id: "u-1", email: "firmascope@gmail.com", user_metadata: { name: "firmascope" } },
     });
+    useCurrentUserDashboardMock.mockReturnValue({
+      isLoading: false,
+      errorMessage: null,
+      items: [
+        {
+          feature_key: "dashboard.tab_profil_ayarlari",
+          label: "Dashboard: Profil Ayarları",
+          description: "Profil ayarları tabına erişim",
+          scope: "dashboard",
+          feature_type: "tab",
+          is_enabled: true,
+          source: "role_default",
+          sort_order: 510,
+        },
+      ],
+      refreshDashboard: vi.fn(),
+    });
     useCurrentUserProfileMock.mockReturnValue({
       isLoading: false,
       errorMessage: null,
@@ -176,7 +211,9 @@ describe("ProfilePage", () => {
     expect(await screen.findByText("Bireysel Kullanıcı")).toBeInTheDocument();
     expect(screen.getByText("Ortak Profil Alanları")).toBeInTheDocument();
     expect(screen.getByText("Rolüne Özel Alanlar")).toBeInTheDocument();
+    expect(screen.getByText("Alt Kategori / Alt Tip")).toBeInTheDocument();
     expect(screen.getByText("Feature Talepleri")).toBeInTheDocument();
+    expect(screen.getByText("Açık Dashboard Erişimleri")).toBeInTheDocument();
     expect(screen.getByText("Diaspora için iş birliği ve mentorluk fırsatlarına açığım.")).toBeInTheDocument();
     expect(screen.getByText("mentorluk, topluluk, networking")).toBeInTheDocument();
   });
