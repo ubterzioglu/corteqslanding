@@ -257,8 +257,8 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">CorteQS Nedir →</span>
                   </a>
-                  <Link
-                    to="/founders"
+                  <a
+                    href="#founders-landing"
                     className={`${heroCtaClass} font-bold`}
                     style={heroCardStyles.founders}
                   >
@@ -271,7 +271,7 @@ const HeroSection = () => {
                       }}
                     />
                     <span className="relative z-10">Biz Kimiz →</span>
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

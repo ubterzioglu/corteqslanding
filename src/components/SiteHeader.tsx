@@ -32,12 +32,9 @@ export default function SiteHeader() {
               <p className="text-sm font-semibold tracking-[0.03em] text-slate-800 sm:text-base">
                 Türk Diasporasını Birleştiren Platform
               </p>
-              <Link
-                to="/founders"
-                className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base"
-              >
+              <a href="#founders-landing" className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base">
                 Biz Kimiz
-              </Link>
+              </a>
             </div>
           </div>
         </div>
