@@ -219,35 +219,37 @@ const faqs = [
 const FAQSection = () => {
   return (
     <section className="relative overflow-hidden py-14 lg:py-20">
-      <div className="container relative z-10 mx-auto max-w-3xl px-4">
+      <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <div className="mb-3 text-center">
           <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
             Yardım Merkezi
           </span>
         </div>
-        <h2 className="mb-8 text-center text-2xl font-bold text-foreground md:text-4xl">
-          Sıkça Sorulan Sorular
-          <br />
-          CorteQS Nasıl Çalışır?
-        </h2>
-        <Accordion type="single" collapsible className="w-full space-y-3">
-          {faqs.map((faq, i) => (
-            <AccordionItem
-              key={i}
-              value={`faq-${i}`}
-              className="overflow-hidden rounded-[8px] border border-primary/15 bg-card/80 px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10"
-            >
-              <AccordionTrigger className="text-left text-sm text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:text-base">
-                {faq.q}
-              </AccordionTrigger>
-              <AccordionContent className="pb-5">
-                <div className="faq-answer space-y-3 text-sm leading-relaxed text-muted-foreground">
-                  {faq.a}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <div className="mx-auto max-w-6xl">
+          <h2 className="mb-8 text-center text-2xl font-bold text-foreground md:text-4xl">
+            Sıkça Sorulan Sorular
+            <br />
+            CorteQS Nasıl Çalışır?
+          </h2>
+          <Accordion type="single" collapsible className="w-full space-y-3">
+            {faqs.map((faq, i) => (
+              <AccordionItem
+                key={i}
+                value={`faq-${i}`}
+                className="overflow-hidden rounded-[8px] border border-primary/15 bg-card/80 px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10"
+              >
+                <AccordionTrigger className="text-left text-sm text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:text-base">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="pb-5">
+                  <div className="faq-answer space-y-3 text-sm leading-relaxed text-muted-foreground">
+                    {faq.a}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   );
