@@ -36,12 +36,12 @@ export default function SiteHeader() {
                 aria-hidden="true"
                 className="hidden h-5 w-px bg-slate-300/80 sm:block"
               />
-              <a
-                href="#founders-landing"
+              <Link
+                to="/founders"
                 className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base"
               >
-                Siz Kimsiniz
-              </a>
+                Kim Bunlar?
+              </Link>
             </div>
           </div>
         </div>
