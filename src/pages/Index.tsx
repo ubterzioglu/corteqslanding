@@ -24,8 +24,8 @@ const Index = () => {
         <SEOContentSection />
         <FAQSection />
         <DiasporaMarqueeSection />
-        <NetworkOverviewSection />
         <LandingFoundersSection />
+        <NetworkOverviewSection />
         <ChatBot />
       </main>
     </div>
