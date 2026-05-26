@@ -170,8 +170,8 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">CorteQS Nedir</span>
                   </a>
-                  <a
-                    href="#founders-landing"
+                  <Link
+                    to="/founders"
                     className={`${heroCtaClass} font-bold`}
                     style={heroCardStyles.founders}
                   >
@@ -183,8 +183,8 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">Biz Kimiz</span>
-                  </a>
+                    <span className="relative z-10">Kim Bunlar ?</span>
+                  </Link>
                 </div>
               </div>
             </div>
