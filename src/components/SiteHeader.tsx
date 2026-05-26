@@ -38,6 +38,7 @@ export default function SiteHeader() {
               />
               <Link
                 to="/founders"
+                onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
                 className="text-sm font-semibold text-primary transition-colors hover:text-accent sm:text-base"
               >
                 Kim Bunlar?

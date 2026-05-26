@@ -22,10 +22,10 @@ const HeroSection = () => {
       boxShadow: "0 16px 34px rgba(52, 168, 83, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     addWhatsapp: {
-      background: "linear-gradient(135deg, #0F9D58 0%, #0B8A4D 100%)",
-      borderColor: "#087340",
+      background: "linear-gradient(135deg, #A142F4 0%, #9334E6 100%)",
+      borderColor: "#7e2fd0",
       color: "#FFFFFF",
-      boxShadow: "0 16px 34px rgba(15, 157, 88, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
+      boxShadow: "0 16px 34px rgba(161, 66, 244, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     addContent: {
       background: "linear-gradient(135deg, #EA4335 0%, #D93025 100%)",
@@ -34,10 +34,10 @@ const HeroSection = () => {
       boxShadow: "0 16px 34px rgba(234, 67, 53, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     about: {
-      background: "linear-gradient(135deg, #4285F4 0%, #2B6DE0 100%)",
-      borderColor: "#255fc5",
+      background: "linear-gradient(135deg, #00ACC1 0%, #0097A7 100%)",
+      borderColor: "#00838f",
       color: "#FFFFFF",
-      boxShadow: "0 16px 34px rgba(66, 133, 244, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
+      boxShadow: "0 16px 34px rgba(0, 172, 193, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     founders: {
       background: "linear-gradient(135deg, #FBBC05 0%, #F9AB00 100%)",
@@ -137,6 +137,7 @@ const HeroSection = () => {
                   </a>
                   <Link
                     to="/founders"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
                     className={`${heroCtaClass} font-bold`}
                     style={heroCardStyles.founders}
                   >
