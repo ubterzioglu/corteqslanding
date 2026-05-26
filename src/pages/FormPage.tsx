@@ -378,7 +378,7 @@ const FormPage = () => {
             disabled={loading || !consent}
             className="w-full py-3 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? "Gönderiliyor..." : "Kayıt Bırak / Takip Et →"}
+            {loading ? "Gönderiliyor..." : "Kayıt Bırak / Takip Et"}
           </button>
         </form>
       </div>

@@ -564,7 +564,7 @@ const BackerForm = ({ open, onOpenChange, defaultTier }: BackerFormProps) => {
           >
             {loading
               ? "Gönderiliyor..."
-              : `🏆 ${(isCustom ? parseInt(customAmount || "0", 10) : selectedTier).toLocaleString()}$ Bağış Niyetimi Bildir →`}
+              : `🏆 ${(isCustom ? parseInt(customAmount || "0", 10) : selectedTier).toLocaleString()}$ Bağış Niyetimi Bildir`}
           </button>
         </form>
       </DialogContent>

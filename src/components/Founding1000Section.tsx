@@ -19,7 +19,6 @@ import {
   Network,
   Building2,
   Check,
-  ArrowRight,
 } from "lucide-react";
 import RegisterInterestForm from "./RegisterInterestForm";
 import heroLandmarks from "@/assets/hero-landmarks-watercolor.png";
@@ -145,7 +144,6 @@ const Founding1000Section = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
               <button onClick={openForm} className={primaryButtonClass}>
                 Founding 1000'e Katıl
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
@@ -304,7 +302,6 @@ const Founding1000Section = () => {
 
               <button onClick={openForm} className={`${primaryButtonClass} w-full`}>
                 Founding 1000'e Katıl
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
 
@@ -383,7 +380,6 @@ const Founding1000Section = () => {
           </p>
           <button onClick={openForm} className={primaryButtonClass}>
             Founding 1000'e Katıl
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
 

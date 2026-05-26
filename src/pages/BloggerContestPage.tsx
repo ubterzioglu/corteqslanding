@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowLeft,
-  ArrowRight,
   Sparkles,
   Calendar,
   Trophy,
@@ -122,7 +121,6 @@ const BloggerContestPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-10">
                 <button onClick={openForm} className={primaryButtonClass}>
                   Hikâyeni Gönder
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -432,7 +430,6 @@ const BloggerContestPage = () => {
             </p>
             <button onClick={openForm} className={primaryButtonClass}>
               Başvuruyu Tamamla
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <p className="text-xs text-muted-foreground mt-6">
               Ödeme akışı, başvuru tamamlandıktan sonra e-posta ile iletilecektir.

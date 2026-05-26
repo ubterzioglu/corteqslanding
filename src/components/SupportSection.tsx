@@ -110,7 +110,7 @@ const SupportSection = () => {
             onClick={() => setFormOpen(true)}
             className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-accent text-accent-foreground font-bold text-lg hover:bg-accent/90 transition-all shadow-lg shadow-accent/20"
           >
-            Teknik, Org, Yatırım Görüşmeleri için →
+            Teknik, Org, Yatırım Görüşmeleri için
           </button>
           <p className="text-muted-foreground text-sm">
             veya bize yazın: <a href="mailto:info@corteqs.net" className="text-primary font-semibold hover:underline text-base">info@corteqs.net</a>
@@ -178,7 +178,7 @@ const SupportSection = () => {
                   disabled={!customAmount || parseInt(customAmount, 10) < 1}
                   className="py-2.5 px-5 rounded-lg bg-emerald-500 text-white font-bold text-xs hover:bg-emerald-600 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Bağış Yap →
+                  Bağış Yap
                 </button>
               </div>
             </div>
@@ -243,7 +243,7 @@ const SupportSection = () => {
                           : "bg-foreground text-background hover:bg-foreground/90"
                       }`}
                     >
-                      {tier.cta} →
+                      {tier.cta}
                     </button>
                   </div>
                 );
@@ -256,7 +256,7 @@ const SupportSection = () => {
                 onClick={() => openBacker(10000)}
                 className="inline-flex items-center justify-center px-10 py-4 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600 text-white font-bold text-lg hover:opacity-95 transition-all shadow-lg shadow-emerald-500/30"
               >
-                Onursal Kurucu Olmak İstiyorum →
+                Onursal Kurucu Olmak İstiyorum
               </button>
               <p className="text-xs text-muted-foreground mt-3">
                 Veya yukarıdaki paketlerden birini seçerek başvurabilirsiniz.

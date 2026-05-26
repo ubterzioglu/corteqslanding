@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight,
   Globe,
   Mail,
   MapPin,
@@ -136,7 +135,6 @@ const AboutPage = () => {
                     className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-white px-6 py-3.5 text-sm font-bold text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5"
                   >
                     Katıl ve Parçası Ol
-                    <ArrowRight className="h-4 w-4 text-primary" />
                   </Link>
                 </div>
               </div>
@@ -290,7 +288,6 @@ const AboutPage = () => {
                 className="inline-flex min-w-[240px] items-center justify-center gap-2 rounded-2xl border border-primary/25 bg-white px-6 py-3.5 text-sm font-bold text-foreground transition-colors hover:border-primary/40 hover:bg-primary/5"
               >
                 Web Sitesine Git
-                <ArrowRight className="h-4 w-4 text-primary" />
               </a>
               <a
                 href="mailto:info@corteqs.net"

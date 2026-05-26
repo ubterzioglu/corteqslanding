@@ -1,4 +1,4 @@
-import { ArrowRight, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { publicCommercialDocuments } from "@/lib/commercial-documents";
 
 const CommercialIndexPage = () => {
@@ -52,10 +52,7 @@ const CommercialIndexPage = () => {
                   {document.title}
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">{document.summary}</p>
-                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                  Dokümana git
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </div>
+                <div className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">Dokümana git</div>
               </a>
             ))}
           </section>

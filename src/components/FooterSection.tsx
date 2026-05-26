@@ -194,13 +194,13 @@ const FooterSection = () => {
                 onClick={() => setFormOpen(true)}
                 className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
               >
-                Kategorine Kayıt ve Takip İçin →
+                Kategorine Kayıt ve Takip İçin
               </button>
               <button
                 onClick={() => setSupportFormOpen(true)}
                 className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:from-cyan-400 hover:to-blue-500"
               >
-                Teknik, Org, Yatırım Görüşmeleri için →
+                Teknik, Org, Yatırım Görüşmeleri için
               </button>
               <a
                 href="https://wa.me/905302404995"
@@ -209,7 +209,7 @@ const FooterSection = () => {
                 className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-[#1ebe5d]"
               >
                 <MessageCircle className="w-4 h-4" />
-                WhatsApp Grubuna Katıl →
+                WhatsApp Grubuna Katıl
               </a>
             </div>
 

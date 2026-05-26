@@ -93,7 +93,7 @@ const HeroSection = () => {
                     className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/35"
                     aria-hidden
                   />
-                  <span className="relative z-10">Ücretsiz Kayıt Ol →</span>
+                  <span className="relative z-10">Ücretsiz Kayıt Ol</span>
                 </a>
                 <a
                   href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
@@ -114,7 +114,7 @@ const HeroSection = () => {
                     className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/30"
                     aria-hidden
                   />
-                  <span className="relative z-10">WhatsApp Grubuna Katıl →</span>
+                  <span className="relative z-10">WhatsApp Grubuna Katıl</span>
                 </a>
               </div>
 
@@ -133,7 +133,7 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">💬 Whatsapp Grubunu Ekle! →</span>
+                    <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
                   </Link>
                   <span
                     aria-disabled="true"
@@ -168,7 +168,7 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">CorteQS Nedir →</span>
+                    <span className="relative z-10">CorteQS Nedir</span>
                   </a>
                   <a
                     href="#founders-landing"
@@ -183,7 +183,7 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">Biz Kimiz →</span>
+                    <span className="relative z-10">Biz Kimiz</span>
                   </a>
                 </div>
               </div>

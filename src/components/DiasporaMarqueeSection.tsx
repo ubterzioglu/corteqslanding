@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
-
 import MarqueeItemCard from "@/components/MarqueeItemCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +44,6 @@ const DiasporaMarqueeSection = () => {
           <Button asChild variant="outline" className="w-fit shrink-0">
             <Link to="/radar">
               Tüm Radar
-              <ArrowRight className="h-4 w-4" />
             </Link>
           </Button>
         </div>

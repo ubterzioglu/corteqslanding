@@ -106,7 +106,7 @@ const CategoriesSection = () => {
                         onClick={() => openForm(cat.defaultCategory)}
                         className="mt-auto w-full rounded-xl bg-primary/10 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
                       >
-                        Kayıt Bırak / Takip Et →
+                        Kayıt Bırak / Takip Et
                       </button>
                     </div>
                   ))}

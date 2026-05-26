@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Megaphone, Newspaper, TrendingUp } from "lucide-react";
+import { Megaphone, Newspaper, TrendingUp } from "lucide-react";
 
 import { marqueeTypeLabels, type MarqueeItemRow, type MarqueeItemType } from "@/lib/marquee";
 import { cn } from "@/lib/utils";
@@ -70,10 +70,7 @@ const MarqueeItemCard = ({ item, className }: MarqueeItemCardProps) => {
         <h3 className="line-clamp-2 text-base font-bold leading-snug text-foreground">{item.title}</h3>
         <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">{item.summary}</p>
         {item.link_enabled && item.slug && (
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
-            Detay
-            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </span>
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">Detay</span>
         )}
       </div>
     </article>
