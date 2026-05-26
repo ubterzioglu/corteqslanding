@@ -113,8 +113,7 @@ const NetworkOverviewSection = () => {
                     Diasporanın Gücü, Kategoriler ve Şehirler
                   </h2>
                   <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                    CorteQS'in oluşturduğu ağı, katılım alanlarını ve odak şehirlerini tek bölümde incelemek için bu
-                    alanı aç.
+                    CorteQS'in oluşturduğu ağı, katılım alanlarını ve odak şehirlerini tek bölümde incelemek için bu alanı aç.
                   </p>
                 </div>
                 <span
