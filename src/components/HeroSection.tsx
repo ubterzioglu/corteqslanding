@@ -149,7 +149,7 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">Kim Bunlar ?</span>
+                    <span className="relative z-10">Kimiz biz!</span>
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
