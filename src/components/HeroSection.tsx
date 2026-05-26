@@ -10,40 +10,40 @@ const HeroSection = () => {
     "relative inline-flex min-h-[52px] w-full items-center justify-center rounded-xl border px-4 py-2 text-center text-[12px] font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:saturate-110 md:text-[13px]";
   const heroCardStyles = {
     register: {
-      background: "linear-gradient(135deg, #EEF7FB 0%, #E4F2FA 54%, #D6EBF8 100%)",
-      borderColor: "rgba(45, 110, 151, 0.18)",
-      color: "#1D587B",
-      boxShadow: "0 14px 32px rgba(29, 88, 123, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #4285F4 0%, #3B78E7 100%)",
+      borderColor: "#2f6fda",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(66, 133, 244, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     whatsapp: {
-      background: "linear-gradient(135deg, #F1F8EE 0%, #E9F5E3 52%, #DDF0D0 100%)",
-      borderColor: "rgba(92, 157, 97, 0.2)",
-      color: "#2F6D4B",
-      boxShadow: "0 14px 32px rgba(92, 157, 97, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #34A853 0%, #2F9B4D 100%)",
+      borderColor: "#278543",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(52, 168, 83, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     addWhatsapp: {
-      background: "linear-gradient(135deg, #EEF9F5 0%, #E3F6EE 52%, #D4F0E5 100%)",
-      borderColor: "rgba(38, 149, 113, 0.2)",
-      color: "#237E62",
-      boxShadow: "0 14px 32px rgba(38, 149, 113, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #0F9D58 0%, #0B8A4D 100%)",
+      borderColor: "#087340",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(15, 157, 88, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     addContent: {
-      background: "linear-gradient(135deg, #FFF2F4 0%, #FDE8E7 52%, #FBDDD4 100%)",
-      borderColor: "rgba(206, 103, 113, 0.22)",
-      color: "#C45E68",
-      boxShadow: "0 14px 32px rgba(206, 103, 113, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #EA4335 0%, #D93025 100%)",
+      borderColor: "#c5221f",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(234, 67, 53, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     about: {
-      background: "linear-gradient(135deg, #EFF8FB 0%, #E3F4F8 52%, #D7EEF5 100%)",
-      borderColor: "rgba(63, 146, 171, 0.2)",
-      color: "#2D7E98",
-      boxShadow: "0 14px 32px rgba(63, 146, 171, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #4285F4 0%, #2B6DE0 100%)",
+      borderColor: "#255fc5",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(66, 133, 244, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
     founders: {
-      background: "linear-gradient(135deg, #FFF4EA 0%, #FFECDD 52%, #FFE1C8 100%)",
-      borderColor: "rgba(224, 130, 56, 0.2)",
-      color: "#D97A34",
-      boxShadow: "0 14px 32px rgba(224, 130, 56, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.62)",
+      background: "linear-gradient(135deg, #FBBC05 0%, #F9AB00 100%)",
+      borderColor: "#dd9700",
+      color: "#FFFFFF",
+      boxShadow: "0 16px 34px rgba(251, 188, 5, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.18)",
     },
   } as const;
 
@@ -86,11 +86,11 @@ const HeroSection = () => {
                     aria-hidden
                     style={{
                       background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 42%, rgba(255,255,255,0) 100%)",
+                        "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                     }}
                   />
                   <span
-                    className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/35"
+                    className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/25"
                     aria-hidden
                   />
                   <span className="relative z-10">Ücretsiz Kayıt Ol</span>
@@ -107,11 +107,11 @@ const HeroSection = () => {
                     aria-hidden
                     style={{
                       background:
-                        "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
+                        "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                     }}
                   />
                   <span
-                    className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/30"
+                    className="pointer-events-none absolute inset-x-6 top-0 h-px bg-white/25"
                     aria-hidden
                   />
                   <span className="relative z-10">WhatsApp Grubuna Katıl</span>
@@ -130,7 +130,7 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
                     <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
@@ -145,10 +145,10 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.03) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="absolute right-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.14em] text-rose-700 shadow-sm sm:text-[7.5px]">
+                    <span className="absolute right-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.14em] text-[#D93025] shadow-sm sm:text-[7.5px]">
                       Yakında!
                     </span>
                     <span className="relative z-10">✨ İçerik Ekle!</span>
@@ -165,7 +165,7 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
                     <span className="relative z-10">CorteQS Nedir</span>
@@ -180,7 +180,7 @@ const HeroSection = () => {
                       aria-hidden
                       style={{
                         background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
+                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
                     <span className="relative z-10">Biz Kimiz</span>
