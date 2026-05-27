@@ -12,7 +12,7 @@ import {
   Store,
   Users,
 } from "lucide-react";
-import heroMapShowcase from "@/assets/may19-globe-pins.png";
+import showcasePanelImage from "@/assets/global-network-showcase-panel.png";
 import logo from "../../newlogo.png";
 
 const rebuiltCards = [
@@ -87,16 +87,6 @@ const featureItems = [
   { label: "İşletmeler &\nHizmetler", icon: BriefcaseBusiness, color: "text-[#f59e0b]", ring: "ring-[#ffecbe]" },
   { label: "Diaspora\nHaritası", icon: Globe, color: "text-[#ec4899]", ring: "ring-[#ffd5eb]" },
   { label: "AI Destekli\nYönlendirme", icon: ScanSearch, color: "text-[#6366f1]", ring: "ring-[#dfe0ff]" },
-] as const;
-
-const cityNodes = [
-  { city: "Toronto", position: "left-[58%] top-[7%]", chip: "text-[#f43f8d] border-[#ffd2e4] bg-white/95", dot: "bg-[#f43f8d]" },
-  { city: "Berlin", position: "right-[6%] top-[4%]", chip: "text-[#2f9e44] border-[#d3f3dc] bg-white/95", dot: "bg-[#2f9e44]" },
-  { city: "New York", position: "left-[45%] top-[56%]", chip: "text-[#3b82f6] border-[#d7e7ff] bg-white/95", dot: "bg-[#3b82f6]" },
-  { city: "Istanbul", position: "left-[66%] top-[36%]", chip: "text-[#f97316] border-[#ffe0cc] bg-white/95", dot: "bg-[#f97316]" },
-  { city: "Dubai", position: "left-[72%] top-[67%]", chip: "text-[#f59e0b] border-[#ffe8c2] bg-white/95", dot: "bg-[#f59e0b]" },
-  { city: "Seoul", position: "right-[2%] top-[45%]", chip: "text-[#8b5cf6] border-[#e9ddff] bg-white/95", dot: "bg-[#8b5cf6]" },
-  { city: "Sydney", position: "right-[2%] top-[74%]", chip: "text-[#3b82f6] border-[#d7e7ff] bg-white/95", dot: "bg-[#3b82f6]" },
 ] as const;
 
 const GlobalNetworkShowcaseSection = () => {
@@ -174,27 +164,12 @@ const GlobalNetworkShowcaseSection = () => {
                 </p>
               </div>
 
-              <div className="relative min-h-[360px] overflow-hidden rounded-[1.9rem] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.98),rgba(246,250,255,0.94),rgba(255,249,244,0.96))] p-5 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:min-h-[430px]">
+              <div className="relative min-h-[340px] overflow-hidden rounded-[1.9rem] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.98),rgba(246,250,255,0.94),rgba(255,249,244,0.96))] p-3 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:min-h-[430px] sm:p-4">
                 <img
-                  src={heroMapShowcase}
-                  alt=""
-                  aria-hidden="true"
-                  className="absolute inset-0 h-full w-full scale-[1.04] object-cover opacity-[0.22]"
+                  src={showcasePanelImage}
+                  alt="CorteQS global ağ gösterimi"
+                  className="h-full w-full rounded-[1.55rem] object-cover object-center shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
                 />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.08)_48%,rgba(255,255,255,0.62)_100%)]" />
-
-                <div className="absolute left-1/2 top-1/2 z-10 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/80 bg-white shadow-[0_24px_50px_rgba(15,23,42,0.12)] sm:h-36 sm:w-36">
-                  <img src={logo} alt="CorteQS logosu" className="h-20 w-20 object-contain sm:h-24 sm:w-24" />
-                </div>
-
-                {cityNodes.map((node) => (
-                  <div key={node.city} className={`absolute z-20 ${node.position}`}>
-                    <div className={`rounded-full border px-4 py-2 text-sm font-bold uppercase tracking-[0.08em] shadow-[0_12px_24px_rgba(15,23,42,0.08)] ${node.chip}`}>
-                      {node.city}
-                    </div>
-                    <span className={`mx-auto mt-2 block h-2.5 w-2.5 rounded-full ${node.dot} shadow-[0_0_0_6px_rgba(255,255,255,0.78)]`} />
-                  </div>
-                ))}
               </div>
             </div>
 
