@@ -198,35 +198,35 @@ const GlobalNetworkShowcaseSection = () => {
               </div>
             </div>
 
-            <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-6">
               {rebuiltCards.map((card) => {
                 const Icon = card.icon;
 
                 return (
                   <article
                     key={card.title}
-                    className="group overflow-hidden rounded-[1.6rem] border border-slate-200/90 bg-white shadow-[0_14px_36px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_54px_rgba(15,23,42,0.10)]"
+                    className="group overflow-hidden rounded-[1.45rem] border border-slate-200/90 bg-white shadow-[0_12px_28px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,23,42,0.09)]"
                   >
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-24 overflow-hidden sm:h-28 xl:h-24 2xl:h-28">
                       <img
                         src={card.image}
                         alt={card.title}
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_100%)]" />
-                      <div className={`absolute bottom-0 left-6 translate-y-1/2 rounded-full bg-gradient-to-br p-4 text-white shadow-[0_16px_34px_rgba(15,23,42,0.16)] ${card.accent}`}>
-                        <Icon className="h-7 w-7" />
+                      <div className={`absolute bottom-0 left-4 translate-y-1/2 rounded-full bg-gradient-to-br p-3 text-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ${card.accent}`}>
+                        <Icon className="h-5 w-5" />
                       </div>
                     </div>
 
-                    <div className="px-6 pb-6 pt-9">
-                      <h4 className={`text-[1.85rem] font-semibold leading-tight tracking-[-0.04em] ${card.text}`}>
+                    <div className="px-4 pb-4 pt-7 xl:px-4 2xl:px-5">
+                      <h4 className={`min-h-[3.75rem] text-[1rem] font-bold leading-[1.15] tracking-[-0.03em] xl:text-[0.95rem] 2xl:text-[1.1rem] ${card.text}`}>
                         {card.title}
                       </h4>
-                      <p className="mt-3 min-h-[8.5rem] text-lg leading-8 text-slate-600">
+                      <p className="mt-2 min-h-[7.5rem] text-[0.9rem] leading-7 text-slate-600 xl:text-[0.82rem] xl:leading-6 2xl:text-[0.95rem] 2xl:leading-7">
                         {card.description}
                       </p>
-                      <div className={`mt-5 h-1.5 w-14 rounded-full ${card.line}`} />
+                      <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
                     </div>
                   </article>
                 );
