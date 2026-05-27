@@ -210,32 +210,7 @@ const AboutPage = () => {
             </div>
           </section>
 
-          <section className="mb-14 space-y-6">
-            <article className="rounded-[2rem] border border-border/70 bg-[linear-gradient(160deg,rgba(18,58,60,0.96),rgba(28,111,105,0.92),rgba(243,110,49,0.86))] p-8 text-white shadow-[0_28px_70px_rgba(11,33,35,0.22)]">
-              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Kısaca</span>
-              <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
-                Doğru insan + doğru zaman + doğru platform
-              </h2>
-              <p className="mt-5 text-sm leading-7 text-white/82">
-                CorteQS, diasporadaki enerjiyi sadece görünür kılmakla kalmaz; onu organize eder, eşleştirir ve büyümeye dönüştürür.
-              </p>
-
-              <div className="mt-8 space-y-4">
-                <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-                  <div className="text-sm font-semibold text-white">Neden şimdi?</div>
-                  <p className="mt-2 text-sm leading-6 text-white/78">
-                    Çünkü diaspora güçlü ama parçalı. Bilgi, çevre ve fırsatlar var; eksik olan bunları ortak bir sistemde bir araya getirmek.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-                  <div className="text-sm font-semibold text-white">CorteQS’in farkı</div>
-                  <p className="mt-2 text-sm leading-6 text-white/78">
-                    Şehir bazlı yapı, kategori odaklı görünürlük, topluluk güveni ve AI destekli eşleşme mantığını aynı deneyimde toplaması.
-                  </p>
-                </div>
-              </div>
-            </article>
-
+          <section className="mb-14">
             <article className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8">
               <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Kimler İçin?</span>
               <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground">

@@ -189,16 +189,16 @@ const FooterSection = () => {
               <span className="text-lg font-bold text-primary">info@corteqs.net</span>
             </a>
 
-            <div className="mx-auto grid w-full max-w-[37rem] gap-3 sm:grid-cols-3">
+            <div className="mx-auto flex w-full max-w-sm flex-col gap-3">
               <button
                 onClick={() => setFormOpen(true)}
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-xs font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90 sm:text-[0.83rem]"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground shadow-lg shadow-accent/20 transition-all hover:bg-accent/90"
               >
                 Kategorine Kayıt ve Takip İçin
               </button>
               <button
                 onClick={() => setSupportFormOpen(true)}
-                className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:from-cyan-400 hover:to-blue-500 sm:text-[0.83rem]"
+                className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:from-cyan-400 hover:to-blue-500"
               >
                 Teknik, Org, Yatırım Görüşmeleri için
               </button>
@@ -206,7 +206,7 @@ const FooterSection = () => {
                 href="https://chat.whatsapp.com/IOpBgZK29CQEhhdOd5hUAD"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 text-xs font-bold text-white shadow-lg transition-all hover:bg-[#1ebe5d] sm:text-[0.83rem]"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all hover:bg-[#1ebe5d]"
               >
                 <MessageCircle className="w-4 h-4" />
                 WhatsApp Grubuna Katıl
