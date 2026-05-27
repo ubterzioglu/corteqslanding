@@ -43,12 +43,6 @@ describe("App founders routing", () => {
       "href",
       "https://www.linkedin.com/in/ubterzioglu",
     );
-    expect(screen.queryByText("Profesyonel Arka Plan")).not.toBeInTheDocument();
-    expect(screen.queryByText("Stratejik ve Yatırımcı Perspektifi")).not.toBeInTheDocument();
-    expect(screen.queryByText("Coğrafi Bağlam")).not.toBeInTheDocument();
-    expect(screen.queryByText("Kurucu Tezi")).not.toBeInTheDocument();
-    expect(screen.queryByText("Kurucu Perspektifi")).not.toBeInTheDocument();
-
     const burakAccordionButton = screen.getByRole("button", { name: /Kurucu Ortak Burak Akçakanat/i });
     const umutAccordionButton = screen.getByRole("button", { name: /Kurucu Ortak Umut Barış Terzioğlu/i });
 
@@ -57,6 +51,7 @@ describe("App founders routing", () => {
 
     fireEvent.click(umutAccordionButton);
 
+    expect(burakAccordionButton).toHaveAttribute("data-state", "open");
     expect(umutAccordionButton).toHaveAttribute("data-state", "open");
     expect(screen.getByText("Ürün güveni odaklı kalite yaklaşımı")).toBeInTheDocument();
     expect(screen.getByText("Disiplinli test stratejisi")).toBeInTheDocument();
@@ -70,8 +65,7 @@ describe("App founders routing", () => {
 
     fireEvent.click(burakAccordionButton);
 
-    expect(burakAccordionButton).toHaveAttribute("data-state", "open");
-    expect(screen.getByText("Uluslararası pazar geliştirme")).toBeInTheDocument();
-    expect(screen.getByText("Sürdürülebilir büyüme modelleri")).toBeInTheDocument();
+    expect(burakAccordionButton).toHaveAttribute("data-state", "closed");
+    expect(umutAccordionButton).toHaveAttribute("data-state", "closed");
   });
 });

@@ -1,6 +1,5 @@
-import { Building2, MessageCircle, Sparkles, Users } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featuredLinks = [
@@ -24,66 +23,16 @@ const featuredLinks = [
   },
 ] as const;
 
-const audienceCards = [
-  {
-    emoji: "🏢",
-    title: "İşletmeler",
-    description: "Yerel müşterilere, diasporaya ve global Türk ağına ulaşın.",
-    cta: "İşletmeni Kaydet",
-  },
-  {
-    emoji: "👨‍💼",
-    title: "Profesyoneller",
-    description: "İş fırsatları, mentorlar ve şehir bazlı networklerle bağlantı kurun.",
-    cta: "Profesyonel Olarak Kaydol",
-  },
-  {
-    emoji: "🏛",
-    title: "Kuruluşlar & Dernekler",
-    description: "Topluluğunuzu büyütün, etkinliklerinizi duyurun ve görünür olun.",
-    cta: "Kuruluşunu Kaydet",
-  },
-  {
-    emoji: "👥",
-    title: "Topluluk Yöneticileri",
-    description: "WhatsApp ve Telegram topluluklarınızı yeni üyelere açın.",
-    cta: "Topluluğunu Kaydet",
-  },
-  {
-    emoji: "🎥",
-    title: "İçerik Üreticileri",
-    description: "Diaspora odaklı içeriklerinizi daha doğru kitlelerle buluşturun.",
-    cta: "İçerik Üreticisi Olarak Kaydol",
-  },
-  {
-    emoji: "🌐",
-    title: "Dijital Gruplar",
-    description: "Şehir, ülke ve tema bazlı gruplar tek keşif sisteminde birleşsin.",
-    cta: "Grubunu Listele",
-  },
-] as const;
-
-const platformItems = [
-  "✅ Cadde sosyal ağı",
-  "✅ WhatsApp ve Telegram toplulukları",
-  "✅ Etkinlikler",
-  "✅ Relokasyon ve mentor sistemi",
-  "✅ Şehir bazlı feedler",
-  "✅ İşletmeler ve hizmetler",
-  "✅ Diaspora haritası",
-  "✅ AI destekli yönlendirme",
-] as const;
-
 const SEOContentSection = () => {
   return (
     <section className="relative overflow-hidden py-5 lg:py-7">
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
-        <Accordion type="single" collapsible defaultValue="corteqs-nedir" className="mb-4">
+        <Accordion type="single" collapsible className="mb-4">
           <AccordionItem
             value="corteqs-nedir"
-            className="overflow-hidden rounded-[1.75rem] border border-white/60 bg-card/84 px-5 shadow-xl shadow-primary/10 backdrop-blur-sm md:px-7"
+            className="overflow-hidden rounded-[1.75rem] border border-[#bfe5de] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(240,250,247,0.96),rgba(247,252,255,0.94))] px-5 shadow-[0_18px_40px_rgba(69,145,132,0.10)] backdrop-blur-sm md:px-7"
           >
-            <AccordionTrigger className="gap-4 py-5 text-left text-lg font-black text-foreground hover:no-underline md:text-2xl">
+            <AccordionTrigger className="gap-4 py-5 text-left text-xl font-black text-foreground hover:no-underline md:text-2xl">
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" />
                 CorteQS nedir?
@@ -91,10 +40,10 @@ const SEOContentSection = () => {
             </AccordionTrigger>
             <AccordionContent className="pb-6">
               <div className="max-w-4xl space-y-4">
-                <h2 id="geo-content-title" className="text-2xl font-black leading-tight text-foreground md:text-4xl">
+                <h2 id="geo-content-title" className="text-xl font-black leading-tight text-foreground md:text-2xl">
                   Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz
                 </h2>
-                <p className="text-sm leading-7 text-muted-foreground md:text-[15px]">
+                <p className="text-xl leading-relaxed text-muted-foreground md:text-2xl">
                   CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
                   gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
                 </p>
@@ -113,94 +62,6 @@ const SEOContentSection = () => {
               {link.label}
             </Link>
           ))}
-        </div>
-
-        <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/84 shadow-xl shadow-primary/10 backdrop-blur-sm">
-          <div className="grid gap-6 p-5 md:p-7 xl:grid-cols-[1.08fr_0.92fr]">
-            <div className="space-y-5">
-              <div className="rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(245,249,247,0.92))] p-4 shadow-sm">
-                <img
-                  src={heroNetworkLight}
-                  alt="CorteQS global diaspora ağını gösteren harita"
-                  className="h-auto w-full rounded-[1.25rem] border border-white/60 object-cover shadow-[0_18px_40px_rgba(15,23,42,0.08)]"
-                />
-              </div>
-
-              <div className="rounded-[1.75rem] border border-white/60 bg-[linear-gradient(145deg,rgba(7,117,103,0.98),rgba(25,160,142,0.92),rgba(242,126,52,0.88))] p-5 text-white shadow-[0_20px_48px_rgba(15,23,42,0.14)]">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/14 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                    <Users className="h-3.5 w-3.5" />
-                    Katılım Çağrısı
-                  </span>
-                  <span className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/80">
-                    <Building2 className="h-3.5 w-3.5" />
-                    CTA Revizyon
-                  </span>
-                </div>
-                <h3 className="mt-4 text-2xl font-black md:text-[2rem]">Global Türk gücünü birlikte organize edelim</h3>
-                <p className="mt-3 max-w-2xl text-sm leading-7 text-white/84">
-                  Platform yayına alındığında kendi kategorinizde ilk görünenlerden olmak, topluluklara katılmak
-                  ve doğru insanlara daha hızlı ulaşmak için şimdiden yerinizi alın.
-                </p>
-                <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="#kaydol"
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-[#0e5f56] transition hover:bg-white/90"
-                  >
-                    Erken Kayıt Bırak
-                  </a>
-                  <a
-                    href="https://chat.whatsapp.com/JDMyCOx0m2w3lqejP7vA6M"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-5 py-3 text-sm font-bold text-white transition hover:bg-white/16"
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    WhatsApp Topluluğuna Katıl
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-5">
-              <div className="rounded-[1.75rem] border border-white/60 bg-background/72 p-5 shadow-sm">
-                <h3 className="text-xl font-black text-foreground md:text-2xl">Kimler için?</h3>
-                <div className="mt-4 grid gap-3">
-                  {audienceCards.map((item) => (
-                    <div
-                      key={item.title}
-                      className="rounded-[1.25rem] border border-white/70 bg-white/82 p-4 shadow-[0_12px_28px_rgba(15,23,42,0.05)]"
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl leading-none">{item.emoji}</span>
-                        <div className="min-w-0 flex-1">
-                          <div className="text-base font-bold text-foreground">{item.title}</div>
-                          <p className="mt-1 text-sm leading-6 text-muted-foreground">{item.description}</p>
-                          <a
-                            href="#kaydol"
-                            className="mt-3 inline-flex items-center rounded-lg bg-primary/10 px-3 py-2 text-xs font-bold uppercase tracking-[0.08em] text-primary transition hover:bg-primary hover:text-primary-foreground"
-                          >
-                            {item.cta}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[1.75rem] border border-white/60 bg-background/72 p-5 shadow-sm">
-                <h3 className="text-xl font-black text-foreground md:text-2xl">Tek platformda</h3>
-                <div className="mt-4 grid gap-3">
-                  {platformItems.map((item) => (
-                    <div key={item} className="rounded-xl border border-white/65 bg-white/80 px-4 py-3 text-sm font-medium text-foreground">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </article>
     </section>

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Linkedin } from "lucide-react";
+import { ChevronDown, Linkedin } from "lucide-react";
 import burakPhoto from "../../burak.png";
 import foundersLogo from "../../newlogo.png";
 import ubtPhoto from "../../ubt.png";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 type FounderSection = {
   title: string;
@@ -146,6 +145,8 @@ const FounderPortrait = ({
 };
 
 const FoundersPage = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   useEffect(() => {
     const previousTitle = document.title;
     document.title = "Kurucular | CorteQS";
@@ -203,11 +204,10 @@ const FoundersPage = () => {
           </section>
 
           <section>
-            <Accordion type="multiple" defaultValue={[]} className="grid gap-8 xl:grid-cols-2">
+            <div className="grid gap-8 xl:grid-cols-2">
               {founderProfiles.map((founder) => (
-                <AccordionItem
+                <article
                   key={founder.name}
-                  value={founder.name}
                   className={`overflow-hidden rounded-[2rem] border p-0 shadow-[0_24px_60px_rgba(15,23,42,0.07)] ${founderCardClass}`}
                 >
                   <div className="px-6 pt-6 md:px-8 md:pt-8">
@@ -231,7 +231,14 @@ const FoundersPage = () => {
                       </div>
                     </div>
                   </div>
-                  <AccordionTrigger className="px-6 pb-6 pt-0 text-left hover:no-underline md:px-8 md:pb-8">
+                  <button
+                    type="button"
+                    aria-expanded={isExpanded}
+                    data-state={isExpanded ? "open" : "closed"}
+                    aria-label={`${founder.role} ${founder.name}`}
+                    onClick={() => setIsExpanded((current) => !current)}
+                    className="group flex w-full items-end justify-between gap-4 px-6 pb-6 pt-0 text-left md:px-8 md:pb-8"
+                  >
                     <div className="w-full">
                       <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
                         {founder.role}
@@ -240,9 +247,20 @@ const FoundersPage = () => {
                         {founder.name}
                       </h2>
                     </div>
-                  </AccordionTrigger>
+                    <span
+                      className={`relative mb-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#0f6fc2]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(225,241,255,0.92),rgba(209,233,255,0.92))] text-[#0a4f96] shadow-[0_16px_34px_rgba(15,111,194,0.14),inset_0_1px_0_rgba(255,255,255,0.92)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_18px_38px_rgba(15,111,194,0.2),0_0_0_6px_rgba(15,111,194,0.05)] ${
+                        isExpanded ? "rotate-180" : ""
+                      }`}
+                    >
+                      <span className="absolute inset-[5px] rounded-[0.9rem] border border-white/70 bg-white/35" aria-hidden="true" />
+                      <ChevronDown className="relative z-10 h-5 w-5 transition-transform duration-300" />
+                    </span>
+                  </button>
 
-                  <AccordionContent className="px-6 pb-6 pt-0 md:px-8 md:pb-8">
+                  <div
+                    data-state={isExpanded ? "open" : "closed"}
+                    className="overflow-hidden px-6 pb-0 pt-0 transition-all duration-300 data-[state=closed]:max-h-0 data-[state=closed]:opacity-0 data-[state=open]:max-h-[2400px] data-[state=open]:pb-6 data-[state=open]:opacity-100 md:px-8 data-[state=open]:md:pb-8"
+                  >
                     <div className="grid gap-8">
                       <div>
                         <p className="text-base leading-8 text-slate-600">
@@ -278,10 +296,10 @@ const FoundersPage = () => {
                         ))}
                       </div>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
+                  </div>
+                </article>
               ))}
-            </Accordion>
+            </div>
           </section>
         </div>
       </main>

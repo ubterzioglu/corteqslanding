@@ -25,8 +25,8 @@ const Index = () => {
         <DiasporaMarqueeSection />
         <LandingFoundersSection />
         <NetworkOverviewSection />
-        <FAQSection />
         <ChatBot />
+        <FAQSection />
       </main>
     </div>
   );
