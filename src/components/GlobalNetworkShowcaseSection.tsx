@@ -80,11 +80,11 @@ const rebuiltCards = [
 
 const featureItems = [
   { label: "Cadde\nSosyal Ağı", icon: Map, color: "text-[#4bbf70]", ring: "ring-[#c6f2d3]" },
-  { label: "WhatsApp &\nTelegram Toplulukları", icon: MessageCircleMore, color: "text-[#35c465]", ring: "ring-[#caf4d6]" },
+  { label: "WhatsApp\nTelegram Toplulukları", icon: MessageCircleMore, color: "text-[#35c465]", ring: "ring-[#caf4d6]" },
   { label: "Etkinlikler", icon: CalendarDays, color: "text-[#8b5cf6]", ring: "ring-[#e5d6ff]" },
-  { label: "Relokasyon &\nMentor Sistemi", icon: Plane, color: "text-[#fb923c]", ring: "ring-[#ffe0c5]" },
+  { label: "Relokasyon\nMentor Sistemi", icon: Plane, color: "text-[#fb923c]", ring: "ring-[#ffe0c5]" },
   { label: "Şehir Bazlı\nFeedler", icon: MapPinned, color: "text-[#3b82f6]", ring: "ring-[#d6e8ff]" },
-  { label: "İşletmeler &\nHizmetler", icon: BriefcaseBusiness, color: "text-[#f59e0b]", ring: "ring-[#ffecbe]" },
+  { label: "İşletmeler\nHizmetler", icon: BriefcaseBusiness, color: "text-[#f59e0b]", ring: "ring-[#ffecbe]" },
   { label: "Diaspora\nHaritası", icon: Globe, color: "text-[#ec4899]", ring: "ring-[#ffd5eb]" },
   { label: "AI Destekli\nYönlendirme", icon: ScanSearch, color: "text-[#6366f1]", ring: "ring-[#dfe0ff]" },
 ] as const;
@@ -141,11 +141,11 @@ const GlobalNetworkShowcaseSection = () => {
                         <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
                           <Icon className="h-4.5 w-4.5" />
                         </div>
-                        <h4 className={`text-[0.9rem] font-bold leading-[1.08] tracking-[-0.03em] 2xl:text-[0.95rem] ${card.text}`}>
+                        <h4 className={`text-[0.82rem] font-bold leading-[1.05] tracking-[-0.03em] xl:text-[0.86rem] 2xl:text-[0.9rem] ${card.text}`}>
                           {card.title}
                         </h4>
                       </div>
-                      <p className="mt-2 min-h-[6.4rem] text-[0.8rem] leading-5.5 text-slate-600 2xl:text-[0.84rem]">
+                      <p className="mt-2 min-h-[6.4rem] text-[0.76rem] leading-5 text-slate-600 2xl:text-[0.8rem]">
                         {card.description}
                       </p>
                       <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
@@ -165,7 +165,7 @@ const GlobalNetworkShowcaseSection = () => {
                     <p className="text-[1.8rem] font-black leading-none tracking-[-0.04em] text-slate-900">
                       CorteQS
                     </p>
-                    <p className="max-w-[14rem] text-[0.92rem] font-semibold leading-6 tracking-[-0.03em] text-slate-800">
+                    <p className="max-w-[14rem] text-[0.86rem] font-semibold leading-5.5 tracking-[-0.03em] text-slate-800">
                       Yurt Dışında Yaşayan Türklerin Sistemi
                     </p>
                   </div>
@@ -183,7 +183,7 @@ const GlobalNetworkShowcaseSection = () => {
                         <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
                           <Icon className={`h-8 w-8 ${item.color}`} />
                         </div>
-                        <p className="flex min-h-[68px] items-start justify-center whitespace-pre-line text-[0.84rem] font-semibold leading-5 tracking-[-0.02em] text-slate-800">
+                        <p className="flex min-h-[68px] items-start justify-center whitespace-pre-line text-[0.78rem] font-semibold leading-[1.4] tracking-[-0.02em] text-slate-800 xl:text-[0.8rem]">
                           {item.label}
                         </p>
                       </div>
