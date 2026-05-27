@@ -22,8 +22,8 @@ const Index = () => {
       <main id="main" className="relative isolate overflow-hidden pb-8">
         <HeroSection />
         <SEOContentSection />
-        <LandingFoundersSection />
         <GlobalNetworkShowcaseSection />
+        <LandingFoundersSection />
         <DiasporaMarqueeSection />
         <ChatBot />
         <FAQSection />
