@@ -140,15 +140,15 @@ const GlobalNetworkShowcaseSection = () => {
                     </div>
 
                     <div className="px-4 pb-4 pt-5 2xl:px-5">
-                      <div className="flex min-h-[3.4rem] items-start gap-3">
+                      <div className="flex min-h-[3.15rem] items-start gap-2.5">
                         <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
                           <Icon className="h-4.5 w-4.5" />
                         </div>
-                        <h4 className={`text-[0.98rem] font-bold leading-[1.12] tracking-[-0.03em] 2xl:text-[1.05rem] ${card.text}`}>
+                        <h4 className={`text-[0.9rem] font-bold leading-[1.08] tracking-[-0.03em] 2xl:text-[0.95rem] ${card.text}`}>
                           {card.title}
                         </h4>
                       </div>
-                      <p className="mt-2 min-h-[6.8rem] text-[0.88rem] leading-6 text-slate-600 2xl:text-[0.92rem]">
+                      <p className="mt-2 min-h-[6.4rem] text-[0.8rem] leading-5.5 text-slate-600 2xl:text-[0.84rem]">
                         {card.description}
                       </p>
                       <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
