@@ -112,7 +112,7 @@ const GlobalNetworkShowcaseSection = () => {
                 </p>
               </div>
 
-              <div className="relative min-h-[260px] overflow-hidden rounded-[1.9rem] bg-transparent xl:min-h-[300px]">
+              <div className="relative hidden min-h-[260px] overflow-hidden rounded-[1.9rem] bg-transparent md:block xl:min-h-[300px]">
                 <img
                   src={showcasePanelImage}
                   alt="CorteQS global ağ görseli"
@@ -130,7 +130,7 @@ const GlobalNetworkShowcaseSection = () => {
                     key={`reference-card-${card.title}`}
                     className="group overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white shadow-[0_12px_28px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,23,42,0.09)]"
                   >
-                    <div className="relative h-24 overflow-hidden sm:h-28 xl:h-24 2xl:h-28">
+                    <div className="relative hidden h-24 overflow-hidden sm:block sm:h-28 xl:h-24 2xl:h-28">
                       <img
                         src={card.image}
                         alt={card.title}
@@ -139,7 +139,7 @@ const GlobalNetworkShowcaseSection = () => {
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.14)_100%)]" />
                     </div>
 
-                    <div className="px-4 pb-4 pt-5 2xl:px-5">
+                    <div className="px-4 py-4 sm:pb-4 sm:pt-5 2xl:px-5">
                       <div className="flex min-h-[3.15rem] items-start gap-2.5">
                         <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
                           <Icon className="h-4.5 w-4.5" />

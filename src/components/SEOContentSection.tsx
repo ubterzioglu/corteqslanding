@@ -1,31 +1,28 @@
-import { Sparkles } from "lucide-react";
+import { Clapperboard, Globe, PenTool, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import bloggerVlogger from "@/assets/blogger-vlogger.jpg";
-import founding1000Card from "@/assets/founding-1000-card.jpg";
-import vloggerContestCard from "@/assets/vlogger-contest-card.jpg";
 
 const featuredLinks = [
   {
     to: "/founding-1000",
-    image: founding1000Card,
+    icon: Globe,
     className:
       "border-[#f0b73b]/35 bg-[linear-gradient(135deg,#fff3cf_0%,#ffe79e_52%,#ffd768_100%)] text-[#8f5b00] shadow-[0_14px_30px_rgba(240,183,59,0.18)]",
-    label: "🌍 Founding 1000'e Katıl",
+    label: "Founding 1000'e Katıl",
   },
   {
     to: "/blogger-yarismasi",
-    image: bloggerVlogger,
+    icon: PenTool,
     className:
       "border-[#ef8c3f]/35 bg-[linear-gradient(135deg,#fff0de_0%,#ffd6af_52%,#ffbc7b_100%)] text-[#c96a1a] shadow-[0_14px_30px_rgba(239,140,63,0.18)]",
-    label: "✍️ Blogger Yarışması",
+    label: "Blogger Yarışması",
   },
   {
     to: "/vlogger-yarismasi",
-    image: vloggerContestCard,
+    icon: Clapperboard,
     className:
       "border-[#2f8fb4]/35 bg-[linear-gradient(135deg,#eef9fc_0%,#cfeefa_52%,#a9dff2_100%)] text-[#1f7595] shadow-[0_14px_30px_rgba(47,143,180,0.18)]",
-    label: "🎥 Vlogger Yarışması",
+    label: "Vlogger Yarışması",
   },
 ] as const;
 
@@ -58,31 +55,23 @@ const SEOContentSection = () => {
           </AccordionItem>
         </Accordion>
 
-        <div className="mb-4 grid gap-4 md:grid-cols-3">
-          {featuredLinks.map((link) => (
+        <div className="mb-4 flex flex-col gap-3">
+          {featuredLinks.map((link) => {
+            const Icon = link.icon;
+
+            return (
             <Link
               key={link.to}
               to={link.to}
-              className={`group overflow-hidden rounded-[1.5rem] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(15,23,42,0.10)] ${link.className}`}
+              className={`group flex min-h-[72px] items-center gap-3 rounded-[1.25rem] border px-4 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.10)] sm:min-h-[76px] sm:px-5 ${link.className}`}
             >
-              <div className="relative aspect-[1/1] min-h-[180px] md:min-h-[205px]">
-                <div className="absolute inset-x-0 top-0 h-[66%] overflow-hidden">
-                  <img
-                    src={link.image}
-                    alt=""
-                    aria-hidden="true"
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.08)_55%,rgba(255,255,255,0)_100%)]" />
-                </div>
-                <div className="absolute inset-x-0 bottom-0 flex h-[34%] items-center justify-center px-2 pb-3 pt-2 text-center">
-                  <div className="max-w-[calc(100%-0.75rem)] rounded-[1.1rem] border border-white/55 bg-white/72 px-3 py-2.5 backdrop-blur-md shadow-[0_10px_24px_rgba(255,255,255,0.24)]">
-                    <span className="text-[1.08rem] font-semibold md:text-[1.08rem]">{link.label}</span>
-                  </div>
-                </div>
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/60 bg-white/70 shadow-[0_10px_24px_rgba(255,255,255,0.22)] backdrop-blur-md">
+                <Icon className="h-5 w-5" />
               </div>
+              <span className="text-base font-semibold leading-tight sm:text-[1.08rem]">{link.label}</span>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </article>
     </section>
