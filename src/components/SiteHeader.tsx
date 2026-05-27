@@ -14,7 +14,7 @@ export default function SiteHeader() {
               <img
                 src={logo}
                 alt="CorteQS"
-                className="h-[42px] w-[42px] rounded-full object-cover"
+                className="h-[50px] w-[50px] rounded-full object-contain"
               />
             </div>
             <div className="text-left leading-tight">
