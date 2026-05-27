@@ -60,11 +60,11 @@ const LandingFoundersSection = () => {
                   </h2>
                 </div>
                 <span
-                  className={`shrink-0 text-foreground transition-transform duration-200 ${
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#b7dcd4] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(240,249,246,0.96))] text-[#153a5b] shadow-[0_10px_24px_rgba(21,58,91,0.10)] transition-transform duration-300 ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 >
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-[1.05rem] w-[1.05rem]" />
                 </span>
               </button>
             </CollapsibleTrigger>

@@ -15,33 +15,6 @@ import {
 import heroMapShowcase from "@/assets/may19-globe-pins.png";
 import logo from "../../newlogo.png";
 
-const showcaseCards = [
-  {
-    src: "https://images.pexels.com/photos/4649855/pexels-photo-4649855.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "İşletmeler için benzer görsel",
-  },
-  {
-    src: "https://images.pexels.com/photos/9623659/pexels-photo-9623659.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "Profesyoneller için benzer görsel",
-  },
-  {
-    src: "https://images.pexels.com/photos/34774320/pexels-photo-34774320.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "Kuruluşlar için benzer görsel",
-  },
-  {
-    src: "https://images.pexels.com/photos/6255901/pexels-photo-6255901.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "Topluluk yöneticileri için benzer görsel",
-  },
-  {
-    src: "https://images.pexels.com/photos/16891530/pexels-photo-16891530.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "İçerik üreticileri için benzer görsel",
-  },
-  {
-    src: "https://images.pexels.com/photos/16852968/pexels-photo-16852968.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    alt: "Dijital gruplar için benzer görsel",
-  },
-] as const;
-
 const rebuiltCards = [
   {
     title: "İşletmeler",
@@ -143,25 +116,6 @@ const GlobalNetworkShowcaseSection = () => {
             <div className="rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-medium text-slate-500 shadow-sm">
               Üstte eski sürüm, altta kodla kurulmuş sürüm
             </div>
-          </div>
-
-          <div className="overflow-hidden rounded-[1.6rem]">
-            <img
-              src={heroMapShowcase}
-              alt="CorteQS'in dünya çapında Türk topluluklarını şehirler ve bağlantılar üzerinden bir araya getiren ağ görseli"
-              className="w-full rounded-[1.6rem] object-cover"
-            />
-          </div>
-
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-            {showcaseCards.map((card) => (
-              <div
-                key={card.alt}
-                className="overflow-hidden rounded-[1.4rem] border border-slate-200/80 bg-white shadow-[0_14px_36px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_rgba(15,23,42,0.10)]"
-              >
-                <img src={card.src} alt={card.alt} className="h-full w-full object-cover" />
-              </div>
-            ))}
           </div>
 
           <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white px-4 py-4 shadow-[0_16px_38px_rgba(15,23,42,0.06)] md:px-6">
@@ -281,15 +235,15 @@ const GlobalNetworkShowcaseSection = () => {
 
             <div className="mt-8 overflow-hidden rounded-[1.9rem] border border-slate-200/90 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
               <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-[1.55fr_repeat(8,minmax(0,1fr))]">
-                <div className="flex items-center gap-4 border-b border-slate-200/80 px-6 py-6 md:border-r md:border-b-0">
-                  <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(244,247,255,0.95))] shadow-[0_16px_30px_rgba(15,23,42,0.08)]">
+                <div className="flex min-h-[160px] items-center gap-4 border-b border-slate-200/80 px-6 py-6 md:border-r md:border-b-0 xl:min-h-[132px]">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(244,247,255,0.95))] shadow-[0_16px_30px_rgba(15,23,42,0.08)]">
                     <img src={logo} alt="CorteQS" className="h-16 w-16 object-contain" />
                   </div>
-                  <div>
+                  <div className="flex min-h-[88px] flex-col justify-center">
                     <p className="text-[2rem] font-black leading-none tracking-[-0.04em] text-slate-900">
                       CorteQS
                     </p>
-                    <p className="mt-2 max-w-[15rem] text-xl leading-7 text-slate-700">
+                    <p className="mt-2 max-w-[15rem] text-[1.1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
                       Yurt Dışında Yaşayan Türklerin Sistemi
                     </p>
                   </div>
@@ -303,11 +257,11 @@ const GlobalNetworkShowcaseSection = () => {
                       key={item.label}
                       className="flex min-h-[160px] items-center justify-center border-b border-slate-200/80 px-5 py-6 text-center last:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[132px] xl:border-b-0"
                     >
-                      <div>
+                      <div className="flex min-h-[88px] flex-col items-center justify-start">
                         <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
                           <Icon className={`h-8 w-8 ${item.color}`} />
                         </div>
-                        <p className="mt-4 whitespace-pre-line text-[1.1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
+                        <p className="mt-4 flex min-h-[84px] items-start whitespace-pre-line text-[1.1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
                           {item.label}
                         </p>
                       </div>
