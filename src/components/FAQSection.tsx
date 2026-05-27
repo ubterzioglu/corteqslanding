@@ -216,6 +216,13 @@ const faqs = [
   },
 ];
 
+const faqClosedStyles = [
+  "border-[#d7e7ff] bg-[linear-gradient(135deg,rgba(66,133,244,0.05),rgba(255,255,255,0.96))]",
+  "border-[#d9ead7] bg-[linear-gradient(135deg,rgba(52,168,83,0.05),rgba(255,255,255,0.96))]",
+  "border-[#ffe1c7] bg-[linear-gradient(135deg,rgba(251,188,5,0.06),rgba(255,255,255,0.96))]",
+  "border-[#ffd8d2] bg-[linear-gradient(135deg,rgba(234,67,53,0.05),rgba(255,255,255,0.96))]",
+] as const;
+
 const FAQSection = () => {
   return (
     <section className="relative overflow-hidden py-7 lg:py-10">
@@ -236,7 +243,7 @@ const FAQSection = () => {
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className="overflow-hidden rounded-[8px] border border-primary/15 bg-card/80 px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10"
+                className={`overflow-hidden rounded-[8px] border px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10 ${faqClosedStyles[i % faqClosedStyles.length]}`}
               >
                 <AccordionTrigger className="text-left text-sm text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:text-base">
                   {faq.q}
