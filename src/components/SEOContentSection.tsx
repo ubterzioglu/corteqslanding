@@ -39,11 +39,11 @@ const SEOContentSection = () => {
             className="overflow-hidden rounded-[1.75rem] border border-[#bfe5de] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(240,250,247,0.96),rgba(247,252,255,0.94))] px-5 shadow-[0_18px_40px_rgba(69,145,132,0.10)] backdrop-blur-sm md:px-7"
           >
             <AccordionTrigger
-              className="gap-4 py-5 text-left hover:no-underline"
+              className="gap-3 py-4 text-left hover:no-underline md:gap-4 md:py-5"
               chevronWrapperClassName="border border-[#b7dcd4] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(240,249,246,0.96))] text-[#153a5b] shadow-[0_10px_24px_rgba(21,58,91,0.10)]"
               chevronClassName="h-4.5 w-4.5"
             >
-              <span className="inline-flex items-center gap-2 bg-[linear-gradient(90deg,#0f766e_0%,#2563eb_50%,#7c3aed_100%)] bg-clip-text text-xl font-black text-transparent md:text-2xl">
+              <span className="inline-flex max-w-full items-center gap-2 bg-[linear-gradient(90deg,#0f766e_0%,#2563eb_50%,#7c3aed_100%)] bg-clip-text text-lg font-black leading-tight text-transparent sm:text-xl md:text-2xl">
                 <Sparkles className="h-4 w-4 text-primary" />
                 CorteQS nedir?
               </span>

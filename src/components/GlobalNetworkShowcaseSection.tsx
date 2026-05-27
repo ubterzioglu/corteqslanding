@@ -159,8 +159,8 @@ const GlobalNetworkShowcaseSection = () => {
             </div>
 
             <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white shadow-[0_16px_38px_rgba(15,23,42,0.06)]">
-              <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-[1.55fr_repeat(8,minmax(0,1fr))]">
-                <div className="flex min-h-[168px] items-start gap-4 border-b border-slate-200/80 px-6 py-5 md:border-r md:border-b-0 xl:min-h-[156px]">
+              <div className="grid grid-cols-2 gap-0 md:grid-cols-2 xl:grid-cols-[1.55fr_repeat(8,minmax(0,1fr))]">
+                <div className="col-span-2 flex min-h-[168px] items-start gap-4 border-b border-slate-200/80 px-6 py-5 xl:col-span-1 xl:min-h-[156px] xl:border-r xl:border-b-0">
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(244,247,255,0.95))] shadow-[0_16px_30px_rgba(15,23,42,0.08)]">
                     <img src={logo} alt="CorteQS" className="h-16 w-16 object-contain" />
                   </div>
@@ -180,7 +180,7 @@ const GlobalNetworkShowcaseSection = () => {
                   return (
                     <div
                       key={`reference-${item.label}`}
-                      className="flex min-h-[168px] items-start justify-center border-b border-slate-200/80 px-4 py-5 text-center last:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[156px] xl:border-b-0"
+                      className="flex min-h-[168px] items-start justify-center border-b border-r border-slate-200/80 px-4 py-5 text-center even:border-r-0 last:border-b-0 xl:min-h-[156px] xl:border-b-0 xl:border-r xl:last:border-r-0"
                     >
                       <div className="flex min-h-[118px] w-full flex-col items-center justify-between">
                         <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
