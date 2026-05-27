@@ -1,6 +1,7 @@
 import { Building2, MessageCircle, Sparkles, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featuredLinks = [
   {
@@ -77,18 +78,6 @@ const SEOContentSection = () => {
   return (
     <section className="relative overflow-hidden py-10 lg:py-14">
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
-        <div className="mb-5 space-y-3">
-          {featuredLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
         <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/84 shadow-xl shadow-primary/10 backdrop-blur-sm">
           <div className="grid gap-6 p-5 md:p-7 xl:grid-cols-[1.08fr_0.92fr]">
             <div className="space-y-5">
@@ -100,10 +89,31 @@ const SEOContentSection = () => {
                 <h2 id="geo-content-title" className="mt-4 text-3xl font-black leading-tight text-foreground md:text-5xl">
                   Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-[15px]">
-                  CorteQS; dünyanın farklı şehirlerinde yaşayan Türkleri sadece bir sosyal ağda değil,
-                  gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
-                </p>
+                <Accordion type="single" collapsible defaultValue="corteqs-nedir" className="mt-5 max-w-3xl">
+                  <AccordionItem
+                    value="corteqs-nedir"
+                    className="overflow-hidden rounded-[1.4rem] border border-primary/15 bg-white/80 px-4 shadow-[0_12px_28px_rgba(15,23,42,0.05)]"
+                  >
+                    <AccordionTrigger className="gap-4 py-4 text-left text-base font-bold text-foreground hover:no-underline md:text-lg">
+                      CorteQS nedir?
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground md:text-[15px]">
+                      CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
+                      gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <div className="mt-5 space-y-3">
+                  {featuredLinks.map((link) => (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
 
               <div className="rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(245,249,247,0.92))] p-4 shadow-sm">
