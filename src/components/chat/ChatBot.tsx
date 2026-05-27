@@ -191,21 +191,12 @@ const ChatBot = ({
       <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
         Aynı sohbet içinde önce CorteQS hakkında bilgi alabilir, hazır olduğunda kayıt akışına geçebilirsin.
       </p>
-      {classicFormLayout === "stacked" ? (
-        <div className="mt-6 flex flex-col items-center justify-center gap-3">
-          <span className="text-sm text-muted-foreground">
-            Sohbet yerine klasik form mu istiyorsun?
-          </span>
-          {classicFormButton}
-        </div>
-      ) : (
-        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <span className="text-sm text-muted-foreground">
-            Sohbet yerine klasik form mu istiyorsun?
-          </span>
-          {classicFormButton}
-        </div>
-      )}
+      <div className="mt-6 flex flex-col items-center justify-center gap-3">
+        <span className="text-sm leading-relaxed text-muted-foreground md:text-base">
+          Sohbet yerine klasik form mu istiyorsun?
+        </span>
+        {classicFormButton}
+      </div>
     </div>
   ) : null;
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Linkedin } from "lucide-react";
+import { ChevronDown, Linkedin, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import burakPhoto from "../../burak.png";
@@ -52,16 +52,19 @@ const LandingFoundersSection = () => {
                 aria-expanded={isOpen}
               >
                 <div className="min-w-0">
-                  <h2 className="bg-[linear-gradient(90deg,#0f766e_0%,#2563eb_50%,#7c3aed_100%)] bg-clip-text text-xl font-black text-transparent md:text-2xl">
-                    Biz Kimiz?
+                  <h2 className="text-xl font-black md:text-2xl">
+                    <span className="inline-flex items-center gap-2 bg-[linear-gradient(90deg,#0f766e_0%,#2563eb_50%,#7c3aed_100%)] bg-clip-text text-transparent">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      Biz Kimiz?
+                    </span>
                   </h2>
                 </div>
                 <span
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#bfe5de] bg-white/85 text-primary shadow-[0_10px_24px_rgba(69,145,132,0.10)] transition-transform duration-300 ${
+                  className={`shrink-0 text-foreground transition-transform duration-200 ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 >
-                  <ChevronDown className="h-5 w-5" />
+                  <ChevronDown className="h-4 w-4" />
                 </span>
               </button>
             </CollapsibleTrigger>

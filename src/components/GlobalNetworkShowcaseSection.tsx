@@ -1,40 +1,45 @@
 import {
-  BadgeCheck,
   BriefcaseBusiness,
-  Building2,
   CalendarDays,
+  Clapperboard,
   Globe,
+  Landmark,
   MapPinned,
   MessageCircleMore,
   Plane,
   ScanSearch,
   Sparkles,
+  Store,
   Users,
-  Video,
 } from "lucide-react";
-import heroMapShowcase from "../../aaa/01_ust_hero_harita_hd.png";
-import businessesCard from "../../aaa/02_isletmeler_kart_hd.png";
-import professionalsCard from "../../aaa/03_profesyoneller_kart_hd.png";
-import institutionsCard from "../../aaa/04_kuruluslar_kart_hd.png";
-import communityManagersCard from "../../aaa/05_topluluk_yoneticileri_kart_hd.png";
-import creatorsCard from "../../aaa/06_icerik_ureticileri_kart_hd.png";
-import digitalGroupsCard from "../../aaa/07_dijital_gruplar_kart_hd.png";
-import featureStrip from "../../aaa/08_alt_ozellik_seridi_hd.png";
-import businessesPhoto from "../../aaa/10_isletmeler_foto_hd.png";
-import professionalsPhoto from "../../aaa/11_profesyoneller_foto_hd.png";
-import institutionsPhoto from "../../aaa/12_kuruluslar_foto_hd.png";
-import communityManagersPhoto from "../../aaa/13_topluluk_yoneticileri_foto_hd.png";
-import creatorsPhoto from "../../aaa/14_icerik_ureticileri_foto_hd.png";
-import digitalGroupsPhoto from "../../aaa/15_dijital_gruplar_foto_hd.png";
+import heroMapShowcase from "@/assets/may19-globe-pins.png";
 import logo from "../../newlogo.png";
 
 const showcaseCards = [
-  { src: businessesCard, alt: "İşletmeler için CorteQS kartı" },
-  { src: professionalsCard, alt: "Profesyoneller için CorteQS kartı" },
-  { src: institutionsCard, alt: "Kuruluşlar için CorteQS kartı" },
-  { src: communityManagersCard, alt: "Topluluk yöneticileri için CorteQS kartı" },
-  { src: creatorsCard, alt: "İçerik üreticileri için CorteQS kartı" },
-  { src: digitalGroupsCard, alt: "Dijital gruplar için CorteQS kartı" },
+  {
+    src: "https://images.pexels.com/photos/4649855/pexels-photo-4649855.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "İşletmeler için benzer görsel",
+  },
+  {
+    src: "https://images.pexels.com/photos/9623659/pexels-photo-9623659.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "Profesyoneller için benzer görsel",
+  },
+  {
+    src: "https://images.pexels.com/photos/34774320/pexels-photo-34774320.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "Kuruluşlar için benzer görsel",
+  },
+  {
+    src: "https://images.pexels.com/photos/6255901/pexels-photo-6255901.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "Topluluk yöneticileri için benzer görsel",
+  },
+  {
+    src: "https://images.pexels.com/photos/16891530/pexels-photo-16891530.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "İçerik üreticileri için benzer görsel",
+  },
+  {
+    src: "https://images.pexels.com/photos/16852968/pexels-photo-16852968.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    alt: "Dijital gruplar için benzer görsel",
+  },
 ] as const;
 
 const rebuiltCards = [
@@ -42,8 +47,8 @@ const rebuiltCards = [
     title: "İşletmeler",
     description:
       "Yerel müşterilere, diasporaya ve global Türk ağına ulaşın. Etkinlikler, kampanyalar ve topluluklarla görünürlüğünüzü büyütün.",
-    image: businessesPhoto,
-    icon: Building2,
+    image: "https://images.pexels.com/photos/4649855/pexels-photo-4649855.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    icon: Store,
     accent: "from-[#42bf65] to-[#2da956]",
     text: "text-[#2c9b4d]",
     line: "bg-[#42bf65]",
@@ -52,7 +57,7 @@ const rebuiltCards = [
     title: "Profesyoneller",
     description:
       "İş fırsatları, mentorlar, networking etkinlikleri ve şehir bazlı topluluklarla bağlantı kurun.",
-    image: professionalsPhoto,
+    image: "https://images.pexels.com/photos/9623659/pexels-photo-9623659.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: BriefcaseBusiness,
     accent: "from-[#4a97ff] to-[#2878f2]",
     text: "text-[#2878f2]",
@@ -62,8 +67,8 @@ const rebuiltCards = [
     title: "Kuruluşlar",
     description:
       "Topluluklarınızı büyütün, etkinliklerinizi duyurun ve global diaspora içinde görünür olun.",
-    image: institutionsPhoto,
-    icon: BadgeCheck,
+    image: "https://images.pexels.com/photos/34774320/pexels-photo-34774320.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    icon: Landmark,
     accent: "from-[#a45af6] to-[#7c3aed]",
     text: "text-[#7c3aed]",
     line: "bg-[#9b5cf4]",
@@ -72,7 +77,7 @@ const rebuiltCards = [
     title: "Topluluk Yöneticileri",
     description:
       "WhatsApp ve Telegram gruplarınızı listeleyin, yeni üyelere ulaşın ve kendi mikro ağınızı yönetin.",
-    image: communityManagersPhoto,
+    image: "https://images.pexels.com/photos/6255901/pexels-photo-6255901.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Users,
     accent: "from-[#52d67c] to-[#2bbf62]",
     text: "text-[#24a454]",
@@ -82,8 +87,8 @@ const rebuiltCards = [
     title: "İçerik Üreticileri",
     description:
       "Blogger, vlogger ve dijital topluluk liderleri için yeni nesil diaspora dağıtım ağı.",
-    image: creatorsPhoto,
-    icon: Video,
+    image: "https://images.pexels.com/photos/16891530/pexels-photo-16891530.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    icon: Clapperboard,
     accent: "from-[#ff59b8] to-[#ff2b92]",
     text: "text-[#ef2d8d]",
     line: "bg-[#ff2b92]",
@@ -92,7 +97,7 @@ const rebuiltCards = [
     title: "Dijital Gruplar",
     description:
       "Şehir, ülke ve tema bazlı topluluklar tek bir keşif sisteminde birleşiyor.",
-    image: digitalGroupsPhoto,
+    image: "https://images.pexels.com/photos/16852968/pexels-photo-16852968.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Globe,
     accent: "from-[#ffb249] to-[#ff7a18]",
     text: "text-[#f97316]",
@@ -159,12 +164,26 @@ const GlobalNetworkShowcaseSection = () => {
             ))}
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white shadow-[0_16px_38px_rgba(15,23,42,0.06)]">
-            <img
-              src={featureStrip}
-              alt="CorteQS platform özellikleri şeridi"
-              className="w-full object-cover"
-            />
+          <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white px-4 py-4 shadow-[0_16px_38px_rgba(15,23,42,0.06)] md:px-6">
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
+              {featureItems.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    key={`reference-${item.label}`}
+                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.98))] px-3 py-3"
+                  >
+                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white ring-1 ${item.ring}`}>
+                      <Icon className={`h-5 w-5 ${item.color}`} />
+                    </div>
+                    <p className="whitespace-pre-line text-sm font-semibold leading-5 tracking-[-0.02em] text-slate-700">
+                      {item.label}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="mt-10 rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,252,255,0.98),rgba(255,247,240,0.96))] p-5 shadow-[0_18px_48px_rgba(15,23,42,0.07)] md:p-8">
