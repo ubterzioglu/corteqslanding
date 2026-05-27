@@ -4,7 +4,7 @@ import logo from "../../newlogo.png";
 export default function SiteHeader() {
   return (
     <div className="sticky top-0 z-50 border-b border-orange-100/90 bg-[linear-gradient(180deg,#fffdf9_0%,#fff8f0_100%)] backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-4 lg:px-6">
+      <div className="container mx-auto px-4 py-3 lg:px-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Link
             to="/"

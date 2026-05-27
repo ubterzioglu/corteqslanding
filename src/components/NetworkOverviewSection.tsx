@@ -1,23 +1,6 @@
 import { useState } from "react";
-import {
-  BookOpen,
-  Briefcase,
-  BriefcaseBusiness,
-  Building2,
-  CalendarDays,
-  ChevronDown,
-  GraduationCap,
-  HandHeart,
-  Landmark,
-  MapPin,
-  Mic,
-  Network,
-  Radio,
-  User,
-  Users,
-} from "lucide-react";
+import { BookOpen, BriefcaseBusiness, Building2, CalendarDays, ChevronDown, GraduationCap, HandHeart, MapPin, Network, Radio, Users } from "lucide-react";
 
-import RegisterInterestForm from "./RegisterInterestForm";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const stats = [
@@ -31,45 +14,6 @@ const stats = [
   { label: "2.000+ Medya Platformu", icon: Radio },
   { label: "1.000+ Kültür Etkinliği", icon: CalendarDays },
   { label: "500+ Profesyonel Ağ", icon: Network },
-];
-
-const categories = [
-  {
-    icon: Briefcase,
-    title: "Danışmanlar",
-    desc: "Vergi, emlak, vize, iş kurma, kariyer ve sağlık gibi alanlarda uzman profesyoneller.",
-    defaultCategory: "danisman",
-  },
-  {
-    icon: Building2,
-    title: "İşletmeler & Şirketler",
-    desc: "Marketlerden kliniklere, restoranlardan ajanslara kadar diaspora odaklı işletme ekosistemi.",
-    defaultCategory: "isletme",
-  },
-  {
-    icon: Landmark,
-    title: "Kuruluşlar",
-    desc: "Dernekler, vakıflar, medya kurumları ve topluluk yapıları.",
-    defaultCategory: "dernek",
-  },
-  {
-    icon: Mic,
-    title: "Blogger & Vlogger",
-    desc: "Diaspora hikayelerini anlatan içerik üreticileri ve topluluk sesleri.",
-    defaultCategory: "blogger-vlogger",
-  },
-  {
-    icon: Users,
-    title: "Şehir Elçisi",
-    desc: "Bulunduğu şehirde yerel ağı güçlendiren ve ticari bağlantı kuran partnerler.",
-    defaultCategory: "sehir-elcisi",
-  },
-  {
-    icon: User,
-    title: "Bireysel Kullanıcı",
-    desc: "Danışman, etkinlik, bilgi ve bağlantı arayan bireyler.",
-    defaultCategory: "bireysel",
-  },
 ];
 
 const cities = [
@@ -89,13 +33,6 @@ const triggerCitySelect = (city: string, mode: "ai" | "form") => {
 
 const NetworkOverviewSection = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
-
-  const openForm = (category: string) => {
-    setSelectedCategory(category);
-    setFormOpen(true);
-  };
 
   return (
     <section id="diaspora-ekosistemi" className="relative overflow-hidden py-14 lg:py-20">
@@ -110,7 +47,7 @@ const NetworkOverviewSection = () => {
               >
                 <div className="min-w-0">
                   <h2 className="text-2xl font-bold text-foreground md:text-4xl">
-                    Diasporanın Gücü, Kategoriler ve Şehirler
+                    Diasporanın Gücü ve Şehirler
                   </h2>
                   <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
                     CorteQS'in oluşturduğu ağı, katılım alanlarını ve odak şehirlerini tek bölümde incelemek için bu alanı aç.
@@ -140,37 +77,6 @@ const NetworkOverviewSection = () => {
                       <div key={label} className="flex items-center gap-3 rounded-xl border border-white/60 bg-white/70 px-4 py-3 shadow-sm">
                         <Icon className="h-4 w-4 shrink-0 text-primary" />
                         <span className="text-sm font-semibold text-foreground">{label}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-white/60 bg-background/60 p-5 md:p-6">
-                  <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-                    <div>
-                      <h3 className="text-xl font-bold text-foreground md:text-2xl">CorteQS'de Yerinizi Belirleyin</h3>
-                    </div>
-                    <p className="max-w-2xl text-sm text-muted-foreground">
-                      İlgilendiğiniz kategoriye göre erken kayıt bırakabilir ve platform açıldığında ilk haberdar olanlardan olabilirsiniz.
-                    </p>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                    {categories.map((cat) => (
-                      <div key={cat.title} className="flex h-full flex-col rounded-2xl border border-white/60 bg-white/80 p-6 shadow-sm">
-                        <div className="mb-4 flex items-center gap-3">
-                          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                            <cat.icon className="h-6 w-6 text-primary" />
-                          </div>
-                          <h4 className="text-lg font-bold text-foreground">{cat.title}</h4>
-                        </div>
-                        <p className="mb-5 flex-1 text-sm leading-relaxed text-muted-foreground">{cat.desc}</p>
-                        <button
-                          type="button"
-                          onClick={() => openForm(cat.defaultCategory)}
-                          className="mt-auto w-full rounded-xl bg-primary/10 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground"
-                        >
-                          Kayit Birak / Takip Et
-                        </button>
                       </div>
                     ))}
                   </div>
@@ -219,12 +125,6 @@ const NetworkOverviewSection = () => {
           </div>
         </Collapsible>
       </div>
-
-      <RegisterInterestForm
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        defaultCategory={selectedCategory}
-      />
     </section>
   );
 };
