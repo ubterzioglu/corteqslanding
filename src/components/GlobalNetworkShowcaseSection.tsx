@@ -108,25 +108,112 @@ const GlobalNetworkShowcaseSection = () => {
             </div>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white px-4 py-4 shadow-[0_16px_38px_rgba(15,23,42,0.06)] md:px-6">
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-8">
-              {featureItems.map((item) => {
-                const Icon = item.icon;
+          <div className="mt-5 overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_18px_42px_rgba(15,23,42,0.07)] md:px-7 md:py-7">
+            <div className="grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-center">
+              <div className="max-w-[670px]">
+                <div className="inline-flex items-center rounded-2xl border border-[#ffd5c7] bg-[#fff6f1] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_30px_rgba(243,91,56,0.08)]">
+                  Dunya Capinda Tek Ag
+                </div>
+                <h2 className="mt-5 max-w-[14ch] text-[2.25rem] font-black leading-[0.98] tracking-[-0.05em] text-slate-900 sm:text-[3.2rem] lg:max-w-[13ch] lg:text-[4rem]">
+                  Dunyaya dagilmis Turk topluluklarinin{" "}
+                  <span className="bg-[linear-gradient(90deg,#23b26d_0%,#7c3aed_48%,#ff7a18_100%)] bg-clip-text text-transparent">
+                    ekonomik ve sosyal sinir aglarini
+                  </span>{" "}
+                  oruyoruz.
+                </h2>
+                <p className="mt-5 max-w-[48rem] text-base font-medium leading-8 text-slate-500 sm:text-[1.18rem]">
+                  CorteQS, isletmelerden profesyonellere, kuruluslardan topluluk yoneticilerine
+                  kadar herkesi tek bir ag icinde bir araya getirir.
+                </p>
+              </div>
+
+              <div className="relative min-h-[320px] overflow-hidden rounded-[1.8rem] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.98),rgba(246,250,255,0.94),rgba(255,249,244,0.96))] p-3 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:min-h-[390px]">
+                <img
+                  src={showcasePanelImage}
+                  alt="CorteQS global ag gorseli"
+                  className="h-full w-full rounded-[1.45rem] object-cover object-center"
+                />
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+              {rebuiltCards.map((card) => {
+                const Icon = card.icon;
 
                 return (
-                  <div
-                    key={`reference-${item.label}`}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.98))] px-3 py-3"
+                  <article
+                    key={`reference-card-${card.title}`}
+                    className="group overflow-hidden rounded-[1.35rem] border border-slate-200/90 bg-white shadow-[0_12px_28px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,23,42,0.09)]"
                   >
-                    <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white ring-1 ${item.ring}`}>
-                      <Icon className={`h-5 w-5 ${item.color}`} />
+                    <div className="relative h-24 overflow-hidden sm:h-28 xl:h-24 2xl:h-28">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.14)_100%)]" />
+                      <div className={`absolute left-4 top-4 rounded-full bg-gradient-to-br p-3 text-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ${card.accent}`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
                     </div>
-                    <p className="whitespace-pre-line text-sm font-semibold leading-5 tracking-[-0.02em] text-slate-700">
-                      {item.label}
-                    </p>
-                  </div>
+
+                    <div className="px-4 pb-4 pt-5 2xl:px-5">
+                      <h4 className={`min-h-[3.4rem] text-[0.98rem] font-bold leading-[1.12] tracking-[-0.03em] 2xl:text-[1.05rem] ${card.text}`}>
+                        {card.title}
+                      </h4>
+                      <p className="mt-2 min-h-[6.8rem] text-[0.88rem] leading-6 text-slate-600 2xl:text-[0.92rem]">
+                        {card.description}
+                      </p>
+                      <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
+                    </div>
+                  </article>
                 );
               })}
+            </div>
+
+            <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-white shadow-[0_16px_38px_rgba(15,23,42,0.06)]">
+              <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-[1.55fr_repeat(8,minmax(0,1fr))]">
+                <div className="flex min-h-[168px] items-start gap-4 border-b border-slate-200/80 px-6 py-5 md:border-r md:border-b-0 xl:min-h-[156px]">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(244,247,255,0.95))] shadow-[0_16px_30px_rgba(15,23,42,0.08)]">
+                    <img src={logo} alt="CorteQS" className="h-16 w-16 object-contain" />
+                  </div>
+                  <div className="flex min-h-[118px] flex-col justify-between pt-1">
+                    <p className="text-[2rem] font-black leading-none tracking-[-0.04em] text-slate-900">
+                      CorteQS
+                    </p>
+                    <p className="max-w-[14rem] text-[1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
+                      Yurt Disinda Yasayan Turklerin Sistemi
+                    </p>
+                  </div>
+                </div>
+
+                {featureItems.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <div
+                      key={`reference-${item.label}`}
+                      className="flex min-h-[168px] items-start justify-center border-b border-slate-200/80 px-4 py-5 text-center last:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[156px] xl:border-b-0"
+                    >
+                      <div className="flex min-h-[118px] w-full flex-col items-center justify-between">
+                        <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
+                          <Icon className={`h-8 w-8 ${item.color}`} />
+                        </div>
+                        <p className="flex min-h-[72px] items-start justify-center whitespace-pre-line text-[0.92rem] font-semibold leading-6 tracking-[-0.02em] text-slate-800">
+                          {item.label}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="border-t border-slate-100 px-6 py-4">
+                <div className="h-1 w-full rounded-full bg-[linear-gradient(90deg,#ffb46b_0%,#f6f0df_8%,#52d67c_42%,#f7f4ea_56%,#8b5cf6_78%,#60a5fa_100%)]" />
+                <p className="mt-3 text-center text-lg font-semibold tracking-[-0.03em] text-slate-700">
+                  Baglan. Kesfet. Guclen.
+                </p>
+              </div>
             </div>
           </div>
 
