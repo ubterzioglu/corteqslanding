@@ -227,16 +227,9 @@ const FAQSection = () => {
   return (
     <section className="relative overflow-hidden py-7 lg:py-10">
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
-        <div className="mb-3 text-center">
-          <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">
-            Yardım Merkezi
-          </span>
-        </div>
         <div className="mx-auto max-w-6xl">
           <h2 className="mb-8 text-center text-2xl font-bold text-foreground md:text-4xl">
             Sıkça Sorulan Sorular
-            <br />
-            CorteQS Nasıl Çalışır?
           </h2>
           <Accordion type="single" collapsible className="w-full space-y-3">
             {faqs.map((faq, i) => (
