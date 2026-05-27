@@ -136,19 +136,19 @@ const GlobalNetworkShowcaseSection = () => {
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.14)_100%)]" />
                     </div>
 
-                    <div className="px-4 py-4 sm:pb-4 sm:pt-5 2xl:px-5">
-                      <div className="flex min-h-[3.15rem] items-start gap-2.5">
-                        <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
+                    <div className="px-4 py-4 text-center sm:pb-4 sm:pt-5 2xl:px-5">
+                      <div className="flex min-h-[5.1rem] flex-col items-center justify-start gap-2">
+                        <div className={`shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
                           <Icon className="h-4.5 w-4.5" />
                         </div>
-                        <h4 className={`min-w-0 whitespace-nowrap text-[0.68rem] font-bold leading-[1.05] tracking-[-0.04em] xl:text-[0.76rem] 2xl:text-[0.84rem] ${card.text}`}>
+                        <h4 className={`text-center text-[0.68rem] font-bold leading-[1.08] tracking-[-0.04em] xl:text-[0.76rem] 2xl:text-[0.84rem] ${card.text}`}>
                           {card.title}
                         </h4>
                       </div>
-                      <p className="mt-2 min-h-[6.4rem] text-[0.76rem] leading-5 text-slate-600 2xl:text-[0.8rem]">
+                      <p className="mt-2 min-h-[6.4rem] text-center text-[0.76rem] leading-5 text-slate-600 2xl:text-[0.8rem]">
                         {card.description}
                       </p>
-                      <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
+                      <div className={`mx-auto mt-4 h-1 w-8 rounded-full ${card.line}`} />
                     </div>
                   </article>
                 );

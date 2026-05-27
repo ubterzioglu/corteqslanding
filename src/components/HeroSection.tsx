@@ -116,26 +116,23 @@ const HeroSection = () => {
                 </a>
               </div>
 
-              <div className="flex max-w-lg flex-col gap-2.5 2xl:max-w-[38rem]">
-                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
-                  <Link
-                    to="/founders"
-                    onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
-                    className={`${heroCtaClass} font-bold sm:col-span-2`}
-                    style={heroCardStyles.founders}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-100"
-                      aria-hidden
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
-                      }}
-                    />
-                    <span className="relative z-10">Biz Kimiz</span>
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
+              <div className="grid max-w-lg grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
+                <Link
+                  to="/founders"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
+                  className={`${heroCtaClass} font-bold`}
+                  style={heroCardStyles.founders}
+                >
+                  <span
+                    className="pointer-events-none absolute inset-0 opacity-100"
+                    aria-hidden
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
+                    }}
+                  />
+                  <span className="relative z-10">Biz Kimiz</span>
+                </Link>
                   <Link
                     to="/addwa"
                     className={`${heroCtaClass} px-4`}
@@ -151,7 +148,6 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
                   </Link>
-                </div>
               </div>
             </div>
           </div>
