@@ -14,19 +14,13 @@ import {
 } from "lucide-react";
 import showcasePanelImage from "@/assets/global-network-showcase-panel.png";
 import logo from "../../newlogo.png";
-import isletmelerCardImage from "../../deneme/02_isletmeler_kart_hd.png";
-import profesyonellerCardImage from "../../deneme/03_profesyoneller_kart_hd.png";
-import kuruluslarCardImage from "../../deneme/04_kuruluslar_kart_hd.png";
-import toplulukYoneticileriCardImage from "../../deneme/05_topluluk_yoneticileri_kart_hd.png";
-import icerikUreticileriCardImage from "../../deneme/06_icerik_ureticileri_kart_hd.png";
-import dijitalGruplarCardImage from "../../deneme/07_dijital_gruplar_kart_hd.png";
 
 const rebuiltCards = [
   {
     title: "İşletmeler",
     description:
       "Yerel müşterilere, diasporaya ve global Türk ağına ulaşın. Etkinlikler, kampanyalar ve topluluklarla görünürlüğünüzü büyütün.",
-    image: isletmelerCardImage,
+    image: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Store,
     accent: "from-[#42bf65] to-[#2da956]",
     text: "text-[#2c9b4d]",
@@ -36,7 +30,7 @@ const rebuiltCards = [
     title: "Profesyoneller",
     description:
       "İş fırsatları, mentorlar, networking etkinlikleri ve şehir bazlı topluluklarla bağlantı kurun.",
-    image: profesyonellerCardImage,
+    image: "https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: BriefcaseBusiness,
     accent: "from-[#4a97ff] to-[#2878f2]",
     text: "text-[#2878f2]",
@@ -46,7 +40,7 @@ const rebuiltCards = [
     title: "Kuruluşlar",
     description:
       "Topluluklarınızı büyütün, etkinliklerinizi duyurun ve global diaspora içinde görünür olun.",
-    image: kuruluslarCardImage,
+    image: "https://images.pexels.com/photos/7092613/pexels-photo-7092613.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Landmark,
     accent: "from-[#a45af6] to-[#7c3aed]",
     text: "text-[#7c3aed]",
@@ -56,7 +50,7 @@ const rebuiltCards = [
     title: "Topluluk Yöneticileri",
     description:
       "WhatsApp ve Telegram gruplarınızı listeleyin, yeni üyelere ulaşın ve kendi mikro ağınızı yönetin.",
-    image: toplulukYoneticileriCardImage,
+    image: "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Users,
     accent: "from-[#52d67c] to-[#2bbf62]",
     text: "text-[#24a454]",
@@ -66,7 +60,7 @@ const rebuiltCards = [
     title: "İçerik Üreticileri",
     description:
       "Blogger, vlogger ve dijital topluluk liderleri için yeni nesil diaspora dağıtım ağı.",
-    image: icerikUreticileriCardImage,
+    image: "https://images.pexels.com/photos/5054212/pexels-photo-5054212.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Clapperboard,
     accent: "from-[#ff59b8] to-[#ff2b92]",
     text: "text-[#ef2d8d]",
@@ -76,7 +70,7 @@ const rebuiltCards = [
     title: "Dijital Gruplar",
     description:
       "Şehir, ülke ve tema bazlı topluluklar tek bir keşif sisteminde birleşiyor.",
-    image: dijitalGruplarCardImage,
+    image: "https://images.pexels.com/photos/4226256/pexels-photo-4226256.jpeg?auto=compress&cs=tinysrgb&w=1200",
     icon: Globe,
     accent: "from-[#ffb249] to-[#ff7a18]",
     text: "text-[#f97316]",
