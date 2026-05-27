@@ -1,6 +1,7 @@
 import { Building2, MessageCircle, Sparkles, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featuredLinks = [
   {
@@ -77,35 +78,46 @@ const SEOContentSection = () => {
   return (
     <section className="relative overflow-hidden py-5 lg:py-7">
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
-        <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/84 shadow-xl shadow-primary/10 backdrop-blur-sm">
-          <div className="grid gap-6 p-5 md:p-7 xl:grid-cols-[1.08fr_0.92fr]">
-            <div className="space-y-5">
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
-                  <Sparkles className="h-3.5 w-3.5" />
-                  CorteQS Nedir?
-                </span>
-                <h2 id="geo-content-title" className="mt-4 text-3xl font-black leading-tight text-foreground md:text-5xl">
+        <Accordion type="single" collapsible defaultValue="corteqs-nedir" className="mb-4">
+          <AccordionItem
+            value="corteqs-nedir"
+            className="overflow-hidden rounded-[1.75rem] border border-white/60 bg-card/84 px-5 shadow-xl shadow-primary/10 backdrop-blur-sm md:px-7"
+          >
+            <AccordionTrigger className="gap-4 py-5 text-left text-lg font-black text-foreground hover:no-underline md:text-2xl">
+              <span className="inline-flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                CorteQS nedir?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pb-6">
+              <div className="max-w-4xl space-y-4">
+                <h2 id="geo-content-title" className="text-2xl font-black leading-tight text-foreground md:text-4xl">
                   Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-[15px]">
+                <p className="text-sm leading-7 text-muted-foreground md:text-[15px]">
                   CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
                   gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
                 </p>
               </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-              <div className="space-y-3">
-                {featuredLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+        <div className="mb-4 space-y-3">
+          {featuredLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
 
+        <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/84 shadow-xl shadow-primary/10 backdrop-blur-sm">
+          <div className="grid gap-6 p-5 md:p-7 xl:grid-cols-[1.08fr_0.92fr]">
+            <div className="space-y-5">
               <div className="rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(245,249,247,0.92))] p-4 shadow-sm">
                 <img
                   src={heroNetworkLight}
