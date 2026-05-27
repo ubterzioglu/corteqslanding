@@ -8,7 +8,6 @@ import {
   MessageCircleMore,
   Plane,
   ScanSearch,
-  Sparkles,
   Store,
   Users,
 } from "lucide-react";
@@ -108,30 +107,30 @@ const GlobalNetworkShowcaseSection = () => {
             </div>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-[1.75rem] border border-slate-200/80 bg-white px-5 py-5 shadow-[0_18px_42px_rgba(15,23,42,0.07)] md:px-7 md:py-7">
-            <div className="grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-center">
-              <div className="max-w-[670px]">
-                <div className="inline-flex items-center rounded-2xl border border-[#ffd5c7] bg-[#fff6f1] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_30px_rgba(243,91,56,0.08)]">
+          <div className="mt-5 rounded-[1.75rem] border border-slate-200/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(252,253,255,0.96))] px-6 py-5 shadow-[0_16px_36px_rgba(15,23,42,0.05)] md:px-8 md:py-7 xl:px-6 xl:py-6">
+            <div className="grid gap-5 xl:grid-cols-[1.06fr_0.94fr] xl:items-center">
+              <div className="max-w-[760px] xl:pr-2">
+                <div className="inline-flex items-center rounded-2xl border border-[#ffd9ce] bg-[linear-gradient(180deg,#fff8f5,#fff4ee)] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_24px_rgba(243,91,56,0.06)]">
                   Dunya Capinda Tek Ag
                 </div>
-                <h2 className="mt-5 max-w-[14ch] text-[2.25rem] font-black leading-[0.98] tracking-[-0.05em] text-slate-900 sm:text-[3.2rem] lg:max-w-[13ch] lg:text-[4rem]">
+                <h2 className="mt-5 max-w-[13ch] text-[2.4rem] font-black leading-[0.96] tracking-[-0.055em] text-slate-900 sm:text-[3.35rem] lg:text-[4.15rem] xl:max-w-[12.5ch]">
                   Dunyaya dagilmis Turk topluluklarinin{" "}
                   <span className="bg-[linear-gradient(90deg,#23b26d_0%,#7c3aed_48%,#ff7a18_100%)] bg-clip-text text-transparent">
                     ekonomik ve sosyal sinir aglarini
                   </span>{" "}
                   oruyoruz.
                 </h2>
-                <p className="mt-5 max-w-[48rem] text-base font-medium leading-8 text-slate-500 sm:text-[1.18rem]">
+                <p className="mt-5 max-w-[44rem] text-base font-medium leading-8 text-slate-500 sm:text-[1.2rem]">
                   CorteQS, isletmelerden profesyonellere, kuruluslardan topluluk yoneticilerine
                   kadar herkesi tek bir ag icinde bir araya getirir.
                 </p>
               </div>
 
-              <div className="relative min-h-[320px] overflow-hidden rounded-[1.8rem] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.98),rgba(246,250,255,0.94),rgba(255,249,244,0.96))] p-3 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:min-h-[390px]">
+              <div className="relative min-h-[260px] overflow-hidden rounded-[1.9rem] bg-transparent xl:min-h-[300px]">
                 <img
                   src={showcasePanelImage}
                   alt="CorteQS global ag gorseli"
-                  className="h-full w-full rounded-[1.45rem] object-cover object-center"
+                  className="h-full w-full object-contain object-center xl:scale-[1.08]"
                 />
               </div>
             </div>
@@ -152,15 +151,17 @@ const GlobalNetworkShowcaseSection = () => {
                         className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.14)_100%)]" />
-                      <div className={`absolute left-4 top-4 rounded-full bg-gradient-to-br p-3 text-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ${card.accent}`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
                     </div>
 
                     <div className="px-4 pb-4 pt-5 2xl:px-5">
-                      <h4 className={`min-h-[3.4rem] text-[0.98rem] font-bold leading-[1.12] tracking-[-0.03em] 2xl:text-[1.05rem] ${card.text}`}>
-                        {card.title}
-                      </h4>
+                      <div className="flex min-h-[3.4rem] items-start gap-3">
+                        <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
+                          <Icon className="h-4.5 w-4.5" />
+                        </div>
+                        <h4 className={`text-[0.98rem] font-bold leading-[1.12] tracking-[-0.03em] 2xl:text-[1.05rem] ${card.text}`}>
+                          {card.title}
+                        </h4>
+                      </div>
                       <p className="mt-2 min-h-[6.8rem] text-[0.88rem] leading-6 text-slate-600 2xl:text-[0.92rem]">
                         {card.description}
                       </p>
@@ -217,122 +218,6 @@ const GlobalNetworkShowcaseSection = () => {
             </div>
           </div>
 
-          <div className="mt-10 rounded-[1.8rem] border border-slate-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,252,255,0.98),rgba(255,247,240,0.96))] p-5 shadow-[0_18px_48px_rgba(15,23,42,0.07)] md:p-8">
-            <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.34em] text-slate-400">
-                  Kodla Yeniden Kurulan Sürüm
-                </p>
-                <h3 className="mt-1 text-lg font-semibold text-slate-900">
-                  Metinleri ve alt şeridi düzenlenebilir versiyon
-                </h3>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-medium text-emerald-700">
-                <Sparkles className="h-3.5 w-3.5" />
-                Bu blok metin ve kart bazında tamamen düzenlenebilir
-              </div>
-            </div>
-
-            <div className="grid gap-8 xl:grid-cols-[1.02fr_0.98fr] xl:items-center">
-              <div className="max-w-[680px]">
-                <div className="inline-flex items-center rounded-2xl border border-[#ffd5c7] bg-[#fff6f1] px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-[#f35b38] shadow-[0_10px_30px_rgba(243,91,56,0.08)]">
-                  Dünya Çapında Tek Ağ
-                </div>
-                <h2 className="mt-5 text-[2rem] font-black leading-[1.03] tracking-[-0.04em] text-slate-900 sm:text-[2.8rem] lg:text-[4.1rem]">
-                  Dünyaya dağılmış Türk topluluklarının{" "}
-                  <span className="bg-[linear-gradient(90deg,#23b26d,#7c3aed,#ff7a18)] bg-clip-text text-transparent">
-                    ekonomik ve sosyal sinir ağlarını
-                  </span>{" "}
-                  örüyoruz.
-                </h2>
-                <p className="mt-5 max-w-[46rem] text-lg leading-8 text-slate-600 sm:text-[1.35rem]">
-                  CorteQS, işletmelerden profesyonellere, kuruluşlardan topluluk yöneticilerine
-                  kadar herkesi tek bir ağ içinde bir araya getirir.
-                </p>
-              </div>
-
-              <div className="relative min-h-[340px] overflow-hidden rounded-[1.9rem] border border-slate-200/70 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.98),rgba(246,250,255,0.94),rgba(255,249,244,0.96))] p-3 shadow-[0_18px_48px_rgba(15,23,42,0.06)] sm:min-h-[430px] sm:p-4">
-                <img
-                  src={showcasePanelImage}
-                  alt="CorteQS global ağ gösterimi"
-                  className="h-full w-full rounded-[1.55rem] object-cover object-center shadow-[0_12px_28px_rgba(15,23,42,0.08)]"
-                />
-              </div>
-            </div>
-
-            <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-6">
-              {rebuiltCards.map((card) => {
-                const Icon = card.icon;
-
-                return (
-                  <article
-                    key={card.title}
-                    className="group overflow-hidden rounded-[1.45rem] border border-slate-200/90 bg-white shadow-[0_12px_28px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(15,23,42,0.09)]"
-                  >
-                    <div className="relative h-24 overflow-hidden sm:h-28 xl:h-24 2xl:h-28">
-                      <img
-                        src={card.image}
-                        alt={card.title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                      />
-                      <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,transparent_48%,rgba(255,255,255,0.18)_100%)]" />
-                      <div className={`absolute bottom-0 left-4 translate-y-1/2 rounded-full bg-gradient-to-br p-3 text-white shadow-[0_14px_30px_rgba(15,23,42,0.16)] ${card.accent}`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                    </div>
-
-                    <div className="px-4 pb-4 pt-7 xl:px-4 2xl:px-5">
-                      <h4 className={`min-h-[3.75rem] text-[1rem] font-bold leading-[1.15] tracking-[-0.03em] xl:text-[0.95rem] 2xl:text-[1.1rem] ${card.text}`}>
-                        {card.title}
-                      </h4>
-                      <p className="mt-2 min-h-[7.5rem] text-[0.9rem] leading-7 text-slate-600 xl:text-[0.82rem] xl:leading-6 2xl:text-[0.95rem] 2xl:leading-7">
-                        {card.description}
-                      </p>
-                      <div className={`mt-4 h-1 w-8 rounded-full ${card.line}`} />
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-
-            <div className="mt-8 overflow-hidden rounded-[1.9rem] border border-slate-200/90 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
-              <div className="grid gap-0 md:grid-cols-2 xl:grid-cols-[1.55fr_repeat(8,minmax(0,1fr))]">
-                <div className="flex min-h-[168px] items-start gap-4 border-b border-slate-200/80 px-6 py-5 md:border-r md:border-b-0 xl:min-h-[156px]">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(244,247,255,0.95))] shadow-[0_16px_30px_rgba(15,23,42,0.08)]">
-                    <img src={logo} alt="CorteQS" className="h-16 w-16 object-contain" />
-                  </div>
-                  <div className="flex min-h-[118px] flex-col justify-between pt-1">
-                    <p className="text-[2rem] font-black leading-none tracking-[-0.04em] text-slate-900">
-                      CorteQS
-                    </p>
-                    <p className="max-w-[14rem] text-[1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
-                      Yurt Dışında Yaşayan Türklerin Sistemi
-                    </p>
-                  </div>
-                </div>
-
-                {featureItems.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <div
-                      key={item.label}
-                      className="flex min-h-[168px] items-start justify-center border-b border-slate-200/80 px-4 py-5 text-center last:border-b-0 md:border-r md:last:border-r-0 xl:min-h-[156px] xl:border-b-0"
-                    >
-                      <div className="flex min-h-[118px] w-full flex-col items-center justify-between">
-                        <div className={`mx-auto mt-0 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
-                          <Icon className={`h-8 w-8 ${item.color}`} />
-                        </div>
-                        <p className="flex min-h-[72px] items-start justify-center whitespace-pre-line text-[0.92rem] font-semibold leading-6 tracking-[-0.02em] text-slate-800">
-                          {item.label}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
