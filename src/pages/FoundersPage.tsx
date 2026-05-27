@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { ChevronDown, Linkedin } from "lucide-react";
 import burakPhoto from "../../burak.png";
-import foundersLogo from "../../newlogo.png";
 import ubtPhoto from "../../ubt.png";
 
 type FounderSection = {
@@ -145,7 +144,9 @@ const FounderPortrait = ({
 };
 
 const FoundersPage = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedCards, setExpandedCards] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(founderProfiles.map((founder) => [founder.name, true])),
+  );
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -175,130 +176,111 @@ const FoundersPage = () => {
         />
 
         <div className="container relative z-10 mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <section className="mb-10">
-            <div className="mx-auto max-w-5xl">
-              <div className="rounded-[2rem] border border-[#0f6fc2]/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(241,248,255,0.96),rgba(255,248,237,0.96))] px-6 py-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)] md:px-8 md:py-8">
-                <div className="flex flex-col items-center gap-5 text-center md:flex-row md:items-center md:gap-7 md:text-left">
-                  <div className="shrink-0 rounded-[1.75rem] border border-[#0f6fc2]/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(232,245,255,0.95),rgba(255,244,223,0.98))] p-4 shadow-[0_22px_50px_rgba(10,79,150,0.14),0_10px_20px_rgba(255,191,71,0.10)]">
-                    <img
-                      src={foundersLogo}
-                      alt="CorteQS kurucular logosu"
-                      className="h-20 w-auto rounded-[1.2rem] object-contain md:h-[112px]"
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#0f6fc2]">
-                      Founders
-                    </p>
-                    <h1 className="mt-2 text-[1.4rem] font-black tracking-tight text-[#071c3f] md:text-[1.55rem] md:leading-none lg:text-[1.75rem] xl:text-[1.9rem]">
-                      CorteQS Global Türk Diaspora Network
-                    </h1>
-                    <p className="mt-3 text-sm leading-7 text-slate-600 md:text-[15px]">
-                      CorteQS’in arkasında; stratejiyi, teknoloji disiplinini ve topluluk sezgisini aynı zeminde
-                      buluşturan iki farklı ama birbirini tamamlayan kurucu perspektifi var.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
           <section>
             <div className="grid gap-8 xl:grid-cols-2">
-              {founderProfiles.map((founder) => (
-                <article
-                  key={founder.name}
-                  className={`overflow-hidden rounded-[2rem] border p-0 shadow-[0_24px_60px_rgba(15,23,42,0.07)] ${founderCardClass}`}
-                >
-                  <div className="px-6 pt-6 md:px-8 md:pt-8">
-                    <div className="mb-6 flex justify-center">
-                      <div className="flex flex-col items-center gap-4">
-                        <FounderPortrait
-                          src={founder.imageSrc}
-                          alt={founder.imageAlt}
-                          initials={founder.fallbackInitials}
-                        />
-                        <a
-                          href={founder.linkedinUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          aria-label={`${founder.name} LinkedIn profili`}
-                          className={linkedinButtonClass}
-                        >
-                          <Linkedin className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-                          LinkedIn
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    aria-expanded={isExpanded}
-                    data-state={isExpanded ? "open" : "closed"}
-                    aria-label={`${founder.role} ${founder.name}`}
-                    onClick={() => setIsExpanded((current) => !current)}
-                    className="group flex w-full items-end justify-between gap-4 px-6 pb-6 pt-0 text-left md:px-8 md:pb-8"
-                  >
-                    <div className="w-full">
-                      <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
-                        {founder.role}
-                      </span>
-                      <h2 className="mt-4 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
-                        {founder.name}
-                      </h2>
-                    </div>
-                    <span
-                      className={`relative mb-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#0f6fc2]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(225,241,255,0.92),rgba(209,233,255,0.92))] text-[#0a4f96] shadow-[0_16px_34px_rgba(15,111,194,0.14),inset_0_1px_0_rgba(255,255,255,0.92)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_18px_38px_rgba(15,111,194,0.2),0_0_0_6px_rgba(15,111,194,0.05)] ${
-                        isExpanded ? "rotate-180" : ""
-                      }`}
-                    >
-                      <span className="absolute inset-[5px] rounded-[0.9rem] border border-white/70 bg-white/35" aria-hidden="true" />
-                      <ChevronDown className="relative z-10 h-5 w-5 transition-transform duration-300" />
-                    </span>
-                  </button>
+              {founderProfiles.map((founder) => {
+                const isExpanded = expandedCards[founder.name] ?? true;
 
-                  <div
-                    data-state={isExpanded ? "open" : "closed"}
-                    className="overflow-hidden px-6 pb-0 pt-0 transition-all duration-300 data-[state=closed]:max-h-0 data-[state=closed]:opacity-0 data-[state=open]:max-h-[2400px] data-[state=open]:pb-6 data-[state=open]:opacity-100 md:px-8 data-[state=open]:md:pb-8"
+                return (
+                  <article
+                    key={founder.name}
+                    className={`overflow-hidden rounded-[2rem] border p-0 shadow-[0_24px_60px_rgba(15,23,42,0.07)] ${founderCardClass}`}
                   >
-                    <div className="grid gap-8">
-                      <div>
-                        <p className="text-base leading-8 text-slate-600">
-                          {founder.summary}
-                        </p>
-
-                        <div className={`mt-6 rounded-2xl border p-4 ${strengthCardClass}`}>
-                          <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
-                            Ayırt Edici Güçler
-                          </div>
-                          <div className="mt-3 grid gap-2">
-                            {founder.strengths.map((strength) => (
-                              <div key={strength} className="flex items-start gap-3">
-                                <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#ff8a00]" />
-                                <p className="text-sm leading-6 text-slate-600">{strength}</p>
-                              </div>
-                            ))}
-                          </div>
+                    <div className="px-6 pt-6 md:px-8 md:pt-8">
+                      <div className="mb-6 flex justify-center">
+                        <div className="flex flex-col items-center gap-4">
+                          <FounderPortrait
+                            src={founder.imageSrc}
+                            alt={founder.imageAlt}
+                            initials={founder.fallbackInitials}
+                          />
+                          <a
+                            href={founder.linkedinUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            aria-label={`${founder.name} LinkedIn profili`}
+                            className={linkedinButtonClass}
+                          >
+                            <Linkedin className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                            LinkedIn
+                          </a>
                         </div>
                       </div>
+                    </div>
+                    <button
+                      type="button"
+                      aria-expanded={isExpanded}
+                      data-state={isExpanded ? "open" : "closed"}
+                      aria-label={`${founder.role} ${founder.name}`}
+                      onClick={() =>
+                        setExpandedCards((current) => ({
+                          ...current,
+                          [founder.name]: !isExpanded,
+                        }))
+                      }
+                      className="group flex w-full items-end justify-between gap-4 px-6 pb-6 pt-0 text-left md:px-8 md:pb-8"
+                    >
+                      <div className="w-full">
+                        <span className="inline-flex rounded-full border border-[#0f6fc2]/16 bg-[#0f6fc2]/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-[#0a4f96]">
+                          {founder.role}
+                        </span>
+                        <h2 className="mt-4 text-3xl font-black tracking-tight text-[#071c3f] md:text-4xl">
+                          {founder.name}
+                        </h2>
+                      </div>
+                      <span
+                        className={`relative mb-1 inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#0f6fc2]/18 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(225,241,255,0.92),rgba(209,233,255,0.92))] text-[#0a4f96] shadow-[0_16px_34px_rgba(15,111,194,0.14),inset_0_1px_0_rgba(255,255,255,0.92)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_18px_38px_rgba(15,111,194,0.2),0_0_0_6px_rgba(15,111,194,0.05)] ${
+                          isExpanded ? "rotate-180" : ""
+                        }`}
+                      >
+                        <span className="absolute inset-[5px] rounded-[0.9rem] border border-white/70 bg-white/35" aria-hidden="true" />
+                        <ChevronDown className="relative z-10 h-5 w-5 transition-transform duration-300" />
+                      </span>
+                    </button>
 
-                      <div className="grid gap-4">
-                        {founder.sections.map((section) => (
-                          <div
-                            key={section.title}
-                            className={`rounded-[1.6rem] border p-5 ${sectionCardClass}`}
-                          >
-                            <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
-                            <p className="mt-3 text-sm leading-7 text-slate-600">
-                              {section.body}
-                            </p>
+                    <div
+                      data-state={isExpanded ? "open" : "closed"}
+                      className="overflow-hidden px-6 pb-0 pt-0 transition-all duration-300 data-[state=closed]:max-h-0 data-[state=closed]:opacity-0 data-[state=open]:max-h-[2400px] data-[state=open]:pb-6 data-[state=open]:opacity-100 md:px-8 data-[state=open]:md:pb-8"
+                    >
+                      <div className="grid gap-8">
+                        <div>
+                          <p className="text-base leading-8 text-slate-600">
+                            {founder.summary}
+                          </p>
+
+                          <div className={`mt-6 rounded-2xl border p-4 ${strengthCardClass}`}>
+                            <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[#0a4f96]">
+                              Ayırt Edici Güçler
+                            </div>
+                            <div className="mt-3 grid gap-2">
+                              {founder.strengths.map((strength) => (
+                                <div key={strength} className="flex items-start gap-3">
+                                  <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#ff8a00]" />
+                                  <p className="text-sm leading-6 text-slate-600">{strength}</p>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        ))}
+                        </div>
+
+                        <div className="grid gap-4">
+                          {founder.sections.map((section) => (
+                            <div
+                              key={section.title}
+                              className={`rounded-[1.6rem] border p-5 ${sectionCardClass}`}
+                            >
+                              <h3 className="text-lg font-bold text-[#071c3f]">{section.title}</h3>
+                              <p className="mt-3 text-sm leading-7 text-slate-600">
+                                {section.body}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </article>
-              ))}
+                  </article>
+                );
+              })}
             </div>
           </section>
         </div>
