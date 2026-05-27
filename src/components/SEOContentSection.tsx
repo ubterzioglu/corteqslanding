@@ -1,14 +1,14 @@
 import { Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import heroNetworkLight from "@/assets/hero-network-light.jpg";
 import bloggerVlogger from "@/assets/blogger-vlogger.jpg";
-import cityAmbassador from "@/assets/city-ambassador.jpg";
+import founding1000Card from "@/assets/founding-1000-card.jpg";
+import vloggerContestCard from "@/assets/vlogger-contest-card.jpg";
 
 const featuredLinks = [
   {
     to: "/founding-1000",
-    image: heroNetworkLight,
+    image: founding1000Card,
     className:
       "border-[#f0b73b]/35 bg-[linear-gradient(135deg,#fff3cf_0%,#ffe79e_52%,#ffd768_100%)] text-[#8f5b00] shadow-[0_14px_30px_rgba(240,183,59,0.18)]",
     label: "🌍 Founding 1000'e Katıl",
@@ -22,7 +22,7 @@ const featuredLinks = [
   },
   {
     to: "/vlogger-yarismasi",
-    image: cityAmbassador,
+    image: vloggerContestCard,
     className:
       "border-[#2f8fb4]/35 bg-[linear-gradient(135deg,#eef9fc_0%,#cfeefa_52%,#a9dff2_100%)] text-[#1f7595] shadow-[0_14px_30px_rgba(47,143,180,0.18)]",
     label: "🎥 Vlogger Yarışması",
@@ -65,8 +65,8 @@ const SEOContentSection = () => {
               to={link.to}
               className={`group overflow-hidden rounded-[1.5rem] border transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(15,23,42,0.10)] ${link.className}`}
             >
-              <div className="relative aspect-[1/1] min-h-[190px] md:min-h-[220px]">
-                <div className="absolute inset-x-0 top-0 h-[60%] overflow-hidden">
+              <div className="relative aspect-[1/1] min-h-[180px] md:min-h-[205px]">
+                <div className="absolute inset-x-0 top-0 h-[66%] overflow-hidden">
                   <img
                     src={link.image}
                     alt=""
@@ -75,9 +75,9 @@ const SEOContentSection = () => {
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04)_0%,rgba(255,255,255,0.08)_55%,rgba(255,255,255,0)_100%)]" />
                 </div>
-                <div className="absolute inset-x-0 bottom-0 flex h-[40%] items-center justify-center p-3 text-center">
-                  <div className="rounded-[1.15rem] border border-white/55 bg-white/72 px-4 py-3 backdrop-blur-md shadow-[0_10px_24px_rgba(255,255,255,0.24)]">
-                    <span className="text-sm font-semibold md:text-[0.95rem]">{link.label}</span>
+                <div className="absolute inset-x-0 bottom-0 flex h-[34%] items-center justify-center px-2 pb-3 pt-2 text-center">
+                  <div className="max-w-[calc(100%-0.75rem)] rounded-[1.1rem] border border-white/55 bg-white/72 px-3 py-2.5 backdrop-blur-md shadow-[0_10px_24px_rgba(255,255,255,0.24)]">
+                    <span className="text-[0.98rem] font-semibold md:text-[0.98rem]">{link.label}</span>
                   </div>
                 </div>
               </div>

@@ -92,44 +92,29 @@ const GlobalNetworkShowcaseSection = () => {
   return (
     <section className="relative overflow-hidden py-5 lg:py-8">
       <div className="container relative z-10 mx-auto max-w-[1480px] px-4">
-        <div className="rounded-[2rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,252,255,0.96),rgba(255,250,244,0.95))] p-4 shadow-[0_22px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm md:p-6 xl:p-8">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.34em] text-slate-400">
-                Referans Versiyon
-              </p>
-              <h3 className="mt-1 text-lg font-semibold text-slate-900">
-                Mevcut görsel tabanlı section
-              </h3>
-            </div>
-            <div className="rounded-full border border-slate-200 bg-white/90 px-4 py-2 text-xs font-medium text-slate-500 shadow-sm">
-              Üstte eski sürüm, altta kodla kurulmuş sürüm
-            </div>
-          </div>
-
-          <div className="mt-5 rounded-[1.75rem] border border-slate-200/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(252,253,255,0.96))] px-6 py-5 shadow-[0_16px_36px_rgba(15,23,42,0.05)] md:px-8 md:py-7 xl:px-6 xl:py-6">
+        <div className="rounded-[1.75rem] border border-slate-200/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(252,253,255,0.96))] px-6 py-5 shadow-[0_16px_36px_rgba(15,23,42,0.05)] md:px-8 md:py-7 xl:px-6 xl:py-6">
             <div className="grid gap-5 xl:grid-cols-[1.06fr_0.94fr] xl:items-center">
               <div className="max-w-[760px] xl:pr-2">
                 <div className="inline-flex items-center rounded-2xl border border-[#ffd9ce] bg-[linear-gradient(180deg,#fff8f5,#fff4ee)] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_24px_rgba(243,91,56,0.06)]">
-                  Dunya Capinda Tek Ag
+                  Dünya Çapında Tek Ağ
                 </div>
                 <h2 className="mt-5 max-w-[13ch] text-[2.4rem] font-black leading-[0.96] tracking-[-0.055em] text-slate-900 sm:text-[3.35rem] lg:text-[4.15rem] xl:max-w-[12.5ch]">
-                  Dunyaya dagilmis Turk topluluklarinin{" "}
+                  Dünyaya dağılmış Türk topluluklarının{" "}
                   <span className="bg-[linear-gradient(90deg,#23b26d_0%,#7c3aed_48%,#ff7a18_100%)] bg-clip-text text-transparent">
-                    ekonomik ve sosyal sinir aglarini
+                    ekonomik ve sosyal sinir ağlarını
                   </span>{" "}
-                  oruyoruz.
+                  örüyoruz.
                 </h2>
                 <p className="mt-5 max-w-[44rem] text-base font-medium leading-8 text-slate-500 sm:text-[1.2rem]">
-                  CorteQS, isletmelerden profesyonellere, kuruluslardan topluluk yoneticilerine
-                  kadar herkesi tek bir ag icinde bir araya getirir.
+                  CorteQS, işletmelerden profesyonellere, kuruluşlardan topluluk yöneticilerine
+                  kadar herkesi tek bir ağ içinde bir araya getirir.
                 </p>
               </div>
 
               <div className="relative min-h-[260px] overflow-hidden rounded-[1.9rem] bg-transparent xl:min-h-[300px]">
                 <img
                   src={showcasePanelImage}
-                  alt="CorteQS global ag gorseli"
+                  alt="CorteQS global ağ görseli"
                   className="h-full w-full object-contain object-center xl:scale-[1.08]"
                 />
               </div>
@@ -183,7 +168,7 @@ const GlobalNetworkShowcaseSection = () => {
                       CorteQS
                     </p>
                     <p className="max-w-[14rem] text-[1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
-                      Yurt Disinda Yasayan Turklerin Sistemi
+                      Yurt Dışında Yaşayan Türklerin Sistemi
                     </p>
                   </div>
                 </div>
@@ -212,12 +197,10 @@ const GlobalNetworkShowcaseSection = () => {
               <div className="border-t border-slate-100 px-6 py-4">
                 <div className="h-1 w-full rounded-full bg-[linear-gradient(90deg,#ffb46b_0%,#f6f0df_8%,#52d67c_42%,#f7f4ea_56%,#8b5cf6_78%,#60a5fa_100%)]" />
                 <p className="mt-3 text-center text-lg font-semibold tracking-[-0.03em] text-slate-700">
-                  Baglan. Kesfet. Guclen.
+                  Bağlan. Keşfet. Güçlen.
                 </p>
               </div>
             </div>
-          </div>
-
         </div>
       </div>
     </section>

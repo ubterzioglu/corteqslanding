@@ -17,11 +17,15 @@ export default function SiteHeader() {
                 className="h-[50px] w-[50px] rounded-full object-contain"
               />
             </div>
-            <div className="text-left leading-tight">
-              <div className="text-[1.1rem] font-black tracking-[0.24em] text-slate-900 sm:text-[1.22rem]">
+            <div className="flex items-center gap-3 text-left">
+              <div className="text-[1.35rem] font-black tracking-[0.22em] text-slate-900 sm:text-[1.55rem]">
                 CorteQS
               </div>
-              <div className="text-[0.72rem] font-semibold tracking-[0.04em] text-slate-800 sm:text-[0.76rem]">
+              <span
+                aria-hidden="true"
+                className="h-8 w-px bg-slate-300/85"
+              />
+              <div className="text-[1rem] font-semibold tracking-[0.02em] text-slate-800 sm:text-[1.05rem]">
                 Global Türk Diaspora Network
               </div>
             </div>
