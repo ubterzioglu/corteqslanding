@@ -4,6 +4,7 @@ import {
   Clapperboard,
   Globe,
   Landmark,
+  Map,
   MapPinned,
   MessageCircleMore,
   Plane,
@@ -78,7 +79,7 @@ const rebuiltCards = [
 ] as const;
 
 const featureItems = [
-  { label: "Cadde\nSosyal Ağı", icon: MessageCircleMore, color: "text-[#4bbf70]", ring: "ring-[#c6f2d3]" },
+  { label: "Cadde\nSosyal Ağı", icon: Map, color: "text-[#4bbf70]", ring: "ring-[#c6f2d3]" },
   { label: "WhatsApp &\nTelegram Toplulukları", icon: MessageCircleMore, color: "text-[#35c465]", ring: "ring-[#caf4d6]" },
   { label: "Etkinlikler", icon: CalendarDays, color: "text-[#8b5cf6]", ring: "ring-[#e5d6ff]" },
   { label: "Relokasyon &\nMentor Sistemi", icon: Plane, color: "text-[#fb923c]", ring: "ring-[#ffe0c5]" },
