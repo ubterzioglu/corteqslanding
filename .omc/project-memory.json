@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1779624622387,
+  "lastScanned": 1779870022854,
   "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
@@ -64,6 +64,7 @@
       "verify:release": "node scripts/verify-release.mjs",
       "import:command-center:may13": "node scripts/import-command-center-may13.mjs",
       "import:command-center:may13:write": "node scripts/import-command-center-may13.mjs --write",
+      "import:resources:replace": "node scripts/replace-resource-entries-from-csv.mjs",
       "lint": "eslint .",
       "preview": "vite preview",
       "test": "vitest run",
@@ -92,18 +93,31 @@
   },
   "customNotes": [],
   "directoryMap": {
+    "aaa": {
+      "path": "aaa",
+      "purpose": null,
+      "fileCount": 16,
+      "lastAccessed": 1779870022779,
+      "keyFiles": [
+        "00_preview_contact_sheet.png",
+        "01_ust_hero_harita_hd.png",
+        "02_isletmeler_kart_hd.png",
+        "03_profesyoneller_kart_hd.png",
+        "04_kuruluslar_kart_hd.png"
+      ]
+    },
     "backups": {
       "path": "backups",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779624622300,
+      "lastAccessed": 1779870022779,
       "keyFiles": []
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 17,
-      "lastAccessed": 1779624622301,
+      "lastAccessed": 1779870022780,
       "keyFiles": [
         "ambassador.html",
         "commercial.html",
@@ -115,27 +129,28 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 4,
-      "lastAccessed": 1779624622301,
+      "fileCount": 8,
+      "lastAccessed": 1779870022816,
       "keyFiles": [
+        "auth-login-durumu-2026-05-24.md",
         "commercial-contributor-structure.md",
         "marquee-haber-akisi.md",
-        "roller-ve-yetki-durumu-2026-05-23.md",
-        "teknik-dokuman-proje-durumu-2026-05-19.md"
+        "member-system-v2-registry.json",
+        "new-member-system-login-roller-featurelar.md"
       ]
     },
     "docu": {
       "path": "docu",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779624622302,
+      "lastAccessed": 1779870022817,
       "keyFiles": []
     },
     "lansman": {
       "path": "lansman",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779624622347,
+      "lastAccessed": 1779870022817,
       "keyFiles": [
         "index.html"
       ]
@@ -144,7 +159,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 10,
-      "lastAccessed": 1779624622348,
+      "lastAccessed": 1779870022818,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -157,16 +172,17 @@
       "path": "ref",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779624622348,
+      "lastAccessed": 1779870022818,
       "keyFiles": []
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 2,
-      "lastAccessed": 1779624622349,
+      "fileCount": 3,
+      "lastAccessed": 1779870022819,
       "keyFiles": [
         "import-command-center-may13.mjs",
+        "replace-resource-entries-from-csv.mjs",
         "verify-release.mjs"
       ]
     },
@@ -174,7 +190,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 12,
-      "lastAccessed": 1779624622350,
+      "lastAccessed": 1779870022819,
       "keyFiles": [
         "App.addwa-routes.test.tsx",
         "App.admin-route.test.tsx",
@@ -187,7 +203,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779624622350,
+      "lastAccessed": 1779870022820,
       "keyFiles": [
         "config.toml"
       ]
@@ -196,25 +212,25 @@
       "path": "_archive",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779624622351,
+      "lastAccessed": 1779870022821,
       "keyFiles": []
     },
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
-      "fileCount": 27,
-      "lastAccessed": 1779624622352,
+      "fileCount": 34,
+      "lastAccessed": 1779870022822,
       "keyFiles": [
-        "blogger-vlogger-CB3SgA9I.jpg",
-        "burak-D_NPD4FO.png",
-        "ComposedChart-C_6JYZtJ.js"
+        "01_ust_hero_harita_hd-DS0NGGGk.png",
+        "02_isletmeler_kart_hd-B0kVXBBB.png",
+        "03_profesyoneller_kart_hd-CwS05lUf.png"
       ]
     },
     "src\\assets": {
       "path": "src\\assets",
       "purpose": "Static assets",
       "fileCount": 16,
-      "lastAccessed": 1779624622355,
+      "lastAccessed": 1779870022825,
       "keyFiles": [
         "ataturk-marker.png",
         "blogger-vlogger.jpg",
@@ -224,8 +240,8 @@
     "src\\components": {
       "path": "src\\components",
       "purpose": "UI components",
-      "fileCount": 27,
-      "lastAccessed": 1779624622355,
+      "fileCount": 30,
+      "lastAccessed": 1779870022826,
       "keyFiles": [
         "AboutSection.tsx",
         "AdminLansmanTable.test.tsx",
@@ -235,8 +251,8 @@
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 50,
-      "lastAccessed": 1779624622356,
+      "fileCount": 62,
+      "lastAccessed": 1779870022827,
       "keyFiles": [
         "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
         "20260406193000_admin_and_submission_workflow.sql",
@@ -244,55 +260,6 @@
       ]
     }
   },
-  "hotPaths": [
-    {
-      "path": "import-resources.ts",
-      "accessCount": 9,
-      "lastAccessed": 1779625156683,
-      "type": "file"
-    },
-    {
-      "path": ".env.local",
-      "accessCount": 1,
-      "lastAccessed": 1779624693026,
-      "type": "file"
-    },
-    {
-      "path": "filesnew.csv",
-      "accessCount": 1,
-      "lastAccessed": 1779624724770,
-      "type": "file"
-    },
-    {
-      "path": "src\\lib\\resource-links.ts",
-      "accessCount": 1,
-      "lastAccessed": 1779624882644,
-      "type": "file"
-    },
-    {
-      "path": "src\\lib\\dashboard\\resource-items.ts",
-      "accessCount": 1,
-      "lastAccessed": 1779624882855,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\admin\\workspace\\AdminResourcesPage.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1779624889032,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\dashboard\\links\\LinkManager.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1779624896891,
-      "type": "file"
-    },
-    {
-      "path": "backups\\supabase\\20260520_145257\\database.sql",
-      "accessCount": 1,
-      "lastAccessed": 1779624939293,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }

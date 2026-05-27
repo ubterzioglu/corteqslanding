@@ -71,7 +71,7 @@ const ChatWindow = ({
 
   return (
     <div className="mx-auto max-w-3xl overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-primary/5">
-      <div className="border-b border-border bg-background/50 px-6 py-4 backdrop-blur">
+      <div className="border-b border-border bg-background/50 px-6 py-3.5 backdrop-blur">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative">
@@ -101,7 +101,7 @@ const ChatWindow = ({
 
       <div
         ref={scrollRef}
-        className="h-[420px] space-y-4 overflow-y-auto bg-gradient-to-b from-background/30 to-transparent p-6"
+        className="h-[320px] space-y-4 overflow-y-auto bg-gradient-to-b from-background/30 to-transparent p-5"
       >
         {state.messages.map((msg) => (
           <ChatMessage key={msg.id} message={msg} />
