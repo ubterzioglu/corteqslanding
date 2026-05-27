@@ -44,21 +44,20 @@ const LandingFoundersSection = () => {
     <section id="founders-landing" className="relative overflow-hidden py-7 lg:py-10">
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-          <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/82 shadow-xl shadow-primary/10 backdrop-blur-sm">
+          <div className="overflow-hidden rounded-[1.75rem] border border-[#bfe5de] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(240,250,247,0.96),rgba(247,252,255,0.94))] shadow-[0_18px_40px_rgba(69,145,132,0.10)] backdrop-blur-sm">
             <CollapsibleTrigger asChild>
               <button
                 type="button"
-                className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition hover:bg-white/20 md:px-8 md:py-6"
+                className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition hover:bg-white/20 md:px-7"
                 aria-expanded={isOpen}
               >
                 <div className="min-w-0">
-                  <h2 className="text-2xl font-bold text-foreground md:text-4xl">Biz Kimiz?</h2>
-                  <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                    CorteQS'in vizyonunu kuran iki kurucu ortağı görmek için bu bölümü aç.
-                  </p>
+                  <h2 className="bg-[linear-gradient(90deg,#0f766e_0%,#2563eb_50%,#7c3aed_100%)] bg-clip-text text-xl font-black text-transparent md:text-2xl">
+                    Biz Kimiz?
+                  </h2>
                 </div>
                 <span
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-primary/15 bg-background/80 text-primary transition-transform duration-300 ${
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#bfe5de] bg-white/85 text-primary shadow-[0_10px_24px_rgba(69,145,132,0.10)] transition-transform duration-300 ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 >

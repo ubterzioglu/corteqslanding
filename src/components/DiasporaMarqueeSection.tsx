@@ -49,11 +49,15 @@ const DiasporaMarqueeSection = () => {
         </div>
       </div>
 
-      <div className="diaspora-marquee group flex gap-4 overflow-hidden py-2">
-        <div className="diaspora-marquee-track flex min-w-max gap-4 px-4">
-          {marqueeItems.map((item, index) => (
-            <MarqueeItemCard key={`${item.id}-${index}`} item={item} className="w-[280px] sm:w-[340px]" />
-          ))}
+      <div className="container mx-auto px-4">
+        <div className="diaspora-marquee group overflow-hidden py-2">
+          <div className="diaspora-marquee-viewport overflow-hidden px-4 sm:px-8 lg:px-10">
+            <div className="diaspora-marquee-track flex min-w-max gap-4">
+              {marqueeItems.map((item, index) => (
+                <MarqueeItemCard key={`${item.id}-${index}`} item={item} className="w-[280px] sm:w-[340px]" />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

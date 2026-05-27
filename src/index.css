@@ -230,6 +230,27 @@
     animation: diaspora-marquee 38s linear infinite;
   }
 
+  .diaspora-marquee-viewport {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.88) 9%,
+      rgba(0, 0, 0, 1) 16%,
+      rgba(0, 0, 0, 1) 84%,
+      rgba(0, 0, 0, 0.88) 91%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.88) 9%,
+      rgba(0, 0, 0, 1) 16%,
+      rgba(0, 0, 0, 1) 84%,
+      rgba(0, 0, 0, 0.88) 91%,
+      transparent 100%
+    );
+  }
+
   .diaspora-marquee:hover .diaspora-marquee-track,
   .diaspora-marquee:focus-within .diaspora-marquee-track {
     animation-play-state: paused;
@@ -271,6 +292,11 @@
 
   .diaspora-marquee {
     overflow-x: auto;
+  }
+
+  .diaspora-marquee-viewport {
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   .diaspora-marquee-track {
