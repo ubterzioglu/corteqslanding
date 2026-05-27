@@ -1,7 +1,6 @@
 import { Building2, MessageCircle, Sparkles, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroNetworkLight from "@/assets/hero-network-light.jpg";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const featuredLinks = [
   {
@@ -89,31 +88,22 @@ const SEOContentSection = () => {
                 <h2 id="geo-content-title" className="mt-4 text-3xl font-black leading-tight text-foreground md:text-5xl">
                   Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz
                 </h2>
-                <Accordion type="single" collapsible defaultValue="corteqs-nedir" className="mt-5 max-w-3xl">
-                  <AccordionItem
-                    value="corteqs-nedir"
-                    className="overflow-hidden rounded-[1.4rem] border border-primary/15 bg-white/80 px-4 shadow-[0_12px_28px_rgba(15,23,42,0.05)]"
+                <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-[15px]">
+                  CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
+                  gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                {featuredLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
                   >
-                    <AccordionTrigger className="gap-4 py-4 text-left text-base font-bold text-foreground hover:no-underline md:text-lg">
-                      CorteQS nedir?
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-5 text-sm leading-7 text-muted-foreground md:text-[15px]">
-                      CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
-                      gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-                <div className="mt-5 space-y-3">
-                  {featuredLinks.map((link) => (
-                    <Link
-                      key={link.to}
-                      to={link.to}
-                      className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
+                    {link.label}
+                  </Link>
+                ))}
               </div>
 
               <div className="rounded-[1.75rem] border border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(245,249,247,0.92))] p-4 shadow-sm">
