@@ -68,9 +68,7 @@ const HeroSection = () => {
               <p className="hero-description mb-5 max-w-lg text-[15px] leading-relaxed text-muted-foreground md:text-base 2xl:max-w-xl 2xl:text-[1.05rem]">
                 Dünyanın her yerindeki Türkleri tek çatı altında buluşturur.
                 <br />
-                Bağlan, keşfet, birlikte büyü!
-                <br />
-                Ücretsiz kayıt ol! Ağını genişlet!
+                Ücretsiz kayıt ol! Ağını genişlet! Bağlan, keşfet, birlikte büyü!
               </p>
             </div>
 
