@@ -39,15 +39,11 @@ const SEOContentSection = () => {
               </span>
             </AccordionTrigger>
             <AccordionContent className="pb-6">
-              <div className="max-w-4xl space-y-4">
-                <h2 id="geo-content-title" className="text-xl font-black leading-tight text-foreground md:text-2xl">
-                  Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz
-                </h2>
-                <p className="text-xl leading-relaxed text-muted-foreground md:text-2xl">
-                  CorteQS, dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil,
-                  gerçek fırsatlar, topluluklar ve bağlantılar etrafında bir araya getirir.
-                </p>
-              </div>
+              <p id="geo-content-title" className="max-w-4xl text-xl leading-relaxed text-foreground md:text-2xl">
+                Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz. CorteQS,
+                dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil, gerçek fırsatlar,
+                topluluklar ve bağlantılar etrafında bir araya getirir.
+              </p>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
