@@ -99,14 +99,14 @@ const GlobalNetworkShowcaseSection = () => {
                 <div className="inline-flex items-center rounded-2xl border border-[#ffd9ce] bg-[linear-gradient(180deg,#fff8f5,#fff4ee)] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_24px_rgba(243,91,56,0.06)]">
                   Dünya Çapında Tek Ağ
                 </div>
-                <h2 className="mt-5 max-w-[13ch] text-[2.4rem] font-black leading-[0.96] tracking-[-0.055em] text-slate-900 sm:text-[3.35rem] lg:text-[4.15rem] xl:max-w-[12.5ch]">
+                <h2 className="mt-5 max-w-[13ch] text-[2.15rem] font-black leading-[0.97] tracking-[-0.05em] text-slate-900 sm:text-[2.9rem] lg:text-[3.45rem] xl:max-w-[12.8ch]">
                   Dünyaya dağılmış Türk topluluklarının{" "}
                   <span className="bg-[linear-gradient(90deg,#23b26d_0%,#7c3aed_48%,#ff7a18_100%)] bg-clip-text text-transparent">
                     ekonomik ve sosyal sinir ağlarını
                   </span>{" "}
                   örüyoruz.
                 </h2>
-                <p className="mt-5 max-w-[44rem] text-base font-medium leading-8 text-slate-500 sm:text-[1.2rem]">
+                <p className="mt-4 max-w-[38rem] text-[0.98rem] font-medium leading-7 text-slate-500 sm:text-[1.08rem]">
                   CorteQS, işletmelerden profesyonellere, kuruluşlardan topluluk yöneticilerine
                   kadar herkesi tek bir ağ içinde bir araya getirir.
                 </p>
@@ -165,10 +165,10 @@ const GlobalNetworkShowcaseSection = () => {
                     <img src={logo} alt="CorteQS" className="h-16 w-16 object-contain" />
                   </div>
                   <div className="flex min-h-[118px] flex-col justify-between pt-1">
-                    <p className="text-[2rem] font-black leading-none tracking-[-0.04em] text-slate-900">
+                    <p className="text-[1.8rem] font-black leading-none tracking-[-0.04em] text-slate-900">
                       CorteQS
                     </p>
-                    <p className="max-w-[14rem] text-[1rem] font-semibold leading-7 tracking-[-0.03em] text-slate-800">
+                    <p className="max-w-[14rem] text-[0.92rem] font-semibold leading-6 tracking-[-0.03em] text-slate-800">
                       Yurt Dışında Yaşayan Türklerin Sistemi
                     </p>
                   </div>
@@ -186,7 +186,7 @@ const GlobalNetworkShowcaseSection = () => {
                         <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(15,23,42,0.08)] ring-1 ${item.ring}`}>
                           <Icon className={`h-8 w-8 ${item.color}`} />
                         </div>
-                        <p className="flex min-h-[72px] items-start justify-center whitespace-pre-line text-[0.92rem] font-semibold leading-6 tracking-[-0.02em] text-slate-800">
+                        <p className="flex min-h-[68px] items-start justify-center whitespace-pre-line text-[0.84rem] font-semibold leading-5 tracking-[-0.02em] text-slate-800">
                           {item.label}
                         </p>
                       </div>
