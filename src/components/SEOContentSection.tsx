@@ -48,12 +48,12 @@ const SEOContentSection = () => {
           </AccordionItem>
         </Accordion>
 
-        <div className="mb-4 space-y-3">
+        <div className="mb-4 grid gap-3 md:grid-cols-3">
           {featuredLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${link.className}`}
+              className={`block rounded-xl border px-4 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 md:text-center ${link.className}`}
             >
               {link.label}
             </Link>
