@@ -120,25 +120,10 @@ const HeroSection = () => {
 
               <div className="flex max-w-lg flex-col gap-2.5 2xl:max-w-[38rem]">
                 <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 2xl:max-w-[38rem]">
-                  <a
-                    href="#geo-content-title"
-                    className={`${heroCtaClass} font-bold`}
-                    style={heroCardStyles.about}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-100"
-                      aria-hidden
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 100%)",
-                      }}
-                    />
-                    <span className="relative z-10">CorteQS Nedir</span>
-                  </a>
                   <Link
                     to="/founders"
                     onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
-                    className={`${heroCtaClass} font-bold`}
+                    className={`${heroCtaClass} font-bold sm:col-span-2`}
                     style={heroCardStyles.founders}
                   >
                     <span
@@ -168,24 +153,6 @@ const HeroSection = () => {
                     />
                     <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
                   </Link>
-                  <span
-                    aria-disabled="true"
-                    className={`${heroCtaClass} cursor-not-allowed px-4 pr-[6.2rem]`}
-                    style={heroCardStyles.addContent}
-                  >
-                    <span
-                      className="pointer-events-none absolute inset-0 opacity-100"
-                      aria-hidden
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
-                      }}
-                    />
-                    <span className="absolute right-2 top-2 rounded-full bg-white/95 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.14em] text-[#D93025] shadow-sm sm:text-[7.5px]">
-                      Yakında!
-                    </span>
-                    <span className="relative z-10">✨ İçerik Ekle!</span>
-                  </span>
                 </div>
               </div>
             </div>

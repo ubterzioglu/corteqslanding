@@ -14,13 +14,19 @@ import {
 } from "lucide-react";
 import showcasePanelImage from "@/assets/global-network-showcase-panel.png";
 import logo from "../../newlogo.png";
+import isletmelerCardImage from "../../deneme/02_isletmeler_kart_hd.png";
+import profesyonellerCardImage from "../../deneme/03_profesyoneller_kart_hd.png";
+import kuruluslarCardImage from "../../deneme/04_kuruluslar_kart_hd.png";
+import toplulukYoneticileriCardImage from "../../deneme/05_topluluk_yoneticileri_kart_hd.png";
+import icerikUreticileriCardImage from "../../deneme/06_icerik_ureticileri_kart_hd.png";
+import dijitalGruplarCardImage from "../../deneme/07_dijital_gruplar_kart_hd.png";
 
 const rebuiltCards = [
   {
     title: "İşletmeler",
     description:
       "Yerel müşterilere, diasporaya ve global Türk ağına ulaşın. Etkinlikler, kampanyalar ve topluluklarla görünürlüğünüzü büyütün.",
-    image: "https://images.pexels.com/photos/4649855/pexels-photo-4649855.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: isletmelerCardImage,
     icon: Store,
     accent: "from-[#42bf65] to-[#2da956]",
     text: "text-[#2c9b4d]",
@@ -30,7 +36,7 @@ const rebuiltCards = [
     title: "Profesyoneller",
     description:
       "İş fırsatları, mentorlar, networking etkinlikleri ve şehir bazlı topluluklarla bağlantı kurun.",
-    image: "https://images.pexels.com/photos/9623659/pexels-photo-9623659.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: profesyonellerCardImage,
     icon: BriefcaseBusiness,
     accent: "from-[#4a97ff] to-[#2878f2]",
     text: "text-[#2878f2]",
@@ -40,7 +46,7 @@ const rebuiltCards = [
     title: "Kuruluşlar",
     description:
       "Topluluklarınızı büyütün, etkinliklerinizi duyurun ve global diaspora içinde görünür olun.",
-    image: "https://images.pexels.com/photos/34774320/pexels-photo-34774320.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: kuruluslarCardImage,
     icon: Landmark,
     accent: "from-[#a45af6] to-[#7c3aed]",
     text: "text-[#7c3aed]",
@@ -50,7 +56,7 @@ const rebuiltCards = [
     title: "Topluluk Yöneticileri",
     description:
       "WhatsApp ve Telegram gruplarınızı listeleyin, yeni üyelere ulaşın ve kendi mikro ağınızı yönetin.",
-    image: "https://images.pexels.com/photos/6255901/pexels-photo-6255901.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: toplulukYoneticileriCardImage,
     icon: Users,
     accent: "from-[#52d67c] to-[#2bbf62]",
     text: "text-[#24a454]",
@@ -60,7 +66,7 @@ const rebuiltCards = [
     title: "İçerik Üreticileri",
     description:
       "Blogger, vlogger ve dijital topluluk liderleri için yeni nesil diaspora dağıtım ağı.",
-    image: "https://images.pexels.com/photos/16891530/pexels-photo-16891530.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: icerikUreticileriCardImage,
     icon: Clapperboard,
     accent: "from-[#ff59b8] to-[#ff2b92]",
     text: "text-[#ef2d8d]",
@@ -70,7 +76,7 @@ const rebuiltCards = [
     title: "Dijital Gruplar",
     description:
       "Şehir, ülke ve tema bazlı topluluklar tek bir keşif sisteminde birleşiyor.",
-    image: "https://images.pexels.com/photos/16852968/pexels-photo-16852968.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    image: dijitalGruplarCardImage,
     icon: Globe,
     accent: "from-[#ffb249] to-[#ff7a18]",
     text: "text-[#f97316]",
@@ -137,11 +143,11 @@ const GlobalNetworkShowcaseSection = () => {
                     </div>
 
                     <div className="px-4 py-4 sm:pb-4 sm:pt-5 2xl:px-5">
-                      <div className="flex min-h-[3.3rem] items-start gap-2.5">
+                      <div className="flex min-h-[3.15rem] items-start gap-2.5">
                         <div className={`mt-0.5 shrink-0 rounded-full bg-gradient-to-br p-2.5 text-white shadow-[0_12px_24px_rgba(15,23,42,0.14)] ${card.accent}`}>
                           <Icon className="h-4.5 w-4.5" />
                         </div>
-                        <h4 className={`min-w-0 break-words text-[0.78rem] font-bold leading-[1.05] tracking-[-0.03em] xl:text-[0.83rem] 2xl:text-[0.88rem] ${card.text}`}>
+                        <h4 className={`min-w-0 whitespace-nowrap text-[0.68rem] font-bold leading-[1.05] tracking-[-0.04em] xl:text-[0.76rem] 2xl:text-[0.84rem] ${card.text}`}>
                           {card.title}
                         </h4>
                       </div>
