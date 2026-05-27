@@ -218,7 +218,7 @@ const faqs = [
 
 const FAQSection = () => {
   return (
-    <section className="relative overflow-hidden py-14 lg:py-20">
+    <section className="relative overflow-hidden py-7 lg:py-10">
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <div className="mb-3 text-center">
           <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary">

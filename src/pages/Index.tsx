@@ -21,11 +21,11 @@ const Index = () => {
       <div className="landing-ambient-orb landing-ambient-orb-five" aria-hidden="true" />
       <main id="main" className="relative isolate overflow-hidden pb-8">
         <HeroSection />
-        <SEOContentSection />
         <DiasporaMarqueeSection />
         <LandingFoundersSection />
         <NetworkOverviewSection />
         <FAQSection />
+        <SEOContentSection />
         <ChatBot />
       </main>
     </div>

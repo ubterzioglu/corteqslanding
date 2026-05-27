@@ -30,7 +30,7 @@ const DiasporaMarqueeSection = () => {
   const marqueeItems = useMemo(() => [...items, ...items], [items]);
 
   return (
-    <section className="overflow-hidden py-10">
+    <section className="overflow-hidden py-5">
       <div className="container mx-auto px-4">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

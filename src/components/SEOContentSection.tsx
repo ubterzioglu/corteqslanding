@@ -75,7 +75,7 @@ const platformItems = [
 
 const SEOContentSection = () => {
   return (
-    <section className="relative overflow-hidden py-10 lg:py-14">
+    <section className="relative overflow-hidden py-5 lg:py-7">
       <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
         <div className="overflow-hidden rounded-[2rem] border border-white/60 bg-card/84 shadow-xl shadow-primary/10 backdrop-blur-sm">
           <div className="grid gap-6 p-5 md:p-7 xl:grid-cols-[1.08fr_0.92fr]">
