@@ -96,10 +96,7 @@ const GlobalNetworkShowcaseSection = () => {
         <div className="rounded-[1.75rem] border border-slate-200/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(252,253,255,0.96))] px-6 py-5 shadow-[0_16px_36px_rgba(15,23,42,0.05)] md:px-8 md:py-7 xl:px-6 xl:py-6">
             <div className="grid gap-5 xl:grid-cols-[1.06fr_0.94fr] xl:items-center">
               <div className="max-w-[760px] xl:pr-2">
-                <div className="inline-flex items-center rounded-2xl border border-[#ffd9ce] bg-[linear-gradient(180deg,#fff8f5,#fff4ee)] px-4 py-2 text-[0.68rem] font-bold uppercase tracking-[0.26em] text-[#f35b38] shadow-[0_10px_24px_rgba(243,91,56,0.06)]">
-                  Dünya Çapında Tek Ağ
-                </div>
-                <h2 className="mt-5 max-w-[13ch] text-[2.15rem] font-black leading-[0.97] tracking-[-0.05em] text-slate-900 sm:text-[2.9rem] lg:text-[3.45rem] xl:max-w-[12.8ch]">
+                <h2 className="max-w-[13ch] text-[1.85rem] font-black leading-[0.97] tracking-[-0.05em] text-slate-900 sm:text-[2.35rem] lg:text-[2.85rem] xl:max-w-[12.8ch]">
                   Dünyaya dağılmış Türk topluluklarının{" "}
                   <span className="bg-[linear-gradient(90deg,#23b26d_0%,#7c3aed_48%,#ff7a18_100%)] bg-clip-text text-transparent">
                     ekonomik ve sosyal sinir ağlarını

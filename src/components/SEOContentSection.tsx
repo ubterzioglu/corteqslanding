@@ -28,9 +28,9 @@ const featuredLinks = [
 
 const SEOContentSection = () => {
   return (
-    <section className="relative -mt-8 overflow-hidden py-2 lg:-mt-12 lg:py-3">
-      <article className="container relative z-10 mx-auto max-w-6xl px-4" aria-labelledby="geo-content-title">
-        <Accordion type="single" collapsible className="mb-4">
+    <section className="relative mt-3 overflow-hidden py-2 lg:-mt-12 lg:py-3">
+      <article className="container relative z-10 mx-auto flex max-w-6xl flex-col gap-4 px-4" aria-labelledby="geo-content-title">
+        <Accordion type="single" collapsible>
           <AccordionItem
             value="corteqs-nedir"
             className="overflow-hidden rounded-[1.75rem] border border-[#bfe5de] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(240,250,247,0.96),rgba(247,252,255,0.94))] px-5 shadow-[0_18px_40px_rgba(69,145,132,0.10)] backdrop-blur-sm md:px-7"
@@ -55,7 +55,7 @@ const SEOContentSection = () => {
           </AccordionItem>
         </Accordion>
 
-        <div className="mb-4 flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           {featuredLinks.map((link) => {
             const Icon = link.icon;
 
