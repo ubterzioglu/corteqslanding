@@ -4,7 +4,6 @@ import DiasporaMarqueeSection from "@/components/DiasporaMarqueeSection";
 import ChatBot from "@/components/chat/ChatBot";
 import FAQSection from "@/components/FAQSection";
 import SEOContentSection from "@/components/SEOContentSection";
-import NetworkOverviewSection from "@/components/NetworkOverviewSection";
 import LandingFoundersSection from "@/components/LandingFoundersSection";
 import GlobalNetworkShowcaseSection from "@/components/GlobalNetworkShowcaseSection";
 
@@ -26,7 +25,6 @@ const Index = () => {
         <LandingFoundersSection />
         <GlobalNetworkShowcaseSection />
         <DiasporaMarqueeSection />
-        <NetworkOverviewSection />
         <ChatBot />
         <FAQSection />
       </main>
