@@ -92,7 +92,7 @@ const featureItems = [
 const GlobalNetworkShowcaseSection = () => {
   return (
     <section className="relative overflow-hidden py-5 lg:py-8">
-      <div className="container relative z-10 mx-auto max-w-[1480px] px-4">
+      <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <div className="rounded-[1.75rem] border border-slate-200/75 bg-[linear-gradient(180deg,rgba(255,255,255,0.99),rgba(252,253,255,0.96))] px-6 py-5 shadow-[0_16px_36px_rgba(15,23,42,0.05)] md:px-8 md:py-7 xl:px-6 xl:py-6">
             <div className="grid gap-5 xl:grid-cols-[1.06fr_0.94fr] xl:items-center">
               <div className="max-w-[760px] xl:pr-2">

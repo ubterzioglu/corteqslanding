@@ -41,7 +41,7 @@ const LandingFoundersSection = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section id="founders-landing" className="relative overflow-hidden py-7 lg:py-10">
+    <section id="founders-landing" className="relative overflow-hidden pb-7 pt-2 lg:pb-10 lg:pt-3">
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <div className="overflow-hidden rounded-[1.75rem] border border-[#bfe5de] bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(240,250,247,0.96),rgba(247,252,255,0.94))] shadow-[0_18px_40px_rgba(69,145,132,0.10)] backdrop-blur-sm">

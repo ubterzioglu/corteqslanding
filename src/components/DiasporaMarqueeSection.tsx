@@ -31,7 +31,7 @@ const DiasporaMarqueeSection = () => {
 
   return (
     <section className="overflow-hidden py-5">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto max-w-6xl px-4">
         <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="max-w-4xl text-2xl font-extrabold tracking-tight text-foreground md:text-4xl">
@@ -49,7 +49,7 @@ const DiasporaMarqueeSection = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto max-w-6xl px-4">
         <div className="diaspora-marquee group overflow-hidden py-2">
           <div className="diaspora-marquee-viewport overflow-hidden px-4 sm:px-8 lg:px-10">
             <div className="diaspora-marquee-track flex min-w-max gap-4">
