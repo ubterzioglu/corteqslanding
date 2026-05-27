@@ -301,13 +301,13 @@ const AdminRolesFeaturesPage = () => {
 
           {!isLoading && !errorMessage ? (
             <div className="overflow-x-auto rounded-xl border">
-              <table className="min-w-[1100px] w-full text-sm">
+              <table className="min-w-[1100px] w-full table-fixed text-sm">
                 <thead className="bg-muted/40">
                   <tr>
-                    <th className="px-3 py-3 text-left font-medium">Feature</th>
-                    <th className="px-3 py-3 text-left font-medium">Global</th>
+                    <th className="w-[400px] px-3 py-3 text-left font-medium">Feature</th>
+                    <th className="w-[120px] px-3 py-3 text-left font-medium">Global</th>
                     {roles.map((role) => (
-                      <th key={role.id} className="px-3 py-3 text-left font-medium">
+                      <th key={role.id} className="w-[130px] px-3 py-3 text-left font-medium">
                         {role.label}
                         <p className="text-[11px] font-normal text-muted-foreground">{role.key}</p>
                       </th>
@@ -320,36 +320,38 @@ const AdminRolesFeaturesPage = () => {
                       key={feature.key}
                       className={`align-top transition-colors ${index === 0 ? "" : "border-t"} ${index % 2 === 0 ? "bg-white" : "bg-muted/10"} hover:bg-muted/20`}
                     >
-                      <td className="px-3 py-3">
+                      <td className="px-3 py-3 align-top">
                         {(() => {
                           const featureDetail = getFeatureDetail(feature);
 
                           return (
-                            <>
-                              <p className="font-medium">{featureDetail.label}</p>
-                              <p className="text-xs text-muted-foreground">{feature.key}</p>
-                              <p className="mt-1 text-xs text-muted-foreground">{featureDetail.shortDescription}</p>
+                            <div className="space-y-2">
+                              <div className="space-y-1">
+                                <p className="leading-5 font-medium text-foreground">{featureDetail.label}</p>
+                                <p className="break-all text-[11px] leading-4 text-muted-foreground">{feature.key}</p>
+                                <p className="text-[12px] leading-5 text-slate-600">{featureDetail.shortDescription}</p>
+                              </div>
                               {featureDetail.details ? (
-                                <Collapsible className="mt-3">
-                                  <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-left text-[11px] font-medium text-slate-700 transition hover:bg-muted/40">
+                                <Collapsible className="pt-1">
+                                  <CollapsibleTrigger className="group flex w-full items-center justify-between rounded-lg border border-border/80 bg-background/80 px-3 py-2 text-left text-[11px] font-medium text-slate-700 transition hover:bg-muted/40">
                                     <span>Açıklamayı Göster</span>
                                     <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition group-data-[state=open]:rotate-180" />
                                   </CollapsibleTrigger>
                                   <CollapsibleContent className="mt-2 rounded-lg border border-muted bg-muted/20 p-3 text-[11px] leading-5 text-muted-foreground">
                                     <div className="space-y-2">
-                                      <p>{featureDetail.details.summary}</p>
-                                      <p>{featureDetail.details.effect}</p>
-                                      <p>{featureDetail.details.adminHint}</p>
+                                      <p><span className="font-medium text-slate-700">Özet:</span> {featureDetail.details.summary}</p>
+                                      <p><span className="font-medium text-slate-700">Etkisi:</span> {featureDetail.details.effect}</p>
+                                      <p><span className="font-medium text-slate-700">Not:</span> {featureDetail.details.adminHint}</p>
                                     </div>
                                   </CollapsibleContent>
                                 </Collapsible>
                               ) : null}
-                            </>
+                            </div>
                           );
                         })()}
                         <div className="mt-2 flex flex-wrap gap-1">
                           {Array.from(new Set(features.filter((item) => item.key === feature.key).map((item) => item.scope_role))).map((scopeRole) => (
-                            <Badge key={scopeRole} variant="outline">
+                            <Badge key={scopeRole} variant="outline" className="px-2 py-0 text-[10px] leading-4">
                               {roleByKey.get(scopeRole)?.label ?? scopeRole}
                             </Badge>
                           ))}
