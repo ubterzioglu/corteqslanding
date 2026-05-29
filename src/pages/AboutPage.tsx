@@ -23,6 +23,7 @@ import {
   Zap,
 } from "lucide-react";
 import corteqsLogo from "../../newlogo.png";
+import heroNetworkLight from "@/assets/hero-network-light.jpg";
 
 const audienceNetworkPeople = [
   "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300",
@@ -309,6 +310,13 @@ const AboutPage = () => {
                     }}
                   />
                   <div className="relative aspect-[1.22/0.82] w-full">
+                    <div className="absolute inset-0 flex items-center justify-center opacity-[0.12]">
+                      <img
+                        src={heroNetworkLight}
+                        alt=""
+                        className="h-[92%] w-[96%] object-contain mix-blend-multiply"
+                      />
+                    </div>
                     <div className="absolute left-[6%] top-[18%] h-[34%] w-[32%] rounded-full border border-dashed border-[#80b0ff]/55" />
                     <div className="absolute right-[6%] top-[14%] h-[42%] w-[38%] rounded-full border border-dashed border-[#b697ff]/55" />
                     <div className="absolute left-[24%] top-[8%] h-[76%] w-[52%] rounded-full border border-dashed border-[#f2c69d]/45" />
