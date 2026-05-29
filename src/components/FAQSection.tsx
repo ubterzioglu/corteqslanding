@@ -231,18 +231,22 @@ const FAQSection = () => {
           <h2 className="mb-8 text-center text-2xl font-bold text-foreground md:text-4xl">
             Sıkça Sorulan Sorular
           </h2>
-          <Accordion type="single" collapsible className="w-full space-y-3">
+          <Accordion type="single" collapsible className="w-full space-y-2.5">
             {faqs.map((faq, i) => (
               <AccordionItem
                 key={i}
                 value={`faq-${i}`}
-                className={`overflow-hidden rounded-[8px] border px-5 shadow-sm backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10 ${faqClosedStyles[i % faqClosedStyles.length]}`}
+                className={`overflow-hidden rounded-[10px] border px-3 shadow-[0_8px_18px_rgba(15,23,42,0.04)] backdrop-blur-sm transition-colors duration-200 data-[state=open]:border-primary/25 data-[state=open]:bg-gradient-to-br data-[state=open]:from-primary/10 data-[state=open]:to-accent/10 md:px-4 ${faqClosedStyles[i % faqClosedStyles.length]}`}
               >
-                <AccordionTrigger className="text-left text-sm text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:text-base">
+                <AccordionTrigger
+                  className="py-2.5 text-left text-[12px] font-medium leading-snug text-foreground hover:text-primary hover:no-underline data-[state=open]:text-primary md:py-3 md:text-[13.5px]"
+                  chevronWrapperClassName="accordion-chevron h-8 w-8 border border-white/85 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(243,247,252,0.94))] shadow-[0_10px_22px_rgba(15,23,42,0.10),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-slate-200/70 md:h-9 md:w-9"
+                  chevronClassName="h-[13px] w-[13px] text-slate-600 md:h-[15px] md:w-[15px]"
+                >
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="pb-5">
-                  <div className="faq-answer space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <AccordionContent className="pb-3">
+                  <div className="faq-answer space-y-2.5 text-sm leading-relaxed text-muted-foreground">
                     {faq.a}
                   </div>
                 </AccordionContent>
