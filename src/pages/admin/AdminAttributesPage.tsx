@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +39,14 @@ type RuleRow = {
   user_can_hide: boolean;
   requires_admin_approval_on_change: boolean;
   sort_order: number;
+};
+
+type AdminAttributesLocationState = {
+  userId?: string;
+  userName?: string | null;
+  userEmail?: string | null;
+  selectedRoleId?: string;
+  backTo?: string;
 };
 
 const guideSections: AdminPageGuideSection[] = [
@@ -87,12 +96,20 @@ const guideSections: AdminPageGuideSection[] = [
 
 const AdminAttributesPage = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [roles, setRoles] = useState<RoleRow[]>([]);
   const [attributes, setAttributes] = useState<AttributeRow[]>([]);
   const [rules, setRules] = useState<RuleRow[]>([]);
   const [selectedRoleId, setSelectedRoleId] = useState("");
   const [savingKey, setSavingKey] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const locationState = (location.state as AdminAttributesLocationState | null) ?? null;
+  const initialSelectedRoleId = locationState?.selectedRoleId ?? searchParams.get("selectedRoleId") ?? "";
+  const selectedUserName = locationState?.userName?.trim() || "İsimsiz kullanıcı";
+  const selectedUserEmail = locationState?.userEmail?.trim() || "-";
+  const backTo = locationState?.backTo || "/admin/new-member/users-roles";
 
   useEffect(() => {
     let isMounted = true;
@@ -123,13 +140,14 @@ const AdminAttributesPage = () => {
       setRoles(roleRows);
       setAttributes((attributesResult.data ?? []) as AttributeRow[]);
       setRules((rulesResult.data ?? []) as RuleRow[]);
-      setSelectedRoleId(roleRows[0]?.id ?? "");
+      const roleExists = roleRows.some((role) => role.id === initialSelectedRoleId);
+      setSelectedRoleId(roleExists ? initialSelectedRoleId : (roleRows[0]?.id ?? ""));
     })();
 
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [initialSelectedRoleId]);
 
   const roleById = useMemo(() => new Map(roles.map((role) => [role.id, role])), [roles]);
 
@@ -189,6 +207,10 @@ const AdminAttributesPage = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(backTo);
+  };
+
   return (
     <div className="space-y-4">
       <AdminPageGuideAccordion
@@ -201,6 +223,32 @@ const AdminAttributesPage = () => {
           <CardDescription>Role göre açık alanları, görünürlük varsayımlarını ve onay kurallarını yönet.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex flex-wrap items-start justify-between gap-3 rounded-lg border bg-muted/30 p-3">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold text-foreground">Kullanıcı bağlamı</p>
+              {locationState?.userId ? (
+                <>
+                  <p className="text-sm font-medium text-foreground">{selectedUserName}</p>
+                  <p className="text-xs text-muted-foreground">{selectedUserEmail}</p>
+                  <p className="text-xs text-muted-foreground">
+                    Bu kullanıcı için rol bazlı attribute kuralları görüntüleniyor.
+                  </p>
+                </>
+              ) : (
+                <p className="text-xs text-muted-foreground">
+                  Genel rol görünümü açık. Belirli bir kullanıcı seçmeden attribute kurallarını yönetiyorsun.
+                </p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={handleBack}
+              className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted"
+            >
+              Loginli Kullanıcılar & Roller paneline dön
+            </button>
+          </div>
+
           <div className="max-w-sm">
             <Select value={selectedRoleId} onValueChange={setSelectedRoleId}>
               <SelectTrigger>

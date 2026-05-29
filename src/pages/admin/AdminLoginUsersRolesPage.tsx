@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { setUserRoleAsAdmin } from "@/lib/admin";
 import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
@@ -32,6 +33,40 @@ type AssignmentRow = {
 
 type ProviderFilter = "google" | "all" | "unknown";
 type SortFilter = "created_desc" | "created_asc" | "name_asc";
+type UsersRolesBackFilters = {
+  q?: string;
+  provider?: ProviderFilter;
+  from?: string;
+  to?: string;
+  sort?: SortFilter;
+};
+
+const DEFAULT_PROVIDER_FILTER: ProviderFilter = "google";
+const DEFAULT_SORT_FILTER: SortFilter = "created_desc";
+
+const parseProviderFilter = (value: string | null): ProviderFilter => {
+  if (value === "all" || value === "unknown" || value === "google") {
+    return value;
+  }
+  return DEFAULT_PROVIDER_FILTER;
+};
+
+const parseSortFilter = (value: string | null): SortFilter => {
+  if (value === "created_asc" || value === "name_asc" || value === "created_desc") {
+    return value;
+  }
+  return DEFAULT_SORT_FILTER;
+};
+
+const buildUsersRolesSearchParams = (filters: UsersRolesBackFilters) => {
+  const next = new URLSearchParams();
+  if (filters.q) next.set("q", filters.q);
+  if (filters.provider && filters.provider !== DEFAULT_PROVIDER_FILTER) next.set("provider", filters.provider);
+  if (filters.from) next.set("from", filters.from);
+  if (filters.to) next.set("to", filters.to);
+  if (filters.sort && filters.sort !== DEFAULT_SORT_FILTER) next.set("sort", filters.sort);
+  return next;
+};
 
 const guideSections: AdminPageGuideSection[] = [
   {
@@ -74,6 +109,8 @@ const guideSections: AdminPageGuideSection[] = [
 
 const AdminLoginUsersRolesPage = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [rows, setRows] = useState<UserRow[]>([]);
   const [roles, setRoles] = useState<RoleRow[]>([]);
@@ -87,11 +124,11 @@ const AdminLoginUsersRolesPage = () => {
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [draftRoleByUserId, setDraftRoleByUserId] = useState<Record<string, string>>({});
 
-  const [searchText, setSearchText] = useState("");
-  const [providerFilter, setProviderFilter] = useState<ProviderFilter>("google");
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [sortFilter, setSortFilter] = useState<SortFilter>("created_desc");
+  const searchText = searchParams.get("q") ?? "";
+  const providerFilter = parseProviderFilter(searchParams.get("provider"));
+  const fromDate = searchParams.get("from") ?? "";
+  const toDate = searchParams.get("to") ?? "";
+  const sortFilter = parseSortFilter(searchParams.get("sort"));
 
   useEffect(() => {
     let isMounted = true;
@@ -249,12 +286,18 @@ const AdminLoginUsersRolesPage = () => {
 
   const totalUsers = rows.length;
 
+  const updateFilter = (key: keyof UsersRolesBackFilters, value: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (value) {
+      next.set(key, value);
+    } else {
+      next.delete(key);
+    }
+    setSearchParams(next, { replace: true });
+  };
+
   const resetFilters = () => {
-    setSearchText("");
-    setProviderFilter("google");
-    setFromDate("");
-    setToDate("");
-    setSortFilter("created_desc");
+    setSearchParams(new URLSearchParams(), { replace: true });
   };
 
   const handleRoleChange = async (row: UserRow, nextRoleId: string) => {
@@ -317,6 +360,40 @@ const AdminLoginUsersRolesPage = () => {
     await handleRoleChange(row, draftRoleId);
   };
 
+  const handleOpenAttributes = (row: UserRow) => {
+    const selectedRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
+    const backSearchParams = buildUsersRolesSearchParams({
+      q: searchText || undefined,
+      provider: providerFilter,
+      from: fromDate || undefined,
+      to: toDate || undefined,
+      sort: sortFilter,
+    });
+    const nextSearchParams = new URLSearchParams(backSearchParams);
+
+    if (selectedRoleId) {
+      nextSearchParams.set("selectedRoleId", selectedRoleId);
+    }
+
+    const search = nextSearchParams.toString();
+    const backSearch = backSearchParams.toString();
+    navigate(
+      {
+        pathname: "/admin/new-member/attributes",
+        search: search ? `?${search}` : "",
+      },
+      {
+        state: {
+          userId: row.user_id,
+          userName: row.full_name,
+          userEmail: row.email,
+          selectedRoleId,
+          backTo: `/admin/new-member/users-roles${backSearch ? `?${backSearch}` : ""}`,
+        },
+      },
+    );
+  };
+
   return (
     <div className="space-y-4">
       <AdminPageGuideAccordion
@@ -337,14 +414,14 @@ const AdminLoginUsersRolesPage = () => {
                 <label className="text-[11px] text-muted-foreground">Arama (Ad/E-posta)</label>
                 <Input
                   value={searchText}
-                  onChange={(event) => setSearchText(event.target.value)}
+                  onChange={(event) => updateFilter("q", event.target.value)}
                   placeholder="Örn: ayse / @mail.com"
                   className="h-8 text-xs"
                 />
               </div>
               <div className="space-y-1">
                 <label className="text-[11px] text-muted-foreground">Provider</label>
-                <Select value={providerFilter} onValueChange={(value) => setProviderFilter(value as ProviderFilter)}>
+                <Select value={providerFilter} onValueChange={(value) => updateFilter("provider", value === DEFAULT_PROVIDER_FILTER ? "" : value)}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="google">Google</SelectItem>
@@ -355,15 +432,15 @@ const AdminLoginUsersRolesPage = () => {
               </div>
               <div className="space-y-1">
                 <label className="text-[11px] text-muted-foreground">Kayıt başlangıç</label>
-                <Input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-8 text-xs" />
+                <Input type="date" value={fromDate} onChange={(event) => updateFilter("from", event.target.value)} className="h-8 text-xs" />
               </div>
               <div className="space-y-1">
                 <label className="text-[11px] text-muted-foreground">Kayıt bitiş</label>
-                <Input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-8 text-xs" />
+                <Input type="date" value={toDate} onChange={(event) => updateFilter("to", event.target.value)} className="h-8 text-xs" />
               </div>
               <div className="space-y-1">
                 <label className="text-[11px] text-muted-foreground">Sıralama</label>
-                <Select value={sortFilter} onValueChange={(value) => setSortFilter(value as SortFilter)}>
+                <Select value={sortFilter} onValueChange={(value) => updateFilter("sort", value === DEFAULT_SORT_FILTER ? "" : value)}>
                   <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="created_desc">En yeni kayıt</SelectItem>
@@ -403,6 +480,7 @@ const AdminLoginUsersRolesPage = () => {
                       <th className="px-3 py-2 font-medium">Durum Özeti</th>
                       <th className="px-3 py-2 font-medium">Provider</th>
                       <th className="px-3 py-2 font-medium">Kayıt Tarihi</th>
+                      <th className="px-3 py-2 font-medium">Aksiyon</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -481,6 +559,15 @@ const AdminLoginUsersRolesPage = () => {
                           <td className="px-3 py-2">{row.auth_provider || "-"}</td>
                           <td className="px-3 py-2">
                             {new Date(row.created_at).toLocaleString("tr-TR", { timeZone: "Europe/Berlin" })}
+                          </td>
+                          <td className="px-3 py-2">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenAttributes(row)}
+                              className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted"
+                            >
+                              Attribute
+                            </button>
                           </td>
                         </tr>
                       );
