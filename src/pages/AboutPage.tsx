@@ -22,9 +22,15 @@ import {
   UserRoundPlus,
   Zap,
 } from "lucide-react";
-import burakPhoto from "../../burak.png";
-import ubtPhoto from "../../ubt.png";
 import corteqsLogo from "../../newlogo.png";
+
+const audienceNetworkPeople = [
+  "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=300",
+  "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=300",
+  "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=300",
+  "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=300",
+  "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=300",
+] as const;
 
 const impactItems = [
   "Global Türk diasporasını tek platformda toplar",
@@ -280,7 +286,7 @@ const AboutPage = () => {
                     Kimler İçin?
                     <span className="h-[3px] w-14 rounded-full bg-[linear-gradient(90deg,#14b87a_0%,#3b82f6_100%)]" />
                   </span>
-                  <h2 className="mt-5 max-w-[12ch] text-4xl font-black leading-[0.96] tracking-tight text-[#142a56] md:text-5xl xl:text-[4rem]">
+                  <h2 className="mt-5 max-w-[12ch] text-[2.7rem] font-black leading-[0.96] tracking-tight text-[#142a56] md:text-[3.35rem] xl:text-[3.85rem]">
                     Tek bir kitleye değil,
                     <span className="mt-1 block bg-[linear-gradient(90deg,#1db36d_0%,#4b74ff_42%,#ff7a18_100%)] bg-clip-text text-transparent">
                       ekosistemin tamamına
@@ -312,19 +318,19 @@ const AboutPage = () => {
                     </div>
 
                     <div className="absolute left-[16%] top-[5%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#ffcfad] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
-                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                      <img src={audienceNetworkPeople[0]} alt="" className="h-full w-full object-cover" />
                     </div>
                     <div className="absolute right-[14%] top-[2%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#cab8ff] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
-                      <img src={ubtPhoto} alt="" className="h-full w-full object-cover" />
+                      <img src={audienceNetworkPeople[1]} alt="" className="h-full w-full object-cover" />
                     </div>
                     <div className="absolute left-[10%] top-[48%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#acd1ff] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
-                      <img src={ubtPhoto} alt="" className="h-full w-full object-cover" />
+                      <img src={audienceNetworkPeople[2]} alt="" className="h-full w-full object-cover" />
                     </div>
                     <div className="absolute left-[34%] bottom-[8%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#abf0d7] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
-                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                      <img src={audienceNetworkPeople[3]} alt="" className="h-full w-full object-cover" />
                     </div>
                     <div className="absolute right-[8%] bottom-[10%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#ffbcc6] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
-                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                      <img src={audienceNetworkPeople[4]} alt="" className="h-full w-full object-cover" />
                     </div>
 
                     <div className="absolute left-[50%] top-[23%] h-3 w-3 rounded-full bg-[#ff9b35]" />
