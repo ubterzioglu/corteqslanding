@@ -1,15 +1,30 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
+  BadgeCheck,
+  BriefcaseBusiness,
+  Building2,
   Globe,
+  GraduationCap,
+  HandCoins,
+  Handshake,
+  Heart,
+  Lock,
   Mail,
   MapPin,
   MessageCircle,
+  MessagesSquare,
+  Network,
+  ShieldCheck,
   Sparkles,
   Target,
   Users,
+  UserRoundPlus,
   Zap,
 } from "lucide-react";
+import burakPhoto from "../../burak.png";
+import ubtPhoto from "../../ubt.png";
+import corteqsLogo from "../../newlogo.png";
 
 const impactItems = [
   "Global Türk diasporasını tek platformda toplar",
@@ -52,35 +67,82 @@ const statCards = [
   { label: "Yaklaşım", value: "AI destekli eşleşme", icon: Target },
 ];
 
-const benefitColumns = [
+const audienceSections = [
   {
     title: "Profesyoneller İçin",
+    accent: "text-[#2878f2]",
+    accentSoft: "bg-[#2878f2]",
+    border: "border-[#d9e7ff]",
+    shell:
+      "bg-[linear-gradient(135deg,rgba(255,255,255,0.99),rgba(245,249,255,0.97),rgba(238,246,255,0.95))]",
+    glow: "shadow-[0_22px_54px_rgba(40,120,242,0.08)]",
+    icon: BriefcaseBusiness,
     points: [
       "Uzmanlığını doğru topluluğa gösterme",
       "Doğru müşteri ve iş ortaklarına ulaşma",
       "Kariyer ve danışmanlık fırsatlarını artırma",
       "Güven temelli görünürlük kazanma",
     ],
+    features: [
+      { label: "Networking\nFırsatları", icon: Network },
+      { label: "İş & Proje\nBağlantıları", icon: BriefcaseBusiness },
+      { label: "Mentorluk &\nDanışmanlık", icon: GraduationCap },
+      { label: "Kariyer\nGelişimi", icon: Zap },
+    ],
   },
   {
     title: "Girişimler ve İşletmeler İçin",
+    accent: "text-[#22a76b]",
+    accentSoft: "bg-[#22a76b]",
+    border: "border-[#dcefe4]",
+    shell:
+      "bg-[linear-gradient(135deg,rgba(255,255,255,0.99),rgba(244,252,248,0.97),rgba(237,249,243,0.95))]",
+    glow: "shadow-[0_22px_54px_rgba(34,167,107,0.08)]",
+    icon: Building2,
     points: [
       "Diaspora içinde daha hızlı keşfedilme",
       "Ülke ve şehir bazlı büyüme alanları bulma",
       "Yeni iş birlikleri ve dağıtım kanalları açma",
       "Topluluk içinden güvenli talep yakalama",
     ],
+    features: [
+      { label: "Global\nGörünürlük", icon: Globe },
+      { label: "Hedef Kitleye\nUlaşım", icon: Target },
+      { label: "İş Birlikleri &\nOrtaklıklar", icon: Handshake },
+      { label: "Tanıtım &\nDuyurular", icon: Sparkles },
+    ],
   },
   {
     title: "Topluluk ve Bireyler İçin",
+    accent: "text-[#7c3aed]",
+    accentSoft: "bg-[#7c3aed]",
+    border: "border-[#e7dcff]",
+    shell:
+      "bg-[linear-gradient(135deg,rgba(255,255,255,0.99),rgba(250,246,255,0.97),rgba(244,238,255,0.95))]",
+    glow: "shadow-[0_22px_54px_rgba(124,58,237,0.08)]",
+    icon: Users,
     points: [
       "Bilgiye daha hızlı ve düzenli erişme",
       "Yeni şehirlerde daha kolay yön bulma",
       "Güvenilir çevre ve dayanışma ağı kurma",
       "Sosyal ve profesyonel hayatı aynı zeminde büyütme",
     ],
+    features: [
+      { label: "Topluluklara\nKatıl", icon: UserRoundPlus },
+      { label: "Bilgi & Deneyim\nPaylaşımı", icon: MessagesSquare },
+      { label: "Etkinliklere\nKatılım", icon: Sparkles },
+      { label: "Yeni Şehirlerde\nDestek Ağı", icon: Globe },
+    ],
   },
 ];
+
+const trustBadges = [
+  { label: "Güvenli", icon: Users },
+  { label: "Doğrulanmış", icon: BadgeCheck },
+  { label: "Mahremiyet Odaklı", icon: Lock },
+  { label: "Hızlı & Kolay", icon: Zap },
+  { label: "Topluluk Odaklı", icon: Heart },
+] as const;
 
 const AboutPage = () => {
   useEffect(() => {
@@ -211,28 +273,188 @@ const AboutPage = () => {
           </section>
 
           <section className="mb-14">
-            <article className="rounded-[2rem] border border-border/70 bg-card p-6 shadow-[0_24px_60px_rgba(15,23,42,0.05)] md:p-8">
-              <span className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">Kimler İçin?</span>
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground">
-                Tek bir kitleye değil, ekosistemin tamamına hizmet eder
-              </h2>
-              <div className="mt-8 grid gap-4">
-                {benefitColumns.map((column) => (
+            <article className="overflow-hidden rounded-[2.2rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(250,251,255,0.95))] p-6 shadow-[0_28px_75px_rgba(15,23,42,0.07)] md:p-8 xl:p-10">
+              <div className="grid gap-10 xl:grid-cols-[1.04fr_0.96fr] xl:items-center">
+                <div>
+                  <span className="inline-flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.34em] text-[#14b87a]">
+                    Kimler İçin?
+                    <span className="h-[3px] w-14 rounded-full bg-[linear-gradient(90deg,#14b87a_0%,#3b82f6_100%)]" />
+                  </span>
+                  <h2 className="mt-5 max-w-[12ch] text-4xl font-black leading-[0.96] tracking-tight text-[#142a56] md:text-5xl xl:text-[4rem]">
+                    Tek bir kitleye değil,
+                    <span className="mt-1 block bg-[linear-gradient(90deg,#1db36d_0%,#4b74ff_42%,#ff7a18_100%)] bg-clip-text text-transparent">
+                      ekosistemin tamamına
+                    </span>
+                    hizmet eder
+                  </h2>
+                  <p className="mt-5 max-w-2xl text-base leading-8 text-slate-500 md:text-[1.15rem]">
+                    CorteQS, farklı ihtiyaçlara sahip tüm birey, kurum ve toplulukları tek bir
+                    platformda buluşturarak daha güçlü bir diaspora ekosistemi oluşturur.
+                  </p>
+                </div>
+
+                <div className="relative mx-auto flex w-full max-w-[36rem] items-center justify-center">
                   <div
-                    key={column.title}
-                    className="rounded-2xl border border-border/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(247,243,239,0.82))] p-5"
-                  >
-                    <h3 className="text-lg font-bold text-foreground">{column.title}</h3>
-                    <div className="mt-4 grid gap-3">
-                      {column.points.map((point) => (
-                        <div key={point} className="flex items-start gap-3">
-                          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-accent" />
-                          <p className="text-sm leading-6 text-muted-foreground">{point}</p>
-                        </div>
-                      ))}
+                    className="absolute inset-[16%] rounded-full blur-3xl"
+                    aria-hidden="true"
+                    style={{
+                      background:
+                        "radial-gradient(circle, rgba(82,142,255,0.14) 0%, rgba(255,255,255,0) 72%)",
+                    }}
+                  />
+                  <div className="relative aspect-[1.22/0.82] w-full">
+                    <div className="absolute left-[6%] top-[18%] h-[34%] w-[32%] rounded-full border border-dashed border-[#80b0ff]/55" />
+                    <div className="absolute right-[6%] top-[14%] h-[42%] w-[38%] rounded-full border border-dashed border-[#b697ff]/55" />
+                    <div className="absolute left-[24%] top-[8%] h-[76%] w-[52%] rounded-full border border-dashed border-[#f2c69d]/45" />
+
+                    <div className="absolute left-[50%] top-[46%] z-20 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-[0_22px_50px_rgba(15,23,42,0.14),0_0_0_16px_rgba(255,255,255,0.72)]">
+                      <img src={corteqsLogo} alt="CorteQS" className="h-16 w-16 object-contain" />
+                    </div>
+
+                    <div className="absolute left-[16%] top-[5%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#ffcfad] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
+                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="absolute right-[14%] top-[2%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#cab8ff] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
+                      <img src={ubtPhoto} alt="" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="absolute left-[10%] top-[48%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#acd1ff] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
+                      <img src={ubtPhoto} alt="" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="absolute left-[34%] bottom-[8%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#abf0d7] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
+                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                    </div>
+                    <div className="absolute right-[8%] bottom-[10%] z-20 h-14 w-14 overflow-hidden rounded-full border-4 border-[#ffbcc6] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.16)]">
+                      <img src={burakPhoto} alt="" className="h-full w-full object-cover" />
+                    </div>
+
+                    <div className="absolute left-[50%] top-[23%] h-3 w-3 rounded-full bg-[#ff9b35]" />
+                    <div className="absolute left-[20%] top-[30%] h-2.5 w-2.5 rounded-full bg-[#8b5cf6]" />
+                    <div className="absolute left-[34%] top-[38%] h-2 w-2 rounded-full bg-[#3b82f6]" />
+                    <div className="absolute right-[30%] top-[18%] h-2.5 w-2.5 rounded-full bg-[#3b82f6]" />
+                    <div className="absolute right-[22%] top-[34%] h-2 w-2 rounded-full bg-[#8b5cf6]" />
+                    <div className="absolute left-[52%] bottom-[18%] h-2.5 w-2.5 rounded-full bg-[#22c55e]" />
+
+                    <div className="absolute left-[56%] top-[22%] flex h-11 w-11 items-center justify-center rounded-full border border-[#dce7ff] bg-white text-[#2878f2] shadow-[0_10px_24px_rgba(40,120,242,0.12)]">
+                      <BriefcaseBusiness className="h-5 w-5" />
+                    </div>
+                    <div className="absolute right-[22%] top-[34%] flex h-11 w-11 items-center justify-center rounded-full border border-[#dce7ff] bg-white text-[#2878f2] shadow-[0_10px_24px_rgba(40,120,242,0.12)]">
+                      <HandCoins className="h-5 w-5" />
+                    </div>
+                    <div className="absolute right-[34%] bottom-[16%] flex h-10 w-10 items-center justify-center rounded-full border border-[#dcf3ea] bg-white text-[#20b26f] shadow-[0_10px_24px_rgba(32,178,111,0.12)]">
+                      <ShieldCheck className="h-4.5 w-4.5" />
+                    </div>
+                    <div className="absolute right-[12%] bottom-[26%] flex h-11 w-11 items-center justify-center rounded-full border border-[#ffe0dc] bg-white text-[#ff6a5b] shadow-[0_10px_24px_rgba(255,106,91,0.12)]">
+                      <Building2 className="h-5 w-5" />
                     </div>
                   </div>
-                ))}
+                </div>
+              </div>
+
+              <div className="mt-10 grid gap-4">
+                {audienceSections.map((section) => {
+                  const SectionIcon = section.icon;
+
+                  return (
+                    <div
+                      key={section.title}
+                      className={`rounded-[2rem] border p-5 md:p-6 ${section.border} ${section.shell} ${section.glow}`}
+                    >
+                      <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr_0.98fr] xl:items-center">
+                        <div className="relative overflow-hidden rounded-[1.7rem] border border-white/80 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.98),rgba(243,247,255,0.88)_52%,rgba(236,241,251,0.82)_100%)] px-5 py-6">
+                          <div
+                            className="absolute -left-10 bottom-0 h-24 w-24 rounded-full blur-2xl"
+                            aria-hidden="true"
+                            style={{ background: "rgba(124, 58, 237, 0.10)" }}
+                          />
+                          <div className="absolute right-4 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/75 text-slate-300 shadow-sm">
+                            <MapPin className="h-4 w-4" />
+                          </div>
+                          <div className={`mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_18px_34px_rgba(15,23,42,0.10)] ${section.accent}`}>
+                            <SectionIcon className="h-7 w-7" />
+                          </div>
+                          <div className="flex min-h-[8.5rem] items-end justify-center">
+                            <div className="relative w-full max-w-[16rem]">
+                              <div className="absolute inset-x-0 bottom-0 h-10 rounded-[1rem] bg-[linear-gradient(180deg,rgba(194,212,255,0.10),rgba(177,198,255,0.18))]" />
+                              <div className={`absolute left-[6%] top-[18%] h-20 w-20 rounded-[1.6rem] bg-white shadow-[0_20px_34px_rgba(15,23,42,0.10)] ${section.accent}`} />
+                              <div className="absolute right-[8%] top-[8%] flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-slate-300 shadow-sm">
+                                <Users className="h-4 w-4" />
+                              </div>
+                              <div className="relative flex min-h-[7.4rem] items-end justify-center">
+                                <SectionIcon className={`h-28 w-28 ${section.accent} opacity-95`} strokeWidth={1.5} />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h3 className={`text-2xl font-black tracking-tight md:text-[2rem] ${section.accent}`}>
+                            {section.title}
+                          </h3>
+                          <div className={`mt-3 h-[3px] w-16 rounded-full ${section.accentSoft}`} />
+                          <div className="mt-6 grid gap-4">
+                            {section.points.map((point) => (
+                              <div key={point} className="flex items-start gap-3">
+                                <span className={`mt-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${section.accentSoft}`}>
+                                  <BadgeCheck className="h-3.5 w-3.5 text-white" />
+                                </span>
+                                <p className="text-[1.02rem] leading-7 text-slate-700">{point}</p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-3 rounded-[1.7rem] border border-white/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(250,251,255,0.86))] p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.84)]">
+                          {section.features.map((feature) => {
+                            const FeatureIcon = feature.icon;
+
+                            return (
+                              <div
+                                key={feature.label}
+                                className="rounded-[1.2rem] border border-slate-100 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,255,0.9))] px-3 py-4 text-center shadow-[0_8px_18px_rgba(15,23,42,0.04)]"
+                              >
+                                <div className={`mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-[0_10px_24px_rgba(15,23,42,0.06)] ${section.accent}`}>
+                                  <FeatureIcon className="h-7 w-7" strokeWidth={1.8} />
+                                </div>
+                                <p className="mt-3 whitespace-pre-line text-sm font-semibold leading-5 text-[#142a56]">
+                                  {feature.label}
+                                </p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 rounded-[1.8rem] border border-[#f0e3d2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(255,250,244,0.94))] px-5 py-4 shadow-[0_18px_40px_rgba(15,23,42,0.04)]">
+                <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_14px_30px_rgba(15,23,42,0.08)]">
+                      <img src={corteqsLogo} alt="CorteQS" className="h-10 w-10 object-contain" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-black tracking-tight text-[#142a56]">Aynı amaç, tek ağ.</p>
+                      <p className="text-lg font-semibold text-[#1d3569]">
+                        Daha güçlü bir diaspora, birlikte mümkün.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-5">
+                    {trustBadges.map((badge) => {
+                      const BadgeIcon = badge.icon;
+
+                      return (
+                        <div key={badge.label} className="flex items-center gap-3 rounded-2xl px-2 py-1.5 text-slate-600">
+                          <BadgeIcon className="h-5 w-5 text-slate-400" />
+                          <span className="text-sm font-semibold text-slate-600">{badge.label}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </article>
           </section>
