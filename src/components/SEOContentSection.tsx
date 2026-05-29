@@ -1,6 +1,7 @@
 import { Clapperboard, Globe, PenTool, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import logo from "../../newlogo.png";
 
 const featuredLinks = [
   {
@@ -46,11 +47,30 @@ const SEOContentSection = () => {
               </span>
             </AccordionTrigger>
             <AccordionContent className="pb-6">
-              <p id="geo-content-title" className="max-w-4xl text-justify text-[1.08rem] leading-relaxed text-foreground md:text-[1.2rem]">
-                Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz. CorteQS,
-                dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil, gerçek fırsatlar,
-                topluluklar ve bağlantılar etrafında bir araya getirir.
-              </p>
+              <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-8">
+                <p
+                  id="geo-content-title"
+                  className="max-w-4xl text-justify text-[1.08rem] leading-relaxed text-foreground md:text-[1.2rem]"
+                >
+                  Dünyaya dağılmış Türk topluluklarının ekonomik ve sosyal sinir ağlarını örüyoruz. CorteQS,
+                  dünyanın farklı şehirlerinde yaşayan Türkleri; sadece bir sosyal ağda değil, gerçek fırsatlar,
+                  topluluklar ve bağlantılar etrafında bir araya getirir.
+                </p>
+
+                <div className="relative mx-auto hidden lg:flex lg:items-center lg:justify-center">
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-6 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.18)_0%,rgba(15,118,110,0.12)_42%,rgba(255,255,255,0)_74%)] blur-2xl"
+                  />
+                  <div className="relative rounded-[2rem] border border-white/75 bg-[linear-gradient(145deg,rgba(255,255,255,0.92),rgba(232,247,243,0.82))] p-4 shadow-[0_26px_50px_-24px_rgba(37,99,235,0.34),0_14px_32px_-18px_rgba(15,118,110,0.28)] backdrop-blur-md">
+                    <img
+                      src={logo}
+                      alt="CorteQS logosu"
+                      className="h-[132px] w-[132px] rounded-full object-contain drop-shadow-[0_16px_24px_rgba(21,58,91,0.22)]"
+                    />
+                  </div>
+                </div>
+              </div>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
