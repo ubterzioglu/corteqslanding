@@ -81,7 +81,7 @@ const queryClient = new QueryClient();
 const WhatsAppGroupDetailRedirect = () => {
   const { id } = useParams<{ id: string }>();
 
-  return <Navigate to={`/addwa?group=${encodeURIComponent(id ?? "")}`} replace />;
+  return <Navigate to={`/addcom?group=${encodeURIComponent(id ?? "")}`} replace />;
 };
 
 const FoundersCombinedPage = () => (
@@ -116,7 +116,7 @@ const App = () => (
               <Route path="/190519idea" element={<May19IdeaPage />} />
               <Route path="/190519memory" element={<May19MomentPage />} />
               <Route path="/190519" element={<Navigate to="/190519memory" replace />} />
-              <Route path="/addwa" element={<AddWhatsAppPage />} />
+              <Route path="/addcom" element={<AddWhatsAppPage />} />
               <Route path="/anket" element={<SurveysPage />} />
               <Route path="/anket/tesekkurler" element={<SurveyThankYouPage />} />
               <Route path="/anket/:slug" element={<SurveyDetailPage />} />
@@ -146,7 +146,8 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
-            <Route path="/whatsapp-groups" element={<Navigate to="/addwa" replace />} />
+            <Route path="/addwa" element={<Navigate to="/addcom" replace />} />
+            <Route path="/whatsapp-groups" element={<Navigate to="/addcom" replace />} />
             <Route path="/whatsapp-groups/:id" element={<WhatsAppGroupDetailRedirect />} />
             <Route path="/contributor" element={<Navigate to="/commercial/contributor" replace />} />
             <Route path="/influencer-partner" element={<Navigate to="/commercial/influencer-partner" replace />} />

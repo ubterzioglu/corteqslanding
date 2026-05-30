@@ -441,7 +441,7 @@ export default function AddWhatsAppPage() {
       toast({
         title: "Başvurun alındı",
         description: groupForm.submitterRole === "manager"
-          ? "Landing sayfan admin onayından sonra /addwa altında görünecek."
+          ? "Landing sayfan admin onayından sonra /addcom altında görünecek."
           : "Grubun onay sonrası listede yayınlanacak.",
       });
 
@@ -525,7 +525,7 @@ export default function AddWhatsAppPage() {
   const handleShare = async () => {
     if (!selectedLanding) return;
 
-    const shareUrl = `${window.location.origin}/addwa?group=${encodeURIComponent(selectedLanding.id)}`;
+    const shareUrl = `${window.location.origin}/addcom?group=${encodeURIComponent(selectedLanding.id)}`;
     if (navigator.share) {
       try {
         await navigator.share({
@@ -543,14 +543,14 @@ export default function AddWhatsAppPage() {
     setCopied(true);
     toast({
       title: "Link kopyalandı",
-      description: "Landing sayfası artık yeni /addwa adresi ile paylaşılabilir.",
+      description: "Landing sayfası artık yeni /addcom adresi ile paylaşılabilir.",
     });
     window.setTimeout(() => setCopied(false), 1800);
   };
 
   const backToList = () => {
     setSearchParams({});
-    navigate("/addwa", { replace: true });
+    navigate("/addcom", { replace: true });
   };
 
   const renderApprovalBadges = (landing: WhatsAppLanding) => {
@@ -606,7 +606,7 @@ export default function AddWhatsAppPage() {
           ) : (
             <div className="space-y-8">
               <Link
-                to="/addwa"
+                to="/addcom"
                 onClick={(event) => {
                   event.preventDefault();
                   backToList();
@@ -1066,7 +1066,7 @@ export default function AddWhatsAppPage() {
                   return (
                     <Link
                       key={landing.id}
-                      to={`/addwa?group=${encodeURIComponent(landing.id)}`}
+                      to={`/addcom?group=${encodeURIComponent(landing.id)}`}
                       className="group overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
                     >
                       {landing.heroImage ? (

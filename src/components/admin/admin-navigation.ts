@@ -37,7 +37,7 @@ export const otherActionNavItems = [
 export const otherRecordNavItems = [
   { to: "/admin/lansman", label: "Lansman Katılım", icon: MonitorPlay },
   { to: "/admin/surveys", label: "Anketler", icon: ClipboardList },
-  { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları", icon: MessageSquare },
+  { to: "/admin/whatsapp-landings", label: "Topluluklar", icon: MessageSquare },
 ] as const;
 
 export const may19RecordNavItems = [

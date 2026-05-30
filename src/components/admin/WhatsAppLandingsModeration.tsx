@@ -218,7 +218,7 @@ export default function WhatsAppLandingsModeration() {
         <div className="space-y-1">
           <h2 className="flex items-center gap-2 text-xl font-bold text-foreground">
             <MessageSquare className="h-5 w-5 text-emerald-600" />
-            WhatsApp Grup Başvuruları
+            Topluluk Başvuruları
           </h2>
           <p className="text-sm text-muted-foreground">
             Başvuruları tek satırda inceleyin, düzenleyin ve moderasyon kararını verin.
@@ -298,7 +298,7 @@ export default function WhatsAppLandingsModeration() {
                           Topluluk Linki
                         </Button>
                       </a>
-                      <Link to={`/addwa?group=${encodeURIComponent(row.id)}`}>
+                      <Link to={`/addcom?group=${encodeURIComponent(row.id)}`}>
                         <Button variant="outline" size="sm" className="gap-1.5">
                           <ExternalLink className="h-3.5 w-3.5" />
                           Önizle

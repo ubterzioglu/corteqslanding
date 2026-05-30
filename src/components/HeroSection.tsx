@@ -134,7 +134,7 @@ const HeroSection = () => {
                   <span className="relative z-10">Biz Kimiz</span>
                 </Link>
                   <Link
-                    to="/addwa"
+                    to="/addcom"
                     className={`${heroCtaClass} px-4`}
                     style={heroCardStyles.addWhatsapp}
                   >
