@@ -109,7 +109,7 @@ const AdminLayout = () => {
     { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
     { to: "/admin/may19/kelime", label: "19 Mayıs Fikir" },
     { to: "/admin/surveys", label: "Anketler" },
-    { to: "/admin/whatsapp-landings", label: "WA Grup Ekleme" },
+    { to: "/admin/whatsapp-landings", label: "Topluluklar" },
   ] as const;
 
   const syncSession = useCallback(async (nextSession: Session | null) => {
@@ -253,7 +253,7 @@ const AdminLayout = () => {
     { to: "/admin/audit-logs", label: "Audit Logs" },
     { to: "/admin/lansman", label: "Lansman Katılım" },
     { to: "/admin/surveys", label: "Anketler" },
-    { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları" },
+    { to: "/admin/whatsapp-landings", label: "Topluluklar" },
     { to: "/admin/cadde", label: "Cadde" },
     { to: "/admin/may19/kelime", label: "19 Mayıs Kelime" },
     { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
