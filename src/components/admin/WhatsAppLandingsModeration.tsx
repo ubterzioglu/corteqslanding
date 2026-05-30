@@ -46,9 +46,23 @@ const categoryOptions: Array<{ value: LandingCategory; label: string }> = [
   { value: "diger", label: "Diğer" },
 ];
 
+const platformOptions = [
+  "WhatsApp",
+  "Telegram",
+  "Discord",
+  "Facebook",
+  "Instagram",
+  "LinkedIn",
+  "X",
+  "TikTok",
+  "YouTube",
+  "Reddit",
+] as const;
+
 type EditLandingState = UpdateLandingInput & {
   dbId: string;
   slug: string;
+  platform: string;
   adminEmail: string;
   adminPhone: string;
   memberApproved: boolean;
@@ -75,6 +89,7 @@ function createEditState(row: WhatsAppLanding): EditLandingState | null {
     dbId: row.dbId,
     slug: row.id,
     groupName: row.groupName,
+    platform: row.platform ?? "WhatsApp",
     category: row.category,
     country: row.country,
     city: row.city,
@@ -113,13 +128,14 @@ export default function WhatsAppLandingsModeration() {
     void load(tab);
   }, [tab]);
 
-  const platformLabelByRowId = useMemo(() => {
-    return rows.reduce<Record<string, string>>((accumulator, row) => {
-      const match = row.description?.match(/\[Platform:\s*([^\]]+)\]/);
-      accumulator[row.dbId ?? row.id] = match?.[1]?.trim() || "Belirtilmedi";
-      return accumulator;
-    }, {});
-  }, [rows]);
+  const platformLabelByRowId = useMemo(
+    () =>
+      rows.reduce<Record<string, string>>((accumulator, row) => {
+        accumulator[row.dbId ?? row.id] = row.platform?.trim() || "Belirtilmedi";
+        return accumulator;
+      }, {}),
+    [rows],
+  );
 
   const handleStatus = async (dbId: string, status: LandingStatus) => {
     try {
@@ -187,9 +203,11 @@ export default function WhatsAppLandingsModeration() {
           .join("\n"),
         description: [
           editState.description
+            .replace(/\[Platform:\s*[^\]]+\]\s*/gi, "")
             .replace(/\[Badge member:\s*(true|false)\]\s*/gi, "")
             .replace(/\[Badge admin:\s*(true|false)\]\s*/gi, "")
             .trim(),
+          `[Platform: ${editState.platform}]`,
           `[Badge member: ${editState.memberApproved ? "true" : "false"}]`,
           `[Badge admin: ${editState.adminApproved ? "true" : "false"}]`,
         ]
@@ -378,6 +396,22 @@ export default function WhatsAppLandingsModeration() {
                     {categoryOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label>Platform</Label>
+                <Select value={editState.platform} onValueChange={(value) => updateEditState("platform", value)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {platformOptions.map((platform) => (
+                      <SelectItem key={platform} value={platform}>
+                        {platform}
                       </SelectItem>
                     ))}
                   </SelectContent>

@@ -22,6 +22,7 @@ export interface WhatsAppLanding {
   id: string;
   dbId?: string;
   groupName: string;
+  platform?: string;
   category: LandingCategory;
   country: string;
   city: string;
@@ -105,6 +106,12 @@ function parseSubmitterRole(description?: string | null): LandingSubmitterRole |
   return undefined;
 }
 
+function parseTagValue(description: string | null | undefined, tagName: string) {
+  if (!description) return undefined;
+  const match = description.match(new RegExp(`\\[${tagName}:\\s*([^\\]]+)\\]`, "i"));
+  return match?.[1]?.trim();
+}
+
 function parseBooleanTag(description: string | null | undefined, tagName: string, fallback: boolean) {
   if (!description) return fallback;
   const match = description.match(new RegExp(`\\[${tagName}:\\s*(true|false)\\]`, "i"));
@@ -117,6 +124,7 @@ function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     id: row.slug,
     dbId: row.id,
     groupName: row.group_name,
+    platform: parseTagValue(row.description, "Platform"),
     category: row.category as LandingCategory,
     country: row.country,
     city: row.city,

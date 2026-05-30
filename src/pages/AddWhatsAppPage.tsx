@@ -97,6 +97,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-berlin-girisim",
     groupName: "Berlin Girisim Agi",
+    platform: "Discord",
     category: "girisim",
     country: "Almanya",
     city: "Berlin",
@@ -114,6 +115,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-dubai-yatirim",
     groupName: "Dubai Yatirim Cevresi",
+    platform: "LinkedIn",
     category: "yatirim",
     country: "Birlesik Arap Emirlikleri",
     city: "Dubai",
@@ -131,6 +133,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-londra-kariyer",
     groupName: "Londra Kariyer ve Is Iliskileri",
+    platform: "WhatsApp",
     category: "is",
     country: "Birlesik Krallik",
     city: "Londra",
@@ -148,6 +151,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-amsterdam-akademik",
     groupName: "Amsterdam Akademik Turkler",
+    platform: "Telegram",
     category: "akademik",
     country: "Hollanda",
     city: "Amsterdam",
@@ -165,6 +169,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-toronto-dayanisma",
     groupName: "Toronto Dayanisma Hatti",
+    platform: "Facebook",
     category: "dayanisma",
     country: "Kanada",
     city: "Toronto",
@@ -182,6 +187,7 @@ const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-paris-hobi",
     groupName: "Paris Sosyal ve Hobi Kulubu",
+    platform: "Instagram",
     category: "hobi",
     country: "Fransa",
     city: "Paris",
@@ -223,6 +229,19 @@ const platformOptions = [
   "YouTube",
   "Reddit",
 ] as const;
+
+const platformMarkMeta: Record<string, { short: string; className: string }> = {
+  WhatsApp: { short: "WA", className: "bg-[#e7f9ee] text-[#1f9d55]" },
+  Telegram: { short: "TG", className: "bg-[#e7f4ff] text-[#229ED9]" },
+  Discord: { short: "DS", className: "bg-[#eef0ff] text-[#5865F2]" },
+  Facebook: { short: "f", className: "bg-[#ecf3ff] text-[#1877F2]" },
+  Instagram: { short: "IG", className: "bg-[#fff0f6] text-[#E1306C]" },
+  LinkedIn: { short: "in", className: "bg-[#eef7ff] text-[#0A66C2]" },
+  X: { short: "X", className: "bg-slate-900 text-white" },
+  TikTok: { short: "TT", className: "bg-slate-100 text-slate-900" },
+  YouTube: { short: "YT", className: "bg-[#fff0f0] text-[#FF0000]" },
+  Reddit: { short: "R", className: "bg-[#fff3ea] text-[#FF5700]" },
+};
 
 type GroupFormState = {
   submitterRole: "manager" | "member";
@@ -581,6 +600,20 @@ export default function AddWhatsAppPage() {
           </Tooltip>
         ))}
       </div>
+    );
+  };
+
+  const renderPlatformMark = (platform?: string) => {
+    const meta = platform ? platformMarkMeta[platform] : undefined;
+    if (!meta) return null;
+
+    return (
+      <span
+        title={platform}
+        className={`inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-[11px] font-black uppercase tracking-tight ${meta.className}`}
+      >
+        {meta.short}
+      </span>
     );
   };
 
@@ -1060,7 +1093,12 @@ export default function AddWhatsAppPage() {
                   const Icon = categoryMeta[landing.category].icon;
                   const cardSummary =
                     landing.callToActionText?.trim() ||
-                    landing.description?.replace(/\[Başvuru tipi:[^\]]+\]\s*/g, "").trim() ||
+                    landing.description
+                      ?.replace(/\[Platform:\s*[^\]]+\]\s*/gi, "")
+                      .replace(/\[Başvuru tipi:[^\]]+\]\s*/gi, "")
+                      .replace(/\[Badge member:\s*(true|false)\]\s*/gi, "")
+                      .replace(/\[Badge admin:\s*(true|false)\]\s*/gi, "")
+                      .trim() ||
                     "Topluluk detaylarını görmek için karta tıkla.";
 
                   return (
@@ -1087,7 +1125,7 @@ export default function AddWhatsAppPage() {
                             <Icon className="mr-1 h-3 w-3" />
                             {categoryMeta[landing.category].label}
                           </Badge>
-                          <span className="text-xs text-muted-foreground">Onaylı</span>
+                          {renderPlatformMark(landing.platform)}
                         </div>
                         <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                           {landing.groupName}
