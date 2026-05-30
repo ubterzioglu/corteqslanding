@@ -80,7 +80,7 @@ describe("AddWhatsAppPage", () => {
       target: { value: "Tokyo" },
     });
 
-    expect(screen.getByText(/Filtreye uygun grup bulunamadi/i)).toBeInTheDocument();
+    expect(screen.getByText(/Filtreye uygun grup bulunamadı/i)).toBeInTheDocument();
   });
 
   it("renders the landing detail when group query exists", async () => {
@@ -95,6 +95,6 @@ describe("AddWhatsAppPage", () => {
 
     renderPage("/addwa?group=olmayan");
 
-    expect(await screen.findByText(/Landing sayfasi bulunamadi/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Landing sayfası bulunamadı/i)).toBeInTheDocument();
   });
 });
