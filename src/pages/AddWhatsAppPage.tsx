@@ -817,16 +817,16 @@ export default function AddWhatsAppPage() {
                 </div>
                 <div className="mt-5 space-y-2">
                   <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
-                    Dünyadaki Türk WhatsApp ve Telegram topluluklarını keşfet.
+                    Dünyadaki Türk topluluklarını keşfet.
                   </p>
                   <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
-                    Her konuda grupları saniyeler içinde bul.
+                    Her konuda toplulukları saniyeler içinde bul.
                   </p>
                   <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
-                    Sana uygun gruba katıl!
+                    Sana uygun topluluğa katıl!
                   </p>
                   <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
-                    Grubunu ücretsiz ekle.
+                    Toplulukları ücretsiz ekle.
                   </p>
                 </div>
               </div>
