@@ -10,7 +10,10 @@
       "Bash(npx tsx *)",
       "Bash(awk -F',' 'NR>1 {print $9}' \"C:\\\\temp_private\\\\corteqs\\\\corteqs_landing\\\\filesnew.csv\")",
       "Bash(grep -c \"^$\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:8080)",
+      "Bash(pkill -f \"npm run dev\")",
+      "Bash(npx tsc *)"
     ]
   }
 }
