@@ -34,6 +34,7 @@ import {
   listLandings,
   submitLanding,
   uploadWhatsAppLandingHeroImage,
+  type LandingCategory,
   type WhatsAppLanding,
 } from "@/lib/whatsapp-landings";
 import messagingHeroImage from "../../addwaimage.png";
@@ -419,7 +420,7 @@ export default function AddWhatsAppPage() {
                 Tüm gruplar
               </Link>
 
-              {selectedLanding.mode === "visual" && selectedLanding.heroImage ? (
+              {selectedLanding.heroImage ? (
                 <section className="relative overflow-hidden rounded-[2rem] border border-border">
                   <img
                     src={selectedLanding.heroImage}
@@ -832,22 +833,35 @@ export default function AddWhatsAppPage() {
                     <Link
                       key={landing.id}
                       to={`/addwa?group=${encodeURIComponent(landing.id)}`}
-                      className="group rounded-[1.75rem] border border-border bg-white p-5 shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
+                      className="group overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <Badge className={`border ${categoryMeta[landing.category].chipClass}`}>
-                          <Icon className="mr-1 h-3 w-3" />
-                          {categoryMeta[landing.category].label}
-                        </Badge>
-                        <span className="text-xs text-muted-foreground">Onaylı</span>
-                      </div>
-                      <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
-                        {landing.groupName}
-                      </h3>
-                      <p className="mt-2 text-sm text-muted-foreground">{landing.tagline}</p>
-                      <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                        <MapPin className="h-3.5 w-3.5" />
-                        {landing.city}, {landing.country}
+                      {landing.heroImage ? (
+                        <div className="relative">
+                          <img
+                            src={landing.heroImage}
+                            alt={landing.groupName}
+                            className="h-44 w-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
+                        </div>
+                      ) : null}
+
+                      <div className="p-5">
+                        <div className="flex items-start justify-between gap-3">
+                          <Badge className={`border ${categoryMeta[landing.category].chipClass}`}>
+                            <Icon className="mr-1 h-3 w-3" />
+                            {categoryMeta[landing.category].label}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">Onaylı</span>
+                        </div>
+                        <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
+                          {landing.groupName}
+                        </h3>
+                        <p className="mt-2 text-sm text-muted-foreground">{landing.tagline}</p>
+                        <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {landing.city}, {landing.country}
+                        </div>
                       </div>
                     </Link>
                   );
