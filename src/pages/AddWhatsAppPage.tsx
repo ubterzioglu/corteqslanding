@@ -813,114 +813,37 @@ export default function AddWhatsAppPage() {
                     className="aspect-video w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
-                  <div className="absolute left-6 top-6 z-10 md:left-8 md:top-8">
-                    {renderApprovalBadges(selectedLanding)}
+                  <div className="absolute left-6 top-6 z-10 w-56 md:left-8 md:top-8">
+                    {renderDetailMetaBadges(selectedLanding)}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
-                    <Badge className="mb-3 border-0 bg-emerald-500 text-white">
-                      <MessageSquare className="mr-1 h-3 w-3" />
-                      {categoryMeta[selectedLanding.category].label}
-                    </Badge>
                     <h1 className="text-3xl font-black leading-tight md:text-5xl">{selectedLanding.groupName}</h1>
                     <p className="mt-3 max-w-2xl text-sm text-slate-100 md:text-lg">{selectedLanding.tagline}</p>
                   </div>
                 </section>
               ) : (
-                <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-                  <div className="mb-4 flex justify-center">{renderApprovalBadges(selectedLanding)}</div>
-                  <Badge className={`mb-4 border ${categoryMeta[selectedLanding.category].chipClass}`}>
-                    <MessageSquare className="mr-1 h-3 w-3" />
-                    {categoryMeta[selectedLanding.category].label}
-                  </Badge>
+                <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                  <div className="mb-4 w-full max-w-sm">{renderDetailMetaBadges(selectedLanding)}</div>
                   <h1 className="text-3xl font-black text-foreground md:text-5xl">{selectedLanding.groupName}</h1>
-                  <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground md:text-xl">
+                  <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-xl">
                     {selectedLanding.tagline}
                   </p>
                 </section>
               )}
 
-              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                <span className="inline-flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  {selectedLanding.city}, {selectedLanding.country}
-                </span>
-                {selectedLanding.adminName ? (
-                  <span className="inline-flex items-center gap-1">
-                    <Users className="h-4 w-4" />
-                    Yönetici: {selectedLanding.adminName}
-                  </span>
-                ) : null}
-              </div>
-
               <section className="rounded-[1.75rem] border border-border bg-card p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-8">
                 <h2 className="text-xl font-bold text-foreground">Grubun çağrı metni</h2>
                 <p className="mt-4 whitespace-pre-line text-foreground/85">{selectedLanding.callToActionText}</p>
 
-                <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <Dialog open={joinDialogOpen} onOpenChange={setJoinDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button size="lg" className="flex-1 gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
-                        <UserPlus className="h-5 w-5" />
-                        Katılma Talebi Gönder
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-md">
-                      <DialogHeader>
-                        <DialogTitle>{selectedLanding.groupName} - Katılma Talebi</DialogTitle>
-                      </DialogHeader>
+                <div className="mt-6 flex flex-col gap-3">
+                  <Button size="lg" asChild className="w-full gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
+                    <a href={selectedLanding.whatsappLink} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="h-5 w-5" />
+                      Platforma git!
+                    </a>
+                  </Button>
 
-                      <div className="space-y-3">
-                        <div className="space-y-1.5">
-                          <Label htmlFor="join-full-name">Ad Soyad *</Label>
-                          <Input
-                            id="join-full-name"
-                            value={joinForm.fullName}
-                            onChange={(event) => updateJoinForm("fullName", event.target.value)}
-                            placeholder="Adınız Soyadınız"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <Label htmlFor="join-email">E-posta *</Label>
-                          <Input
-                            id="join-email"
-                            type="email"
-                            value={joinForm.email}
-                            onChange={(event) => updateJoinForm("email", event.target.value)}
-                            placeholder="ornek@email.com"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <Label htmlFor="join-phone">Telefon</Label>
-                          <Input
-                            id="join-phone"
-                            value={joinForm.phone}
-                            onChange={(event) => updateJoinForm("phone", event.target.value)}
-                            placeholder="+49 ..."
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <Label htmlFor="join-note">Not</Label>
-                          <Textarea
-                            id="join-note"
-                            rows={3}
-                            value={joinForm.note}
-                            onChange={(event) => updateJoinForm("note", event.target.value)}
-                            placeholder="Kendinizden kısaca bahsedin"
-                          />
-                        </div>
-
-                        <Button
-                          className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                          onClick={() => void handleJoinSubmit()}
-                          disabled={submittingJoin}
-                        >
-                          {submittingJoin ? "Gönderiliyor..." : "Talebi Gönder"}
-                        </Button>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Button size="lg" variant="outline" className="gap-2" onClick={() => void handleShare()}>
+                  <Button size="lg" className="w-full gap-2 bg-orange-500 text-white hover:bg-orange-600" onClick={() => void handleShare()}>
                     {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
                     {copied ? "Kopyalandı" : "Sayfayı Paylaş"}
                   </Button>
@@ -1274,21 +1197,23 @@ export default function AddWhatsAppPage() {
                       ) : null}
 
                       <div className="p-5">
-                        {renderApprovalBadges(landing) ? <div className="mb-3">{renderApprovalBadges(landing)}</div> : null}
-                        <div className="flex items-start justify-between gap-3">
-                          <Badge className={`border ${categoryMeta[landing.category].chipClass}`}>
+                        <div className="flex flex-col gap-2">
+                          {renderApprovalBadges(landing)}
+                          <Badge className={`flex w-full justify-center border ${categoryMeta[landing.category].chipClass}`}>
                             <Icon className="mr-1 h-3 w-3" />
                             {categoryMeta[landing.category].label}
                           </Badge>
-                          {renderPlatformMark(landing.platform)}
                         </div>
                         <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                           {landing.groupName}
                         </h3>
                         <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{cardSummary}</p>
-                        <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
-                          <MapPin className="h-3.5 w-3.5" />
-                          {landing.city}, {landing.country}
+                        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1.5">
+                            <MapPin className="h-3.5 w-3.5" />
+                            {landing.city}, {landing.country}
+                          </span>
+                          {renderPlatformLogo(landing.platform)}
                         </div>
                       </div>
                     </Link>

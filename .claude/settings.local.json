@@ -9,7 +9,8 @@
       "Bash(npm list *)",
       "Bash(npx tsx *)",
       "Bash(awk -F',' 'NR>1 {print $9}' \"C:\\\\temp_private\\\\corteqs\\\\corteqs_landing\\\\filesnew.csv\")",
-      "Bash(grep -c \"^$\")"
+      "Bash(grep -c \"^$\")",
+      "Bash(npm run *)"
     ]
   }
 }
