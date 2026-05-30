@@ -117,7 +117,6 @@ export async function getLanding(slug: string): Promise<WhatsAppLanding | undefi
     .from("whatsapp_landings")
     .select("*")
     .eq("slug", slug)
-    .eq("status", "approved")
     .maybeSingle();
 
   if (!error && data) return rowToLanding(data);
