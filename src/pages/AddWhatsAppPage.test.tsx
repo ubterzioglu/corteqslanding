@@ -76,7 +76,7 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText(/Grup, şehir veya açıklama ara/i), {
+    fireEvent.change(screen.getByPlaceholderText(/Grup, ülke veya açıklama ara/i), {
       target: { value: "Tokyo" },
     });
 
