@@ -146,7 +146,7 @@ const HeroSection = () => {
                           "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0) 100%)",
                       }}
                     />
-                    <span className="relative z-10">💬 Whatsapp Grubunu Ekle!</span>
+                    <span className="relative z-10">💬 Topluluğunu Ekle!</span>
                   </Link>
               </div>
             </div>

@@ -200,17 +200,12 @@ const placeholderLandings: WhatsAppLanding[] = [
 
 const approvalBadgeMeta = {
   member: {
-    label: "Üye Onaylı!",
+    label: "Üye onaylı!",
     tooltip: "Bu topluluk kaydı bir topluluk üyesi tarafından gönderildi.",
     className: "border-sky-200 bg-sky-100 text-sky-800",
   },
-  manager: {
-    label: "Topluluk Yöneticisi Onaylı!",
-    tooltip: "Bu topluluk kaydı doğrudan topluluk yöneticisi tarafından gönderildi.",
-    className: "border-emerald-200 bg-emerald-100 text-emerald-800",
-  },
   admin: {
-    label: "CorteQS Admin Onaylı!",
+    label: "Admin onaylı!",
     tooltip: "Bu topluluk CorteQS admin ekibi tarafından incelenip onaylandı.",
     className: "border-orange-200 bg-orange-100 text-orange-800",
   },
@@ -563,8 +558,6 @@ export default function AddWhatsAppPage() {
 
     if (landing.submitterRole === "member") {
       badges.push(approvalBadgeMeta.member);
-    } else if (landing.submitterRole === "manager") {
-      badges.push(approvalBadgeMeta.manager);
     }
 
     if (landing.status === "approved") {
@@ -578,7 +571,7 @@ export default function AddWhatsAppPage() {
         {badges.map((badge) => (
           <Tooltip key={badge.label}>
             <TooltipTrigger asChild>
-              <Badge className={`flex w-full justify-center cursor-default border px-3 py-1.5 text-center ${badge.className}`}>
+              <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-medium ${badge.className}`}>
                 {badge.label}
               </Badge>
             </TooltipTrigger>
