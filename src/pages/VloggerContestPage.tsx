@@ -11,10 +11,9 @@ import {
   ShieldCheck,
   Bot,
   Film,
-  Globe2,
 } from "lucide-react";
 import RegisterInterestForm from "@/components/RegisterInterestForm";
-import magicBallHero from "@/assets/corteqs-magic-ball-hero.jpg";
+import mascotHero from "../../404404.png";
 
 const themes = [
   { title: "Kültür", desc: "Yaşanılan ülkedeki kültürel deneyimler, Türk diasporasının izleri ve kültürler arası gözlemler." },
@@ -113,7 +112,7 @@ const VloggerContestPage = () => {
               </div>
             </div>
 
-            {/* Hero visual column — CorteQS Magic Ball */}
+            {/* Hero visual column — CorteQS mascot */}
             <div className="relative flex items-center justify-center">
               {/* Glow halo behind ball */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
@@ -123,8 +122,8 @@ const VloggerContestPage = () => {
                 <div className="w-[55%] h-[55%] rounded-full bg-primary/15 blur-3xl" />
               </div>
               <img
-                src={magicBallHero}
-                alt="CorteQS Magic Ball — Global Türk diasporası maskotu"
+                src={mascotHero}
+                alt="CorteQS maskotu — Global Türk diasporası"
                 className="relative z-10 w-full max-w-md lg:max-w-lg object-contain drop-shadow-[0_25px_60px_rgba(31,154,137,0.18)] animate-float"
                 width={1024}
                 height={1024}
