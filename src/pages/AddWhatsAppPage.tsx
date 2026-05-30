@@ -651,7 +651,7 @@ export default function AddWhatsAppPage() {
               alt="Türk diaspora topluluklarını temsil eden mesajlaşma grupları görseli"
               className="h-[24rem] w-full object-cover md:h-[30rem]"
             />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.64)_0%,rgba(255,255,255,0.48)_28%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0)_72%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.82)_24%,rgba(255,255,255,0.56)_42%,rgba(255,255,255,0.18)_60%,rgba(255,255,255,0)_76%)]" />
             <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-[52%] md:p-10">
               <div className="max-w-full text-slate-950">
                 <h1 className="flex items-center gap-3 text-[1.9rem] font-black tracking-tight md:text-[3rem] md:whitespace-nowrap">
