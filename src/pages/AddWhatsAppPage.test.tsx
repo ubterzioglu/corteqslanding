@@ -78,6 +78,7 @@ describe("AddWhatsAppPage", () => {
     renderPage();
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Topluluk Ekle/i }));
     expect(screen.getByText("Kategori")).toBeInTheDocument();
     expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
 
