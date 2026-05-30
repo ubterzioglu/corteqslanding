@@ -39,6 +39,7 @@ import {
   type LandingMode,
   type WhatsAppLanding,
 } from "@/lib/whatsapp-landings";
+import messagingHeroImage from "@/assets/diaspora-community.jpg";
 
 const categoryMeta: Record<
   LandingCategory,
@@ -587,29 +588,59 @@ export default function AddWhatsAppPage() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#fffdfa_0%,#f9fafb_100%)]">
       <main className="container mx-auto px-4 pb-16 pt-6">
-        <section className="relative overflow-hidden rounded-[1.5rem] border border-cyan-100 bg-[linear-gradient(120deg,#e8f6f4_0%,#f5f8fb_100%)] p-6 shadow-[0_18px_56px_rgba(15,23,42,0.08)] md:p-10">
-          <div className="mb-6">
-            <h1 className="flex items-center justify-center gap-2 text-center text-3xl font-black tracking-tight text-slate-900 md:text-5xl">
-              <MessageSquare className="h-7 w-7 text-emerald-500" />
-              Mesajlaşma Grupları
-            </h1>
-            <p className="mx-auto mt-2 max-w-3xl text-center text-sm text-slate-600 md:text-base">
-              Dünyadaki Türk WhatsApp ve Telegram gruplarını keşfet.
-            </p>
+        <section className="relative overflow-hidden rounded-[1.75rem] border border-emerald-100 bg-[radial-gradient(circle_at_top_left,#f1fbf8_0%,#f7fafc_45%,#ffffff_100%)] shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(16,185,129,0.06),transparent_45%,rgba(14,165,233,0.08))]" />
+          <div className="relative p-4 md:p-6">
+            <div className="relative overflow-hidden rounded-[1.35rem] border border-white/70 shadow-[0_22px_60px_rgba(15,23,42,0.14)]">
+              <img
+                src={messagingHeroImage}
+                alt="Türk diaspora topluluklarını temsil eden mesajlaşma grupları görseli"
+                className="h-52 w-full object-cover md:h-72"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,23,42,0.12)_0%,rgba(15,23,42,0.58)_100%)]" />
+              <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-end justify-between gap-3 p-4 md:p-6">
+                <div className="max-w-xl">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/80 md:text-xs">
+                    Dünya Çapında Türk Toplulukları
+                  </p>
+                  <p className="mt-2 text-sm text-white/90 md:text-base">
+                    Aynı şehirdeki, aynı sektördeki ve aynı ilgi alanındaki insanları tek yerde keşfet.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-white/20 bg-white/14 px-4 py-3 backdrop-blur-md">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/70">Platformlar</p>
+                  <p className="mt-1 text-sm font-semibold text-white">WhatsApp + Telegram</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="px-2 pb-2 pt-8 md:px-4 md:pb-4">
+              <div className="mb-5 text-center">
+                <h1 className="flex items-center justify-center gap-2 text-center text-2xl font-black tracking-tight text-slate-900 md:text-4xl">
+                  <MessageSquare className="h-6 w-6 text-emerald-500 md:h-7 md:w-7" />
+                  Topluluk Mesajlaşma Grupları
+                </h1>
+                <p className="mx-auto mt-3 max-w-3xl text-center text-sm text-slate-600 md:text-lg">
+                  Dünyadaki Türk WhatsApp ve Telegram gruplarını keşfet.
+                </p>
+              </div>
+
+              <div className="mb-5 flex flex-wrap justify-center gap-2">
+                <Badge className="border-0 bg-emerald-100 px-3 py-1 text-emerald-700">WhatsApp</Badge>
+                <Badge className="border-0 bg-sky-100 px-3 py-1 text-sky-700">Telegram</Badge>
+                <Badge className="border-0 bg-orange-100 px-3 py-1 text-orange-700">Diaspora Ağı</Badge>
+              </div>
+
+              <h2 className="mx-auto max-w-4xl text-center text-2xl font-black leading-tight text-slate-900 md:text-4xl">
+                Her konuda grupları saniyeler içinde bul.
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-center text-lg leading-8 text-slate-600 md:text-[2rem] md:leading-[1.35]">
+                Sana uygun gruba katıl
+                <br />
+                veya sen de grubunu ücretsiz ekle.
+              </p>
+            </div>
           </div>
-          <div className="mb-4 flex flex-wrap justify-center gap-2">
-            <Badge className="border-0 bg-emerald-100 text-emerald-700">WhatsApp</Badge>
-            <Badge className="border-0 bg-sky-100 text-sky-700">Telegram</Badge>
-            <Badge className="border-0 bg-orange-100 text-orange-700">Diaspora Ağı</Badge>
-          </div>
-          <h2 className="mx-auto max-w-5xl text-center text-3xl font-black leading-tight text-slate-900 md:text-5xl">
-            Her konuda grupları saniyeler içinde bul.
-          </h2>
-          <p className="mx-auto mt-4 max-w-4xl text-center text-base leading-8 text-slate-600 md:text-2xl">
-            Sana uygun gruba katıl
-            <br />
-            veya sen de grubunu ücretsiz ekle.
-          </p>
         </section>
 
         <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-5 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
