@@ -556,11 +556,11 @@ export default function AddWhatsAppPage() {
   const renderApprovalBadges = (landing: WhatsAppLanding) => {
     const badges = [];
 
-    if (landing.submitterRole === "member") {
+    if (landing.memberApproved) {
       badges.push(approvalBadgeMeta.member);
     }
 
-    if (landing.status === "approved") {
+    if (landing.adminApproved) {
       badges.push(approvalBadgeMeta.admin);
     }
 

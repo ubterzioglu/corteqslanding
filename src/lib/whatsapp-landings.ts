@@ -35,6 +35,8 @@ export interface WhatsAppLanding {
   adminContact?: string;
   description?: string;
   submitterRole?: LandingSubmitterRole;
+  memberApproved?: boolean;
+  adminApproved?: boolean;
   status?: LandingStatus;
   rejectionReason?: string;
   createdAt: string;
@@ -103,6 +105,13 @@ function parseSubmitterRole(description?: string | null): LandingSubmitterRole |
   return undefined;
 }
 
+function parseBooleanTag(description: string | null | undefined, tagName: string, fallback: boolean) {
+  if (!description) return fallback;
+  const match = description.match(new RegExp(`\\[${tagName}:\\s*(true|false)\\]`, "i"));
+  if (!match) return fallback;
+  return match[1].toLowerCase() === "true";
+}
+
 function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
   return {
     id: row.slug,
@@ -121,6 +130,8 @@ function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     adminContact: row.admin_contact ?? undefined,
     description: row.description ?? undefined,
     submitterRole: parseSubmitterRole(row.description),
+    memberApproved: parseBooleanTag(row.description, "Badge member", true),
+    adminApproved: parseBooleanTag(row.description, "Badge admin", row.status === "approved"),
     status: row.status as LandingStatus,
     rejectionReason: row.rejection_reason ?? undefined,
     createdAt: row.created_at,

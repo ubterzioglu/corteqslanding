@@ -51,6 +51,8 @@ type EditLandingState = UpdateLandingInput & {
   slug: string;
   adminEmail: string;
   adminPhone: string;
+  memberApproved: boolean;
+  adminApproved: boolean;
 };
 
 function parseAdminContact(adminContact?: string) {
@@ -87,6 +89,8 @@ function createEditState(row: WhatsAppLanding): EditLandingState | null {
     description: row.description ?? "",
     adminEmail,
     adminPhone,
+    memberApproved: row.memberApproved ?? true,
+    adminApproved: row.adminApproved ?? false,
   };
 }
 
@@ -181,7 +185,17 @@ export default function WhatsAppLandingsModeration() {
         ]
           .filter(Boolean)
           .join("\n"),
-        description: editState.description,
+        description: [
+          editState.description
+            .replace(/\[Badge member:\s*(true|false)\]\s*/gi, "")
+            .replace(/\[Badge admin:\s*(true|false)\]\s*/gi, "")
+            .trim(),
+          `[Badge member: ${editState.memberApproved ? "true" : "false"}]`,
+          `[Badge admin: ${editState.adminApproved ? "true" : "false"}]`,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .trim(),
       });
       toast({ title: "Topluluk kaydı güncellendi" });
       setEditOpen(false);
@@ -435,6 +449,26 @@ export default function WhatsAppLandingsModeration() {
                   onChange={(event) => updateEditState("adminPhone", event.target.value)}
                   placeholder="+44 20 0000 0000"
                 />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Label>Onay Badge'leri</Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    variant={editState.memberApproved ? "default" : "outline"}
+                    onClick={() => updateEditState("memberApproved", !editState.memberApproved)}
+                  >
+                    Üye onaylı!
+                  </Button>
+                  <Button
+                    type="button"
+                    variant={editState.adminApproved ? "default" : "outline"}
+                    onClick={() => updateEditState("adminApproved", !editState.adminApproved)}
+                  >
+                    Admin onaylı!
+                  </Button>
+                </div>
               </div>
 
               <div className="space-y-1.5 md:col-span-2">
