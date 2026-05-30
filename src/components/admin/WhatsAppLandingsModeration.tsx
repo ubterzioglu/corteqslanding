@@ -358,7 +358,7 @@ export default function WhatsAppLandingsModeration() {
           </DialogHeader>
 
           {editState ? (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="edit-group-name">Topluluk Adı</Label>
                 <Input
@@ -402,7 +402,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="edit-link">Topluluk Linki</Label>
                 <Input
                   id="edit-link"
@@ -411,7 +411,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="edit-hero-image">Hero Görsel URL</Label>
                 <Input
                   id="edit-hero-image"
@@ -451,7 +451,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
+              <div className="space-y-2">
                 <Label>Onay Badge'leri</Label>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -471,7 +471,7 @@ export default function WhatsAppLandingsModeration() {
                 </div>
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="edit-call-to-action">Yeni Üyeler İçin Mesaj</Label>
                 <Textarea
                   id="edit-call-to-action"
@@ -481,7 +481,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="edit-conditions">Topluluk Kuralları</Label>
                 <Textarea
                   id="edit-conditions"
@@ -491,7 +491,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:col-span-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="edit-description">Açıklama / Metadata</Label>
                 <Textarea
                   id="edit-description"
@@ -501,7 +501,7 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="flex justify-end gap-2 md:col-span-2">
+              <div className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setEditOpen(false)} disabled={savingEdit}>
                   Vazgeç
                 </Button>
