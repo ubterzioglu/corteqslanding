@@ -720,7 +720,7 @@ export default function AddWhatsAppPage() {
                         <p className="mt-2 text-xs text-muted-foreground">
                           {heroImageFile
                             ? `Seçilen dosya: ${heroImageFile.name}`
-                            : "Görsel yüklenmezse varsayılan placeholder kullanılacak (JPG, PNG, WEBP, GIF)."}
+                            : "Dosya tipi: JPG, PNG, WEBP, GIF. Onerilen oran: 16:9 yatay. Maksimum dosya boyutu: 5 MB."}
                         </p>
                       </div>
 
