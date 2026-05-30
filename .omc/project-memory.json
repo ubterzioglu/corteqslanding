@@ -227,16 +227,28 @@
   },
   "hotPaths": [
     {
+      "path": "src\\pages\\AddWhatsAppPage.tsx",
+      "accessCount": 41,
+      "lastAccessed": 1780152511300,
+      "type": "file"
+    },
+    {
       "path": "",
-      "accessCount": 19,
-      "lastAccessed": 1780151253688,
+      "accessCount": 22,
+      "lastAccessed": 1780152190752,
       "type": "directory"
     },
     {
-      "path": "src\\pages\\AddWhatsAppPage.tsx",
-      "accessCount": 19,
-      "lastAccessed": 1780151705143,
+      "path": "src\\components\\admin\\WhatsAppLandingsModeration.tsx",
+      "accessCount": 7,
+      "lastAccessed": 1780152541699,
       "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 6,
+      "lastAccessed": 1780152200889,
+      "type": "directory"
     },
     {
       "path": "CLAUDE.md",
@@ -245,10 +257,16 @@
       "type": "file"
     },
     {
-      "path": "src",
+      "path": "src\\App.tsx",
       "accessCount": 3,
-      "lastAccessed": 1780151255205,
-      "type": "directory"
+      "lastAccessed": 1780152204157,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\whatsapp-landings.ts",
+      "accessCount": 3,
+      "lastAccessed": 1780152237334,
+      "type": "file"
     },
     {
       "path": "package.json",
@@ -278,18 +296,6 @@
       "path": "vitest.config.ts",
       "accessCount": 2,
       "lastAccessed": 1780150924278,
-      "type": "file"
-    },
-    {
-      "path": "src\\App.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1780150924516,
-      "type": "file"
-    },
-    {
-      "path": "src\\lib\\whatsapp-landings.ts",
-      "accessCount": 2,
-      "lastAccessed": 1780151239863,
       "type": "file"
     },
     {
@@ -368,12 +374,6 @@
       "path": "src\\pages\\admin\\AdminWhatsAppLandingsPage.tsx",
       "accessCount": 1,
       "lastAccessed": 1780151245356,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\admin\\WhatsAppLandingsModeration.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780151258562,
       "type": "file"
     },
     {

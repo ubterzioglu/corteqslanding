@@ -50,47 +50,47 @@ const categoryMeta: Record<
   alumni: {
     icon: GraduationCap,
     label: "Alumni",
-    chipClass: "border-primary/20 bg-primary/10 text-primary",
+    chipClass: "border-primary bg-primary text-primary-foreground",
   },
   doktor: {
     icon: Stethoscope,
     label: "Doktor / Sağlık",
-    chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
+    chipClass: "border-emerald-600 bg-emerald-500 text-white",
   },
   hobi: {
     icon: Heart,
     label: "Hobi",
-    chipClass: "border-cyan-500/20 bg-cyan-500/10 text-cyan-700",
+    chipClass: "border-cyan-600 bg-cyan-500 text-white",
   },
   is: {
     icon: Users,
     label: "İş Grubu",
-    chipClass: "border-amber-500/20 bg-amber-500/10 text-amber-800",
+    chipClass: "border-amber-600 bg-amber-500 text-white",
   },
   yatirim: {
     icon: TrendingUp,
     label: "Yatırım & Girişim",
-    chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
+    chipClass: "border-emerald-600 bg-emerald-500 text-white",
   },
   girisim: {
     icon: TrendingUp,
     label: "Yatırım & Girişim",
-    chipClass: "border-emerald-500/20 bg-emerald-500/10 text-emerald-700",
+    chipClass: "border-emerald-600 bg-emerald-500 text-white",
   },
   akademik: {
     icon: Globe,
     label: "Akademik",
-    chipClass: "border-indigo-500/20 bg-indigo-500/10 text-indigo-700",
+    chipClass: "border-indigo-600 bg-indigo-500 text-white",
   },
   dayanisma: {
     icon: HandHeart,
     label: "Dayanışma",
-    chipClass: "border-rose-500/20 bg-rose-500/10 text-rose-700",
+    chipClass: "border-rose-600 bg-rose-500 text-white",
   },
   diger: {
     icon: Sparkles,
     label: "Diğer",
-    chipClass: "border-border bg-muted text-muted-foreground",
+    chipClass: "border-slate-500 bg-slate-400 text-white",
   },
 };
 
@@ -209,12 +209,12 @@ const approvalBadgeMeta = {
   member: {
     label: "Üye onaylı!",
     tooltip: "Bu topluluk kaydı bir topluluk üyesi tarafından gönderildi.",
-    className: "border-sky-200 bg-sky-100 text-sky-800",
+    className: "border-sky-600 bg-sky-500 text-white",
   },
   admin: {
     label: "Admin onaylı!",
     tooltip: "Bu topluluk CorteQS admin ekibi tarafından incelenip onaylandı.",
-    className: "border-orange-200 bg-orange-100 text-orange-800",
+    className: "border-orange-600 bg-orange-500 text-white",
   },
 } as const;
 
@@ -649,18 +649,18 @@ export default function AddWhatsAppPage() {
       </Badge>
     );
 
-    // City badge (slate colors)
+    // City badge (vivid slate)
     badges.push(
-      <Badge key="city" className="flex w-full cursor-default justify-center border border-slate-200 bg-slate-100 px-3 py-1.5 text-center text-sm font-semibold text-slate-700">
+      <Badge key="city" className="flex w-full cursor-default justify-center border border-slate-700 bg-slate-600 px-3 py-1.5 text-center text-sm font-semibold text-white">
         <MapPin className="mr-2 h-4 w-4" />
         {landing.city}, {landing.country}
       </Badge>
     );
 
-    // Admin badge (if present, violet colors)
+    // Admin badge (if present, vivid violet)
     if (landing.adminName) {
       badges.push(
-        <Badge key="admin" className="flex w-full cursor-default justify-center border border-violet-200 bg-violet-100 px-3 py-1.5 text-center text-sm font-semibold text-violet-800">
+        <Badge key="admin" className="flex w-full cursor-default justify-center border border-violet-600 bg-violet-500 px-3 py-1.5 text-center text-sm font-semibold text-white">
           <Users className="mr-2 h-4 w-4" />
           Yönetici: {landing.adminName}
         </Badge>
@@ -672,7 +672,7 @@ export default function AddWhatsAppPage() {
     return <div className="flex flex-col gap-2">{badges}</div>;
   };
 
-  const renderPlatformLogo = (platform?: string) => {
+  const renderPlatformLogo = (platform?: string, size: "md" | "lg" = "md") => {
     if (!platform) return null;
 
     const platformLogoMap: Record<string, { svg: JSX.Element; className: string }> = {
@@ -762,12 +762,19 @@ export default function AddWhatsAppPage() {
     const logoMeta = platformLogoMap[platform];
     if (!logoMeta) return null;
 
+    const isWhatsApp = platform === "WhatsApp";
+    const outerSize = size === "lg" ? "h-20 w-20" : "h-16 w-16";
+    const innerSize = size === "lg" ? "h-11 w-11" : "h-9 w-9";
+    const ringClass = isWhatsApp
+      ? "ring-2 ring-emerald-300 shadow-lg shadow-emerald-100"
+      : "ring-2 ring-white shadow-lg";
+
     return (
       <div
         title={platform}
-        className={`inline-flex h-14 w-14 items-center justify-center rounded-full shadow-md ring-2 ring-white ${logoMeta.className}`}
+        className={`inline-flex ${outerSize} items-center justify-center rounded-full ${ringClass} ${logoMeta.className}`}
       >
-        <div className="h-7 w-7">{logoMeta.svg}</div>
+        <div className={innerSize}>{logoMeta.svg}</div>
       </div>
     );
   };
@@ -817,6 +824,7 @@ export default function AddWhatsAppPage() {
                     {renderDetailMetaBadges(selectedLanding)}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
+                    <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
                     <h1 className="text-3xl font-black leading-tight md:text-5xl">{selectedLanding.groupName}</h1>
                     <p className="mt-3 max-w-2xl text-sm text-slate-100 md:text-lg">{selectedLanding.tagline}</p>
                   </div>
@@ -824,6 +832,7 @@ export default function AddWhatsAppPage() {
               ) : (
                 <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
                   <div className="mb-4 w-full max-w-sm">{renderDetailMetaBadges(selectedLanding)}</div>
+                  <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
                   <h1 className="text-3xl font-black text-foreground md:text-5xl">{selectedLanding.groupName}</h1>
                   <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-xl">
                     {selectedLanding.tagline}
@@ -1183,7 +1192,7 @@ export default function AddWhatsAppPage() {
                     <Link
                       key={landing.id}
                       to={`/addcom?group=${encodeURIComponent(landing.id)}`}
-                      className="group overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
+                      className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
                     >
                       {landing.heroImage ? (
                         <div className="relative">
@@ -1196,7 +1205,7 @@ export default function AddWhatsAppPage() {
                         </div>
                       ) : null}
 
-                      <div className="p-5">
+                      <div className="flex flex-1 flex-col p-5">
                         <div className="flex flex-col gap-2">
                           {renderApprovalBadges(landing)}
                           <Badge className={`flex w-full justify-center border ${categoryMeta[landing.category].chipClass}`}>
@@ -1207,9 +1216,10 @@ export default function AddWhatsAppPage() {
                         <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                           {landing.groupName}
                         </h3>
-                        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{cardSummary}</p>
-                        <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
+                        <p className="mt-2 flex-1 line-clamp-2 text-sm text-muted-foreground">{cardSummary}</p>
+                        <hr className="mt-4 border-t border-border/40" />
+                        <div className="flex items-center justify-between pt-3 text-muted-foreground">
+                          <span className="flex items-center gap-1.5 text-sm">
                             <MapPin className="h-3.5 w-3.5" />
                             {landing.city}, {landing.country}
                           </span>

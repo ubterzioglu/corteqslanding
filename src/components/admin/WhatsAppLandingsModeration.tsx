@@ -490,15 +490,25 @@ export default function WhatsAppLandingsModeration() {
                 <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
-                    variant={editState.memberApproved ? "default" : "outline"}
-                    onClick={() => updateEditState("memberApproved", !editState.memberApproved)}
+                    variant="outline"
+                    className={editState.memberApproved ? "border-sky-600 bg-sky-500 text-white hover:bg-sky-600" : ""}
+                    onClick={() => {
+                      const next = !editState.memberApproved;
+                      updateEditState("memberApproved", next);
+                      if (next) updateEditState("adminApproved", false);
+                    }}
                   >
                     Üye onaylı!
                   </Button>
                   <Button
                     type="button"
-                    variant={editState.adminApproved ? "default" : "outline"}
-                    onClick={() => updateEditState("adminApproved", !editState.adminApproved)}
+                    variant="outline"
+                    className={editState.adminApproved ? "border-orange-600 bg-orange-500 text-white hover:bg-orange-600" : ""}
+                    onClick={() => {
+                      const next = !editState.adminApproved;
+                      updateEditState("adminApproved", next);
+                      if (next) updateEditState("memberApproved", false);
+                    }}
                   >
                     Admin onaylı!
                   </Button>
