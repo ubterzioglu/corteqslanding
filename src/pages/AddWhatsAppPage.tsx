@@ -598,8 +598,8 @@ export default function AddWhatsAppPage() {
             <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-1/2 md:p-8">
               <div className="max-w-full text-slate-950">
                 <h1 className="flex items-center gap-3 text-[2rem] font-black tracking-tight md:text-[3.25rem] md:whitespace-nowrap">
-                  <MessageSquare className="h-7 w-7 shrink-0 text-sky-600 md:h-9 md:w-9" />
-                  <span className="bg-[linear-gradient(90deg,#0f766e_0%,#0284c7_45%,#f97316_100%)] bg-clip-text text-transparent">
+                  <MessageSquare className="h-7 w-7 shrink-0 text-cyan-600 md:h-9 md:w-9" />
+                  <span className="bg-[linear-gradient(90deg,#059669_0%,#0ea5e9_38%,#2563eb_68%,#f97316_100%)] bg-clip-text text-transparent">
                     Mesajlaşma Toplulukları
                   </span>
                 </h1>
@@ -609,16 +609,16 @@ export default function AddWhatsAppPage() {
                   <Badge className="border-0 bg-orange-100 px-4 py-1.5 text-sm font-semibold text-orange-700">Diaspora Ağı</Badge>
                 </div>
                 <div className="mt-4 space-y-1.5">
-                  <p className="text-base font-medium md:text-[1.1rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
                     Dünyadaki Türk WhatsApp ve Telegram topluluklarını keşfet.
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
                     Her konuda grupları saniyeler içinde bul.
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
                     Sana uygun gruba katıl!
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
                     Grubunu ücretsiz ekle.
                   </p>
                 </div>
@@ -803,7 +803,7 @@ export default function AddWhatsAppPage() {
         </div>
 
         <section className="mt-8">
-          <div className="relative w-full max-w-2xl">
+          <div className="relative w-full max-w-4xl">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={searchQuery}
