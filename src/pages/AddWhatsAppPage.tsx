@@ -38,6 +38,7 @@ import {
   type WhatsAppLanding,
 } from "@/lib/whatsapp-landings";
 import messagingHeroImage from "../../addwaimage.png";
+import waPlaceholderImage from "../../waplaceholder.png";
 
 const categoryMeta: Record<
   LandingCategory,
@@ -280,7 +281,7 @@ export default function AddWhatsAppPage() {
         country: groupForm.country,
         city: "Genel",
         mode: groupForm.submitterRole === "manager" ? "visual" : "text",
-        heroImage: groupForm.submitterRole === "manager" ? heroImageUrl ?? messagingHeroImage : undefined,
+        heroImage: groupForm.submitterRole === "manager" ? heroImageUrl ?? waPlaceholderImage : undefined,
         tagline: groupForm.description,
         callToActionText: groupForm.callToActionText || groupForm.description,
         conditions: groupForm.conditions,
