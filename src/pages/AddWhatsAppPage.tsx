@@ -715,7 +715,7 @@ export default function AddWhatsAppPage() {
                         <button
                           type="button"
                           onClick={() => heroImageInputRef.current?.click()}
-                          className="inline-flex h-11 items-center gap-2 rounded-xl border border-emerald-200 bg-[linear-gradient(135deg,#ffffff_0%,#ecfdf5_100%)] px-4 text-sm font-semibold text-emerald-700 shadow-[0_12px_30px_rgba(16,185,129,0.15)] transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-[0_16px_36px_rgba(16,185,129,0.2)]"
+                          className="ml-3 inline-flex h-11 items-center gap-2 rounded-xl border border-orange-200 bg-orange-500 px-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(249,115,22,0.22)] transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_16px_36px_rgba(249,115,22,0.28)]"
                         >
                           Dosya Seç
                         </button>
