@@ -92,6 +92,111 @@ const categoryMeta: Record<
   },
 };
 
+const placeholderLandings: WhatsAppLanding[] = [
+  {
+    id: "placeholder-berlin-girisim",
+    groupName: "Berlin Girisim Agi",
+    category: "girisim",
+    country: "Almanya",
+    city: "Berlin",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Topluluk; girisimciler, operatorler ve yatirim odakli profesyoneller icin tanisma ve bilgi paylasim alani.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Erken asama girisimlerden buyume evresindeki projelere kadar nitelikli baglantilar kurmak isteyenler icin.",
+    submitterRole: "manager",
+    status: "approved",
+    createdAt: "2026-01-01T00:00:00.000Z",
+  },
+  {
+    id: "placeholder-dubai-yatirim",
+    groupName: "Dubai Yatirim Cevresi",
+    category: "yatirim",
+    country: "Birlesik Arap Emirlikleri",
+    city: "Dubai",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Melek yatirim, fonlar ve girisim ekosistemi etrafinda bulusan Turk profesyoneller icin secili topluluk.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Yatirim, ortaklik ve bolgesel network gelistirmek isteyenler icin tasarlandi.",
+    submitterRole: "manager",
+    status: "approved",
+    createdAt: "2026-01-02T00:00:00.000Z",
+  },
+  {
+    id: "placeholder-londra-kariyer",
+    groupName: "Londra Kariyer ve Is Iliskileri",
+    category: "is",
+    country: "Birlesik Krallik",
+    city: "Londra",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Kurumsal kariyer, is gelistirme ve sektor ici baglantilar icin aktif Turk profesyonel toplulugu.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Deneyim paylasimi, yonlendirme ve is birlikleri odakli bir ag.",
+    submitterRole: "member",
+    status: "approved",
+    createdAt: "2026-01-03T00:00:00.000Z",
+  },
+  {
+    id: "placeholder-amsterdam-akademik",
+    groupName: "Amsterdam Akademik Turkler",
+    category: "akademik",
+    country: "Hollanda",
+    city: "Amsterdam",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Arastirmacilar, yuksek lisans ogrencileri ve akademisyenler icin bilgi ve duyuru toplulugu.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Konferans, burs ve ortak calisma firsatlari etrafinda bulusan akademik cevre.",
+    submitterRole: "manager",
+    status: "approved",
+    createdAt: "2026-01-04T00:00:00.000Z",
+  },
+  {
+    id: "placeholder-toronto-dayanisma",
+    groupName: "Toronto Dayanisma Hatti",
+    category: "dayanisma",
+    country: "Kanada",
+    city: "Toronto",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Yeni tasinanlar ve yerlesik uyeler arasinda hizli destek, yonlendirme ve yardimlasma icin kuruldu.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Sehirde hayata uyum, sosyal destek ve guvenilir tavsiyeler icin canli topluluk.",
+    submitterRole: "member",
+    status: "approved",
+    createdAt: "2026-01-05T00:00:00.000Z",
+  },
+  {
+    id: "placeholder-paris-hobi",
+    groupName: "Paris Sosyal ve Hobi Kulubu",
+    category: "hobi",
+    country: "Fransa",
+    city: "Paris",
+    mode: "visual",
+    heroImage: waPlaceholderImage,
+    tagline: "",
+    callToActionText: "Etkinlik, kultur, hafta sonu planlari ve ortak ilgi alanlari etrafinda bulusan sosyal grup.",
+    conditions: "",
+    whatsappLink: "#",
+    description: "Gundelik sosyallesme ve sehirde birlikte aktivite yapmak isteyenler icin.",
+    submitterRole: "manager",
+    status: "approved",
+    createdAt: "2026-01-06T00:00:00.000Z",
+  },
+];
+
 const approvalBadgeMeta = {
   member: {
     label: "Üye Onaylı!",
@@ -202,7 +307,10 @@ export default function AddWhatsAppPage() {
 
     getLanding(groupSlug)
       .then((landing) => {
-        if (!cancelled) setSelectedLanding(landing ?? null);
+        if (!cancelled) {
+          const placeholderLanding = placeholderLandings.find((item) => item.id === groupSlug);
+          setSelectedLanding(landing ?? placeholderLanding ?? null);
+        }
       })
       .finally(() => {
         if (!cancelled) setLoadingLanding(false);
@@ -215,8 +323,9 @@ export default function AddWhatsAppPage() {
 
   const filteredLandings = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
+    const mergedLandings = landings.length >= 6 ? landings : [...landings, ...placeholderLandings.slice(0, 6 - landings.length)];
 
-    return landings.filter((landing) => {
+    return mergedLandings.filter((landing) => {
       if (!query) return true;
 
       const haystack = [
@@ -651,12 +760,12 @@ export default function AddWhatsAppPage() {
               alt="Türk diaspora topluluklarını temsil eden mesajlaşma grupları görseli"
               className="h-[24rem] w-full object-cover md:h-[30rem]"
             />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.82)_24%,rgba(255,255,255,0.56)_42%,rgba(255,255,255,0.18)_60%,rgba(255,255,255,0)_76%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.97)_0%,rgba(255,255,255,0.92)_22%,rgba(255,255,255,0.72)_40%,rgba(255,255,255,0.34)_58%,rgba(255,255,255,0.08)_72%,rgba(255,255,255,0)_82%)]" />
             <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-[52%] md:p-10">
               <div className="max-w-full text-slate-950">
                 <h1 className="flex items-center gap-3 text-[1.9rem] font-black tracking-tight md:text-[3rem] md:whitespace-nowrap">
                   <MessageSquare className="h-7 w-7 shrink-0 text-emerald-600 md:h-9 md:w-9" />
-                  <span className="bg-[linear-gradient(90deg,#10b981_0%,#06b6d4_32%,#2563eb_62%,#f97316_100%)] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(255,255,255,0.38)]">
+                  <span className="bg-[linear-gradient(90deg,#059669_0%,#06b6d4_26%,#2563eb_54%,#7c3aed_78%,#f97316_100%)] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(255,255,255,0.52)]">
                     Mesajlaşma Toplulukları
                   </span>
                 </h1>
@@ -672,16 +781,16 @@ export default function AddWhatsAppPage() {
                   </Badge>
                 </div>
                 <div className="mt-5 space-y-2">
-                  <p className="text-[1.05rem] font-medium text-slate-800 md:text-[1.22rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
                     Dünyadaki Türk WhatsApp ve Telegram topluluklarını keşfet.
                   </p>
-                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
                     Her konuda grupları saniyeler içinde bul.
                   </p>
-                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
                     Sana uygun gruba katıl!
                   </p>
-                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-bold text-slate-950 md:text-[1.22rem] md:whitespace-nowrap">
                     Grubunu ücretsiz ekle.
                   </p>
                 </div>
