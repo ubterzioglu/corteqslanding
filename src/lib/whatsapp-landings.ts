@@ -239,6 +239,18 @@ export async function setLandingStatus(dbId: string, status: LandingStatus, reje
   if (error) throw error;
 }
 
+export async function updateLandingTagline(dbId: string, tagline: string) {
+  const { error } = await supabase
+    .from("whatsapp_landings")
+    .update({
+      tagline: tagline.trim() || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", dbId);
+
+  if (error) throw error;
+}
+
 export async function deleteLanding(dbId: string) {
   const { error } = await supabase.from("whatsapp_landings").delete().eq("id", dbId);
   if (error) throw error;

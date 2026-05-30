@@ -4,6 +4,7 @@ import { Check, ExternalLink, MapPin, MessageSquare, RefreshCw, Trash2, X } from
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -12,6 +13,7 @@ import {
   setLandingStatus,
   type LandingStatus,
   type WhatsAppLanding,
+  updateLandingTagline,
 } from "@/lib/whatsapp-landings";
 
 const statusBadgeClass: Record<LandingStatus, string> = {
@@ -31,10 +33,19 @@ export default function WhatsAppLandingsModeration() {
   const [tab, setTab] = useState<LandingStatus>("pending");
   const [rows, setRows] = useState<WhatsAppLanding[]>([]);
   const [loading, setLoading] = useState(true);
+  const [taglineDrafts, setTaglineDrafts] = useState<Record<string, string>>({});
+  const [savingTaglineId, setSavingTaglineId] = useState<string | null>(null);
 
   const load = async (status: LandingStatus) => {
     setLoading(true);
-    setRows(await listAllSubmissions(status));
+    const nextRows = await listAllSubmissions(status);
+    setRows(nextRows);
+    setTaglineDrafts(
+      nextRows.reduce<Record<string, string>>((accumulator, row) => {
+        if (row.dbId) accumulator[row.dbId] = row.tagline ?? "";
+        return accumulator;
+      }, {}),
+    );
     setLoading(false);
   };
 
@@ -69,6 +80,23 @@ export default function WhatsAppLandingsModeration() {
         description: error instanceof Error ? error.message : "Beklenmeyen hata",
         variant: "destructive",
       });
+    }
+  };
+
+  const handleTaglineSave = async (dbId: string) => {
+    try {
+      setSavingTaglineId(dbId);
+      await updateLandingTagline(dbId, taglineDrafts[dbId] ?? "");
+      toast({ title: "Tagline kaydedildi" });
+      await load(tab);
+    } catch (error) {
+      toast({
+        title: "Tagline kaydedilemedi",
+        description: error instanceof Error ? error.message : "Beklenmeyen hata",
+        variant: "destructive",
+      });
+    } finally {
+      setSavingTaglineId(null);
     }
   };
 
@@ -117,6 +145,38 @@ export default function WhatsAppLandingsModeration() {
                     <Badge className={statusBadgeClass[(row.status ?? "pending") as LandingStatus]}>
                       {statusLabel[(row.status ?? "pending") as LandingStatus]}
                     </Badge>
+                  </div>
+
+                  <div className="space-y-2 rounded-xl border border-border/60 bg-muted/30 p-3">
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                        Tagline
+                      </p>
+                      <Input
+                        value={row.dbId ? (taglineDrafts[row.dbId] ?? "") : ""}
+                        onChange={(event) => {
+                          if (!row.dbId) return;
+                          setTaglineDrafts((current) => ({
+                            ...current,
+                            [row.dbId!]: event.target.value,
+                          }));
+                        }}
+                        placeholder="Sadece admin tarafından eklenecek kısa slogan"
+                        disabled={!row.dbId || savingTaglineId === row.dbId}
+                      />
+                    </div>
+                    {row.dbId ? (
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => void handleTaglineSave(row.dbId!)}
+                          disabled={savingTaglineId === row.dbId}
+                        >
+                          {savingTaglineId === row.dbId ? "Kaydediliyor..." : "Tagline Kaydet"}
+                        </Button>
+                      </div>
+                    ) : null}
                   </div>
 
                   {row.tagline ? <p className="text-sm text-foreground/85">{row.tagline}</p> : null}
