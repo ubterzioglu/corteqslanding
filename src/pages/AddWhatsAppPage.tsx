@@ -717,11 +717,11 @@ export default function AddWhatsAppPage() {
                         >
                           Dosya Seç
                         </button>
-                        <p className="mt-2 text-xs text-muted-foreground">
-                          {heroImageFile
-                            ? `Seçilen dosya: ${heroImageFile.name}`
-                            : "Dosya tipi: JPG, PNG, WEBP, GIF. Onerilen oran: 16:9 yatay. Maksimum dosya boyutu: 5 MB."}
-                        </p>
+                          <p className="mt-2 text-xs text-muted-foreground">
+                            {heroImageFile
+                              ? `Seçilen dosya: ${heroImageFile.name}`
+                              : "Dosya tipi: JPG, PNG, WEBP, GIF. Önerilen oran: 16:9 yatay. Maksimum dosya boyutu: 5 MB."}
+                          </p>
                       </div>
 
                       <div>
