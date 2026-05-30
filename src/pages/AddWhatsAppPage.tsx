@@ -874,15 +874,19 @@ export default function AddWhatsAppPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
-                    <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
-                    <h1 className="text-3xl font-black leading-tight md:text-5xl">{selectedLanding.groupName}</h1>
+                    <div className="mb-4 flex items-center gap-4">
+                      <div className="shrink-0">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
+                      <h1 className="text-3xl font-black leading-tight md:text-5xl">{selectedLanding.groupName}</h1>
+                    </div>
                     <p className="mt-3 max-w-2xl text-sm text-slate-100 md:text-lg">{selectedLanding.tagline}</p>
                   </div>
                 </section>
               ) : (
                 <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-                  <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
-                  <h1 className="text-3xl font-black text-foreground md:text-5xl">{selectedLanding.groupName}</h1>
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="shrink-0">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
+                    <h1 className="text-3xl font-black text-foreground md:text-5xl">{selectedLanding.groupName}</h1>
+                  </div>
                   <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-xl">
                     {selectedLanding.tagline}
                   </p>
