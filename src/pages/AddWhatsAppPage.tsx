@@ -286,6 +286,15 @@ const initialJoinForm: JoinFormState = {
   note: "",
 };
 
+function getErrorMessage(error: unknown, fallback = "Beklenmeyen hata") {
+  if (error instanceof Error && error.message.trim()) return error.message;
+  if (typeof error === "object" && error && "message" in error && typeof error.message === "string" && error.message.trim()) {
+    return error.message;
+  }
+  if (typeof error === "string" && error.trim()) return error;
+  return fallback;
+}
+
 export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -470,7 +479,7 @@ export default function AddWhatsAppPage() {
     } catch (error) {
       toast({
         title: "Gönderilemedi",
-        description: error instanceof Error ? error.message : "Beklenmeyen hata",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {
@@ -535,7 +544,7 @@ export default function AddWhatsAppPage() {
     } catch (error) {
       toast({
         title: "Talep gönderilemedi",
-        description: error instanceof Error ? error.message : "Beklenmeyen hata",
+        description: getErrorMessage(error),
         variant: "destructive",
       });
     } finally {
@@ -1041,14 +1050,20 @@ export default function AddWhatsAppPage() {
           </div>
         </section>
 
-        <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-3 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
+        <div className="mt-8 rounded-[1.9rem] border border-emerald-200/70 bg-[linear-gradient(135deg,rgba(236,253,245,0.96)_0%,rgba(255,255,255,0.98)_42%,rgba(239,246,255,0.94)_100%)] p-3 shadow-[0_20px_60px_rgba(15,23,42,0.08)] ring-1 ring-white/80 backdrop-blur-sm">
           <Accordion type="single" collapsible defaultValue={undefined} className="w-full">
             <AccordionItem value="addwa-form" className="border-b-0">
-              <AccordionTrigger className="min-h-[56px] py-0 hover:no-underline">
+              <AccordionTrigger
+                className="min-h-[62px] rounded-[1.45rem] bg-white/55 px-3 py-0 text-slate-900 hover:no-underline"
+                chevronWrapperClassName="border border-emerald-200/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.95)_0%,rgba(220,252,231,0.92)_100%)] shadow-[0_12px_28px_rgba(16,185,129,0.15)] ring-1 ring-white/90"
+                chevronClassName="h-4.5 w-4.5 text-emerald-700"
+              >
                 <div className="flex min-h-[56px] items-center gap-3 text-left">
-                  <Sparkles className="h-4 w-4 shrink-0 text-emerald-600" />
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] shadow-[0_10px_24px_rgba(16,185,129,0.16)] ring-1 ring-emerald-200/80">
+                    <Sparkles className="h-4 w-4 text-emerald-700" />
+                  </span>
                   <div className="flex items-center">
-                    <h2 className="text-base font-bold text-foreground md:text-lg">Topluluk Ekle</h2>
+                    <h2 className="text-base font-bold tracking-[0.01em] text-slate-900 md:text-lg">Topluluk Ekle</h2>
                   </div>
                 </div>
               </AccordionTrigger>

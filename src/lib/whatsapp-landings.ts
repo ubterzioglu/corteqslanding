@@ -215,14 +215,17 @@ export async function submitLanding(input: SaveLandingInput): Promise<{ slug: st
     description: input.description?.trim() || null,
   };
 
-  const { data, error } = await supabase
-    .from("whatsapp_landings")
-    .insert(payload)
-    .select("id, slug")
-    .single();
+  const { error } = await supabase.from("whatsapp_landings").insert(payload);
 
   if (error) throw error;
-  return { id: data.id, slug: data.slug };
+
+  const { data } = await supabase
+    .from("whatsapp_landings")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  return { id: data?.id ?? "", slug };
 }
 
 export async function uploadWhatsAppLandingHeroImage(file: File): Promise<string> {
