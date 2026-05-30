@@ -318,6 +318,24 @@ export default function AddWhatsAppPage() {
       return;
     }
 
+    if (groupForm.submitterRole === "manager" && !groupForm.adminEmail.trim()) {
+      toast({
+        title: "Yönetici bilgisi eksik",
+        description: "Topluluk yöneticisi mail adresini doldurun.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (groupForm.submitterRole === "manager" && !groupForm.adminPhone.trim()) {
+      toast({
+        title: "Yönetici bilgisi eksik",
+        description: "Topluluk yöneticisi telefon alanını doldurun.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!joinForm.fullName.trim() || !joinForm.email.trim()) {
       toast({
         title: "Eksik alan",
@@ -578,26 +596,28 @@ export default function AddWhatsAppPage() {
             />
             <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-1/2 md:p-8">
               <div className="max-w-full text-slate-950">
-                <h1 className="flex items-center gap-3 text-[2rem] font-black tracking-tight md:text-[3.2rem] md:whitespace-nowrap">
-                  <MessageSquare className="h-7 w-7 shrink-0 text-emerald-500 md:h-9 md:w-9" />
-                  Mesajlaşma Toplulukları
+                <h1 className="flex items-center gap-3 text-[2rem] font-black tracking-tight md:text-[3.25rem] md:whitespace-nowrap">
+                  <MessageSquare className="h-7 w-7 shrink-0 text-sky-600 md:h-9 md:w-9" />
+                  <span className="bg-[linear-gradient(90deg,#0f766e_0%,#0284c7_45%,#f97316_100%)] bg-clip-text text-transparent">
+                    Mesajlaşma Toplulukları
+                  </span>
                 </h1>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Badge className="border-0 bg-emerald-100 px-3 py-1 text-emerald-700">WhatsApp</Badge>
-                  <Badge className="border-0 bg-sky-100 px-3 py-1 text-sky-700">Telegram</Badge>
-                  <Badge className="border-0 bg-orange-100 px-3 py-1 text-orange-700">Diaspora Ağı</Badge>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Badge className="border-0 bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-emerald-700">WhatsApp</Badge>
+                  <Badge className="border-0 bg-sky-100 px-4 py-1.5 text-sm font-semibold text-sky-700">Telegram</Badge>
+                  <Badge className="border-0 bg-orange-100 px-4 py-1.5 text-sm font-semibold text-orange-700">Diaspora Ağı</Badge>
                 </div>
-                <div className="mt-5 space-y-2">
+                <div className="mt-4 space-y-1.5">
                   <p className="text-base font-medium md:text-[1.1rem] md:whitespace-nowrap">
                     Dünyadaki Türk WhatsApp ve Telegram topluluklarını keşfet.
                   </p>
-                  <p className="text-base font-medium md:text-[1.1rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
                     Her konuda grupları saniyeler içinde bul.
                   </p>
-                  <p className="text-base font-medium md:text-[1.1rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
                     Sana uygun gruba katıl!
                   </p>
-                  <p className="text-base font-medium md:text-[1.1rem] md:whitespace-nowrap">
+                  <p className="text-lg font-semibold md:text-[1.45rem] md:whitespace-nowrap">
                     Grubunu ücretsiz ekle.
                   </p>
                 </div>
@@ -606,11 +626,11 @@ export default function AddWhatsAppPage() {
           </div>
         </section>
 
-        <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-5 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
+        <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-3 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
           <Accordion type="single" collapsible defaultValue={undefined} className="w-full">
             <AccordionItem value="addwa-form" className="border-b-0">
-              <AccordionTrigger className="min-h-[76px] py-0 hover:no-underline">
-                <div className="flex items-center gap-3 text-left">
+              <AccordionTrigger className="min-h-[56px] py-0 hover:no-underline">
+                <div className="flex min-h-[56px] items-center gap-3 text-left">
                   <Sparkles className="h-4 w-4 shrink-0 text-emerald-600" />
                   <div className="flex items-center">
                     <h2 className="text-base font-bold text-foreground md:text-lg">Topluluk Ekle</h2>
@@ -736,7 +756,7 @@ export default function AddWhatsAppPage() {
                       </div>
 
                       <div>
-                        <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad</Label>
+                        <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad *</Label>
                         <Input
                           id="admin-name"
                           value={groupForm.adminName}
@@ -746,7 +766,7 @@ export default function AddWhatsAppPage() {
                       </div>
 
                       <div>
-                        <Label htmlFor="admin-email">Topluluk Yöneticisi Mail Adresi</Label>
+                        <Label htmlFor="admin-email">Topluluk Yöneticisi Mail Adresi *</Label>
                         <Input
                           id="admin-email"
                           type="email"
@@ -757,7 +777,7 @@ export default function AddWhatsAppPage() {
                       </div>
 
                       <div>
-                        <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon</Label>
+                        <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon *</Label>
                         <Input
                           id="admin-phone"
                           value={groupForm.adminPhone}
@@ -782,7 +802,7 @@ export default function AddWhatsAppPage() {
         </div>
 
         <section className="mt-8">
-          <div className="relative w-full max-w-md">
+          <div className="relative w-full max-w-2xl">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={searchQuery}
