@@ -820,9 +820,6 @@ export default function AddWhatsAppPage() {
                     className="aspect-video w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
-                  <div className="absolute left-6 top-6 z-10 w-56 md:left-8 md:top-8">
-                    {renderDetailMetaBadges(selectedLanding)}
-                  </div>
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
                     <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
                     <h1 className="text-3xl font-black leading-tight md:text-5xl">{selectedLanding.groupName}</h1>
@@ -831,7 +828,6 @@ export default function AddWhatsAppPage() {
                 </section>
               ) : (
                 <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
-                  <div className="mb-4 w-full max-w-sm">{renderDetailMetaBadges(selectedLanding)}</div>
                   <div className="mb-4">{renderPlatformLogo(selectedLanding.platform, "lg")}</div>
                   <h1 className="text-3xl font-black text-foreground md:text-5xl">{selectedLanding.groupName}</h1>
                   <p className="mt-3 max-w-2xl text-base text-muted-foreground md:text-xl">
@@ -839,6 +835,65 @@ export default function AddWhatsAppPage() {
                   </p>
                 </section>
               )}
+
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                {(() => {
+                  const metaBadges: JSX.Element[] = [];
+                  const cat = categoryMeta[selectedLanding.category];
+                  const CatIcon = cat.icon;
+
+                  if (selectedLanding.memberApproved) {
+                    metaBadges.push(
+                      <Tooltip key="member-badge">
+                        <TooltipTrigger asChild>
+                          <div className={`flex cursor-default items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold ${approvalBadgeMeta.member.className}`}>
+                            {approvalBadgeMeta.member.label}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent><p>{approvalBadgeMeta.member.tooltip}</p></TooltipContent>
+                      </Tooltip>
+                    );
+                  }
+
+                  if (selectedLanding.adminApproved) {
+                    metaBadges.push(
+                      <Tooltip key="admin-badge">
+                        <TooltipTrigger asChild>
+                          <div className={`flex cursor-default items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold ${approvalBadgeMeta.admin.className}`}>
+                            {approvalBadgeMeta.admin.label}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent><p>{approvalBadgeMeta.admin.tooltip}</p></TooltipContent>
+                      </Tooltip>
+                    );
+                  }
+
+                  metaBadges.push(
+                    <div key="category" className={`flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 text-sm font-semibold ${cat.chipClass}`}>
+                      <CatIcon className="h-4 w-4 shrink-0" />
+                      {cat.label}
+                    </div>
+                  );
+
+                  metaBadges.push(
+                    <div key="city" className="flex items-center justify-center gap-2 rounded-2xl border border-slate-700 bg-slate-600 px-4 py-3 text-sm font-semibold text-white">
+                      <MapPin className="h-4 w-4 shrink-0" />
+                      {selectedLanding.city}, {selectedLanding.country}
+                    </div>
+                  );
+
+                  if (selectedLanding.adminName) {
+                    metaBadges.push(
+                      <div key="admin-name" className="flex items-center justify-center gap-2 rounded-2xl border border-violet-600 bg-violet-500 px-4 py-3 text-sm font-semibold text-white">
+                        <Users className="h-4 w-4 shrink-0" />
+                        Yönetici: {selectedLanding.adminName}
+                      </div>
+                    );
+                  }
+
+                  return metaBadges;
+                })()}
+              </div>
 
               <section className="rounded-[1.75rem] border border-border bg-card p-6 shadow-[0_20px_60px_rgba(15,23,42,0.06)] md:p-8">
                 <h2 className="text-xl font-bold text-foreground">Grubun çağrı metni</h2>
