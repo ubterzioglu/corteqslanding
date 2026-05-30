@@ -859,7 +859,7 @@ export default function AddWhatsAppPage() {
                   event.preventDefault();
                   backToList();
                 }}
-                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+                className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-4 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Tüm gruplar
