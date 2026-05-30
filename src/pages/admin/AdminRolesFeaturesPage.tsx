@@ -39,6 +39,44 @@ type FeatureDetail = {
   adminHint: string;
 };
 
+const DASHBOARD_FEATURE_COPY: Record<string, FeatureDetail> = {
+  "dashboard.tab_profil_ayarlari": {
+    summary: "Kullanıcının dashboard içindeki profil ayarları sekmesini görmesini sağlar.",
+    effect: "Açık olduğunda profil bilgileri, görünürlük ve kişisel ayarlarla ilgili alanlara erişebilir.",
+    adminHint: "Dashboard kullanan tüm temel roller için genelde açık tutulur.",
+  },
+  "dashboard.tab_mesaj_kutusu": {
+    summary: "Kullanıcının dashboard üzerinden mesaj kutusuna erişmesini sağlar.",
+    effect: "Açık olduğunda gelen mesajları görebilir ve ilgili mesajlaşma akışlarını kullanabilir.",
+    adminHint: "Mesajlaşma deneyimi aktif olan roller için açık tutulması beklenir.",
+  },
+  "dashboard.tab_takip_ettiklerim": {
+    summary: "Kullanıcının takip ettiği kişi veya bağlantıları dashboard içinde görmesini sağlar.",
+    effect: "Açık olduğunda takip listesi ve ilişkili takip akışları erişilebilir olur.",
+    adminHint: "Topluluk ilişkileri önemliyse bu sekmenin açık olması faydalıdır.",
+  },
+  "dashboard.tab_etkinlikler": {
+    summary: "Kullanıcının dashboard içindeki etkinlikler sekmesine erişmesini sağlar.",
+    effect: "Açık olduğunda katıldığı veya yönettiği etkinliklerle ilgili ekranlara ulaşabilir.",
+    adminHint: "Etkinlik akışını kullanan roller için varsayılan olarak açık olabilir.",
+  },
+  "dashboard.tab_whatsapp": {
+    summary: "Kullanıcının dashboard üzerinden WhatsApp ile ilgili sekmeye erişmesini sağlar.",
+    effect: "Açık olduğunda WhatsApp grup veya bağlantı modülleri dashboard içinde görünür.",
+    adminHint: "Henüz sınırlı kullanılan bir alan ise sadece hazır rollerde açılmalıdır.",
+  },
+  "dashboard.tab_analitik": {
+    summary: "Kullanıcının dashboard içindeki analitik ve performans özetlerini görmesini sağlar.",
+    effect: "Açık olduğunda rolüne uygun metrikler, performans veya görünürlük verileri gösterilebilir.",
+    adminHint: "Daha çok consultant, business veya içerik üreten roller için anlamlıdır.",
+  },
+  "dashboard.admin_onizleme_modu": {
+    summary: "Adminin kullanıcı dashboard deneyimini önizleme amaçlı açmasını sağlar.",
+    effect: "Açık olduğunda admin tarafında kontrollü bir önizleme veya test modu kullanılabilir.",
+    adminHint: "Normal kullanıcı rollerinde değil, yalnızca operasyon ihtiyacı olan hesaplarda açık tutulmalıdır.",
+  },
+};
+
 const FEATURE_DETAILS: Record<string, FeatureDetail> = {
   "admin.requires_approval": {
     summary: "Kullanıcının ilgili işlemi tek başına tamamlaması yerine admin onay akışına düşmesini sağlar.",
@@ -110,6 +148,72 @@ const FEATURE_DETAILS: Record<string, FeatureDetail> = {
     effect: "Açık olduğunda referral mekanizmasını kullanabilir.",
     adminHint: "Her rol için gerekli olmayabilir; büyüme veya topluluk katkısı beklenen rollerde daha anlamlıdır.",
   },
+};
+
+const humanizeFeatureKey = (featureKey: string) => {
+  return featureKey
+    .split(".")
+    .map((segment) =>
+      segment
+        .split("_")
+        .map((part) => (part ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+        .join(" "),
+    )
+    .join(" / ");
+};
+
+const getFallbackFeatureDescription = (feature: FeatureCatalogRow) => {
+  const featureKey = feature.key.trim();
+
+  if (featureKey.startsWith("dashboard.tab_")) {
+    return "Kullanıcının ilgili dashboard sekmesini görmesini ve kullanmasını kontrol eder";
+  }
+
+  if (featureKey === "dashboard.admin_onizleme_modu") {
+    return "Admin tarafında dashboard önizleme moduna erişimi kontrol eder";
+  }
+
+  if (featureKey.startsWith("individual.")) {
+    return "Bireysel kullanıcı deneyimindeki ilgili modülün görünürlüğünü ve erişimini kontrol eder";
+  }
+
+  if (featureKey.startsWith("profile.")) {
+    return "Profil tarafındaki ilgili yetki veya görünürlük alanını kontrol eder";
+  }
+
+  if (featureKey.startsWith("directory.")) {
+    return "Directory içinde görünürlük ve öne çıkarma davranışını kontrol eder";
+  }
+
+  if (featureKey.startsWith("contact.")) {
+    return "İletişim ve kullanıcıya erişim akışlarını kontrol eder";
+  }
+
+  if (featureKey.startsWith("content.")) {
+    return "İçerik üretimi ve içerik yönetimi yetkisini kontrol eder";
+  }
+
+  if (featureKey.startsWith("events.")) {
+    return "Etkinlik ile ilgili oluşturma veya erişim yetkisini kontrol eder";
+  }
+
+  if (featureKey.startsWith("offers.")) {
+    return "Teklif veya hizmet oluşturma akışına erişimi kontrol eder";
+  }
+
+  if (featureKey.startsWith("referral.")) {
+    return "Referral akışını başlatma veya yönetme yetkisini kontrol eder";
+  }
+
+  if (featureKey.startsWith("city.")) {
+    return "Şehir bazlı yönetim ve yerel operasyon erişimini kontrol eder";
+  }
+
+  if (featureKey.startsWith("admin.")) {
+    return "Admin onayı veya operasyon kontrolü gerektiren akışı tanımlar";
+  }
+
+  return `${feature.label || humanizeFeatureKey(featureKey)} için erişim davranışını kontrol eder`;
 };
 
 const guideSections: AdminPageGuideSection[] = [
@@ -220,12 +324,13 @@ const AdminRolesFeaturesPage = () => {
   }, [features]);
 
   const getFeatureDetail = (feature: FeatureCatalogRow) => {
-    const detailed = FEATURE_DETAILS[feature.key];
+    const detailed = FEATURE_DETAILS[feature.key] ?? DASHBOARD_FEATURE_COPY[feature.key];
     const meta = getFeatureMeta(feature.key);
+    const databaseDescription = feature.description?.trim();
 
     return {
       label: meta?.label ?? feature.label,
-      shortDescription: meta?.description ?? feature.description ?? "-",
+      shortDescription: meta?.description ?? databaseDescription ?? getFallbackFeatureDescription(feature),
       details: detailed,
     };
   };

@@ -254,6 +254,7 @@ const AdminLayout = () => {
     { to: "/admin/lansman", label: "Lansman Katılım" },
     { to: "/admin/surveys", label: "Anketler" },
     { to: "/admin/whatsapp-landings", label: "WhatsApp Grupları" },
+    { to: "/admin/cadde", label: "Cadde" },
     { to: "/admin/may19/kelime", label: "19 Mayıs Kelime" },
     { to: "/admin/may19/ani", label: "19 Mayıs Anı" },
     { to: "/admin/muhasebe", label: "Muhasebe" },

@@ -27,6 +27,7 @@ export const externalAdminNavItems = [
 export const otherActionNavItems = [
   { to: "/admin/muhasebe", label: "Muhasebe", icon: Globe },
   { to: "/admin/marquee", label: "Haber Bandı", icon: Radio },
+  { to: "/admin/cadde", label: "Cadde", icon: MessageSquare },
   { to: "/admin/social-media", label: "Sosyal Medya", icon: Megaphone },
   { to: "/admin/approvals", label: "Approval Queue", icon: ClipboardList },
   { to: "/admin/audit-logs", label: "Audit Logs", icon: ScrollTextIcon },

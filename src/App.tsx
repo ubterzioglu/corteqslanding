@@ -73,6 +73,8 @@ import AdminAuditLogsPage from "@/pages/admin/AdminAuditLogsPage";
 import AdminProfileSectionsPage from "@/pages/admin/AdminProfileSectionsPage";
 import AdminTaxonomyPage from "@/pages/admin/AdminTaxonomyPage";
 import AdminNewMemberGuidePage from "@/pages/admin/AdminNewMemberGuidePage";
+import CaddePage from "@/pages/CaddePage";
+import AdminCaddePage from "@/pages/admin/AdminCaddePage";
 
 const queryClient = new QueryClient();
 
@@ -122,6 +124,7 @@ const App = () => (
               <Route path="/form" element={<FormPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/directory" element={<DirectoryPage />} />
+              <Route path="/cadde" element={<CaddePage />} />
               <Route path="/directory/profile/:userId" element={<DirectoryProfilePage />} />
               <Route
                 path="/profile"
@@ -159,6 +162,7 @@ const App = () => (
               <Route path="referral/groups" element={<AdminReferralGroupsPage />} />
               <Route path="referral/types" element={<AdminReferralTypesPage />} />
               <Route path="marquee" element={<AdminMarqueePage />} />
+              <Route path="cadde" element={<AdminCaddePage />} />
               <Route path="advisors">
                 <Route index element={<Navigate to="/admin/advisors/consultant" replace />} />
                 <Route path=":profile" element={<AdminAdvisorLinksPage />} />
