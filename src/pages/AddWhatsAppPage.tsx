@@ -441,11 +441,13 @@ export default function AddWhatsAppPage() {
     if (badges.length === 0) return null;
 
     return (
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-col gap-2 sm:max-w-[260px]">
         {badges.map((badge) => (
           <Tooltip key={badge.label}>
             <TooltipTrigger asChild>
-              <Badge className={`cursor-default border ${badge.className}`}>{badge.label}</Badge>
+              <Badge className={`flex w-full justify-center cursor-default border px-3 py-1.5 text-center ${badge.className}`}>
+                {badge.label}
+              </Badge>
             </TooltipTrigger>
             <TooltipContent>
               <p>{badge.tooltip}</p>
@@ -896,6 +898,10 @@ export default function AddWhatsAppPage() {
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {filteredLandings.map((landing) => {
                   const Icon = categoryMeta[landing.category].icon;
+                  const cardSummary =
+                    landing.callToActionText?.trim() ||
+                    landing.description?.replace(/\[Başvuru tipi:[^\]]+\]\s*/g, "").trim() ||
+                    "Topluluk detaylarını görmek için karta tıkla.";
 
                   return (
                     <Link
@@ -926,7 +932,7 @@ export default function AddWhatsAppPage() {
                         <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">
                           {landing.groupName}
                         </h3>
-                        <p className="mt-2 text-sm text-muted-foreground">{landing.tagline}</p>
+                        <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{cardSummary}</p>
                         <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
                           <MapPin className="h-3.5 w-3.5" />
                           {landing.city}, {landing.country}
