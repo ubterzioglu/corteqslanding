@@ -25,6 +25,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
@@ -215,8 +216,22 @@ const approvalBadgeMeta = {
   },
 } as const;
 
+const platformOptions = [
+  "WhatsApp",
+  "Telegram",
+  "Discord",
+  "Facebook",
+  "Instagram",
+  "LinkedIn",
+  "X",
+  "TikTok",
+  "YouTube",
+  "Reddit",
+] as const;
+
 type GroupFormState = {
   submitterRole: "manager" | "member";
+  platform: string;
   groupName: string;
   country: string;
   whatsappLink: string;
@@ -237,6 +252,7 @@ type JoinFormState = {
 
 const initialGroupForm: GroupFormState = {
   submitterRole: "manager",
+  platform: "",
   groupName: "",
   country: "",
   whatsappLink: "",
@@ -381,10 +397,10 @@ export default function AddWhatsAppPage() {
   };
 
   const handleGroupSubmit = async () => {
-    if (!groupForm.groupName.trim() || !groupForm.country.trim() || !groupForm.whatsappLink.trim()) {
+    if (!groupForm.platform.trim() || !groupForm.groupName.trim() || !groupForm.country.trim() || !groupForm.whatsappLink.trim()) {
       toast({
         title: "Eksik alan",
-        description: "Grup adı, ülke ve WhatsApp linki zorunludur.",
+        description: "Platform, grup adı, ülke ve topluluk linki zorunludur.",
         variant: "destructive",
       });
       return;
@@ -424,7 +440,7 @@ export default function AddWhatsAppPage() {
         whatsappLink: groupForm.whatsappLink,
         adminName: groupForm.adminName,
         adminContact,
-        description: `[Başvuru tipi: ${groupForm.submitterRole === "manager" ? "Topluluk Yöneticisiyim" : "Topluluk Üyesiyim"}] ${groupForm.description}`.trim(),
+        description: `[Platform: ${groupForm.platform}] [Başvuru tipi: ${groupForm.submitterRole === "manager" ? "Topluluk Yöneticisiyim" : "Topluluk Üyesiyim"}] ${groupForm.description}`.trim(),
       });
 
       toast({
@@ -847,6 +863,22 @@ export default function AddWhatsAppPage() {
                     </div>
 
                     <div>
+                      <Label htmlFor="platform">Platform *</Label>
+                      <Select value={groupForm.platform} onValueChange={(value) => updateGroupForm("platform", value)}>
+                        <SelectTrigger id="platform" className="mt-1">
+                          <SelectValue placeholder="Platform seç" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {platformOptions.map((platform) => (
+                            <SelectItem key={platform} value={platform}>
+                              {platform}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
                       <Label htmlFor="group-name">Grup Adı *</Label>
                       <Input
                         id="group-name"
@@ -857,12 +889,12 @@ export default function AddWhatsAppPage() {
                     </div>
 
                     <div>
-                      <Label htmlFor="whatsapp-link">WhatsApp Linki *</Label>
+                      <Label htmlFor="whatsapp-link">Topluluk Linki *</Label>
                       <Input
                         id="whatsapp-link"
                         value={groupForm.whatsappLink}
                         onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
-                        placeholder="https://chat.whatsapp.com/..."
+                        placeholder="https://..."
                       />
                     </div>
 
