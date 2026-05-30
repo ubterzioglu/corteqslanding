@@ -906,7 +906,7 @@ export default function AddWhatsAppPage() {
                     <div className={`${detailMetaCardClass} border-slate-700 bg-slate-600 text-white`}>
                       <MapPin className="h-4.5 w-4.5 shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Sehir</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Lokasyon</p>
                         <p className="truncate text-sm font-semibold">{selectedLanding.city}, {selectedLanding.country}</p>
                       </div>
                     </div>
