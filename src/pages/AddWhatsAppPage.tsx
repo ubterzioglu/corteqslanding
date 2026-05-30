@@ -231,6 +231,18 @@ const platformOptions = [
   "Reddit",
 ] as const;
 
+const categoryOptions: Array<{ value: LandingCategory; label: string }> = [
+  { value: "alumni", label: "Alumni" },
+  { value: "hobi", label: "Hobi" },
+  { value: "is", label: "İş Grubu" },
+  { value: "doktor", label: "Doktor / Sağlık" },
+  { value: "yatirim", label: "Yatırım" },
+  { value: "girisim", label: "Girişim" },
+  { value: "akademik", label: "Akademik" },
+  { value: "dayanisma", label: "Dayanışma" },
+  { value: "diger", label: "Diğer" },
+];
+
 const platformMarkMeta: Record<string, { short: string; className: string }> = {
   WhatsApp: { short: "WA", className: "bg-[#e7f9ee] text-[#1f9d55]" },
   Telegram: { short: "TG", className: "bg-[#e7f4ff] text-[#229ED9]" },
@@ -247,6 +259,7 @@ const platformMarkMeta: Record<string, { short: string; className: string }> = {
 type GroupFormState = {
   submitterRole: "manager" | "member";
   platform: string;
+  category: LandingCategory | "";
   groupName: string;
   country: string;
   whatsappLink: string;
@@ -268,6 +281,7 @@ type JoinFormState = {
 const initialGroupForm: GroupFormState = {
   submitterRole: "manager",
   platform: "",
+  category: "",
   groupName: "",
   country: "",
   whatsappLink: "",
@@ -455,7 +469,7 @@ export default function AddWhatsAppPage() {
 
       await submitLanding({
         groupName: groupForm.groupName,
-        category: "diger",
+        category: groupForm.category || "diger",
         country: groupForm.country,
         city: "Genel",
         mode: groupForm.submitterRole === "manager" ? "visual" : "text",
@@ -1101,6 +1115,22 @@ export default function AddWhatsAppPage() {
                           {platformOptions.map((platform) => (
                             <SelectItem key={platform} value={platform}>
                               {platform}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="category">Kategori</Label>
+                      <Select value={groupForm.category} onValueChange={(value) => updateGroupForm("category", value as LandingCategory)}>
+                        <SelectTrigger id="category" className={`mt-1 ${formFieldInsetClass}`}>
+                          <SelectValue placeholder="İsteğe bağlı kategori seç" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {categoryOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
                             </SelectItem>
                           ))}
                         </SelectContent>
