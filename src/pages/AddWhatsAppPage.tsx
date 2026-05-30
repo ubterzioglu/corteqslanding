@@ -21,7 +21,6 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -35,11 +34,9 @@ import {
   listLandings,
   submitLanding,
   uploadWhatsAppLandingHeroImage,
-  type LandingCategory,
-  type LandingMode,
   type WhatsAppLanding,
 } from "@/lib/whatsapp-landings";
-import messagingHeroImage from "@/assets/diaspora-community.jpg";
+import messagingHeroImage from "../../addwaimage.png";
 
 const categoryMeta: Record<
   LandingCategory,
@@ -93,21 +90,16 @@ const categoryMeta: Record<
 };
 
 type GroupFormState = {
+  submitterRole: "manager" | "member";
   groupName: string;
-  category: LandingCategory;
-  otherCategory: string;
   country: string;
-  city: string;
   whatsappLink: string;
   description: string;
-  createLanding: boolean;
-  mode: LandingMode;
-  tagline: string;
   callToActionText: string;
   conditions: string;
   adminName: string;
-  adminContact: string;
-  consent: boolean;
+  adminEmail: string;
+  adminPhone: string;
 };
 
 type JoinFormState = {
@@ -118,21 +110,16 @@ type JoinFormState = {
 };
 
 const initialGroupForm: GroupFormState = {
+  submitterRole: "manager",
   groupName: "",
-  category: "alumni",
-  otherCategory: "",
   country: "",
-  city: "",
   whatsappLink: "",
   description: "",
-  createLanding: true,
-  mode: "visual",
-  tagline: "",
   callToActionText: "",
   conditions: "",
   adminName: "",
-  adminContact: "",
-  consent: false,
+  adminEmail: "",
+  adminPhone: "",
 };
 
 const initialJoinForm: JoinFormState = {
@@ -255,28 +242,19 @@ export default function AddWhatsAppPage() {
   };
 
   const handleGroupSubmit = async () => {
-    if (!groupForm.groupName.trim() || !groupForm.country.trim() || !groupForm.city.trim() || !groupForm.whatsappLink.trim()) {
+    if (!groupForm.groupName.trim() || !groupForm.country.trim() || !groupForm.whatsappLink.trim()) {
       toast({
         title: "Eksik alan",
-        description: "Grup adı, ülke, şehir ve WhatsApp linki zorunludur.",
+        description: "Grup adı, ülke ve WhatsApp linki zorunludur.",
         variant: "destructive",
       });
       return;
     }
 
-    if (groupForm.category === "diger" && !groupForm.otherCategory.trim()) {
+    if (groupForm.submitterRole === "manager" && !groupForm.adminName.trim()) {
       toast({
-        title: "Kategori eksik",
-        description: "Diğer kategorisini seçerseniz açıklama gerekir.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!groupForm.consent) {
-      toast({
-        title: "Onay gerekli",
-        description: "Başvuru için KVKK/GDPR onay kutusunu işaretleyin.",
+        title: "Yönetici bilgisi eksik",
+        description: "Topluluk yöneticisi adı soyad alanını doldurun.",
         variant: "destructive",
       });
       return;
@@ -287,32 +265,33 @@ export default function AddWhatsAppPage() {
     setSubmittingGroup(true);
     try {
       let heroImageUrl: string | undefined;
-      if (groupForm.createLanding && groupForm.mode === "visual" && heroImageFile) {
+      if (groupForm.submitterRole === "manager" && heroImageFile) {
         heroImageUrl = await uploadWhatsAppLandingHeroImage(heroImageFile);
       }
 
+      const adminContact = [groupForm.adminEmail.trim() ? `E-posta: ${groupForm.adminEmail.trim()}` : "", groupForm.adminPhone.trim() ? `Telefon: ${groupForm.adminPhone.trim()}` : ""]
+        .filter(Boolean)
+        .join("\n");
+
       await submitLanding({
         groupName: groupForm.groupName,
-        category: groupForm.category,
+        category: "diger",
         country: groupForm.country,
-        city: groupForm.city,
-        mode: groupForm.createLanding ? groupForm.mode : "text",
-        heroImage: groupForm.createLanding && groupForm.mode === "visual" ? heroImageUrl : undefined,
-        tagline: groupForm.tagline || groupForm.description,
+        city: "Genel",
+        mode: groupForm.submitterRole === "manager" ? "visual" : "text",
+        heroImage: groupForm.submitterRole === "manager" ? heroImageUrl ?? messagingHeroImage : undefined,
+        tagline: groupForm.description,
         callToActionText: groupForm.callToActionText || groupForm.description,
         conditions: groupForm.conditions,
         whatsappLink: groupForm.whatsappLink,
         adminName: groupForm.adminName,
-        adminContact: groupForm.adminContact,
-        description:
-          groupForm.category === "diger" && groupForm.otherCategory.trim()
-            ? `[Kategori: ${groupForm.otherCategory.trim()}] ${groupForm.description}`
-            : groupForm.description,
+        adminContact,
+        description: `[Başvuru tipi: ${groupForm.submitterRole === "manager" ? "Topluluk Yöneticisiyim" : "Topluluk Üyesiyim"}] ${groupForm.description}`.trim(),
       });
 
       toast({
         title: "Başvurun alındı",
-        description: groupForm.createLanding
+        description: groupForm.submitterRole === "manager"
           ? "Landing sayfan admin onayından sonra /addwa altında görünecek."
           : "Grubun onay sonrası listede yayınlanacak.",
       });
@@ -646,138 +625,84 @@ export default function AddWhatsAppPage() {
                 <div className="mb-1 flex items-start gap-3 text-left">
                   <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
                   <div>
-                    <h2 className="text-lg font-bold text-foreground md:text-xl">Grubunu listele, istersen landing sayfası da aç</h2>
-                    <p className="mt-1 text-sm text-muted-foreground">Başvurular admin onayından sonra listelenir.</p>
+                    <h2 className="text-lg font-bold text-foreground md:text-xl">Topluluk Ekle</h2>
                   </div>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-4">
                 <div className="space-y-5">
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
-              <div>
-                <Label htmlFor="group-name">Grup Adı *</Label>
-                <Input
-                  id="group-name"
-                  value={groupForm.groupName}
-                  onChange={(event) => updateGroupForm("groupName", event.target.value)}
-                  placeholder="Örn: Berlin Türk Girişimciler"
-                />
-              </div>
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
+                    <div>
+                      <Label>Başvuru Tipi</Label>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        <Button
+                          type="button"
+                          variant={groupForm.submitterRole === "manager" ? "default" : "outline"}
+                          onClick={() => updateGroupForm("submitterRole", "manager")}
+                        >
+                          Topluluk Yöneticisiyim
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={groupForm.submitterRole === "member" ? "default" : "outline"}
+                          onClick={() => updateGroupForm("submitterRole", "member")}
+                        >
+                          Topluluk Üyesiyim
+                        </Button>
+                      </div>
+                    </div>
 
-              <div className="grid gap-3 md:grid-cols-2">
-                <div>
-                  <Label htmlFor="category">Kategori *</Label>
-                  <select
-                    id="category"
-                    value={groupForm.category}
-                    onChange={(event) => updateGroupForm("category", event.target.value as LandingCategory)}
-                    className="mt-1 flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                  >
-                    <option value="alumni">Alumni</option>
-                    <option value="doktor">Doktor / Sağlık</option>
-                    <option value="hobi">Hobi</option>
-                    <option value="is">İş Grubu</option>
-                    <option value="yatirim">Yatırım & Girişim</option>
-                    <option value="akademik">Akademik</option>
-                    <option value="dayanisma">Dayanışma</option>
-                    <option value="diger">Diğer</option>
-                  </select>
-                  {groupForm.category === "diger" ? (
-                    <Input
-                      className="mt-2"
-                      value={groupForm.otherCategory}
-                      onChange={(event) => updateGroupForm("otherCategory", event.target.value)}
-                      placeholder="Örn: Spor, Müzik, Aile"
-                    />
-                  ) : null}
-                </div>
-                <div>
-                  <Label htmlFor="whatsapp-link">WhatsApp Linki *</Label>
-                  <Input
-                    id="whatsapp-link"
-                    value={groupForm.whatsappLink}
-                    onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
-                    placeholder="https://chat.whatsapp.com/..."
-                  />
-                </div>
-              </div>
+                    <div>
+                      <Label htmlFor="group-name">Grup Adı *</Label>
+                      <Input
+                        id="group-name"
+                        value={groupForm.groupName}
+                        onChange={(event) => updateGroupForm("groupName", event.target.value)}
+                        placeholder="Örn: Berlin Türk Girişimciler"
+                      />
+                    </div>
 
-              <div className="grid gap-3 md:grid-cols-2">
-                <div>
-                  <Label htmlFor="country">Ülke *</Label>
-                  <Input
-                    id="country"
-                    value={groupForm.country}
-                    onChange={(event) => updateGroupForm("country", event.target.value)}
-                    placeholder="Almanya"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="city">Şehir *</Label>
-                  <Input
-                    id="city"
-                    value={groupForm.city}
-                    onChange={(event) => updateGroupForm("city", event.target.value)}
-                    placeholder="Berlin"
-                  />
-                </div>
-              </div>
+                    <div>
+                      <Label htmlFor="whatsapp-link">WhatsApp Linki *</Label>
+                      <Input
+                        id="whatsapp-link"
+                        value={groupForm.whatsappLink}
+                        onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
+                        placeholder="https://chat.whatsapp.com/..."
+                      />
+                    </div>
 
-              <div>
-                <Label htmlFor="description">Kısa Açıklama</Label>
-                <Textarea
-                  id="description"
-                  rows={3}
-                  value={groupForm.description}
-                  onChange={(event) => updateGroupForm("description", event.target.value)}
-                  placeholder="Grup hakkında 1-2 cümle"
-                />
-              </div>
-            </div>
+                    <div>
+                      <Label htmlFor="country">Ülke *</Label>
+                      <Input
+                        id="country"
+                        value={groupForm.country}
+                        onChange={(event) => updateGroupForm("country", event.target.value)}
+                        placeholder="Almanya"
+                      />
+                    </div>
 
-            <div className="rounded-2xl border border-border bg-muted/30 p-4">
-              <label className="flex cursor-pointer items-start gap-3">
-                <Checkbox
-                  checked={groupForm.createLanding}
-                  onCheckedChange={(value) => updateGroupForm("createLanding", Boolean(value))}
-                  className="mt-0.5"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">Bu grup için landing sayfası da oluştur</p>
-                  <p className="text-sm text-muted-foreground">
-                    Onay sonrası grup sayfası /addwa?group=slug adresinde yayınlanır.
-                  </p>
-                </div>
-              </label>
-            </div>
-
-            {groupForm.createLanding ? (
-              <div className="space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">2. Landing İçeriği</h3>
-                <div>
-                  <Label>Görünüm Tipi</Label>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <Button
-                      type="button"
-                      variant={groupForm.mode === "visual" ? "default" : "outline"}
-                      onClick={() => updateGroupForm("mode", "visual")}
-                    >
-                      Görselli
-                    </Button>
-                    <Button
-                      type="button"
-                      variant={groupForm.mode === "text" ? "default" : "outline"}
-                      onClick={() => updateGroupForm("mode", "text")}
-                    >
-                      Sade Metin
-                    </Button>
+                    <div>
+                      <Label htmlFor="description">Kısa Açıklama</Label>
+                      <Textarea
+                        id="description"
+                        rows={3}
+                        value={groupForm.description}
+                        onChange={(event) => updateGroupForm("description", event.target.value)}
+                        placeholder="Grup hakkında 1-2 cümle"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                    {groupForm.mode === "visual" ? (
+                  {groupForm.submitterRole === "manager" ? (
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                        2. Topluluk Kartı Özelliklerini Belirtin (Sadece Yöneticiler İçindir.)
+                      </h3>
+
                       <div>
-                        <Label htmlFor="hero-image-file">Hero Görsel Yükle</Label>
+                        <Label htmlFor="hero-image-file">Topluluk Kartı İçin Görsel Yükle</Label>
                         <input
                           ref={heroImageInputRef}
                           id="hero-image-file"
@@ -794,84 +719,74 @@ export default function AddWhatsAppPage() {
                           Dosya Seç
                         </button>
                         <p className="mt-2 text-xs text-muted-foreground">
-                          {heroImageFile ? `Seçilen dosya: ${heroImageFile.name}` : "Henüz dosya seçilmedi (JPG, PNG, WEBP, GIF)"}
+                          {heroImageFile
+                            ? `Seçilen dosya: ${heroImageFile.name}`
+                            : "Görsel yüklenmezse varsayılan placeholder kullanılacak (JPG, PNG, WEBP, GIF)."}
                         </p>
                       </div>
-                    ) : null}
 
-                    <div>
-                      <Label htmlFor="tagline">Tagline</Label>
-                      <Input
-                        id="tagline"
-                        value={groupForm.tagline}
-                        onChange={(event) => updateGroupForm("tagline", event.target.value)}
-                        placeholder="Kısa ve net bir başlık"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="cta-text">Çağrı Metni</Label>
-                      <Textarea
-                        id="cta-text"
-                        rows={4}
-                        value={groupForm.callToActionText}
-                        onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
-                        placeholder="Bu gruba neden katılınmalı?"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="conditions">Koşullar</Label>
-                      <Textarea
-                        id="conditions"
-                        rows={4}
-                        value={groupForm.conditions}
-                        onChange={(event) => updateGroupForm("conditions", event.target.value)}
-                        placeholder={"Her satıra bir kural yazın\nÖrn: Grup içi reklam yasak"}
-                      />
-                    </div>
-
-                    <div className="grid gap-3 md:grid-cols-2">
                       <div>
-                        <Label htmlFor="admin-name">Yönetici Adı</Label>
+                        <Label htmlFor="cta-text">Yeni üyeler için mesaj</Label>
+                        <Textarea
+                          id="cta-text"
+                          rows={4}
+                          value={groupForm.callToActionText}
+                          onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
+                          placeholder="Yeni üyelere çağrı amacıyla metin yaz."
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="conditions">Topluluk Kuralları</Label>
+                        <Textarea
+                          id="conditions"
+                          rows={4}
+                          value={groupForm.conditions}
+                          onChange={(event) => updateGroupForm("conditions", event.target.value)}
+                          placeholder={"Her satıra bir kural yazın\nÖrn: Grup içi reklam yasak"}
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad</Label>
                         <Input
                           id="admin-name"
                           value={groupForm.adminName}
                           onChange={(event) => updateGroupForm("adminName", event.target.value)}
-                          placeholder="Yönetici ismi"
+                          placeholder="Ad Soyad"
                         />
                       </div>
+
                       <div>
-                        <Label htmlFor="admin-contact">Yönetici İletişimi</Label>
+                        <Label htmlFor="admin-email">Topluluk Yöneticisi Mail Adresi</Label>
                         <Input
-                          id="admin-contact"
-                          value={groupForm.adminContact}
-                          onChange={(event) => updateGroupForm("adminContact", event.target.value)}
-                          placeholder="E-posta veya telefon"
+                          id="admin-email"
+                          type="email"
+                          value={groupForm.adminEmail}
+                          onChange={(event) => updateGroupForm("adminEmail", event.target.value)}
+                          placeholder="ornek@email.com"
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon</Label>
+                        <Input
+                          id="admin-phone"
+                          value={groupForm.adminPhone}
+                          onChange={(event) => updateGroupForm("adminPhone", event.target.value)}
+                          placeholder="+49 ..."
                         />
                       </div>
                     </div>
-              </div>
-            ) : null}
+                  ) : null}
 
-            <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border bg-muted/20 p-3">
-              <Checkbox
-                checked={groupForm.consent}
-                onCheckedChange={(value) => updateGroupForm("consent", Boolean(value))}
-                className="mt-0.5"
-              />
-              <span className="text-sm text-muted-foreground">
-                Verilerin admin incelemesi ve grup yönetimi amacıyla işlenmesini kabul ediyorum.
-              </span>
-            </label>
-
-            <Button
-              className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-              onClick={() => void handleGroupSubmit()}
-              disabled={submittingGroup}
-            >
-              {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
-            </Button>
+                  <Button
+                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                    onClick={() => void handleGroupSubmit()}
+                    disabled={submittingGroup}
+                  >
+                    {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
+                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -881,8 +796,7 @@ export default function AddWhatsAppPage() {
         <section className="mt-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h2 className="text-3xl font-bold text-slate-900">Yayında Olan Gruplar</h2>
-              <p className="text-sm text-slate-600">Grup adı, kategori, şehir veya ülke ile arama yap.</p>
+              <h2 className="text-3xl font-bold text-slate-900">Katılabileceğin Topluluklar</h2>
             </div>
             <div className="grid w-full gap-3 lg:max-w-md">
               <div className="relative">
@@ -891,7 +805,7 @@ export default function AddWhatsAppPage() {
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
                   className="pl-9"
-                  placeholder="Grup, şehir veya açıklama ara"
+                  placeholder="Grup, ülke veya açıklama ara"
                 />
               </div>
             </div>
