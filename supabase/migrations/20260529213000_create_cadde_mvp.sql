@@ -294,7 +294,7 @@ set name = excluded.name,
     sort_order = excluded.sort_order;
 
 insert into public.cadde_cities (country_id, name, timezone, sort_order)
-select id, city_name, timezone_name, sort_order
+select countries.id, seed.city_name, seed.timezone_name, seed.sort_order
 from (
   values
     ('DE', 'Berlin', 'Europe/Berlin', 10),
@@ -418,7 +418,7 @@ select
   countries.id,
   cities.id,
   is_featured,
-  sort_order
+  seed.sort_order
 from (
   values
     ('consultant', 'Oturum ve Tasinma Danismani', 'Berlin', 'Yeni tasinanlar icin resmi surecler, oturum ve ilk 90 gun kontrol listesi.', 'Danisman', 'Gorusme Talep Et', '/directory?country=Almanya&city=Berlin', true, 10),
