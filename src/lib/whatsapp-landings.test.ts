@@ -14,7 +14,7 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
-import { slugify, submitLanding } from "@/lib/whatsapp-landings";
+import { normalizeCommunityText, slugify, submitLanding } from "@/lib/whatsapp-landings";
 
 describe("whatsapp landing helpers", () => {
   it("slugifies Turkish characters and trims separators", () => {
@@ -23,6 +23,12 @@ describe("whatsapp landing helpers", () => {
 
   it("limits slug length", () => {
     expect(slugify("a".repeat(100)).length).toBeLessThanOrEqual(60);
+  });
+
+  it("normalizes common Turkish community terms", () => {
+    expect(normalizeCommunityText("Berlin Girisim Agi")).toBe("Berlin Girişim Ağı");
+    expect(normalizeCommunityText("Dubai Yatirim Cevresi")).toBe("Dubai Yatırım Çevresi");
+    expect(normalizeCommunityText("Turk Girisimciler")).toBe("Türk Girişimciler");
   });
 });
 
@@ -75,7 +81,8 @@ describe("submitLanding", () => {
       expect.objectContaining({
         user_id: "user-1",
         slug: "berlin-girisim-berlin",
-        group_name: "Berlin Girisim",
+        group_name: "Berlin Girişim",
+        description: "Test aciklamasi",
       }),
     );
     expect(result).toEqual({ id: "landing-1", slug: "berlin-girisim-berlin" });

@@ -97,7 +97,7 @@ const categoryMeta: Record<
 const placeholderLandings: WhatsAppLanding[] = [
   {
     id: "placeholder-berlin-girisim",
-    groupName: "Berlin Girisim Agi",
+    groupName: "Berlin Girişim Ağı",
     platform: "Discord",
     category: "girisim",
     country: "Almanya",
@@ -105,53 +105,53 @@ const placeholderLandings: WhatsAppLanding[] = [
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Topluluk; girisimciler, operatorler ve yatirim odakli profesyoneller icin tanisma ve bilgi paylasim alani.",
+    callToActionText: "Topluluk; girişimciler, operatörler ve yatırım odaklı profesyoneller için tanışma ve bilgi paylaşım alanı.",
     conditions: "",
     whatsappLink: "#",
-    description: "Erken asama girisimlerden buyume evresindeki projelere kadar nitelikli baglantilar kurmak isteyenler icin.",
+    description: "Erken aşama girişimlerden büyüme evresindeki projelere kadar nitelikli bağlantılar kurmak isteyenler için.",
     submitterRole: "manager",
     status: "approved",
     createdAt: "2026-01-01T00:00:00.000Z",
   },
   {
     id: "placeholder-dubai-yatirim",
-    groupName: "Dubai Yatirim Cevresi",
+    groupName: "Dubai Yatırım Çevresi",
     platform: "LinkedIn",
     category: "yatirim",
-    country: "Birlesik Arap Emirlikleri",
+    country: "Birleşik Arap Emirlikleri",
     city: "Dubai",
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Melek yatirim, fonlar ve girisim ekosistemi etrafinda bulusan Turk profesyoneller icin secili topluluk.",
+    callToActionText: "Melek yatırım, fonlar ve girişim ekosistemi etrafında buluşan Türk profesyoneller için seçili topluluk.",
     conditions: "",
     whatsappLink: "#",
-    description: "Yatirim, ortaklik ve bolgesel network gelistirmek isteyenler icin tasarlandi.",
+    description: "Yatırım, ortaklık ve bölgesel network geliştirmek isteyenler için tasarlandı.",
     submitterRole: "manager",
     status: "approved",
     createdAt: "2026-01-02T00:00:00.000Z",
   },
   {
     id: "placeholder-londra-kariyer",
-    groupName: "Londra Kariyer ve Is Iliskileri",
+    groupName: "Londra Kariyer ve İş İlişkileri",
     platform: "WhatsApp",
     category: "is",
-    country: "Birlesik Krallik",
+    country: "Birleşik Krallık",
     city: "Londra",
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Kurumsal kariyer, is gelistirme ve sektor ici baglantilar icin aktif Turk profesyonel toplulugu.",
+    callToActionText: "Kurumsal kariyer, iş geliştirme ve sektör içi bağlantılar için aktif Türk profesyonel topluluğu.",
     conditions: "",
     whatsappLink: "#",
-    description: "Deneyim paylasimi, yonlendirme ve is birlikleri odakli bir ag.",
+    description: "Deneyim paylaşımı, yönlendirme ve iş birlikleri odaklı bir ağ.",
     submitterRole: "member",
     status: "approved",
     createdAt: "2026-01-03T00:00:00.000Z",
   },
   {
     id: "placeholder-amsterdam-akademik",
-    groupName: "Amsterdam Akademik Turkler",
+    groupName: "Amsterdam Akademik Türkler",
     platform: "Telegram",
     category: "akademik",
     country: "Hollanda",
@@ -159,17 +159,17 @@ const placeholderLandings: WhatsAppLanding[] = [
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Arastirmacilar, yuksek lisans ogrencileri ve akademisyenler icin bilgi ve duyuru toplulugu.",
+    callToActionText: "Araştırmacılar, yüksek lisans öğrencileri ve akademisyenler için bilgi ve duyuru topluluğu.",
     conditions: "",
     whatsappLink: "#",
-    description: "Konferans, burs ve ortak calisma firsatlari etrafinda bulusan akademik cevre.",
+    description: "Konferans, burs ve ortak çalışma fırsatları etrafında buluşan akademik çevre.",
     submitterRole: "manager",
     status: "approved",
     createdAt: "2026-01-04T00:00:00.000Z",
   },
   {
     id: "placeholder-toronto-dayanisma",
-    groupName: "Toronto Dayanisma Hatti",
+    groupName: "Toronto Dayanışma Hattı",
     platform: "Facebook",
     category: "dayanisma",
     country: "Kanada",
@@ -177,17 +177,17 @@ const placeholderLandings: WhatsAppLanding[] = [
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Yeni tasinanlar ve yerlesik uyeler arasinda hizli destek, yonlendirme ve yardimlasma icin kuruldu.",
+    callToActionText: "Yeni taşınanlar ve yerleşik üyeler arasında hızlı destek, yönlendirme ve yardımlaşma için kuruldu.",
     conditions: "",
     whatsappLink: "#",
-    description: "Sehirde hayata uyum, sosyal destek ve guvenilir tavsiyeler icin canli topluluk.",
+    description: "Şehirde hayata uyum, sosyal destek ve güvenilir tavsiyeler için canlı topluluk.",
     submitterRole: "member",
     status: "approved",
     createdAt: "2026-01-05T00:00:00.000Z",
   },
   {
     id: "placeholder-paris-hobi",
-    groupName: "Paris Sosyal ve Hobi Kulubu",
+    groupName: "Paris Sosyal ve Hobi Kulübü",
     platform: "Instagram",
     category: "hobi",
     country: "Fransa",
@@ -195,10 +195,10 @@ const placeholderLandings: WhatsAppLanding[] = [
     mode: "visual",
     heroImage: waPlaceholderImage,
     tagline: "",
-    callToActionText: "Etkinlik, kultur, hafta sonu planlari ve ortak ilgi alanlari etrafinda bulusan sosyal grup.",
+    callToActionText: "Etkinlik, kültür, hafta sonu planları ve ortak ilgi alanları etrafında buluşan sosyal grup.",
     conditions: "",
     whatsappLink: "#",
-    description: "Gundelik sosyallesme ve sehirde birlikte aktivite yapmak isteyenler icin.",
+    description: "Gündelik sosyalleşme ve şehirde birlikte aktivite yapmak isteyenler için.",
     submitterRole: "manager",
     status: "approved",
     createdAt: "2026-01-06T00:00:00.000Z",
@@ -918,7 +918,7 @@ export default function AddWhatsAppPage() {
                     <div className={`${detailMetaCardClass} border-violet-600 bg-violet-500 text-white`}>
                       <Users className="h-4.5 w-4.5 shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Yonetici</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Yönetici</p>
                         <p className="truncate text-sm font-semibold">{managerName}</p>
                       </div>
                     </div>
@@ -1142,6 +1142,8 @@ export default function AddWhatsAppPage() {
                       <Input
                         id="group-name"
                         className={formFieldInsetClass}
+                        lang="tr"
+                        spellCheck
                         value={groupForm.groupName}
                         onChange={(event) => updateGroupForm("groupName", event.target.value)}
                         placeholder="Örn: Berlin Türk Girişimciler"
@@ -1164,6 +1166,8 @@ export default function AddWhatsAppPage() {
                       <Input
                         id="country"
                         className={formFieldInsetClass}
+                        lang="tr"
+                        spellCheck
                         value={groupForm.country}
                         onChange={(event) => updateGroupForm("country", event.target.value)}
                         placeholder="Almanya"
@@ -1175,6 +1179,8 @@ export default function AddWhatsAppPage() {
                       <Textarea
                         id="description"
                         className={formFieldInsetClass}
+                        lang="tr"
+                        spellCheck
                         rows={3}
                         value={groupForm.description}
                         onChange={(event) => updateGroupForm("description", event.target.value)}
@@ -1218,6 +1224,8 @@ export default function AddWhatsAppPage() {
                         <Textarea
                           id="cta-text"
                           className={formFieldInsetClass}
+                          lang="tr"
+                          spellCheck
                           rows={4}
                           value={groupForm.callToActionText}
                           onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
@@ -1230,6 +1238,8 @@ export default function AddWhatsAppPage() {
                         <Textarea
                           id="conditions"
                           className={formFieldInsetClass}
+                          lang="tr"
+                          spellCheck
                           rows={4}
                           value={groupForm.conditions}
                           onChange={(event) => updateGroupForm("conditions", event.target.value)}
@@ -1242,6 +1252,8 @@ export default function AddWhatsAppPage() {
                         <Input
                           id="admin-name"
                           className={formFieldInsetClass}
+                          lang="tr"
+                          spellCheck
                           value={groupForm.adminName}
                           onChange={(event) => updateGroupForm("adminName", event.target.value)}
                           placeholder="Ad Soyad"

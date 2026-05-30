@@ -381,6 +381,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-group-name">Topluluk Adı</Label>
                 <Input
                   id="edit-group-name"
+                  lang="tr"
+                  spellCheck
                   value={editState.groupName}
                   onChange={(event) => updateEditState("groupName", event.target.value)}
                 />
@@ -422,6 +424,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-country">Ülke</Label>
                 <Input
                   id="edit-country"
+                  lang="tr"
+                  spellCheck
                   value={editState.country}
                   onChange={(event) => updateEditState("country", event.target.value)}
                 />
@@ -431,6 +435,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-city">Şehir</Label>
                 <Input
                   id="edit-city"
+                  lang="tr"
+                  spellCheck
                   value={editState.city}
                   onChange={(event) => updateEditState("city", event.target.value)}
                 />
@@ -459,6 +465,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-admin-name">Yönetici Adı</Label>
                 <Input
                   id="edit-admin-name"
+                  lang="tr"
+                  spellCheck
                   value={editState.adminName}
                   onChange={(event) => updateEditState("adminName", event.target.value)}
                 />
@@ -519,6 +527,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-call-to-action">Yeni Üyeler İçin Mesaj</Label>
                 <Textarea
                   id="edit-call-to-action"
+                  lang="tr"
+                  spellCheck
                   rows={4}
                   value={editState.callToActionText}
                   onChange={(event) => updateEditState("callToActionText", event.target.value)}
@@ -529,6 +539,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-conditions">Topluluk Kuralları</Label>
                 <Textarea
                   id="edit-conditions"
+                  lang="tr"
+                  spellCheck
                   rows={4}
                   value={editState.conditions}
                   onChange={(event) => updateEditState("conditions", event.target.value)}
@@ -539,6 +551,8 @@ export default function WhatsAppLandingsModeration() {
                 <Label htmlFor="edit-description">Açıklama / Metadata</Label>
                 <Textarea
                   id="edit-description"
+                  lang="tr"
+                  spellCheck
                   rows={4}
                   value={editState.description}
                   onChange={(event) => updateEditState("description", event.target.value)}
