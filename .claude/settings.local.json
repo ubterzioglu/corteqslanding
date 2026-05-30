@@ -13,7 +13,11 @@
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:8080)",
       "Bash(pkill -f \"npm run dev\")",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(npx supabase *)",
+      "Bash(supabase --version)",
+      "Bash(PGPASSWORD=\"PPPlll!11321132\" psql \"postgresql://postgres@db.injprdrsklkxgnaiixzh.supabase.co:5432/postgres\" -c \"SELECT id, group_name, status, description FROM whatsapp_landings WHERE status = 'approved' ORDER BY created_at DESC;\")",
+      "Bash(PGPASSWORD=\"PPPlll!11321132\" psql \"postgresql://postgres@db.injprdrsklkxgnaiixzh.supabase.co:5432/postgres\")"
     ]
   }
 }

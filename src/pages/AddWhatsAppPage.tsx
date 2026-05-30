@@ -305,6 +305,7 @@ export default function AddWhatsAppPage() {
   const [joinForm, setJoinForm] = useState<JoinFormState>(initialJoinForm);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
   const heroImageInputRef = useRef<HTMLInputElement | null>(null);
+  const formFieldInsetClass = "mx-0.5 w-[calc(100%-4px)]";
 
   useEffect(() => {
     document.dispatchEvent(new Event("render-complete"));
@@ -586,14 +587,12 @@ export default function AddWhatsAppPage() {
 
     if (badges.length === 0) return null;
 
-    const badgeSize = isDetailView ? "text-sm font-semibold" : "text-xs font-medium";
-
     return (
       <div className="flex flex-col gap-2">
         {badges.map((badge) => (
           <Tooltip key={badge.label}>
             <TooltipTrigger asChild>
-              <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center ${badgeSize} ${badge.className}`}>
+              <Badge className={`flex h-8 w-full cursor-default items-center justify-center border px-3 text-center text-xs font-semibold ${badge.className}`}>
                 {badge.label}
               </Badge>
             </TooltipTrigger>
@@ -643,8 +642,8 @@ export default function AddWhatsAppPage() {
     // Category badge (vibrant colors)
     const Icon = categoryMeta[landing.category].icon;
     badges.push(
-      <Badge key="category" className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-semibold ${categoryMeta[landing.category].chipClass}`}>
-        <Icon className="mr-2 h-4 w-4" />
+      <Badge key="category" className={`flex h-8 w-full cursor-default items-center justify-center border px-3 text-center text-xs font-semibold ${categoryMeta[landing.category].chipClass}`}>
+        <Icon className="mr-1.5 h-3 w-3" />
         {categoryMeta[landing.category].label}
       </Badge>
     );
@@ -970,24 +969,33 @@ export default function AddWhatsAppPage() {
                     </span>
                   </span>
                 </h1>
-                <div className="mt-4 grid max-w-[28rem] grid-cols-2 gap-3 sm:grid-cols-3">
-                  <Badge className="flex w-full justify-center border border-emerald-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
+                <div className="mt-4 grid max-w-[28rem] grid-cols-3 gap-3">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-emerald-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
                     WhatsApp
                   </Badge>
-                  <Badge className="flex w-full justify-center border border-sky-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-sky-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
                     Telegram
                   </Badge>
-                  <Badge className="flex w-full justify-center border border-indigo-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-indigo-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
                     Discord
                   </Badge>
-                  <Badge className="flex w-full justify-center border border-blue-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-blue-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-blue-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-blue-700 shadow-sm backdrop-blur-sm">
                     Facebook
                   </Badge>
-                  <Badge className="flex w-full justify-center border border-pink-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-pink-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-pink-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-pink-700 shadow-sm backdrop-blur-sm">
                     Instagram
                   </Badge>
-                  <Badge className="flex w-full justify-center border border-orange-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-orange-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex h-9 w-full items-center justify-center border border-blue-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-blue-800 shadow-sm backdrop-blur-sm">
                     LinkedIn
+                  </Badge>
+                  <Badge className="flex h-9 w-full items-center justify-center border border-slate-300/70 bg-white/88 px-4 text-center text-sm font-semibold text-slate-900 shadow-sm backdrop-blur-sm">
+                    X
+                  </Badge>
+                  <Badge className="flex h-9 w-full items-center justify-center border border-red-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-red-600 shadow-sm backdrop-blur-sm">
+                    YouTube
+                  </Badge>
+                  <Badge className="flex h-9 w-full items-center justify-center border border-orange-200/70 bg-white/88 px-4 text-center text-sm font-semibold text-orange-600 shadow-sm backdrop-blur-sm">
+                    Reddit
                   </Badge>
                 </div>
                 <div className="mt-5 space-y-2">
@@ -1047,7 +1055,7 @@ export default function AddWhatsAppPage() {
                     <div>
                       <Label htmlFor="platform">Platform *</Label>
                       <Select value={groupForm.platform} onValueChange={(value) => updateGroupForm("platform", value)}>
-                        <SelectTrigger id="platform" className="mt-1">
+                        <SelectTrigger id="platform" className={`mt-1 ${formFieldInsetClass}`}>
                           <SelectValue placeholder="Platform seç" />
                         </SelectTrigger>
                         <SelectContent>
@@ -1064,6 +1072,7 @@ export default function AddWhatsAppPage() {
                       <Label htmlFor="group-name">Grup Adı *</Label>
                       <Input
                         id="group-name"
+                        className={formFieldInsetClass}
                         value={groupForm.groupName}
                         onChange={(event) => updateGroupForm("groupName", event.target.value)}
                         placeholder="Örn: Berlin Türk Girişimciler"
@@ -1074,6 +1083,7 @@ export default function AddWhatsAppPage() {
                       <Label htmlFor="whatsapp-link">Topluluk Linki *</Label>
                       <Input
                         id="whatsapp-link"
+                        className={formFieldInsetClass}
                         value={groupForm.whatsappLink}
                         onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
                         placeholder="https://..."
@@ -1084,6 +1094,7 @@ export default function AddWhatsAppPage() {
                       <Label htmlFor="country">Ülke *</Label>
                       <Input
                         id="country"
+                        className={formFieldInsetClass}
                         value={groupForm.country}
                         onChange={(event) => updateGroupForm("country", event.target.value)}
                         placeholder="Almanya"
@@ -1094,6 +1105,7 @@ export default function AddWhatsAppPage() {
                       <Label htmlFor="description">Kısa Açıklama</Label>
                       <Textarea
                         id="description"
+                        className={formFieldInsetClass}
                         rows={3}
                         value={groupForm.description}
                         onChange={(event) => updateGroupForm("description", event.target.value)}
@@ -1136,6 +1148,7 @@ export default function AddWhatsAppPage() {
                         <Label htmlFor="cta-text">Yeni üyeler için mesaj</Label>
                         <Textarea
                           id="cta-text"
+                          className={formFieldInsetClass}
                           rows={4}
                           value={groupForm.callToActionText}
                           onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
@@ -1147,6 +1160,7 @@ export default function AddWhatsAppPage() {
                         <Label htmlFor="conditions">Topluluk Kuralları</Label>
                         <Textarea
                           id="conditions"
+                          className={formFieldInsetClass}
                           rows={4}
                           value={groupForm.conditions}
                           onChange={(event) => updateGroupForm("conditions", event.target.value)}
@@ -1158,6 +1172,7 @@ export default function AddWhatsAppPage() {
                         <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad *</Label>
                         <Input
                           id="admin-name"
+                          className={formFieldInsetClass}
                           value={groupForm.adminName}
                           onChange={(event) => updateGroupForm("adminName", event.target.value)}
                           placeholder="Ad Soyad"
@@ -1169,6 +1184,7 @@ export default function AddWhatsAppPage() {
                         <Input
                           id="admin-email"
                           type="email"
+                          className={formFieldInsetClass}
                           value={groupForm.adminEmail}
                           onChange={(event) => updateGroupForm("adminEmail", event.target.value)}
                           placeholder="ornek@email.com"
@@ -1179,6 +1195,7 @@ export default function AddWhatsAppPage() {
                         <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon *</Label>
                         <Input
                           id="admin-phone"
+                          className={formFieldInsetClass}
                           value={groupForm.adminPhone}
                           onChange={(event) => updateGroupForm("adminPhone", event.target.value)}
                           placeholder="+49 ..."
@@ -1263,8 +1280,8 @@ export default function AddWhatsAppPage() {
                       <div className="flex flex-1 flex-col p-5">
                         <div className="flex flex-col gap-2">
                           {renderApprovalBadges(landing)}
-                          <Badge className={`flex w-full justify-center border ${categoryMeta[landing.category].chipClass}`}>
-                            <Icon className="mr-1 h-3 w-3" />
+                          <Badge className={`flex h-8 w-full items-center justify-center border px-3 text-xs font-semibold ${categoryMeta[landing.category].chipClass}`}>
+                            <Icon className="mr-1.5 h-3 w-3" />
                             {categoryMeta[landing.category].label}
                           </Badge>
                         </div>
