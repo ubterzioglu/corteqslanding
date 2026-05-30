@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import AddWhatsAppPage from "@/pages/AddWhatsAppPage";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const toastSpy = vi.fn();
 const listLandingsSpy = vi.fn();
@@ -53,11 +54,13 @@ const listFixture = [
 
 function renderPage(initialEntry = "/addcom") {
   return render(
-    <MemoryRouter initialEntries={[initialEntry]}>
-      <Routes>
-        <Route path="/addcom" element={<AddWhatsAppPage />} />
-      </Routes>
-    </MemoryRouter>,
+    <TooltipProvider>
+      <MemoryRouter initialEntries={[initialEntry]}>
+        <Routes>
+          <Route path="/addcom" element={<AddWhatsAppPage />} />
+        </Routes>
+      </MemoryRouter>
+    </TooltipProvider>,
   );
 }
 
@@ -76,7 +79,7 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText(/Grup, ülke veya açıklama ara/i), {
+    fireEvent.change(screen.getByPlaceholderText(/Topluluk ara/i), {
       target: { value: "Tokyo" },
     });
 
@@ -88,6 +91,19 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     expect(screen.getByText(/Katıl ve ağını büyüt/i)).toBeInTheDocument();
+  });
+
+  it("shows '-' for manager when admin name is missing", async () => {
+    getLandingSpy.mockResolvedValue({
+      ...listFixture[0],
+      adminName: undefined,
+    });
+
+    renderPage("/addcom?group=berlin-girisim");
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    expect(screen.getByText("Yonetici")).toBeInTheDocument();
+    expect(screen.getByText("-")).toBeInTheDocument();
   });
 
   it("shows not found state for an unknown landing slug", async () => {

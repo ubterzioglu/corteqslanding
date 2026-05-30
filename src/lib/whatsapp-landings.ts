@@ -119,6 +119,11 @@ function parseBooleanTag(description: string | null | undefined, tagName: string
   return match[1].toLowerCase() === "true";
 }
 
+function normalizeOptionalText(value?: string | null) {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
 function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
   return {
     id: row.slug,
@@ -134,9 +139,9 @@ function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     callToActionText: row.call_to_action_text ?? "",
     conditions: row.conditions ?? "",
     whatsappLink: row.whatsapp_link,
-    adminName: row.admin_name ?? undefined,
-    adminContact: row.admin_contact ?? undefined,
-    description: row.description ?? undefined,
+    adminName: normalizeOptionalText(row.admin_name),
+    adminContact: normalizeOptionalText(row.admin_contact),
+    description: normalizeOptionalText(row.description),
     submitterRole: parseSubmitterRole(row.description),
     memberApproved: parseBooleanTag(row.description, "Badge member", true),
     adminApproved: parseBooleanTag(row.description, "Badge admin", row.status === "approved"),
@@ -183,6 +188,8 @@ export async function submitLanding(input: SaveLandingInput): Promise<{ slug: st
   const user = await getAuthenticatedUser();
   const baseSlug = slugify(`${input.groupName}-${input.city}`) || `addwa-${Date.now()}`;
   let slug = baseSlug;
+  const adminName = normalizeOptionalText(input.adminName) ?? null;
+  const adminContact = normalizeOptionalText(input.adminContact) ?? null;
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const { data } = await supabase.from("whatsapp_landings").select("id").eq("slug", slug).maybeSingle();
@@ -203,8 +210,8 @@ export async function submitLanding(input: SaveLandingInput): Promise<{ slug: st
     call_to_action_text: input.callToActionText?.trim() || null,
     conditions: input.conditions?.trim() || null,
     whatsapp_link: input.whatsappLink.trim(),
-    admin_name: input.adminName?.trim() || null,
-    admin_contact: input.adminContact?.trim() || null,
+    admin_name: adminName,
+    admin_contact: adminContact,
     description: input.description?.trim() || null,
   };
 
@@ -287,6 +294,9 @@ export async function updateLandingTagline(dbId: string, tagline: string) {
 }
 
 export async function updateLanding(dbId: string, input: UpdateLandingInput) {
+  const adminName = normalizeOptionalText(input.adminName) ?? null;
+  const adminContact = normalizeOptionalText(input.adminContact) ?? null;
+
   const { error } = await supabase
     .from("whatsapp_landings")
     .update({
@@ -300,8 +310,8 @@ export async function updateLanding(dbId: string, input: UpdateLandingInput) {
       call_to_action_text: input.callToActionText?.trim() || null,
       conditions: input.conditions?.trim() || null,
       whatsapp_link: input.whatsappLink.trim(),
-      admin_name: input.adminName?.trim() || null,
-      admin_contact: input.adminContact?.trim() || null,
+      admin_name: adminName,
+      admin_contact: adminContact,
       description: input.description?.trim() || null,
       updated_at: new Date().toISOString(),
     })
