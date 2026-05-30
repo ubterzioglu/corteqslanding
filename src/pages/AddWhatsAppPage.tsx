@@ -594,7 +594,7 @@ export default function AddWhatsAppPage() {
               Mesajlaşma Grupları
             </h1>
             <p className="mx-auto mt-2 max-w-3xl text-center text-sm text-slate-600 md:text-base">
-              Şehrindeki WhatsApp ve Telegram gruplarını keşfet.
+              Dünyadaki Türk WhatsApp ve Telegram gruplarını keşfet.
             </p>
           </div>
           <div className="mb-4 flex flex-wrap justify-center gap-2">
@@ -603,12 +603,12 @@ export default function AddWhatsAppPage() {
             <Badge className="border-0 bg-orange-100 text-orange-700">Diaspora Ağı</Badge>
           </div>
           <h2 className="mx-auto max-w-5xl text-center text-3xl font-black leading-tight text-slate-900 md:text-5xl">
-            Aradığın Grup Burada
+            Her konuda grupları saniyeler içinde bul.
           </h2>
           <p className="mx-auto mt-4 max-w-4xl text-center text-base leading-8 text-slate-600 md:text-2xl">
-            Alumni, sağlık, hobi ve iş gruplarını saniyeler içinde bul.
+            Sana uygun gruba katıl
             <br />
-            Sana uygun gruba katıl veya sen de grubunu ücretsiz ekle.
+            veya sen de grubunu ücretsiz ekle.
           </p>
         </section>
 
