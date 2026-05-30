@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
@@ -69,6 +70,13 @@ type EditLandingState = UpdateLandingInput & {
   adminApproved: boolean;
 };
 
+type ApprovalSelection = "member" | "admin";
+
+function getApprovalSelection(memberApproved: boolean, adminApproved: boolean): ApprovalSelection {
+  if (adminApproved) return "admin";
+  return "member";
+}
+
 function parseAdminContact(adminContact?: string) {
   const lines = adminContact?.split("\n").map((line) => line.trim()).filter(Boolean) ?? [];
   const emailLine = lines.find((line) => line.toLowerCase().startsWith("e-posta:"));
@@ -85,6 +93,8 @@ function parseAdminContact(adminContact?: string) {
 function createEditState(row: WhatsAppLanding): EditLandingState | null {
   if (!row.dbId) return null;
   const { adminEmail, adminPhone } = parseAdminContact(row.adminContact);
+  const approvalSelection = getApprovalSelection(row.memberApproved ?? true, row.adminApproved ?? false);
+
   return {
     dbId: row.dbId,
     slug: row.id,
@@ -104,8 +114,8 @@ function createEditState(row: WhatsAppLanding): EditLandingState | null {
     description: row.description ?? "",
     adminEmail,
     adminPhone,
-    memberApproved: row.memberApproved ?? true,
-    adminApproved: row.adminApproved ?? false,
+    memberApproved: approvalSelection === "member",
+    adminApproved: approvalSelection === "admin",
   };
 }
 
@@ -178,8 +188,21 @@ export default function WhatsAppLandingsModeration() {
     setEditState((current) => (current ? { ...current, [field]: value } : current));
   };
 
+  const setApprovalSelection = (value: ApprovalSelection) => {
+    setEditState((current) => {
+      if (!current) return current;
+
+      return {
+        ...current,
+        memberApproved: value === "member",
+        adminApproved: value === "admin",
+      };
+    });
+  };
+
   const handleEditSave = async () => {
     if (!editState) return;
+    const approvalSelection = getApprovalSelection(editState.memberApproved, editState.adminApproved);
 
     try {
       setSavingEdit(true);
@@ -208,8 +231,8 @@ export default function WhatsAppLandingsModeration() {
             .replace(/\[Badge admin:\s*(true|false)\]\s*/gi, "")
             .trim(),
           `[Platform: ${editState.platform}]`,
-          `[Badge member: ${editState.memberApproved ? "true" : "false"}]`,
-          `[Badge admin: ${editState.adminApproved ? "true" : "false"}]`,
+          `[Badge member: ${approvalSelection === "member" ? "true" : "false"}]`,
+          `[Badge admin: ${approvalSelection === "admin" ? "true" : "false"}]`,
         ]
           .filter(Boolean)
           .join(" ")
@@ -495,32 +518,43 @@ export default function WhatsAppLandingsModeration() {
 
               <div className="space-y-2">
                 <Label>Onay Badge'leri</Label>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className={editState.memberApproved ? "border-sky-600 bg-sky-500 text-white hover:bg-sky-600" : ""}
-                    onClick={() => {
-                      const next = !editState.memberApproved;
-                      updateEditState("memberApproved", next);
-                      if (next) updateEditState("adminApproved", false);
-                    }}
+                <RadioGroup
+                  value={getApprovalSelection(editState.memberApproved, editState.adminApproved)}
+                  onValueChange={(value) => setApprovalSelection(value as ApprovalSelection)}
+                  className="grid gap-2 sm:grid-cols-2"
+                >
+                  <label
+                    htmlFor="approval-member"
+                    className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition ${
+                      editState.memberApproved
+                        ? "border-sky-600 bg-sky-500 text-white"
+                        : "border-border bg-background text-foreground"
+                    }`}
                   >
-                    Üye onaylı!
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className={editState.adminApproved ? "border-orange-600 bg-orange-500 text-white hover:bg-orange-600" : ""}
-                    onClick={() => {
-                      const next = !editState.adminApproved;
-                      updateEditState("adminApproved", next);
-                      if (next) updateEditState("memberApproved", false);
-                    }}
+                    <RadioGroupItem
+                      id="approval-member"
+                      value="member"
+                      className={editState.memberApproved ? "border-white text-white" : "border-sky-600 text-sky-600"}
+                    />
+                    <span className="font-medium">Üye onaylı!</span>
+                  </label>
+
+                  <label
+                    htmlFor="approval-admin"
+                    className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition ${
+                      editState.adminApproved
+                        ? "border-orange-600 bg-orange-500 text-white"
+                        : "border-border bg-background text-foreground"
+                    }`}
                   >
-                    Admin onaylı!
-                  </Button>
-                </div>
+                    <RadioGroupItem
+                      id="approval-admin"
+                      value="admin"
+                      className={editState.adminApproved ? "border-white text-white" : "border-orange-600 text-orange-600"}
+                    />
+                    <span className="font-medium">Admin onaylı!</span>
+                  </label>
+                </RadioGroup>
               </div>
 
               <div className="space-y-1.5">
