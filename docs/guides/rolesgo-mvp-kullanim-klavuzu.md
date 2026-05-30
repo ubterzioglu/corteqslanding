@@ -1,6 +1,6 @@
 # RolesGo MVP Kullanım Kılavuzu
 
-Bu doküman, `rolesgo.md` uyumlu yeni üye sistemi MVP'sinin günlük kullanımını ve operasyon adımlarını özetler.
+Bu doküman, `docs/modules/rolesgo/rolesgo.md` uyumlu yeni üye sistemi MVP'sinin günlük kullanımını ve operasyon adımlarını özetler.
 
 ## 1. Ne Deploy Edildi
 

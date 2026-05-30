@@ -21,8 +21,7 @@ Bu rehber `https://corteqs.net/admin/workspace/resources` ekranındaki günlük 
 - `Göster` butonu kaydı tekrar aktif listeye taşır.
 
 ## 4. CSV ile Toplu Güncelleme
-- Toplu yükleme standardı için kökteki `dosyalardatabase.md` dosyasını kullanın.
+- Toplu yükleme standardı için `docs/operations/database/dosyalardatabase.md` dosyasını kullanın.
 - Komut:
   - `npm run import:resources:replace`
 - Bu komut mevcut kayıtları atomik şekilde CSV ile değiştirir.
-

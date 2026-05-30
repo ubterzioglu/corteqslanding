@@ -10,7 +10,7 @@ React + Vite landing page backed by Supabase for form collection, admin review, 
 - Lansman admin screen at `/admin/lansman` under the shared admin shell
 - Supabase Auth based admin access with `public.admin_users`
 - Supabase Edge Function for email notifications
-- Additional workflow notes are kept under `docu/`.
+- Additional workflow notes are indexed under `docs/README.md`.
 
 ## Local setup
 

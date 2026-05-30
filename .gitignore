@@ -48,7 +48,9 @@ env-config.js
 *.crt
 
 # Archive
-_archive/
+_archive/*
+!_archive/cleanup-2026-05-30/
+!_archive/cleanup-2026-05-30/**
 
 # Package managers
 .pnpm-store/
