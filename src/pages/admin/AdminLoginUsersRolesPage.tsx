@@ -195,6 +195,16 @@ const parseAttributeDraftValue = (attribute: UserAttributeDisplayItem, rawValue:
   return rawValue.trim();
 };
 
+const getAttributeDraftSeedValue = (attribute: UserAttributeDisplayItem) => (attribute.value === "-" ? "" : attribute.value);
+
+const shouldSaveAttributeDraft = (
+  attribute: UserAttributeDisplayItem,
+  draftValue: string,
+  nextVisibility: "public" | "private" | "admin_only",
+) => {
+  return draftValue !== getAttributeDraftSeedValue(attribute) || nextVisibility !== attribute.visibility;
+};
+
 const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
@@ -631,7 +641,7 @@ const AdminLoginUsersRolesPage = () => {
 
       setUserDataDialogState(nextState);
       setAttributeDrafts(
-        Object.fromEntries(nextState.attributes.map((attribute) => [attribute.key, attribute.value === "-" ? "" : attribute.value])),
+        Object.fromEntries(nextState.attributes.map((attribute) => [attribute.key, getAttributeDraftSeedValue(attribute)])),
       );
       setVisibilityDrafts(
         Object.fromEntries(nextState.attributes.map((attribute) => [attribute.key, attribute.visibility])),
@@ -664,12 +674,14 @@ const AdminLoginUsersRolesPage = () => {
 
       for (const attribute of userDataDialogState.attributes) {
         const rawValue = attributeDrafts[attribute.key] ?? "";
+        const nextVisibility = visibilityDrafts[attribute.key] ?? attribute.visibility;
+        if (!shouldSaveAttributeDraft(attribute, rawValue, nextVisibility)) continue;
         const payload = parseAttributeDraftValue(attribute, rawValue);
         await updateUserProfileAttributeAsAdmin(
           userDataDialogState.user.user_id,
           attribute.key,
           payload,
-          visibilityDrafts[attribute.key] ?? "private",
+          nextVisibility,
         );
       }
 

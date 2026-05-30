@@ -73,6 +73,15 @@ const attributeCatalog = [
     is_system: false,
     sort_order: 20,
   },
+  {
+    id: "attr-country",
+    key: "country",
+    label: "Ülke",
+    description: "Profil ülkesi",
+    data_type: "text",
+    is_system: false,
+    sort_order: 30,
+  },
 ];
 const userTaxonomySelections = [{ group_id: "group-focus", option_id: "option-community" }];
 const roleTaxonomyRules = [{ group_id: "group-focus" }];
@@ -288,7 +297,7 @@ describe("AdminLoginUsersRolesPage", () => {
     });
 
     expect(setUserRoleAsAdmin).not.toHaveBeenCalled();
-    expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalledWith("user-1", "full_name", "Ayşe Yılmaz", "public");
+    expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalledTimes(1);
     expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalledWith("user-1", "bio", "Topluluk lideri.", "public");
     expect(updateUserTaxonomySelectionAsAdmin).toHaveBeenCalledWith("user-1", "focus", ["community", "growth"]);
   });
