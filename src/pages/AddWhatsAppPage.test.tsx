@@ -105,7 +105,7 @@ describe("AddWhatsAppPage", () => {
     renderPage("/addcom?group=berlin-girisim");
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    expect(screen.getByText("Yonetici")).toBeInTheDocument();
+    expect(screen.getByText("Yönetici")).toBeInTheDocument();
     expect(screen.getByText("-")).toBeInTheDocument();
   });
 
