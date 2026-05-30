@@ -620,11 +620,11 @@ export default function AddWhatsAppPage() {
         <div className="mt-8 rounded-[1.75rem] border border-emerald-200/60 bg-white/90 p-5 shadow-[0_16px_50px_rgba(15,23,42,0.06)]">
           <Accordion type="single" collapsible defaultValue={undefined} className="w-full">
             <AccordionItem value="addwa-form" className="border-b-0">
-              <AccordionTrigger className="py-0 hover:no-underline">
-                <div className="mb-1 flex items-start gap-3 text-left">
-                  <Sparkles className="mt-1 h-5 w-5 shrink-0 text-emerald-600" />
-                  <div>
-                    <h2 className="text-lg font-bold text-foreground md:text-xl">Topluluk Ekle</h2>
+              <AccordionTrigger className="min-h-[76px] py-0 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Sparkles className="h-4 w-4 shrink-0 text-emerald-600" />
+                  <div className="flex items-center">
+                    <h2 className="text-base font-bold text-foreground md:text-lg">Topluluk Ekle</h2>
                   </div>
                 </div>
               </AccordionTrigger>
@@ -793,20 +793,19 @@ export default function AddWhatsAppPage() {
         </div>
 
         <section className="mt-8">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="relative w-full max-w-md">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              className="pl-9"
+              placeholder="Grup, ülke veya açıklama ara"
+            />
+          </div>
+
+          <div className="mt-5">
             <div>
               <h2 className="text-3xl font-bold text-slate-900">Katılabileceğin Topluluklar</h2>
-            </div>
-            <div className="grid w-full gap-3 lg:max-w-md">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                  className="pl-9"
-                  placeholder="Grup, ülke veya açıklama ara"
-                />
-              </div>
             </div>
           </div>
 
