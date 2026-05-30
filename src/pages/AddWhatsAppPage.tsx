@@ -343,6 +343,15 @@ export default function AddWhatsAppPage() {
     });
   }, [landings, searchQuery]);
 
+  const selectedConditionItems = useMemo(
+    () =>
+      selectedLanding?.conditions
+        ?.split("\n")
+        .map((condition) => condition.trim())
+        .filter(Boolean) ?? [],
+    [selectedLanding],
+  );
+
   const updateGroupForm = <K extends keyof GroupFormState>(field: K, value: GroupFormState[K]) => {
     setGroupForm((current) => ({ ...current, [field]: value }));
   };
@@ -721,24 +730,28 @@ export default function AddWhatsAppPage() {
                 </div>
               </section>
 
-              {selectedLanding.conditions ? (
-                <section className="rounded-[1.75rem] border border-border bg-card p-6 md:p-8">
-                  <div className="mb-4 flex items-center gap-2">
-                    <ShieldCheck className="h-5 w-5 text-emerald-600" />
-                    <h2 className="text-xl font-bold text-foreground">Grup koşulları</h2>
-                  </div>
-                  <ul className="space-y-2">
-                    {selectedLanding.conditions
-                      .split("\n")
-                      .map((condition) => condition.trim())
-                      .filter(Boolean)
-                      .map((condition) => (
-                        <li key={condition} className="flex items-start gap-2 text-sm text-foreground/85">
-                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                          <span>{condition}</span>
-                        </li>
-                      ))}
-                  </ul>
+              {selectedConditionItems.length > 0 ? (
+                <section className="rounded-[1.75rem] border border-border bg-card p-2 md:p-3">
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="group-conditions" className="border-none">
+                      <AccordionTrigger className="rounded-[1.25rem] px-4 py-4 text-left text-lg font-bold text-foreground hover:no-underline md:px-5">
+                        <span className="flex items-center gap-2">
+                          <ShieldCheck className="h-5 w-5 text-emerald-600" />
+                          Grup koşulları
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-4 pb-4 pt-1 md:px-5">
+                        <ul className="space-y-2">
+                          {selectedConditionItems.map((condition) => (
+                            <li key={condition} className="flex items-start gap-2 text-sm text-foreground/85">
+                              <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+                              <span>{condition}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
                 </section>
               ) : null}
             </div>
