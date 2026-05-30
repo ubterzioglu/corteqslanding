@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { setUserRoleAsAdmin } from "@/lib/admin";
 import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
@@ -29,6 +31,76 @@ type RoleRow = {
 type AssignmentRow = {
   user_id: string;
   role_id: string;
+};
+
+type UserAttributeValueRow = {
+  attribute_id: string;
+  value_text: string | null;
+  value_json: unknown;
+  visibility: "public" | "private" | "admin_only";
+  approval_status: "draft" | "pending" | "approved" | "rejected";
+};
+
+type AttributeCatalogDetailRow = {
+  id: string;
+  key: string;
+  label: string;
+  description: string | null;
+  data_type: string;
+  is_system: boolean;
+  sort_order: number;
+};
+
+type UserTaxonomySelectionRow = {
+  group_id: string;
+  option_id: string;
+};
+
+type TaxonomyGroupRow = {
+  id: string;
+  key: string;
+  label: string;
+  description: string | null;
+  sort_order: number;
+};
+
+type TaxonomyOptionRow = {
+  id: string;
+  group_id: string;
+  key: string;
+  label: string;
+  description: string | null;
+  sort_order: number;
+};
+
+type UserAttributeDisplayItem = {
+  key: string;
+  label: string;
+  description: string | null;
+  dataType: string;
+  value: string;
+  visibility: "public" | "private" | "admin_only";
+  approvalStatus: "draft" | "pending" | "approved" | "rejected";
+  isSystem: boolean;
+  sortOrder: number;
+};
+
+type UserTaxonomyDisplayGroup = {
+  key: string;
+  label: string;
+  description: string | null;
+  options: Array<{
+    key: string;
+    label: string;
+  }>;
+  sortOrder: number;
+};
+
+type UserDataDialogState = {
+  user: UserRow;
+  roleLabel: string;
+  attributes: UserAttributeDisplayItem[];
+  taxonomyGroups: UserTaxonomyDisplayGroup[];
 };
 
 type ProviderFilter = "google" | "all" | "unknown";
@@ -66,6 +138,37 @@ const buildUsersRolesSearchParams = (filters: UsersRolesBackFilters) => {
   if (filters.to) next.set("to", filters.to);
   if (filters.sort && filters.sort !== DEFAULT_SORT_FILTER) next.set("sort", filters.sort);
   return next;
+};
+
+const formatAttributeValue = (valueText: string | null, valueJson: unknown) => {
+  if (typeof valueText === "string" && valueText.trim()) {
+    return valueText.trim();
+  }
+
+  if (Array.isArray(valueJson)) {
+    const parts = valueJson
+      .map((item) => (typeof item === "string" ? item : JSON.stringify(item)))
+      .filter(Boolean);
+    return parts.length > 0 ? parts.join(", ") : "-";
+  }
+
+  if (valueJson && typeof valueJson === "object") {
+    try {
+      return JSON.stringify(valueJson, null, 2);
+    } catch {
+      return String(valueJson);
+    }
+  }
+
+  if (typeof valueJson === "string" && valueJson.trim()) {
+    return valueJson.trim();
+  }
+
+  if (typeof valueJson === "number" || typeof valueJson === "boolean") {
+    return String(valueJson);
+  }
+
+  return "-";
 };
 
 const guideSections: AdminPageGuideSection[] = [
@@ -109,7 +212,6 @@ const guideSections: AdminPageGuideSection[] = [
 
 const AdminLoginUsersRolesPage = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [rows, setRows] = useState<UserRow[]>([]);
@@ -123,6 +225,10 @@ const AdminLoginUsersRolesPage = () => {
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [draftRoleByUserId, setDraftRoleByUserId] = useState<Record<string, string>>({});
+  const [isUserDataDialogOpen, setIsUserDataDialogOpen] = useState(false);
+  const [userDataDialogLoading, setUserDataDialogLoading] = useState(false);
+  const [userDataDialogError, setUserDataDialogError] = useState<string | null>(null);
+  const [userDataDialogState, setUserDataDialogState] = useState<UserDataDialogState | null>(null);
 
   const searchText = searchParams.get("q") ?? "";
   const providerFilter = parseProviderFilter(searchParams.get("provider"));
@@ -360,38 +466,141 @@ const AdminLoginUsersRolesPage = () => {
     await handleRoleChange(row, draftRoleId);
   };
 
-  const handleOpenAttributes = (row: UserRow) => {
+  const handleOpenAttributes = async (row: UserRow) => {
     const selectedRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
-    const backSearchParams = buildUsersRolesSearchParams({
-      q: searchText || undefined,
-      provider: providerFilter,
-      from: fromDate || undefined,
-      to: toDate || undefined,
-      sort: sortFilter,
-    });
-    const nextSearchParams = new URLSearchParams(backSearchParams);
+    const roleLabel = roleById.get(selectedRoleId)?.label ?? row.profile_type;
 
-    if (selectedRoleId) {
-      nextSearchParams.set("selectedRoleId", selectedRoleId);
-    }
+    setIsUserDataDialogOpen(true);
+    setUserDataDialogLoading(true);
+    setUserDataDialogError(null);
+    setUserDataDialogState(null);
 
-    const search = nextSearchParams.toString();
-    const backSearch = backSearchParams.toString();
-    navigate(
-      {
-        pathname: "/admin/new-member/attributes",
-        search: search ? `?${search}` : "",
-      },
-      {
-        state: {
-          userId: row.user_id,
-          userName: row.full_name,
-          userEmail: row.email,
-          selectedRoleId,
-          backTo: `/admin/new-member/users-roles${backSearch ? `?${backSearch}` : ""}`,
+    try {
+      const { data: attributeRows, error: attributeError } = await supabase
+        .from("user_profile_attributes")
+        .select("attribute_id, value_text, value_json, visibility, approval_status")
+        .eq("user_id", row.user_id);
+
+      if (attributeError) throw attributeError;
+
+      const typedAttributeRows = (attributeRows ?? []) as UserAttributeValueRow[];
+      const attributeIds = typedAttributeRows.map((item) => item.attribute_id);
+
+      const [catalogResult, taxonomySelectionsResult] = await Promise.all([
+        attributeIds.length > 0
+          ? supabase
+              .from("attribute_catalog")
+              .select("id, key, label, description, data_type, is_system, sort_order")
+              .in("id", attributeIds)
+          : Promise.resolve({ data: [], error: null }),
+        supabase
+          .from("user_taxonomy_selections")
+          .select("group_id, option_id")
+          .eq("user_id", row.user_id),
+      ]);
+
+      if (catalogResult.error || taxonomySelectionsResult.error) {
+        throw catalogResult.error ?? taxonomySelectionsResult.error;
+      }
+
+      const taxonomySelections = (taxonomySelectionsResult.data ?? []) as UserTaxonomySelectionRow[];
+      const groupIds = Array.from(new Set(taxonomySelections.map((item) => item.group_id)));
+      const optionIds = Array.from(new Set(taxonomySelections.map((item) => item.option_id)));
+
+      const [taxonomyGroupsResult, taxonomyOptionsResult] = await Promise.all([
+        groupIds.length > 0
+          ? supabase
+              .from("taxonomy_groups")
+              .select("id, key, label, description, sort_order")
+              .in("id", groupIds)
+          : Promise.resolve({ data: [], error: null }),
+        optionIds.length > 0
+          ? supabase
+              .from("taxonomy_options")
+              .select("id, group_id, key, label, description, sort_order")
+              .in("id", optionIds)
+          : Promise.resolve({ data: [], error: null }),
+      ]);
+
+      if (taxonomyGroupsResult.error || taxonomyOptionsResult.error) {
+        throw taxonomyGroupsResult.error ?? taxonomyOptionsResult.error;
+      }
+
+      const catalogById = new Map(
+        ((catalogResult.data ?? []) as AttributeCatalogDetailRow[]).map((item) => [item.id, item]),
+      );
+
+      const attributes: UserAttributeDisplayItem[] = [
+        {
+          key: "full_name",
+          label: "Görünen İsim",
+          description: "user_profiles içindeki görünen ad",
+          dataType: "text",
+          value: row.full_name?.trim() || "-",
+          visibility: "public",
+          approvalStatus: "approved",
+          isSystem: true,
+          sortOrder: 0,
         },
-      },
-    );
+        ...typedAttributeRows
+          .map((item) => {
+            const catalog = catalogById.get(item.attribute_id);
+            if (!catalog) return null;
+            return {
+              key: catalog.key,
+              label: catalog.label,
+              description: catalog.description,
+              dataType: catalog.data_type,
+              value: formatAttributeValue(item.value_text, item.value_json),
+              visibility: item.visibility,
+              approvalStatus: item.approval_status,
+              isSystem: catalog.is_system,
+              sortOrder: catalog.sort_order,
+            } satisfies UserAttributeDisplayItem;
+          })
+          .filter((item): item is UserAttributeDisplayItem => Boolean(item))
+          .sort((left, right) => left.sortOrder - right.sortOrder),
+      ];
+
+      const taxonomyGroupsById = new Map(
+        ((taxonomyGroupsResult.data ?? []) as TaxonomyGroupRow[]).map((item) => [item.id, item]),
+      );
+      const taxonomyOptionsById = new Map(
+        ((taxonomyOptionsResult.data ?? []) as TaxonomyOptionRow[]).map((item) => [item.id, item]),
+      );
+
+      const taxonomyGroupMap = new Map<string, UserTaxonomyDisplayGroup>();
+      for (const selection of taxonomySelections) {
+        const group = taxonomyGroupsById.get(selection.group_id);
+        const option = taxonomyOptionsById.get(selection.option_id);
+        if (!group || !option) continue;
+
+        const existing = taxonomyGroupMap.get(group.id);
+        if (existing) {
+          existing.options.push({ key: option.key, label: option.label });
+          continue;
+        }
+
+        taxonomyGroupMap.set(group.id, {
+          key: group.key,
+          label: group.label,
+          description: group.description,
+          options: [{ key: option.key, label: option.label }],
+          sortOrder: group.sort_order,
+        });
+      }
+
+      setUserDataDialogState({
+        user: row,
+        roleLabel,
+        attributes,
+        taxonomyGroups: Array.from(taxonomyGroupMap.values()).sort((left, right) => left.sortOrder - right.sortOrder),
+      });
+    } catch (error) {
+      setUserDataDialogError(error instanceof Error ? error.message : "Beklenmeyen bir hata oluştu.");
+    } finally {
+      setUserDataDialogLoading(false);
+    }
   };
 
   return (
@@ -581,6 +790,91 @@ const AdminLoginUsersRolesPage = () => {
           ) : null}
         </CardContent>
       </Card>
+
+      <Dialog open={isUserDataDialogOpen} onOpenChange={setIsUserDataDialogOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Kullanıcı Attribute Verileri</DialogTitle>
+            <DialogDescription>
+              Role veya feature kuralı değil, kullanıcının gerçekten girdiği profil verileri gösterilir.
+            </DialogDescription>
+          </DialogHeader>
+
+          {userDataDialogLoading ? <p className="text-sm text-muted-foreground">Kullanıcı verileri yükleniyor...</p> : null}
+          {userDataDialogError ? <p className="text-sm text-destructive">Veri alınamadı: {userDataDialogError}</p> : null}
+
+          {!userDataDialogLoading && !userDataDialogError && userDataDialogState ? (
+            <div className="space-y-4">
+              <div className="rounded-lg border bg-muted/30 p-3">
+                <p className="text-sm font-medium text-foreground">{userDataDialogState.user.full_name || "İsimsiz kullanıcı"}</p>
+                <p className="text-xs text-muted-foreground">{userDataDialogState.user.email || "-"}</p>
+                <p className="mt-1 text-xs text-muted-foreground">Rol: {userDataDialogState.roleLabel}</p>
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">Attribute Değerleri</h3>
+                  <p className="text-xs text-muted-foreground">Kullanıcının doldurduğu alanlar ve mevcut onay/görünürlük durumu.</p>
+                </div>
+
+                {userDataDialogState.attributes.length > 0 ? (
+                  <div className="max-h-[420px] space-y-2 overflow-y-auto pr-1">
+                    {userDataDialogState.attributes.map((attribute) => (
+                      <div key={attribute.key} className="rounded-lg border p-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-medium text-foreground">{attribute.label}</p>
+                          <Badge variant="outline" className="text-[10px]">{attribute.key}</Badge>
+                          <Badge variant="outline" className="text-[10px]">{attribute.dataType}</Badge>
+                          <Badge variant="outline" className="text-[10px]">{attribute.visibility}</Badge>
+                          <Badge variant="outline" className="text-[10px]">{attribute.approvalStatus}</Badge>
+                        </div>
+                        {attribute.description ? (
+                          <p className="mt-1 text-xs text-muted-foreground">{attribute.description}</p>
+                        ) : null}
+                        <pre className="mt-2 whitespace-pre-wrap break-words rounded-md bg-muted/40 px-3 py-2 text-xs text-foreground">
+                          {attribute.value}
+                        </pre>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">Bu kullanıcı henüz attribute değeri girmemiş.</p>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">Taxonomy Seçimleri</h3>
+                  <p className="text-xs text-muted-foreground">Rolüne bağlı sınıflandırma veya alt tip seçimleri.</p>
+                </div>
+
+                {userDataDialogState.taxonomyGroups.length > 0 ? (
+                  <div className="space-y-2">
+                    {userDataDialogState.taxonomyGroups.map((group) => (
+                      <div key={group.key} className="rounded-lg border p-3">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-sm font-medium text-foreground">{group.label}</p>
+                          <Badge variant="outline" className="text-[10px]">{group.key}</Badge>
+                        </div>
+                        {group.description ? <p className="mt-1 text-xs text-muted-foreground">{group.description}</p> : null}
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {group.options.map((option) => (
+                            <Badge key={option.key} variant="secondary">
+                              {option.label}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">Bu kullanıcı için seçilmiş taxonomy kaydı yok.</p>
+                )}
+              </div>
+            </div>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
