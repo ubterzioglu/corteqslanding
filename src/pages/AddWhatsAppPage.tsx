@@ -647,32 +647,39 @@ export default function AddWhatsAppPage() {
             <img
               src={messagingHeroImage}
               alt="Türk diaspora topluluklarını temsil eden mesajlaşma grupları görseli"
-              className="h-[28rem] w-full object-cover md:h-[36rem]"
+              className="h-[24rem] w-full object-cover md:h-[30rem]"
             />
-            <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-1/2 md:p-8">
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.64)_0%,rgba(255,255,255,0.48)_28%,rgba(255,255,255,0.16)_52%,rgba(255,255,255,0)_72%)]" />
+            <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-[52%] md:p-10">
               <div className="max-w-full text-slate-950">
-                <h1 className="flex items-center gap-3 text-[2rem] font-black tracking-tight md:text-[3.25rem] md:whitespace-nowrap">
-                  <MessageSquare className="h-7 w-7 shrink-0 text-cyan-600 md:h-9 md:w-9" />
-                  <span className="bg-[linear-gradient(90deg,#059669_0%,#0ea5e9_38%,#2563eb_68%,#f97316_100%)] bg-clip-text text-transparent">
+                <h1 className="flex items-center gap-3 text-[1.9rem] font-black tracking-tight md:text-[3rem] md:whitespace-nowrap">
+                  <MessageSquare className="h-7 w-7 shrink-0 text-emerald-600 md:h-9 md:w-9" />
+                  <span className="bg-[linear-gradient(90deg,#10b981_0%,#06b6d4_32%,#2563eb_62%,#f97316_100%)] bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(255,255,255,0.38)]">
                     Mesajlaşma Toplulukları
                   </span>
                 </h1>
                 <div className="mt-4 flex flex-wrap gap-3">
-                  <Badge className="border-0 bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-emerald-700">WhatsApp</Badge>
-                  <Badge className="border-0 bg-sky-100 px-4 py-1.5 text-sm font-semibold text-sky-700">Telegram</Badge>
-                  <Badge className="border-0 bg-orange-100 px-4 py-1.5 text-sm font-semibold text-orange-700">Diaspora Ağı</Badge>
+                  <Badge className="border border-emerald-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
+                    WhatsApp
+                  </Badge>
+                  <Badge className="border border-sky-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
+                    Telegram
+                  </Badge>
+                  <Badge className="border border-orange-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-orange-700 shadow-sm backdrop-blur-sm">
+                    Diaspora Ağı
+                  </Badge>
                 </div>
-                <div className="mt-4 space-y-1.5">
-                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
+                <div className="mt-5 space-y-2">
+                  <p className="text-[1.05rem] font-medium text-slate-800 md:text-[1.22rem] md:whitespace-nowrap">
                     Dünyadaki Türk WhatsApp ve Telegram topluluklarını keşfet.
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
                     Her konuda grupları saniyeler içinde bul.
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
                     Sana uygun gruba katıl!
                   </p>
-                  <p className="text-lg font-semibold md:text-[1.28rem] md:whitespace-nowrap">
+                  <p className="text-[1.05rem] font-semibold text-slate-900 md:text-[1.22rem] md:whitespace-nowrap">
                     Grubunu ücretsiz ekle.
                   </p>
                 </div>
