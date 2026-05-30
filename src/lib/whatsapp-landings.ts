@@ -64,6 +64,22 @@ export interface JoinRequestInput {
   note?: string;
 }
 
+export interface UpdateLandingInput {
+  groupName: string;
+  category: LandingCategory;
+  country: string;
+  city: string;
+  mode: LandingMode;
+  heroImage?: string;
+  tagline?: string;
+  callToActionText?: string;
+  conditions?: string;
+  whatsappLink: string;
+  adminName?: string;
+  adminContact?: string;
+  description?: string;
+}
+
 const WHATSAPP_LANDING_HERO_BUCKET = "whatsapp-landing-hero";
 
 export function slugify(value: string) {
@@ -244,6 +260,30 @@ export async function updateLandingTagline(dbId: string, tagline: string) {
     .from("whatsapp_landings")
     .update({
       tagline: tagline.trim() || null,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", dbId);
+
+  if (error) throw error;
+}
+
+export async function updateLanding(dbId: string, input: UpdateLandingInput) {
+  const { error } = await supabase
+    .from("whatsapp_landings")
+    .update({
+      group_name: input.groupName.trim(),
+      category: input.category,
+      country: input.country.trim(),
+      city: input.city.trim(),
+      mode: input.mode,
+      hero_image: input.heroImage?.trim() || null,
+      tagline: input.tagline?.trim() || null,
+      call_to_action_text: input.callToActionText?.trim() || null,
+      conditions: input.conditions?.trim() || null,
+      whatsapp_link: input.whatsappLink.trim(),
+      admin_name: input.adminName?.trim() || null,
+      admin_contact: input.adminContact?.trim() || null,
+      description: input.description?.trim() || null,
       updated_at: new Date().toISOString(),
     })
     .eq("id", dbId);

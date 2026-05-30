@@ -791,10 +791,15 @@ export default function AddWhatsAppPage() {
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.97)_0%,rgba(255,255,255,0.92)_22%,rgba(255,255,255,0.72)_40%,rgba(255,255,255,0.34)_58%,rgba(255,255,255,0.08)_72%,rgba(255,255,255,0)_82%)]" />
             <div className="absolute inset-y-0 left-0 flex w-full items-center p-6 md:w-[52%] md:p-10">
               <div className="max-w-full text-slate-950">
-                <h1 className="flex items-center gap-3 text-[1.9rem] font-black tracking-tight md:text-[3rem] md:whitespace-nowrap">
-                  <MessageSquare className="h-7 w-7 shrink-0 text-emerald-600 md:h-9 md:w-9" />
-                  <span className="bg-[linear-gradient(90deg,#059669_0%,#06b6d4_26%,#2563eb_54%,#7c3aed_78%,#f97316_100%)] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(255,255,255,0.52)]">
-                    Mesajlaşma Toplulukları
+                <h1 className="flex items-start gap-3 text-[1.9rem] font-black tracking-tight md:text-[3rem]">
+                  <MessageSquare className="mt-1 h-7 w-7 shrink-0 text-emerald-600 md:h-9 md:w-9" />
+                  <span className="flex flex-col leading-[0.95]">
+                    <span className="bg-[linear-gradient(90deg,#059669_0%,#06b6d4_30%,#2563eb_65%)] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(255,255,255,0.52)]">
+                      Sosyal Medya
+                    </span>
+                    <span className="bg-[linear-gradient(90deg,#2563eb_0%,#7c3aed_45%,#f97316_100%)] bg-clip-text text-transparent drop-shadow-[0_3px_14px_rgba(255,255,255,0.52)]">
+                      Türk Toplulukları
+                    </span>
                   </span>
                 </h1>
                 <div className="mt-4 flex flex-wrap gap-3">
@@ -804,8 +809,17 @@ export default function AddWhatsAppPage() {
                   <Badge className="border border-sky-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
                     Telegram
                   </Badge>
+                  <Badge className="border border-indigo-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
+                    Discord
+                  </Badge>
+                  <Badge className="border border-blue-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur-sm">
+                    Facebook
+                  </Badge>
+                  <Badge className="border border-pink-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-pink-700 shadow-sm backdrop-blur-sm">
+                    Instagram
+                  </Badge>
                   <Badge className="border border-orange-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-orange-700 shadow-sm backdrop-blur-sm">
-                    Diaspora Ağı
+                    LinkedIn
                   </Badge>
                 </div>
                 <div className="mt-5 space-y-2">
