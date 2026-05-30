@@ -16,7 +16,6 @@ import {
   listAllSubmissions,
   setLandingStatus,
   type LandingCategory,
-  type LandingMode,
   type LandingStatus,
   type UpdateLandingInput,
   type WhatsAppLanding,
@@ -47,15 +46,29 @@ const categoryOptions: Array<{ value: LandingCategory; label: string }> = [
   { value: "diger", label: "Diğer" },
 ];
 
-const modeOptions: Array<{ value: LandingMode; label: string }> = [
-  { value: "visual", label: "Görselli" },
-  { value: "text", label: "Metin" },
-];
+type EditLandingState = UpdateLandingInput & {
+  dbId: string;
+  slug: string;
+  adminEmail: string;
+  adminPhone: string;
+};
 
-type EditLandingState = UpdateLandingInput & { dbId: string; slug: string };
+function parseAdminContact(adminContact?: string) {
+  const lines = adminContact?.split("\n").map((line) => line.trim()).filter(Boolean) ?? [];
+  const emailLine = lines.find((line) => line.toLowerCase().startsWith("e-posta:"));
+  const phoneLine = lines.find((line) => line.toLowerCase().startsWith("telefon:"));
+  const emailMatch = adminContact?.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+  const phoneMatch = adminContact?.match(/(\+?\d[\d\s().-]{6,}\d)/);
+
+  return {
+    adminEmail: emailLine ? emailLine.replace(/^e-posta:\s*/i, "").trim() : (emailMatch?.[0] ?? ""),
+    adminPhone: phoneLine ? phoneLine.replace(/^telefon:\s*/i, "").trim() : (phoneMatch?.[0]?.trim() ?? ""),
+  };
+}
 
 function createEditState(row: WhatsAppLanding): EditLandingState | null {
   if (!row.dbId) return null;
+  const { adminEmail, adminPhone } = parseAdminContact(row.adminContact);
   return {
     dbId: row.dbId,
     slug: row.id,
@@ -65,13 +78,15 @@ function createEditState(row: WhatsAppLanding): EditLandingState | null {
     city: row.city,
     mode: row.mode,
     heroImage: row.heroImage ?? "",
-    tagline: row.tagline ?? "",
+    tagline: "",
     callToActionText: row.callToActionText ?? "",
     conditions: row.conditions ?? "",
     whatsappLink: row.whatsappLink,
     adminName: row.adminName ?? "",
     adminContact: row.adminContact ?? "",
     description: row.description ?? "",
+    adminEmail,
+    adminPhone,
   };
 }
 
@@ -155,12 +170,17 @@ export default function WhatsAppLandingsModeration() {
         city: editState.city,
         mode: editState.mode,
         heroImage: editState.heroImage,
-        tagline: editState.tagline,
+        tagline: "",
         callToActionText: editState.callToActionText,
         conditions: editState.conditions,
         whatsappLink: editState.whatsappLink,
         adminName: editState.adminName,
-        adminContact: editState.adminContact,
+        adminContact: [
+          editState.adminEmail.trim() ? `E-posta: ${editState.adminEmail.trim()}` : "",
+          editState.adminPhone.trim() ? `Telefon: ${editState.adminPhone.trim()}` : "",
+        ]
+          .filter(Boolean)
+          .join("\n"),
         description: editState.description,
       });
       toast({ title: "Topluluk kaydı güncellendi" });
@@ -228,7 +248,7 @@ export default function WhatsAppLandingsModeration() {
                     <div className="min-w-0">
                       <p className="truncate font-semibold text-foreground">{row.groupName}</p>
                       <p className="truncate text-xs text-muted-foreground">
-                        {row.tagline || row.callToActionText || "Tagline veya çağrı metni yok"}
+                        {row.callToActionText || "Çağrı metni yok"}
                       </p>
                     </div>
 
@@ -335,16 +355,6 @@ export default function WhatsAppLandingsModeration() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="edit-tagline">Tagline</Label>
-                <Input
-                  id="edit-tagline"
-                  value={editState.tagline}
-                  onChange={(event) => updateEditState("tagline", event.target.value)}
-                  placeholder="Sadece admin tarafından eklenecek kısa slogan"
-                />
-              </div>
-
-              <div className="space-y-1.5">
                 <Label>Kategori</Label>
                 <Select value={editState.category} onValueChange={(value) => updateEditState("category", value as LandingCategory)}>
                   <SelectTrigger>
@@ -352,22 +362,6 @@ export default function WhatsAppLandingsModeration() {
                   </SelectTrigger>
                   <SelectContent>
                     {categoryOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label>Mod</Label>
-                <Select value={editState.mode} onValueChange={(value) => updateEditState("mode", value as LandingMode)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {modeOptions.map((option) => (
                       <SelectItem key={option.value} value={option.value}>
                         {option.label}
                       </SelectItem>
@@ -423,12 +417,23 @@ export default function WhatsAppLandingsModeration() {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="edit-admin-contact">Yönetici İletişim</Label>
+                <Label htmlFor="edit-admin-email">Yönetici Mail</Label>
                 <Input
-                  id="edit-admin-contact"
-                  value={editState.adminContact}
-                  onChange={(event) => updateEditState("adminContact", event.target.value)}
-                  placeholder="E-posta / Telefon"
+                  id="edit-admin-email"
+                  type="email"
+                  value={editState.adminEmail}
+                  onChange={(event) => updateEditState("adminEmail", event.target.value)}
+                  placeholder="ornek@email.com"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="edit-admin-phone">Yönetici Telefon</Label>
+                <Input
+                  id="edit-admin-phone"
+                  value={editState.adminPhone}
+                  onChange={(event) => updateEditState("adminPhone", event.target.value)}
+                  placeholder="+44 20 0000 0000"
                 />
               </div>
 
