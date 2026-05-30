@@ -26,6 +26,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -90,6 +91,24 @@ const categoryMeta: Record<
     chipClass: "border-border bg-muted text-muted-foreground",
   },
 };
+
+const approvalBadgeMeta = {
+  member: {
+    label: "Üye Onaylı!",
+    tooltip: "Bu topluluk kaydı bir topluluk üyesi tarafından gönderildi.",
+    className: "border-sky-200 bg-sky-100 text-sky-800",
+  },
+  manager: {
+    label: "Topluluk Yöneticisi Onaylı!",
+    tooltip: "Bu topluluk kaydı doğrudan topluluk yöneticisi tarafından gönderildi.",
+    className: "border-emerald-200 bg-emerald-100 text-emerald-800",
+  },
+  admin: {
+    label: "CorteQS Admin Onaylı!",
+    tooltip: "Bu topluluk CorteQS admin ekibi tarafından incelenip onaylandı.",
+    className: "border-orange-200 bg-orange-100 text-orange-800",
+  },
+} as const;
 
 type GroupFormState = {
   submitterRole: "manager" | "member";
@@ -406,6 +425,37 @@ export default function AddWhatsAppPage() {
     navigate("/addwa", { replace: true });
   };
 
+  const renderApprovalBadges = (landing: WhatsAppLanding) => {
+    const badges = [];
+
+    if (landing.submitterRole === "member") {
+      badges.push(approvalBadgeMeta.member);
+    } else if (landing.submitterRole === "manager") {
+      badges.push(approvalBadgeMeta.manager);
+    }
+
+    if (landing.status === "approved") {
+      badges.push(approvalBadgeMeta.admin);
+    }
+
+    if (badges.length === 0) return null;
+
+    return (
+      <div className="flex flex-wrap gap-2">
+        {badges.map((badge) => (
+          <Tooltip key={badge.label}>
+            <TooltipTrigger asChild>
+              <Badge className={`cursor-default border ${badge.className}`}>{badge.label}</Badge>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{badge.tooltip}</p>
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </div>
+    );
+  };
+
   if (groupSlug) {
     return (
       <div className="min-h-screen bg-background">
@@ -447,6 +497,9 @@ export default function AddWhatsAppPage() {
                     className="h-72 w-full object-cover md:h-96"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
+                  <div className="absolute left-6 top-6 z-10 md:left-8 md:top-8">
+                    {renderApprovalBadges(selectedLanding)}
+                  </div>
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
                     <Badge className="mb-3 border-0 bg-emerald-500 text-white">
                       <MessageSquare className="mr-1 h-3 w-3" />
@@ -458,6 +511,7 @@ export default function AddWhatsAppPage() {
                 </section>
               ) : (
                 <section className="rounded-[2rem] border border-border bg-[linear-gradient(135deg,#ecfdf5_0%,#ffffff_55%,#f8fafc_100%)] p-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+                  <div className="mb-4 flex justify-center">{renderApprovalBadges(selectedLanding)}</div>
                   <Badge className={`mb-4 border ${categoryMeta[selectedLanding.category].chipClass}`}>
                     <MessageSquare className="mr-1 h-3 w-3" />
                     {categoryMeta[selectedLanding.category].label}
@@ -854,6 +908,7 @@ export default function AddWhatsAppPage() {
                       ) : null}
 
                       <div className="p-5">
+                        {renderApprovalBadges(landing) ? <div className="mb-3">{renderApprovalBadges(landing)}</div> : null}
                         <div className="flex items-start justify-between gap-3">
                           <Badge className={`border ${categoryMeta[landing.category].chipClass}`}>
                             <Icon className="mr-1 h-3 w-3" />

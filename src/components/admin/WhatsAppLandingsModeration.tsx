@@ -127,6 +127,11 @@ export default function WhatsAppLandingsModeration() {
                   <div className="flex flex-wrap gap-2 text-[11px] text-muted-foreground">
                     <span className="rounded-full bg-muted px-2 py-0.5">Kategori: {row.category}</span>
                     <span className="rounded-full bg-muted px-2 py-0.5">Mod: {row.mode}</span>
+                    {row.submitterRole ? (
+                      <span className="rounded-full bg-muted px-2 py-0.5">
+                        Başvuru: {row.submitterRole === "manager" ? "Topluluk Yöneticisi" : "Üye"}
+                      </span>
+                    ) : null}
                     {row.adminName ? <span className="rounded-full bg-muted px-2 py-0.5">Yönetici: {row.adminName}</span> : null}
                   </div>
 

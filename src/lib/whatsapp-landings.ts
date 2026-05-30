@@ -13,6 +13,7 @@ export type LandingCategory =
   | "dayanisma"
   | "diger";
 export type LandingStatus = "pending" | "approved" | "rejected";
+export type LandingSubmitterRole = "manager" | "member";
 
 type WhatsAppLandingRow = Tables<"whatsapp_landings">;
 type WhatsAppJoinRequestInsert = TablesInsert<"whatsapp_join_requests">;
@@ -33,6 +34,7 @@ export interface WhatsAppLanding {
   adminName?: string;
   adminContact?: string;
   description?: string;
+  submitterRole?: LandingSubmitterRole;
   status?: LandingStatus;
   rejectionReason?: string;
   createdAt: string;
@@ -78,6 +80,13 @@ export function slugify(value: string) {
     .slice(0, 60);
 }
 
+function parseSubmitterRole(description?: string | null): LandingSubmitterRole | undefined {
+  if (!description) return undefined;
+  if (description.includes("[Başvuru tipi: Topluluk Yöneticisiyim]")) return "manager";
+  if (description.includes("[Başvuru tipi: Topluluk Üyesiyim]")) return "member";
+  return undefined;
+}
+
 function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
   return {
     id: row.slug,
@@ -95,6 +104,7 @@ function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     adminName: row.admin_name ?? undefined,
     adminContact: row.admin_contact ?? undefined,
     description: row.description ?? undefined,
+    submitterRole: parseSubmitterRole(row.description),
     status: row.status as LandingStatus,
     rejectionReason: row.rejection_reason ?? undefined,
     createdAt: row.created_at,
