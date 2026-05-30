@@ -496,7 +496,7 @@ export default function AddWhatsAppPage() {
                   <img
                     src={selectedLanding.heroImage}
                     alt={selectedLanding.groupName}
-                    className="h-72 w-full object-cover md:h-96"
+                    className="aspect-video w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
                   <div className="absolute left-6 top-6 z-10 md:left-8 md:top-8">
@@ -866,7 +866,7 @@ export default function AddWhatsAppPage() {
         </div>
 
         <section className="mt-8">
-          <div className="relative w-full max-w-4xl">
+          <div className="relative w-full">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               value={searchQuery}
@@ -914,7 +914,7 @@ export default function AddWhatsAppPage() {
                           <img
                             src={landing.heroImage}
                             alt={landing.groupName}
-                            className="h-44 w-full object-cover"
+                            className="aspect-video w-full object-cover"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
                         </div>
