@@ -410,7 +410,6 @@ export default function AddWhatsAppPage() {
         city: "Genel",
         mode: groupForm.submitterRole === "manager" ? "visual" : "text",
         heroImage: groupForm.submitterRole === "manager" ? heroImageUrl ?? waPlaceholderImage : undefined,
-        tagline: groupForm.description,
         callToActionText: groupForm.callToActionText || groupForm.description,
         conditions: groupForm.conditions,
         whatsappLink: groupForm.whatsappLink,
