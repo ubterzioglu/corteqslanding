@@ -1174,7 +1174,7 @@ export default function AddWhatsAppPage() {
                         spellCheck
                         value={groupForm.country}
                         onChange={(event) => updateGroupForm("country", event.target.value)}
-                        placeholder="Almanya"
+                        placeholder="Global veya ülke adı giriniz"
                       />
                     </div>
 
