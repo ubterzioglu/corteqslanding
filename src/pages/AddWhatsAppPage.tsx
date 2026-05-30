@@ -828,23 +828,23 @@ export default function AddWhatsAppPage() {
                     </span>
                   </span>
                 </h1>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <Badge className="border border-emerald-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
+                <div className="mt-4 grid max-w-[28rem] grid-cols-2 gap-3 sm:grid-cols-3">
+                  <Badge className="flex w-full justify-center border border-emerald-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-emerald-700 shadow-sm backdrop-blur-sm">
                     WhatsApp
                   </Badge>
-                  <Badge className="border border-sky-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex w-full justify-center border border-sky-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-sky-700 shadow-sm backdrop-blur-sm">
                     Telegram
                   </Badge>
-                  <Badge className="border border-indigo-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex w-full justify-center border border-indigo-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-indigo-700 shadow-sm backdrop-blur-sm">
                     Discord
                   </Badge>
-                  <Badge className="border border-blue-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex w-full justify-center border border-blue-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-blue-700 shadow-sm backdrop-blur-sm">
                     Facebook
                   </Badge>
-                  <Badge className="border border-pink-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-pink-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex w-full justify-center border border-pink-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-pink-700 shadow-sm backdrop-blur-sm">
                     Instagram
                   </Badge>
-                  <Badge className="border border-orange-200/70 bg-white/88 px-4 py-1.5 text-sm font-semibold text-orange-700 shadow-sm backdrop-blur-sm">
+                  <Badge className="flex w-full justify-center border border-orange-200/70 bg-white/88 px-4 py-1.5 text-center text-sm font-semibold text-orange-700 shadow-sm backdrop-blur-sm">
                     LinkedIn
                   </Badge>
                 </div>
@@ -1065,7 +1065,7 @@ export default function AddWhatsAppPage() {
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               className="pl-9"
-              placeholder="Grup, ülke veya açıklama ara"
+              placeholder="Topluluk ara!"
             />
           </div>
 
