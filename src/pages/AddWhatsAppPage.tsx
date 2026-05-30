@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   Check,
+  ExternalLink,
   Globe,
   GraduationCap,
   HandHeart,
@@ -572,7 +573,7 @@ export default function AddWhatsAppPage() {
     navigate("/addcom", { replace: true });
   };
 
-  const renderApprovalBadges = (landing: WhatsAppLanding) => {
+  const renderApprovalBadges = (landing: WhatsAppLanding, isDetailView = false) => {
     const badges = [];
 
     if (landing.memberApproved) {
@@ -585,12 +586,14 @@ export default function AddWhatsAppPage() {
 
     if (badges.length === 0) return null;
 
+    const badgeSize = isDetailView ? "text-sm font-semibold" : "text-xs font-medium";
+
     return (
-      <div className="flex flex-col gap-2 sm:max-w-[260px]">
+      <div className="flex flex-col gap-2">
         {badges.map((badge) => (
           <Tooltip key={badge.label}>
             <TooltipTrigger asChild>
-              <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-medium ${badge.className}`}>
+              <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center ${badgeSize} ${badge.className}`}>
                 {badge.label}
               </Badge>
             </TooltipTrigger>
@@ -603,17 +606,169 @@ export default function AddWhatsAppPage() {
     );
   };
 
-  const renderPlatformMark = (platform?: string) => {
-    const meta = platform ? platformMarkMeta[platform] : undefined;
-    if (!meta) return null;
+  const renderDetailMetaBadges = (landing: WhatsAppLanding) => {
+    const badges: JSX.Element[] = [];
+
+    // Approval badges (detail view style)
+    if (landing.memberApproved) {
+      badges.push(
+        <Tooltip key="member-badge">
+          <TooltipTrigger asChild>
+            <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-semibold ${approvalBadgeMeta.member.className}`}>
+              {approvalBadgeMeta.member.label}
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{approvalBadgeMeta.member.tooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      );
+    }
+
+    if (landing.adminApproved) {
+      badges.push(
+        <Tooltip key="admin-badge">
+          <TooltipTrigger asChild>
+            <Badge className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-semibold ${approvalBadgeMeta.admin.className}`}>
+              {approvalBadgeMeta.admin.label}
+            </Badge>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{approvalBadgeMeta.admin.tooltip}</p>
+          </TooltipContent>
+        </Tooltip>
+      );
+    }
+
+    // Category badge (vibrant colors)
+    const Icon = categoryMeta[landing.category].icon;
+    badges.push(
+      <Badge key="category" className={`flex w-full cursor-default justify-center border px-3 py-1.5 text-center text-sm font-semibold ${categoryMeta[landing.category].chipClass}`}>
+        <Icon className="mr-2 h-4 w-4" />
+        {categoryMeta[landing.category].label}
+      </Badge>
+    );
+
+    // City badge (slate colors)
+    badges.push(
+      <Badge key="city" className="flex w-full cursor-default justify-center border border-slate-200 bg-slate-100 px-3 py-1.5 text-center text-sm font-semibold text-slate-700">
+        <MapPin className="mr-2 h-4 w-4" />
+        {landing.city}, {landing.country}
+      </Badge>
+    );
+
+    // Admin badge (if present, violet colors)
+    if (landing.adminName) {
+      badges.push(
+        <Badge key="admin" className="flex w-full cursor-default justify-center border border-violet-200 bg-violet-100 px-3 py-1.5 text-center text-sm font-semibold text-violet-800">
+          <Users className="mr-2 h-4 w-4" />
+          Yönetici: {landing.adminName}
+        </Badge>
+      );
+    }
+
+    if (badges.length === 0) return null;
+
+    return <div className="flex flex-col gap-2">{badges}</div>;
+  };
+
+  const renderPlatformLogo = (platform?: string) => {
+    if (!platform) return null;
+
+    const platformLogoMap: Record<string, { svg: JSX.Element; className: string }> = {
+      WhatsApp: {
+        className: "bg-[#e7f9ee]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#1f9d55" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.471 1.338h-11a5.5 5.5 0 0 0-5.5 5.5v11a5.5 5.5 0 0 0 5.5 5.5h11a5.5 5.5 0 0 0 5.5-5.5v-11a5.5 5.5 0 0 0-5.5-5.5zm-5.486 15.633a3.37 3.37 0 0 1-2.145-.7l-1.532.537.547-1.5a3.35 3.35 0 0 1-.487-1.8 3.37 3.37 0 1 1 3.617 3.463zm0-6.25a2.87 2.87 0 0 0-2.868 2.87 2.87 2.87 0 1 0 2.868-2.87z" />
+          </svg>
+        ),
+      },
+      Telegram: {
+        className: "bg-[#e7f4ff]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#229ED9" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.332-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.461c.54-.203 1.01.132.84.943z" />
+          </svg>
+        ),
+      },
+      Discord: {
+        className: "bg-[#eef0ff]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#5865F2" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.444.864-.607 1.25a18.27 18.27 0 0 0-5.487 0c-.163-.386-.395-.875-.607-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.042-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.294.075.075 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.062 0a.075.075 0 0 1 .079.009c.12.098.246.198.373.295a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.699.77 1.364 1.225 1.994a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.057c.5-4.761-.838-8.895-3.549-12.55a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-.965-2.157-2.156 0-1.193.960-2.157 2.157-2.157 1.198 0 2.167.964 2.157 2.157 0 1.19-.96 2.155-2.157 2.155zm7.975 0c-1.183 0-2.157-.965-2.157-2.156 0-1.193.960-2.157 2.157-2.157 1.198 0 2.167.964 2.157 2.157 0 1.19-.959 2.155-2.157 2.155z" />
+          </svg>
+        ),
+      },
+      Facebook: {
+        className: "bg-[#ecf3ff]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+          </svg>
+        ),
+      },
+      Instagram: {
+        className: "bg-[#fff0f6]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#E1306C" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.117.63c-.79.297-1.427.645-2.03 1.24-.595.593-.943 1.232-1.24 2.02-.297.788-.5 1.658-.56 2.936C.035 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.263 2.148.56 2.936.297.787.645 1.427 1.24 2.02.593.595 1.232.943 2.02 1.24.788.297 1.659.5 2.936.56C8.333 23.965 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.263 2.936-.56.787-.297 1.427-.645 2.02-1.24.595-.593.943-1.232 1.24-2.02.297-.788.5-1.659.56-2.936.057-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.263-2.148-.56-2.936-.297-.787-.645-1.427-1.24-2.02-.593-.595-1.232-.943-2.02-1.24-.788-.297-1.659-.5-2.936-.56C15.667.048 15.26 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.07 1.171.054 1.805.244 2.227.408.56.217.96.477 1.382.896.419.42.679.822.896 1.381.164.422.354 1.057.408 2.227.061 1.264.07 1.646.07 4.849s-.009 3.585-.07 4.849c-.054 1.171-.244 1.805-.408 2.227-.217.56-.477.96-.896 1.382-.42.419-.822.679-1.381.896-.422.164-1.057.354-2.227.408-1.264.061-1.646.07-4.849.07s-3.585-.009-4.849-.07c-1.171-.054-1.805-.244-2.227-.408-.56-.217-.96-.477-1.382-.896-.419-.42-.679-.822-.896-1.381-.164-.422-.354-1.057-.408-2.227-.061-1.264-.07-1.646-.07-4.849s.009-3.585.07-4.849c.054-1.171.244-1.805.408-2.227.217-.56.477-.96.896-1.382.42-.419.822-.679 1.381-.896.422-.164 1.057-.354 2.227-.408 1.264-.061 1.646-.07 4.849-.07z" />
+            <path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.322a1.44 1.44 0 1 1 0-2.881 1.44 1.44 0 0 1 0 2.881z" />
+          </svg>
+        ),
+      },
+      LinkedIn: {
+        className: "bg-[#eef7ff]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
+          </svg>
+        ),
+      },
+      X: {
+        className: "bg-slate-900",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.07-6.63-5.848 6.63H2.42l7.723-8.835L1.254 2.25h6.554l4.882 6.268L18.244 2.25zM17.51 19.31h1.828L5.84 4.126H3.863L17.51 19.31z" />
+          </svg>
+        ),
+      },
+      TikTok: {
+        className: "bg-slate-100",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.498 4.667c-1.625-1.44-1.562-3.643-1.562-3.667h-3.33v12.3c0 1.36-1.088 2.46-2.444 2.46-1.36 0-2.46-1.1-2.46-2.46 0-1.36 1.1-2.46 2.46-2.46.28 0 .56.04.814.12v-3.3a5.844 5.844 0 0 0-.814-.06c-3.4 0-6.166 2.76-6.166 6.16s2.766 6.166 6.166 6.166c3.4 0 6.166-2.766 6.166-6.166V9.3c1.242.872 2.746 1.35 4.404 1.35v-3.328c-.986 0-1.922-.22-2.768-.656z" />
+          </svg>
+        ),
+      },
+      YouTube: {
+        className: "bg-[#fff0f0]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        ),
+      },
+      Reddit: {
+        className: "bg-[#fff3ea]",
+        svg: (
+          <svg viewBox="0 0 24 24" fill="#FF5700" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.385 4.859-7.563 4.859-4.178 0-7.562-2.165-7.562-4.859 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.53l.375-1.844z" />
+          </svg>
+        ),
+      },
+    };
+
+    const logoMeta = platformLogoMap[platform];
+    if (!logoMeta) return null;
 
     return (
-      <span
+      <div
         title={platform}
-        className={`inline-flex h-7 min-w-7 items-center justify-center rounded-full px-2 text-[11px] font-black uppercase tracking-tight ${meta.className}`}
+        className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${logoMeta.className}`}
       >
-        {meta.short}
-      </span>
+        <div className="h-4 w-4">{logoMeta.svg}</div>
+      </div>
     );
   };
 

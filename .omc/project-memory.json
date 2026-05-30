@@ -228,14 +228,80 @@
   "hotPaths": [
     {
       "path": "",
+      "accessCount": 19,
+      "lastAccessed": 1780151253688,
+      "type": "directory"
+    },
+    {
+      "path": "src\\pages\\AddWhatsAppPage.tsx",
       "accessCount": 11,
-      "lastAccessed": 1780138539059,
+      "lastAccessed": 1780151522390,
+      "type": "file"
+    },
+    {
+      "path": "CLAUDE.md",
+      "accessCount": 3,
+      "lastAccessed": 1780150989925,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 3,
+      "lastAccessed": 1780151255205,
       "type": "directory"
     },
     {
       "path": "package.json",
-      "accessCount": 1,
-      "lastAccessed": 1780138512721,
+      "accessCount": 2,
+      "lastAccessed": 1780150912011,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 2,
+      "lastAccessed": 1780150912293,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 2,
+      "lastAccessed": 1780150913195,
+      "type": "file"
+    },
+    {
+      "path": "vite.config.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780150923929,
+      "type": "file"
+    },
+    {
+      "path": "vitest.config.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780150924278,
+      "type": "file"
+    },
+    {
+      "path": "src\\App.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1780150924516,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\whatsapp-landings.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780151239863,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\CaddePage.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1780151246127,
+      "type": "file"
+    },
+    {
+      "path": "src\\lib\\cadde.ts",
+      "accessCount": 2,
+      "lastAccessed": 1780151246688,
       "type": "file"
     },
     {
@@ -245,33 +311,9 @@
       "type": "file"
     },
     {
-      "path": "tsconfig.json",
-      "accessCount": 1,
-      "lastAccessed": 1780138523342,
-      "type": "file"
-    },
-    {
-      "path": "vitest.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1780138523846,
-      "type": "file"
-    },
-    {
       "path": "components.json",
       "accessCount": 1,
       "lastAccessed": 1780138524282,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 1,
-      "lastAccessed": 1780138535622,
-      "type": "file"
-    },
-    {
-      "path": "src\\App.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780138546849,
       "type": "file"
     },
     {
@@ -281,15 +323,63 @@
       "type": "file"
     },
     {
-      "path": "vite.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1780138547479,
-      "type": "file"
-    },
-    {
       "path": "docs\\PROJECT_TECHNICAL_OVERVIEW.md",
       "accessCount": 1,
       "lastAccessed": 1780138726123,
+      "type": "file"
+    },
+    {
+      "path": "playwright.config.ts",
+      "accessCount": 1,
+      "lastAccessed": 1780150924390,
+      "type": "file"
+    },
+    {
+      "path": "docs\\README.md",
+      "accessCount": 1,
+      "lastAccessed": 1780150933058,
+      "type": "file"
+    },
+    {
+      "path": "docs\\architecture\\PROJECT_TECHNICAL_OVERVIEW.md",
+      "accessCount": 1,
+      "lastAccessed": 1780150933313,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.app.json",
+      "accessCount": 1,
+      "lastAccessed": 1780150933569,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\ui\\badge.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780151234113,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\AddWhatsAppPage.test.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780151239812,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\admin\\AdminWhatsAppLandingsPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780151245356,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\admin\\WhatsAppLandingsModeration.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780151258562,
+      "type": "file"
+    },
+    {
+      "path": "src\\components\\ChatRegisterBar.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780151259089,
       "type": "file"
     }
   ],
