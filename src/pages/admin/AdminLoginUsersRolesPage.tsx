@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { setUserRoleAsAdmin } from "@/lib/admin";
+import { setUserRoleAsAdmin, updateUserProfileAttributeAsAdmin, updateUserTaxonomySelectionAsAdmin } from "@/lib/admin";
 import AdminPageGuideAccordion, { type AdminPageGuideSection } from "@/components/admin/AdminPageGuideAccordion";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -92,6 +94,7 @@ type UserTaxonomyDisplayGroup = {
   options: Array<{
     key: string;
     label: string;
+    isSelected: boolean;
   }>;
   sortOrder: number;
 };
@@ -99,6 +102,7 @@ type UserTaxonomyDisplayGroup = {
 type UserDataDialogState = {
   user: UserRow;
   roleLabel: string;
+  roleId: string;
   attributes: UserAttributeDisplayItem[];
   taxonomyGroups: UserTaxonomyDisplayGroup[];
 };
@@ -171,12 +175,32 @@ const formatAttributeValue = (valueText: string | null, valueJson: unknown) => {
   return "-";
 };
 
+const parseAttributeDraftValue = (attribute: UserAttributeDisplayItem, rawValue: string): unknown => {
+  if (attribute.dataType === "json") {
+    return rawValue.trim() ? JSON.parse(rawValue) : {};
+  }
+
+  if (attribute.dataType === "multi_select") {
+    return rawValue
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  if (attribute.dataType === "boolean") {
+    const normalized = rawValue.trim().toLowerCase();
+    return normalized === "true" || normalized === "evet" || normalized === "1";
+  }
+
+  return rawValue.trim();
+};
+
 const guideSections: AdminPageGuideSection[] = [
   {
     title: "Bu ekran ne için kullanılır?",
     items: [
       "Bu ekran, sisteme giriş yapmış kullanıcıların hangi rolde olduğunu görmek ve gerekiyorsa rolünü düzeltmek için kullanılır.",
-      "Kullanıcının bekleyen onayı veya ekstra feature override ihtiyacı var mı ilk bakışta burada anlaşılır.",
+      "Kullanıcının bekleyen onayı veya ekstra feature override ihtiyacı var mı ilk bakışta anlaşılır; detay yönetimi `Details` penceresinde yapılır.",
       "Bir kullanıcı yanlış dashboard, yanlış profil formu veya yanlış taxonomy seçim grubu görüyorsa ilk bakılacak yer burasıdır.",
     ],
   },
@@ -185,9 +209,9 @@ const guideSections: AdminPageGuideSection[] = [
     items: [
       "1. Üstteki arama kutusuna kullanıcının adını veya e-postasını yaz.",
       "2. Gerekirse `Provider`, `Kayıt başlangıç`, `Kayıt bitiş` ve `Sıralama` filtreleriyle listeyi daralt.",
-      "3. Doğru kullanıcı satırını bulunca `Rol` sütunundaki mevcut rolü kontrol et.",
-      "4. Rol yanlışsa `Düzenle` butonuna tıkla, doğru rolü seç ve `Kaydet` ile işlemi tamamla.",
-      "5. Kaydetmeden sonra aynı satırdaki `Pending` ve `Override` sayılarına bak; ekstra işlem gerekip gerekmediğini hemen anla.",
+      "3. Doğru kullanıcı satırını bulunca `Details` butonuyla kullanıcı detayını aç.",
+      "4. Rol yanlışsa `Details` butonuna tıkla, açılan pencerede doğru rolü seç ve `Rolü Kaydet` ile işlemi tamamla.",
+      "5. Aynı pencerede `Pending` ve `Override` sayılarına bak; ekstra işlem gerekip gerekmediğini hemen anla.",
       "6. Rol değişikliği sonrası kullanıcıda görünüm kartı sorunu varsa `Profile Sections`, sınıflandırma sorunu varsa `Taxonomy Yönetimi`, alan/form sorunu varsa `Attribute Yönetimi` ekranına geç.",
     ],
   },
@@ -202,7 +226,7 @@ const guideSections: AdminPageGuideSection[] = [
   {
     title: "Kaydettikten sonra ne kontrol etmelisin?",
     items: [
-      "Rol değişince kullanıcı satırında yeni rol label'ının göründüğünü kontrol et.",
+      "Rol değişince `Details` penceresindeki rol bilgisinin güncellendiğini kontrol et.",
       "Kullanıcının işi rol değişikliğiyle çözüldüyse ekstra override vermemeye çalış; sistem temiz kalsın.",
       "Emin değilsen kullanıcıyı profilde veya ilgili admin ekranlarında tekrar açıp yeni davranışı doğrula.",
       "Özellikle `danisman` ve `isletme` rollerinde, taxonomy'ye bağlı zorunlu alanlar değişebileceği için profil ekranını ayrıca kontrol et.",
@@ -223,12 +247,15 @@ const AdminLoginUsersRolesPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
-  const [editingUserId, setEditingUserId] = useState<string | null>(null);
-  const [draftRoleByUserId, setDraftRoleByUserId] = useState<Record<string, string>>({});
   const [isUserDataDialogOpen, setIsUserDataDialogOpen] = useState(false);
   const [userDataDialogLoading, setUserDataDialogLoading] = useState(false);
   const [userDataDialogError, setUserDataDialogError] = useState<string | null>(null);
   const [userDataDialogState, setUserDataDialogState] = useState<UserDataDialogState | null>(null);
+  const [dialogRoleId, setDialogRoleId] = useState("");
+  const [attributeDrafts, setAttributeDrafts] = useState<Record<string, string>>({});
+  const [visibilityDrafts, setVisibilityDrafts] = useState<Record<string, "public" | "private" | "admin_only">>({});
+  const [taxonomyDrafts, setTaxonomyDrafts] = useState<Record<string, string[]>>({});
+  const [isUserDataSaving, setIsUserDataSaving] = useState(false);
 
   const searchText = searchParams.get("q") ?? "";
   const providerFilter = parseProviderFilter(searchParams.get("provider"));
@@ -376,12 +403,6 @@ const AdminLoginUsersRolesPage = () => {
     };
   }, [fromDate, providerFilter, searchText, sortFilter, toDate]);
 
-  useEffect(() => {
-    if (!editingUserId) return;
-    if (rows.some((row) => row.user_id === editingUserId)) return;
-    setEditingUserId(null);
-  }, [editingUserId, rows]);
-
   const roleById = useMemo(() => {
     return new Map(roles.map((role) => [role.id, role]));
   }, [roles]);
@@ -419,7 +440,17 @@ const AdminLoginUsersRolesPage = () => {
       setRows((current) =>
         current.map((item) => (item.user_id === row.user_id ? { ...item, profile_type: nextRole.key } : item)),
       );
-      setEditingUserId((current) => (current === row.user_id ? null : current));
+      setUserDataDialogState((current) => {
+        if (!current || current.user.user_id !== row.user_id) return current;
+        return {
+          ...current,
+          roleLabel: nextRole.label,
+          user: {
+            ...current.user,
+            profile_type: nextRole.key,
+          },
+        };
+      });
       toast({
         title: "Rol güncellendi",
         description: `${row.email ?? row.user_id} için rol ${nextRole.label} olarak kaydedildi.`,
@@ -436,36 +467,6 @@ const AdminLoginUsersRolesPage = () => {
     }
   };
 
-  const handleStartEdit = (row: UserRow) => {
-    if (updatingUserId) return;
-    const currentRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
-    setDraftRoleByUserId((current) => ({ ...current, [row.user_id]: currentRoleId }));
-    setEditingUserId(row.user_id);
-  };
-
-  const handleCancelEdit = (userId: string) => {
-    setEditingUserId((current) => (current === userId ? null : current));
-    setDraftRoleByUserId((current) => {
-      const next = { ...current };
-      delete next[userId];
-      return next;
-    });
-  };
-
-  const handleDraftRoleChange = (userId: string, nextRoleId: string) => {
-    setDraftRoleByUserId((current) => ({ ...current, [userId]: nextRoleId }));
-  };
-
-  const handleSaveRole = async (row: UserRow) => {
-    const draftRoleId = draftRoleByUserId[row.user_id];
-    const currentRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
-    if (!draftRoleId || draftRoleId === currentRoleId) {
-      handleCancelEdit(row.user_id);
-      return;
-    }
-    await handleRoleChange(row, draftRoleId);
-  };
-
   const handleOpenAttributes = async (row: UserRow) => {
     const selectedRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
     const roleLabel = roleById.get(selectedRoleId)?.label ?? row.profile_type;
@@ -474,6 +475,10 @@ const AdminLoginUsersRolesPage = () => {
     setUserDataDialogLoading(true);
     setUserDataDialogError(null);
     setUserDataDialogState(null);
+    setDialogRoleId(selectedRoleId);
+    setAttributeDrafts({});
+    setVisibilityDrafts({});
+    setTaxonomyDrafts({});
 
     try {
       const { data: attributeRows, error: attributeError } = await supabase
@@ -484,28 +489,34 @@ const AdminLoginUsersRolesPage = () => {
       if (attributeError) throw attributeError;
 
       const typedAttributeRows = (attributeRows ?? []) as UserAttributeValueRow[];
-      const attributeIds = typedAttributeRows.map((item) => item.attribute_id);
+      const attributeValueById = new Map(typedAttributeRows.map((item) => [item.attribute_id, item]));
 
-      const [catalogResult, taxonomySelectionsResult] = await Promise.all([
-        attributeIds.length > 0
-          ? supabase
-              .from("attribute_catalog")
-              .select("id, key, label, description, data_type, is_system, sort_order")
-              .in("id", attributeIds)
-          : Promise.resolve({ data: [], error: null }),
+      const [catalogResult, taxonomySelectionsResult, roleTaxonomyRulesResult] = await Promise.all([
+        supabase
+          .from("attribute_catalog")
+          .select("id, key, label, description, data_type, is_system, sort_order")
+          .eq("is_active", true)
+          .order("sort_order", { ascending: true }),
         supabase
           .from("user_taxonomy_selections")
           .select("group_id, option_id")
           .eq("user_id", row.user_id),
+        selectedRoleId
+          ? supabase
+              .from("role_taxonomy_rules")
+              .select("group_id")
+              .eq("role_id", selectedRoleId)
+              .eq("is_enabled", true)
+          : Promise.resolve({ data: [], error: null }),
       ]);
 
-      if (catalogResult.error || taxonomySelectionsResult.error) {
-        throw catalogResult.error ?? taxonomySelectionsResult.error;
+      if (catalogResult.error || taxonomySelectionsResult.error || roleTaxonomyRulesResult.error) {
+        throw catalogResult.error ?? taxonomySelectionsResult.error ?? roleTaxonomyRulesResult.error;
       }
 
       const taxonomySelections = (taxonomySelectionsResult.data ?? []) as UserTaxonomySelectionRow[];
-      const groupIds = Array.from(new Set(taxonomySelections.map((item) => item.group_id)));
-      const optionIds = Array.from(new Set(taxonomySelections.map((item) => item.option_id)));
+      const roleGroupIds = (roleTaxonomyRulesResult.data ?? []).map((item) => item.group_id as string);
+      const groupIds = Array.from(new Set([...taxonomySelections.map((item) => item.group_id), ...roleGroupIds]));
 
       const [taxonomyGroupsResult, taxonomyOptionsResult] = await Promise.all([
         groupIds.length > 0
@@ -514,11 +525,11 @@ const AdminLoginUsersRolesPage = () => {
               .select("id, key, label, description, sort_order")
               .in("id", groupIds)
           : Promise.resolve({ data: [], error: null }),
-        optionIds.length > 0
+        groupIds.length > 0
           ? supabase
               .from("taxonomy_options")
               .select("id, group_id, key, label, description, sort_order")
-              .in("id", optionIds)
+              .in("group_id", groupIds)
           : Promise.resolve({ data: [], error: null }),
       ]);
 
@@ -542,23 +553,21 @@ const AdminLoginUsersRolesPage = () => {
           isSystem: true,
           sortOrder: 0,
         },
-        ...typedAttributeRows
-          .map((item) => {
-            const catalog = catalogById.get(item.attribute_id);
-            if (!catalog) return null;
+        ...((catalogResult.data ?? []) as AttributeCatalogDetailRow[])
+          .map((catalog) => {
+            const item = attributeValueById.get(catalog.id);
             return {
               key: catalog.key,
               label: catalog.label,
               description: catalog.description,
               dataType: catalog.data_type,
-              value: formatAttributeValue(item.value_text, item.value_json),
-              visibility: item.visibility,
-              approvalStatus: item.approval_status,
+              value: item ? formatAttributeValue(item.value_text, item.value_json) : "-",
+              visibility: item?.visibility ?? "private",
+              approvalStatus: item?.approval_status ?? "approved",
               isSystem: catalog.is_system,
               sortOrder: catalog.sort_order,
             } satisfies UserAttributeDisplayItem;
           })
-          .filter((item): item is UserAttributeDisplayItem => Boolean(item))
           .sort((left, right) => left.sortOrder - right.sortOrder),
       ];
 
@@ -577,7 +586,7 @@ const AdminLoginUsersRolesPage = () => {
 
         const existing = taxonomyGroupMap.get(group.id);
         if (existing) {
-          existing.options.push({ key: option.key, label: option.label });
+          existing.options.push({ key: option.key, label: option.label, isSelected: true });
           continue;
         }
 
@@ -585,22 +594,115 @@ const AdminLoginUsersRolesPage = () => {
           key: group.key,
           label: group.label,
           description: group.description,
-          options: [{ key: option.key, label: option.label }],
+          options: [{ key: option.key, label: option.label, isSelected: true }],
           sortOrder: group.sort_order,
         });
       }
 
-      setUserDataDialogState({
+      for (const group of (taxonomyGroupsResult.data ?? []) as TaxonomyGroupRow[]) {
+        if (taxonomyGroupMap.has(group.id)) continue;
+        taxonomyGroupMap.set(group.id, {
+          key: group.key,
+          label: group.label,
+          description: group.description,
+          options: [],
+          sortOrder: group.sort_order,
+        });
+      }
+
+      for (const option of (taxonomyOptionsResult.data ?? []) as TaxonomyOptionRow[]) {
+        const matchingGroup = Array.from(taxonomyGroupMap.values()).find((group) => group.key === taxonomyGroupsById.get(option.group_id)?.key);
+        if (!matchingGroup) continue;
+        if (matchingGroup.options.some((item) => item.key === option.key)) continue;
+        matchingGroup.options.push({ key: option.key, label: option.label, isSelected: false });
+      }
+
+      for (const group of taxonomyGroupMap.values()) {
+        group.options.sort((left, right) => left.label.localeCompare(right.label, "tr"));
+      }
+
+      const nextState = {
         user: row,
         roleLabel,
+        roleId: selectedRoleId,
         attributes,
         taxonomyGroups: Array.from(taxonomyGroupMap.values()).sort((left, right) => left.sortOrder - right.sortOrder),
-      });
+      };
+
+      setUserDataDialogState(nextState);
+      setAttributeDrafts(
+        Object.fromEntries(nextState.attributes.map((attribute) => [attribute.key, attribute.value === "-" ? "" : attribute.value])),
+      );
+      setVisibilityDrafts(
+        Object.fromEntries(nextState.attributes.map((attribute) => [attribute.key, attribute.visibility])),
+      );
+      setTaxonomyDrafts(
+        Object.fromEntries(
+          nextState.taxonomyGroups.map((group) => [
+            group.key,
+            group.options.filter((option) => option.isSelected).map((option) => option.key),
+          ]),
+        ),
+      );
     } catch (error) {
       setUserDataDialogError(error instanceof Error ? error.message : "Beklenmeyen bir hata oluştu.");
     } finally {
       setUserDataDialogLoading(false);
     }
+  };
+
+  const handleSaveAllUserData = async () => {
+    if (!userDataDialogState) return;
+    setIsUserDataSaving(true);
+    try {
+      const currentRoleId =
+        roleByUserId[userDataDialogState.user.user_id] ?? roleIdByKey.get(userDataDialogState.user.profile_type) ?? "";
+
+      if (dialogRoleId && dialogRoleId !== currentRoleId) {
+        await handleRoleChange(userDataDialogState.user, dialogRoleId);
+      }
+
+      for (const attribute of userDataDialogState.attributes) {
+        const rawValue = attributeDrafts[attribute.key] ?? "";
+        const payload = parseAttributeDraftValue(attribute, rawValue);
+        await updateUserProfileAttributeAsAdmin(
+          userDataDialogState.user.user_id,
+          attribute.key,
+          payload,
+          visibilityDrafts[attribute.key] ?? "private",
+        );
+      }
+
+      for (const group of userDataDialogState.taxonomyGroups) {
+        await updateUserTaxonomySelectionAsAdmin(
+          userDataDialogState.user.user_id,
+          group.key,
+          taxonomyDrafts[group.key] ?? [],
+        );
+      }
+
+      toast({ title: "Details kaydedildi" });
+      await handleOpenAttributes(userDataDialogState.user);
+    } catch (error) {
+      toast({
+        title: "Details kaydedilemedi",
+        description: error instanceof Error ? error.message : "Beklenmeyen bir hata oluştu.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUserDataSaving(false);
+    }
+  };
+
+  const handleToggleTaxonomyOption = (groupKey: string, optionKey: string) => {
+    setTaxonomyDrafts((current) => {
+      const active = current[groupKey] ?? [];
+      const exists = active.includes(optionKey);
+      return {
+        ...current,
+        [groupKey]: exists ? active.filter((item) => item !== optionKey) : [...active, optionKey],
+      };
+    });
   };
 
   return (
@@ -685,8 +787,6 @@ const AdminLoginUsersRolesPage = () => {
                     <tr>
                       <th className="px-3 py-2 font-medium">Ad Soyad</th>
                       <th className="px-3 py-2 font-medium">E-posta</th>
-                      <th className="px-3 py-2 font-medium">Rol</th>
-                      <th className="px-3 py-2 font-medium">Durum Özeti</th>
                       <th className="px-3 py-2 font-medium">Provider</th>
                       <th className="px-3 py-2 font-medium">Kayıt Tarihi</th>
                       <th className="px-3 py-2 font-medium">Aksiyon</th>
@@ -694,77 +794,10 @@ const AdminLoginUsersRolesPage = () => {
                   </thead>
                   <tbody>
                     {rows.map((row) => {
-                      const selectedRoleId = roleByUserId[row.user_id] ?? roleIdByKey.get(row.profile_type) ?? "";
-                      const selectedRoleLabel = roleById.get(selectedRoleId)?.label ?? "-";
-                      const isEditing = editingUserId === row.user_id;
-                      const draftRoleId = draftRoleByUserId[row.user_id] ?? selectedRoleId;
-
                       return (
                         <tr key={row.user_id} className="border-t">
                           <td className="px-3 py-2">{row.full_name || "-"}</td>
                           <td className="px-3 py-2">{row.email || "-"}</td>
-                          <td className="px-3 py-2">
-                            {isEditing ? (
-                              <div className="flex items-center gap-2">
-                                <Select
-                                  value={draftRoleId}
-                                  onValueChange={(value) => handleDraftRoleChange(row.user_id, value)}
-                                  disabled={updatingUserId === row.user_id || roles.length === 0}
-                                >
-                                  <SelectTrigger className="h-8 min-w-[220px] text-xs">
-                                    <SelectValue placeholder="Rol seç" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    {roles.map((role) => (
-                                      <SelectItem key={role.id} value={role.id}>
-                                        {role.label}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                <button
-                                  type="button"
-                                  onClick={() => void handleSaveRole(row)}
-                                  disabled={updatingUserId === row.user_id || !draftRoleId}
-                                  className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted disabled:opacity-60"
-                                >
-                                  {updatingUserId === row.user_id ? "Kaydediliyor..." : "Kaydet"}
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => handleCancelEdit(row.user_id)}
-                                  disabled={updatingUserId === row.user_id}
-                                  className="rounded-md border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:opacity-60"
-                                >
-                                  İptal
-                                </button>
-                              </div>
-                            ) : (
-                              <div className="flex items-center gap-2">
-                                <span className="inline-flex h-8 min-w-[220px] items-center rounded-md border px-2.5 text-xs">
-                                  {selectedRoleLabel}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => handleStartEdit(row)}
-                                  disabled={Boolean(updatingUserId)}
-                                  className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted disabled:opacity-60"
-                                >
-                                  Düzenle
-                                </button>
-                              </div>
-                            )}
-                          </td>
-                          <td className="px-3 py-2">
-                            <div className="flex flex-wrap gap-2 text-xs">
-                              <span className="rounded-md border px-2 py-1">
-                                Pending: {pendingCountByUserId[row.user_id] ?? 0}
-                              </span>
-                              <span className="rounded-md border px-2 py-1">
-                                Override: {overrideCountByUserId[row.user_id] ?? 0}
-                              </span>
-                            </div>
-                          </td>
                           <td className="px-3 py-2">{row.auth_provider || "-"}</td>
                           <td className="px-3 py-2">
                             {new Date(row.created_at).toLocaleString("tr-TR", { timeZone: "Europe/Berlin" })}
@@ -773,9 +806,9 @@ const AdminLoginUsersRolesPage = () => {
                             <button
                               type="button"
                               onClick={() => handleOpenAttributes(row)}
-                              className="rounded-md border px-2.5 py-1.5 text-xs transition-colors hover:bg-muted"
+                              className="rounded-md border border-orange-200 bg-orange-50 px-2.5 py-1.5 text-xs font-medium text-orange-700 transition-colors hover:bg-orange-100"
                             >
-                              Attribute
+                              Details
                             </button>
                           </td>
                         </tr>
@@ -794,9 +827,9 @@ const AdminLoginUsersRolesPage = () => {
       <Dialog open={isUserDataDialogOpen} onOpenChange={setIsUserDataDialogOpen}>
         <DialogContent className="max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Kullanıcı Attribute Verileri</DialogTitle>
+            <DialogTitle>Kullanıcı Details</DialogTitle>
             <DialogDescription>
-              Role veya feature kuralı değil, kullanıcının gerçekten girdiği profil verileri gösterilir.
+              Role veya feature kuralı değil, kullanıcının gerçekten girdiği profil verileri gösterilir ve admin tarafından düzenlenebilir.
             </DialogDescription>
           </DialogHeader>
 
@@ -806,9 +839,57 @@ const AdminLoginUsersRolesPage = () => {
           {!userDataDialogLoading && !userDataDialogError && userDataDialogState ? (
             <div className="space-y-4">
               <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-sm font-medium text-foreground">{userDataDialogState.user.full_name || "İsimsiz kullanıcı"}</p>
-                <p className="text-xs text-muted-foreground">{userDataDialogState.user.email || "-"}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Rol: {userDataDialogState.roleLabel}</p>
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-foreground">{userDataDialogState.user.full_name || "İsimsiz kullanıcı"}</p>
+                    <p className="text-xs text-muted-foreground">{userDataDialogState.user.email || "-"}</p>
+                    <p className="text-xs text-muted-foreground">
+                      Provider: {userDataDialogState.user.auth_provider || "-"} • Kayıt:
+                      {" "}
+                      {new Date(userDataDialogState.user.created_at).toLocaleString("tr-TR", { timeZone: "Europe/Berlin" })}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge variant="secondary">
+                      Rol: {roleById.get(dialogRoleId)?.label ?? userDataDialogState.roleLabel}
+                    </Badge>
+                    <Badge variant="outline" className="border-orange-200 bg-orange-50 text-orange-700">
+                      Pending: {pendingCountByUserId[userDataDialogState.user.user_id] ?? 0}
+                    </Badge>
+                    <Badge variant="outline" className="border-orange-200 bg-orange-50 text-orange-700">
+                      Override: {overrideCountByUserId[userDataDialogState.user.user_id] ?? 0}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-lg border bg-background p-3">
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+                    <div className="space-y-1">
+                      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Rol Yönetimi</p>
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                        <Select
+                          value={dialogRoleId}
+                          onValueChange={setDialogRoleId}
+                          disabled={isUserDataSaving || updatingUserId === userDataDialogState.user.user_id || roles.length === 0}
+                        >
+                          <SelectTrigger className="h-9 min-w-[240px] text-xs">
+                            <SelectValue placeholder="Rol seç" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {roles.map((role) => (
+                              <SelectItem key={role.id} value={role.id}>
+                                {role.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <Button type="button" size="sm" onClick={() => void handleSaveAllUserData()} disabled={isUserDataSaving || updatingUserId === userDataDialogState.user.user_id}>
+                      {isUserDataSaving || updatingUserId === userDataDialogState.user.user_id ? "Kaydediliyor..." : "Tüm Değişiklikleri Kaydet"}
+                    </Button>
+                  </div>
+                </div>
               </div>
 
               <div className="space-y-3">
@@ -831,9 +912,43 @@ const AdminLoginUsersRolesPage = () => {
                         {attribute.description ? (
                           <p className="mt-1 text-xs text-muted-foreground">{attribute.description}</p>
                         ) : null}
-                        <pre className="mt-2 whitespace-pre-wrap break-words rounded-md bg-muted/40 px-3 py-2 text-xs text-foreground">
-                          {attribute.value}
-                        </pre>
+                        <div className="mt-2 space-y-2">
+                          {attribute.dataType === "textarea" || attribute.dataType === "json" || attribute.value.includes("\n") ? (
+                            <Textarea
+                              rows={attribute.dataType === "json" ? 5 : 3}
+                              value={attributeDrafts[attribute.key] ?? ""}
+                              onChange={(event) => setAttributeDrafts((current) => ({ ...current, [attribute.key]: event.target.value }))}
+                              disabled={isUserDataSaving}
+                            />
+                          ) : (
+                            <Input
+                              value={attributeDrafts[attribute.key] ?? ""}
+                              onChange={(event) => setAttributeDrafts((current) => ({ ...current, [attribute.key]: event.target.value }))}
+                              disabled={isUserDataSaving}
+                            />
+                          )}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <Select
+                              value={visibilityDrafts[attribute.key] ?? attribute.visibility}
+                              onValueChange={(value) =>
+                                setVisibilityDrafts((current) => ({
+                                  ...current,
+                                  [attribute.key]: value as "public" | "private" | "admin_only",
+                                }))
+                              }
+                              disabled={isUserDataSaving}
+                            >
+                              <SelectTrigger className="h-9 w-[160px] text-xs">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="public">public</SelectItem>
+                                <SelectItem value="private">private</SelectItem>
+                                <SelectItem value="admin_only">admin_only</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -857,12 +972,27 @@ const AdminLoginUsersRolesPage = () => {
                           <Badge variant="outline" className="text-[10px]">{group.key}</Badge>
                         </div>
                         {group.description ? <p className="mt-1 text-xs text-muted-foreground">{group.description}</p> : null}
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {group.options.map((option) => (
-                            <Badge key={option.key} variant="secondary">
-                              {option.label}
-                            </Badge>
-                          ))}
+                        <div className="mt-2 space-y-3">
+                          <div className="flex flex-wrap gap-2">
+                            {group.options.map((option) => {
+                              const selected = (taxonomyDrafts[group.key] ?? []).includes(option.key);
+                              return (
+                                <button
+                                  key={option.key}
+                                  type="button"
+                                  onClick={() => handleToggleTaxonomyOption(group.key, option.key)}
+                                  disabled={isUserDataSaving}
+                                  className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                                    selected
+                                      ? "border-orange-300 bg-orange-100 text-orange-800"
+                                      : "border-border bg-background text-muted-foreground hover:bg-muted"
+                                  } disabled:cursor-not-allowed disabled:opacity-60`}
+                                >
+                                  {option.label}
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
                     ))}

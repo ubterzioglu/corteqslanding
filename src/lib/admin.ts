@@ -104,6 +104,36 @@ export async function setAttributeRuleAsAdmin(roleKey: string, attributeKey: str
   if (error) throw error;
 }
 
+export async function updateUserProfileAttributeAsAdmin(
+  userId: string,
+  attributeKey: string,
+  attributeValue: unknown,
+  visibility?: "public" | "private" | "admin_only" | null,
+) {
+  const { error } = await supabase.rpc("admin_update_user_profile_attribute", {
+    target_user_id: userId,
+    attribute_key: attributeKey,
+    attribute_value: attributeValue,
+    visibility: visibility ?? null,
+  });
+
+  if (error) throw error;
+}
+
+export async function updateUserTaxonomySelectionAsAdmin(
+  userId: string,
+  groupKey: string,
+  optionKeys: string[],
+) {
+  const { error } = await (supabase as any).rpc("admin_update_user_taxonomy_selection", {
+    target_user_id: userId,
+    group_key: groupKey,
+    option_keys: optionKeys,
+  });
+
+  if (error) throw error;
+}
+
 export async function reviewApprovalRequestAsAdmin(requestId: string, decision: "approved" | "rejected", note: string | null) {
   const { error } = await supabase.rpc("admin_review_approval_request", {
     request_id: requestId,

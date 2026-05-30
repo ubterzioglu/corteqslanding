@@ -78,6 +78,46 @@ const DASHBOARD_FEATURE_COPY: Record<string, FeatureDetail> = {
 };
 
 const FEATURE_DETAILS: Record<string, FeatureDetail> = {
+  "individual.about": {
+    summary: "Bireysel profilin Hakkında veya kısa tanıtım alanını görünür kılar.",
+    effect: "Açık olduğunda kullanıcının biyografi, kısa tanıtım ve kişisel özet içeriği ilgili modülde gösterilebilir.",
+    adminHint: "Bireysel profilin temel anlatısı olduğu için çoğu senaryoda açık tutulur.",
+  },
+  "individual.service_requests": {
+    summary: "Bireysel kullanıcının hizmet talepleri veya ihtiyaç alanını gösterir.",
+    effect: "Açık olduğunda kullanıcının hangi konuda destek aradığı veya talep bıraktığı alanlar görünür hale gelir.",
+    adminHint: "Talep toplama akışı aktif değilse kapalı kalabilir; aktifse bireysel kullanıcı için anlamlıdır.",
+  },
+  "individual.events": {
+    summary: "Bireysel kullanıcı için etkinlik modülünü görünür kılar.",
+    effect: "Açık olduğunda kullanıcının katıldığı, takip ettiği veya ilişkilendirildiği etkinlik alanları gösterilebilir.",
+    adminHint: "Topluluk katılımını artırmak için çoğu bireysel kullanıcıda açık olması faydalıdır.",
+  },
+  "individual.follows": {
+    summary: "Bireysel kullanıcının takip ettiği kişi veya yapıların görünmesini sağlar.",
+    effect: "Açık olduğunda takip ilişkileri, bağlantılar veya takip listesi modül içinde sunulabilir.",
+    adminHint: "Sosyal ağ hissi isteniyorsa açık tutulur; daha sade deneyimde kapatılabilir.",
+  },
+  "individual.whatsapp": {
+    summary: "Bireysel profil içindeki WhatsApp veya grup bağlantısı alanını açar.",
+    effect: "Açık olduğunda kullanıcıya ait WhatsApp/grup modülü ilgili yerde görüntülenebilir.",
+    adminHint: "İletişim gizliliği önemliyse dikkatli açılmalı; her kullanıcı için zorunlu değildir.",
+  },
+  "individual.messages": {
+    summary: "Bireysel kullanıcıya mesajlaşma modülü erişimi verir.",
+    effect: "Açık olduğunda kullanıcı mesaj kutusu, konuşmalar veya bire bir iletişim akışlarını kullanabilir.",
+    adminHint: "Platform içi iletişim aktifse açık tutulur; henüz devrede değilse kapalı bırakılabilir.",
+  },
+  "individual.activity": {
+    summary: "Bireysel kullanıcının son aktivitelerini veya akışını görünür kılar.",
+    effect: "Açık olduğunda profil veya panel içinde son hareketler ve etkinlik geçmişi sunulabilir.",
+    adminHint: "Canlı topluluk hissi için faydalıdır; boş görünüm riski varsa kontrollü açılabilir.",
+  },
+  "individual.cv_request": {
+    summary: "Bireysel kullanıcı için CV talebi veya özgeçmiş paylaşım modülünü açar.",
+    effect: "Açık olduğunda diğer kullanıcılar ya da ilgili taraflar CV isteme akışına erişebilir.",
+    adminHint: "Özellikle profesyonel görünürlük beklenen bireysel kullanıcılar için değerlidir.",
+  },
   "admin.requires_approval": {
     summary: "Kullanıcının ilgili işlemi tek başına tamamlaması yerine admin onay akışına düşmesini sağlar.",
     effect: "Açık olduğunda rolün bazı değişiklikleri doğrudan uygulanmaz; önce onay bekler.",

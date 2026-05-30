@@ -4,9 +4,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import AdminLoginUsersRolesPage from "@/pages/admin/AdminLoginUsersRolesPage";
 
-const { toast, setUserRoleAsAdmin } = vi.hoisted(() => ({
+const { toast, setUserRoleAsAdmin, updateUserProfileAttributeAsAdmin, updateUserTaxonomySelectionAsAdmin } = vi.hoisted(() => ({
   toast: vi.fn(),
   setUserRoleAsAdmin: vi.fn(),
+  updateUserProfileAttributeAsAdmin: vi.fn(),
+  updateUserTaxonomySelectionAsAdmin: vi.fn(),
 }));
 
 vi.mock("@/hooks/use-toast", () => ({
@@ -17,6 +19,8 @@ vi.mock("@/hooks/use-toast", () => ({
 
 vi.mock("@/lib/admin", () => ({
   setUserRoleAsAdmin,
+  updateUserProfileAttributeAsAdmin,
+  updateUserTaxonomySelectionAsAdmin,
 }));
 
 const roles = [
@@ -50,6 +54,35 @@ const roleAssignments = [
 
 const pendingApprovals = [{ user_id: "user-1", status: "pending" }];
 const overrides = [{ user_id: "user-1", feature_key: "profile-edit" }];
+const userProfileAttributes = [
+  {
+    attribute_id: "attr-bio",
+    value_text: "Kurucu ekipten.",
+    value_json: null,
+    visibility: "public",
+    approval_status: "approved",
+  },
+];
+const attributeCatalog = [
+  {
+    id: "attr-bio",
+    key: "bio",
+    label: "Bio",
+    description: "Kısa açıklama",
+    data_type: "textarea",
+    is_system: false,
+    sort_order: 20,
+  },
+];
+const userTaxonomySelections = [{ group_id: "group-focus", option_id: "option-community" }];
+const roleTaxonomyRules = [{ group_id: "group-focus" }];
+const taxonomyGroups = [
+  { id: "group-focus", key: "focus", label: "Odak", description: "İlgi alanı", sort_order: 10 },
+];
+const taxonomyOptions = [
+  { id: "option-community", group_id: "group-focus", key: "community", label: "Community", description: null, sort_order: 10 },
+  { id: "option-growth", group_id: "group-focus", key: "growth", label: "Growth", description: null, sort_order: 20 },
+];
 
 vi.mock("@/integrations/supabase/client", () => ({
   supabase: {
@@ -105,6 +138,63 @@ vi.mock("@/integrations/supabase/client", () => ({
         };
       }
 
+      if (table === "user_profile_attributes") {
+        return {
+          select: () => ({
+            eq: () => Promise.resolve({ data: userProfileAttributes, error: null }),
+          }),
+        };
+      }
+
+      if (table === "attribute_catalog") {
+        return {
+          select: () => ({
+            eq: () => ({
+              order: () => Promise.resolve({ data: attributeCatalog, error: null }),
+            }),
+          }),
+        };
+      }
+
+      if (table === "user_taxonomy_selections") {
+        return {
+          select: () => ({
+            eq: () => Promise.resolve({ data: userTaxonomySelections, error: null }),
+          }),
+        };
+      }
+
+      if (table === "role_taxonomy_rules") {
+        return {
+          select: () => {
+            const query = {
+              eq: () => query,
+            };
+            query.eq = vi
+              .fn()
+              .mockImplementationOnce(() => query)
+              .mockImplementationOnce(() => Promise.resolve({ data: roleTaxonomyRules, error: null }));
+            return query;
+          },
+        };
+      }
+
+      if (table === "taxonomy_groups") {
+        return {
+          select: () => ({
+            in: () => Promise.resolve({ data: taxonomyGroups, error: null }),
+          }),
+        };
+      }
+
+      if (table === "taxonomy_options") {
+        return {
+          select: () => ({
+            in: () => Promise.resolve({ data: taxonomyOptions, error: null }),
+          }),
+        };
+      }
+
       throw new Error(`Unexpected table ${table}`);
     },
   },
@@ -113,16 +203,6 @@ vi.mock("@/integrations/supabase/client", () => ({
 const SearchProbe = () => {
   const location = useLocation();
   return <div data-testid="search-probe">{location.search}</div>;
-};
-
-const AttributesProbe = () => {
-  const location = useLocation();
-  return (
-    <div>
-      <div data-testid="attributes-search">{location.search}</div>
-      <div data-testid="attributes-state">{JSON.stringify(location.state)}</div>
-    </div>
-  );
 };
 
 function renderPage(initialEntry = "/admin/new-member/users-roles") {
@@ -138,7 +218,6 @@ function renderPage(initialEntry = "/admin/new-member/users-roles") {
             </>
           }
         />
-        <Route path="/admin/new-member/attributes" element={<AttributesProbe />} />
       </Routes>
     </MemoryRouter>,
   );
@@ -147,31 +226,21 @@ function renderPage(initialEntry = "/admin/new-member/users-roles") {
 beforeEach(() => {
   toast.mockReset();
   setUserRoleAsAdmin.mockReset();
+  updateUserProfileAttributeAsAdmin.mockReset();
+  updateUserTaxonomySelectionAsAdmin.mockReset();
   setUserRoleAsAdmin.mockResolvedValue(undefined);
+  updateUserProfileAttributeAsAdmin.mockResolvedValue(undefined);
+  updateUserTaxonomySelectionAsAdmin.mockResolvedValue(undefined);
 });
 
 describe("AdminLoginUsersRolesPage", () => {
-  it("renders an Attribute action for each listed user and navigates with context", async () => {
-    renderPage("/admin/new-member/users-roles?q=ayse&provider=all&from=2026-05-20&to=2026-05-25&sort=name_asc");
+  it("renders details actions and removes role/status columns from the table", async () => {
+    renderPage();
 
     expect(await screen.findByText("Ayşe Yılmaz")).toBeInTheDocument();
-    expect(screen.getAllByRole("button", { name: "Attribute" })).toHaveLength(2);
-
-    fireEvent.click(screen.getAllByRole("button", { name: "Attribute" })[0]);
-
-    await waitFor(() => {
-      expect(screen.getByTestId("attributes-search").textContent).toContain("selectedRoleId=role-bireysel");
-    });
-
-    expect(screen.getByTestId("attributes-search").textContent).toContain("q=ayse");
-    expect(screen.getByTestId("attributes-search").textContent).toContain("provider=all");
-    expect(screen.getByTestId("attributes-search").textContent).toContain("from=2026-05-20");
-    expect(screen.getByTestId("attributes-search").textContent).toContain("to=2026-05-25");
-    expect(screen.getByTestId("attributes-search").textContent).toContain("sort=name_asc");
-    expect(screen.getByTestId("attributes-state").textContent).toContain("\"userId\":\"user-1\"");
-    expect(screen.getByTestId("attributes-state").textContent).toContain("\"userName\":\"Ayşe Yılmaz\"");
-    expect(screen.getByTestId("attributes-state").textContent).toContain("\"userEmail\":\"ayse@example.com\"");
-    expect(screen.getByTestId("attributes-state").textContent).toContain("/admin/new-member/users-roles?q=ayse&provider=all&from=2026-05-20&to=2026-05-25&sort=name_asc");
+    expect(screen.getAllByRole("button", { name: "Details" })).toHaveLength(2);
+    expect(screen.queryByRole("columnheader", { name: "Rol" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("columnheader", { name: "Durum Özeti" })).not.toBeInTheDocument();
   });
 
   it("syncs active filters to the URL", async () => {
@@ -186,18 +255,41 @@ describe("AdminLoginUsersRolesPage", () => {
     });
   });
 
-  it("keeps the role edit flow working", async () => {
+  it("opens the details modal with role, status summary, and editable fields", async () => {
     renderPage();
 
     expect(await screen.findByText("Ayşe Yılmaz")).toBeInTheDocument();
 
-    fireEvent.click(screen.getAllByRole("button", { name: "Düzenle" })[0]);
-    fireEvent.click(screen.getByRole("button", { name: "Kaydet" }));
+    fireEvent.click(screen.getAllByRole("button", { name: "Details" })[0]);
+
+    expect(await screen.findByRole("heading", { name: "Kullanıcı Details" })).toBeInTheDocument();
+    expect(screen.getByText(/Rol: Bireysel Kullanıcı/i)).toBeInTheDocument();
+    expect(screen.getByText("Pending: 1")).toBeInTheDocument();
+    expect(screen.getByText("Override: 1")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Ayşe Yılmaz")).toBeInTheDocument();
+    expect(screen.getByDisplayValue("Kurucu ekipten.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Tüm Değişiklikleri Kaydet" })).toBeInTheDocument();
+  });
+
+  it("saves all dialog changes through admin helpers", async () => {
+    renderPage();
+
+    expect(await screen.findByText("Ayşe Yılmaz")).toBeInTheDocument();
+
+    fireEvent.click(screen.getAllByRole("button", { name: "Details" })[0]);
+    expect(await screen.findByRole("heading", { name: "Kullanıcı Details" })).toBeInTheDocument();
+
+    fireEvent.change(screen.getByDisplayValue("Kurucu ekipten."), { target: { value: "Topluluk lideri." } });
+    fireEvent.click(screen.getByRole("button", { name: "Growth" }));
+    fireEvent.click(screen.getByRole("button", { name: "Tüm Değişiklikleri Kaydet" }));
 
     await waitFor(() => {
-      expect(screen.queryByRole("button", { name: "Kaydet" })).not.toBeInTheDocument();
+      expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalled();
     });
 
     expect(setUserRoleAsAdmin).not.toHaveBeenCalled();
+    expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalledWith("user-1", "full_name", "Ayşe Yılmaz", "public");
+    expect(updateUserProfileAttributeAsAdmin).toHaveBeenCalledWith("user-1", "bio", "Topluluk lideri.", "public");
+    expect(updateUserTaxonomySelectionAsAdmin).toHaveBeenCalledWith("user-1", "focus", ["community", "growth"]);
   });
 });
