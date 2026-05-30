@@ -765,9 +765,9 @@ export default function AddWhatsAppPage() {
     return (
       <div
         title={platform}
-        className={`inline-flex h-7 w-7 items-center justify-center rounded-full ${logoMeta.className}`}
+        className={`inline-flex h-14 w-14 items-center justify-center rounded-full shadow-md ring-2 ring-white ${logoMeta.className}`}
       >
-        <div className="h-4 w-4">{logoMeta.svg}</div>
+        <div className="h-7 w-7">{logoMeta.svg}</div>
       </div>
     );
   };
