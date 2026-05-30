@@ -51,11 +51,11 @@ const listFixture = [
   },
 ] as const;
 
-function renderPage(initialEntry = "/addwa") {
+function renderPage(initialEntry = "/addcom") {
   return render(
     <MemoryRouter initialEntries={[initialEntry]}>
       <Routes>
-        <Route path="/addwa" element={<AddWhatsAppPage />} />
+        <Route path="/addcom" element={<AddWhatsAppPage />} />
       </Routes>
     </MemoryRouter>,
   );
@@ -84,7 +84,7 @@ describe("AddWhatsAppPage", () => {
   });
 
   it("renders the landing detail when group query exists", async () => {
-    renderPage("/addwa?group=berlin-girisim");
+    renderPage("/addcom?group=berlin-girisim");
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     expect(screen.getByText(/Katıl ve ağını büyüt/i)).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe("AddWhatsAppPage", () => {
   it("shows not found state for an unknown landing slug", async () => {
     getLandingSpy.mockResolvedValue(null);
 
-    renderPage("/addwa?group=olmayan");
+    renderPage("/addcom?group=olmayan");
 
     expect(await screen.findByText(/Landing sayfası bulunamadı/i)).toBeInTheDocument();
   });
