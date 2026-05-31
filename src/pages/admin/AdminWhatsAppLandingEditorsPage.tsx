@@ -132,11 +132,18 @@ export default function AdminWhatsAppLandingEditorsPage() {
             Belirli kullanıcıları yalnızca belirli topluluk landing kayıtlarını düzenleyebilecek şekilde ata.
           </p>
         </div>
-        <Link to="/admin/whatsapp-landings">
-          <Button variant="outline" className="gap-2">
-            Moderasyon ekranına dön
-          </Button>
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          <Link to="/admin/whatsapp-landings/guide">
+            <Button variant="outline" className="gap-2">
+              Topluluk Kullanma Kılavuzu
+            </Button>
+          </Link>
+          <Link to="/admin/whatsapp-landings">
+            <Button variant="outline" className="gap-2">
+              Moderasyon ekranına dön
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Card>

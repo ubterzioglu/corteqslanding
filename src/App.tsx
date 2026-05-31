@@ -52,6 +52,7 @@ import May19MomentPage from "./pages/May19MomentPage.tsx";
 import AddWhatsAppPage from "./pages/AddWhatsAppPage.tsx";
 import AdminWhatsAppLandingsPage from "@/pages/admin/AdminWhatsAppLandingsPage";
 import AdminWhatsAppLandingEditorsPage from "@/pages/admin/AdminWhatsAppLandingEditorsPage";
+import AdminCommunityGuidePage from "@/pages/admin/AdminCommunityGuidePage";
 import AIFormPage from "./pages/AIFormPage.tsx";
 import AdminMay19IdeaPage from "@/pages/admin/AdminMay19IdeaPage";
 import AdminMay19MomentPage from "@/pages/admin/AdminMay19MomentPage";
@@ -195,6 +196,7 @@ const App = () => (
               <Route path="roller-taslak" element={<AdminRolesDraftPage />} />
               <Route path="whatsapp-landings" element={<AdminWhatsAppLandingsPage />} />
               <Route path="whatsapp-landings/editors" element={<AdminWhatsAppLandingEditorsPage />} />
+              <Route path="whatsapp-landings/guide" element={<AdminCommunityGuidePage />} />
               <Route path="may19/kelime" element={<AdminMay19IdeaPage />} />
               <Route path="may19/ani" element={<AdminMay19MomentPage />} />
               <Route path="about" element={<AdminAboutPage />} />
