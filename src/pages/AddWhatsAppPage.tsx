@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   Check,
@@ -319,6 +319,7 @@ function getErrorMessage(error: unknown, fallback = "Beklenmeyen hata") {
 
 export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -455,6 +456,18 @@ export default function AddWhatsAppPage() {
     setJoinForm((current) => ({ ...current, [field]: value }));
   };
 
+  const ensureSignedInForGroupSubmit = () => {
+    if (user) return true;
+
+    const nextPath = `${location.pathname}${location.search}`;
+    toast({
+      title: "Üyelik gerekli",
+      description: "Topluluk başvurusu göndermek için Google veya e-posta/şifre ile giriş yapmalısın.",
+    });
+    navigate(`/login?next=${encodeURIComponent(nextPath)}`);
+    return false;
+  };
+
   const resetGroupForm = () => {
     setGroupForm(initialGroupForm);
     setHeroImageFile(null);
@@ -478,6 +491,8 @@ export default function AddWhatsAppPage() {
       });
       return;
     }
+
+    if (!ensureSignedInForGroupSubmit()) return;
 
     setSubmittingGroup(true);
     try {
