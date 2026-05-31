@@ -97,5 +97,35 @@ describe("LoginPage", () => {
 
     expect(await screen.findByText("Profile Page")).toBeInTheDocument();
   });
+
+  it("keeps next path in Google OAuth redirect and post-login navigation", async () => {
+    useAuthMock.mockReturnValue({
+      session: null,
+      isLoading: false,
+    });
+    signInWithOAuthMock.mockResolvedValue({ error: null });
+
+    render(
+      <MemoryRouter initialEntries={["/login?next=%2Faddcom"]}>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/addcom" element={<div>Addcom Page</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /google ile giriş yap/i }));
+
+    await waitFor(() => {
+      expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(signInWithOAuthMock).toHaveBeenCalledWith({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/login?next=%2Faddcom`,
+      },
+    });
+  });
 });
 
