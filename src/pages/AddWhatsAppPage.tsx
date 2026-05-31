@@ -1003,7 +1003,12 @@ export default function AddWhatsAppPage() {
 
                 <div className="mt-6 flex flex-col gap-3">
                   {canEditSelectedLanding ? (
-                    <Button size="lg" asChild variant="outline" className="w-full gap-2 border-orange-300 text-orange-700 hover:bg-orange-50">
+                    <Button
+                      size="lg"
+                      asChild
+                      variant="outline"
+                      className="w-full gap-2 border-[#4285F4] bg-[#4285F4] text-black hover:bg-[#357AE8] hover:text-black"
+                    >
                       <Link to={`/addcom/edit/${encodeURIComponent(selectedLanding.id)}`}>
                         <Pencil className="h-5 w-5" />
                         Landing'i Düzenle
