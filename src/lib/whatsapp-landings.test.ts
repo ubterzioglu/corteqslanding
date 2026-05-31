@@ -18,6 +18,7 @@ import {
   buildLandingDescription,
   normalizeCommunityText,
   parseAdminContact,
+  rowToLanding,
   slugify,
   stripLandingMetadataTags,
   submitLanding,
@@ -66,6 +67,90 @@ describe("whatsapp landing helpers", () => {
       adminEmail: "ekip@ornek.com",
       adminPhone: "+49 170 1234567",
     });
+  });
+
+  it("defaults pending landings to member approved only when badge tags are absent", () => {
+    const landing = rowToLanding({
+      id: "landing-1",
+      slug: "berlin-girisim",
+      group_name: "Berlin Girisim",
+      category: "girisim",
+      country: "Almanya",
+      city: "Berlin",
+      mode: "text",
+      hero_image: null,
+      tagline: null,
+      call_to_action_text: null,
+      conditions: null,
+      whatsapp_link: "https://example.com/group",
+      admin_name: null,
+      admin_contact: null,
+      description: "[Platform: WhatsApp] [Başvuru tipi: Topluluk Üyesiyim] Test aciklamasi",
+      status: "pending",
+      rejection_reason: null,
+      created_at: "2026-05-31T10:00:00.000Z",
+      updated_at: "2026-05-31T10:00:00.000Z",
+      user_id: "user-1",
+    } as any);
+
+    expect(landing.memberApproved).toBe(true);
+    expect(landing.adminApproved).toBe(false);
+  });
+
+  it("defaults approved landings to admin approved only when badge tags are absent", () => {
+    const landing = rowToLanding({
+      id: "landing-2",
+      slug: "berlin-alumni",
+      group_name: "Berlin Alumni",
+      category: "alumni",
+      country: "Almanya",
+      city: "Berlin",
+      mode: "visual",
+      hero_image: null,
+      tagline: null,
+      call_to_action_text: null,
+      conditions: null,
+      whatsapp_link: "https://example.com/group",
+      admin_name: null,
+      admin_contact: null,
+      description: "[Platform: WhatsApp] Test aciklamasi",
+      status: "approved",
+      rejection_reason: null,
+      created_at: "2026-05-31T10:00:00.000Z",
+      updated_at: "2026-05-31T10:00:00.000Z",
+      user_id: "user-1",
+    } as any);
+
+    expect(landing.memberApproved).toBe(false);
+    expect(landing.adminApproved).toBe(true);
+  });
+
+  it("never returns both member and admin badges together", () => {
+    const landing = rowToLanding({
+      id: "landing-3",
+      slug: "berlin-network",
+      group_name: "Berlin Network",
+      category: "is",
+      country: "Almanya",
+      city: "Berlin",
+      mode: "text",
+      hero_image: null,
+      tagline: null,
+      call_to_action_text: null,
+      conditions: null,
+      whatsapp_link: "https://example.com/group",
+      admin_name: null,
+      admin_contact: null,
+      description: "[Badge member: true] [Badge admin: true] Test aciklamasi",
+      status: "approved",
+      rejection_reason: null,
+      created_at: "2026-05-31T10:00:00.000Z",
+      updated_at: "2026-05-31T10:00:00.000Z",
+      user_id: "user-1",
+    } as any);
+
+    expect(landing.adminApproved).toBe(true);
+    expect(landing.memberApproved).toBe(false);
   });
 });
 

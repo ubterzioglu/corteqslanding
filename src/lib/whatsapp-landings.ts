@@ -169,6 +169,11 @@ function parseBooleanTag(description: string | null | undefined, tagName: string
   return match[1].toLowerCase() === "true";
 }
 
+function hasBooleanTag(description: string | null | undefined, tagName: string) {
+  if (!description) return false;
+  return new RegExp(`\\[${tagName}:\\s*(true|false)\\]`, "i").test(description);
+}
+
 function normalizeOptionalText(value?: string | null) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : undefined;
@@ -235,7 +240,18 @@ export function buildLandingDescription(params: {
   return parts.filter(Boolean).join(" ").trim();
 }
 
-function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
+export function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
+  const hasMemberApprovalTag = hasBooleanTag(row.description, "Badge member");
+  const hasAdminApprovalTag = hasBooleanTag(row.description, "Badge admin");
+  const adminApproved = hasAdminApprovalTag
+    ? parseBooleanTag(row.description, "Badge admin", false)
+    : row.status === "approved";
+  const memberApproved = adminApproved
+    ? false
+    : hasMemberApprovalTag
+      ? parseBooleanTag(row.description, "Badge member", false)
+      : true;
+
   return {
     id: row.slug,
     dbId: row.id,
@@ -254,8 +270,8 @@ function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     adminContact: normalizeOptionalText(row.admin_contact),
     description: normalizeCommunityOptionalText(row.description),
     submitterRole: parseSubmitterRole(row.description),
-    memberApproved: parseBooleanTag(row.description, "Badge member", true),
-    adminApproved: parseBooleanTag(row.description, "Badge admin", row.status === "approved"),
+    memberApproved,
+    adminApproved,
     editorReviewPending: parseBooleanTag(row.description, "Editor review pending", false),
     editorReviewUpdatedAt: parseTagValue(row.description, "Editor review updated at"),
     status: row.status as LandingStatus,

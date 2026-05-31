@@ -34,6 +34,7 @@ import { useAuth } from "@/components/auth/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  buildLandingDescription,
   canCurrentUserEditLanding,
   createJoinRequest,
   getEditableLandingForCurrentUser,
@@ -502,6 +503,14 @@ export default function AddWhatsAppPage() {
       const adminContact = [groupForm.adminEmail.trim() ? `E-posta: ${groupForm.adminEmail.trim()}` : "", groupForm.adminPhone.trim() ? `Telefon: ${groupForm.adminPhone.trim()}` : ""]
         .filter(Boolean)
         .join("\n");
+      const submitterLabel = groupForm.submitterRole === "manager" ? "Topluluk Yöneticisiyim" : "Topluluk Üyesiyim";
+      const description = buildLandingDescription({
+        description: `[Başvuru tipi: ${submitterLabel}] ${groupForm.description}`.trim(),
+        platform: groupForm.platform,
+        memberApproved: true,
+        adminApproved: false,
+        editorReviewPending: false,
+      });
 
       await submitLanding({
         groupName: groupForm.groupName,
@@ -515,7 +524,7 @@ export default function AddWhatsAppPage() {
         whatsappLink: groupForm.whatsappLink,
         adminName: groupForm.adminName,
         adminContact,
-        description: `[Platform: ${groupForm.platform}] [Başvuru tipi: ${groupForm.submitterRole === "manager" ? "Topluluk Yöneticisiyim" : "Topluluk Üyesiyim"}] ${groupForm.description}`.trim(),
+        description,
       });
 
       toast({
