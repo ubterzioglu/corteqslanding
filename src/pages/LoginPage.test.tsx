@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import LoginPage from "@/pages/LoginPage";
 
@@ -20,6 +20,10 @@ vi.mock("@/integrations/supabase/client", () => ({
     },
   },
 }));
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("LoginPage", () => {
   it("triggers password login with entered credentials", async () => {
