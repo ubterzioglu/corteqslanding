@@ -808,6 +808,8 @@ export default function AddWhatsAppPage() {
     );
   };
 
+  const getLandingHeroImage = (landing: WhatsAppLanding) => landing.heroImage?.trim() || waPlaceholderImage;
+
   const getApprovalStatusMeta = (landing: WhatsAppLanding) => {
     if (landing.adminApproved) {
       return {
@@ -865,12 +867,17 @@ export default function AddWhatsAppPage() {
                 Tüm gruplar
               </Link>
 
-              {selectedLanding.heroImage ? (
+              {selectedLanding.mode === "visual" || selectedLanding.heroImage ? (
                 <section className="relative overflow-hidden rounded-[2rem] border border-border">
                   <img
-                    src={selectedLanding.heroImage}
+                    src={getLandingHeroImage(selectedLanding)}
                     alt={selectedLanding.groupName}
                     className="aspect-video w-full object-cover"
+                    onError={(event) => {
+                      if (event.currentTarget.src !== waPlaceholderImage) {
+                        event.currentTarget.src = waPlaceholderImage;
+                      }
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/35 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 text-white md:p-8">
@@ -1351,12 +1358,17 @@ export default function AddWhatsAppPage() {
                       to={`/addcom?group=${encodeURIComponent(landing.id)}`}
                       className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-border bg-white shadow-[0_16px_50px_rgba(15,23,42,0.05)] transition-transform duration-200 hover:-translate-y-1"
                     >
-                      {landing.heroImage ? (
+                      {landing.mode === "visual" || landing.heroImage ? (
                         <div className="relative">
                           <img
-                            src={landing.heroImage}
+                            src={getLandingHeroImage(landing)}
                             alt={landing.groupName}
                             className="aspect-video w-full object-cover"
+                            onError={(event) => {
+                              if (event.currentTarget.src !== waPlaceholderImage) {
+                                event.currentTarget.src = waPlaceholderImage;
+                              }
+                            }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/20 to-transparent" />
                         </div>
