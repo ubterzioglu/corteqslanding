@@ -14,7 +14,14 @@ vi.mock("@/integrations/supabase/client", () => ({
   },
 }));
 
-import { normalizeCommunityText, slugify, submitLanding } from "@/lib/whatsapp-landings";
+import {
+  buildLandingDescription,
+  normalizeCommunityText,
+  parseAdminContact,
+  slugify,
+  stripLandingMetadataTags,
+  submitLanding,
+} from "@/lib/whatsapp-landings";
 
 describe("whatsapp landing helpers", () => {
   it("slugifies Turkish characters and trims separators", () => {
@@ -29,6 +36,36 @@ describe("whatsapp landing helpers", () => {
     expect(normalizeCommunityText("Berlin Girisim Agi")).toBe("Berlin Girişim Ağı");
     expect(normalizeCommunityText("Dubai Yatirim Cevresi")).toBe("Dubai Yatırım Çevresi");
     expect(normalizeCommunityText("Turk Girisimciler")).toBe("Türk Girişimciler");
+  });
+
+  it("strips metadata tags from landing descriptions", () => {
+    expect(
+      stripLandingMetadataTags(
+        "Aciklama [Platform: WhatsApp] [Badge member: true] [Badge admin: false] [Editor review pending: true]",
+      ),
+    ).toBe("Aciklama");
+  });
+
+  it("builds landing descriptions while preserving metadata format", () => {
+    expect(
+      buildLandingDescription({
+        description: "Aciklama [Platform: Telegram]",
+        platform: "WhatsApp",
+        memberApproved: true,
+        adminApproved: false,
+        editorReviewPending: true,
+        editorReviewUpdatedAt: "2026-05-31T10:00:00.000Z",
+      }),
+    ).toBe(
+      "Aciklama [Platform: WhatsApp] [Badge member: true] [Badge admin: false] [Editor review pending: true] [Editor review updated at: 2026-05-31T10:00:00.000Z]",
+    );
+  });
+
+  it("parses admin contact lines", () => {
+    expect(parseAdminContact("E-posta: ekip@ornek.com\nTelefon: +49 170 1234567")).toEqual({
+      adminEmail: "ekip@ornek.com",
+      adminPhone: "+49 170 1234567",
+    });
   });
 });
 

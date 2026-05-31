@@ -1,0 +1,1 @@
+ALTER TABLE public.marquee_itemsADD COLUMN IF NOT EXISTS external_url text;

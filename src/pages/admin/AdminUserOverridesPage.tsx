@@ -120,7 +120,7 @@ const AdminUserOverridesPage = () => {
 
   const scopedFeatures = useMemo(() => {
     if (!selectedUser) return [];
-    return features.filter((feature) => feature.scope_role === selectedUser.profile_type);
+    return features.filter((feature) => feature.scope_role === selectedUser.profile_type || feature.scope_role === "*");
   }, [features, selectedUser]);
 
   const filteredOverrides = useMemo(() => {

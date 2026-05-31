@@ -10,6 +10,7 @@ import {
   Heart,
   MapPin,
   MessageSquare,
+  Pencil,
   Search,
   Share2,
   ShieldCheck,
@@ -29,10 +30,13 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useAuth } from "@/components/auth/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  canCurrentUserEditLanding,
   createJoinRequest,
+  getEditableLandingForCurrentUser,
   getLanding,
   listLandings,
   submitLanding,
@@ -313,6 +317,7 @@ export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
   const groupSlug = searchParams.get("group")?.trim() ?? "";
 
   const [landings, setLandings] = useState<WhatsAppLanding[]>([]);
@@ -324,6 +329,7 @@ export default function AddWhatsAppPage() {
   const [copied, setCopied] = useState(false);
   const [submittingGroup, setSubmittingGroup] = useState(false);
   const [submittingJoin, setSubmittingJoin] = useState(false);
+  const [canEditSelectedLanding, setCanEditSelectedLanding] = useState(false);
   const [groupForm, setGroupForm] = useState<GroupFormState>(initialGroupForm);
   const [joinForm, setJoinForm] = useState<JoinFormState>(initialJoinForm);
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
@@ -361,10 +367,23 @@ export default function AddWhatsAppPage() {
     setLoadingLanding(true);
 
     getLanding(groupSlug)
-      .then((landing) => {
+      .then(async (landing) => {
         if (!cancelled) {
           const placeholderLanding = placeholderLandings.find((item) => item.id === groupSlug);
-          setSelectedLanding(landing ?? placeholderLanding ?? null);
+          if (landing) {
+            setSelectedLanding(landing);
+            return;
+          }
+
+          if (user) {
+            const editableLanding = await getEditableLandingForCurrentUser(groupSlug);
+            if (!cancelled && editableLanding) {
+              setSelectedLanding(editableLanding);
+              return;
+            }
+          }
+
+          setSelectedLanding(placeholderLanding ?? null);
         }
       })
       .finally(() => {
@@ -374,7 +393,24 @@ export default function AddWhatsAppPage() {
     return () => {
       cancelled = true;
     };
-  }, [groupSlug]);
+  }, [groupSlug, user]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    if (!selectedLanding?.dbId || !user) {
+      setCanEditSelectedLanding(false);
+      return;
+    }
+
+    void canCurrentUserEditLanding(selectedLanding.dbId).then((value) => {
+      if (!cancelled) setCanEditSelectedLanding(value);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedLanding?.dbId, user]);
 
   const filteredLandings = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -957,6 +993,15 @@ export default function AddWhatsAppPage() {
                 <p className="mt-4 whitespace-pre-line text-foreground/85">{selectedLanding.callToActionText}</p>
 
                 <div className="mt-6 flex flex-col gap-3">
+                  {canEditSelectedLanding ? (
+                    <Button size="lg" asChild variant="outline" className="w-full gap-2 border-orange-300 text-orange-700 hover:bg-orange-50">
+                      <Link to={`/addcom/edit/${encodeURIComponent(selectedLanding.id)}`}>
+                        <Pencil className="h-5 w-5" />
+                        Landing'i Düzenle
+                      </Link>
+                    </Button>
+                  ) : null}
+
                   <Button size="lg" asChild className="w-full gap-2 bg-emerald-600 text-white hover:bg-emerald-700">
                     <a href={selectedLanding.whatsappLink} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="h-5 w-5" />

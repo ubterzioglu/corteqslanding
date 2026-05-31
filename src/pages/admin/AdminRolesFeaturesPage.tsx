@@ -188,6 +188,11 @@ const FEATURE_DETAILS: Record<string, FeatureDetail> = {
     effect: "Açık olduğunda referral mekanizmasını kullanabilir.",
     adminHint: "Her rol için gerekli olmayabilir; büyüme veya topluluk katkısı beklenen rollerde daha anlamlıdır.",
   },
+  "whatsapp_landing.edit_assigned": {
+    summary: "Kullanıcının admin tarafından atandığı topluluk landing kayıtlarını düzenleme capability'sini açar.",
+    effect: "Açık olsa bile tek başına yeterli değildir; ayrıca ilgili landing için editör ataması bulunmalıdır.",
+    adminHint: "Bu feature ürün genelinde açık tutulabilir; gerçek erişim landing editör atamasıyla sınırlandırılır.",
+  },
 };
 
 const humanizeFeatureKey = (featureKey: string) => {

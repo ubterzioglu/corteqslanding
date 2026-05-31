@@ -1,0 +1,1 @@
+-- Allow authenticated users to insert their own rolesCREATE POLICY "Users can insert own roles"ON public.user_rolesFOR INSERTTO authenticatedWITH CHECK (auth.uid() = user_id);

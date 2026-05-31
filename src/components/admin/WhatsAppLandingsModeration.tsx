@@ -13,8 +13,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import {
+  buildLandingDescription,
   deleteLanding,
   listAllSubmissions,
+  parseAdminContact,
   setLandingStatus,
   type LandingCategory,
   type LandingStatus,
@@ -75,19 +77,6 @@ type ApprovalSelection = "member" | "admin";
 function getApprovalSelection(memberApproved: boolean, adminApproved: boolean): ApprovalSelection {
   if (adminApproved) return "admin";
   return "member";
-}
-
-function parseAdminContact(adminContact?: string) {
-  const lines = adminContact?.split("\n").map((line) => line.trim()).filter(Boolean) ?? [];
-  const emailLine = lines.find((line) => line.toLowerCase().startsWith("e-posta:"));
-  const phoneLine = lines.find((line) => line.toLowerCase().startsWith("telefon:"));
-  const emailMatch = adminContact?.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
-  const phoneMatch = adminContact?.match(/(\+?\d[\d\s().-]{6,}\d)/);
-
-  return {
-    adminEmail: emailLine ? emailLine.replace(/^e-posta:\s*/i, "").trim() : (emailMatch?.[0] ?? ""),
-    adminPhone: phoneLine ? phoneLine.replace(/^telefon:\s*/i, "").trim() : (phoneMatch?.[0]?.trim() ?? ""),
-  };
 }
 
 function createEditState(row: WhatsAppLanding): EditLandingState | null {
@@ -224,19 +213,13 @@ export default function WhatsAppLandingsModeration() {
         ]
           .filter(Boolean)
           .join("\n"),
-        description: [
-          editState.description
-            .replace(/\[Platform:\s*[^\]]+\]\s*/gi, "")
-            .replace(/\[Badge member:\s*(true|false)\]\s*/gi, "")
-            .replace(/\[Badge admin:\s*(true|false)\]\s*/gi, "")
-            .trim(),
-          `[Platform: ${editState.platform}]`,
-          `[Badge member: ${approvalSelection === "member" ? "true" : "false"}]`,
-          `[Badge admin: ${approvalSelection === "admin" ? "true" : "false"}]`,
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .trim(),
+        description: buildLandingDescription({
+          description: editState.description,
+          platform: editState.platform,
+          memberApproved: approvalSelection === "member",
+          adminApproved: approvalSelection === "admin",
+          editorReviewPending: false,
+        }),
       });
       toast({ title: "Topluluk kaydı güncellendi" });
       setEditOpen(false);
@@ -305,6 +288,11 @@ export default function WhatsAppLandingsModeration() {
                       <p className="truncate text-xs text-muted-foreground">
                         {row.callToActionText || "Çağrı metni yok"}
                       </p>
+                      {row.editorReviewPending && row.status === "pending" ? (
+                        <p className="mt-1 text-[11px] font-medium text-amber-700">
+                          Editör güncellemesi admin incelemesi bekliyor
+                        </p>
+                      ) : null}
                     </div>
 
                     <div>
