@@ -279,7 +279,7 @@ type JoinFormState = {
 };
 
 const initialGroupForm: GroupFormState = {
-  submitterRole: "manager",
+  submitterRole: "member",
   platform: "",
   category: "",
   groupName: "",
@@ -1101,17 +1101,19 @@ export default function AddWhatsAppPage() {
                       <div className="mt-2 flex flex-wrap gap-2">
                         <Button
                           type="button"
-                          variant={groupForm.submitterRole === "manager" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("submitterRole", "manager")}
+                          variant={groupForm.submitterRole === "member" ? "default" : "outline"}
+                          onClick={() => updateGroupForm("submitterRole", "member")}
+                          className={groupForm.submitterRole === "member" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
                         >
-                          Topluluk Yöneticisiyim
+                          Topluluk Üyesiyim
                         </Button>
                         <Button
                           type="button"
-                          variant={groupForm.submitterRole === "member" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("submitterRole", "member")}
+                          variant={groupForm.submitterRole === "manager" ? "default" : "outline"}
+                          onClick={() => updateGroupForm("submitterRole", "manager")}
+                          className={groupForm.submitterRole === "manager" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
                         >
-                          Topluluk Üyesiyim
+                          Topluluk Yöneticisiyim
                         </Button>
                       </div>
                     </div>
