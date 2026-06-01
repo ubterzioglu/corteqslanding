@@ -1,5 +1,5 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import AddWhatsAppPage from "@/pages/AddWhatsAppPage";
@@ -9,6 +9,7 @@ const toastSpy = vi.fn();
 const listLandingsSpy = vi.fn();
 const getLandingSpy = vi.fn();
 const useAuthMock = vi.fn();
+const signInWithOAuthMock = vi.fn();
 
 vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
@@ -18,6 +19,14 @@ vi.mock("@/hooks/use-toast", () => ({
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
+}));
+
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      signInWithOAuth: (...args: unknown[]) => signInWithOAuthMock(...args),
+    },
+  },
 }));
 
 vi.mock("@/lib/whatsapp-landings", () => ({
@@ -63,6 +72,7 @@ describe("AddWhatsAppPage", () => {
   beforeEach(() => {
     listLandingsSpy.mockResolvedValue(listFixture);
     getLandingSpy.mockResolvedValue(listFixture[0]);
+    signInWithOAuthMock.mockResolvedValue({ error: null });
     useAuthMock.mockReturnValue({ user: null });
   });
 
@@ -74,15 +84,43 @@ describe("AddWhatsAppPage", () => {
     renderPage();
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Topluluk Ekle/i }));
-    expect(screen.getByText("Kategori")).toBeInTheDocument();
-    expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
+    expect(screen.queryByText("Kategori")).not.toBeInTheDocument();
 
     fireEvent.change(screen.getByPlaceholderText(/Topluluk ara/i), {
       target: { value: "Tokyo" },
     });
 
     expect(screen.getByText(/Filtreye uygun grup bulunamadı/i)).toBeInTheDocument();
+  });
+
+  it("starts Google OAuth when anonymous user wants to add a community", async () => {
+    renderPage();
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Topluluk eklemek istiyorum/i }));
+
+    await waitFor(() => {
+      expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(signInWithOAuthMock).toHaveBeenCalledWith({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/addcom?openGroupForm=1`,
+      },
+    });
+  });
+
+  it("opens the form for authenticated users after button click", async () => {
+    useAuthMock.mockReturnValue({ user: { id: "u-1" } });
+    renderPage();
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Topluluk eklemek istiyorum/i }));
+
+    expect(screen.getByText("Kategori")).toBeInTheDocument();
+    expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
+    expect(signInWithOAuthMock).not.toHaveBeenCalled();
   });
 
   it("renders the landing detail when group query exists", async () => {
