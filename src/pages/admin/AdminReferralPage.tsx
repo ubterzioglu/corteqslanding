@@ -490,7 +490,7 @@ const AdminReferralPage = () => {
                             <Textarea
                               value={editingNote}
                               onChange={(event) => setEditingNote(event.target.value)}
-                              placeholder="Aciklama (opsiyonel)"
+                              placeholder="Açıklama (opsiyonel)"
                               rows={3}
                             />
                           </div>
