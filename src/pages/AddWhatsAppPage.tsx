@@ -47,6 +47,7 @@ import {
   type LandingLanguage,
   type LandingOrigin,
   type WhatsAppLanding,
+  normalizeLandingCategory,
 } from "@/lib/whatsapp-landings";
 import messagingHeroImage from "../../addwaimage.png";
 import waPlaceholderImage from "../../waplaceholder.png";
@@ -112,7 +113,7 @@ const placeholderLandings: WhatsAppLanding[] = [
     id: "placeholder-berlin-girisim",
     groupName: "Berlin Girişim Ağı",
     platform: "Discord",
-    category: "girisim",
+    category: "yatirim",
     country: "Almanya",
     city: "Berlin",
     mode: "visual",
@@ -230,6 +231,10 @@ const approvalBadgeMeta = {
     className: "border-orange-600 bg-orange-500 text-white",
   },
 } as const;
+
+function getCategoryMeta(category?: string | null) {
+  return categoryMeta[normalizeLandingCategory(category)];
+}
 
 function stripCommunityPrefix(text?: string | null) {
   return text?.replace(/^Topluluk\s*[:;]\s*/i, "").trim() ?? "";
@@ -802,11 +807,12 @@ export default function AddWhatsAppPage() {
     }
 
     // Category badge (vibrant colors)
-    const Icon = categoryMeta[landing.category].icon;
+    const category = getCategoryMeta(landing.category);
+    const Icon = category.icon;
     badges.push(
-      <Badge key="category" className={`flex h-8 w-full cursor-default items-center justify-center border px-3 text-center text-xs font-semibold ${categoryMeta[landing.category].chipClass}`}>
+      <Badge key="category" className={`flex h-8 w-full cursor-default items-center justify-center border px-3 text-center text-xs font-semibold ${category.chipClass}`}>
         <Icon className="mr-1.5 h-3 w-3" />
-        {categoryMeta[landing.category].label}
+        {category.label}
       </Badge>
     );
 
@@ -1040,7 +1046,7 @@ export default function AddWhatsAppPage() {
               )}
 
               {(() => {
-                const cat = categoryMeta[selectedLanding.category];
+                const cat = getCategoryMeta(selectedLanding.category);
                 const CatIcon = cat.icon;
                 const approvalStatus = getApprovalStatusMeta(selectedLanding);
                 const managerName = selectedLanding.adminName?.trim() || "-";
@@ -1619,7 +1625,8 @@ export default function AddWhatsAppPage() {
             ) : (
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {filteredLandings.map((landing) => {
-                  const Icon = categoryMeta[landing.category].icon;
+                  const category = getCategoryMeta(landing.category);
+                  const Icon = category.icon;
                   const cardSummary =
                     stripCommunityPrefix(landing.callToActionText) ||
                     stripCommunityPrefix(
@@ -1657,9 +1664,9 @@ export default function AddWhatsAppPage() {
                       <div className="flex flex-1 flex-col p-5">
                         <div className="flex flex-col gap-2">
                           {renderApprovalBadges(landing)}
-                          <Badge className={`flex h-8 w-full items-center justify-center border px-3 text-xs font-semibold ${categoryMeta[landing.category].chipClass}`}>
+                          <Badge className={`flex h-8 w-full items-center justify-center border px-3 text-xs font-semibold ${category.chipClass}`}>
                             <Icon className="mr-1.5 h-3 w-3" />
-                            {categoryMeta[landing.category].label}
+                            {category.label}
                           </Badge>
                         </div>
                         <h3 className="mt-4 text-xl font-bold text-foreground group-hover:text-emerald-700">

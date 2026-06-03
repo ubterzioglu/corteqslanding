@@ -139,6 +139,20 @@ const COMMUNITY_TURKISH_REPLACEMENTS: Array<[RegExp, string]> = [
   [/\bhatti\b/g, "hattı"],
 ];
 
+const LANDING_CATEGORY_ALIASES: Record<string, LandingCategory> = {
+  alumni: "alumni",
+  hobi: "hobi",
+  is: "is",
+  doktor: "doktor",
+  yatirim: "yatirim",
+  girisim: "yatirim",
+  akademik: "akademik",
+  dayanisma: "dayanisma",
+  hr: "hr",
+  "kisisel-gelisim": "kisisel-gelisim",
+  diger: "diger",
+};
+
 export function slugify(value: string) {
   return value
     .toLowerCase()
@@ -162,6 +176,12 @@ export function normalizeCommunityText(value?: string | null) {
     (current, [pattern, replacement]) => current.replace(pattern, replacement),
     trimmed,
   );
+}
+
+export function normalizeLandingCategory(value?: string | null): LandingCategory {
+  const normalized = value?.trim().toLowerCase();
+  if (!normalized) return "diger";
+  return LANDING_CATEGORY_ALIASES[normalized] ?? "diger";
 }
 
 function parseSubmitterRole(description?: string | null): LandingSubmitterRole | undefined {
@@ -272,7 +292,7 @@ export function rowToLanding(row: WhatsAppLandingRow): WhatsAppLanding {
     dbId: row.id,
     groupName: normalizeCommunityText(row.group_name),
     platform: parseTagValue(row.description, "Platform"),
-    category: row.category as LandingCategory,
+    category: normalizeLandingCategory(row.category),
     country: normalizeCommunityText(row.country),
     city: normalizeCommunityText(row.city),
     mode: row.mode as LandingMode,

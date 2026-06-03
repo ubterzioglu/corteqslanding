@@ -8,6 +8,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 const toastSpy = vi.fn();
 const listLandingsSpy = vi.fn();
 const getLandingSpy = vi.fn();
+const getEditableLandingForCurrentUserSpy = vi.fn();
+const canCurrentUserEditLandingSpy = vi.fn();
 const useAuthMock = vi.fn();
 const signInWithOAuthMock = vi.fn();
 
@@ -32,8 +34,17 @@ vi.mock("@/integrations/supabase/client", () => ({
 vi.mock("@/lib/whatsapp-landings", () => ({
   listLandings: (...args: unknown[]) => listLandingsSpy(...args),
   getLanding: (...args: unknown[]) => getLandingSpy(...args),
+  getEditableLandingForCurrentUser: (...args: unknown[]) => getEditableLandingForCurrentUserSpy(...args),
+  canCurrentUserEditLanding: (...args: unknown[]) => canCurrentUserEditLandingSpy(...args),
   submitLanding: vi.fn(),
   createJoinRequest: vi.fn(),
+  uploadWhatsAppLandingHeroImage: vi.fn(),
+  normalizeLandingCategory: (value?: string | null) =>
+    value === "girisim" ? "yatirim" : value === "alumni" || value === "hobi" || value === "is" ||
+      value === "doktor" || value === "yatirim" || value === "akademik" || value === "dayanisma" ||
+      value === "hr" || value === "kisisel-gelisim" || value === "diger"
+      ? value
+      : "diger",
 }));
 
 const listFixture = [
@@ -72,6 +83,8 @@ describe("AddWhatsAppPage", () => {
   beforeEach(() => {
     listLandingsSpy.mockResolvedValue(listFixture);
     getLandingSpy.mockResolvedValue(listFixture[0]);
+    getEditableLandingForCurrentUserSpy.mockResolvedValue(undefined);
+    canCurrentUserEditLandingSpy.mockResolvedValue(false);
     signInWithOAuthMock.mockResolvedValue({ error: null });
     useAuthMock.mockReturnValue({ user: null });
   });
@@ -125,6 +138,33 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     expect(screen.getByText(/Katıl ve ağını büyüt/i)).toBeInTheDocument();
+  });
+
+  it("renders legacy girisim categories without crashing", async () => {
+    listLandingsSpy.mockResolvedValue([
+      {
+        ...listFixture[0],
+        category: "girisim",
+      },
+    ]);
+    getLandingSpy.mockResolvedValue({
+      ...listFixture[0],
+      category: "girisim",
+    });
+
+    renderPage("/addcom?group=berlin-girisim");
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    expect(screen.getAllByText("Yatırım & Girişim").length).toBeGreaterThan(0);
+  });
+
+  it("renders placeholder detail pages for legacy slugs", async () => {
+    getLandingSpy.mockResolvedValue(null);
+
+    renderPage("/addcom?group=placeholder-berlin-girisim");
+
+    expect(await screen.findByText("Berlin Girişim Ağı")).toBeInTheDocument();
+    expect(screen.getAllByText("Yatırım & Girişim").length).toBeGreaterThan(0);
   });
 
   it("shows '-' for manager when admin name is missing", async () => {
