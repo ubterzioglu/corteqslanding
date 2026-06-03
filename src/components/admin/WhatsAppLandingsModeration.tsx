@@ -549,11 +549,13 @@ export default function WhatsAppLandingsModeration() {
                     id="edit-group-score"
                     type="number"
                     value={editState.groupScore ?? ""}
-                    onChange={(event) => updateEditState("groupScore", event.target.value ? parseInt(event.target.value, 10) : undefined)}
-                    placeholder="Örn: 85"
+                    onChange={(event) => updateEditState("groupScore", event.target.value ? parseFloat(event.target.value) : undefined)}
+                    placeholder="Örn: 8.4"
                     min={0}
-                    max={100}
+                    max={10}
+                    step="0.1"
                   />
+                  <p className="text-xs text-muted-foreground">0 ile 10 arasynda ondalikli skor girebilirsin.</p>
                 </div>
               </div>
 

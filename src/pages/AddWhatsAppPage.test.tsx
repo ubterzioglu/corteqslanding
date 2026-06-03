@@ -63,6 +63,9 @@ const listFixture = [
     whatsappLink: "https://chat.whatsapp.com/test",
     adminName: "Burak",
     adminContact: "info@example.com",
+    groupScore: 8.4,
+    adminApproved: true,
+    memberApproved: false,
     createdAt: "2026-05-15T00:00:00Z",
   },
 ] as const;
@@ -159,6 +162,7 @@ describe("AddWhatsAppPage", () => {
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     expect(screen.getByText(/Katıl ve ağını büyüt/i)).toBeInTheDocument();
+    expect(screen.getAllByText("8.4 / 10").length).toBeGreaterThan(0);
   });
 
   it("renders legacy girisim categories without crashing", async () => {
@@ -188,17 +192,37 @@ describe("AddWhatsAppPage", () => {
     expect(screen.getAllByText("Yatırım & Girişim").length).toBeGreaterThan(0);
   });
 
-  it("shows '-' for manager when admin name is missing", async () => {
-    getLandingSpy.mockResolvedValue({
-      ...listFixture[0],
-      adminName: undefined,
-    });
-
-    renderPage("/addcom?group=berlin-girisim");
+  it("shows the CorteQS score card on listing cards", async () => {
+    renderPage();
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    expect(screen.getByText("Yönetici")).toBeInTheDocument();
-    expect(screen.getByText("-")).toBeInTheDocument();
+    expect(screen.getAllByText("CorteQS Skoru").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("8.4 / 10").length).toBeGreaterThan(0);
+  });
+
+  it("filters communities by approval type", async () => {
+    listLandingsSpy.mockResolvedValue([
+      listFixture[0],
+      {
+        ...listFixture[0],
+        id: "member-onayli",
+        dbId: "db-2",
+        groupName: "Paris Dayanisma",
+        adminApproved: false,
+        memberApproved: true,
+      },
+    ]);
+
+    renderPage();
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
+    expect(screen.getByText("Paris Dayanisma")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("combobox", { name: /Onay Tipi/i }));
+    fireEvent.click(screen.getByText("Kullanıcı onaylı"));
+
+    expect(screen.queryByText("Berlin Girisimciler")).not.toBeInTheDocument();
+    expect(screen.getByText("Paris Dayanisma")).toBeInTheDocument();
   });
 
   it("shows not found state for an unknown landing slug", async () => {
