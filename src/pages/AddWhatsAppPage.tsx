@@ -1193,7 +1193,7 @@ export default function AddWhatsAppPage() {
           <Accordion
             type="single"
             collapsible
-            value={groupFormOpen ? "group-form" : undefined}
+            value={groupFormOpen ? "group-form" : ""}
             onValueChange={(value) => setGroupFormOpen(value === "group-form")}
             className="mt-3"
           >
