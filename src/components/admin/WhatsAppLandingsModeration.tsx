@@ -555,7 +555,7 @@ export default function WhatsAppLandingsModeration() {
                     max={10}
                     step="0.1"
                   />
-                  <p className="text-xs text-muted-foreground">0 ile 10 arasynda ondalikli skor girebilirsin.</p>
+                  <p className="text-xs text-muted-foreground">0 ile 10 arasında ondalıklı skor girebilirsin.</p>
                 </div>
               </div>
 

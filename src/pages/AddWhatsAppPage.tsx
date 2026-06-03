@@ -1557,7 +1557,7 @@ export default function AddWhatsAppPage() {
 
           <div className="mt-3 flex flex-wrap gap-2">
             <Select value={filterCategory || "__all__"} onValueChange={(v) => setFilterCategory(v === "__all__" ? "" : (v as LandingCategory))}>
-              <SelectTrigger className="w-[210px]">
+              <SelectTrigger className="w-[210px]" aria-label="Kategori filtresi">
                 <SelectValue placeholder="Kategori" />
               </SelectTrigger>
               <SelectContent>
@@ -1569,7 +1569,7 @@ export default function AddWhatsAppPage() {
             </Select>
 
             <Select value={filterCity || "__all__"} onValueChange={(v) => setFilterCity(v === "__all__" ? "" : v)}>
-              <SelectTrigger className="w-[140px]">
+              <SelectTrigger className="w-[140px]" aria-label="Şehir filtresi">
                 <SelectValue placeholder="Şehir" />
               </SelectTrigger>
               <SelectContent>
@@ -1581,7 +1581,7 @@ export default function AddWhatsAppPage() {
             </Select>
 
             <Select value={filterApproval || "__all__"} onValueChange={(v) => setFilterApproval(v === "__all__" ? "" : (v as "member" | "admin"))}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[180px]" aria-label="Onay tipi filtresi">
                 <SelectValue placeholder="Onay Tipi" />
               </SelectTrigger>
               <SelectContent>
@@ -1592,7 +1592,7 @@ export default function AddWhatsAppPage() {
             </Select>
 
             <Select value={filterOrigin || "__all__"} onValueChange={(v) => setFilterOrigin(v === "__all__" ? "" : (v as LandingOrigin))}>
-              <SelectTrigger className="w-[130px]">
+              <SelectTrigger className="w-[130px]" aria-label="Bölge filtresi">
                 <SelectValue placeholder="Bölge" />
               </SelectTrigger>
               <SelectContent>
@@ -1604,7 +1604,7 @@ export default function AddWhatsAppPage() {
             </Select>
 
             <Select value={filterLanguage || "__all__"} onValueChange={(v) => setFilterLanguage(v === "__all__" ? "" : (v as LandingLanguage))}>
-              <SelectTrigger className="w-[130px]">
+              <SelectTrigger className="w-[130px]" aria-label="Dil filtresi">
                 <SelectValue placeholder="Dil" />
               </SelectTrigger>
               <SelectContent>
