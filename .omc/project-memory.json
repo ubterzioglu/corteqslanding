@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1780138428477,
-  "projectRoot": "C:\\temp_private\\corteqs\\corteqs_landing",
+  "lastScanned": 1780476258593,
+  "projectRoot": "c:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
       {
@@ -62,10 +62,11 @@
       "build:dev": "vite build --mode development",
       "start": "node server.mjs",
       "verify:release": "node scripts/verify-release.mjs",
+      "check:turkish-text": "node scripts/check-turkish-text.mjs",
       "import:command-center:may13": "node scripts/import-command-center-may13.mjs",
       "import:command-center:may13:write": "node scripts/import-command-center-may13.mjs --write",
       "import:resources:replace": "node scripts/replace-resource-entries-from-csv.mjs",
-      "lint": "eslint .",
+      "lint": "npm run check:turkish-text && eslint .",
       "preview": "vite preview",
       "test": "vitest run",
       "test:watch": "vitest"
@@ -97,14 +98,14 @@
       "path": "backups",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780138428382,
+      "lastAccessed": 1780476258510,
       "keyFiles": []
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 17,
-      "lastAccessed": 1780138428383,
+      "lastAccessed": 1780476258510,
       "keyFiles": [
         "ambassador.html",
         "commercial.html",
@@ -116,28 +117,24 @@
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
-      "fileCount": 8,
-      "lastAccessed": 1780138428384,
+      "fileCount": 1,
+      "lastAccessed": 1780476258510,
       "keyFiles": [
-        "auth-login-durumu-2026-05-24.md",
-        "commercial-contributor-structure.md",
-        "marquee-haber-akisi.md",
-        "member-system-v2-registry.json",
-        "new-member-system-login-roller-featurelar.md"
+        "README.md"
       ]
     },
     "docu": {
       "path": "docu",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780138428434,
+      "lastAccessed": 1780476258560,
       "keyFiles": []
     },
     "lansman": {
       "path": "lansman",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1780138428434,
+      "lastAccessed": 1780476258561,
       "keyFiles": [
         "index.html"
       ]
@@ -146,7 +143,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 10,
-      "lastAccessed": 1780138428435,
+      "lastAccessed": 1780476258562,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -159,15 +156,16 @@
       "path": "ref",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780138428436,
+      "lastAccessed": 1780476258562,
       "keyFiles": []
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 3,
-      "lastAccessed": 1780138428436,
+      "fileCount": 4,
+      "lastAccessed": 1780476258563,
       "keyFiles": [
+        "check-turkish-text.mjs",
         "import-command-center-may13.mjs",
         "replace-resource-entries-from-csv.mjs",
         "verify-release.mjs"
@@ -177,7 +175,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 14,
-      "lastAccessed": 1780138428437,
+      "lastAccessed": 1780476258563,
       "keyFiles": [
         "App.addwa-routes.test.tsx",
         "App.admin-cadde-route.test.tsx",
@@ -190,7 +188,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1780138428437,
+      "lastAccessed": 1780476258563,
       "keyFiles": [
         "config.toml"
       ]
@@ -199,195 +197,32 @@
       "path": "_archive",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780138428438,
+      "lastAccessed": 1780476258564,
       "keyFiles": []
     },
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
-      "fileCount": 27,
-      "lastAccessed": 1780138428439,
+      "fileCount": 28,
+      "lastAccessed": 1780476258565,
       "keyFiles": [
-        "blogger-vlogger-CB3SgA9I.jpg",
-        "burak-D_NPD4FO.png",
-        "ComposedChart-B0l-067C.js"
+        "404404-DWqrfkMw.png",
+        "addwaimage-CQ0S0aXe.png",
+        "blogger-vlogger-CB3SgA9I.jpg"
       ]
     },
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 64,
-      "lastAccessed": 1780138428443,
+      "fileCount": 112,
+      "lastAccessed": 1780476258569,
       "keyFiles": [
-        "20260406104636_435b29f1-111a-44a7-8840-41211d0a1c6a.sql",
-        "20260406193000_admin_and_submission_workflow.sql",
-        "20260418161500_add_backer_fields.sql"
+        "20260322185422_0c2fefe6-54d8-4444-83e3-10996948943b.sql",
+        "20260326112832_9bf32535-1683-4393-9f7e-c9b722013634.sql",
+        "20260326112842_8d8e27b7-3d7d-4091-a297-005b24613a91.sql"
       ]
     }
   },
-  "hotPaths": [
-    {
-      "path": "src\\pages\\AddWhatsAppPage.tsx",
-      "accessCount": 52,
-      "lastAccessed": 1780153193903,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 23,
-      "lastAccessed": 1780153093776,
-      "type": "directory"
-    },
-    {
-      "path": "src\\components\\admin\\WhatsAppLandingsModeration.tsx",
-      "accessCount": 7,
-      "lastAccessed": 1780152541699,
-      "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 7,
-      "lastAccessed": 1780152941032,
-      "type": "directory"
-    },
-    {
-      "path": "src\\lib\\whatsapp-landings.ts",
-      "accessCount": 4,
-      "lastAccessed": 1780152939888,
-      "type": "file"
-    },
-    {
-      "path": "CLAUDE.md",
-      "accessCount": 3,
-      "lastAccessed": 1780150989925,
-      "type": "file"
-    },
-    {
-      "path": "src\\App.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1780152204157,
-      "type": "file"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 2,
-      "lastAccessed": 1780150912011,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 2,
-      "lastAccessed": 1780150912293,
-      "type": "file"
-    },
-    {
-      "path": "tsconfig.json",
-      "accessCount": 2,
-      "lastAccessed": 1780150913195,
-      "type": "file"
-    },
-    {
-      "path": "vite.config.ts",
-      "accessCount": 2,
-      "lastAccessed": 1780150923929,
-      "type": "file"
-    },
-    {
-      "path": "vitest.config.ts",
-      "accessCount": 2,
-      "lastAccessed": 1780150924278,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\CaddePage.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1780151246127,
-      "type": "file"
-    },
-    {
-      "path": "src\\lib\\cadde.ts",
-      "accessCount": 2,
-      "lastAccessed": 1780151246688,
-      "type": "file"
-    },
-    {
-      "path": "src\\main.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780138522816,
-      "type": "file"
-    },
-    {
-      "path": "components.json",
-      "accessCount": 1,
-      "lastAccessed": 1780138524282,
-      "type": "file"
-    },
-    {
-      "path": "eslint.config.js",
-      "accessCount": 1,
-      "lastAccessed": 1780138547381,
-      "type": "file"
-    },
-    {
-      "path": "docs\\PROJECT_TECHNICAL_OVERVIEW.md",
-      "accessCount": 1,
-      "lastAccessed": 1780138726123,
-      "type": "file"
-    },
-    {
-      "path": "playwright.config.ts",
-      "accessCount": 1,
-      "lastAccessed": 1780150924390,
-      "type": "file"
-    },
-    {
-      "path": "docs\\README.md",
-      "accessCount": 1,
-      "lastAccessed": 1780150933058,
-      "type": "file"
-    },
-    {
-      "path": "docs\\architecture\\PROJECT_TECHNICAL_OVERVIEW.md",
-      "accessCount": 1,
-      "lastAccessed": 1780150933313,
-      "type": "file"
-    },
-    {
-      "path": "tsconfig.app.json",
-      "accessCount": 1,
-      "lastAccessed": 1780150933569,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\ui\\badge.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780151234113,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\AddWhatsAppPage.test.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780151239812,
-      "type": "file"
-    },
-    {
-      "path": "src\\pages\\admin\\AdminWhatsAppLandingsPage.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780151245356,
-      "type": "file"
-    },
-    {
-      "path": "src\\components\\ChatRegisterBar.tsx",
-      "accessCount": 1,
-      "lastAccessed": 1780151259089,
-      "type": "file"
-    },
-    {
-      "path": ".env.local",
-      "accessCount": 1,
-      "lastAccessed": 1780153098184,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }

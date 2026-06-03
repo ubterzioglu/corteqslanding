@@ -818,7 +818,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      whatsapp_landings: {
+        whatsapp_landings: {
         Row: {
           admin_contact: string | null;
           admin_name: string | null;
@@ -830,9 +830,14 @@ export type Database = {
           created_at: string;
           description: string | null;
           group_name: string;
+          group_score: number | null;
           hero_image: string | null;
           id: string;
+          language: string | null;
+          member_count: number | null;
+          member_count_updated_at: string | null;
           mode: string;
+          origin: string | null;
           rejection_reason: string | null;
           slug: string;
           status: string;
@@ -852,9 +857,14 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           group_name: string;
+          group_score?: number | null;
           hero_image?: string | null;
           id?: string;
+          language?: string | null;
+          member_count?: number | null;
+          member_count_updated_at?: string | null;
           mode?: string;
+          origin?: string | null;
           rejection_reason?: string | null;
           slug: string;
           status?: string;
@@ -874,9 +884,14 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           group_name?: string;
+          group_score?: number | null;
           hero_image?: string | null;
           id?: string;
+          language?: string | null;
+          member_count?: number | null;
+          member_count_updated_at?: string | null;
           mode?: string;
+          origin?: string | null;
           rejection_reason?: string | null;
           slug?: string;
           status?: string;

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
+  Briefcase,
   Check,
   ExternalLink,
   Globe,
@@ -24,7 +25,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -43,6 +44,8 @@ import {
   submitLanding,
   uploadWhatsAppLandingHeroImage,
   type LandingCategory,
+  type LandingLanguage,
+  type LandingOrigin,
   type WhatsAppLanding,
 } from "@/lib/whatsapp-landings";
 import messagingHeroImage from "../../addwaimage.png";
@@ -77,11 +80,6 @@ const categoryMeta: Record<
     label: "Yatırım & Girişim",
     chipClass: "border-emerald-600 bg-emerald-500 text-white",
   },
-  girisim: {
-    icon: TrendingUp,
-    label: "Yatırım & Girişim",
-    chipClass: "border-emerald-600 bg-emerald-500 text-white",
-  },
   akademik: {
     icon: Globe,
     label: "Akademik",
@@ -91,6 +89,16 @@ const categoryMeta: Record<
     icon: HandHeart,
     label: "Dayanışma",
     chipClass: "border-rose-600 bg-rose-500 text-white",
+  },
+  hr: {
+    icon: Briefcase,
+    label: "HR",
+    chipClass: "border-violet-600 bg-violet-500 text-white",
+  },
+  "kisisel-gelisim": {
+    icon: Sparkles,
+    label: "Kişisel Gelişim",
+    chipClass: "border-pink-600 bg-pink-500 text-white",
   },
   diger: {
     icon: Sparkles,
@@ -245,11 +253,27 @@ const categoryOptions: Array<{ value: LandingCategory; label: string }> = [
   { value: "hobi", label: "Hobi" },
   { value: "is", label: "İş Grubu" },
   { value: "doktor", label: "Doktor / Sağlık" },
-  { value: "yatirim", label: "Yatırım" },
-  { value: "girisim", label: "Girişim" },
+  { value: "yatirim", label: "Yatırım & Girişim" },
   { value: "akademik", label: "Akademik" },
   { value: "dayanisma", label: "Dayanışma" },
+  { value: "hr", label: "HR" },
+  { value: "kisisel-gelisim", label: "Kişisel Gelişim" },
   { value: "diger", label: "Diğer" },
+];
+
+const languageOptions: Array<{ value: LandingLanguage; label: string }> = [
+  { value: "tr", label: "Türkçe" },
+  { value: "en", label: "İngilizce" },
+  { value: "de", label: "Almanca" },
+  { value: "ar", label: "Arapça" },
+];
+
+const originOptions: Array<{ value: LandingOrigin; label: string }> = [
+  { value: "global", label: "Global" },
+  { value: "mena", label: "MENA" },
+  { value: "berlin", label: "Berlin" },
+  { value: "turkiye", label: "Türkiye" },
+  { value: "avrupa", label: "Avrupa" },
 ];
 
 const platformMarkMeta: Record<string, { short: string; className: string }> = {
@@ -278,6 +302,9 @@ type GroupFormState = {
   adminName: string;
   adminEmail: string;
   adminPhone: string;
+  memberCount: string;
+  language: LandingLanguage | "";
+  origin: LandingOrigin | "";
 };
 
 type JoinFormState = {
@@ -300,6 +327,9 @@ const initialGroupForm: GroupFormState = {
   adminName: "",
   adminEmail: "",
   adminPhone: "",
+  memberCount: "",
+  language: "",
+  origin: "",
 };
 
 const initialJoinForm: JoinFormState = {
@@ -321,6 +351,7 @@ function getErrorMessage(error: unknown, fallback = "Beklenmeyen hata") {
 export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
   const groupSlug = searchParams.get("group")?.trim() ?? "";
@@ -330,6 +361,11 @@ export default function AddWhatsAppPage() {
   const [loadingList, setLoadingList] = useState(true);
   const [loadingLanding, setLoadingLanding] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterCategory, setFilterCategory] = useState<LandingCategory | "">("");
+  const [filterCity, setFilterCity] = useState("");
+  const [filterAdmin, setFilterAdmin] = useState("");
+  const [filterOrigin, setFilterOrigin] = useState<LandingOrigin | "">("");
+  const [filterLanguage, setFilterLanguage] = useState<LandingLanguage | "">("");
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [groupFormOpen, setGroupFormOpen] = useState(false);
@@ -436,22 +472,33 @@ export default function AddWhatsAppPage() {
     const mergedLandings = landings.length >= 6 ? landings : [...landings, ...placeholderLandings.slice(0, 6 - landings.length)];
 
     return mergedLandings.filter((landing) => {
-      if (!query) return true;
+      if (query) {
+        const haystack = [
+          landing.groupName,
+          landing.tagline,
+          landing.country,
+          landing.city,
+          landing.description,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
 
-      const haystack = [
-        landing.groupName,
-        landing.tagline,
-        landing.country,
-        landing.city,
-        landing.description,
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+        if (!haystack.includes(query)) return false;
+      }
 
-      return haystack.includes(query);
+      if (filterCategory && landing.category !== filterCategory) return false;
+      if (filterCity && landing.city !== filterCity) return false;
+      if (filterAdmin && landing.adminName !== filterAdmin) return false;
+      if (filterOrigin && landing.origin !== filterOrigin) return false;
+      if (filterLanguage && landing.language !== filterLanguage) return false;
+
+      return true;
     });
-  }, [landings, searchQuery]);
+  }, [landings, searchQuery, filterCategory, filterCity, filterAdmin, filterOrigin, filterLanguage]);
+
+  const uniqueCities = useMemo(() => [...new Set(landings.map((l) => l.city).filter(Boolean))].sort(), [landings]);
+  const uniqueAdmins = useMemo(() => [...new Set(landings.map((l) => l.adminName).filter(Boolean) as string[])].sort(), [landings]);
 
   const selectedConditionItems = useMemo(
     () =>
@@ -476,12 +523,12 @@ export default function AddWhatsAppPage() {
       return true;
     }
 
-    setOauthSubmitting(true);
-
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete("group");
     nextParams.set("openGroupForm", "1");
     const nextPath = `${location.pathname}?${nextParams.toString()}`;
+
+    setOauthSubmitting(true);
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -571,6 +618,9 @@ export default function AddWhatsAppPage() {
         adminName: groupForm.adminName,
         adminContact,
         description,
+        memberCount: groupForm.memberCount ? parseInt(groupForm.memberCount, 10) : undefined,
+        language: groupForm.language || undefined,
+        origin: groupForm.origin || undefined,
       });
 
       toast({
@@ -1188,7 +1238,7 @@ export default function AddWhatsAppPage() {
                 <div className="space-y-1">
                   <h2 className="text-base font-bold tracking-[0.01em] text-slate-900 md:text-lg">Topluluk eklemek istiyorum</h2>
                   <p className="text-sm text-slate-600">
-                    Formu açmak için önce Google hesabınla giriş yap. Giriş sonrası başvuru formu otomatik açılır.
+                    Mevcut toplulukları herkes görebilir. Yeni topluluk eklemek için Google hesabınla giriş yap; giriş sonrası başvuru formu otomatik açılır.
                   </p>
                 </div>
               </div>
@@ -1204,245 +1254,275 @@ export default function AddWhatsAppPage() {
             </div>
           </div>
 
-          <Accordion
-            type="single"
-            collapsible
-            value={groupFormOpen ? "addwa-form" : ""}
-            onValueChange={(value) => setGroupFormOpen(value === "addwa-form")}
-            className="mt-3 w-full"
-          >
-            <AccordionItem value="addwa-form" className="border-b-0">
-              <AccordionTrigger
-                className="min-h-[62px] rounded-[1.45rem] bg-white/55 px-3 py-0 text-slate-900 hover:no-underline"
-                chevronWrapperClassName="border border-emerald-200/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.95)_0%,rgba(220,252,231,0.92)_100%)] shadow-[0_12px_28px_rgba(16,185,129,0.15)] ring-1 ring-white/90"
-                chevronClassName="h-4.5 w-4.5 text-emerald-700"
-              >
-                <div className="flex min-h-[56px] items-center gap-3 text-left">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#ecfdf5_0%,#d1fae5_100%)] shadow-[0_10px_24px_rgba(16,185,129,0.16)] ring-1 ring-emerald-200/80">
-                    <Sparkles className="h-4 w-4 text-emerald-700" />
-                  </span>
-                  <div className="flex items-center">
-                    <h2 className="text-base font-bold tracking-[0.01em] text-slate-900 md:text-lg">Topluluk Ekle</h2>
+          <Dialog open={groupFormOpen} onOpenChange={setGroupFormOpen}>
+            <DialogContent className="max-h-[92vh] overflow-y-auto border-emerald-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(236,253,245,0.92)_100%)] sm:max-w-3xl">
+              <DialogHeader>
+                <DialogTitle className="text-left text-xl font-bold text-slate-900">Topluluk Ekle</DialogTitle>
+                <DialogDescription className="text-left text-sm text-slate-600">
+                  Giriş yaptıktan sonra topluluk başvurunu bu popup form üzerinden gönderebilirsin.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-5">
+                <div className="space-y-3">
+                  <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
+                  <div>
+                    <Label>Başvuru Tipi</Label>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <Button
+                        type="button"
+                        variant={groupForm.submitterRole === "member" ? "default" : "outline"}
+                        onClick={() => updateGroupForm("submitterRole", "member")}
+                        className={groupForm.submitterRole === "member" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
+                      >
+                        Topluluk Üyesiyim
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={groupForm.submitterRole === "manager" ? "default" : "outline"}
+                        onClick={() => updateGroupForm("submitterRole", "manager")}
+                        className={groupForm.submitterRole === "manager" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
+                      >
+                        Topluluk Yöneticisiyim
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="platform">Platform *</Label>
+                    <Select value={groupForm.platform} onValueChange={(value) => updateGroupForm("platform", value)}>
+                      <SelectTrigger id="platform" className={`mt-1 ${formFieldInsetClass}`}>
+                        <SelectValue placeholder="Platform seç" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {platformOptions.map((platform) => (
+                          <SelectItem key={platform} value={platform}>
+                            {platform}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="category">Kategori</Label>
+                    <Select value={groupForm.category} onValueChange={(value) => updateGroupForm("category", value as LandingCategory)}>
+                      <SelectTrigger id="category" className={`mt-1 ${formFieldInsetClass}`}>
+                        <SelectValue placeholder="İsteğe bağlı kategori seç" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categoryOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="group-name">Grup Adı *</Label>
+                    <Input
+                      id="group-name"
+                      className={formFieldInsetClass}
+                      lang="tr"
+                      spellCheck
+                      value={groupForm.groupName}
+                      onChange={(event) => updateGroupForm("groupName", event.target.value)}
+                      placeholder="Örn: Berlin Türk Girişimciler"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="whatsapp-link">Topluluk Linki *</Label>
+                    <Input
+                      id="whatsapp-link"
+                      className={formFieldInsetClass}
+                      value={groupForm.whatsappLink}
+                      onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
+                      placeholder="https://..."
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="country">Ülke *</Label>
+                    <Input
+                      id="country"
+                      className={formFieldInsetClass}
+                      lang="tr"
+                      spellCheck
+                      value={groupForm.country}
+                      onChange={(event) => updateGroupForm("country", event.target.value)}
+                      placeholder="Global veya ülke adı giriniz"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="description">Kısa Açıklama</Label>
+                    <Textarea
+                      id="description"
+                      className={formFieldInsetClass}
+                      lang="tr"
+                      spellCheck
+                      rows={3}
+                      value={groupForm.description}
+                      onChange={(event) => updateGroupForm("description", event.target.value)}
+                      placeholder="Grup hakkında 1-2 cümle"
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="member-count">Topluluk Üye Sayısı</Label>
+                    <Input
+                      id="member-count"
+                      type="number"
+                      className={formFieldInsetClass}
+                      value={groupForm.memberCount}
+                      onChange={(event) => updateGroupForm("memberCount", event.target.value)}
+                      placeholder="Örn: 250"
+                      min={0}
+                    />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="language">Topluluk Dili</Label>
+                    <Select value={groupForm.language} onValueChange={(value) => updateGroupForm("language", value as LandingLanguage)}>
+                      <SelectTrigger id="language" className={formFieldInsetClass}>
+                        <SelectValue placeholder="Dil seçin" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {languageOptions.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="origin">Köken / Bölge</Label>
+                    <Select value={groupForm.origin} onValueChange={(value) => updateGroupForm("origin", value as LandingOrigin)}>
+                      <SelectTrigger id="origin" className={formFieldInsetClass}>
+                        <SelectValue placeholder="Bölge seçin" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {originOptions.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-              </AccordionTrigger>
-              <AccordionContent className="pt-4">
-                <div className="space-y-5">
+
+                {groupForm.submitterRole === "manager" ? (
                   <div className="space-y-3">
-                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
-                    <div>
-                      <Label>Başvuru Tipi</Label>
-                      <div className="mt-2 flex flex-wrap gap-2">
-                        <Button
-                          type="button"
-                          variant={groupForm.submitterRole === "member" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("submitterRole", "member")}
-                          className={groupForm.submitterRole === "member" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
-                        >
-                          Topluluk Üyesiyim
-                        </Button>
-                        <Button
-                          type="button"
-                          variant={groupForm.submitterRole === "manager" ? "default" : "outline"}
-                          onClick={() => updateGroupForm("submitterRole", "manager")}
-                          className={groupForm.submitterRole === "manager" ? "border-orange-500 bg-orange-500 text-white hover:bg-orange-600" : ""}
-                        >
-                          Topluluk Yöneticisiyim
-                        </Button>
-                      </div>
-                    </div>
+                    <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                      2. Topluluk Kartı Özelliklerini Belirtin (Sadece Yöneticiler İçindir.)
+                    </h3>
 
                     <div>
-                      <Label htmlFor="platform">Platform *</Label>
-                      <Select value={groupForm.platform} onValueChange={(value) => updateGroupForm("platform", value)}>
-                        <SelectTrigger id="platform" className={`mt-1 ${formFieldInsetClass}`}>
-                          <SelectValue placeholder="Platform seç" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {platformOptions.map((platform) => (
-                            <SelectItem key={platform} value={platform}>
-                              {platform}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="category">Kategori</Label>
-                      <Select value={groupForm.category} onValueChange={(value) => updateGroupForm("category", value as LandingCategory)}>
-                        <SelectTrigger id="category" className={`mt-1 ${formFieldInsetClass}`}>
-                          <SelectValue placeholder="İsteğe bağlı kategori seç" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {categoryOptions.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="group-name">Grup Adı *</Label>
-                      <Input
-                        id="group-name"
-                        className={formFieldInsetClass}
-                        lang="tr"
-                        spellCheck
-                        value={groupForm.groupName}
-                        onChange={(event) => updateGroupForm("groupName", event.target.value)}
-                        placeholder="Örn: Berlin Türk Girişimciler"
+                      <Label htmlFor="hero-image-file">Topluluk Kartı İçin Görsel Yükle</Label>
+                      <input
+                        ref={heroImageInputRef}
+                        id="hero-image-file"
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp,image/gif"
+                        className="hidden"
+                        onChange={(event) => setHeroImageFile(event.target.files?.[0] ?? null)}
                       />
+                      <button
+                        type="button"
+                        onClick={() => heroImageInputRef.current?.click()}
+                        className="ml-3 inline-flex h-11 items-center gap-2 rounded-xl border border-orange-200 bg-orange-500 px-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(249,115,22,0.22)] transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_16px_36px_rgba(249,115,22,0.28)]"
+                      >
+                        Dosya Seç
+                      </button>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {heroImageFile
+                          ? `Seçilen dosya: ${heroImageFile.name}`
+                          : "Dosya tipi: JPG, PNG, WEBP, GIF. Önerilen oran: 16:9 yatay. Maksimum dosya boyutu: 5 MB."}
+                      </p>
                     </div>
 
                     <div>
-                      <Label htmlFor="whatsapp-link">Topluluk Linki *</Label>
-                      <Input
-                        id="whatsapp-link"
-                        className={formFieldInsetClass}
-                        value={groupForm.whatsappLink}
-                        onChange={(event) => updateGroupForm("whatsappLink", event.target.value)}
-                        placeholder="https://..."
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="country">Ülke *</Label>
-                      <Input
-                        id="country"
-                        className={formFieldInsetClass}
-                        lang="tr"
-                        spellCheck
-                        value={groupForm.country}
-                        onChange={(event) => updateGroupForm("country", event.target.value)}
-                        placeholder="Global veya ülke adı giriniz"
-                      />
-                    </div>
-
-                    <div>
-                      <Label htmlFor="description">Kısa Açıklama</Label>
+                      <Label htmlFor="cta-text">Yeni üyeler için mesaj</Label>
                       <Textarea
-                        id="description"
+                        id="cta-text"
                         className={formFieldInsetClass}
                         lang="tr"
                         spellCheck
-                        rows={3}
-                        value={groupForm.description}
-                        onChange={(event) => updateGroupForm("description", event.target.value)}
-                        placeholder="Grup hakkında 1-2 cümle"
+                        rows={4}
+                        value={groupForm.callToActionText}
+                        onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
+                        placeholder="Yeni üyelere çağrı amacıyla metin yaz."
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="conditions">Topluluk Kuralları</Label>
+                      <Textarea
+                        id="conditions"
+                        className={formFieldInsetClass}
+                        lang="tr"
+                        spellCheck
+                        rows={4}
+                        value={groupForm.conditions}
+                        onChange={(event) => updateGroupForm("conditions", event.target.value)}
+                        placeholder={"Her satıra bir kural yazın\nÖrn: Grup içi reklam yasak"}
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad *</Label>
+                      <Input
+                        id="admin-name"
+                        className={formFieldInsetClass}
+                        lang="tr"
+                        spellCheck
+                        value={groupForm.adminName}
+                        onChange={(event) => updateGroupForm("adminName", event.target.value)}
+                        placeholder="Ad Soyad"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="admin-email">Topluluk Yöneticisi Mail Adresi *</Label>
+                      <Input
+                        id="admin-email"
+                        type="email"
+                        className={formFieldInsetClass}
+                        value={groupForm.adminEmail}
+                        onChange={(event) => updateGroupForm("adminEmail", event.target.value)}
+                        placeholder="ornek@email.com"
+                      />
+                    </div>
+
+                    <div>
+                      <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon *</Label>
+                      <Input
+                        id="admin-phone"
+                        className={formFieldInsetClass}
+                        value={groupForm.adminPhone}
+                        onChange={(event) => updateGroupForm("adminPhone", event.target.value)}
+                        placeholder="+49 ..."
                       />
                     </div>
                   </div>
+                ) : null}
 
-                  {groupForm.submitterRole === "manager" ? (
-                    <div className="space-y-3">
-                      <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                        2. Topluluk Kartı Özelliklerini Belirtin (Sadece Yöneticiler İçindir.)
-                      </h3>
-
-                      <div>
-                        <Label htmlFor="hero-image-file">Topluluk Kartı İçin Görsel Yükle</Label>
-                        <input
-                          ref={heroImageInputRef}
-                          id="hero-image-file"
-                          type="file"
-                          accept="image/jpeg,image/png,image/webp,image/gif"
-                          className="hidden"
-                          onChange={(event) => setHeroImageFile(event.target.files?.[0] ?? null)}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => heroImageInputRef.current?.click()}
-                          className="ml-3 inline-flex h-11 items-center gap-2 rounded-xl border border-orange-200 bg-orange-500 px-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(249,115,22,0.22)] transition hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-[0_16px_36px_rgba(249,115,22,0.28)]"
-                        >
-                          Dosya Seç
-                        </button>
-                          <p className="mt-2 text-xs text-muted-foreground">
-                            {heroImageFile
-                              ? `Seçilen dosya: ${heroImageFile.name}`
-                              : "Dosya tipi: JPG, PNG, WEBP, GIF. Önerilen oran: 16:9 yatay. Maksimum dosya boyutu: 5 MB."}
-                          </p>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="cta-text">Yeni üyeler için mesaj</Label>
-                        <Textarea
-                          id="cta-text"
-                          className={formFieldInsetClass}
-                          lang="tr"
-                          spellCheck
-                          rows={4}
-                          value={groupForm.callToActionText}
-                          onChange={(event) => updateGroupForm("callToActionText", event.target.value)}
-                          placeholder="Yeni üyelere çağrı amacıyla metin yaz."
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="conditions">Topluluk Kuralları</Label>
-                        <Textarea
-                          id="conditions"
-                          className={formFieldInsetClass}
-                          lang="tr"
-                          spellCheck
-                          rows={4}
-                          value={groupForm.conditions}
-                          onChange={(event) => updateGroupForm("conditions", event.target.value)}
-                          placeholder={"Her satıra bir kural yazın\nÖrn: Grup içi reklam yasak"}
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="admin-name">Topluluk Yöneticisi Adı Soyad *</Label>
-                        <Input
-                          id="admin-name"
-                          className={formFieldInsetClass}
-                          lang="tr"
-                          spellCheck
-                          value={groupForm.adminName}
-                          onChange={(event) => updateGroupForm("adminName", event.target.value)}
-                          placeholder="Ad Soyad"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="admin-email">Topluluk Yöneticisi Mail Adresi *</Label>
-                        <Input
-                          id="admin-email"
-                          type="email"
-                          className={formFieldInsetClass}
-                          value={groupForm.adminEmail}
-                          onChange={(event) => updateGroupForm("adminEmail", event.target.value)}
-                          placeholder="ornek@email.com"
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="admin-phone">Topluluk Yöneticisi Telefon *</Label>
-                        <Input
-                          id="admin-phone"
-                          className={formFieldInsetClass}
-                          value={groupForm.adminPhone}
-                          onChange={(event) => updateGroupForm("adminPhone", event.target.value)}
-                          placeholder="+49 ..."
-                        />
-                      </div>
-                    </div>
-                  ) : null}
-
-                  <Button
-                    className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
-                    onClick={() => void handleGroupSubmit()}
-                    disabled={submittingGroup || oauthSubmitting}
-                  >
-                    {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
-                  </Button>
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+                <Button
+                  className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
+                  onClick={() => void handleGroupSubmit()}
+                  disabled={submittingGroup || oauthSubmitting}
+                >
+                  {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <section className="mt-8">
@@ -1454,6 +1534,68 @@ export default function AddWhatsAppPage() {
               className="pl-9"
               placeholder="Topluluk ara!"
             />
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Select value={filterCategory || "__all__"} onValueChange={(v) => setFilterCategory(v === "__all__" ? "" : (v as LandingCategory))}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Kategori" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Tüm Kategoriler</SelectItem>
+                {categoryOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={filterCity || "__all__"} onValueChange={(v) => setFilterCity(v === "__all__" ? "" : v)}>
+              <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Şehir" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Tüm Şehirler</SelectItem>
+                {uniqueCities.map((city) => (
+                  <SelectItem key={city} value={city}>{city}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={filterAdmin || "__all__"} onValueChange={(v) => setFilterAdmin(v === "__all__" ? "" : v)}>
+              <SelectTrigger className="w-[160px]">
+                <SelectValue placeholder="Yönetici" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Tüm Yöneticiler</SelectItem>
+                {uniqueAdmins.map((admin) => (
+                  <SelectItem key={admin} value={admin}>{admin}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={filterOrigin || "__all__"} onValueChange={(v) => setFilterOrigin(v === "__all__" ? "" : (v as LandingOrigin))}>
+              <SelectTrigger className="w-[130px]">
+                <SelectValue placeholder="Bölge" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Tüm Bölgeler</SelectItem>
+                {originOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={filterLanguage || "__all__"} onValueChange={(v) => setFilterLanguage(v === "__all__" ? "" : (v as LandingLanguage))}>
+              <SelectTrigger className="w-[130px]">
+                <SelectValue placeholder="Dil" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">Tüm Diller</SelectItem>
+                {languageOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="mt-5">

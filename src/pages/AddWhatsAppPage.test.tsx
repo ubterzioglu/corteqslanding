@@ -1,5 +1,5 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import AddWhatsAppPage from "@/pages/AddWhatsAppPage";
@@ -99,10 +99,7 @@ describe("AddWhatsAppPage", () => {
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /Topluluk eklemek istiyorum/i }));
 
-    await waitFor(() => {
-      expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
-    });
-
+    expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
     expect(signInWithOAuthMock).toHaveBeenCalledWith({
       provider: "google",
       options: {
