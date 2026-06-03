@@ -280,19 +280,6 @@ const originOptions: Array<{ value: LandingOrigin; label: string }> = [
   { value: "avrupa", label: "Avrupa" },
 ];
 
-const platformMarkMeta: Record<string, { short: string; className: string }> = {
-  WhatsApp: { short: "WA", className: "bg-[#e7f9ee] text-[#1f9d55]" },
-  Telegram: { short: "TG", className: "bg-[#e7f4ff] text-[#229ED9]" },
-  Discord: { short: "DS", className: "bg-[#eef0ff] text-[#5865F2]" },
-  Facebook: { short: "f", className: "bg-[#ecf3ff] text-[#1877F2]" },
-  Instagram: { short: "IG", className: "bg-[#fff0f6] text-[#E1306C]" },
-  LinkedIn: { short: "in", className: "bg-[#eef7ff] text-[#0A66C2]" },
-  X: { short: "X", className: "bg-slate-900 text-white" },
-  TikTok: { short: "TT", className: "bg-slate-100 text-slate-900" },
-  YouTube: { short: "YT", className: "bg-[#fff0f0] text-[#FF0000]" },
-  Reddit: { short: "R", className: "bg-[#fff3ea] text-[#FF5700]" },
-};
-
 type GroupFormState = {
   submitterRole: "manager" | "member";
   platform: string;
@@ -352,6 +339,11 @@ function getErrorMessage(error: unknown, fallback = "Beklenmeyen hata") {
   return fallback;
 }
 
+function formatGroupScore(score?: number) {
+  if (typeof score !== "number" || Number.isNaN(score)) return null;
+  return Number.isInteger(score) ? score.toString() : score.toFixed(1);
+}
+
 export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -367,7 +359,7 @@ export default function AddWhatsAppPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterCategory, setFilterCategory] = useState<LandingCategory | "">("");
   const [filterCity, setFilterCity] = useState("");
-  const [filterAdmin, setFilterAdmin] = useState("");
+  const [filterApproval, setFilterApproval] = useState<"member" | "admin" | "">("");
   const [filterOrigin, setFilterOrigin] = useState<LandingOrigin | "">("");
   const [filterLanguage, setFilterLanguage] = useState<LandingLanguage | "">("");
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
@@ -494,16 +486,16 @@ export default function AddWhatsAppPage() {
 
       if (filterCategory && landing.category !== filterCategory) return false;
       if (filterCity && landing.city !== filterCity) return false;
-      if (filterAdmin && landing.adminName !== filterAdmin) return false;
+      if (filterApproval === "admin" && !landing.adminApproved) return false;
+      if (filterApproval === "member" && !landing.memberApproved) return false;
       if (filterOrigin && landing.origin !== filterOrigin) return false;
       if (filterLanguage && landing.language !== filterLanguage) return false;
 
       return true;
     });
-  }, [landings, searchQuery, filterCategory, filterCity, filterAdmin, filterOrigin, filterLanguage]);
+  }, [landings, searchQuery, filterCategory, filterCity, filterApproval, filterOrigin, filterLanguage]);
 
   const uniqueCities = useMemo(() => [...new Set(landings.map((l) => l.city).filter(Boolean))].sort(), [landings]);
-  const uniqueAdmins = useMemo(() => [...new Set(landings.map((l) => l.adminName).filter(Boolean) as string[])].sort(), [landings]);
 
   const selectedConditionItems = useMemo(
     () =>
@@ -841,7 +833,7 @@ export default function AddWhatsAppPage() {
     return <div className="flex flex-col gap-2">{badges}</div>;
   };
 
-  const renderPlatformLogo = (platform?: string, size: "md" | "lg" = "md") => {
+  const renderPlatformLogo = (platform?: string, size: "card" | "md" | "lg" = "md") => {
     if (!platform) return null;
 
     const platformLogoMap: Record<string, { svg: JSX.Element; className: string }> = {
@@ -939,8 +931,8 @@ export default function AddWhatsAppPage() {
     if (!logoMeta) return null;
 
     const isWhatsApp = platform === "WhatsApp";
-    const outerSize = size === "lg" ? "h-20 w-20" : "h-16 w-16";
-    const innerSize = size === "lg" ? "h-12 w-12" : "h-10 w-10";
+    const outerSize = size === "lg" ? "h-20 w-20" : size === "card" ? "h-12 w-12" : "h-16 w-16";
+    const innerSize = size === "lg" ? "h-12 w-12" : size === "card" ? "h-[1.875rem] w-[1.875rem]" : "h-10 w-10";
     const ringClass = isWhatsApp
       ? "ring-2 ring-emerald-200 shadow-[0_18px_40px_rgba(37,211,102,0.28)]"
       : "ring-2 ring-white shadow-lg";
@@ -1051,9 +1043,9 @@ export default function AddWhatsAppPage() {
                 const cat = getCategoryMeta(selectedLanding.category);
                 const CatIcon = cat.icon;
                 const approvalStatus = getApprovalStatusMeta(selectedLanding);
-                const managerName = selectedLanding.adminName?.trim() || "-";
                 const detailMetaCardClass =
                   "flex min-h-[76px] items-center gap-3 rounded-2xl border px-4 py-3 text-left shadow-sm";
+                const formattedScore = formatGroupScore(selectedLanding.groupScore);
 
                 return (
                   <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -1074,10 +1066,12 @@ export default function AddWhatsAppPage() {
                     </div>
 
                     <div className={`${detailMetaCardClass} border-violet-600 bg-violet-500 text-white`}>
-                      <Users className="h-4.5 w-4.5 shrink-0" />
+                      <Sparkles className="h-4.5 w-4.5 shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Yönetici</p>
-                        <p className="truncate text-sm font-semibold">{managerName}</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">CorteQS Grup Skoru</p>
+                        <p className="truncate text-sm font-semibold">
+                          {formattedScore ? `${formattedScore} / 10` : "Skor bekleniyor"}
+                        </p>
                       </div>
                     </div>
 
@@ -1563,7 +1557,7 @@ export default function AddWhatsAppPage() {
 
           <div className="mt-3 flex flex-wrap gap-2">
             <Select value={filterCategory || "__all__"} onValueChange={(v) => setFilterCategory(v === "__all__" ? "" : (v as LandingCategory))}>
-              <SelectTrigger className="w-[140px]">
+              <SelectTrigger className="w-[210px]">
                 <SelectValue placeholder="Kategori" />
               </SelectTrigger>
               <SelectContent>
@@ -1586,15 +1580,14 @@ export default function AddWhatsAppPage() {
               </SelectContent>
             </Select>
 
-            <Select value={filterAdmin || "__all__"} onValueChange={(v) => setFilterAdmin(v === "__all__" ? "" : v)}>
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Yönetici" />
+            <Select value={filterApproval || "__all__"} onValueChange={(v) => setFilterApproval(v === "__all__" ? "" : (v as "member" | "admin"))}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Onay Tipi" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="__all__">Tüm Yöneticiler</SelectItem>
-                {uniqueAdmins.map((admin) => (
-                  <SelectItem key={admin} value={admin}>{admin}</SelectItem>
-                ))}
+                <SelectItem value="__all__">Tüm Onaylar</SelectItem>
+                <SelectItem value="admin">Admin onaylı</SelectItem>
+                <SelectItem value="member">Kullanıcı onaylı</SelectItem>
               </SelectContent>
             </Select>
 
@@ -1715,8 +1708,31 @@ export default function AddWhatsAppPage() {
                             </span>
                           ) : null}
                         </div>
-                        <div className="pt-1">
-                          {renderPlatformLogo(landing.platform)}
+                        <div className="mt-4 flex items-end justify-between gap-3">
+                          <div className="min-h-[3rem]">
+                            {typeof landing.groupScore === "number" ? (
+                              <div className="inline-flex min-w-[7.5rem] flex-col rounded-2xl border border-violet-200 bg-violet-50 px-3 py-2 text-left shadow-sm">
+                                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-violet-500">
+                                  CorteQS Skoru
+                                </span>
+                                <span className="text-base font-black text-violet-700">
+                                  {formatGroupScore(landing.groupScore)} / 10
+                                </span>
+                              </div>
+                            ) : (
+                              <div className="inline-flex min-w-[7.5rem] flex-col rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-left shadow-sm">
+                                <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-slate-500">
+                                  CorteQS Skoru
+                                </span>
+                                <span className="text-sm font-semibold text-slate-700">
+                                  Skor bekleniyor
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="shrink-0 self-end">
+                            {renderPlatformLogo(landing.platform, "card")}
+                          </div>
                         </div>
                       </div>
                     </Link>
