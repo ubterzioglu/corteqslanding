@@ -1,5 +1,5 @@
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import AddWhatsAppPage from "@/pages/AddWhatsAppPage";
@@ -11,6 +11,7 @@ const getLandingSpy = vi.fn();
 const getEditableLandingForCurrentUserSpy = vi.fn();
 const canCurrentUserEditLandingSpy = vi.fn();
 const useAuthMock = vi.fn();
+const signInWithOAuthMock = vi.fn();
 
 vi.mock("@/hooks/use-toast", () => ({
   useToast: () => ({
@@ -20,6 +21,14 @@ vi.mock("@/hooks/use-toast", () => ({
 
 vi.mock("@/components/auth/useAuth", () => ({
   useAuth: () => useAuthMock(),
+}));
+
+vi.mock("@/integrations/supabase/client", () => ({
+  supabase: {
+    auth: {
+      signInWithOAuth: (...args: unknown[]) => signInWithOAuthMock(...args),
+    },
+  },
 }));
 
 vi.mock("@/lib/whatsapp-landings", () => ({
@@ -76,6 +85,7 @@ describe("AddWhatsAppPage", () => {
     getLandingSpy.mockResolvedValue(listFixture[0]);
     getEditableLandingForCurrentUserSpy.mockResolvedValue(undefined);
     canCurrentUserEditLandingSpy.mockResolvedValue(false);
+    signInWithOAuthMock.mockResolvedValue({ error: null });
     useAuthMock.mockReturnValue({ user: null });
   });
 
@@ -103,14 +113,23 @@ describe("AddWhatsAppPage", () => {
     expect(screen.queryByText("İsteğe bağlı kategori seç")).not.toBeInTheDocument();
   });
 
-  it("opens the accordion form for anonymous users without Google auth", async () => {
+  it("starts Google OAuth for anonymous users and preserves open form intent", async () => {
     renderPage();
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Topluluk formunu aç/i }));
+    fireEvent.click(screen.getByRole("button", { name: /google ile topluluk ekle/i }));
 
-    expect(screen.getByText("Kategori")).toBeInTheDocument();
-    expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(signInWithOAuthMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(signInWithOAuthMock).toHaveBeenCalledWith({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/addcom?openGroupForm=1`,
+      },
+    });
+    expect(screen.queryByText("İsteğe bağlı kategori seç")).not.toBeInTheDocument();
   });
 
   it("lets authenticated users use the same accordion form", async () => {
@@ -118,8 +137,19 @@ describe("AddWhatsAppPage", () => {
     renderPage();
 
     expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: /Topluluk formunu aç/i }));
+    fireEvent.click(screen.getAllByRole("button", { name: /Topluluk formunu aç/i })[0]);
 
+    expect(screen.getByText("Kategori")).toBeInTheDocument();
+    expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
+    expect(signInWithOAuthMock).not.toHaveBeenCalled();
+  });
+
+  it("auto-opens the form after Google login redirect intent", async () => {
+    useAuthMock.mockReturnValue({ user: { id: "u-1" } });
+
+    renderPage("/addcom?openGroupForm=1");
+
+    expect(await screen.findByText("Berlin Girisimciler")).toBeInTheDocument();
     expect(screen.getByText("Kategori")).toBeInTheDocument();
     expect(screen.getByText("İsteğe bağlı kategori seç")).toBeInTheDocument();
   });
