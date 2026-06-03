@@ -1667,11 +1667,29 @@ export default function AddWhatsAppPage() {
                         </h3>
                         <p className="mt-2 flex-1 line-clamp-2 text-sm text-muted-foreground">{cardSummary}</p>
                         <hr className="mt-4 border-t border-border/40" />
-                        <div className="flex items-center justify-between pt-3 text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-2 pt-3 text-muted-foreground">
                           <span className="flex items-center gap-1.5 text-sm">
                             <MapPin className="h-3.5 w-3.5" />
                             {landing.city}, {landing.country}
                           </span>
+                          {landing.memberCount ? (
+                            <span className="flex items-center gap-1 text-sm">
+                              <Users className="h-3.5 w-3.5" />
+                              {landing.memberCount.toLocaleString("tr-TR")}
+                            </span>
+                          ) : null}
+                          {landing.language ? (
+                            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+                              {languageOptions.find((o) => o.value === landing.language)?.label ?? landing.language}
+                            </span>
+                          ) : null}
+                          {landing.origin ? (
+                            <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
+                              {originOptions.find((o) => o.value === landing.origin)?.label ?? landing.origin}
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="pt-1">
                           {renderPlatformLogo(landing.platform)}
                         </div>
                       </div>

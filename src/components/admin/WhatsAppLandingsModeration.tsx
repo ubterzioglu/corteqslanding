@@ -19,6 +19,8 @@ import {
   parseAdminContact,
   setLandingStatus,
   type LandingCategory,
+  type LandingLanguage,
+  type LandingOrigin,
   type LandingStatus,
   type UpdateLandingInput,
   type WhatsAppLanding,
@@ -42,11 +44,27 @@ const categoryOptions: Array<{ value: LandingCategory; label: string }> = [
   { value: "hobi", label: "Hobi" },
   { value: "is", label: "İş Grubu" },
   { value: "doktor", label: "Doktor / Sağlık" },
-  { value: "yatirim", label: "Yatırım" },
-  { value: "girisim", label: "Girişim" },
+  { value: "yatirim", label: "Yatırım & Girişim" },
   { value: "akademik", label: "Akademik" },
   { value: "dayanisma", label: "Dayanışma" },
+  { value: "hr", label: "HR" },
+  { value: "kisisel-gelisim", label: "Kişisel Gelişim" },
   { value: "diger", label: "Diğer" },
+];
+
+const languageOptions: Array<{ value: LandingLanguage; label: string }> = [
+  { value: "tr", label: "Türkçe" },
+  { value: "en", label: "İngilizce" },
+  { value: "de", label: "Almanca" },
+  { value: "ar", label: "Arapça" },
+];
+
+const originOptions: Array<{ value: LandingOrigin; label: string }> = [
+  { value: "global", label: "Global" },
+  { value: "mena", label: "MENA" },
+  { value: "berlin", label: "Berlin" },
+  { value: "turkiye", label: "Türkiye" },
+  { value: "avrupa", label: "Avrupa" },
 ];
 
 const platformOptions = [
@@ -105,6 +123,10 @@ function createEditState(row: WhatsAppLanding): EditLandingState | null {
     adminPhone,
     memberApproved: approvalSelection === "member",
     adminApproved: approvalSelection === "admin",
+    memberCount: row.memberCount,
+    language: row.language,
+    origin: row.origin,
+    groupScore: row.groupScore,
   };
 }
 
@@ -220,6 +242,10 @@ export default function WhatsAppLandingsModeration() {
           adminApproved: approvalSelection === "admin",
           editorReviewPending: false,
         }),
+        memberCount: editState.memberCount,
+        language: editState.language,
+        origin: editState.origin,
+        groupScore: editState.groupScore,
       });
       toast({ title: "Topluluk kaydı güncellendi" });
       setEditOpen(false);
@@ -431,26 +457,27 @@ export default function WhatsAppLandingsModeration() {
                 </Select>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-country">Ülke</Label>
-                <Input
-                  id="edit-country"
-                  lang="tr"
-                  spellCheck
-                  value={editState.country}
-                  onChange={(event) => updateEditState("country", event.target.value)}
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-city">Şehir</Label>
-                <Input
-                  id="edit-city"
-                  lang="tr"
-                  spellCheck
-                  value={editState.city}
-                  onChange={(event) => updateEditState("city", event.target.value)}
-                />
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-country">Ülke</Label>
+                  <Input
+                    id="edit-country"
+                    lang="tr"
+                    spellCheck
+                    value={editState.country}
+                    onChange={(event) => updateEditState("country", event.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-city">Şehir</Label>
+                  <Input
+                    id="edit-city"
+                    lang="tr"
+                    spellCheck
+                    value={editState.city}
+                    onChange={(event) => updateEditState("city", event.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="space-y-1.5">
@@ -472,36 +499,93 @@ export default function WhatsAppLandingsModeration() {
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-admin-name">Yönetici Adı</Label>
-                <Input
-                  id="edit-admin-name"
-                  lang="tr"
-                  spellCheck
-                  value={editState.adminName}
-                  onChange={(event) => updateEditState("adminName", event.target.value)}
-                />
+              <div className="grid gap-4 md:grid-cols-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-admin-name">Yönetici Adı</Label>
+                  <Input
+                    id="edit-admin-name"
+                    lang="tr"
+                    spellCheck
+                    value={editState.adminName}
+                    onChange={(event) => updateEditState("adminName", event.target.value)}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-admin-email">Yönetici Mail</Label>
+                  <Input
+                    id="edit-admin-email"
+                    type="email"
+                    value={editState.adminEmail}
+                    onChange={(event) => updateEditState("adminEmail", event.target.value)}
+                    placeholder="ornek@email.com"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-admin-phone">Yönetici Telefon</Label>
+                  <Input
+                    id="edit-admin-phone"
+                    value={editState.adminPhone}
+                    onChange={(event) => updateEditState("adminPhone", event.target.value)}
+                    placeholder="+44 20 0000 0000"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-admin-email">Yönetici Mail</Label>
-                <Input
-                  id="edit-admin-email"
-                  type="email"
-                  value={editState.adminEmail}
-                  onChange={(event) => updateEditState("adminEmail", event.target.value)}
-                  placeholder="ornek@email.com"
-                />
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-member-count">Üye Sayısı</Label>
+                  <Input
+                    id="edit-member-count"
+                    type="number"
+                    value={editState.memberCount ?? ""}
+                    onChange={(event) => updateEditState("memberCount", event.target.value ? parseInt(event.target.value, 10) : undefined)}
+                    placeholder="Örn: 250"
+                    min={0}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="edit-group-score">CorteQS Grup Skoru</Label>
+                  <Input
+                    id="edit-group-score"
+                    type="number"
+                    value={editState.groupScore ?? ""}
+                    onChange={(event) => updateEditState("groupScore", event.target.value ? parseInt(event.target.value, 10) : undefined)}
+                    placeholder="Örn: 85"
+                    min={0}
+                    max={100}
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="edit-admin-phone">Yönetici Telefon</Label>
-                <Input
-                  id="edit-admin-phone"
-                  value={editState.adminPhone}
-                  onChange={(event) => updateEditState("adminPhone", event.target.value)}
-                  placeholder="+44 20 0000 0000"
-                />
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label>Topluluk Dili</Label>
+                  <Select value={editState.language ?? "__none__"} onValueChange={(value) => updateEditState("language", (value === "__none__" ? undefined : value) as LandingLanguage | undefined)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Dil seçin" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">Seçilmedi</SelectItem>
+                      {languageOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Köken / Bölge</Label>
+                  <Select value={editState.origin ?? "__none__"} onValueChange={(value) => updateEditState("origin", (value === "__none__" ? undefined : value) as LandingOrigin | undefined)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Bölge seçin" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__none__">Seçilmedi</SelectItem>
+                      {originOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div className="space-y-2">
