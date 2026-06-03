@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   Briefcase,
@@ -25,7 +25,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -33,7 +32,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/components/auth/useAuth";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
 import {
   buildLandingDescription,
   canCurrentUserEditLanding,
@@ -355,7 +353,6 @@ function getErrorMessage(error: unknown, fallback = "Beklenmeyen hata") {
 
 export default function AddWhatsAppPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -374,7 +371,6 @@ export default function AddWhatsAppPage() {
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [groupFormOpen, setGroupFormOpen] = useState(false);
-  const [oauthSubmitting, setOauthSubmitting] = useState(false);
   const [submittingGroup, setSubmittingGroup] = useState(false);
   const [submittingJoin, setSubmittingJoin] = useState(false);
   const [canEditSelectedLanding, setCanEditSelectedLanding] = useState(false);
@@ -387,18 +383,6 @@ export default function AddWhatsAppPage() {
   useEffect(() => {
     document.dispatchEvent(new Event("render-complete"));
   }, []);
-
-  useEffect(() => {
-    const shouldOpenGroupForm = searchParams.get("openGroupForm") === "1";
-    if (!user || !shouldOpenGroupForm) return;
-
-    setGroupFormOpen(true);
-    setOauthSubmitting(false);
-
-    const nextParams = new URLSearchParams(searchParams);
-    nextParams.delete("openGroupForm");
-    setSearchParams(nextParams, { replace: true });
-  }, [searchParams, setSearchParams, user]);
 
   useEffect(() => {
     let cancelled = false;
@@ -522,49 +506,6 @@ export default function AddWhatsAppPage() {
     setJoinForm((current) => ({ ...current, [field]: value }));
   };
 
-  const startGoogleAuthForGroupForm = async () => {
-    if (user) {
-      setGroupFormOpen(true);
-      return true;
-    }
-
-    const nextParams = new URLSearchParams(searchParams);
-    nextParams.delete("group");
-    nextParams.set("openGroupForm", "1");
-    const nextPath = `${location.pathname}?${nextParams.toString()}`;
-
-    setOauthSubmitting(true);
-
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: new URL(nextPath, window.location.origin).toString(),
-      },
-    });
-
-    if (error) {
-      toast({
-        title: "Google girişi başlatılamadı",
-        description: error.message,
-        variant: "destructive",
-      });
-      setOauthSubmitting(false);
-      return false;
-    }
-
-    return false;
-  };
-
-  const ensureSignedInForGroupSubmit = async () => {
-    if (user) return true;
-
-    toast({
-      title: "Google girişi gerekli",
-      description: "Topluluk formunu göndermek için önce Google hesabınla giriş yapmalısın.",
-    });
-    return startGoogleAuthForGroupForm();
-  };
-
   const resetGroupForm = () => {
     setGroupForm(initialGroupForm);
     setHeroImageFile(null);
@@ -588,8 +529,6 @@ export default function AddWhatsAppPage() {
       });
       return;
     }
-
-    if (!(await ensureSignedInForGroupSubmit())) return;
 
     setSubmittingGroup(true);
     try {
@@ -636,6 +575,7 @@ export default function AddWhatsAppPage() {
       });
 
       resetGroupForm();
+      setGroupFormOpen(false);
     } catch (error) {
       toast({
         title: "Gönderilemedi",
@@ -1244,32 +1184,35 @@ export default function AddWhatsAppPage() {
                 <div className="space-y-1">
                   <h2 className="text-base font-bold tracking-[0.01em] text-slate-900 md:text-lg">Topluluk eklemek istiyorum</h2>
                   <p className="text-sm text-slate-600">
-                    Mevcut toplulukları herkes görebilir. Yeni topluluk eklemek için Google hesabınla giriş yap; giriş sonrası başvuru formu otomatik açılır.
+                    Mevcut toplulukları herkes görebilir. Yeni topluluk ekleme formunu aşağıdan açıp hemen başvuru gönderebilirsin.
                   </p>
                 </div>
               </div>
-
-              <Button
-                type="button"
-                className="w-full bg-emerald-600 text-white hover:bg-emerald-700 md:w-auto"
-                onClick={() => void startGoogleAuthForGroupForm()}
-                disabled={oauthSubmitting || submittingGroup}
-              >
-                {oauthSubmitting ? "Google'a yönlendiriliyor..." : groupFormOpen ? "Topluluk formu açık" : "Topluluk eklemek istiyorum"}
-              </Button>
             </div>
           </div>
+          <Accordion
+            type="single"
+            collapsible
+            value={groupFormOpen ? "group-form" : undefined}
+            onValueChange={(value) => setGroupFormOpen(value === "group-form")}
+            className="mt-3"
+          >
+            <AccordionItem
+              value="group-form"
+              className="overflow-hidden rounded-[1.45rem] border border-emerald-200/80 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(236,253,245,0.92)_100%)]"
+            >
+              <AccordionTrigger className="px-5 py-4 text-left text-base font-bold text-slate-900 hover:no-underline">
+                {groupFormOpen ? "Topluluk formunu kapat" : "Topluluk formunu aç"}
+              </AccordionTrigger>
+              <AccordionContent className="border-t border-emerald-100 px-5 pb-5 pt-4">
+                <div className="mb-5">
+                  <h3 className="text-left text-xl font-bold text-slate-900">Topluluk Ekle</h3>
+                  <p className="mt-1 text-left text-sm text-slate-600">
+                    Formu doldurup topluluğunu hemen incelemeye gönderebilirsin.
+                  </p>
+                </div>
 
-          <Dialog open={groupFormOpen} onOpenChange={setGroupFormOpen}>
-            <DialogContent className="max-h-[92vh] overflow-y-auto border-emerald-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(236,253,245,0.92)_100%)] sm:max-w-3xl">
-              <DialogHeader>
-                <DialogTitle className="text-left text-xl font-bold text-slate-900">Topluluk Ekle</DialogTitle>
-                <DialogDescription className="text-left text-sm text-slate-600">
-                  Giriş yaptıktan sonra topluluk başvurunu bu popup form üzerinden gönderebilirsin.
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-5">
+                <div className="space-y-5">
                 <div className="space-y-3">
                   <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">1. Grup Bilgileri</h3>
                   <div>
@@ -1522,13 +1465,14 @@ export default function AddWhatsAppPage() {
                 <Button
                   className="w-full bg-emerald-600 text-white hover:bg-emerald-700"
                   onClick={() => void handleGroupSubmit()}
-                  disabled={submittingGroup || oauthSubmitting}
+                  disabled={submittingGroup}
                 >
                   {submittingGroup ? "Gönderiliyor..." : "Başvuruyu Gönder"}
                 </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         <section className="mt-8">
