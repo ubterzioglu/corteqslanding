@@ -30,6 +30,7 @@ import AdminRolesDraftPage from "@/pages/admin/AdminRolesDraftPage";
 import AdminLoginUsersRolesPage from "@/pages/admin/AdminLoginUsersRolesPage";
 import AdminRolesFeaturesPage from "@/pages/admin/AdminRolesFeaturesPage";
 import AdminHomePage from "@/pages/admin/AdminHomePage";
+import AdminRedirectPage from "@/pages/admin/AdminRedirectPage";
 import AdminWorkspaceHomePage from "@/pages/admin/workspace/AdminWorkspaceHomePage";
 import AdminCommandCenterPage from "@/pages/admin/workspace/AdminCommandCenterPage";
 import AdminResourcesPage from "@/pages/admin/workspace/AdminResourcesPage";
@@ -165,6 +166,12 @@ const App = () => (
             <Route path="/strategic-partner" element={<Navigate to="/commercial/strategic-partner" replace />} />
             <Route path="/community-leader" element={<Navigate to="/commercial/community-leader" replace />} />
             <Route path="/ambassador" element={<Navigate to="/commercial/ambassador" replace />} />
+            {/* /admin artık yeni panele yönlendiren tek butonlu sayfayı gösterir. */}
+            <Route path="/admin" element={<AdminRedirectPage />} />
+            {/*
+              ESKİ ADMIN PANELİ — DEVRE DIŞI (erişilemez, referans için kodda tutuluyor).
+              Yeniden açmak için aşağıdaki bloğu yorumdan çıkarıp /admin route'unu kaldırın.
+
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminHomePage />} />
               <Route path="members" element={<AdminMembersPage />} />
@@ -214,6 +221,7 @@ const App = () => (
               <Route path="workspace/docs/:slug" element={<AdminWorkspaceDocPage />} />
               {muhasebeRoutes}
             </Route>
+            */}
           </Routes>
           <ScrollTopButton />
         </AuthProvider>

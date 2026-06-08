@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1780476258593,
+  "lastScanned": 1780954229094,
   "projectRoot": "c:\\temp_private\\corteqs\\corteqs_landing",
   "techStack": {
     "languages": [
@@ -98,14 +98,14 @@
       "path": "backups",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780476258510,
+      "lastAccessed": 1780954228958,
       "keyFiles": []
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 17,
-      "lastAccessed": 1780476258510,
+      "lastAccessed": 1780954228959,
       "keyFiles": [
         "ambassador.html",
         "commercial.html",
@@ -118,7 +118,7 @@
       "path": "docs",
       "purpose": "Documentation",
       "fileCount": 1,
-      "lastAccessed": 1780476258510,
+      "lastAccessed": 1780954228960,
       "keyFiles": [
         "README.md"
       ]
@@ -127,14 +127,14 @@
       "path": "docu",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780476258560,
+      "lastAccessed": 1780954229035,
       "keyFiles": []
     },
     "lansman": {
       "path": "lansman",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1780476258561,
+      "lastAccessed": 1780954229036,
       "keyFiles": [
         "index.html"
       ]
@@ -143,7 +143,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 10,
-      "lastAccessed": 1780476258562,
+      "lastAccessed": 1780954229036,
       "keyFiles": [
         "env-config.js",
         "fav.png",
@@ -156,14 +156,14 @@
       "path": "ref",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780476258562,
+      "lastAccessed": 1780954229037,
       "keyFiles": []
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 4,
-      "lastAccessed": 1780476258563,
+      "lastAccessed": 1780954229037,
       "keyFiles": [
         "check-turkish-text.mjs",
         "import-command-center-may13.mjs",
@@ -175,7 +175,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 14,
-      "lastAccessed": 1780476258563,
+      "lastAccessed": 1780954229038,
       "keyFiles": [
         "App.addwa-routes.test.tsx",
         "App.admin-cadde-route.test.tsx",
@@ -188,7 +188,7 @@
       "path": "supabase",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1780476258563,
+      "lastAccessed": 1780954229039,
       "keyFiles": [
         "config.toml"
       ]
@@ -197,14 +197,14 @@
       "path": "_archive",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1780476258564,
+      "lastAccessed": 1780954229039,
       "keyFiles": []
     },
     "dist\\assets": {
       "path": "dist\\assets",
       "purpose": "Static assets",
       "fileCount": 28,
-      "lastAccessed": 1780476258565,
+      "lastAccessed": 1780954229041,
       "keyFiles": [
         "404404-DWqrfkMw.png",
         "addwaimage-CQ0S0aXe.png",
@@ -214,8 +214,8 @@
     "supabase\\migrations": {
       "path": "supabase\\migrations",
       "purpose": "Database migrations",
-      "fileCount": 112,
-      "lastAccessed": 1780476258569,
+      "fileCount": 113,
+      "lastAccessed": 1780954229045,
       "keyFiles": [
         "20260322185422_0c2fefe6-54d8-4444-83e3-10996948943b.sql",
         "20260326112832_9bf32535-1683-4393-9f7e-c9b722013634.sql",
@@ -223,6 +223,31 @@
       ]
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "src\\App.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1780954417575,
+      "type": "directory"
+    },
+    {
+      "path": "src\\pages\\admin\\AdminHomePage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780954298952,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\admin\\AdminRedirectPage.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1780954315451,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 1,
+      "lastAccessed": 1780954354253,
+      "type": "directory"
+    }
+  ],
   "userDirectives": []
 }
